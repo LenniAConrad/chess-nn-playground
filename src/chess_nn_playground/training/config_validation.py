@@ -1,7 +1,8 @@
 from __future__ import annotations
 
+from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, NamedTuple
 
 import torch
 
@@ -14,6 +15,12 @@ from chess_nn_playground.training.device import validate_configured_device
 REQUIRED_TOP_LEVEL = {"run", "mode", "data", "model", "training"}
 VALID_MODES = {"coarse_binary", PUZZLE_BINARY, "fine_3class"}
 CUDA_DEVICE_NAMES = {"gpu", "nvidia", "nvidia_gpu", "cuda_required", "cuda"}
+
+
+class ParquetSplitInfo(NamedTuple):
+    rows: int | None
+    columns: frozenset[str]
+    error: str | None
 
 
 def expected_num_classes(mode: str) -> int:
@@ -41,6 +48,77 @@ def _int_or_error(value: Any, field: str, path_text: str, errors: list[str]) -> 
 def _is_cuda_required_device(device_name: Any) -> bool:
     normalised = str(device_name).strip().lower().replace("-", "_")
     return normalised in CUDA_DEVICE_NAMES or normalised.startswith("cuda:")
+
+
+@lru_cache(maxsize=512)
+def _parquet_split_info(path_text: str) -> ParquetSplitInfo:
+    path = Path(path_text)
+    try:
+        import pyarrow.parquet as pq
+
+        parquet_file = pq.ParquetFile(path)
+        return ParquetSplitInfo(
+            rows=int(parquet_file.metadata.num_rows),
+            columns=frozenset(str(name) for name in parquet_file.schema_arrow.names),
+            error=None,
+        )
+    except Exception as exc:
+        try:
+            import pandas as pd
+
+            df = pd.read_parquet(path)
+            return ParquetSplitInfo(
+                rows=int(len(df)),
+                columns=frozenset(str(name) for name in df.columns),
+                error=None,
+            )
+        except Exception as fallback_exc:
+            return ParquetSplitInfo(
+                rows=None,
+                columns=frozenset(),
+                error=f"{type(exc).__name__}: {exc}; fallback {type(fallback_exc).__name__}: {fallback_exc}",
+            )
+
+
+def _validate_split_file(
+    *,
+    config_path_text: str,
+    path_text: str,
+    field: str,
+    mode: str | None,
+    errors: list[str],
+    warnings: list[str],
+    required: bool,
+) -> None:
+    path = Path(path_text)
+    if not path.exists():
+        message = f"{config_path_text}: data.{field} does not exist: {path_text}"
+        if required:
+            errors.append(message)
+        else:
+            warnings.append(message)
+        return
+
+    info = _parquet_split_info(path.as_posix())
+    if info.error:
+        errors.append(f"{config_path_text}: data.{field} is not a readable parquet split: {path_text} ({info.error})")
+        return
+    if info.rows is not None and info.rows <= 0:
+        errors.append(f"{config_path_text}: data.{field} is empty: {path_text}")
+    fen_columns = {"normalized_fen", "fen"}
+    if not (info.columns & fen_columns):
+        errors.append(f"{config_path_text}: data.{field} must contain normalized_fen or fen: {path_text}")
+    if mode == PUZZLE_BINARY:
+        required_columns = {"fine_label"}
+    elif mode == "fine_3class":
+        required_columns = {"fine_label"}
+    elif mode == "coarse_binary":
+        required_columns = {"coarse_label"}
+    else:
+        required_columns = set()
+    missing = sorted(required_columns - set(info.columns))
+    if missing:
+        errors.append(f"{config_path_text}: data.{field} is missing required column(s) for mode={mode!r}: {missing}")
 
 
 def _validate_device_syntax(device_name: Any) -> str | None:
@@ -97,11 +175,27 @@ def validate_training_config(
         value = data_cfg.get(key)
         if not value:
             errors.append(f"{path_text}: data.{key} is required")
-        elif not Path(value).exists():
-            errors.append(f"{path_text}: data.{key} does not exist: {value}")
+        else:
+            _validate_split_file(
+                config_path_text=path_text,
+                path_text=str(value),
+                field=key,
+                mode=mode,
+                errors=errors,
+                warnings=warnings,
+                required=True,
+            )
     test_path = data_cfg.get("test_path")
-    if test_path and not Path(test_path).exists():
-        warnings.append(f"{path_text}: data.test_path does not exist yet: {test_path}")
+    if test_path:
+        _validate_split_file(
+            config_path_text=path_text,
+            path_text=str(test_path),
+            field="test_path",
+            mode=mode,
+            errors=errors,
+            warnings=warnings,
+            required=False,
+        )
     if data_cfg.get("cache_features") is True:
         warnings.append(f"{path_text}: data.cache_features=true can use a lot of RAM for large splits")
     encoding = data_cfg.get("encoding", "simple_18")
@@ -198,6 +292,10 @@ def validate_training_config(
     if tier in {"paper", "paper_grade", "paper-grade", "publishable"}:
         if not _is_cuda_required_device(device_name):
             errors.append(f"{path_text}: paper-grade training requires device: nvidia or an explicit CUDA device")
+        if not test_path:
+            errors.append(f"{path_text}: paper-grade training requires data.test_path")
+        elif not Path(str(test_path)).exists():
+            errors.append(f"{path_text}: paper-grade training requires an existing data.test_path: {test_path}")
         if epochs < 20:
             errors.append(f"{path_text}: paper-grade training requires training.epochs >= 20")
         if int(training_cfg.get("early_stopping_patience", 0)) < 5:

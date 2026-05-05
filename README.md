@@ -191,6 +191,7 @@ Use the all-runner when the goal is further analysis across every benchmark and 
 PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py \
   --seeds 42,43,44 \
   --scale-variants base:1,scale_up:1.5,scale_xl:2 \
+  --batch-size-caps base:256,scale_up:192,scale_xl:128 \
   --epochs 30 \
   --min-epochs 15 \
   --patience 8 \
@@ -211,11 +212,11 @@ reports/paper_ready_all/paper_report.pdf
 reports/paper_ready_all/state.json
 ```
 
-By default the runner performs three architecture-size sweeps for every config and seed: the original `base` size, `scale_up` at `1.5x`, and `scale_xl` at `2x`. Scaled tasks keep labels, input planes, datasets, and optimizer protocol fixed while increasing known architecture width/depth/capacity fields.
+By default the runner performs three architecture-size sweeps for every config and seed: the original `base` size, `scale_up` at `1.5x`, and `scale_xl` at `2x`. Scaled tasks keep labels, input planes, datasets, and optimizer protocol fixed while increasing known architecture width/depth/capacity fields. The default batch caps are conservative for a single 8GB RTX 3070; use `--batch-size-caps none` only if the target GPU has more VRAM or you have already calibrated memory use.
 
 If the process or machine stops, rerun the same command. Completed runs are skipped, interrupted runs resume from `checkpoint_last.pt`, and runs that trained but still need final reports resume into the artifact pipeline. At the end, the runner rebuilds leaderboards, aggregate training dashboards, speed summaries, and the paper-style PDF report.
 
-Use `--dry-run` first to inspect the plan without requiring CUDA. Open `reports/paper_ready_all/status.md` first; it summarizes task counts, pending work, failures, logs, leaderboards, training dashboards, and the final PDF report path. The terminal prints numbered task progress as it starts and finishes work; `events.jsonl` keeps the full timestamped machine-readable ledger, and `timeline.md` keeps the readable chronology of what ran when and where.
+Use `--dry-run` first to inspect the plan without requiring CUDA. Open `reports/paper_ready_all/status.md` first; it summarizes task counts, ETA once at least one task has finished, pending work, failures, logs, leaderboards, training dashboards, and the final PDF report path. The terminal prints numbered task progress as it starts and finishes work, including the current rough ETA; `events.jsonl` keeps the full timestamped machine-readable ledger, and `timeline.md` keeps the readable chronology of what ran when and where.
 
 ## Outputs
 

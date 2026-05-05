@@ -13,6 +13,7 @@ from run_paper_ready_all import apply_paper_ready_overrides
 from run_paper_ready_all import apply_architecture_scale
 from run_paper_ready_all import build_tasks
 from run_paper_ready_all import discover_config_paths
+from run_paper_ready_all import eta_snapshot
 from run_paper_ready_all import refresh_task_statuses
 
 
@@ -134,6 +135,7 @@ def test_paper_ready_runner_expands_scale_variants_without_renaming_base(tmp_pat
         limit=None,
         seeds=[42],
         scale_variants=[("base", 1.0), ("scale_up", 1.5), ("scale_xl", 2.0)],
+        batch_size_caps={},
         results_dir=tmp_path / "results",
         generated_config_dir=tmp_path / "generated",
         epochs=30,
@@ -152,6 +154,57 @@ def test_paper_ready_runner_expands_scale_variants_without_renaming_base(tmp_pat
     assert tasks[0]["config"]["model"]["accumulator_size"] == 256
     assert tasks[1]["config"]["model"]["accumulator_size"] == 384
     assert tasks[2]["config"]["model"]["accumulator_size"] == 512
+
+
+def test_paper_ready_runner_applies_rtx3070_batch_caps():
+    base = {
+        "run": {"name": "demo", "output_dir": "results"},
+        "mode": "puzzle_binary",
+        "device": "nvidia",
+        "data": {
+            "train_path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet",
+            "val_path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_val.parquet",
+            "test_path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet",
+            "encoding": "simple_18",
+        },
+        "model": {"name": "stockfish_nnue", "input_channels": 18, "num_classes": 1},
+        "training": {"epochs": 20, "batch_size": 512, "early_stopping_patience": 5},
+    }
+
+    config = apply_paper_ready_overrides(
+        base,
+        source_path=Path("configs/demo.yaml"),
+        seed=42,
+        task_id="benchmark_demo_scale_xl_seed42",
+        run_dir=Path("results/paper_ready_all/benchmark_demo_scale_xl_seed42"),
+        epochs=30,
+        min_epochs=15,
+        patience=8,
+        scale_variant="scale_xl",
+        scale_multiplier=2.0,
+        batch_size_caps={"base": 256, "scale_up": 192, "scale_xl": 128},
+    )
+
+    assert config["training"]["batch_size"] == 128
+    assert config["training"]["paper_ready_batch_size_cap"]["from"] == 512
+    assert config["training"]["paper_ready_batch_size_cap"]["to"] == 128
+
+
+def test_eta_snapshot_uses_observed_elapsed_and_jobs():
+    tasks = [
+        {"state": {"status": "completed", "elapsed_seconds": 100}},
+        {"state": {"status": "completed", "elapsed_seconds": 200}},
+        {"state": {"status": "pending"}},
+        {"state": {"status": "running"}},
+    ]
+
+    eta = eta_snapshot(tasks, jobs=2)
+
+    assert eta["processed_tasks"] == 2
+    assert eta["remaining_estimate_tasks"] == 2
+    assert eta["average_task_seconds"] == 150
+    assert eta["eta_seconds"] == 150
+    assert eta["eta"] == "2m30s"
 
 
 def test_refresh_task_statuses_does_not_mark_unstarted_tasks_as_artifact_errors(tmp_path):

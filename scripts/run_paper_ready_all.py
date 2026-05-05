@@ -33,6 +33,7 @@ DEFAULT_SUITES = [
 ]
 
 DEFAULT_SCALE_VARIANTS_TEXT = "base:1.0,scale_up:1.5,scale_xl:2.0"
+DEFAULT_BATCH_SIZE_CAPS_TEXT = "base:256,scale_up:192,scale_xl:128"
 
 WIDTH_SCALE_KEYS = {
     "accumulator_size",
@@ -116,13 +117,75 @@ def _format_elapsed(seconds: float | int | None) -> str:
     return f"{secs}s"
 
 
+def _task_elapsed_seconds(row: dict[str, Any]) -> float | None:
+    value = row.get("elapsed_seconds")
+    if value is None:
+        speed = row.get("speed_summary")
+        if isinstance(speed, dict):
+            value = speed.get("fit_elapsed_seconds")
+    try:
+        seconds = float(value)
+    except (TypeError, ValueError):
+        return None
+    return seconds if seconds > 0 else None
+
+
+def eta_snapshot(tasks: list[dict[str, Any]], jobs: int = 1) -> dict[str, Any]:
+    """Estimate remaining wall time from observed task durations."""
+
+    task_count = len(tasks)
+    if task_count == 0:
+        return {
+            "eta_seconds": 0.0,
+            "eta": "0s",
+            "average_task_seconds": None,
+            "average_task_elapsed": "-",
+            "processed_tasks": 0,
+            "remaining_estimate_tasks": 0,
+            "eta_jobs": max(1, int(jobs or 1)),
+        }
+
+    elapsed = [
+        seconds
+        for task in tasks
+        if (seconds := _task_elapsed_seconds(task["state"])) is not None
+    ]
+    eta_jobs = max(1, int(jobs or 1))
+    processed = len(elapsed)
+    remaining = max(0, task_count - processed)
+    if not elapsed:
+        return {
+            "eta_seconds": None,
+            "eta": "not available yet",
+            "average_task_seconds": None,
+            "average_task_elapsed": "-",
+            "processed_tasks": 0,
+            "remaining_estimate_tasks": remaining,
+            "eta_jobs": eta_jobs,
+        }
+
+    average = sum(elapsed) / len(elapsed)
+    eta_seconds = average * remaining / eta_jobs
+    return {
+        "eta_seconds": eta_seconds,
+        "eta": _format_elapsed(eta_seconds),
+        "average_task_seconds": average,
+        "average_task_elapsed": _format_elapsed(average),
+        "processed_tasks": processed,
+        "remaining_estimate_tasks": remaining,
+        "eta_jobs": eta_jobs,
+    }
+
+
 def _event_summary(record: dict[str, Any]) -> str:
     keys = [
         "task_id",
         "status",
         "progress",
         "cuda_visible_devices",
+        "batch_size",
         "elapsed",
+        "eta",
         "run_dir",
         "log_path",
         "source_config",
@@ -159,6 +222,8 @@ def _task_event_fields(row: dict[str, Any]) -> dict[str, Any]:
         "seed",
         "scale_variant",
         "scale_multiplier",
+        "batch_size",
+        "batch_size_cap",
         "source_config",
         "generated_config",
         "run_dir",
@@ -238,6 +303,36 @@ def _parse_scale_variants(value: str) -> list[tuple[str, float]]:
 
 def _format_scale_variants(variants: list[tuple[str, float]]) -> str:
     return ",".join(f"{name}:{multiplier:g}" for name, multiplier in variants)
+
+
+def _parse_batch_size_caps(value: str | None) -> dict[str, int]:
+    if value is None:
+        return {}
+    text = str(value).strip()
+    if not text or text.lower() in {"none", "off", "false", "0"}:
+        return {}
+    caps: dict[str, int] = {}
+    for raw_item in text.split(","):
+        item = raw_item.strip()
+        if not item:
+            continue
+        if ":" not in item:
+            raise SystemExit("--batch-size-caps entries must be name:max_batch, or use none")
+        raw_name, raw_cap = item.split(":", 1)
+        name = _safe_name(raw_name.strip())
+        if not name:
+            raise SystemExit("--batch-size-caps names must be non-empty")
+        cap = int(raw_cap.strip())
+        if cap <= 0:
+            raise SystemExit("--batch-size-caps values must be positive")
+        caps[name] = cap
+    return caps
+
+
+def _format_batch_size_caps(caps: dict[str, int]) -> str:
+    if not caps:
+        return "none"
+    return ",".join(f"{name}:{cap}" for name, cap in sorted(caps.items()))
 
 
 def _suite_configs(path: Path) -> list[Path]:
@@ -382,6 +477,7 @@ def apply_paper_ready_overrides(
     patience: int,
     scale_variant: str = "base",
     scale_multiplier: float = 1.0,
+    batch_size_caps: dict[str, int] | None = None,
 ) -> dict[str, Any]:
     config, scale_metadata = apply_architecture_scale(
         base_config,
@@ -401,6 +497,18 @@ def apply_paper_ready_overrides(
     training["min_active_epochs"] = max(int(training.get("min_active_epochs", 0) or 0), int(min_epochs))
     training["early_stopping_patience"] = max(int(training.get("early_stopping_patience", 0) or 0), int(patience))
     training["reliability_tier"] = "paper_grade"
+    caps = batch_size_caps or {}
+    batch_cap = caps.get(scale_variant)
+    if batch_cap is not None:
+        current_batch_size = int(training.get("batch_size", batch_cap) or batch_cap)
+        if current_batch_size > batch_cap:
+            training["batch_size"] = int(batch_cap)
+            training["paper_ready_batch_size_cap"] = {
+                "variant": scale_variant,
+                "from": current_batch_size,
+                "to": int(batch_cap),
+                "reason": "RTX3070-safe default cap; override with --batch-size-caps none or custom caps.",
+            }
     training.setdefault("mixed_precision", True)
     training.setdefault("allow_tf32", True)
     training.setdefault("matmul_precision", "high")
@@ -513,6 +621,7 @@ def build_tasks(args: argparse.Namespace, state: dict[str, Any]) -> list[dict[st
                     patience=args.patience,
                     scale_variant=scale_variant,
                     scale_multiplier=scale_multiplier,
+                    batch_size_caps=args.batch_size_caps,
                 )
                 cfg_hash = config_fingerprint(config)
                 row = state_tasks.get(task_id, {})
@@ -536,6 +645,8 @@ def build_tasks(args: argparse.Namespace, state: dict[str, Any]) -> list[dict[st
                         "scale_variant": scale_variant,
                         "scale_multiplier": scale_multiplier,
                         "architecture_scale": architecture_scale,
+                        "batch_size": config.get("training", {}).get("batch_size"),
+                        "batch_size_cap": config.get("training", {}).get("paper_ready_batch_size_cap"),
                         "run_dir": run_dir.as_posix(),
                         "generated_config": generated_config.as_posix(),
                         "config_hash": cfg_hash,
@@ -703,7 +814,7 @@ def run_pending_tasks(
             row["progress_total"] = len(pending)
             print(
                 f"[dry-run {index}/{len(pending)}] {row['task_id']} | "
-                f"config={row['generated_config']} | run={row['run_dir']}",
+                f"batch={row.get('batch_size')} | config={row['generated_config']} | run={row['run_dir']}",
                 flush=True,
             )
             append_event(args, state, "dry_run_task", **_task_event_fields(row))
@@ -713,6 +824,7 @@ def run_pending_tasks(
 
     gpu_ids = _visible_cuda_ids(args.gpu_ids)
     max_jobs = _default_jobs(args.jobs, gpu_ids)
+    eta = eta_snapshot(pending, max_jobs)
     append_event(
         args,
         state,
@@ -721,6 +833,10 @@ def run_pending_tasks(
         total_tasks=len(tasks),
         jobs=max_jobs,
         gpu_ids=gpu_ids,
+        eta=eta["eta"],
+        eta_seconds=eta["eta_seconds"],
+        average_task_elapsed=eta["average_task_elapsed"],
+        processed_tasks=eta["processed_tasks"],
         cwd=Path.cwd().as_posix(),
         state_path=state_path.as_posix(),
         results_dir=args.results_dir.as_posix(),
@@ -730,6 +846,11 @@ def run_pending_tasks(
     )
     print(
         f"Running {len(pending)} pending tasks with jobs={max_jobs}, gpu_ids={gpu_ids or ['cpu/no-cuda-visible']}",
+        flush=True,
+    )
+    print(
+        f"ETA: {eta['eta']} from {eta['processed_tasks']} completed/attempted task timing(s); "
+        f"avg={eta['average_task_elapsed']}",
         flush=True,
     )
     print(f"Event log: {args.event_log}", flush=True)
@@ -776,6 +897,9 @@ def run_pending_tasks(
         log.write(f"seed={row.get('seed')}\n")
         log.write(f"scale_variant={row.get('scale_variant')}\n")
         log.write(f"scale_multiplier={row.get('scale_multiplier')}\n")
+        log.write(f"batch_size={row.get('batch_size')}\n")
+        if row.get("batch_size_cap"):
+            log.write(f"batch_size_cap={json.dumps(row.get('batch_size_cap'), sort_keys=True)}\n")
         log.write(f"source_config={row.get('source_config')}\n")
         log.write(f"generated_config={row.get('generated_config')}\n")
         log.write("$ " + " ".join(command) + "\n")
@@ -796,6 +920,7 @@ def run_pending_tasks(
             f"[start {progress_index}/{len(pending)}] {row['task_id']} | "
             f"gpu={row.get('cuda_visible_devices', 'cpu/no-cuda-visible')} | "
             f"scale={row.get('scale_variant', 'base')} | seed={row.get('seed')} | "
+            f"batch={row.get('batch_size')} | "
             f"log={log_path} | run={row['run_dir']}",
             flush=True,
         )
@@ -822,10 +947,12 @@ def run_pending_tasks(
             if deadline is not None and time.monotonic() >= deadline and process.poll() is None:
                 _timeout_task(item["task"], process, item["log"], item["started"])
                 row = item["task"]["state"]
-                append_event(args, state, "task_timeout", **_task_event_fields(row))
+                eta = eta_snapshot(pending, max_jobs)
+                append_event(args, state, "task_timeout", **_task_event_fields(row), **eta)
                 print(
                     f"[timeout {row.get('progress_index')}/{row.get('progress_total')}] {row['task_id']} | "
                     f"status={row.get('status')} | elapsed={_format_elapsed(row.get('elapsed_seconds'))} | "
+                    f"eta={eta['eta']} | avg={eta['average_task_elapsed']} | "
                     f"log={row.get('log_path')} | run={row.get('run_dir')}",
                     flush=True,
                 )
@@ -836,11 +963,13 @@ def run_pending_tasks(
             if process.poll() is not None:
                 task_failed = _finish_task(item["task"], process, item["log"], item["started"])
                 row = item["task"]["state"]
-                append_event(args, state, "task_finished", **_task_event_fields(row))
+                eta = eta_snapshot(pending, max_jobs)
+                append_event(args, state, "task_finished", **_task_event_fields(row), **eta)
                 print(
                     f"[finish {row.get('progress_index')}/{row.get('progress_total')}] {row['task_id']} | "
                     f"status={row.get('status')} | rc={row.get('returncode')} | "
                     f"elapsed={_format_elapsed(row.get('elapsed_seconds'))} | "
+                    f"eta={eta['eta']} | avg={eta['average_task_elapsed']} | "
                     f"log={row.get('log_path')} | run={row.get('run_dir')}",
                     flush=True,
                 )
@@ -858,7 +987,8 @@ def run_pending_tasks(
             row.setdefault("messages", []).append("Skipped because a previous task failed")
             append_event(args, state, "task_skipped_after_failure", **_task_event_fields(row))
         _atomic_write_json(state, state_path)
-    append_event(args, state, "runner_finished", failed=failed, pending_tasks=len(pending), total_tasks=len(tasks))
+    eta = eta_snapshot(pending, max_jobs)
+    append_event(args, state, "runner_finished", failed=failed, pending_tasks=len(pending), total_tasks=len(tasks), **eta)
     return failed
 
 
@@ -933,6 +1063,7 @@ def _resume_command(args: argparse.Namespace) -> str:
         command.extend(["--timeline", str(args.timeline)])
     command.extend(["--seeds", ",".join(str(seed) for seed in args.seeds)])
     command.extend(["--scale-variants", args.scale_variants_text])
+    command.extend(["--batch-size-caps", args.batch_size_caps_text])
     command.extend(["--epochs", str(args.epochs)])
     command.extend(["--min-epochs", str(args.min_epochs)])
     command.extend(["--patience", str(args.patience)])
@@ -964,6 +1095,13 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
     attention = _attention_tasks(tasks)
     defaults = state.get("paper_ready_defaults", {})
     analysis = state.get("analysis", {})
+    if args.jobs is not None:
+        eta_jobs = max(1, int(args.jobs))
+    elif args.gpu_ids:
+        eta_jobs = max(1, len([item for item in str(args.gpu_ids).split(",") if item.strip()]))
+    else:
+        eta_jobs = 1
+    eta = eta_snapshot(tasks, eta_jobs)
 
     lines = [
         "# Paper-Ready Training Status",
@@ -971,6 +1109,9 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
         f"- Total tasks: `{total}`",
         f"- Completed tasks: `{completed}`",
         f"- Remaining tasks: `{max(0, total - completed)}`",
+        f"- ETA: `{eta['eta']}`",
+        f"- Average observed task time: `{eta['average_task_elapsed']}`",
+        f"- ETA basis: `{eta['processed_tasks']}` observed task(s), `{eta['remaining_estimate_tasks']}` remaining task(s), `{eta['eta_jobs']}` job(s)",
         f"- Dry run: `{bool(args.dry_run)}`",
         f"- Results directory: `{_rel(args.results_dir)}`",
         f"- Report directory: `{_rel(args.report_dir)}`",
@@ -980,6 +1121,7 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
         "",
         f"- Seeds: `{', '.join(str(seed) for seed in defaults.get('seeds', []))}`",
         f"- Architecture scales: `{defaults.get('scale_variants')}`",
+        f"- Batch-size caps: `{defaults.get('batch_size_caps')}`",
         f"- Epoch budget: `{defaults.get('epochs')}`",
         f"- Minimum epochs: `{defaults.get('min_epochs')}`",
         f"- Early-stopping patience: `{defaults.get('patience')}`",
@@ -1188,6 +1330,14 @@ def main() -> None:
             "Default runs base plus two larger full sweeps."
         ),
     )
+    parser.add_argument(
+        "--batch-size-caps",
+        default=DEFAULT_BATCH_SIZE_CAPS_TEXT,
+        help=(
+            "Comma-separated scale:max_batch caps applied after scaling. Defaults are conservative for an 8GB RTX 3070. "
+            "Use 'none' to preserve config batch sizes."
+        ),
+    )
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--min-epochs", type=int, default=15)
     parser.add_argument("--patience", type=int, default=8)
@@ -1209,6 +1359,8 @@ def main() -> None:
         args.timeline = args.report_dir / "timeline.md"
     args.scale_variants = _parse_scale_variants(args.scale_variants)
     args.scale_variants_text = _format_scale_variants(args.scale_variants)
+    args.batch_size_caps = _parse_batch_size_caps(args.batch_size_caps)
+    args.batch_size_caps_text = _format_batch_size_caps(args.batch_size_caps)
 
     _write_results_container_marker(args.results_dir)
     args.report_dir.mkdir(parents=True, exist_ok=True)
@@ -1220,6 +1372,7 @@ def main() -> None:
     state["paper_ready_defaults"] = {
         "seeds": args.seeds,
         "scale_variants": args.scale_variants_text,
+        "batch_size_caps": args.batch_size_caps_text,
         "epochs": args.epochs,
         "min_epochs": args.min_epochs,
         "patience": args.patience,
