@@ -188,7 +188,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 
 ## Paper-Ready Runner
 
-Use the all-runner when the goal is further analysis across every benchmark and registered idea:
+Use this single command for a complete RTX 3070 full run after the canonical split exists. It trains every benchmark config and registered idea, expands each one to all configured size variants and seeds, resumes after interruption, writes logs with ETA, and builds the final leaderboards, dashboards, and PDF report:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py \
@@ -198,7 +198,8 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py \
   --epochs 30 \
   --min-epochs 15 \
   --patience 8 \
-  --jobs 1
+  --jobs 1 \
+  --gpu-ids 0
 ```
 
 It writes:
