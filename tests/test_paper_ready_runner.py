@@ -7,10 +7,11 @@ from types import SimpleNamespace
 
 sys.path.insert(0, str(Path("scripts").resolve()))
 
-from run_paper_ready_all import append_event
 from chess_nn_playground.training.trainer import config_fingerprint
-from run_paper_ready_all import apply_paper_ready_overrides
+from chess_nn_playground.utils.config import load_yaml
+from run_paper_ready_all import append_event
 from run_paper_ready_all import apply_architecture_scale
+from run_paper_ready_all import apply_paper_ready_overrides
 from run_paper_ready_all import build_tasks
 from run_paper_ready_all import discover_config_paths
 from run_paper_ready_all import eta_snapshot
@@ -226,6 +227,58 @@ def test_refresh_task_statuses_does_not_mark_unstarted_tasks_as_artifact_errors(
     assert task["state"]["status"] == "pending"
     assert "artifact_validation" not in task["state"]
     assert generated_config.exists()
+
+
+def test_refresh_task_statuses_marks_running_task_resumable_from_checkpoint(tmp_path):
+    state_path = tmp_path / "state.json"
+    run_dir = tmp_path / "results" / "benchmark_demo_seed42"
+    run_dir.mkdir(parents=True)
+    checkpoint = run_dir / "checkpoint_last.pt"
+    checkpoint.write_bytes(b"placeholder")
+    generated_config = tmp_path / "generated" / "task.yaml"
+    task = {
+        "config": {"model": {"name": "stockfish_nnue"}, "training": {"epochs": 30}},
+        "state": {
+            "task_id": "benchmark_demo_seed42",
+            "status": "running",
+            "run_dir": str(run_dir),
+            "generated_config": str(generated_config),
+        },
+    }
+    state = {"tasks": {"benchmark_demo_seed42": task["state"]}}
+
+    refresh_task_statuses([task], state_path, state)
+
+    assert task["state"]["status"] == "interrupted_resume_available"
+    assert "ERROR: missing metrics_final.json" in task["state"]["artifact_validation"]
+    generated = load_yaml(generated_config)
+    assert generated["training"]["resume_run_dir"] == str(run_dir)
+    assert generated["training"]["resume_from"] == str(checkpoint)
+
+
+def test_refresh_task_statuses_marks_running_task_restartable_without_checkpoint(tmp_path):
+    state_path = tmp_path / "state.json"
+    run_dir = tmp_path / "results" / "benchmark_demo_seed42"
+    run_dir.mkdir(parents=True)
+    generated_config = tmp_path / "generated" / "task.yaml"
+    task = {
+        "config": {"model": {"name": "stockfish_nnue"}, "training": {"epochs": 30}},
+        "state": {
+            "task_id": "benchmark_demo_seed42",
+            "status": "running",
+            "run_dir": str(run_dir),
+            "generated_config": str(generated_config),
+        },
+    }
+    state = {"tasks": {"benchmark_demo_seed42": task["state"]}}
+
+    refresh_task_statuses([task], state_path, state)
+
+    assert task["state"]["status"] == "interrupted_no_checkpoint"
+    assert "ERROR: missing metrics_final.json" in task["state"]["artifact_validation"]
+    generated = load_yaml(generated_config)
+    assert "resume_run_dir" not in generated["training"]
+    assert "resume_from" not in generated["training"]
 
 
 def test_append_event_writes_jsonl_and_timeline(tmp_path):
