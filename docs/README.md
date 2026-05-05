@@ -9,6 +9,7 @@ Use this directory for stable project protocols and reference material. Generate
 - [reliable_training_protocol.md](reliable_training_protocol.md): smoke, triage, reliable, promotion-grade, and paper-grade training standards.
 - [repo_layout.md](repo_layout.md): current folder structure and path stability rules.
 - [crtk_export_contract.md](crtk_export_contract.md): required CRTK export fields and import expectations.
+- [export_training_data_from_stacks.md](export_training_data_from_stacks.md): short CRTK stack export, import, split, tagging, and audit guide.
 
 ## Related Entry Points
 

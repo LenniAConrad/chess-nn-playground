@@ -66,6 +66,7 @@ PYTHONDONTWRITEBYTECODE=1 pytest -q
 - [docs/experimental_training_pipeline.md](docs/experimental_training_pipeline.md): data, training, artifacts, encodings, and new-model workflow.
 - [docs/reliable_training_protocol.md](docs/reliable_training_protocol.md): smoke, triage, reliable, promotion-grade, and paper-grade run standards.
 - [docs/crtk_export_contract.md](docs/crtk_export_contract.md): expected CRTK export format.
+- [docs/export_training_data_from_stacks.md](docs/export_training_data_from_stacks.md): short guide for exporting stack data with CRTK and rebuilding trainer-ready splits.
 - [ideas/README.md](ideas/README.md): idea workspace guide.
 - [ideas/TODO.md](ideas/TODO.md): generated implementation and benchmark backlog.
 - [configs/README.md](configs/README.md): config folders and suite entrypoints.
@@ -97,6 +98,8 @@ The package import name remains `chess_nn_playground`; only the filesystem locat
 Training data, split Parquet files, checkpoints, predictions, and generated run
 artifacts are intentionally not committed to this repository. The trainer expects
 local data under `data/`.
+
+For the full stack-to-split workflow, use [docs/export_training_data_from_stacks.md](docs/export_training_data_from_stacks.md).
 
 The expected local full imported dataset path is:
 

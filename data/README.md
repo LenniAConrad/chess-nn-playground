@@ -25,6 +25,8 @@ The CRTK columns in that split are reporting metadata only. Models must not rece
 
 ## Rebuild Path
 
+For the full CRTK stack export workflow, see [../docs/export_training_data_from_stacks.md](../docs/export_training_data_from_stacks.md).
+
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/data/import_crtk_jsonl_fast.py \
   --input data/exported/crtk_training_20260419_180229.jsonl \
