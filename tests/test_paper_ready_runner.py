@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import sys
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path("scripts").resolve()))
 
+from run_paper_ready_all import append_event
 from chess_nn_playground.training.trainer import config_fingerprint
 from run_paper_ready_all import apply_paper_ready_overrides
 from run_paper_ready_all import apply_architecture_scale
@@ -171,3 +173,30 @@ def test_refresh_task_statuses_does_not_mark_unstarted_tasks_as_artifact_errors(
     assert task["state"]["status"] == "pending"
     assert "artifact_validation" not in task["state"]
     assert generated_config.exists()
+
+
+def test_append_event_writes_jsonl_and_timeline(tmp_path):
+    args = SimpleNamespace(
+        event_log=tmp_path / "events.jsonl",
+        timeline=tmp_path / "timeline.md",
+    )
+    state = {"last_started_at": "2026-05-05T00:00:00Z"}
+
+    append_event(
+        args,
+        state,
+        "task_started",
+        task_id="benchmark_demo_seed42",
+        progress="1/9",
+        run_dir="results/paper_ready_all/benchmark_demo_seed42",
+        log_path="reports/paper_ready_all/logs/benchmark_demo_seed42_attempt1.log",
+    )
+
+    records = [json.loads(line) for line in args.event_log.read_text(encoding="utf-8").splitlines()]
+    timeline = args.timeline.read_text(encoding="utf-8")
+
+    assert records[0]["event"] == "task_started"
+    assert records[0]["task_id"] == "benchmark_demo_seed42"
+    assert records[0]["runner_started_at"] == "2026-05-05T00:00:00Z"
+    assert "task_started" in timeline
+    assert "benchmark_demo_seed42" in timeline

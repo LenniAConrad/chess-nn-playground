@@ -203,8 +203,10 @@ It writes:
 results/paper_ready_all/
 reports/paper_ready_all/generated_configs/
 reports/paper_ready_all/logs/
+reports/paper_ready_all/events.jsonl
 reports/paper_ready_all/plan.md
 reports/paper_ready_all/status.md
+reports/paper_ready_all/timeline.md
 reports/paper_ready_all/paper_report.pdf
 reports/paper_ready_all/state.json
 ```
@@ -213,7 +215,7 @@ By default the runner performs three architecture-size sweeps for every config a
 
 If the process or machine stops, rerun the same command. Completed runs are skipped, interrupted runs resume from `checkpoint_last.pt`, and runs that trained but still need final reports resume into the artifact pipeline. At the end, the runner rebuilds leaderboards, aggregate training dashboards, speed summaries, and the paper-style PDF report.
 
-Use `--dry-run` first to inspect the plan without requiring CUDA. Open `reports/paper_ready_all/status.md` first; it summarizes task counts, pending work, failures, logs, leaderboards, training dashboards, and the final PDF report path.
+Use `--dry-run` first to inspect the plan without requiring CUDA. Open `reports/paper_ready_all/status.md` first; it summarizes task counts, pending work, failures, logs, leaderboards, training dashboards, and the final PDF report path. The terminal prints numbered task progress as it starts and finishes work; `events.jsonl` keeps the full timestamped machine-readable ledger, and `timeline.md` keeps the readable chronology of what ran when and where.
 
 ## Outputs
 

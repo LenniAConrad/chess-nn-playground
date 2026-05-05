@@ -58,6 +58,6 @@ The shared trainer is responsible for graphable run artifacts, including `comple
 
 For interrupted paper-ready batches, rerun the same `run_paper_ready_all.py` command. The default paper-ready runner now expands each source config into `base`, `scale_up`, and `scale_xl` architecture-size variants. The resume ledger is `reports/paper_ready_all/state.json`, and training resumes from `checkpoint_last.pt` when that checkpoint exists.
 
-The all-runner also writes `reports/paper_ready_all/status.md`; open that first to see task counts, failures, next tasks, logs, leaderboards, and training-dashboard paths.
+The all-runner also writes `reports/paper_ready_all/status.md`; open that first to see task counts, failures, next tasks, logs, leaderboards, and training-dashboard paths. During execution the terminal prints numbered task start/finish lines with GPU, log path, and run directory. The same chronology is persisted to `reports/paper_ready_all/events.jsonl` and `reports/paper_ready_all/timeline.md`.
 
 The comparison, training-dashboard, and PDF report scripts scan nested run directories. Running them with `--results-dir results` includes paper-ready runs under `results/paper_ready_all/`.

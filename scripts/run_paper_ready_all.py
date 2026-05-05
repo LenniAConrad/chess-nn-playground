@@ -103,6 +103,87 @@ def _atomic_write_json(data: dict[str, Any], path: Path) -> None:
     tmp.replace(path)
 
 
+def _format_elapsed(seconds: float | int | None) -> str:
+    if seconds is None:
+        return "-"
+    total = max(0, int(round(float(seconds))))
+    hours, remainder = divmod(total, 3600)
+    minutes, secs = divmod(remainder, 60)
+    if hours:
+        return f"{hours}h{minutes:02d}m{secs:02d}s"
+    if minutes:
+        return f"{minutes}m{secs:02d}s"
+    return f"{secs}s"
+
+
+def _event_summary(record: dict[str, Any]) -> str:
+    keys = [
+        "task_id",
+        "status",
+        "progress",
+        "cuda_visible_devices",
+        "elapsed",
+        "run_dir",
+        "log_path",
+        "source_config",
+    ]
+    parts = [f"{key}={record[key]}" for key in keys if record.get(key) not in (None, "")]
+    return " | ".join(parts) if parts else "-"
+
+
+def append_event(args: argparse.Namespace, state: dict[str, Any], event: str, **fields: Any) -> None:
+    record = {
+        "at": utc_timestamp(),
+        "event": event,
+        "runner_started_at": state.get("last_started_at"),
+        **fields,
+    }
+    event_log = Path(args.event_log)
+    event_log.parent.mkdir(parents=True, exist_ok=True)
+    with event_log.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(record, sort_keys=True, default=str) + "\n")
+
+    timeline = Path(args.timeline)
+    if not timeline.exists():
+        timeline.parent.mkdir(parents=True, exist_ok=True)
+        timeline.write_text("# Paper-Ready Training Timeline\n\n", encoding="utf-8")
+    with timeline.open("a", encoding="utf-8") as handle:
+        handle.write(f"- `{record['at']}` `{event}` {_event_summary(record)}\n")
+
+
+def _task_event_fields(row: dict[str, Any]) -> dict[str, Any]:
+    fields: dict[str, Any] = {}
+    keys = [
+        "task_id",
+        "kind",
+        "seed",
+        "scale_variant",
+        "scale_multiplier",
+        "source_config",
+        "generated_config",
+        "run_dir",
+        "log_path",
+        "cuda_visible_devices",
+        "attempts",
+        "status",
+        "returncode",
+        "elapsed_seconds",
+        "resume_checkpoint",
+        "command",
+    ]
+    for key in keys:
+        value = row.get(key)
+        if value is not None:
+            fields[key] = value
+    if row.get("progress_index") and row.get("progress_total"):
+        fields["progress_index"] = row["progress_index"]
+        fields["progress_total"] = row["progress_total"]
+        fields["progress"] = f"{row['progress_index']}/{row['progress_total']}"
+    if row.get("elapsed_seconds") is not None:
+        fields["elapsed"] = _format_elapsed(row.get("elapsed_seconds"))
+    return fields
+
+
 def _write_results_container_marker(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
     marker = path / "INCOMPLETE_RUN.md"
@@ -604,32 +685,79 @@ def run_pending_tasks(
     }
     pending = [task for task in tasks if task["state"].get("status") in runnable_statuses]
     if args.dry_run:
-        for task in pending:
+        append_event(
+            args,
+            state,
+            "dry_run_started",
+            pending_tasks=len(pending),
+            total_tasks=len(tasks),
+            results_dir=args.results_dir.as_posix(),
+            report_dir=args.report_dir.as_posix(),
+            logs_dir=args.logs_dir.as_posix(),
+            generated_config_dir=args.generated_config_dir.as_posix(),
+        )
+        for index, task in enumerate(pending, start=1):
             row = task["state"]
             row["status"] = "dry_run_pending"
-            print(f"{row['task_id']}: {row['generated_config']} -> {row['run_dir']}")
+            row["progress_index"] = index
+            row["progress_total"] = len(pending)
+            print(
+                f"[dry-run {index}/{len(pending)}] {row['task_id']} | "
+                f"config={row['generated_config']} | run={row['run_dir']}",
+                flush=True,
+            )
+            append_event(args, state, "dry_run_task", **_task_event_fields(row))
         _atomic_write_json(state, state_path)
+        append_event(args, state, "dry_run_finished", pending_tasks=len(pending), total_tasks=len(tasks))
         return False
 
     gpu_ids = _visible_cuda_ids(args.gpu_ids)
     max_jobs = _default_jobs(args.jobs, gpu_ids)
+    append_event(
+        args,
+        state,
+        "runner_started",
+        pending_tasks=len(pending),
+        total_tasks=len(tasks),
+        jobs=max_jobs,
+        gpu_ids=gpu_ids,
+        cwd=Path.cwd().as_posix(),
+        state_path=state_path.as_posix(),
+        results_dir=args.results_dir.as_posix(),
+        report_dir=args.report_dir.as_posix(),
+        logs_dir=args.logs_dir.as_posix(),
+        generated_config_dir=args.generated_config_dir.as_posix(),
+    )
+    print(
+        f"Running {len(pending)} pending tasks with jobs={max_jobs}, gpu_ids={gpu_ids or ['cpu/no-cuda-visible']}",
+        flush=True,
+    )
+    print(f"Event log: {args.event_log}", flush=True)
+    print(f"Timeline: {args.timeline}", flush=True)
     active: list[dict[str, Any]] = []
     next_idx = 0
     next_gpu = 0
     failed = False
 
-    def launch(task: dict[str, Any]) -> None:
+    def launch(task: dict[str, Any], progress_index: int) -> None:
         nonlocal next_gpu
         row = task["state"]
-        resume = _resume_checkpoint(Path(row["run_dir"])) is not None
+        resume_checkpoint = _resume_checkpoint(Path(row["run_dir"]))
+        resume = resume_checkpoint is not None
         _write_generated_config(task, resume=resume)
         row["attempts"] = int(row.get("attempts", 0)) + 1
         row["status"] = "running"
         row["started_at"] = utc_timestamp()
         row["timeout_minutes"] = args.timeout_minutes
         row["messages"] = list(row.get("messages", []))
+        row["progress_index"] = progress_index
+        row["progress_total"] = len(pending)
         log_path = args.logs_dir / f"{row['task_id']}_attempt{row['attempts']}.log"
         row["log_path"] = log_path.as_posix()
+        if resume_checkpoint:
+            row["resume_checkpoint"] = resume_checkpoint.as_posix()
+        else:
+            row.pop("resume_checkpoint", None)
         env = os.environ.copy()
         if gpu_ids:
             assigned_gpu = gpu_ids[next_gpu % len(gpu_ids)]
@@ -640,16 +768,37 @@ def run_pending_tasks(
         row["command"] = command
         log_path.parent.mkdir(parents=True, exist_ok=True)
         log = log_path.open("w", encoding="utf-8")
+        log.write(f"started_at={row['started_at']}\n")
+        log.write(f"cwd={Path.cwd().as_posix()}\n")
+        log.write(f"task_id={row['task_id']}\n")
+        log.write(f"progress={progress_index}/{len(pending)}\n")
+        log.write(f"kind={row.get('kind')}\n")
+        log.write(f"seed={row.get('seed')}\n")
+        log.write(f"scale_variant={row.get('scale_variant')}\n")
+        log.write(f"scale_multiplier={row.get('scale_multiplier')}\n")
+        log.write(f"source_config={row.get('source_config')}\n")
+        log.write(f"generated_config={row.get('generated_config')}\n")
         log.write("$ " + " ".join(command) + "\n")
         log.write(f"run_dir={row['run_dir']}\n")
+        log.write(f"state_path={state_path.as_posix()}\n")
+        log.write(f"event_log={Path(args.event_log).as_posix()}\n")
+        log.write(f"timeline={Path(args.timeline).as_posix()}\n")
         if row.get("cuda_visible_devices") is not None:
             log.write(f"CUDA_VISIBLE_DEVICES={row['cuda_visible_devices']}\n")
-        if resume:
-            log.write("resume=true\n")
+        log.write(f"resume={str(resume).lower()}\n")
+        if resume_checkpoint:
+            log.write(f"resume_checkpoint={resume_checkpoint.as_posix()}\n")
         log.write("\n")
         log.flush()
         _atomic_write_json(state, state_path)
-        print(f"Running {row['task_id']} -> {log_path}", flush=True)
+        append_event(args, state, "task_started", **_task_event_fields(row))
+        print(
+            f"[start {progress_index}/{len(pending)}] {row['task_id']} | "
+            f"gpu={row.get('cuda_visible_devices', 'cpu/no-cuda-visible')} | "
+            f"scale={row.get('scale_variant', 'base')} | seed={row.get('seed')} | "
+            f"log={log_path} | run={row['run_dir']}",
+            flush=True,
+        )
         process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, text=True, env=env)
         started = time.monotonic()
         active.append(
@@ -664,7 +813,7 @@ def run_pending_tasks(
 
     while next_idx < len(pending) or active:
         while next_idx < len(pending) and len(active) < max_jobs and (args.continue_on_error or not failed):
-            launch(pending[next_idx])
+            launch(pending[next_idx], next_idx + 1)
             next_idx += 1
 
         for item in list(active):
@@ -672,12 +821,30 @@ def run_pending_tasks(
             deadline = item["deadline"]
             if deadline is not None and time.monotonic() >= deadline and process.poll() is None:
                 _timeout_task(item["task"], process, item["log"], item["started"])
+                row = item["task"]["state"]
+                append_event(args, state, "task_timeout", **_task_event_fields(row))
+                print(
+                    f"[timeout {row.get('progress_index')}/{row.get('progress_total')}] {row['task_id']} | "
+                    f"status={row.get('status')} | elapsed={_format_elapsed(row.get('elapsed_seconds'))} | "
+                    f"log={row.get('log_path')} | run={row.get('run_dir')}",
+                    flush=True,
+                )
                 active.remove(item)
                 failed = True
                 _atomic_write_json(state, state_path)
                 continue
             if process.poll() is not None:
-                failed = _finish_task(item["task"], process, item["log"], item["started"]) or failed
+                task_failed = _finish_task(item["task"], process, item["log"], item["started"])
+                row = item["task"]["state"]
+                append_event(args, state, "task_finished", **_task_event_fields(row))
+                print(
+                    f"[finish {row.get('progress_index')}/{row.get('progress_total')}] {row['task_id']} | "
+                    f"status={row.get('status')} | rc={row.get('returncode')} | "
+                    f"elapsed={_format_elapsed(row.get('elapsed_seconds'))} | "
+                    f"log={row.get('log_path')} | run={row.get('run_dir')}",
+                    flush=True,
+                )
+                failed = task_failed or failed
                 active.remove(item)
                 _atomic_write_json(state, state_path)
 
@@ -689,7 +856,9 @@ def run_pending_tasks(
             row = task["state"]
             row["status"] = "not_started_after_failure"
             row.setdefault("messages", []).append("Skipped because a previous task failed")
+            append_event(args, state, "task_skipped_after_failure", **_task_event_fields(row))
         _atomic_write_json(state, state_path)
+    append_event(args, state, "runner_finished", failed=failed, pending_tasks=len(pending), total_tasks=len(tasks))
     return failed
 
 
@@ -758,6 +927,10 @@ def _resume_command(args: argparse.Namespace) -> str:
         current = getattr(args, flag.lstrip("-").replace("-", "_"))
         if Path(current) != default:
             command.extend([flag, str(current)])
+    if Path(args.event_log) != args.report_dir / "events.jsonl":
+        command.extend(["--event-log", str(args.event_log)])
+    if Path(args.timeline) != args.report_dir / "timeline.md":
+        command.extend(["--timeline", str(args.timeline)])
     command.extend(["--seeds", ",".join(str(seed) for seed in args.seeds)])
     command.extend(["--scale-variants", args.scale_variants_text])
     command.extend(["--epochs", str(args.epochs)])
@@ -833,6 +1006,8 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
             f"- Plan: `{_rel(args.report_dir / 'plan.md')}`",
             f"- Status: `{_rel(path)}`",
             f"- State JSON: `{_rel(args.state_path)}`",
+            f"- Event log JSONL: `{_rel(args.event_log)}`",
+            f"- Timeline: `{_rel(args.timeline)}`",
             f"- Logs: `{_rel(args.logs_dir)}`",
             f"- Generated configs: `{_rel(args.generated_config_dir)}`",
             f"- Leaderboard: `{_rel(args.results_dir / 'leaderboard.md')}`",
@@ -962,6 +1137,8 @@ def run_analysis(args: argparse.Namespace, state: dict[str, Any], state_path: Pa
         name = Path(command[1]).stem
         log_path = args.logs_dir / f"analysis_{name}.log"
         log_path.parent.mkdir(parents=True, exist_ok=True)
+        append_event(args, state, "analysis_started", name=name, command=command, log_path=log_path.as_posix())
+        print(f"[analysis start] {name} | log={log_path}", flush=True)
         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         log_path.write_text(result.stdout, encoding="utf-8")
         analysis[name] = {
@@ -970,6 +1147,16 @@ def run_analysis(args: argparse.Namespace, state: dict[str, Any], state_path: Pa
             "returncode": result.returncode,
             "finished_at": utc_timestamp(),
         }
+        append_event(
+            args,
+            state,
+            "analysis_finished",
+            name=name,
+            command=command,
+            log_path=log_path.as_posix(),
+            returncode=result.returncode,
+        )
+        print(f"[analysis finish] {name} | rc={result.returncode} | log={log_path}", flush=True)
         if result.returncode != 0:
             failed = True
     _atomic_write_json(state, state_path)
@@ -990,6 +1177,8 @@ def main() -> None:
         type=Path,
         default=Path("reports/paper_ready_all/generated_configs"),
     )
+    parser.add_argument("--event-log", type=Path, default=None)
+    parser.add_argument("--timeline", type=Path, default=None)
     parser.add_argument("--seeds", type=_parse_seeds, default=_parse_seeds("42,43,44"))
     parser.add_argument(
         "--scale-variants",
@@ -1014,6 +1203,10 @@ def main() -> None:
     parser.set_defaults(continue_on_error=True)
     parser.add_argument("--no-analysis", action="store_true")
     args = parser.parse_args()
+    if args.event_log is None:
+        args.event_log = args.report_dir / "events.jsonl"
+    if args.timeline is None:
+        args.timeline = args.report_dir / "timeline.md"
     args.scale_variants = _parse_scale_variants(args.scale_variants)
     args.scale_variants_text = _format_scale_variants(args.scale_variants)
 
@@ -1039,8 +1232,25 @@ def main() -> None:
     print(f"State: {args.state_path}")
     print(f"Plan: {args.report_dir / 'plan.md'}")
     print(f"Status: {args.report_dir / 'status.md'}")
+    print(f"Event log: {args.event_log}")
+    print(f"Timeline: {args.timeline}")
+    append_event(
+        args,
+        state,
+        "runner_planned",
+        total_tasks=len(tasks),
+        state_path=args.state_path.as_posix(),
+        plan_path=(args.report_dir / "plan.md").as_posix(),
+        status_path=(args.report_dir / "status.md").as_posix(),
+        results_dir=args.results_dir.as_posix(),
+        logs_dir=args.logs_dir.as_posix(),
+        generated_config_dir=args.generated_config_dir.as_posix(),
+        command=sys.argv,
+        cwd=Path.cwd().as_posix(),
+    )
 
     validation_failed = False
+    append_event(args, state, "validation_started", total_tasks=len(tasks), dry_run=bool(args.dry_run))
     for task in tasks:
         row = task["state"]
         generated_config_path = Path(row["generated_config"])
@@ -1066,13 +1276,30 @@ def main() -> None:
             validation_failed = True
     _atomic_write_json(state, args.state_path)
     write_status_report(tasks, args, state, args.report_dir / "status.md")
+    append_event(
+        args,
+        state,
+        "validation_finished",
+        total_tasks=len(tasks),
+        validation_failed=validation_failed,
+        validation_failed_tasks=sum(1 for task in tasks if task["state"].get("status") == "validation_failed"),
+    )
     if validation_failed and not args.continue_on_error:
+        append_event(args, state, "runner_finished", failed=True, reason="validation_failed")
         raise SystemExit(1)
 
     failed = run_pending_tasks(tasks, args=args, state=state, state_path=args.state_path)
     analysis_failed = run_analysis(args, state, args.state_path)
     write_plan_report(tasks, args.report_dir / "plan.md")
     write_status_report(tasks, args, state, args.report_dir / "status.md")
+    append_event(
+        args,
+        state,
+        "runner_exiting",
+        failed=failed,
+        analysis_failed=analysis_failed,
+        validation_failed=validation_failed,
+    )
     if failed or analysis_failed or validation_failed:
         raise SystemExit(1)
 
