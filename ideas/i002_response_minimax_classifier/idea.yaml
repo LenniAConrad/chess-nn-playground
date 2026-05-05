@@ -1,0 +1,19 @@
+idea_id: i002
+name: Response-Minimax Chess Classifier
+slug: response_minimax_classifier
+status: implemented
+created_at: "2026-04-25T00:43:00+08:00"
+author: Codex
+short_thesis: "A chess classifier should score not only the current position but also the best available side-to-move actions and opponent responses through a learned one-ply minimax bottleneck."
+novelty_claim: "Unlike one-ply move-delta pooling or legal-reaction-only packets, this idea uses a symmetric learned max-min response bottleneck as the main classification representation."
+expected_advantage: "Better classification when labels depend on whether apparent pressure survives plausible replies, without using engine search or engine scores."
+target_task: "General chess position classification; first benchmark is puzzle_binary."
+input_representation: "Current board plus deterministic pseudo-legal side-to-move actions and deterministic pseudo-legal opponent replies after those actions. No engine metadata."
+output_heads: "One configurable classification head; first benchmark uses one puzzle logit."
+compute_notes: "Can cap moves and replies with deterministic ordering. First version should use shallow reply encoders and no full board re-encoding per move."
+implementation_status: implemented
+trainer_entrypoint: ideas/i002_response_minimax_classifier/train.py
+config_path: ideas/i002_response_minimax_classifier/config.yaml
+model_path: ideas/i002_response_minimax_classifier/model.py
+latest_result_path: null
+notes: "Implemented as a deterministic pseudo-move action/reply token model with a learned soft max-min pooling bottleneck, model registry entry, and smoke-test coverage. Benchmark training is pending."

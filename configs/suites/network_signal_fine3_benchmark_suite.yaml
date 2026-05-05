@@ -1,0 +1,16 @@
+name: network_signal_fine3_benchmark_suite
+description: Four-model 3-class benchmark for random/non-puzzle, near-puzzle hard
+  negative, and verified puzzle classification. Runs each config across seeds 42,
+  43, and 44 for promotion-grade reliability.
+configs:
+- configs/benchmarks/fine_3class/bench_fine3_nnue_simple18.yaml
+- configs/benchmarks/fine_3class/bench_fine3_mlp_simple18.yaml
+- configs/benchmarks/fine_3class/bench_fine3_cnn_simple18.yaml
+- configs/benchmarks/fine_3class/bench_fine3_lc0_bt4_classifier.yaml
+continue_on_error: true
+rebuild_leaderboard: true
+validate_artifacts: true
+seeds:
+- 42
+- 43
+- 44

@@ -1,0 +1,27 @@
+idea_id: i236
+name: Hadamard Walsh-Spectrum Network
+slug: hadamard_spectrum_network
+status: implemented
+created_at: '2026-05-05T17:00:00+00:00'
+author: Claude
+short_thesis: "Applies the 64x64 Walsh-Hadamard transform (Sylvester construction) to per-channel pooled square signals; classifies puzzle-likeness from top-k Walsh coefficient energies. Uses the boolean Fourier basis on Z_2^6 -- distinct from DCT, wavelets, and spectral-Laplacian features."
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/hadamard_spectrum.py`; routed via the standard
+  registry (not the generic ResearchPacketProbe).
+expected_advantage: Hand-coded mechanism implements the algebra exactly per the
+  source packet -- no profile-routing approximation.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (squeezed) for binary BCE.
+compute_notes: Fixed orthogonal Walsh basis (no parameters) + tiny channel-mix conv + MLP. Cost dominated by the einsum WHT.
+implementation_status: implemented
+trainer_entrypoint: ideas/i236_hadamard_spectrum_network/train.py
+config_path: ideas/i236_hadamard_spectrum_network/config.yaml
+model_path: ideas/i236_hadamard_spectrum_network/model.py
+latest_result_path: null
+notes: Bespoke implementation -- the algebraic operator described in the source
+  packet is realized as a hand-written torch.nn.Module class
+  `HadamardSpectrumNetwork` and registered under model name `hadamard_spectrum_network` in
+  `src/chess_nn_playground/models/registry.py`.
+mechanism_family: linear_algebra

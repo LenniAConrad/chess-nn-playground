@@ -1,0 +1,50 @@
+{
+  "duplicate_rows_removed": 0,
+  "examples_rejected": [],
+  "files": [
+    "data/raw/smoke/synthetic_positions.jsonl"
+  ],
+  "input_paths": [
+    "data/raw/smoke/synthetic_positions.jsonl"
+  ],
+  "invalid_or_rejected_rows": 0,
+  "known_class_0_samples": 3,
+  "label_status_distribution": {
+    "candidate_1_or_2_unresolved": 3,
+    "known_non_puzzle": 3
+  },
+  "legal_move_count_distribution": {
+    "(19.988, 21.2]": 1,
+    "(21.2, 22.4]": 0,
+    "(22.4, 23.6]": 0,
+    "(23.6, 24.8]": 0,
+    "(24.8, 26.0]": 0,
+    "(26.0, 27.2]": 0,
+    "(27.2, 28.4]": 0,
+    "(28.4, 29.6]": 2,
+    "(29.6, 30.8]": 0,
+    "(30.8, 32.0]": 3
+  },
+  "missing_fen_count": 0,
+  "output_path": "data/processed/smoke_positions.parquet",
+  "rejected_output_path": "data/processed/smoke_rejected_positions.parquet",
+  "side_to_move_distribution": {
+    "b": 1,
+    "w": 5
+  },
+  "source_file_distribution": {
+    "synthetic_positions.jsonl": 6
+  },
+  "total_raw_rows": 6,
+  "unresolved_candidate_1_2_samples": 3,
+  "valid_rows_after_dedup": 6,
+  "validation": {
+    "bad_label_status": [],
+    "duplicate_normalized_fens": 0,
+    "missing_columns": [],
+    "rows": 6,
+    "valid": true
+  },
+  "verified_class_1_samples": 0,
+  "verified_class_2_samples": 0
+}

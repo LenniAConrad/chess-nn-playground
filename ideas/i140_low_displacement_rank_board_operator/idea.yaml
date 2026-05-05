@@ -1,0 +1,36 @@
+idea_id: i140
+name: Low-Displacement-Rank Board Operator
+slug: low_displacement_rank_board_operator
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Global square mixing can be parameterized by structured matrices instead
+  of dense attention or convolutions. A low-displacement-rank operator over the flattened
+  board can express long-range interactions with Toeplitz/Hankel-like structure and
+  few parameters.
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`;
+  uses a generic mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/i140_low_displacement_rank_board_operator/train.py
+config_path: ideas/i140_low_displacement_rank_board_operator/config.yaml
+model_path: ideas/i140_low_displacement_rank_board_operator/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.
+  This is a first-pass faithful, board-only mechanism-profile implementation intended
+  for smoke testing and paper-grade benchmarking.
+source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
+source_packet_candidate: Low-Displacement-Rank Board Operator
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: linear_algebra

@@ -1,0 +1,30 @@
+idea_id: i038
+name: Sparse Witness-Piece Bottleneck Network
+slug: sparse_witness_piece_bottleneck_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Sparse Witness-Piece Bottleneck Network, abbreviated `swpb`
+  - One-sentence thesis: Chess puzzle-likeness should often be decidable from a small
+  witness se...'
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0713_tuesday_los_angeles_sparse_witness_bottleneck.md`;
+  uses a sparse mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/i038_sparse_witness_piece_bottleneck_network/train.py
+config_path: ideas/i038_sparse_witness_piece_bottleneck_network/config.yaml
+model_path: ideas/i038_sparse_witness_piece_bottleneck_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0713_tuesday_los_angeles_sparse_witness_bottleneck.md`.
+  This is a first-pass faithful, board-only mechanism-profile implementation intended
+  for smoke testing and paper-grade benchmarking.

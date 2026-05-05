@@ -1,0 +1,16 @@
+name: network_signal_benchmark_suite
+description: 'Correct four-model single-logit benchmark: train on random/non-puzzle
+  + near-puzzle as non-puzzle, verified puzzles as puzzle, and report 3x2 source-class
+  diagnostics. Runs each config across seeds 42, 43, and 44 for promotion-grade reliability.'
+configs:
+- configs/benchmarks/puzzle_binary/bench_nnue_simple18.yaml
+- configs/benchmarks/puzzle_binary/bench_mlp_simple18.yaml
+- configs/benchmarks/puzzle_binary/bench_cnn_signal_simple18.yaml
+- configs/benchmarks/puzzle_binary/bench_lc0_bt4_classifier.yaml
+continue_on_error: true
+rebuild_leaderboard: true
+validate_artifacts: true
+seeds:
+- 42
+- 43
+- 44

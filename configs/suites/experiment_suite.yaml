@@ -1,0 +1,21 @@
+name: crtk_architecture_benchmark_suite
+description: Legacy sequential architecture suite for coarse binary classification
+  with 3x2 source-class diagnostics. Use network_signal_benchmark_suite.yaml for the
+  corrected single-logit puzzle benchmark. Runs each config across seeds 42, 43, and
+  44 for promotion-grade reliability.
+configs:
+- configs/benchmarks/coarse_binary/bench_cnn_small_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_cnn_medium_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_cnn_deep_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_residual_small_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_residual_medium_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_residual_deep_simple18.yaml
+- configs/benchmarks/coarse_binary/bench_cnn_small_lc0bt4.yaml
+- configs/benchmarks/coarse_binary/bench_residual_small_lc0bt4.yaml
+continue_on_error: true
+rebuild_leaderboard: true
+validate_artifacts: true
+seeds:
+- 42
+- 43
+- 44

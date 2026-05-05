@@ -1,0 +1,438 @@
+{
+  "continue_on_error": true,
+  "dry_run": true,
+  "finished_at": "2026-04-28T17:06:15Z",
+  "leaderboard_returncode": null,
+  "rebuild_leaderboard": false,
+  "runs": [
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_cnn_small_simple18.yaml",
+      "config_hash": "794fac9898d70d03",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_cnn_small_simple18.yaml",
+      "config_hash": "ee1c52584132b213",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_cnn_small_simple18.yaml",
+      "config_hash": "8a5036ba3eda4ad1",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_cnn_medium_simple18.yaml",
+      "config_hash": "4ec5bf4d508299e9",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_cnn_medium_simple18.yaml",
+      "config_hash": "6982cb471993bcda",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_cnn_medium_simple18.yaml",
+      "config_hash": "1dd737f20b5d68f4",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_medium_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_cnn_deep_simple18.yaml",
+      "config_hash": "446c3b142d2361ba",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_cnn_deep_simple18.yaml",
+      "config_hash": "54191171f124c050",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_cnn_deep_simple18.yaml",
+      "config_hash": "886d250ec4662610",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_deep_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_residual_small_simple18.yaml",
+      "config_hash": "0e805220e18ba9fc",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_residual_small_simple18.yaml",
+      "config_hash": "b1e8b09f1db0dc67",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_residual_small_simple18.yaml",
+      "config_hash": "97e7c57a7964545d",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_residual_medium_simple18.yaml",
+      "config_hash": "6ae5e44f0cd18a30",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_residual_medium_simple18.yaml",
+      "config_hash": "dc148d8d62722f31",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_residual_medium_simple18.yaml",
+      "config_hash": "a338b577b689ba49",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_medium_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_residual_deep_simple18.yaml",
+      "config_hash": "dc60b78361bbaf20",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_residual_deep_simple18.yaml",
+      "config_hash": "6587d51ba902cf06",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_residual_deep_simple18.yaml",
+      "config_hash": "10dcbedad0ff78cb",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_deep_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed42.yaml"
+      ],
+      "config": "configs/bench_cnn_small_lc0bt4.yaml",
+      "config_hash": "fbe5b5b4b8e18d13",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed42.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed43.yaml"
+      ],
+      "config": "configs/bench_cnn_small_lc0bt4.yaml",
+      "config_hash": "b1a2bf176aaaa9dd",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed43.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed44.yaml"
+      ],
+      "config": "configs/bench_cnn_small_lc0bt4.yaml",
+      "config_hash": "d7b1bf45ca642ff1",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_cnn_small_lc0bt4_seed44.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed42.yaml"
+      ],
+      "config": "configs/bench_residual_small_lc0bt4.yaml",
+      "config_hash": "e7ecec4c1a3cc628",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed42.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed43.yaml"
+      ],
+      "config": "configs/bench_residual_small_lc0bt4.yaml",
+      "config_hash": "c3df28b22100a368",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed43.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed44.yaml"
+      ],
+      "config": "configs/bench_residual_small_lc0bt4.yaml",
+      "config_hash": "c9b566e814ee4cb6",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170615_crtk_architecture_benchmark_suite/bench_residual_small_lc0bt4_seed44.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "started_at": "2026-04-28T17:06:15Z",
+  "status": "ok",
+  "suite_name": "crtk_architecture_benchmark_suite",
+  "validate_artifacts": true
+}

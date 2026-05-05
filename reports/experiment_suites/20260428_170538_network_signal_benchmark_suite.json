@@ -1,0 +1,228 @@
+{
+  "continue_on_error": true,
+  "dry_run": true,
+  "finished_at": "2026-04-28T17:05:38Z",
+  "leaderboard_returncode": null,
+  "rebuild_leaderboard": true,
+  "runs": [
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_nnue_simple18.yaml",
+      "config_hash": "b30bedde4d643ba5",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_nnue_simple18.yaml",
+      "config_hash": "0af316b4d308cbf5",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_nnue_simple18.yaml",
+      "config_hash": "bafd08b573af436c",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_nnue_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_mlp_simple18.yaml",
+      "config_hash": "df9869d6a37afa40",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_mlp_simple18.yaml",
+      "config_hash": "ee898407a5510956",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_mlp_simple18.yaml",
+      "config_hash": "3c6f7d6747e91e6a",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_mlp_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed42.yaml"
+      ],
+      "config": "configs/bench_cnn_signal_simple18.yaml",
+      "config_hash": "46ae506c272059a9",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed43.yaml"
+      ],
+      "config": "configs/bench_cnn_signal_simple18.yaml",
+      "config_hash": "40c99e7630828c6a",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed44.yaml"
+      ],
+      "config": "configs/bench_cnn_signal_simple18.yaml",
+      "config_hash": "ea1f6ccc2c651d98",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_cnn_signal_simple18_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed42.yaml"
+      ],
+      "config": "configs/bench_lc0_bt4_classifier.yaml",
+      "config_hash": "4c18a682546d3298",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed42.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed42.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 42,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed43.yaml"
+      ],
+      "config": "configs/bench_lc0_bt4_classifier.yaml",
+      "config_hash": "7ff274df0f20ca1c",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed43.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed43.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 43,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed44.yaml"
+      ],
+      "config": "configs/bench_lc0_bt4_classifier.yaml",
+      "config_hash": "d4adbcd4c104041c",
+      "effective_config": "reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed44.yaml",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: reports/experiment_suites/generated_configs/20260428_170538_network_signal_benchmark_suite/bench_lc0_bt4_classifier_seed44.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "seed": 44,
+      "status": "dry_run_ok"
+    }
+  ],
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "started_at": "2026-04-28T17:05:38Z",
+  "status": "ok",
+  "suite_name": "network_signal_benchmark_suite",
+  "validate_artifacts": true
+}

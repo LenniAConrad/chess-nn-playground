@@ -1,0 +1,87 @@
+{
+  "available_by_split_class": {
+    "test": {
+      "0": 3385170,
+      "1": 932460,
+      "2": 184937
+    },
+    "train": {
+      "0": 27115853,
+      "1": 7424621,
+      "2": 1459631
+    },
+    "val": {
+      "0": 3386563,
+      "1": 930767,
+      "2": 182735
+    }
+  },
+  "batch_size": 200000,
+  "class_labels": [
+    0,
+    1,
+    2
+  ],
+  "complete": true,
+  "compression": "snappy",
+  "created_at": "2026-04-20T05:34:18Z",
+  "elapsed_seconds": 124.6572702340004,
+  "input": "data/processed/crtk_training_20260419_180229_fast.parquet",
+  "label_column": "fine_label",
+  "max_per_class": 150000,
+  "mode": "fine_3class",
+  "output_dir": "data/splits/crtk_sample_3class",
+  "output_paths": {
+    "test": "data/splits/crtk_sample_3class/split_test.parquet",
+    "train": "data/splits/crtk_sample_3class/split_train.parquet",
+    "val": "data/splits/crtk_sample_3class/split_val.parquet"
+  },
+  "quotas": {
+    "0": {
+      "test": 15000,
+      "train": 120000,
+      "val": 15000
+    },
+    "1": {
+      "test": 15000,
+      "train": 120000,
+      "val": 15000
+    },
+    "2": {
+      "test": 15000,
+      "train": 120000,
+      "val": 15000
+    }
+  },
+  "rows_seen": 41600000,
+  "rows_written": 450000,
+  "thresholds": {
+    "test:0": 4875,
+    "test:1": 17696,
+    "test:2": 89220,
+    "train:0": 4869,
+    "train:1": 17779,
+    "train:2": 90434,
+    "val:0": 4873,
+    "val:1": 17728,
+    "val:2": 90295
+  },
+  "warnings": [],
+  "written_by_split_class": {
+    "test": {
+      "0": 15000,
+      "1": 15000,
+      "2": 15000
+    },
+    "train": {
+      "0": 120000,
+      "1": 120000,
+      "2": 120000
+    },
+    "val": {
+      "0": 15000,
+      "1": 15000,
+      "2": 15000
+    }
+  }
+}

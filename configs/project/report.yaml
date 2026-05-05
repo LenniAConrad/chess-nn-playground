@@ -1,0 +1,4 @@
+reports_dir: reports
+include_html: true
+include_prediction_examples: true
+max_examples_per_section: 5

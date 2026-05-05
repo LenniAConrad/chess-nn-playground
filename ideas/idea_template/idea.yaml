@@ -1,0 +1,19 @@
+idea_id: template
+name: Template Idea
+slug: template
+status: draft
+created_at: null
+author: null
+short_thesis: null
+novelty_claim: null
+expected_advantage: null
+target_task: null
+input_representation: null
+output_heads: null
+compute_notes: null
+implementation_status: not_implemented
+trainer_entrypoint: null
+config_path: null
+model_path: null
+latest_result_path: null
+notes: "Copy this folder for future ideas. Do not register baselines as novel ideas."

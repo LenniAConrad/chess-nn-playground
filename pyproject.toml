@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chess-nn-playground"
+version = "0.1.0"
+description = "Foundational research environment for chess neural network experiments."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-q"
+
+[tool.setuptools.packages.find]
+where = ["src"]

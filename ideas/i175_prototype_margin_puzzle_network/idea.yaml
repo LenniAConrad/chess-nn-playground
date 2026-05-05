@@ -1,0 +1,34 @@
+idea_id: i175
+name: Prototype-Margin Puzzle Network
+slug: prototype_margin_puzzle_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'The model should not merely say "puzzle-like." It should compare the
+  board to separate learned prototypes:'
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`;
+  uses a sparse mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/i175_prototype_margin_puzzle_network/train.py
+config_path: ideas/i175_prototype_margin_puzzle_network/config.yaml
+model_path: ideas/i175_prototype_margin_puzzle_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
+  This is a first-pass faithful, board-only mechanism-profile implementation intended
+  for smoke testing and paper-grade benchmarking.
+source_packet_path: ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md
+source_packet_candidate: Prototype-Margin Puzzle Network
+source_packet_rank: 6
+source_packet_status: batch packet
+mechanism_family: sparse

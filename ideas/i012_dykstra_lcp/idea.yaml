@@ -1,0 +1,19 @@
+idea_id: i012
+name: Soft-Dykstra Latent Constraint Projector
+slug: dykstra_lcp
+status: tested
+created_at: "2026-04-29T00:00:00+08:00"
+author: Codex
+short_thesis: "Puzzle positions should be closer to a compact latent feasible certificate than near-puzzle hard negatives."
+novelty_claim: "Unlike plain CNNs, reject heads, obligation flow, proof search, or matrix-game equilibrium, Dykstra-LCP runs a finite unrolled Dykstra-style projection over learned latent convex constraints and exposes the solver trace to the classifier."
+expected_advantage: "Lower near-puzzle false positives at matched puzzle recall by penalizing positions whose local tactical texture cannot be organized into a globally coherent latent certificate."
+target_task: "Puzzle-specific puzzle_binary classification: source classes 0 and 1 map to non-puzzle, source class 2 maps to puzzle."
+input_representation: "Current-board tensor only, first implementation using lc0_bt4_112. No engine scores, PVs, best moves, source labels, verification metadata, or fine-label training signal."
+output_heads: "Hybrid version emits accepted-puzzle, rejected-evidence, and non-puzzle probabilities plus raw puzzle/selector logits and projection-distance, trace-residual, slack, role-mass, relation-mass, correction, and motif-entropy diagnostics."
+compute_notes: "LC0 BT4-style residual trunk plus compact latent role/relation/motif/slack heads and a 4-cycle unrolled Dykstra-style projector. V2 hybrid adds VetoSelect-style evidence heads and Dykstra-aware hard-negative decoy mining."
+implementation_status: tested
+trainer_entrypoint: ideas/i012_dykstra_lcp/train.py
+config_path: ideas/i012_dykstra_lcp/config.yaml
+model_path: ideas/i012_dykstra_lcp/model.py
+latest_result_path: results/20260428_164249_idea_i012_dykstra_vetoselect_lc0bt4_v2
+notes: "Promoted from research packet chess_nn_research_2026-04-28_0903_tuesday_new_york_dykstra_lcp.md as the second recommended idea after VetoSelect. A0 trained cleanly and exposed useful projection diagnostics but did not beat LC0 BT4 or VetoSelect v2. V2 hybrid run 20260428_164249 adds VetoSelect-style evidence heads and Dykstra-aware decoys; it is the strongest tested run so far for PR AUC/ROC AUC/F1 and matched-recall false-positive control, reducing near-puzzle FP versus VetoSelect v2 by 163 at target recall 0.80 and 199 at target recall 0.85. Needs validation-threshold deployment and stronger rejected-evidence usage."

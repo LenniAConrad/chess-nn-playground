@@ -1,0 +1,11 @@
+torch
+numpy
+pandas
+pyarrow
+scikit-learn
+python-chess
+pyyaml
+tqdm
+matplotlib
+pytest
+ijson

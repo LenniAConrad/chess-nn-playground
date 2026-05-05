@@ -1,0 +1,50 @@
+idea_id: i005
+run:
+  name: idea_i005_null_move_contrast_simple18
+  output_dir: results
+seed: 42
+deterministic: true
+mode: puzzle_binary
+device: nvidia
+data:
+  train_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet
+  val_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_val.parquet
+  test_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet
+  encoding: simple_18
+  cache_features: false
+model:
+  name: null_move_contrast_puzzle_network
+  input_channels: 18
+  num_classes: 1
+  encoder_channels: 96
+  latent_dim: 128
+  views:
+  - current
+  - null_move
+  pair_mixer_layers: 2
+  positive_null_margin: 0.5
+  dropout: 0.1
+training:
+  epochs: 20
+  batch_size: 128
+  num_workers: auto
+  persistent_workers: true
+  prefetch_factor: 2
+  learning_rate: 0.0007
+  weight_decay: 0.0001
+  class_weighting: balanced
+  loss: bce_with_logits
+  early_stopping_patience: 5
+  mixed_precision: true
+  allow_tf32: true
+  matmul_precision: high
+  reliability_tier: paper_grade
+  min_epochs: 10
+  min_active_epochs: 10
+  gradient_clip_norm: 1.0
+  lr_scheduler:
+    name: reduce_on_plateau
+    factor: 0.5
+    patience: 2
+    min_lr: 1.0e-05
+notes: "Implemented GPU-required benchmark config for the null-move contrast architecture."

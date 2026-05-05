@@ -1,0 +1,106 @@
+{
+  "continue_on_error": true,
+  "dry_run": false,
+  "finished_at": "2026-04-24T15:17:29Z",
+  "leaderboard_returncode": 0,
+  "rebuild_leaderboard": true,
+  "runs": [
+    {
+      "artifact_validation": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_fine3_nnue_simple18.yaml"
+      ],
+      "config": "configs/bench_fine3_nnue_simple18.yaml",
+      "config_hash": "8a21d1b3bf6de2db",
+      "elapsed_seconds": 234.39260090699827,
+      "log_path": "reports/experiment_logs/20260424_145201_bench_fine3_nnue_simple18.log",
+      "messages": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "returncode": 0,
+      "run_dir": "results/20260424_145206_bench_fine3_stockfish_style_nnue_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_fine3_mlp_simple18.yaml"
+      ],
+      "config": "configs/bench_fine3_mlp_simple18.yaml",
+      "config_hash": "f880eddc7311da04",
+      "elapsed_seconds": 243.33815565799887,
+      "log_path": "reports/experiment_logs/20260424_145556_bench_fine3_mlp_simple18.log",
+      "messages": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "returncode": 0,
+      "run_dir": "results/20260424_145600_bench_fine3_mlp_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_fine3_cnn_simple18.yaml"
+      ],
+      "config": "configs/bench_fine3_cnn_simple18.yaml",
+      "config_hash": "83a4d04c1e5dd7d0",
+      "elapsed_seconds": 354.8633295670006,
+      "log_path": "reports/experiment_logs/20260424_145959_bench_fine3_cnn_simple18.log",
+      "messages": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "returncode": 0,
+      "run_dir": "results/20260424_150002_bench_fine3_cnn_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_fine3_lc0_bt4_classifier.yaml"
+      ],
+      "config": "configs/bench_fine3_lc0_bt4_classifier.yaml",
+      "config_hash": "4628fac365084018",
+      "elapsed_seconds": 694.9299010800023,
+      "log_path": "reports/experiment_logs/20260424_150554_bench_fine3_lc0_bt4_classifier.log",
+      "messages": [
+        "WARNING: configs/bench_fine3_lc0_bt4_classifier.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_val.png",
+        "WARNING: missing source-class diagnostic artifact: fine_to_binary_confusion_matrix_test.png"
+      ],
+      "returncode": 0,
+      "run_dir": "results/20260424_150558_bench_fine3_lc0_bt4_classifier",
+      "status": "completed"
+    }
+  ],
+  "started_at": "2026-04-24T14:52:01Z",
+  "status": "ok",
+  "suite_name": "network_signal_fine3_benchmark_suite",
+  "validate_artifacts": true
+}

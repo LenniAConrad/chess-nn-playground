@@ -1,0 +1,27 @@
+idea_id: i240
+name: Cayley-Hamilton Coefficient Network
+slug: cayley_hamilton_coeffs_network
+status: implemented
+created_at: '2026-05-05T17:00:00+00:00'
+author: Claude
+short_thesis: "Extracts characteristic polynomial coefficients (c_1, ..., c_r) of a learned r x r chess operator via Faddeev-LeVerrier recursion (no eigendecomposition). c_k = (-1)^k e_k(spec) are signed elementary symmetric polynomials of eigenvalues -- combinatorially distinct from raw eigvals and gradient-stable near degenerate spectra."
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`; routed via the standard
+  registry (not the generic ResearchPacketProbe).
+expected_advantage: Hand-coded mechanism implements the algebra exactly per the
+  source packet -- no profile-routing approximation.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (squeezed) for binary BCE.
+compute_notes: r matmul iterations of Faddeev-LeVerrier at r=12; fully differentiable; auxiliary Cayley-Hamilton residual ||A^r + sum c_k A^{r-k}||_F as sanity feature.
+implementation_status: implemented
+trainer_entrypoint: ideas/i240_cayley_hamilton_coeffs_network/train.py
+config_path: ideas/i240_cayley_hamilton_coeffs_network/config.yaml
+model_path: ideas/i240_cayley_hamilton_coeffs_network/model.py
+latest_result_path: null
+notes: Bespoke implementation -- the algebraic operator described in the source
+  packet is realized as a hand-written torch.nn.Module class
+  `CayleyHamiltonCoefficientNetwork` and registered under model name `cayley_hamilton_coeffs_network` in
+  `src/chess_nn_playground/models/registry.py`.
+mechanism_family: linear_algebra

@@ -1,0 +1,1 @@
+[Download `chess_nn_research_2026-04-21_0312_tuesday_los_angeles_mirror_tension_sheaf.md`](sandbox:/mnt/data/chess_nn_research_2026-04-21_0312_tuesday_los_angeles_mirror_tension_sheaf.md)

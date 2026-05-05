@@ -1,0 +1,75 @@
+{
+  "continue_on_error": true,
+  "dry_run": true,
+  "finished_at": "2026-04-28T10:47:19Z",
+  "leaderboard_returncode": null,
+  "rebuild_leaderboard": true,
+  "runs": [
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_nnue_simple18.yaml"
+      ],
+      "config": "configs/bench_nnue_simple18.yaml",
+      "config_hash": "8cdbf1d37514863a",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_mlp_simple18.yaml"
+      ],
+      "config": "configs/bench_mlp_simple18.yaml",
+      "config_hash": "aca3628835553945",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_cnn_signal_simple18.yaml"
+      ],
+      "config": "configs/bench_cnn_signal_simple18.yaml",
+      "config_hash": "1d623f7c7c81a605",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [],
+      "run_dir": null,
+      "status": "dry_run_ok"
+    },
+    {
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_lc0_bt4_classifier.yaml"
+      ],
+      "config": "configs/bench_lc0_bt4_classifier.yaml",
+      "config_hash": "e9d3ec17b2a43bbf",
+      "elapsed_seconds": 0.0,
+      "log_path": null,
+      "messages": [
+        "WARNING: configs/bench_lc0_bt4_classifier.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "run_dir": null,
+      "status": "dry_run_ok"
+    }
+  ],
+  "started_at": "2026-04-28T10:47:19Z",
+  "status": "ok",
+  "suite_name": "network_signal_benchmark_suite",
+  "validate_artifacts": true
+}

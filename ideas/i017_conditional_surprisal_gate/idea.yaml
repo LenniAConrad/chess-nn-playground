@@ -1,0 +1,19 @@
+idea_id: i017
+name: Conditional Surprisal Gate
+slug: conditional_surprisal_gate
+status: implemented
+created_at: "2026-04-30T00:00:00+08:00"
+author: Codex
+short_thesis: "Classify puzzlehood through a gate whose posterior board signal is penalized relative to a weak board-statistics prior."
+novelty_claim: "The final classifier sees only the learned gate, while the KL term measures information beyond easy material/statistical priors."
+expected_advantage: "Suppress shallow easy-stat shortcuts and emphasize conditional surprise useful for separating puzzles from near-puzzles."
+target_task: "puzzle_binary classification."
+input_representation: "Current-board tensor only, default simple_18. Fine labels remain diagnostic/training labels only."
+output_heads: "One puzzle logit, prior logit, posterior probe logit, gate mean, gate-logit mean, and conditional-surprisal diagnostic."
+compute_notes: "Compact encoder, weak stats prior, posterior gate, straight-through binary concrete gate, gate-only head."
+implementation_status: implemented
+trainer_entrypoint: ideas/i017_conditional_surprisal_gate/train.py
+config_path: ideas/i017_conditional_surprisal_gate/config.yaml
+model_path: ideas/i017_conditional_surprisal_gate/model.py
+latest_result_path: null
+notes: "Promoted from the GPT/Codex near-term `conditional_surprisal_gate` packet; implemented and smoke-testable, not benchmarked."

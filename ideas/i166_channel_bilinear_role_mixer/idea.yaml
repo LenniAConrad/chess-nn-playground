@@ -1,0 +1,36 @@
+idea_id: i166
+name: Channel-Bilinear Role Mixer
+slug: channel_bilinear_role_mixer
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Ordinary heads pool channels additively. A low-rank bilinear head can
+  explicitly model pairwise interactions between role summaries, such as own-heavy-piece
+  features with opponent-king-zone features, without building square-pair tensors
+  or local product con...
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`;
+  uses a grammar mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/i166_channel_bilinear_role_mixer/train.py
+config_path: ideas/i166_channel_bilinear_role_mixer/config.yaml
+model_path: ideas/i166_channel_bilinear_role_mixer/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`.
+  This is a first-pass faithful, board-only mechanism-profile implementation intended
+  for smoke testing and paper-grade benchmarking.
+source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md
+source_packet_candidate: Channel-Bilinear Role Mixer
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: linear_algebra

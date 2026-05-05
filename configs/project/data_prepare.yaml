@@ -1,0 +1,6 @@
+input_paths:
+  - data/exported
+  - data/raw
+output_path: data/processed/positions.parquet
+rejected_output_path: data/processed/rejected_positions.parquet
+default_label_status: null

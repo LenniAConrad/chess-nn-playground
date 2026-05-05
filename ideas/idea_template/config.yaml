@@ -1,0 +1,14 @@
+# Future idea-specific config placeholder.
+idea_id: template
+device: nvidia
+model:
+  name: template
+  input_channels: 18
+  num_classes: 1
+  channels: 64
+  stem_depth: 2
+  dropout: 0.0
+training:
+  mode: puzzle_binary
+  loss: bce_with_logits
+  primary_metric: pr_auc

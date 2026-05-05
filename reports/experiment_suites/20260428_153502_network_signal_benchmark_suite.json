@@ -1,0 +1,83 @@
+{
+  "continue_on_error": true,
+  "dry_run": false,
+  "finished_at": "2026-04-28T15:35:02Z",
+  "leaderboard_returncode": 0,
+  "rebuild_leaderboard": true,
+  "runs": [
+    {
+      "artifact_validation": [],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_nnue_simple18.yaml"
+      ],
+      "config": "configs/bench_nnue_simple18.yaml",
+      "config_hash": "cfe1154eba7702e5",
+      "elapsed_seconds": 240.49197249300005,
+      "log_path": "reports/experiment_logs/20260428_151822_bench_nnue_simple18.log",
+      "messages": [],
+      "returncode": 0,
+      "run_dir": "results/20260428_151823_bench_signal_stockfish_style_nnue_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_mlp_simple18.yaml"
+      ],
+      "config": "configs/bench_mlp_simple18.yaml",
+      "config_hash": "20abac62551e6275",
+      "elapsed_seconds": 240.3532141170001,
+      "log_path": "reports/experiment_logs/20260428_152222_bench_mlp_simple18.log",
+      "messages": [],
+      "returncode": 0,
+      "run_dir": "results/20260428_152223_bench_signal_mlp_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_cnn_signal_simple18.yaml"
+      ],
+      "config": "configs/bench_cnn_signal_simple18.yaml",
+      "config_hash": "0afeb0d191384a13",
+      "elapsed_seconds": 243.45379937799999,
+      "log_path": "reports/experiment_logs/20260428_152622_bench_cnn_signal_simple18.log",
+      "messages": [],
+      "returncode": 0,
+      "run_dir": "results/20260428_152623_bench_signal_cnn_simple18",
+      "status": "completed"
+    },
+    {
+      "artifact_validation": [],
+      "command": [
+        "/usr/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "configs/bench_lc0_bt4_classifier.yaml"
+      ],
+      "config": "configs/bench_lc0_bt4_classifier.yaml",
+      "config_hash": "cc775fcfcb155d12",
+      "elapsed_seconds": 276.091365901,
+      "log_path": "reports/experiment_logs/20260428_153026_bench_lc0_bt4_classifier.log",
+      "messages": [
+        "WARNING: configs/bench_lc0_bt4_classifier.yaml: data.encoding=lc0_bt4_112 uses the LC0 BT4-style 112-plane layout from a single FEN; history planes beyond the current FEN are zero"
+      ],
+      "returncode": 0,
+      "run_dir": "results/20260428_153027_bench_signal_lc0_bt4_classifier",
+      "status": "completed"
+    }
+  ],
+  "started_at": "2026-04-28T15:18:21Z",
+  "status": "ok",
+  "suite_name": "network_signal_benchmark_suite",
+  "validate_artifacts": true
+}

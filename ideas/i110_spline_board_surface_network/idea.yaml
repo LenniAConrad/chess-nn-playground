@@ -1,0 +1,35 @@
+idea_id: i110
+name: Spline Board Surface Network
+slug: spline_board_surface_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Chess boards may benefit from a smooth geometric baseline that is not
+  convolutional. Fit learned tensor-product spline surfaces to piece planes and classify
+  from low-degree surface coefficients plus residual maps.
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`;
+  uses a grammar mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/i110_spline_board_surface_network/train.py
+config_path: ideas/i110_spline_board_surface_network/config.yaml
+model_path: ideas/i110_spline_board_surface_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`.
+  This is a first-pass faithful, board-only mechanism-profile implementation intended
+  for smoke testing and paper-grade benchmarking.
+source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md
+source_packet_candidate: Spline Board Surface Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: linear_algebra
