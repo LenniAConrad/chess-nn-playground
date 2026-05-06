@@ -23,8 +23,10 @@ def test_paper_ready_runner_discovers_benchmarks_and_ideas():
 
     assert Path("configs/benchmarks/puzzle_binary/bench_lc0_bt4_classifier.yaml") in paths
     assert Path("configs/benchmarks/puzzle_binary/bench_nnue_simple18.yaml") in paths
-    assert Path("ideas/i018_oriented_tactical_sheaf_laplacian/config.yaml") in paths
-    assert len(paths) >= 230
+    assert Path("ideas/i013_sparse_relation_pursuit_asymmetry/config.yaml") in paths
+    assert Path("ideas/i236_hadamard_spectrum_network/config.yaml") in paths
+    assert Path("ideas/i018_oriented_tactical_sheaf_laplacian/config.yaml") not in paths
+    assert len(paths) >= 35
 
 
 def test_paper_ready_overrides_use_fixed_run_dir_and_stable_hash():

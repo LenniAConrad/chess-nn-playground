@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: Instead of pooling the whole board at once or using an FPN, build a fixed hierarchy over the `8 x 8` board: squares become `2 x 2` cells, cells become quadrants, quadrants become a board root. Each tree node has a small learned aggregator and passes feature...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

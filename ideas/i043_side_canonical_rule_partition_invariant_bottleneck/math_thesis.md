@@ -6,4 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-21_0732_tuesday
 
 Working thesis: - Idea name: Side-Canonical Rule-Partition Invariant Bottleneck, abbreviated `SCRIB`. - One-sentence thesis: Puzzle-likeness should be predicted from side-relative tac...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

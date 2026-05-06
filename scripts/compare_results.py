@@ -16,6 +16,7 @@ bootstrap()
 
 from chess_nn_playground.evaluation.chatgpt_prompt import build_chatgpt_run_prompt
 from chess_nn_playground.evaluation.training_plots import build_global_training_dashboard
+from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
 
 
 def _markdown_table(df: pd.DataFrame) -> str:
@@ -63,7 +64,7 @@ def _seed_summary(df: pd.DataFrame) -> pd.DataFrame:
         return df
     working = df.copy()
     working["seed_group"] = working["run_name"].map(_seed_group_name)
-    group_cols = ["seed_group", "mode", "model_name", "architecture_scale"]
+    group_cols = ["seed_group", "mode", "model_name", "implementation_kind", "architecture_scale"]
     metric_cols = [
         "best_val_f1",
         "best_val_accuracy",
@@ -86,7 +87,8 @@ def _seed_summary(df: pd.DataFrame) -> pd.DataFrame:
             "run_group": keys[0],
             "mode": keys[1],
             "model_name": keys[2],
-            "architecture_scale": keys[3],
+            "implementation_kind": keys[3],
+            "architecture_scale": keys[4],
             "seeds": int(group["seed"].nunique()) if "seed" in group else len(group),
             "runs": int(len(group)),
             "report_paths": "; ".join(str(path) for path in group["report_path"].tolist()),
@@ -107,11 +109,23 @@ def _iter_metric_paths(results_dir: Path) -> list[Path]:
     return sorted(results_dir.rglob("metrics_final.json"))
 
 
+def _load_idea_kind_maps(ideas_root: Path = Path("ideas")) -> tuple[dict[str, str], dict[str, str]]:
+    by_id: dict[str, str] = {}
+    by_model: dict[str, str] = {}
+    for folder in sorted(ideas_root.glob("i[0-9][0-9][0-9]_*")):
+        row = detect_idea_implementation_kind(folder)
+        by_id[row.idea_id] = row.detected_kind
+        if row.model_name:
+            by_model[row.model_name] = row.detected_kind
+    return by_id, by_model
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build a leaderboard from result directories.")
     parser.add_argument("--results-dir", default="results")
     args = parser.parse_args()
     rows = []
+    idea_kind_by_id, idea_kind_by_model = _load_idea_kind_maps()
     for metrics_path in _iter_metric_paths(Path(args.results_dir)):
         run_dir = metrics_path.parent
         metrics = _load_json(metrics_path)
@@ -126,12 +140,17 @@ def main() -> None:
         worst_test_slice = _worst_slice(run_dir, "test")
         worst_val_slice = _worst_slice(run_dir, "val")
         class_counts = metadata.get("class_counts", {})
+        idea_id = str(config.get("idea_id") or "")
+        model_cfg = config.get("model", {}) if isinstance(config.get("model"), dict) else {}
+        model_name = str(metadata.get("model_name") or model_cfg.get("name") or "")
+        implementation_kind = idea_kind_by_id.get(idea_id) or idea_kind_by_model.get(model_name)
         row = {
             "run_name": metadata.get("run_name", run_dir.name),
             "created_at": metadata.get("timestamp"),
             "seed": metadata.get("seed"),
             "mode": metadata.get("mode"),
             "model_name": metadata.get("model_name"),
+            "implementation_kind": implementation_kind,
             "architecture_scale": (
                 architecture_scale.get("variant", "base") if isinstance(architecture_scale, dict) else "base"
             ),

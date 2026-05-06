@@ -1,7 +1,7 @@
 idea_id: i090
 name: Chess-Mode Tucker Relation Certificate
 slug: chess_mode_tucker_relation_certificate
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: Build **CMTRC**, a compact neural architecture whose main learnable
@@ -20,11 +20,13 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i090_chess_mode_tucker_relation_certificate/train.py
 config_path: ideas/i090_chess_mode_tucker_relation_certificate/config.yaml
 model_path: ideas/i090_chess_mode_tucker_relation_certificate/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-28_0900_tuesday_new_york_relation_tucker.md`.
-  This is a first-pass faithful, board-only mechanism-profile implementation intended
-  for smoke testing and paper-grade benchmarking.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
+implementation_kind: shared_probe_variant

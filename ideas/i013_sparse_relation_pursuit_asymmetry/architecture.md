@@ -12,3 +12,9 @@ SRPA uses the current-board tensor only.
 - Output: one primary logit and one auxiliary residual-asymmetry logit.
 
 The architecture is implemented in `src/chess_nn_playground/models/sparse_relation_pursuit.py` and registered as `sparse_relation_pursuit_asymmetry`.
+
+## Implementation Binding
+
+- Registered model name: `sparse_relation_pursuit_asymmetry`.
+- Source implementation: `src/chess_nn_playground/models/sparse_relation_pursuit.py`.
+- Idea-local wrapper: `ideas/i013_sparse_relation_pursuit_asymmetry/model.py`.

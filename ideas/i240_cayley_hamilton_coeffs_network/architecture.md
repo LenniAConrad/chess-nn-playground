@@ -12,3 +12,9 @@
 
 See the source packet for the full mathematical derivation and the
 module file for the exact algebraic operator implementation.
+
+## Implementation Binding
+
+- Registered model name: `cayley_hamilton_coeffs_network`.
+- Source implementation: `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`.
+- Idea-local wrapper: `ideas/i240_cayley_hamilton_coeffs_network/model.py`.

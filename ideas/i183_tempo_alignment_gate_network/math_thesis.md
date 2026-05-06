@@ -8,4 +8,4 @@ Batch candidate rank: `7`.
 
 Working thesis: Many near-puzzles are tactical-looking for the wrong side or require a tempo that the side to move does not have. The model should explicitly gate static tactical danger by side-to-move tempo.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -117,3 +117,8 @@ O(batch * solver_steps * max_obligations * max_resources * token_dim)
 
 This is heavier than a plain CNN but cheaper than full move/reply board re-encoding.
 
+## Implementation Binding
+
+- Registered model name: `puzzle_obligation_flow_network`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i004_puzzle_obligation_flow_network/model.py`.

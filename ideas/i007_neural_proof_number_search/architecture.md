@@ -105,3 +105,8 @@ O(batch * capped_nodes * latent_dim * transition_layers)
 
 Do not re-run a CNN at every node in version 1.
 
+## Implementation Binding
+
+- Registered model name: `neural_proof_number_search`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i007_neural_proof_number_search/model.py`.

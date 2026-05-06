@@ -1,7 +1,7 @@
 idea_id: i149
 name: Axial Rank-File ConvNet
 slug: axial_rank_file_convnet
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: Use ordinary convolutions, but factor long-range board mixing into alternating
@@ -20,16 +20,18 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i149_axial_rank_file_convnet/train.py
 config_path: ideas/i149_axial_rank_file_convnet/config.yaml
 model_path: ideas/i149_axial_rank_file_convnet/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
-  This is a first-pass faithful, board-only mechanism-profile implementation intended
-  for smoke testing and paper-grade benchmarking.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md
 source_packet_candidate: Axial Rank-File ConvNet
 source_packet_rank: 1
 source_packet_status: batch packet
 mechanism_family: linear_algebra
+implementation_kind: shared_probe_variant

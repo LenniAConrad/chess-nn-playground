@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Global square mixing can be parameterized by structured matrices instead of dense attention or convolutions. A low-displacement-rank operator over the flattened board can express long-range interactions with Toeplitz/Hankel-like structure and few parameters.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

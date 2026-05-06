@@ -47,6 +47,7 @@ def discover_existing_ideas(ideas_root: str | Path = "ideas") -> list[dict[str, 
                 "idea_id": data.get("idea_id", child.name),
                 "name": data.get("name"),
                 "status": data.get("status"),
+                "implementation_kind": data.get("implementation_kind"),
                 "short_thesis": data.get("short_thesis"),
                 "novelty_claim": data.get("novelty_claim"),
                 "target_task": data.get("target_task"),
@@ -83,6 +84,7 @@ Your job is not to produce a pile of vague ideas. Your job is to help develop a 
 - Use the clean tagged benchmark split for training and reporting unless a run explicitly documents otherwise: `data/splits/crtk_sample_3class_unique_crtk_tags/`.
 - The current baseline is the simple CNN under `src/chess_nn_playground/models/cnn.py`; it is not a novel idea.
 - Do not implement a new architecture until the idea has a written thesis, novelty check, ablation plan, and falsification criteria.
+- Treat `implementation_kind` as an honesty label. A `shared_probe_variant` is not a distinct bespoke architecture just because it has its own idea folder or registry key.
 
 ## Existing Idea State
 
@@ -206,6 +208,7 @@ The `idea.yaml` must include:
 - `output_heads`
 - `compute_notes`
 - `implementation_status`
+- `implementation_kind`
 - `trainer_entrypoint`
 - `config_path`
 - `model_path`

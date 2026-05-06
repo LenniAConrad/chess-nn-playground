@@ -8,4 +8,4 @@ Batch candidate rank: `1`.
 
 Working thesis: A true puzzle often exists because the defender cannot maintain a barrier between attacking force and a valuable target: king, queen, promotion square, pinned defender, or mating square. A near-puzzle may contain pressure, but there is still a strong defens...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

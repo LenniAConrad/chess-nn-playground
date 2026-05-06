@@ -4,24 +4,27 @@ slug: stable_rank_multiscale_network
 status: implemented
 created_at: '2026-05-05T17:00:00+00:00'
 author: Claude
-short_thesis: "Computes stable rank ||M||_F^2 / ||M||_2^2 of a learned 64x64 chess interaction at three block scales (full, 4 quadrants, 16 sub-blocks). Continuous, differentiable, scale-equivariant; quantifies effective tactical degrees of freedom."
-novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/stable_rank_multiscale.py`; routed via the standard
-  registry (not the generic ResearchPacketProbe).
-expected_advantage: Hand-coded mechanism implements the algebra exactly per the
-  source packet -- no profile-routing approximation.
+short_thesis: Computes stable rank ||M||_F^2 / ||M||_2^2 of a learned 64x64 chess
+  interaction at three block scales (full, 4 quadrants, 16 sub-blocks). Continuous,
+  differentiable, scale-equivariant; quantifies effective tactical degrees of freedom.
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/stable_rank_multiscale.py`;
+  routed via the standard registry (not the generic ResearchPacketProbe).
+expected_advantage: Hand-coded mechanism implements the algebra exactly per the source
+  packet -- no profile-routing approximation.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
 output_heads: One puzzle logit (squeezed) for binary BCE.
-compute_notes: One svdvals top-1 per scale (3 calls), differentiable through bilinear interaction.
+compute_notes: One svdvals top-1 per scale (3 calls), differentiable through bilinear
+  interaction.
 implementation_status: implemented
 trainer_entrypoint: ideas/i238_stable_rank_multiscale_network/train.py
 config_path: ideas/i238_stable_rank_multiscale_network/config.yaml
 model_path: ideas/i238_stable_rank_multiscale_network/model.py
 latest_result_path: null
-notes: Bespoke implementation -- the algebraic operator described in the source
-  packet is realized as a hand-written torch.nn.Module class
-  `StableRankMultiscaleNetwork` and registered under model name `stable_rank_multiscale_network` in
-  `src/chess_nn_playground/models/registry.py`.
+notes: Bespoke implementation -- the algebraic operator described in the source packet
+  is realized as a hand-written torch.nn.Module class `StableRankMultiscaleNetwork`
+  and registered under model name `stable_rank_multiscale_network` in `src/chess_nn_playground/models/registry.py`.
 mechanism_family: linear_algebra
+implementation_kind: bespoke_model

@@ -8,4 +8,4 @@ Batch candidate rank: `6`.
 
 Working thesis: A puzzle-like position may be locally sharp: small current-board perturbations such as removing one piece plane, masking one square neighborhood, or reflecting a safe orientation can move its representation more than a quiet non-puzzle position. The classif...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

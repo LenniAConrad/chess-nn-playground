@@ -8,4 +8,4 @@ Batch candidate rank: `2`.
 
 Working thesis: Schur-Ray is mathematically powerful but more complex. A simpler line-aware architecture can create line tokens and piece tokens, then pass messages only through deterministic piece-line incidence.
 
-This registered implementation tests the thesis through the `grammar` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

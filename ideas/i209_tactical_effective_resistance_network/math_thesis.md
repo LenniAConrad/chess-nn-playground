@@ -8,4 +8,4 @@ Batch candidate rank: `5`.
 
 Working thesis: A cut measures the weakest separation between attacker and target. Effective resistance measures how many redundant routes exist and how well defenders can dissipate pressure across the whole tactical graph.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

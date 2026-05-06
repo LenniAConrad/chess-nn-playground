@@ -6,7 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1525_tuesday
 
 Working thesis: Builds a skew-symmetric chess operator K and uses its Pfaffian pf(K) (signed perfect-matching enumerator) plus sub-Pfaffian fingerprints; orientation cancellation discriminates puzzle vs near-puzzle at matched ||K||_F.
 
-This registered implementation routes the thesis through the `linear_algebra`
-mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving
-all source/CRTK metadata for reporting. See the source packet for the full
-mathematical derivation, ablations, and falsification criteria.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

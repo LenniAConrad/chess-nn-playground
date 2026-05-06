@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: Puzzle-like evidence may appear when fine-square attention cannot be predicted from coarse board context. This model computes attention from fine tokens to coarse tokens, reconstructs expected fine attention, and classifies from the residual attention map.
 
-This registered implementation tests the thesis through the `graph` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

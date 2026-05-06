@@ -16,6 +16,7 @@ REQUIRED_IDEA_FIELDS = [
     "output_heads",
     "compute_notes",
     "implementation_status",
+    "implementation_kind",
     "trainer_entrypoint",
     "config_path",
     "model_path",
@@ -23,7 +24,14 @@ REQUIRED_IDEA_FIELDS = [
     "notes",
 ]
 
-ALLOWED_IDEA_STATUS = {"draft", "implemented", "tested", "rejected", "archived"}
+ALLOWED_IDEA_STATUS = {"draft", "scaffolded", "implemented", "tested", "rejected", "archived"}
+
+ALLOWED_IMPLEMENTATION_KINDS = {
+    "bespoke_model",
+    "shared_probe_variant",
+    "other_shared_scaffold",
+    "unknown",
+}
 
 REQUIRED_IDEA_FILES = [
     "idea.yaml",

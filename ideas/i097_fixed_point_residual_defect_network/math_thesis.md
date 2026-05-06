@@ -8,4 +8,4 @@ Batch candidate rank: `1`.
 
 Working thesis: Puzzle-like positions may be harder for a learned board-state operator to equilibrate. Instead of classifying only the final latent, classify from the residual defects of an unrolled update process:
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

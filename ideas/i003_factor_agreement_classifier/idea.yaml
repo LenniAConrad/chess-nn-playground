@@ -2,18 +2,29 @@ idea_id: i003
 name: Factor-Agreement Chess Classifier
 slug: factor_agreement_classifier
 status: implemented
-created_at: "2026-04-25T00:43:00+08:00"
+created_at: '2026-04-25T00:43:00+08:00'
 author: Codex
-short_thesis: "A strong chess classifier should require agreement between intentionally different factors: square texture, piece semantics, relation geometry, and global material/phase context."
-novelty_claim: "Unlike ordinary multi-branch fusion, cross-stitch fusion, or agreement-variance heads, this idea makes inter-factor agreement a required bottleneck in the logit and treats disagreement as calibrated uncertainty."
-expected_advantage: "Better generalization and fewer hard-negative false positives because one shortcut-prone view cannot dominate the classification decision."
-target_task: "General chess position classification; first benchmark is puzzle_binary."
-input_representation: "Current-board tensor plus deterministic piece, square, and relation views derived from the same position. No source labels or engine metadata as inputs."
-output_heads: "One main classification head plus diagnostic factor logits. First benchmark uses one puzzle logit."
-compute_notes: "Four small heterogeneous branches. Extra cost is moderate and ablations are clean because each factor can be dropped."
+short_thesis: 'A strong chess classifier should require agreement between intentionally
+  different factors: square texture, piece semantics, relation geometry, and global
+  material/phase context.'
+novelty_claim: Unlike ordinary multi-branch fusion, cross-stitch fusion, or agreement-variance
+  heads, this idea makes inter-factor agreement a required bottleneck in the logit
+  and treats disagreement as calibrated uncertainty.
+expected_advantage: Better generalization and fewer hard-negative false positives
+  because one shortcut-prone view cannot dominate the classification decision.
+target_task: General chess position classification; first benchmark is puzzle_binary.
+input_representation: Current-board tensor plus deterministic piece, square, and relation
+  views derived from the same position. No source labels or engine metadata as inputs.
+output_heads: One main classification head plus diagnostic factor logits. First benchmark
+  uses one puzzle logit.
+compute_notes: Four small heterogeneous branches. Extra cost is moderate and ablations
+  are clean because each factor can be dropped.
 implementation_status: implemented
 trainer_entrypoint: ideas/i003_factor_agreement_classifier/train.py
 config_path: ideas/i003_factor_agreement_classifier/config.yaml
 model_path: ideas/i003_factor_agreement_classifier/model.py
 latest_result_path: null
-notes: "Implemented as four heterogeneous board-view branches with evidence, uncertainty, disagreement penalty, bounded residual fusion, model registry entry, and smoke-test coverage. Benchmark training is pending."
+notes: Implemented as four heterogeneous board-view branches with evidence, uncertainty,
+  disagreement penalty, bounded residual fusion, model registry entry, and smoke-test
+  coverage. Benchmark training is pending.
+implementation_kind: bespoke_model

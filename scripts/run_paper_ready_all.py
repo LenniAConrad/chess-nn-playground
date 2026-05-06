@@ -26,6 +26,8 @@ from chess_nn_playground.utils.paths import utc_timestamp
 from scripts.validate_run_artifacts import validate_run_artifacts
 
 
+TRAINABLE_IDEA_IMPLEMENTATION_STATES = {"implemented", "tested"}
+
 DEFAULT_SUITES = [
     Path("configs/suites/network_signal_benchmark_suite.yaml"),
     Path("configs/suites/network_signal_fine3_benchmark_suite.yaml"),
@@ -354,7 +356,14 @@ def discover_config_paths(
             paths.extend(_suite_configs(suite_path))
         paths.extend(sorted(Path("configs/benchmarks").rglob("bench_*.yaml")))
     if include_ideas:
-        paths.extend(sorted(Path("ideas").glob("i[0-9][0-9][0-9]_*/config.yaml")))
+        for config_path in sorted(Path("ideas").glob("i[0-9][0-9][0-9]_*/config.yaml")):
+            idea_path = config_path.parent / "idea.yaml"
+            idea = load_yaml(idea_path) if idea_path.exists() else {}
+            if (
+                idea.get("implementation_status") in TRAINABLE_IDEA_IMPLEMENTATION_STATES
+                and idea.get("implementation_kind") == "bespoke_model"
+            ):
+                paths.append(config_path)
     paths.extend(Path(item) for item in extra_configs)
 
     seen: set[str] = set()

@@ -1,10 +1,13 @@
 idea_id: i235
 name: Toda Isospectral Flow Network
 slug: toda_isospectral_flow_network
-status: implemented
+status: scaffolded
 created_at: '2026-05-05T15:50:00+00:00'
 author: Claude
-short_thesis: "Builds a tridiagonal symmetric chess operator L and evolves it via the Toda Lax flow dot L = [L, B(L)]; isospectral evolution preserves spectrum but sorts diagonal exponentially. Sorting rate, Manakov integrals, and slowest-decaying off-diagonal residues classify puzzle-likeness."
+short_thesis: Builds a tridiagonal symmetric chess operator L and evolves it via the
+  Toda Lax flow dot L = [L, B(L)]; isospectral evolution preserves spectrum but sorts
+  diagonal exponentially. Sorting rate, Manakov integrals, and slowest-decaying off-diagonal
+  residues classify puzzle-likeness.
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-05-05_1620_tuesday_local_toda_isospectral_flow.md`;
   uses a linear_algebra mechanism profile over board-only features.
 expected_advantage: Test the packet's proposed coupling/spectral/manifold mechanism
@@ -17,14 +20,14 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by the linear-algebra packet profile.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i235_toda_isospectral_flow_network/train.py
 config_path: ideas/i235_toda_isospectral_flow_network/config.yaml
 model_path: ideas/i235_toda_isospectral_flow_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-05-05_1620_tuesday_local_toda_isospectral_flow.md`.
-  This is a board-only mechanism-profile implementation intended for smoke testing
-  and paper-grade benchmarking; the bespoke linear-algebra operator described in the
-  packet is NOT yet implemented as a custom torch module -- the math thesis is
-  routed through the shared ResearchPacketProbe with mechanism_family=linear_algebra.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 mechanism_family: linear_algebra
+implementation_kind: shared_probe_variant

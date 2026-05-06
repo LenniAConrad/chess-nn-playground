@@ -65,3 +65,8 @@ Only the main logit is used for benchmark prediction.
 
 Comparable to a medium CNN plus small token and relation heads.
 
+## Implementation Binding
+
+- Registered model name: `factor_agreement_classifier`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i003_factor_agreement_classifier/model.py`.

@@ -8,4 +8,4 @@ Batch candidate rank: `7`.
 
 Working thesis: A forcing puzzle often reduces the opponent's viable reply distribution. A near-puzzle may have many replies that keep the position acceptable. The network can learn a reply entropy proxy without engine labels.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

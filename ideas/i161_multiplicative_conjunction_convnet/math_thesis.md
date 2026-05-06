@@ -8,4 +8,4 @@ Batch candidate rank: `7`.
 
 Working thesis: Many chess motifs are conjunctions: attacker plus target plus blocker absence, king exposure plus line pressure, or material cue plus square pattern. A conv net with explicit multiplicative gates can represent local AND-like interactions more directly than...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

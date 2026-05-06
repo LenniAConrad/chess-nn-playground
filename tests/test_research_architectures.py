@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import torch
+import yaml
 
 from chess_nn_playground.ideas.implementation import validate_idea_for_training
 from chess_nn_playground.models.registry import MODEL_BUILDERS
@@ -212,5 +213,8 @@ def test_remaining_research_architectures_forward_shape_and_diagnostics():
 
 def test_remaining_idea_configs_are_trainable():
     for folder in sorted(Path("ideas").glob("i[0-9][0-9][0-9]_*")):
+        idea = yaml.safe_load((folder / "idea.yaml").read_text(encoding="utf-8"))
+        if idea.get("implementation_status") not in {"implemented", "tested"}:
+            continue
         report = validate_idea_for_training(folder)
         assert report["valid"], report

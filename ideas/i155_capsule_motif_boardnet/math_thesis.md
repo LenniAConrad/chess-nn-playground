@@ -8,4 +8,4 @@ Batch candidate rank: `1`.
 
 Working thesis: Local chess motifs are not only scalar activations; they have type, pose, orientation, and part-whole relationships. A capsule-style model can encode local patterns as small vectors and route them into higher-level tactical motif capsules by agreement.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

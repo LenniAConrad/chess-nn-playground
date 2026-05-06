@@ -1,10 +1,12 @@
 idea_id: i226
 name: Pfaffian Skew Threat Network
 slug: pfaffian_skew_threat_network
-status: implemented
+status: scaffolded
 created_at: '2026-05-05T15:50:00+00:00'
 author: Claude
-short_thesis: "Builds a skew-symmetric chess operator K and uses its Pfaffian pf(K) (signed perfect-matching enumerator) plus sub-Pfaffian fingerprints; orientation cancellation discriminates puzzle vs near-puzzle at matched ||K||_F."
+short_thesis: Builds a skew-symmetric chess operator K and uses its Pfaffian pf(K)
+  (signed perfect-matching enumerator) plus sub-Pfaffian fingerprints; orientation
+  cancellation discriminates puzzle vs near-puzzle at matched ||K||_F.
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-05-05_1525_tuesday_local_pfaffian_skew_threat.md`;
   uses a linear_algebra mechanism profile over board-only features.
 expected_advantage: Test the packet's proposed coupling/spectral/manifold mechanism
@@ -17,14 +19,14 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by the linear-algebra packet profile.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i226_pfaffian_skew_threat_network/train.py
 config_path: ideas/i226_pfaffian_skew_threat_network/config.yaml
 model_path: ideas/i226_pfaffian_skew_threat_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-05-05_1525_tuesday_local_pfaffian_skew_threat.md`.
-  This is a board-only mechanism-profile implementation intended for smoke testing
-  and paper-grade benchmarking; the bespoke linear-algebra operator described in the
-  packet is NOT yet implemented as a custom torch module -- the math thesis is
-  routed through the shared ResearchPacketProbe with mechanism_family=linear_algebra.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 mechanism_family: linear_algebra
+implementation_kind: shared_probe_variant

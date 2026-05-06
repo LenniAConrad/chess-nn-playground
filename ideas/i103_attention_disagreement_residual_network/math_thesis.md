@@ -8,4 +8,4 @@ Batch candidate rank: `2`.
 
 Working thesis: Near-puzzle and puzzle-like positions may contain competing interpretations. Independent attention query families should disagree more on ambiguous or tactically dense boards. The classifier uses the residual disagreement among attention maps as evidence.
 
-This registered implementation tests the thesis through the `graph` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

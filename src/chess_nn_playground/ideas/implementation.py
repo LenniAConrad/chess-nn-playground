@@ -6,6 +6,8 @@ from typing import Any
 
 import yaml
 
+from chess_nn_playground.ideas.implementation_kind import IMPLEMENTATION_KINDS
+from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
 from chess_nn_playground.models.registry import available_models
 from chess_nn_playground.training.device import validate_configured_device
 from chess_nn_playground.training.trainer import train_from_config
@@ -91,6 +93,20 @@ def validate_idea_scaffold(
             expected = _relative_to_cwd(path)
             if idea.get(key) != expected:
                 issues.append(f"idea.yaml {key}={idea.get(key)!r} should be {expected!r}")
+
+        implementation_kind = idea.get("implementation_kind")
+        if implementation_kind not in IMPLEMENTATION_KINDS:
+            issues.append(f"idea.yaml implementation_kind={implementation_kind!r} must be one of {sorted(IMPLEMENTATION_KINDS)}")
+        else:
+            detected = detect_idea_implementation_kind(folder)
+            if detected.detected_kind != implementation_kind:
+                issues.append(
+                    f"idea.yaml implementation_kind={implementation_kind!r} disagrees with "
+                    f"model wiring detected as {detected.detected_kind!r}"
+                )
+            for issue in detected.issues:
+                if issue not in issues:
+                    issues.append(issue)
 
     return {
         "folder": str(folder),

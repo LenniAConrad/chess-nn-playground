@@ -77,3 +77,8 @@ O(num_views * encoder_cost + pair_mixer_cost)
 
 The first version should be cheaper than response-minimax and obligation-flow models.
 
+## Implementation Binding
+
+- Registered model name: `null_move_contrast_puzzle_network`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i005_null_move_contrast_puzzle_network/model.py`.

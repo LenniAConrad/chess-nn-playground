@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Chess boards may benefit from a smooth geometric baseline that is not convolutional. Fit learned tensor-product spline surfaces to piece planes and classify from low-degree surface coefficients plus residual maps.
 
-This registered implementation tests the thesis through the `grammar` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -8,4 +8,4 @@ Batch candidate rank: `1`.
 
 Working thesis: Puzzle-like positions may be separable by the distribution of occupied piece tokens in a learned kernel feature space. Instead of attending to pieces or computing pairwise transport, embed the occupied-piece set as a kernel mean and compare it to learned pr...
 
-This registered implementation tests the thesis through the `sparse` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

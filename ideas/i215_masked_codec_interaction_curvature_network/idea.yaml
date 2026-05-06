@@ -1,7 +1,7 @@
 idea_id: i215
 name: Masked Codec Interaction-Curvature Network
 slug: masked_codec_interaction_curvature_network
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:50:29+00:00'
 author: Codex
 short_thesis: '- Parent family: `Masked Board Code-Length Surprise Network`'
@@ -18,16 +18,18 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i215_masked_codec_interaction_curvature_network/train.py
 config_path: ideas/i215_masked_codec_interaction_curvature_network/config.yaml
 model_path: ideas/i215_masked_codec_interaction_curvature_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md`.
-  This is a first-pass faithful, board-only mechanism-profile implementation intended
-  for smoke testing and paper-grade benchmarking.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md
 source_packet_candidate: Masked Codec Interaction-Curvature Network
 source_packet_rank: 1
 source_packet_status: batch packet
 mechanism_family: topology
+implementation_kind: shared_probe_variant

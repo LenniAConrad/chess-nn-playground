@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Instead of producing a single logit vector at the end, let a model make an initial prediction and then apply several learned correction steps from shared board features. The model tests whether puzzle evidence is better accumulated as staged corrections.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Sliding tactics depend on contiguous empty and occupied segments along ranks, files, and diagonals. Instead of parsing full piece-token ray strings, encode run-length segment summaries: empty run lengths, blocker positions, endpoint piece types, and segment...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

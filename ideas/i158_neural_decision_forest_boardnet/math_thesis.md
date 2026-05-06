@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Chess puzzle-likeness may be piecewise: different board regimes require different cues. A differentiable decision forest on top of a CNN feature vector can model soft oblique splits and leaf predictors without a sparse expert router.
 
-This registered implementation tests the thesis through the `logic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

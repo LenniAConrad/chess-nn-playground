@@ -12,6 +12,8 @@ Run scripts from the repo root. Use `PYTHONDONTWRITEBYTECODE=1` for long jobs or
 - `validate_run_artifacts.py`: verify a completed run has the required metrics, plots, predictions, summaries, and checkpoints.
 - `reports/build_flop_report.py`: build a tiny FLOP-only architecture report from configs without training or dataset validation.
 - `reports/build_paper_report.py`: compile completed results, planned tasks, and architecture explanations into a multi-page PDF paper report.
+- `ideas/audit_implementation_kinds.py`: classify idea folders as bespoke models, shared ResearchPacketProbe variants, other shared scaffolds, or unknown, and validate metadata agreement.
+- `ideas/audit_architecture_conformance.py`: validate rows marked `implemented` or `tested` are bespoke, registered, documented, and free of obvious shell markers.
 
 ## Utility Folders
 
@@ -50,6 +52,12 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/reports/build_paper_report.py \
 
 PYTHONDONTWRITEBYTECODE=1 python scripts/reports/build_flop_report.py \
   --output-dir reports/flops
+
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py \
+  --sync-metadata --check
+
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py \
+  --check
 ```
 
 ## Artifact Contract

@@ -8,6 +8,7 @@ import yaml
 from chess_nn_playground.ideas.implementation import validate_idea_scaffold
 from chess_nn_playground.ideas.schema import (
     ALLOWED_IDEA_STATUS,
+    ALLOWED_IMPLEMENTATION_KINDS,
     REQUIRED_IDEA_DIRS,
     REQUIRED_IDEA_FIELDS,
     REQUIRED_IDEA_FILES,
@@ -20,6 +21,7 @@ def validate_idea_folder(path: str | Path, template_ok: bool = False) -> dict[st
     missing_dirs = [name for name in REQUIRED_IDEA_DIRS if not (path / name).is_dir()]
     missing_fields: list[str] = []
     bad_status: str | None = None
+    bad_implementation_kind: str | None = None
     idea_yaml = path / "idea.yaml"
     data: dict[str, Any] = {}
     if idea_yaml.exists():
@@ -29,6 +31,11 @@ def validate_idea_folder(path: str | Path, template_ok: bool = False) -> dict[st
         status = data.get("status")
         if status not in ALLOWED_IDEA_STATUS and not (template_ok and status == "template"):
             bad_status = str(status)
+        implementation_kind = data.get("implementation_kind")
+        if implementation_kind not in ALLOWED_IMPLEMENTATION_KINDS and not (
+            template_ok and implementation_kind in {None, "unknown"}
+        ):
+            bad_implementation_kind = str(implementation_kind)
     else:
         missing_fields = REQUIRED_IDEA_FIELDS.copy()
     scaffold_report = validate_idea_scaffold(path, template_ok=template_ok)
@@ -39,12 +46,14 @@ def validate_idea_folder(path: str | Path, template_ok: bool = False) -> dict[st
             and not missing_dirs
             and not missing_fields
             and bad_status is None
+            and bad_implementation_kind is None
             and scaffold_report["valid"]
         ),
         "missing_files": missing_files,
         "missing_dirs": missing_dirs,
         "missing_fields": missing_fields,
         "bad_status": bad_status,
+        "bad_implementation_kind": bad_implementation_kind,
         "scaffold": scaffold_report,
         "idea": data,
     }

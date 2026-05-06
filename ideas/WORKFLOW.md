@@ -92,7 +92,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py
 2. Implement reusable model code in `src/chess_nn_playground/models/`.
 3. Register the model in `src/chess_nn_playground/models/registry.py`.
 4. Add a benchmark config under `configs/benchmarks/<task>/`, or keep the idea-local `config.yaml` if it is not a shared benchmark yet.
-5. Keep the idea folder as documentation and stubs unless a local wrapper is useful.
+5. Keep the idea folder as documentation and an idea-local wrapper; the reusable model implementation belongs in `src/chess_nn_playground/models/`.
 6. Add a narrow forward/smoke test before training.
 7. Run the smallest relevant benchmark before scaling up.
 

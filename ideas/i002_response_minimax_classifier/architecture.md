@@ -82,3 +82,8 @@ O(batch * max_actions * max_replies * token_dim)
 
 Use shallow MLP encoders first. Do not rerun a full CNN for every action.
 
+## Implementation Binding
+
+- Registered model name: `response_minimax_classifier`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i002_response_minimax_classifier/model.py`.

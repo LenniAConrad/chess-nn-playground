@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: On a tactical line, the exact order and dominance of pieces often matters more than a bag of line pieces. Instead of a ray automaton or line language model, compute differentiable sorted salience profiles along ranks/files/diagonals and classify from majori...
 
-This registered implementation tests the thesis through the `grammar` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

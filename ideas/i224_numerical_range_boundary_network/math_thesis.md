@@ -6,7 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1515_tuesday
 
 Working thesis: Computes the field-of-values W(A) of a learned non-symmetric chess operator and classifies from boundary-curve descriptors and the non-normality gap numr(A) - rho(A); exposes transient-amplification structure no spectrum-only readout sees.
 
-This registered implementation routes the thesis through the `linear_algebra`
-mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving
-all source/CRTK metadata for reporting. See the source packet for the full
-mathematical derivation, ablations, and falsification criteria.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -8,4 +8,4 @@ Batch candidate rank: `5`.
 
 Working thesis: Force local board features to pass through a learned discrete codebook. The classifier reads code usage, spatial code maps, and quantized features. This tests whether a compact inventory of board motifs is useful for puzzle-likeness.
 
-This registered implementation tests the thesis through the `sparse` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

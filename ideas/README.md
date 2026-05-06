@@ -6,13 +6,15 @@ Start with:
 
 - `INDEX.md`: current map of registered ideas and research packets.
 - `TODO.md`: implementation status, performance status, and next action for every registered idea and packet.
+- `implementation_audit.md` / `implementation_audit.json`: generated architectural honesty audit from `model.py` wiring.
+- `architecture_conformance_audit.md` / `architecture_conformance_audit.json`: generated audit for rows currently marked `implemented` or `tested`.
 - `WORKFLOW.md`: how to import, promote, implement, benchmark, and reject ideas.
 - `BENCHMARK_REPORTING.md`: required per-difficulty, per-phase, per-motif, and per-tag reporting for every idea.
 - `research_packets/CATALOG.md`: generated catalog of raw research packets.
 
-Registered ideas are prompt-compliant research candidates with code/config scaffolds. They are not benchmark evidence unless their `idea.yaml` links a completed result and the run artifacts validate.
+Registered ideas are prompt-compliant research candidates with code/config scaffolds. They are not benchmark evidence unless their `idea.yaml` links a completed result and the run artifacts validate. They are also not automatically bespoke architectures: check `implementation_kind` before treating a folder as architecturally distinct.
 
-Current operating state: implementation is not the bottleneck. The registered ideas are scaffolded and trainable; the next useful work is paper-grade benchmarking, slice reporting, and falsification through `scripts/run_paper_ready_all.py`.
+Current operating state: only the `bespoke_model` rows are fully implemented architectures. The `shared_probe_variant` rows are retained as scaffolded research packets and provenance, but they are not trainable architecture claims until their markdown thesis is implemented as bespoke model code.
 
 ## Registered Ideas
 
@@ -21,6 +23,8 @@ The generated source of truth is:
 - `INDEX.md`: all registered ideas and research-packet navigation.
 - `TODO.md`: implementation status, linked results, and next benchmark actions.
 - `registry.jsonl`: machine-readable registry rows.
+- `implementation_audit.json`: machine-readable implementation-kind audit.
+- `architecture_conformance_audit.json`: machine-readable non-shell conformance audit for implemented architectures.
 
 There are many registered ideas, so this README intentionally does not duplicate the generated table. Regenerate the table after adding, promoting, rejecting, or benchmarking ideas.
 
@@ -42,6 +46,13 @@ ideas/{idea_id}_{idea_slug}/
 ```
 
 Use the registry only for ideas with explicit documentation, implementation status, and links to results.
+
+Validate implementation-kind metadata with:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py --check
+```
 
 Every implemented idea must report more than an aggregate matrix. Its run report must include the standard slice reports over `crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`, `crtk_tactic_motifs`, and `crtk_tag_families`, then state what the model appears able and unable to learn.
 

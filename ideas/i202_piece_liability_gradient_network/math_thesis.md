@@ -8,4 +8,4 @@ Batch candidate rank: `5`.
 
 Working thesis: In many puzzles, one piece is not merely attacked; it is liable. It cannot move, defend, capture, or stay without losing something. Near-puzzles may attack pieces, but the liability does not propagate.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

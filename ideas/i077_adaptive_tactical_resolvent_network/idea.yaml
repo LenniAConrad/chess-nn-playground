@@ -1,7 +1,7 @@
 idea_id: i077
 name: Adaptive Tactical Resolvent Network
 slug: adaptive_tactical_resolvent_network
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: Adaptive Tactical Resolvent Network tests whether a generic board mechanism
@@ -19,12 +19,14 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i077_adaptive_tactical_resolvent_network/train.py
 config_path: ideas/i077_adaptive_tactical_resolvent_network/config.yaml
 model_path: ideas/i077_adaptive_tactical_resolvent_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md`.
-  This is a first-pass faithful, board-only mechanism-profile implementation intended
-  for smoke testing and paper-grade benchmarking.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 mechanism_family: linear_algebra
+implementation_kind: shared_probe_variant

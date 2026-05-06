@@ -6,4 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2058_friday_
 
 Working thesis: - Idea name: Grassmannian Principal-Angle Bottleneck - High-level linear algebra concept: Grassmannians, principal angles between subspaces, and canonical-correlation...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

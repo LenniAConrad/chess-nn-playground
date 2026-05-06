@@ -29,26 +29,26 @@ This generated catalog is the fast index for `ideas/research_packets/`. Raw pack
 
 | Packet | Status | Tags | Summary |
 |---|---|---|---|
-| [Tactical Sylvester Coupling Network](chess_nn_research_2026-05-05_1500_tuesday_local_sylvester_tactical_coupling.md) | `research packet` | - | - |
-| [Schur-Complement Defender Elimination Network](chess_nn_research_2026-05-05_1505_tuesday_local_schur_complement_defender.md) | `research packet` | - | - |
-| [Bures-Wasserstein SPD Threat Manifold Network](chess_nn_research_2026-05-05_1510_tuesday_local_bures_wasserstein_threat.md) | `research packet` | - | - |
+| [Sylvester Tactical Coupling Network](chess_nn_research_2026-05-05_1500_tuesday_local_sylvester_tactical_coupling.md) | `research packet` | - | - |
+| [Schur Complement Defender Network](chess_nn_research_2026-05-05_1505_tuesday_local_schur_complement_defender.md) | `research packet` | - | - |
+| [Bures Wasserstein Threat Network](chess_nn_research_2026-05-05_1510_tuesday_local_bures_wasserstein_threat.md) | `research packet` | - | - |
 | [Numerical-Range Boundary Network](chess_nn_research_2026-05-05_1515_tuesday_local_numerical_range_boundary.md) | `research packet` | - | - |
-| [Lyapunov Stability Threat Network](chess_nn_research_2026-05-05_1520_tuesday_local_lyapunov_threat_stability.md) | `research packet` | - | - |
-| [Pfaffian Skew-Symmetric Threat Network](chess_nn_research_2026-05-05_1525_tuesday_local_pfaffian_skew_threat.md) | `research packet` | - | - |
-| [p-adic Ultrametric Threat Embedding Network](chess_nn_research_2026-05-05_1530_tuesday_local_padic_ultrametric_threat.md) | `research packet` | - | - |
-| [Free-Probability R-Transform Spectrum Network](chess_nn_research_2026-05-05_1535_tuesday_local_free_probability_r_transform.md) | `research packet` | `linear-algebra` | - |
-| [Williamson Symplectic-Eigenvalue Threat Network](chess_nn_research_2026-05-05_1540_tuesday_local_williamson_symplectic_threat.md) | `research packet` | `linear-algebra` | - |
-| [Magnus-BCH Operator-Coupling Series Network](chess_nn_research_2026-05-05_1545_tuesday_local_magnus_bch_coupling_series.md) | `research packet` | - | - |
+| [Lyapunov Threat Stability Network](chess_nn_research_2026-05-05_1520_tuesday_local_lyapunov_threat_stability.md) | `research packet` | - | - |
+| [Pfaffian Skew Threat Network](chess_nn_research_2026-05-05_1525_tuesday_local_pfaffian_skew_threat.md) | `research packet` | - | - |
+| [Padic Ultrametric Threat Network](chess_nn_research_2026-05-05_1530_tuesday_local_padic_ultrametric_threat.md) | `research packet` | - | - |
+| [Free Probability R Transform Network](chess_nn_research_2026-05-05_1535_tuesday_local_free_probability_r_transform.md) | `research packet` | `linear-algebra` | - |
+| [Williamson Symplectic Threat Network](chess_nn_research_2026-05-05_1540_tuesday_local_williamson_symplectic_threat.md) | `research packet` | `linear-algebra` | - |
+| [Magnus Bch Coupling Series Network](chess_nn_research_2026-05-05_1545_tuesday_local_magnus_bch_coupling_series.md) | `research packet` | - | - |
 | [Riccati Optimal-Defense Network](chess_nn_research_2026-05-05_1600_tuesday_local_riccati_optimal_defense.md) | `research packet` | - | - |
 | [Clifford Rotor Threat Network](chess_nn_research_2026-05-05_1605_tuesday_local_clifford_rotor_threat.md) | `research packet` | - | - |
 | [Tracy-Widom Level-Spacing Network](chess_nn_research_2026-05-05_1610_tuesday_local_tracy_widom_level_spacing.md) | `research packet` | - | - |
-| [Lindström-Gessel-Viennot Path Determinant Network](chess_nn_research_2026-05-05_1615_tuesday_local_lindstrom_gessel_viennot_path.md) | `research packet` | - | - |
+| [Lindstrom Gessel Viennot Path Network](chess_nn_research_2026-05-05_1615_tuesday_local_lindstrom_gessel_viennot_path.md) | `research packet` | - | - |
 | [Toda Isospectral Flow Network](chess_nn_research_2026-05-05_1620_tuesday_local_toda_isospectral_flow.md) | `research packet` | - | - |
-| [Hadamard Walsh-Spectrum Network](chess_nn_research_2026-05-05_1700_tuesday_local_hadamard_walsh_spectrum.md) | `research packet` | `linear-algebra` | - |
-| [Cayley Orthogonal Map Network](chess_nn_research_2026-05-05_1705_tuesday_local_cayley_orthogonal_map.md) | `research packet` | - | - |
+| [Hadamard Spectrum Network](chess_nn_research_2026-05-05_1700_tuesday_local_hadamard_walsh_spectrum.md) | `research packet` | `linear-algebra` | - |
+| [Cayley Orthogonal Network](chess_nn_research_2026-05-05_1705_tuesday_local_cayley_orthogonal_map.md) | `research packet` | - | - |
 | [Stable-Rank Multiscale Network](chess_nn_research_2026-05-05_1710_tuesday_local_stable_rank_multiscale.md) | `research packet` | - | - |
-| [Permanent Ryser Coupling Network](chess_nn_research_2026-05-05_1715_tuesday_local_permanent_ryser.md) | `research packet` | - | - |
-| [Cayley-Hamilton Coefficient Network](chess_nn_research_2026-05-05_1720_tuesday_local_cayley_hamilton_coeffs.md) | `research packet` | - | - |
+| [Permanent Ryser Network](chess_nn_research_2026-05-05_1715_tuesday_local_permanent_ryser.md) | `research packet` | - | - |
+| [Cayley Hamilton Coeffs Network](chess_nn_research_2026-05-05_1720_tuesday_local_cayley_hamilton_coeffs.md) | `research packet` | - | - |
 
 ### 2026-04-28
 
@@ -74,16 +74,16 @@ This generated catalog is the fast index for `ideas/research_packets/`. Raw pack
 | [Tactical State Bottleneck Inference](chess_nn_research_2026-04-28_0901_tuesday_new_york_tactical_latent.md) | `handoff packet` | - | Select **Tactical State Bottleneck Inference**. |
 | [Soft-Dykstra Latent Constraint Projector](chess_nn_research_2026-04-28_0903_tuesday_new_york_dykstra_lcp.md) | `handoff packet` | `convex`, `puzzle-binary` | Build **Dykstra-LCP**, a classifier that treats a verified puzzle position as one whose board-only neural features can be projected into a compact, internally consiste... |
 | [VetoSelect Positive-Claim Abstention](chess_nn_research_2026-04-28_0904_tuesday_new_york_vetoselect.md) | `handoff packet` | `calibration` | **Select VetoSelect.** |
-| [Puzzle Architecture Batch 5](chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md) | `batch packet` | - | A true puzzle is not only a position where the defender has too few resources. It is often a position where the defender cannot schedule resources before tactical dead... |
+| [Tactical Subgoal Automaton Network](chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md) | `batch packet` | - | A true puzzle is not only a position where the defender has too few resources. It is often a position where the defender cannot schedule resources before tactical dead... |
 
 ### 2026-04-25
 
 | Packet | Status | Tags | Summary |
 |---|---|---|---|
-| [Puzzle-Binary Benchmark Challengers](chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md) | `batch packet` | `puzzle-binary` | This packet adds new ideas after the corrected benchmark was established: |
-| [Puzzle Architecture Batch 2](chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md) | `batch packet` | - | This packet adds more architectures for the corrected puzzle-binary benchmark: |
-| [Puzzle Architecture Batch 3](chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md) | `batch packet` | - | This packet adds more candidate architectures for the single-logit puzzle benchmark: |
-| [High-Upside Puzzle Architecture Batch 4](chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md) | `batch packet` | - | A true puzzle often exists because the defender cannot maintain a barrier between attacking force and a valuable target: king, queen, promotion square, pinned defender... |
+| [Source-Rate Calibrated Objective](chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md) | `batch packet` | `puzzle-binary` | This packet adds new ideas after the corrected benchmark was established: |
+| [Critical-Square Budget Network](chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md) | `batch packet` | - | This packet adds more architectures for the corrected puzzle-binary benchmark: |
+| [Reply-Set Contrastive Transformer](chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md) | `batch packet` | - | This packet adds more candidate architectures for the single-logit puzzle benchmark: |
+| [Cross-Defense Consistency Network](chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md) | `batch packet` | - | A true puzzle often exists because the defender cannot maintain a barrier between attacking force and a valuable target: king, queen, promotion square, pinned defender... |
 | [Tactical Bisimulation Puzzle Network](chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md) | `research packet` | - | - |
 | [Krylov Tactical Subspace Network](chess_nn_research_2026-04-25_2000_saturday_shanghai_krylov_tactical_subspace.md) | `research packet` | `linear-algebra` | - |
 | [Adaptive Tactical Resolvent Network](chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md) | `research packet` | - | - |
@@ -96,10 +96,10 @@ This generated catalog is the fast index for `ideas/research_packets/`. Raw pack
 | [Determinantal Tactical Volume Bottleneck](chess_nn_research_2026-04-24_2044_friday_shanghai_determinantal_volume.md) | `handoff packet` | - | - Idea name: Determinantal Tactical Volume Bottleneck - One-sentence thesis: Puzzle-like positions may concentrate the occupied pieces into a low-dimensional learned t... |
 | [Harmonic Board Potential Network](chess_nn_research_2026-04-24_2045_friday_shanghai_harmonic_potential.md) | `handoff packet` | - | - Idea name: Harmonic Board Potential Network - One-sentence thesis: Puzzle-like positions may be identifiable by long-range board tension patterns that appear after s... |
 | [Tropical Constraint Circuit Network](chess_nn_research_2026-04-24_2046_friday_shanghai_tropical_circuit.md) | `handoff packet` | - | - Idea name: Tropical Constraint Circuit Network - One-sentence thesis: Puzzle-like positions may be better modeled as the near-satisfaction of a small number of laten... |
-| [Codex Research Batch: Additional Architecture Candidates 2](chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md) | `batch packet` | `robustness`, `sparse` | Puzzle-like positions may produce distinctive parity or syndrome patterns over current-board facts: not just which local facts are present, but whether learned sparse... |
-| [Codex Research Batch: Variants On Already-Researched Families](chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md) | `batch packet` | - | This file intentionally does something different from the novelty-only prompt: it starts from imported research packets and proposes controlled variants. These are not... |
-| [Codex Research Batch: Residual-Inspired Architecture Candidates](chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md) | `batch packet` | - | This file explores residual-inspired neural architectures without proposing "just use a ResNet." The central idea is to use residuals as measured objects: |
-| [Codex Research Batch: Attention-Inspired Architecture Candidates](chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md) | `batch packet` | - | This file explores attention-inspired architectures without proposing a plain Transformer over 64 squares. The intended research object is the attention pattern itself: |
+| [Oriented Matroid Covector Bottleneck](chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md) | `batch packet` | `robustness`, `sparse` | Puzzle-like positions may produce distinctive parity or syndrome patterns over current-board facts: not just which local facts are present, but whether learned sparse... |
+| [Credal Temperature Field Network](chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md) | `batch packet` | - | This file intentionally does something different from the novelty-only prompt: it starts from imported research packets and proposes controlled variants. These are not... |
+| [Residual Calibration Error Field](chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md) | `batch packet` | - | This file explores residual-inspired neural architectures without proposing "just use a ResNet." The central idea is to use residuals as measured objects: |
+| [Attention Perturbation Sensitivity Network](chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md) | `batch packet` | - | This file explores attention-inspired architectures without proposing a plain Transformer over 64 squares. The intended research object is the attention pattern itself: |
 | [Grassmannian Principal-Angle Bottleneck](chess_nn_research_2026-04-24_2058_friday_shanghai_grassmannian_angles.md) | `handoff packet` | - | - Idea name: Grassmannian Principal-Angle Bottleneck - High-level linear algebra concept: Grassmannians, principal angles between subspaces, and canonical-correlation... |
 | [Matrix-Pencil Generalized Spectrum Bottleneck](chess_nn_research_2026-04-24_2101_friday_shanghai_matrix_pencil.md) | `handoff packet` | `linear-algebra` | - Idea name: Matrix-Pencil Generalized Spectrum Bottleneck - High-level linear algebra concept: matrix pencils, generalized eigenvalue problems, and generalized Raylei... |
 | [Polar-Procrustes Alignment Bottleneck](chess_nn_research_2026-04-24_2104_friday_shanghai_polar_procrustes.md) | `handoff packet` | `linear-algebra`, `convex` | - Idea name: Polar-Procrustes Alignment Bottleneck - High-level linear algebra concept: polar decomposition, orthogonal Procrustes alignment, and matrix strain spectra... |
@@ -108,23 +108,23 @@ This generated catalog is the fast index for `ideas/research_packets/`. Raw pack
 | [Bispectral Phase-Coupling Board Network](chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md) | `handoff packet` | - | - Idea name: Bispectral Phase-Coupling Board Network - One-sentence thesis: Puzzle-like positions may have distinctive spatial phase-coupling patterns between piece pl... |
 | [Codex Research Synthesis: Best Candidates To Expand Next](chess_nn_research_2026-04-24_2113_friday_shanghai_best_expansions.md) | `synthesis packet` | - | - |
 | [Finite-Field Character-Sum Board Network](chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md) | `handoff packet` | - | - Idea name: Finite-Field Character-Sum Board Network - Heavy math concept: finite-field harmonic analysis, additive and multiplicative characters, Gauss/Jacobi-style... |
-| [Codex Research Batch: Additional Architecture Candidates 3](chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md) | `batch packet` | - | This batch adds more candidate neural architectures that are not just variations of CNN depth or standard Transformers. The goal is to keep expanding the design space... |
-| [Codex Research Batch: Additional Architecture Candidates 4](chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md) | `batch packet` | - | This batch adds more implementable architecture candidates. The emphasis is on ideas that could be benchmarked quickly and that fill gaps between pure CNN baselines an... |
-| [Codex Research Batch: Additional Architecture Candidates 5](chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md) | `batch packet` | - | This batch adds six more architecture candidates. The theme is "different computation shapes": compressed high-order interactions, reversible board encoders, morpholog... |
+| [Piece-Drop Stability Network](chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md) | `batch packet` | - | This batch adds more candidate neural architectures that are not just variations of CNN depth or standard Transformers. The goal is to keep expanding the design space... |
+| [Channel Dropout Consensus Network](chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md) | `batch packet` | - | This batch adds more implementable architecture candidates. The emphasis is on ideas that could be benchmarked quickly and that fill gaps between pure CNN baselines an... |
+| [Local Neighborhood Geometry Network](chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md) | `batch packet` | - | This batch adds six more architecture candidates. The theme is "different computation shapes": compressed high-order interactions, reversible board encoders, morpholog... |
 | [Schur-Ray Line Algebra Network](chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md) | `research packet` | - | - |
 | [Bitboard Shift-Algebra Network](chess_nn_research_2026-04-24_2131_friday_shanghai_bitboard_shift_algebra.md) | `research packet` | - | - |
-| [Codex Research Batch: Additional Architecture Candidates 6](chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas. The search space is now crowded, so the emphasis is on sharply different computation objects: |
-| [Codex Research Batch: Additional Architecture Candidates 7](chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas after reviewing nearby archived concepts. The emphasis is on computation objects that are still not overrepres... |
+| [Material-Phase Low-Rank Adapter Network](chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas. The search space is now crowded, so the emphasis is on sharply different computation objects: |
+| [Low-Rank Signed Cut Query Network](chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas after reviewing nearby archived concepts. The emphasis is on computation objects that are still not overrepres... |
 | [Relational Query Algebra Network](chess_nn_research_2026-04-24_2139_friday_shanghai_relational_query_algebra.md) | `research packet` | - | - |
 | [Codex Research Synthesis: Top-3 Architecture Derivations](chess_nn_research_2026-04-24_2143_friday_shanghai_top3_derivations.md) | `synthesis packet` | - | This packet selects the current top three most promising architecture families and derives concrete follow-up variants from each. The goal is not to invent more unrela... |
 | [Variational Board Action Network](chess_nn_research_2026-04-24_2146_friday_shanghai_variational_board_action.md) | `research packet` | - | - |
 | [Tensor-Core Square-Pair Field Network](chess_nn_research_2026-04-24_2148_friday_shanghai_tensorcore_pairfield.md) | `research packet` | `linear-algebra` | - |
 | [Tiny Chess MicroNet](chess_nn_research_2026-04-24_2200_friday_shanghai_tiny_chess_micronet.md) | `research packet` | - | - |
-| [Codex Research Batch: Additional Architecture Candidates 8](chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas after the tiny-network packet. The goal is to avoid direct repeats of the already explored families: |
-| [Codex Research Batch: Plain Practical Neural Architectures](chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md) | `batch packet` | - | This packet deliberately steps away from the exotic ideas. These are plain neural network architectures for the current chess puzzle-likeness benchmark: |
-| [Codex Research Batch: Additional Practical Architecture Ideas 9](chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md) | `batch packet` | - | This batch adds more plain-to-moderately-novel neural architecture ideas after the practical baseline batch. The intent is to keep the ideas implementable while still... |
-| [Codex Research Batch: Additional Architecture Ideas 10](chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md) | `batch packet` | - | This batch adds seven more neural architecture ideas. The archive already contains many unusual mathematical operators and several practical CNN baselines, so this pac... |
-| [Codex Research Batch: Additional Architecture Ideas 11](chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md) | `batch packet` | - | This batch adds eight more neural architecture ideas. It deliberately avoids repeating the most recent packets: |
+| [Pivot Trace Elimination Network](chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md) | `batch packet` | - | This batch adds six more chess neural architecture ideas after the tiny-network packet. The goal is to avoid direct repeats of the already explored families: |
+| [Shallow Wide Residual BoardNet](chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md) | `batch packet` | - | This packet deliberately steps away from the exotic ideas. These are plain neural network architectures for the current chess puzzle-likeness benchmark: |
+| [Adapter-Sandwich Residual CNN](chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md) | `batch packet` | - | This batch adds more plain-to-moderately-novel neural architecture ideas after the practical baseline batch. The intent is to keep the ideas implementable while still... |
+| [Multiplicative Conjunction ConvNet](chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md) | `batch packet` | - | This batch adds seven more neural architecture ideas. The archive already contains many unusual mathematical operators and several practical CNN baselines, so this pac... |
+| [Rank-File Memory Grid Net](chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md) | `batch packet` | - | This batch adds eight more neural architecture ideas. It deliberately avoids repeating the most recent packets: |
 
 ### 2026-04-21
 

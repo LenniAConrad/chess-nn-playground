@@ -8,4 +8,4 @@ Batch candidate rank: `6`.
 
 Working thesis: Puzzle-like positions may separate the board into tense regions: attacking mass versus defending mass, king-side versus center, blocked wing versus open wing. A model can learn low-rank signed cut queries over board fields and classify from imbalance statis...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

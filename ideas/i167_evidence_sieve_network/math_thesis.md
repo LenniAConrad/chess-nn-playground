@@ -8,4 +8,4 @@ Batch candidate rank: `6`.
 
 Working thesis: Instead of refining logits, the model can refine features by repeatedly filtering them through learned evidence sieves. Each sieve stage produces a soft mask over channels and squares, passes selected evidence onward, and leaves a diagnostic trail.
 
-This registered implementation tests the thesis through the `information` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

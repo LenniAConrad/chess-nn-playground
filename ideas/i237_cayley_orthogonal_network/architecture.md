@@ -12,3 +12,9 @@
 
 See the source packet for the full mathematical derivation and the
 module file for the exact algebraic operator implementation.
+
+## Implementation Binding
+
+- Registered model name: `cayley_orthogonal_network`.
+- Source implementation: `src/chess_nn_playground/models/cayley_orthogonal.py`.
+- Idea-local wrapper: `ideas/i237_cayley_orthogonal_network/model.py`.

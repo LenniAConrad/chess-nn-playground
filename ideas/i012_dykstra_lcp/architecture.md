@@ -22,3 +22,9 @@ Projector v2 keeps the same tensor contract but tightens the linear-algebra cons
 - role budgets are learned motif-conditioned linear functions of `M`;
 - compactness is motif-conditioned instead of tied only to the first motif;
 - closure projection activates bounded slack when target-role mass is not explained by relation pressure.
+
+## Implementation Binding
+
+- Registered model name: `dykstra_lcp`.
+- Source implementation: `src/chess_nn_playground/models/dykstra_lcp.py`.
+- Idea-local wrapper: `ideas/i012_dykstra_lcp/model.py`.

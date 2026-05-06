@@ -12,6 +12,7 @@ input_representation: null
 output_heads: null
 compute_notes: null
 implementation_status: not_implemented
+implementation_kind: unknown
 trainer_entrypoint: null
 config_path: null
 model_path: null

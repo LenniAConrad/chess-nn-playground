@@ -85,3 +85,8 @@ O(batch * selected_k^2 * token_dim)
 
 The selector over all candidates is cheaper than dense board attention.
 
+## Implementation Binding
+
+- Registered model name: `proof_core_set_verifier`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i006_proof_core_set_verifier/model.py`.

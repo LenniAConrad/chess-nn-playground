@@ -8,4 +8,4 @@ Batch candidate rank: `2`.
 
 Working thesis: Puzzle-like structure may live in multiscale arrangements of piece planes. A fixed wavelet scattering front end can test whether stable multiscale modulus features help beyond learned CNN filters while avoiding engine-specific priors.
 
-This registered implementation tests the thesis through the `robustness` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

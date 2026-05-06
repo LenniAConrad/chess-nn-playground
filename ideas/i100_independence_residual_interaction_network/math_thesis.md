@@ -8,4 +8,4 @@ Batch candidate rank: `4`.
 
 Working thesis: Some puzzle-like signals may be interactions that remain after subtracting a simple independence explanation of board occupancy. Instead of modeling all piece-square interactions directly, compute signed residuals:
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

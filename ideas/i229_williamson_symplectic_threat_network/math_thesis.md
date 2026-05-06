@@ -6,7 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1540_tuesday
 
 Working thesis: Pairs squares with rule-derived next-action 'momenta', builds a 2n x 2n SPD operator on the resulting phase space, and reads off symplectic eigenvalues from Williamson normal form M = S^T D S (S in Sp(2n, R)); a phase-space invariant outside O(2n).
 
-This registered implementation routes the thesis through the `linear_algebra`
-mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving
-all source/CRTK metadata for reporting. See the source packet for the full
-mathematical derivation, ablations, and falsification criteria.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

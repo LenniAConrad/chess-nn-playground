@@ -8,4 +8,4 @@ Batch candidate rank: `2`.
 
 Working thesis: A board CNN can be augmented with a small recurrent global scratchpad: a fixed number of memory vectors that summarize the board, are updated a few times, and broadcast context back to squares through affine modulation. This gives global communication witho...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

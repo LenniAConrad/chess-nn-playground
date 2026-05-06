@@ -21,6 +21,7 @@ bootstrap()
 
 IDEA_DIR_RE = re.compile(r"^i\d{3}_.+")
 DATE_RE = re.compile(r"chess_nn_research_(\d{4}-\d{2}-\d{2})_")
+TRAINABLE_IMPLEMENTATION_STATES = {"implemented", "tested"}
 
 
 def _read_text(path: Path) -> str:
@@ -151,6 +152,7 @@ def discover_registered_ideas(ideas_root: Path) -> list[dict[str, Any]]:
                 "slug": data.get("slug", folder.name[5:]),
                 "status": data.get("status", ""),
                 "implementation_status": data.get("implementation_status", ""),
+                "implementation_kind": data.get("implementation_kind", ""),
                 "target_task": data.get("target_task", ""),
                 "short_thesis": data.get("short_thesis", ""),
                 "folder": folder.as_posix(),
@@ -173,6 +175,31 @@ def merge_registry_metadata(rows: list[dict[str, Any]], registry_path: Path) -> 
         metadata = by_id.get(str(row.get("idea_id") or ""), {})
         merged.append({**metadata, **row})
     return merged
+
+
+def align_promoted_packet_names(
+    packets: list[dict[str, Any]],
+    registered: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    promoted_names = {
+        str(row.get("source_packet_path") or ""): (
+            str(row.get("slug") or ""),
+            str(row.get("source_packet_candidate") or row.get("name") or ""),
+        )
+        for row in registered
+        if row.get("source_packet_path")
+    }
+    aligned: list[dict[str, Any]] = []
+    for packet in packets:
+        promoted = promoted_names.get(str(packet.get("path") or ""))
+        if promoted:
+            promoted_slug, promoted_name = promoted
+            if promoted_slug and _slugify_name(promoted_name) != promoted_slug:
+                promoted_name = promoted_slug.replace("_", " ").title()
+            aligned.append({**packet, "name": promoted_name})
+        else:
+            aligned.append(packet)
+    return aligned
 
 
 def discover_research_packets(packets_root: Path) -> list[dict[str, Any]]:
@@ -233,16 +260,19 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
     status_counts = Counter(row["status"] for row in packets)
     tag_counts = Counter(tag for row in packets for tag in row["tags"])
     registered_impl = Counter(row["implementation_status"] for row in registered)
+    implementation_kind_counts = Counter(row.get("implementation_kind") or "unknown" for row in registered)
     lines: list[str] = [
         "# Ideas Index",
         "",
         "This is the navigation file for the `ideas/` workspace. It separates implementable registered ideas from raw research packets so future Codex sessions can move directly from research to code.",
         "",
+        "Architectural honesty note: `implementation_status: implemented` / `tested` is reserved for trainable bespoke architecture implementations. Shared-probe folders are marked scaffold-only until their markdown thesis has matching bespoke code.",
+        "",
         "## What Goes Where",
         "",
         "| Path | Role | Edit policy |",
         "|---|---|---|",
-        "| `ideas/i###_*` | Registered ideas with a fixed documentation scaffold and implementation placeholders. | Update when promoting, implementing, benchmarking, or rejecting an idea. |",
+        "| `ideas/i###_*` | Registered idea folders with documentation, metadata, and either bespoke implementation code or explicit scaffold-only status. | Update when promoting, implementing, benchmarking, or rejecting an idea. |",
         "| `ideas/registry.jsonl` | Machine-readable list of registered ideas. | Append/update only for registered ideas, not raw packets. |",
         "| `ideas/TODO.md` | Execution checklist with implementation state, performance state, and next action. | Regenerate after changing idea status or packet imports. |",
         "| `ideas/research_packets/` | Raw imported or generated research handoff packets. | Keep packet files immutable except filename/metadata normalization; use catalogs for organization. |",
@@ -256,18 +286,30 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
         f"- Registered idea folders: `{len(registered)}`",
         f"- Research packet files cataloged: `{len(packets)}`",
         f"- Registered implementation states: `{dict(sorted(registered_impl.items()))}`",
+        f"- Registered implementation kinds: `{dict(sorted(implementation_kind_counts.items()))}`",
         f"- Research packet statuses: `{dict(sorted(status_counts.items()))}`",
+        "",
+        "| Implementation kind | Count | Meaning |",
+        "|---|---:|---|",
+        f"| `bespoke_model` | {implementation_kind_counts.get('bespoke_model', 0)} | Materially distinct model implementation. |",
+        f"| `shared_probe_variant` | {implementation_kind_counts.get('shared_probe_variant', 0)} | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |",
+        f"| `other_shared_scaffold` | {implementation_kind_counts.get('other_shared_scaffold', 0)} | Thin wrapper around another shared scaffold/baseline builder. |",
+        f"| `unknown` | {implementation_kind_counts.get('unknown', 0)} | Not classifiable from current wiring; should remain rare. |",
+        "",
+        f"Full implementation-kind audit: {_md_link('implementation_audit.md', 'ideas/implementation_audit.md')} and {_md_link('implementation_audit.json', 'ideas/implementation_audit.json')}.",
+        f"Implemented-architecture conformance audit: {_md_link('architecture_conformance_audit.md', 'ideas/architecture_conformance_audit.md')} and {_md_link('architecture_conformance_audit.json', 'ideas/architecture_conformance_audit.json')}.",
         "",
         "## Registered Ideas",
         "",
-        "| ID | Idea | Status | Implementation | Target |",
-        "|---|---|---|---|---|",
+        "| ID | Idea | Status | Trainable state | Implementation kind | Target |",
+        "|---|---|---|---|---|---|",
     ]
     for row in registered:
         target = _one_line(str(row["target_task"]), 90)
         folder_link = row["folder"].removeprefix("ideas/")
         lines.append(
-            f"| `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | `{row['status']}` | `{row['implementation_status']}` | {target} |"
+            f"| `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | `{row['status']}` | "
+            f"`{row['implementation_status']}` | `{row.get('implementation_kind') or 'unknown'}` | {target} |"
         )
     lines.extend(
         [
@@ -295,7 +337,7 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
             "1. Pick one research packet or registered idea and read only its packet plus this index.",
             "2. If the source is a packet, promote it into the next `ideas/i###_*` folder using `ideas/idea_template/`.",
             "3. Update `ideas/registry.jsonl` only after the promoted folder has the complete scaffold.",
-            "4. Implement the model in `src/chess_nn_playground/models/`, not inside the idea folder, unless it is still a stub.",
+            "4. Implement reusable model code in `src/chess_nn_playground/models/`; idea-local `model.py` should be a thin registered-builder wrapper only after the bespoke model exists.",
             "5. Add a config under `configs/benchmarks/<task>/` or keep an idea-local `config.yaml`, then add a focused smoke test before training.",
             "6. Run the benchmark suite, then update the idea folder with result links and status.",
             "",
@@ -347,6 +389,7 @@ def build_catalog_md(packets: list[dict[str, Any]]) -> str:
 def _next_action_for_registered(row: dict[str, Any]) -> str:
     impl = str(row.get("implementation_status") or "")
     status = str(row.get("status") or "")
+    implementation_kind = str(row.get("implementation_kind") or "")
     result = row.get("latest_result_path")
     if status == "rejected":
         return "Keep for duplicate prevention; do not implement unless the thesis changes."
@@ -356,6 +399,14 @@ def _next_action_for_registered(row: dict[str, Any]) -> str:
         return "Compare ablations and decide whether to refine, scale, or archive."
     if impl == "documented_not_implemented":
         return "Implement only if selected as the next coding target; start with model, config, and smoke test."
+    if impl == "probe_scaffold_only":
+        return "Implement the markdown architecture with bespoke model code before benchmarking as an architecture."
+    if impl == "shared_scaffold_only":
+        return "Replace the shared-scaffold wrapper with bespoke model code before benchmarking as an architecture."
+    if implementation_kind == "shared_probe_variant" and not result:
+        return "Benchmark only as a ResearchPacketProbe variant; do not describe it as a bespoke architecture."
+    if implementation_kind == "other_shared_scaffold" and not result:
+        return "Benchmark only as a shared-scaffold variant; do not describe it as a bespoke architecture."
     if impl and impl != "documented_not_implemented" and not result:
         return "Run paper-grade benchmark, generate slice reports, add a run note, and link the result."
     return "Review status and update idea.yaml."
@@ -420,6 +471,7 @@ def _priority_for_packet(
 
 def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]]) -> str:
     promoted_slugs = {str(row.get("slug") or "") for row in registered}
+    implementation_kind_counts = Counter(row.get("implementation_kind") or "unknown" for row in registered)
     source_packet_counts = Counter(
         str(row.get("source_packet_path") or "")
         for row in registered
@@ -431,7 +483,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
     trainable_unrun = [
         row
         for row in registered
-        if row.get("implementation_status") not in {"", None, "documented_not_implemented"} and not row.get("latest_result_path")
+        if row.get("implementation_status") in TRAINABLE_IMPLEMENTATION_STATES and not row.get("latest_result_path")
     ]
     priority_order = [
         "tactical_equilibrium_network",
@@ -467,18 +519,20 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
     if benchmark_queue:
         result = vetoselect.get("latest_result_path") if vetoselect else None
         recommendation_lines = [
-            "Stop implementing new architectures for now. All registered idea folders are trainable; the next useful work is benchmark execution and falsification.",
+            "Benchmark the fully implemented bespoke architectures first. Shared-probe folders are scaffolded only and must not be queued as architecture runs until their markdown designs have matching bespoke model code.",
             "",
             "Current execution state:",
             "",
             f"- Registered idea folders: `{len(registered)}`",
             f"- Ideas with linked results: `{len(tested_results)}`",
-            f"- Implemented ideas still needing a linked benchmark run: `{len(benchmark_queue)}`",
+            f"- Fully implemented architectures still needing a linked benchmark run: `{len(benchmark_queue)}`",
+            f"- Bespoke model implementations: `{implementation_kind_counts.get('bespoke_model', 0)}`",
+            f"- Shared ResearchPacketProbe variants: `{implementation_kind_counts.get('shared_probe_variant', 0)}`",
             "",
             "Recommended immediate sequence:",
             "",
             "1. Materialize the resumable paper-ready plan with `PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py --dry-run`.",
-            "2. Run paper-grade benchmarks for unrun implemented ideas in the batches below.",
+            "2. Run paper-grade benchmarks for unrun fully implemented bespoke ideas in the batches below.",
             "",
             "Benchmark queue by ID:",
             "",
@@ -552,18 +606,21 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
         "",
         "## Registered Ideas",
         "",
-        "These are scaffolded ideas. They are the only ideas that should be implemented directly.",
+        "These are registered idea folders. Only rows with `implementation_status` of `implemented` or `tested` are fully implemented architectures.",
         "",
-        "| Done | ID | Idea | Implemented? | Performance | Next action |",
-        "|---|---|---|---|---|---|",
+        "Implementation kind is the architectural honesty label: `shared_probe_variant` means the folder uses the shared `ResearchPacketProbe` scaffold and must not be treated as a bespoke model.",
+        "",
+        "| Done | ID | Idea | Implemented? | Implementation kind | Performance | Next action |",
+        "|---|---|---|---|---|---|---|",
     ]
     for row in registered:
-        implemented = "no" if row["implementation_status"] == "documented_not_implemented" else "yes"
+        implemented = "yes" if row["implementation_status"] in TRAINABLE_IMPLEMENTATION_STATES else "no"
         performance = "not run" if not row.get("latest_result_path") else f"see `{row['latest_result_path']}`"
         done = "[ ]" if implemented == "no" else "[x]"
         folder_link = row["folder"].removeprefix("ideas/")
         lines.append(
-            f"| {done} | `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | {implemented} | {performance} | {_next_action_for_registered(row)} |"
+            f"| {done} | `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | {implemented} | "
+            f"`{row.get('implementation_kind') or 'unknown'}` | {performance} | {_next_action_for_registered(row)} |"
         )
 
     priority_groups = ["next", "near-term", "backlog", "mine", "reference", "skip"]
@@ -642,7 +699,7 @@ def main() -> None:
     ideas_root = Path(args.ideas_root)
     packets_root = Path(args.packets_root)
     registered = merge_registry_metadata(discover_registered_ideas(ideas_root), ideas_root / "registry.jsonl")
-    packets = discover_research_packets(packets_root)
+    packets = align_promoted_packet_names(discover_research_packets(packets_root), registered)
 
     Path(args.index_output).write_text(build_index_md(registered, packets), encoding="utf-8")
     Path(args.catalog_output).write_text(build_catalog_md(packets), encoding="utf-8")

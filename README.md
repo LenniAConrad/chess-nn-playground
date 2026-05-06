@@ -339,10 +339,14 @@ runs/
 
 The guarded idea `train.py` checks identity, implementation status, CUDA policy, model registration, and config completeness before training.
 
+`idea.yaml implementation_kind` is the architectural honesty label. Use `bespoke_model` only when the folder is backed by a materially distinct model implementation. `implementation_status: implemented` / `tested` is reserved for bespoke code that should be trained as an architecture; `ResearchPacketProbe` wrappers must remain `probe_scaffold_only` until their markdown thesis is actually implemented.
+
 Regenerate idea navigation and TODO files after changing idea status, importing packets, or linking results:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check
+PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py --check
 ```
 
 ## Ground Rules

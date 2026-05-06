@@ -1,7 +1,7 @@
 idea_id: i173
 name: Stripe-Selective Mixer CNN
 slug: stripe_selective_mixer_cnn
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'A practical line-aware CNN may be enough to beat the current BT4 while
@@ -20,16 +20,18 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i173_stripe_selective_mixer_cnn/train.py
 config_path: ideas/i173_stripe_selective_mixer_cnn/config.yaml
 model_path: ideas/i173_stripe_selective_mixer_cnn/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
-  This is a first-pass faithful, board-only mechanism-profile implementation intended
-  for smoke testing and paper-grade benchmarking.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md
 source_packet_candidate: Stripe-Selective Mixer CNN
 source_packet_rank: 4
 source_packet_status: batch packet
 mechanism_family: grammar
+implementation_kind: shared_probe_variant

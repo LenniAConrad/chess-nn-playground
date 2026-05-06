@@ -93,3 +93,8 @@ O(batch * solver_steps * max_edits * latent_dim)
 
 This should be much cheaper than full multi-ply proof search.
 
+## Implementation Binding
+
+- Registered model name: `boundary_edit_lagrangian_network`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i008_boundary_edit_lagrangian_network/model.py`.

@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: The chessboard is naturally bipartite by square color. Bishops stay on one color, knights alternate color, kings and queens mix colors locally, and pawn captures switch files and square color. A neural model can explicitly split dark/light square subspaces...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -83,3 +83,8 @@ O(batch * edges * channels * blocks)
 
 Expected to be cheaper than dense 64-token attention and comparable to a small residual CNN.
 
+## Implementation Binding
+
+- Registered model name: `chess_operator_basis_classifier`.
+- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Idea-local wrapper: `ideas/i001_chess_operator_basis_classifier/model.py`.

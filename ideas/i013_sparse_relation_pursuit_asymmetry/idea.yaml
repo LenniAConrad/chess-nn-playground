@@ -2,18 +2,38 @@ idea_id: i013
 name: Sparse Relation Pursuit Asymmetry
 slug: sparse_relation_pursuit_asymmetry
 status: tested
-created_at: "2026-04-29T00:00:00+08:00"
+created_at: '2026-04-29T00:00:00+08:00'
 author: Codex
-short_thesis: "Puzzle positions should be reconstructed more efficiently by a tactical relation dictionary than by an equal-capacity background relation dictionary."
-novelty_claim: "Instead of classifying dense board embeddings directly, SRPA builds deterministic chess relation tokens and forces the decision through two explicit unrolled group-sparse dictionary decoders."
-expected_advantage: "Better near-puzzle rejection and stronger interpretability through residual asymmetry, group energies, active relation groups, and dictionary health diagnostics."
-target_task: "Puzzle-specific puzzle_binary classification: source classes 0 and 1 map to non-puzzle, source class 2 maps to puzzle."
-input_representation: "Current-board tensor only, first implementation using lc0_bt4_112. No engine scores, PVs, best moves, source labels, verification metadata, or fine-label training signal."
-output_heads: "One primary puzzle logit, one residual-asymmetry auxiliary logit, and sparse pursuit diagnostics for background/tactical residuals, group energies, activity fractions, entropy, dictionary coherence, branch separation, and dead groups."
-compute_notes: "LC0 BT4 input planes feed a square stem, fixed ordered square-pair relation tokens, and two equal-capacity unrolled group-sparse pursuit branches. Classifier receives only sparse-code statistics and pursuit residuals."
+short_thesis: Puzzle positions should be reconstructed more efficiently by a tactical
+  relation dictionary than by an equal-capacity background relation dictionary.
+novelty_claim: Instead of classifying dense board embeddings directly, SRPA builds
+  deterministic chess relation tokens and forces the decision through two explicit
+  unrolled group-sparse dictionary decoders.
+expected_advantage: Better near-puzzle rejection and stronger interpretability through
+  residual asymmetry, group energies, active relation groups, and dictionary health
+  diagnostics.
+target_task: 'Puzzle-specific puzzle_binary classification: source classes 0 and 1
+  map to non-puzzle, source class 2 maps to puzzle.'
+input_representation: Current-board tensor only, first implementation using lc0_bt4_112.
+  No engine scores, PVs, best moves, source labels, verification metadata, or fine-label
+  training signal.
+output_heads: One primary puzzle logit, one residual-asymmetry auxiliary logit, and
+  sparse pursuit diagnostics for background/tactical residuals, group energies, activity
+  fractions, entropy, dictionary coherence, branch separation, and dead groups.
+compute_notes: LC0 BT4 input planes feed a square stem, fixed ordered square-pair
+  relation tokens, and two equal-capacity unrolled group-sparse pursuit branches.
+  Classifier receives only sparse-code statistics and pursuit residuals.
 implementation_status: tested
 trainer_entrypoint: ideas/i013_sparse_relation_pursuit_asymmetry/train.py
 config_path: ideas/i013_sparse_relation_pursuit_asymmetry/config.yaml
 model_path: ideas/i013_sparse_relation_pursuit_asymmetry/model.py
 latest_result_path: results/20260428_192052_idea_i013_sparse_relation_pursuit_lc0bt4
-notes: "Benchmarked on the canonical CRTK puzzle_binary split with LC0 BT4 planes, CUDA mixed precision, TF32, and the full 20-epoch paper-grade config. Best validation epoch was 20; test metrics were accuracy 0.8608, F1 0.8073, PR AUC 0.8687, ROC AUC 0.9369, precision 0.7495, and recall 0.8749. Stronger than the recent i007/i009 simple-18 runs on aggregate test metrics, but still weak on equal-eval, hard, very-hard near-puzzle separation, mate-in-1 near-puzzle false positives, and promotion/underpromotion false negatives. Treat as a valid single-seed benchmark, not a publication-level claim without seed repeats and matched-threshold comparisons."
+notes: Benchmarked on the canonical CRTK puzzle_binary split with LC0 BT4 planes,
+  CUDA mixed precision, TF32, and the full 20-epoch paper-grade config. Best validation
+  epoch was 20; test metrics were accuracy 0.8608, F1 0.8073, PR AUC 0.8687, ROC AUC
+  0.9369, precision 0.7495, and recall 0.8749. Stronger than the recent i007/i009
+  simple-18 runs on aggregate test metrics, but still weak on equal-eval, hard, very-hard
+  near-puzzle separation, mate-in-1 near-puzzle false positives, and promotion/underpromotion
+  false negatives. Treat as a valid single-seed benchmark, not a publication-level
+  claim without seed repeats and matched-threshold comparisons.
+implementation_kind: bespoke_model

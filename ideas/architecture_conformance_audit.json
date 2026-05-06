@@ -1,0 +1,473 @@
+{
+  "rows": [
+    {
+      "architecture_doc": "ideas/i001_chess_operator_basis_classifier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i001_chess_operator_basis_classifier",
+      "idea_id": "i001",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "chess_operator_basis_classifier",
+      "slug": "chess_operator_basis_classifier",
+      "source_files": [
+        "ideas/i001_chess_operator_basis_classifier/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i002_response_minimax_classifier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i002_response_minimax_classifier",
+      "idea_id": "i002",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "response_minimax_classifier",
+      "slug": "response_minimax_classifier",
+      "source_files": [
+        "ideas/i002_response_minimax_classifier/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i003_factor_agreement_classifier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i003_factor_agreement_classifier",
+      "idea_id": "i003",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "factor_agreement_classifier",
+      "slug": "factor_agreement_classifier",
+      "source_files": [
+        "ideas/i003_factor_agreement_classifier/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i004_puzzle_obligation_flow_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i004_puzzle_obligation_flow_network",
+      "idea_id": "i004",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "puzzle_obligation_flow_network",
+      "slug": "puzzle_obligation_flow_network",
+      "source_files": [
+        "ideas/i004_puzzle_obligation_flow_network/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i005_null_move_contrast_puzzle_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i005_null_move_contrast_puzzle_network",
+      "idea_id": "i005",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "null_move_contrast_puzzle_network",
+      "slug": "null_move_contrast_puzzle_network",
+      "source_files": [
+        "ideas/i005_null_move_contrast_puzzle_network/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i006_proof_core_set_verifier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i006_proof_core_set_verifier",
+      "idea_id": "i006",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "proof_core_set_verifier",
+      "slug": "proof_core_set_verifier",
+      "source_files": [
+        "ideas/i006_proof_core_set_verifier/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i007_neural_proof_number_search/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i007_neural_proof_number_search",
+      "idea_id": "i007",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "neural_proof_number_search",
+      "slug": "neural_proof_number_search",
+      "source_files": [
+        "ideas/i007_neural_proof_number_search/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i008_boundary_edit_lagrangian_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i008_boundary_edit_lagrangian_network",
+      "idea_id": "i008",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "boundary_edit_lagrangian_network",
+      "slug": "boundary_edit_lagrangian_network",
+      "source_files": [
+        "ideas/i008_boundary_edit_lagrangian_network/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i009_tactical_equilibrium_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i009_tactical_equilibrium_network",
+      "idea_id": "i009",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "tactical_equilibrium_network",
+      "slug": "tactical_equilibrium_network",
+      "source_files": [
+        "ideas/i009_tactical_equilibrium_network/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i010_rule_consistent_latent_dynamics/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i010_rule_consistent_latent_dynamics",
+      "idea_id": "i010",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rule_consistent_latent_dynamics",
+      "slug": "rule_consistent_latent_dynamics",
+      "source_files": [
+        "ideas/i010_rule_consistent_latent_dynamics/model.py",
+        "src/chess_nn_playground/models/research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i011_vetoselect_positive_claim_abstention/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i011_vetoselect_positive_claim_abstention",
+      "idea_id": "i011",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "vetoselect_positive_claim_abstention",
+      "slug": "vetoselect_positive_claim_abstention",
+      "source_files": [
+        "ideas/i011_vetoselect_positive_claim_abstention/model.py",
+        "src/chess_nn_playground/models/vetoselect.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i012_dykstra_lcp/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i012_dykstra_lcp",
+      "idea_id": "i012",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "dykstra_lcp",
+      "slug": "dykstra_lcp",
+      "source_files": [
+        "ideas/i012_dykstra_lcp/model.py",
+        "src/chess_nn_playground/models/dykstra_lcp.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i013_sparse_relation_pursuit_asymmetry/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i013_sparse_relation_pursuit_asymmetry",
+      "idea_id": "i013",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "tested",
+      "issues": [],
+      "model_name": "sparse_relation_pursuit_asymmetry",
+      "slug": "sparse_relation_pursuit_asymmetry",
+      "source_files": [
+        "ideas/i013_sparse_relation_pursuit_asymmetry/model.py",
+        "src/chess_nn_playground/models/sparse_relation_pursuit.py"
+      ],
+      "source_markers": [],
+      "status": "tested"
+    },
+    {
+      "architecture_doc": "ideas/i014_contamination_dro_huber_tail_rejection/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i014_contamination_dro_huber_tail_rejection",
+      "idea_id": "i014",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "contamination_dro_huber_tail_rejection",
+      "slug": "contamination_dro_huber_tail_rejection",
+      "source_files": [
+        "ideas/i014_contamination_dro_huber_tail_rejection/model.py",
+        "src/chess_nn_playground/models/gpt_research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i015_material_locked_tactical_dro/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i015_material_locked_tactical_dro",
+      "idea_id": "i015",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "material_locked_tactical_dro",
+      "slug": "material_locked_tactical_dro",
+      "source_files": [
+        "ideas/i015_material_locked_tactical_dro/model.py",
+        "src/chess_nn_playground/models/gpt_research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i016_soft_sorting_order_residual_ranker/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i016_soft_sorting_order_residual_ranker",
+      "idea_id": "i016",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "soft_sorting_order_residual_ranker",
+      "slug": "soft_sorting_order_residual_ranker",
+      "source_files": [
+        "ideas/i016_soft_sorting_order_residual_ranker/model.py",
+        "src/chess_nn_playground/models/gpt_research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i017_conditional_surprisal_gate/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i017_conditional_surprisal_gate",
+      "idea_id": "i017",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "conditional_surprisal_gate",
+      "slug": "conditional_surprisal_gate",
+      "source_files": [
+        "ideas/i017_conditional_surprisal_gate/model.py",
+        "src/chess_nn_playground/models/gpt_research_architectures.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i236_hadamard_spectrum_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i236_hadamard_spectrum_network",
+      "idea_id": "i236",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "hadamard_spectrum_network",
+      "slug": "hadamard_spectrum_network",
+      "source_files": [
+        "ideas/i236_hadamard_spectrum_network/model.py",
+        "src/chess_nn_playground/models/hadamard_spectrum.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i237_cayley_orthogonal_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i237_cayley_orthogonal_network",
+      "idea_id": "i237",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "cayley_orthogonal_network",
+      "slug": "cayley_orthogonal_network",
+      "source_files": [
+        "ideas/i237_cayley_orthogonal_network/model.py",
+        "src/chess_nn_playground/models/cayley_orthogonal.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i238_stable_rank_multiscale_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i238_stable_rank_multiscale_network",
+      "idea_id": "i238",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "stable_rank_multiscale_network",
+      "slug": "stable_rank_multiscale_network",
+      "source_files": [
+        "ideas/i238_stable_rank_multiscale_network/model.py",
+        "src/chess_nn_playground/models/stable_rank_multiscale.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i239_permanent_ryser_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i239_permanent_ryser_network",
+      "idea_id": "i239",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "permanent_ryser_network",
+      "slug": "permanent_ryser_network",
+      "source_files": [
+        "ideas/i239_permanent_ryser_network/model.py",
+        "src/chess_nn_playground/models/permanent_ryser.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i240_cayley_hamilton_coeffs_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i240_cayley_hamilton_coeffs_network",
+      "idea_id": "i240",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "cayley_hamilton_coeffs_network",
+      "slug": "cayley_hamilton_coeffs_network",
+      "source_files": [
+        "ideas/i240_cayley_hamilton_coeffs_network/model.py",
+        "src/chess_nn_playground/models/cayley_hamilton_coeffs.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    }
+  ],
+  "summary": {
+    "folders": [
+      "ideas/i001_chess_operator_basis_classifier",
+      "ideas/i002_response_minimax_classifier",
+      "ideas/i003_factor_agreement_classifier",
+      "ideas/i004_puzzle_obligation_flow_network",
+      "ideas/i005_null_move_contrast_puzzle_network",
+      "ideas/i006_proof_core_set_verifier",
+      "ideas/i007_neural_proof_number_search",
+      "ideas/i008_boundary_edit_lagrangian_network",
+      "ideas/i009_tactical_equilibrium_network",
+      "ideas/i010_rule_consistent_latent_dynamics",
+      "ideas/i011_vetoselect_positive_claim_abstention",
+      "ideas/i012_dykstra_lcp",
+      "ideas/i013_sparse_relation_pursuit_asymmetry",
+      "ideas/i014_contamination_dro_huber_tail_rejection",
+      "ideas/i015_material_locked_tactical_dro",
+      "ideas/i016_soft_sorting_order_residual_ranker",
+      "ideas/i017_conditional_surprisal_gate",
+      "ideas/i236_hadamard_spectrum_network",
+      "ideas/i237_cayley_orthogonal_network",
+      "ideas/i238_stable_rank_multiscale_network",
+      "ideas/i239_permanent_ryser_network",
+      "ideas/i240_cayley_hamilton_coeffs_network"
+    ],
+    "implemented_architecture_count": 22,
+    "issue_folders": [],
+    "validation_issue_count": 0
+  }
+}

@@ -8,4 +8,4 @@ Batch candidate rank: `5`.
 
 Working thesis: A plain shared CNN trunk can feed several small specialist heads: king-zone head, center-control head, material/phase head, and global board head. A learned fusion layer combines their logits/features. This tests specialization without a full mixture-of-exp...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -25,6 +25,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 from chess_nn_playground.evaluation.plots import _plt
 from chess_nn_playground.ideas.implementation import validate_idea_for_training
+from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
 from chess_nn_playground.ideas.registry import list_ideas
 from chess_nn_playground.models.complexity import estimate_model_complexity_from_config
 from chess_nn_playground.models.registry import available_models
@@ -100,6 +101,7 @@ class Architecture:
     target_task: str = ""
     input_representation: str = ""
     implementation_status: str = ""
+    implementation_kind: str = ""
     thesis: str = ""
     explanation: str = ""
     config_paths: set[str] = field(default_factory=set)
@@ -254,6 +256,7 @@ def load_idea_architectures() -> dict[str, Architecture]:
             target_task=str(idea_yaml.get("target_task") or entry.get("target_task") or ""),
             input_representation=str(idea_yaml.get("input_representation") or ""),
             implementation_status=str(idea_yaml.get("implementation_status") or entry.get("implementation_status") or ""),
+            implementation_kind=detect_idea_implementation_kind(folder).detected_kind,
             thesis=_one_line(thesis),
             explanation=_one_line(explanation),
         )
@@ -406,6 +409,11 @@ def idea_validation_summary() -> tuple[Counter[str], list[str]]:
     failures: list[str] = []
     for entry in list_ideas():
         folder = Path(str(entry.get("folder") or ""))
+        idea_yaml = _read_yaml(folder / "idea.yaml")
+        implementation_status = str(idea_yaml.get("implementation_status") or entry.get("implementation_status") or "")
+        if implementation_status not in {"implemented", "tested"}:
+            counts["scaffold_only"] += 1
+            continue
         report = validate_idea_for_training(folder)
         if report.get("valid"):
             counts["trainable"] += 1
@@ -413,6 +421,14 @@ def idea_validation_summary() -> tuple[Counter[str], list[str]]:
             counts["invalid"] += 1
             failures.append(f"{entry.get('idea_id')}: " + "; ".join(report.get("issues", [])[:3]))
     return counts, failures
+
+
+def idea_implementation_kind_summary() -> Counter[str]:
+    counts: Counter[str] = Counter()
+    for entry in list_ideas():
+        folder = Path(str(entry.get("folder") or ""))
+        counts[detect_idea_implementation_kind(folder).detected_kind] += 1
+    return counts
 
 
 def _draw_text(ax: Any, text: str, x: float, y: float, width: int = 95, size: float = 9.5, weight: str = "normal") -> float:
@@ -503,6 +519,7 @@ def _draw_problem_pages(
     planned: list[dict[str, Any]],
     idea_counts: Counter[str],
     idea_failures: list[str],
+    implementation_kind_counts: Counter[str],
 ) -> None:
     fig, ax = _new_page(pdf, "Problem Statement")
     y = 0.98
@@ -535,6 +552,10 @@ def _draw_problem_pages(
         ["Planned paper-ready tasks", str(len(planned))],
         ["Trainable registered ideas", str(idea_counts.get("trainable", 0))],
         ["Idea validation failures", str(idea_counts.get("invalid", 0))],
+        ["Bespoke idea models", str(implementation_kind_counts.get("bespoke_model", 0))],
+        ["Shared-probe idea variants", str(implementation_kind_counts.get("shared_probe_variant", 0))],
+        ["Other shared-scaffold ideas", str(implementation_kind_counts.get("other_shared_scaffold", 0))],
+        ["Unknown implementation kind", str(implementation_kind_counts.get("unknown", 0))],
     ]
     y = _draw_table(ax, ["Quantity", "Value"], summary_rows, 0.0, y, [0.45, 0.12], size=9)
     if idea_failures:
@@ -583,7 +604,9 @@ def _draw_problem_pages(
         ax,
         "Important interpretation rule: short smoke and triage runs are useful for catching implementation bugs, "
         "but they are not final evidence. A model is not considered better than LC0 BT4, NNUE, VetoSelect, or Dykstra "
-        "unless it wins under the same split, seed protocol, convergence budget, and reporting contract.",
+        "unless it wins under the same split, seed protocol, convergence budget, and reporting contract. "
+        "Implementation kind is separate from trainability: shared-probe variants are ResearchPacketProbe wrappers, "
+        "not bespoke architectures.",
         0.0,
         y,
         width=94,
@@ -643,6 +666,7 @@ def _draw_architecture_page(pdf: PdfPages, arch: Architecture) -> None:
         ["Target task", arch.target_task or "-"],
         ["Input", arch.input_representation or "-"],
         ["Implementation", arch.implementation_status or "-"],
+        ["Implementation kind", arch.implementation_kind or "-"],
         ["Completed runs", str(len(arch.runs))],
         ["Planned tasks", str(len(arch.planned_tasks))],
     ]
@@ -716,6 +740,7 @@ def build_report(
     planned = load_planned_tasks(state_path, generated_config_dir=generated_config_dir)
     architectures = ensure_architectures(architectures, runs, planned)
     idea_counts, idea_failures = idea_validation_summary()
+    implementation_kind_counts = idea_implementation_kind_summary()
 
     sorted_architectures = sorted(architectures.values(), key=_architecture_sort_key)
     if max_architectures is not None:
@@ -737,6 +762,7 @@ def build_report(
             planned=planned,
             idea_counts=idea_counts,
             idea_failures=idea_failures,
+            implementation_kind_counts=implementation_kind_counts,
         )
         _draw_leaderboard_page(pdf, runs)
         _draw_image_page(pdf, training_report_dir / "training_final_scores.png", "Global Final Scores")
@@ -753,6 +779,7 @@ def build_report(
         "planned_tasks": len(planned),
         "idea_validation": dict(idea_counts),
         "idea_validation_failures": idea_failures,
+        "idea_implementation_kinds": dict(implementation_kind_counts),
     }
     output_path.with_suffix(".json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return summary

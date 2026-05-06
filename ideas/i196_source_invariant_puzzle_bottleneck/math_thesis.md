@@ -8,4 +8,4 @@ Batch candidate rank: `11`.
 
 Working thesis: The dataset has three source groups. A model may accidentally learn source artifacts instead of puzzle structure. This architecture tries to preserve puzzle signal while removing source identity from the main representation.
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

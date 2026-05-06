@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: A classifier trunk may discard board detail too early. Add a lightweight decoder that reconstructs safe current-board planes from the latent feature map, using reconstruction only as an auxiliary training loss. The classifier still sees no future or engine...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

@@ -8,4 +8,4 @@ Batch candidate rank: `3`.
 
 Working thesis: Puzzle-like positions may differ in global spatial moments of piece fields: centralization, skew, diagonal concentration, king-side imbalance, and high-order shape. Orthogonal polynomial moments provide a compact linear-algebra descriptor that is not convol...
 
-This registered implementation tests the thesis through the `generic` mechanism profile in `ResearchPacketProbe`, using only board tensors and preserving all source/CRTK metadata for reporting.
+Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
