@@ -188,6 +188,19 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 
 ## Paper-Ready Runner
 
+On a fresh GPU machine, use the tmux wrapper to install Python dependencies, detect
+visible NVIDIA GPUs, verify the canonical split, and start the full resumable run:
+
+```bash
+./run_all.sh
+```
+
+The wrapper starts or attaches to the `chess-nn-all` tmux session and then invokes
+`scripts/run_paper_ready_all.py` with the full default sweep. It uses all visible
+NVIDIA GPUs by default, with one parallel training job per GPU. To limit the run
+to the first N visible GPUs, set `RUN_ALL_GPU_COUNT=N`; to choose interactively
+inside tmux, set `RUN_ALL_ASK_GPU_COUNT=1`.
+
 Use this single command for a complete RTX 3070 full run after the canonical split exists. It trains every benchmark config and registered idea, expands each one to all configured size variants and seeds, resumes after interruption, writes logs with ETA, and builds the final leaderboards, dashboards, and PDF report:
 
 ```bash
