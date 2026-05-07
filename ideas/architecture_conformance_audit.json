@@ -561,6 +561,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i029_entropic_piece_target_transport_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i029_entropic_piece_target_transport_bottleneck",
+      "idea_id": "i029",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "entropic_piece_target_transport_bottleneck",
+      "slug": "entropic_piece_target_transport_bottleneck",
+      "source_files": [
+        "ideas/i029_entropic_piece_target_transport_bottleneck/model.py",
+        "src/chess_nn_playground/models/entropic_piece_target_transport_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1771,6 +1791,7 @@
       "ideas/i026_counterfactual_move_delta_spectrum_network",
       "ideas/i027_rule_only_counterfactual_move_delta_bottleneck",
       "ideas/i028_file_mirror_tension_sheaf",
+      "ideas/i029_entropic_piece_target_transport_bottleneck",
       "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network",
       "ideas/i037_mobius_piece_constellation_network",
       "ideas/i038_sparse_witness_piece_bottleneck_network",
@@ -1831,7 +1852,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 87,
+    "implemented_architecture_count": 88,
     "issue_folders": [],
     "validation_issue_count": 0
   }

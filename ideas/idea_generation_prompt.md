@@ -361,13 +361,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i029_entropic_piece_target_transport_bottleneck",
       "idea_id": "i029",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Entropic Piece-Target Transport Bottleneck",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0507_tuesday_los_angeles_transport_bottleneck.md`; uses a transport mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0507_tuesday_los_angeles_transport_bottleneck.md`; uses entropic optimal transport between canonical piece-source measures and king/value/promotion target anchors over a fixed chess-distance bank instead of generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus per-pair transport diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: **Entropic Piece-Target Transport Bottleneck** - One-sentence thesis: A chess position is puzzle-like when side-to-move force can be geometrically coupled...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

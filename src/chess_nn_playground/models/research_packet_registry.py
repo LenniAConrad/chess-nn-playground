@@ -139,3 +139,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "tactical_sheaf_tension_network"
 ]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "entropic_piece_target_transport_bottleneck"
+]

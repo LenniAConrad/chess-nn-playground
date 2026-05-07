@@ -13,6 +13,9 @@ from chess_nn_playground.models.directed_attack_sheaf import build_directed_atta
 from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
 from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
 from chess_nn_playground.models.empty_square_opportunity_network import build_empty_square_opportunity_network_from_config
+from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
+    build_entropic_piece_target_transport_bottleneck_from_config,
+)
 from chess_nn_playground.models.hadamard_spectrum import build_hadamard_spectrum_from_config
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
@@ -216,6 +219,7 @@ MODEL_BUILDERS = {
     "attack_hodge_sheaf_tension_network": build_attack_hodge_sheaf_from_config,
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "file_mirror_tension_sheaf": build_file_mirror_tension_sheaf_from_config,
+    "entropic_piece_target_transport_bottleneck": build_entropic_piece_target_transport_bottleneck_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
     "counterfactual_move_delta_spectrum_network": build_counterfactual_move_delta_spectrum_network_from_config,
     "rule_only_counterfactual_move_delta_bottleneck": build_counterfactual_delta_bottleneck_from_config,
