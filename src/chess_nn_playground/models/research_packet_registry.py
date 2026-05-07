@@ -23,6 +23,7 @@ _BESPOKE_MODEL_NAMES = {
     "square_color_parity_mixer",
     "tactical_sheaf_curvature_network",
     "tactical_threat_sheaf_network",
+    "attack_defense_sheaf_energy_network",
     "attack_hodge_sheaf_tension_network",
     "counterplay_insolvency_ledger",
     "cross_defense_consistency_network",
@@ -128,4 +129,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "tactical_sheaf_curvature_network"
+]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "attack_defense_sheaf_energy_network"
 ]

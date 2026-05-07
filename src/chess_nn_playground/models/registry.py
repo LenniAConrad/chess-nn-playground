@@ -4,6 +4,7 @@ from typing import Any
 
 from torch import nn
 
+from chess_nn_playground.models.attack_defense_sheaf import build_attack_defense_sheaf_from_config
 from chess_nn_playground.models.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
 from chess_nn_playground.models.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
 from chess_nn_playground.models.cayley_orthogonal import build_cayley_orthogonal_from_config
@@ -202,6 +203,7 @@ MODEL_BUILDERS = {
     "tactical_threat_sheaf_network": build_tactical_threat_sheaf_from_config,
     "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
     "tactical_sheaf_curvature_network": build_tactical_sheaf_curvature_from_config,
+    "attack_defense_sheaf_energy_network": build_attack_defense_sheaf_from_config,
     "attack_hodge_sheaf_tension_network": build_attack_hodge_sheaf_from_config,
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,

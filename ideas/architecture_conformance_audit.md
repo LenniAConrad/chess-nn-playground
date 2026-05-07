@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `82`
+- Implemented architecture rows audited: `83`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -31,6 +31,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i017` | `ideas/i017_conditional_surprisal_gate` | `conditional_surprisal_gate` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i017_conditional_surprisal_gate/model.py`<br>`src/chess_nn_playground/models/gpt_research_architectures.py` | - |
 | `i018` | `ideas/i018_oriented_tactical_sheaf_laplacian` | `oriented_tactical_sheaf_laplacian` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i018_oriented_tactical_sheaf_laplacian/model.py`<br>`src/chess_nn_playground/models/oriented_tactical_sheaf.py` | - |
 | `i019` | `ideas/i019_tactical_sheaf_curvature_network` | `tactical_sheaf_curvature_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i019_tactical_sheaf_curvature_network/model.py`<br>`src/chess_nn_playground/models/tactical_sheaf_curvature.py` | - |
+| `i020` | `ideas/i020_attack_defense_sheaf_energy_network` | `attack_defense_sheaf_energy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i020_attack_defense_sheaf_energy_network/model.py`<br>`src/chess_nn_playground/models/attack_defense_sheaf.py` | - |
 | `i022` | `ideas/i022_tactical_threat_sheaf_network` | `tactical_threat_sheaf_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i022_tactical_threat_sheaf_network/model.py`<br>`src/chess_nn_playground/models/tactical_threat_sheaf.py` | - |
 | `i023` | `ideas/i023_attack_hodge_sheaf_tension_network` | `attack_hodge_sheaf_tension_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i023_attack_hodge_sheaf_tension_network/model.py`<br>`src/chess_nn_playground/models/attack_hodge_sheaf.py` | - |
 | `i024` | `ideas/i024_directed_attack_sheaf_tension_network` | `directed_attack_sheaf_tension_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i024_directed_attack_sheaf_tension_network/model.py`<br>`src/chess_nn_playground/models/directed_attack_sheaf.py` | - |

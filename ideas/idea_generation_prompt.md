@@ -253,13 +253,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i020_attack_defense_sheaf_energy_network",
       "idea_id": "i020",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Attack-Defense Sheaf Energy Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0255_tuesday_local_attack_defense_sheaf.md`; uses a sheaf mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0255_tuesday_local_attack_defense_sheaf.md`; uses a typed chess-incidence sheaf with ray-blocker visibility gates and residual-energy readout over board-only candidate relations rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus sheaf-energy, gate, relation-group energy, occupancy-proxy, and convergence diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Attack-Defense Sheaf Energy Network - One-sentence thesis: Puzzle-likeness in a chess position is better modeled as localized inconsistency in attack-defe...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3125,15 +3125,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:30+00:00",
       "folder": "ideas/i020_attack_defense_sheaf_energy_network",
       "idea_id": "i020",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "sheaf",
       "name": "Attack-Defense Sheaf Energy Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Implemented as the bespoke attack_defense_sheaf_energy_network model in src/chess_nn_playground/models/attack_defense_sheaf.py with an idea-local wrapper.",
       "short_thesis": "- Idea name: Attack-Defense Sheaf Energy Network - One-sentence thesis: Puzzle-likeness in a chess position is better modeled as localized inconsistency in attack-defe...",
       "slug": "attack_defense_sheaf_energy_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0255_tuesday_local_attack_defense_sheaf.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

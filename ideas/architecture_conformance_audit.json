@@ -381,6 +381,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i020_attack_defense_sheaf_energy_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i020_attack_defense_sheaf_energy_network",
+      "idea_id": "i020",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "attack_defense_sheaf_energy_network",
+      "slug": "attack_defense_sheaf_energy_network",
+      "source_files": [
+        "ideas/i020_attack_defense_sheaf_energy_network/model.py",
+        "src/chess_nn_playground/models/attack_defense_sheaf.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i022_tactical_threat_sheaf_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1662,6 +1682,7 @@
       "ideas/i017_conditional_surprisal_gate",
       "ideas/i018_oriented_tactical_sheaf_laplacian",
       "ideas/i019_tactical_sheaf_curvature_network",
+      "ideas/i020_attack_defense_sheaf_energy_network",
       "ideas/i022_tactical_threat_sheaf_network",
       "ideas/i023_attack_hodge_sheaf_tension_network",
       "ideas/i024_directed_attack_sheaf_tension_network",
@@ -1726,7 +1747,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 82,
+    "implemented_architecture_count": 83,
     "issue_folders": [],
     "validation_issue_count": 0
   }
