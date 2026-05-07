@@ -70,12 +70,21 @@ def _resolve_claude_bin(explicit: str | None) -> str:
     return found
 
 
-def _build_claude_argv(*, claude_bin: str, safe: bool, max_turns: int, model: str | None) -> list[str]:
+def _build_claude_argv(
+    *,
+    claude_bin: str,
+    safe: bool,
+    max_turns: int,
+    model: str | None,
+    effort: str | None,
+) -> list[str]:
     argv = [claude_bin, "-p", "--verbose", "--output-format", "stream-json"]
     if max_turns > 0:
         argv += ["--max-turns", str(max_turns)]
     if model:
         argv += ["--model", model]
+    if effort:
+        argv += ["--effort", effort]
     if safe:
         argv += ["--permission-mode", "acceptEdits"]
         argv += ["--allowedTools", ",".join(SAFE_ALLOWED_TOOLS)]
@@ -226,11 +235,8 @@ def _run_one_idea(
                 _restore()
             return False
         if result.returncode != 0:
-            log.write(f"\n[runner] claude exited {result.returncode}\n")
-            print(f"   claude exited {result.returncode}", flush=True)
-            if restore_on_fail:
-                _restore()
-            return False
+            log.write(f"\n[runner] claude exited {result.returncode} (typically max_turns or rate limit). Falling through to scope check + verification — the audits are the source of truth, not the exit code.\n")
+            print(f"   claude exited {result.returncode}; running audits anyway", flush=True)
 
         log.write("\n=== SCOPE CHECK ===\n")
         out_of_scope = _scope_violations(folder)
@@ -273,7 +279,8 @@ def main() -> None:
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--max-turns", type=int, default=80, help="Per-idea --max-turns. 0 disables.")
     parser.add_argument("--timeout", type=int, default=1800, help="Per-idea wallclock timeout in seconds.")
-    parser.add_argument("--model", default=None, help="Override Claude model (e.g. claude-sonnet-4-6).")
+    parser.add_argument("--model", default=None, help="Override Claude model alias or full id (e.g. 'opus', 'sonnet', 'claude-opus-4-7'). Default: claude CLI's own default (Opus on a Max subscription).")
+    parser.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max", "none"], help="Extended-thinking effort level. Default: high. Use 'none' to omit the flag entirely.")
     parser.add_argument("--claude-bin", default=None, help="Path to claude CLI (default: PATH lookup).")
     parser.add_argument("--safe", action="store_true", help="Use acceptEdits + tool allowlist instead of dangerously-skip-permissions.")
     parser.add_argument(
@@ -294,11 +301,13 @@ def main() -> None:
         return
 
     claude_bin = _resolve_claude_bin(args.claude_bin) if not args.dry_run else (args.claude_bin or "claude")
+    effort = None if args.effort == "none" else args.effort
     claude_argv = _build_claude_argv(
         claude_bin=claude_bin,
         safe=args.safe,
         max_turns=args.max_turns,
         model=args.model,
+        effort=effort,
     )
 
     log_dir = Path(args.log_dir).expanduser()
