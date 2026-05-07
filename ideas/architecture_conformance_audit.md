@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `88`
+- Implemented architecture rows audited: `89`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -41,6 +41,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i027` | `ideas/i027_rule_only_counterfactual_move_delta_bottleneck` | `rule_only_counterfactual_move_delta_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i027_rule_only_counterfactual_move_delta_bottleneck/model.py`<br>`src/chess_nn_playground/models/counterfactual_delta_bottleneck.py` | - |
 | `i028` | `ideas/i028_file_mirror_tension_sheaf` | `file_mirror_tension_sheaf` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i028_file_mirror_tension_sheaf/model.py`<br>`src/chess_nn_playground/models/file_mirror_tension_sheaf.py` | - |
 | `i029` | `ideas/i029_entropic_piece_target_transport_bottleneck` | `entropic_piece_target_transport_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i029_entropic_piece_target_transport_bottleneck/model.py`<br>`src/chess_nn_playground/models/entropic_piece_target_transport_bottleneck.py` | - |
+| `i030` | `ideas/i030_nuisance_orthogonal_puzzle_bottleneck` | `nuisance_orthogonal_puzzle_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i030_nuisance_orthogonal_puzzle_bottleneck/model.py`<br>`src/chess_nn_playground/models/nuisance_orthogonal_puzzle_bottleneck.py` | - |
 | `i036` | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network` | `geometry_conditioned_board_pseudo_likelihood_ratio_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`<br>`src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py` | - |
 | `i037` | `ideas/i037_mobius_piece_constellation_network` | `mobius_piece_constellation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i037_mobius_piece_constellation_network/model.py`<br>`src/chess_nn_playground/models/mobius_piece_constellation.py` | - |
 | `i038` | `ideas/i038_sparse_witness_piece_bottleneck_network` | `sparse_witness_piece_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i038_sparse_witness_piece_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/sparse_witness_bottleneck.py` | - |

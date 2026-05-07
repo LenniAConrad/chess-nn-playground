@@ -952,35 +952,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i030_nuisance_orthogonal_puzzle_bottleneck",
       "idea_id": "i030",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "nuisance_orthogonal_puzzle_bottleneck",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "nuisance_orthogonal_puzzle_bottleneck",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck.build_nuisance_orthogonal_puzzle_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck.build_nuisance_orthogonal_puzzle_bottleneck_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck.NuisanceOrthogonalPuzzleNet",
+          "chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck.build_nuisance_orthogonal_puzzle_bottleneck_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8422,17 +8420,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 88,
-      "shared_probe_variant": 152
+      "bespoke_model": 89,
+      "shared_probe_variant": 151
     },
     "by_metadata_kind": {
-      "bespoke_model": 88,
-      "shared_probe_variant": 152
+      "bespoke_model": 89,
+      "shared_probe_variant": 151
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i030_nuisance_orthogonal_puzzle_bottleneck",
       "ideas/i031_tactical_transport_imbalance_network",
       "ideas/i032_king_anchored_material_null_transport_bottleneck",
       "ideas/i033_piece_target_entropic_transport_bottleneck",

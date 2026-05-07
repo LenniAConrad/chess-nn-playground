@@ -373,13 +373,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i030_nuisance_orthogonal_puzzle_bottleneck",
       "idea_id": "i030",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Nuisance-Orthogonal Puzzle Bottleneck",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0508_tuesday_local_nuisance_orthogonal.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0508_tuesday_local_nuisance_orthogonal.md`; uses a closed-form batchwise ridge orthogonal projection of a CNN latent against a fixed deterministic chess nuisance design matrix instead of a generic CNN, an attack/sheaf graph, or a one-ply move-delta set.",
+      "output_heads": "One puzzle logit plus projection diagnostics (residual covariance norm, post-projection latent variance, nuisance rank estimate, and scalar nuisance summaries) saved to prediction artifacts.",
       "short_thesis": "- Idea name: Nuisance-Orthogonal Puzzle Bottleneck, abbreviated `NOPB`. - One-sentence thesis: A chess puzzle-like position should remain recognizable after the model'...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3275,15 +3275,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:30+00:00",
       "folder": "ideas/i030_nuisance_orthogonal_puzzle_bottleneck",
       "idea_id": "i030",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "linear_algebra",
       "name": "Nuisance-Orthogonal Puzzle Bottleneck",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke board-only nuisance-orthogonal puzzle bottleneck with a deterministic 64-d chess nuisance vector, a fixed normalized nuisance feature map, a compact residual CNN trunk, and a closed-form batchwise ridge residualisation Z = H - gamma * Q (Q^T Q + lambda I)^{-1} Q^T H.",
       "short_thesis": "- Idea name: Nuisance-Orthogonal Puzzle Bottleneck, abbreviated `NOPB`. - One-sentence thesis: A chess puzzle-like position should remain recognizable after the model'...",
       "slug": "nuisance_orthogonal_puzzle_bottleneck",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0508_tuesday_local_nuisance_orthogonal.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

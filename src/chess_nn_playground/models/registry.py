@@ -39,6 +39,9 @@ from chess_nn_playground.models.move_landscape_net import build_move_landscape_n
 from chess_nn_playground.models.multiplicative_conjunction_convnet import (
     build_multiplicative_conjunction_convnet_from_config,
 )
+from chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck import (
+    build_nuisance_orthogonal_puzzle_bottleneck_from_config,
+)
 from chess_nn_playground.models.occupancy_run_length_segment import build_occupancy_run_length_segment_encoder_from_config
 from chess_nn_playground.models.oriented_tactical_sheaf import build_oriented_tactical_sheaf_from_config
 from chess_nn_playground.models.permanent_ryser import build_permanent_ryser_from_config
@@ -220,6 +223,7 @@ MODEL_BUILDERS = {
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "file_mirror_tension_sheaf": build_file_mirror_tension_sheaf_from_config,
     "entropic_piece_target_transport_bottleneck": build_entropic_piece_target_transport_bottleneck_from_config,
+    "nuisance_orthogonal_puzzle_bottleneck": build_nuisance_orthogonal_puzzle_bottleneck_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
     "counterfactual_move_delta_spectrum_network": build_counterfactual_move_delta_spectrum_network_from_config,
     "rule_only_counterfactual_move_delta_bottleneck": build_counterfactual_delta_bottleneck_from_config,
