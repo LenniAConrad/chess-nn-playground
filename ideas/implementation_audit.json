@@ -564,35 +564,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i019_tactical_sheaf_curvature_network",
       "idea_id": "i019",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_sheaf_curvature_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_sheaf_curvature_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_sheaf_curvature.build_tactical_sheaf_curvature_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_sheaf_curvature.build_tactical_sheaf_curvature_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_sheaf_curvature.TacticalSheafCurvatureNet",
+          "chess_nn_playground.models.tactical_sheaf_curvature.build_tactical_sheaf_curvature_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8430,17 +8428,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 81,
-      "shared_probe_variant": 159
+      "bespoke_model": 82,
+      "shared_probe_variant": 158
     },
     "by_metadata_kind": {
-      "bespoke_model": 81,
-      "shared_probe_variant": 159
+      "bespoke_model": 82,
+      "shared_probe_variant": 158
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i019_tactical_sheaf_curvature_network",
       "ideas/i020_attack_defense_sheaf_energy_network",
       "ideas/i021_tactical_sheaf_tension_network",
       "ideas/i026_counterfactual_move_delta_spectrum_network",

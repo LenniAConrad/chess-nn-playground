@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 81 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 159 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 82 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 158 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i019_tactical_sheaf_curvature_network`
 - `ideas/i020_attack_defense_sheaf_energy_network`
 - `ideas/i021_tactical_sheaf_tension_network`
 - `ideas/i026_counterfactual_move_delta_spectrum_network`
@@ -206,7 +205,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i016` | `ideas/i016_soft_sorting_order_residual_ranker` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `soft_sorting_order_residual_ranker` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i017` | `ideas/i017_conditional_surprisal_gate` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `conditional_surprisal_gate` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i018` | `ideas/i018_oriented_tactical_sheaf_laplacian` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `oriented_tactical_sheaf_laplacian` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i019` | `ideas/i019_tactical_sheaf_curvature_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tactical_sheaf_curvature_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i019` | `ideas/i019_tactical_sheaf_curvature_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_sheaf_curvature_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i020` | `ideas/i020_attack_defense_sheaf_energy_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `attack_defense_sheaf_energy_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i021` | `ideas/i021_tactical_sheaf_tension_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tactical_sheaf_tension_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i022` | `ideas/i022_tactical_threat_sheaf_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_threat_sheaf_network` | `-` | model.py delegates to a non-shared architecture builder | - |

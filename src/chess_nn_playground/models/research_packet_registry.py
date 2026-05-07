@@ -21,6 +21,7 @@ _BESPOKE_MODEL_NAMES = {
     "sparse_witness_piece_bottleneck_network",
     "specialist_head_cnn",
     "square_color_parity_mixer",
+    "tactical_sheaf_curvature_network",
     "tactical_threat_sheaf_network",
     "attack_hodge_sheaf_tension_network",
     "counterplay_insolvency_ledger",
@@ -124,4 +125,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "free_probability_r_transform_network"
+]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "tactical_sheaf_curvature_network"
 ]

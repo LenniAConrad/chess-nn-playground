@@ -241,13 +241,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i019_tactical_sheaf_curvature_network",
       "idea_id": "i019",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tactical Sheaf Curvature Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md`; uses a sheaf mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md`; uses a learned typed sheaf coboundary plus target-centered curvature readout over board-only candidate relations rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus sheaf-frustration, curvature, gate, relation-group energy, and stalk diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Tactical Sheaf Curvature Network, abbreviated `TSCN`. - One-sentence thesis: Chess puzzle-likeness is better detected as localized inconsistency in a boar...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3110,15 +3110,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:30+00:00",
       "folder": "ideas/i019_tactical_sheaf_curvature_network",
       "idea_id": "i019",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "sheaf",
       "name": "Tactical Sheaf Curvature Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Implemented as the bespoke tactical_sheaf_curvature_network model in src/chess_nn_playground/models/tactical_sheaf_curvature.py with an idea-local wrapper.",
       "short_thesis": "- Idea name: Tactical Sheaf Curvature Network, abbreviated `TSCN`. - One-sentence thesis: Chess puzzle-likeness is better detected as localized inconsistency in a boar...",
       "slug": "tactical_sheaf_curvature_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {
