@@ -4361,3 +4361,109 @@ def test_i041_centered_tempo_odd_interventional_bottleneck_is_bespoke_and_confor
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i042_legal_automorphism_quotient_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i042_legal_automorphism_quotient_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move, kings on e1/e8, white rook a1, black queen a8.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[0, 13] = 1.0  # white kingside castling rights
+    x[0, 16] = 1.0  # black queenside castling rights
+    x[0, 17, 5, 3] = 1.0  # en-passant target square
+    # Sample 1: black-to-move, no castling, no ep.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[1, 1, 7, 1] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "z_invariant",
+        "invariant_norm",
+        "character_energy",
+        "character_norms",
+        "file_mirror_character_norm",
+        "color_flip_character_norm",
+        "joint_character_norm",
+        "orbit_variance",
+        "character_penalty",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+    assert output["character_norms"].shape == (2, 3)
+
+    # The invariant latent and logits are exactly invariant under the
+    # four legal automorphisms.
+    from chess_nn_playground.models.legal_automorphism_quotient_network import (
+        LegalAutomorphismTransform,
+    )
+
+    transform = LegalAutomorphismTransform()
+    x_m = transform.file_mirror(x)
+    x_q = transform.color_flip(x)
+    x_mq = transform.file_mirror(x_q)
+    with torch.no_grad():
+        output_m = model(x_m)
+        output_q = model(x_q)
+        output_mq = model(x_mq)
+    for transformed_output in (output_m, output_q, output_mq):
+        assert (output["logits"] - transformed_output["logits"]).abs().max().item() < 1.0e-5
+        assert (output["z_invariant"] - transformed_output["z_invariant"]).abs().max().item() < 1.0e-5
+
+    # Both involutions square to identity and commute (C2 x C2 structure).
+    assert (transform.file_mirror(x_m) - x).abs().max().item() == 0.0
+    assert (transform.color_flip(x_q) - x).abs().max().item() == 0.0
+    assert (
+        transform.file_mirror(transform.color_flip(x))
+        - transform.color_flip(transform.file_mirror(x))
+    ).abs().max().item() == 0.0
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "legal_automorphism_quotient_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i042"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

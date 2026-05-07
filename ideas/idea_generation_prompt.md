@@ -517,13 +517,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i042_legal_automorphism_quotient_network",
       "idea_id": "i042",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Legal Automorphism Quotient Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0731_tuesday_los_angeles_orbit_quotient.md`; uses a symmetry mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0731_tuesday_los_angeles_orbit_quotient.md`; the central operator is the deterministic Reynolds quotient over the four-element legal chess-rule automorphism group `G = <m, q> ~ C2 x C2`, with C2 x C2 character diagnostics and an optional character-energy regularizer. Materially distinct from the shared mechanism-profile probe.",
+      "output_heads": "One puzzle logit plus orbit-quotient diagnostics (z_invariant, invariant_norm, character_energy, character_norms, file_mirror_character_norm, color_flip_character_norm, joint_character_norm, orbit_variance, character_penalty) saved to prediction artifacts.",
       "short_thesis": "- Idea name: Legal Automorphism Quotient Network - One-sentence thesis: A chess puzzle-likeness classifier should quotient out the exact current-board automorphisms of...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3455,15 +3455,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i042_legal_automorphism_quotient_network",
       "idea_id": "i042",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "symmetry",
       "name": "Legal Automorphism Quotient Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke implementation lives in `src/chess_nn_playground/models/legal_automorphism_quotient_network.py`; the idea-local `model.py` is a thin wrapper around the registered builder.",
       "short_thesis": "- Idea name: Legal Automorphism Quotient Network - One-sentence thesis: A chess puzzle-likeness classifier should quotient out the exact current-board automorphisms of...",
       "slug": "legal_automorphism_quotient_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0731_tuesday_los_angeles_orbit_quotient.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {
