@@ -961,6 +961,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i049_tempo_odd_bottleneck_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i049_tempo_odd_bottleneck_network",
+      "idea_id": "i049",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tempo_odd_bottleneck_network",
+      "slug": "tempo_odd_bottleneck_network",
+      "source_files": [
+        "ideas/i049_tempo_odd_bottleneck_network/model.py",
+        "src/chess_nn_playground/models/tempo_odd_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i051_king_escape_percolation_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2131,6 +2151,7 @@
       "ideas/i046_rule_exact_orbit_bottleneck_network",
       "ideas/i047_color_flip_orbit_evidence_bottleneck",
       "ideas/i048_rule_automorphism_quotient_bottleneck_network",
+      "ideas/i049_tempo_odd_bottleneck_network",
       "ideas/i051_king_escape_percolation_network",
       "ideas/i052_soft_king_cage_path_bottleneck_network",
       "ideas/i053_hall_defect_obligation_matroid_network",
@@ -2188,7 +2209,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 104,
+    "implemented_architecture_count": 105,
     "issue_folders": [],
     "validation_issue_count": 0
   }

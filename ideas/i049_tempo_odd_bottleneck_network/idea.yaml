@@ -1,32 +1,40 @@
 idea_id: i049
 name: Tempo-Odd Bottleneck Network
 slug: tempo_odd_bottleneck_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: Tempo-Odd Bottleneck Network, abbreviated `TempoOddBottleneckNet`.
   - One-sentence thesis: Puzzle-likeness is often a side-to-move interaction property,
-  so...'
+  so isolate the latent component that changes under a rule-only side-to-move intervention
+  via a two-point Walsh odd/even bottleneck instead of relying on side-blind static
+  board shortcuts.'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0755_tuesday_los_angeles_tempo_odd_bottleneck.md`;
-  uses a tempo mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  central operator is a deterministic side-to-move involution `tau` followed by a
+  two-point Walsh odd/even projection of a shared encoder, with the odd projection
+  carrying the high-capacity classifier path and the even projection routed through
+  a stop-gradient context bottleneck rather than a generic CNN trunk.
+expected_advantage: Test the packet's proposed tempo-odd interaction signal under
+  the same puzzle_binary benchmark contract as the other ideas, with a materially
+  distinct Walsh odd/even bottleneck rather than a shared mechanism profile.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus tempo-intervention diagnostics (tempo_odd_norm,
+  tempo_even_norm, odd_energy, even_energy, odd_to_even_energy_ratio, side_intervention_gap,
+  odd_variance_loss, en_passant_removed) saved to prediction artifacts.
+compute_notes: Two shared encoder passes per position via a concatenated batch of
+  shape `(2B, 18, 8, 8)` over the original board and its `tau` side-to-move twin;
+  no generated candidate set; en-passant plane sanitized prior to `tau` for safe
+  rule-only intervention.
+implementation_status: implemented
 trainer_entrypoint: ideas/i049_tempo_odd_bottleneck_network/train.py
 config_path: ideas/i049_tempo_odd_bottleneck_network/config.yaml
 model_path: ideas/i049_tempo_odd_bottleneck_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0755_tuesday_los_angeles_tempo_odd_bottleneck.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
-implementation_kind: shared_probe_variant
+  Bespoke implementation lives in `src/chess_nn_playground/models/tempo_odd_bottleneck.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+mechanism_family: tempo
+implementation_kind: bespoke_model

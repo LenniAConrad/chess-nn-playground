@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 104 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 136 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 105 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 135 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i049_tempo_odd_bottleneck_network`
 - `ideas/i050_king_anchored_euler_interaction_network`
 - `ideas/i055_non_backtracking_tactical_walk_network`
 - `ideas/i056_non_puzzle_score_field_bottleneck_network`
@@ -213,7 +212,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i046` | `ideas/i046_rule_exact_orbit_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_exact_orbit_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i047` | `ideas/i047_color_flip_orbit_evidence_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `color_flip_orbit_evidence_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i048` | `ideas/i048_rule_automorphism_quotient_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_automorphism_quotient_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i049` | `ideas/i049_tempo_odd_bottleneck_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tempo_odd_bottleneck_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i049` | `ideas/i049_tempo_odd_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tempo_odd_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i050` | `ideas/i050_king_anchored_euler_interaction_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `king_anchored_euler_interaction_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i051` | `ideas/i051_king_escape_percolation_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `king_escape_percolation_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i052` | `ideas/i052_soft_king_cage_path_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `soft_king_cage_path_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |

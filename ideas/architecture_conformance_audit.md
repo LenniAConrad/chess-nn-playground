@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `104`
+- Implemented architecture rows audited: `105`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -60,6 +60,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i046` | `ideas/i046_rule_exact_orbit_bottleneck_network` | `rule_exact_orbit_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i046_rule_exact_orbit_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py` | - |
 | `i047` | `ideas/i047_color_flip_orbit_evidence_bottleneck` | `color_flip_orbit_evidence_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i047_color_flip_orbit_evidence_bottleneck/model.py`<br>`src/chess_nn_playground/models/color_flip_orbit_evidence.py` | - |
 | `i048` | `ideas/i048_rule_automorphism_quotient_bottleneck_network` | `rule_automorphism_quotient_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i048_rule_automorphism_quotient_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/rule_automorphism_quotient.py` | - |
+| `i049` | `ideas/i049_tempo_odd_bottleneck_network` | `tempo_odd_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i049_tempo_odd_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/tempo_odd_bottleneck.py` | - |
 | `i051` | `ideas/i051_king_escape_percolation_network` | `king_escape_percolation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i051_king_escape_percolation_network/model.py`<br>`src/chess_nn_playground/models/king_escape_percolation.py` | - |
 | `i052` | `ideas/i052_soft_king_cage_path_bottleneck_network` | `soft_king_cage_path_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i052_soft_king_cage_path_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/soft_king_cage_path.py` | - |
 | `i053` | `ideas/i053_hall_defect_obligation_matroid_network` | `hall_defect_obligation_matroid_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i053_hall_defect_obligation_matroid_network/model.py`<br>`src/chess_nn_playground/models/hall_defect_obligation_matroid.py` | - |

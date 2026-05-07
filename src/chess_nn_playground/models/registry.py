@@ -191,6 +191,7 @@ from chess_nn_playground.models.tactical_subgoal_automaton import (
     build_tactical_subgoal_automaton_network_from_config,
 )
 from chess_nn_playground.models.tactical_threat_sheaf import build_tactical_threat_sheaf_from_config
+from chess_nn_playground.models.tempo_odd_bottleneck import build_tempo_odd_bottleneck_from_config
 from chess_nn_playground.models.tensor_core_square_pair_field import (
     build_tensor_core_square_pair_field_network_from_config,
 )
@@ -331,6 +332,7 @@ MODEL_BUILDERS = {
     "rule_exact_orbit_bottleneck_network": build_rule_exact_orbit_bottleneck_from_config,
     "color_flip_orbit_evidence_bottleneck": build_color_flip_orbit_evidence_bottleneck_from_config,
     "rule_automorphism_quotient_bottleneck_network": build_rule_automorphism_quotient_bottleneck_from_config,
+    "tempo_odd_bottleneck_network": build_tempo_odd_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
