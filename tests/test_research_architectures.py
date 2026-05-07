@@ -1586,6 +1586,72 @@ def test_i022_tactical_threat_sheaf_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i018_oriented_tactical_sheaf_laplacian_is_bespoke_and_conformant():
+    folder = Path("ideas/i018_oriented_tactical_sheaf_laplacian")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 12] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 11, 3, 0] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert {
+        "sheaf_tension",
+        "transport_imbalance",
+        "symmetry_residual",
+        "topology_pressure",
+        "ray_language_energy",
+        "king_ring_pressure",
+        "reply_pressure",
+        "defense_gap",
+        "triad_defect_energy",
+        "pin_pressure",
+    }.issubset(output)
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    model_cfg["encoding"] = config["data"]["encoding"]
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i018"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i023_attack_hodge_sheaf_is_bespoke_and_conformant():
     folder = Path("ideas/i023_attack_hodge_sheaf_tension_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))

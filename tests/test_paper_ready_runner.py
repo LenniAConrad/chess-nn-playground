@@ -25,7 +25,7 @@ def test_paper_ready_runner_discovers_benchmarks_and_ideas():
     assert Path("configs/benchmarks/puzzle_binary/bench_nnue_simple18.yaml") in paths
     assert Path("ideas/i013_sparse_relation_pursuit_asymmetry/config.yaml") in paths
     assert Path("ideas/i236_hadamard_spectrum_network/config.yaml") in paths
-    assert Path("ideas/i018_oriented_tactical_sheaf_laplacian/config.yaml") not in paths
+    assert Path("ideas/i019_tactical_sheaf_curvature_network/config.yaml") not in paths
     assert len(paths) >= 35
 
 

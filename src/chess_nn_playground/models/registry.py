@@ -35,6 +35,7 @@ from chess_nn_playground.models.multiplicative_conjunction_convnet import (
     build_multiplicative_conjunction_convnet_from_config,
 )
 from chess_nn_playground.models.occupancy_run_length_segment import build_occupancy_run_length_segment_encoder_from_config
+from chess_nn_playground.models.oriented_tactical_sheaf import build_oriented_tactical_sheaf_from_config
 from chess_nn_playground.models.permanent_ryser import build_permanent_ryser_from_config
 from chess_nn_playground.models.patch_mixer_boardnet import build_patch_mixer_boardnet_from_config
 from chess_nn_playground.models.piece_plane_gated_cnn import build_piece_plane_gated_cnn_from_config
@@ -198,6 +199,7 @@ MODEL_BUILDERS = {
     "mobius_piece_constellation_network": build_mobius_piece_constellation_network_from_config,
     "sparse_witness_piece_bottleneck_network": build_sparse_witness_piece_bottleneck_network_from_config,
     "tactical_threat_sheaf_network": build_tactical_threat_sheaf_from_config,
+    "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
     "attack_hodge_sheaf_tension_network": build_attack_hodge_sheaf_from_config,
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,

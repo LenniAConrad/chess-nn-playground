@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 73, 'probe_scaffold_only': 160, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 80, 'shared_probe_variant': 160}`
+- Registered implementation states: `{'implemented': 74, 'probe_scaffold_only': 159, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 81, 'shared_probe_variant': 159}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 80 | Materially distinct model implementation. |
-| `shared_probe_variant` | 160 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 81 | Materially distinct model implementation. |
+| `shared_probe_variant` | 159 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -56,7 +56,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i015` | [Material-Locked Tactical Mask DRO](i015_material_locked_tactical_dro) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the canonical CRTK split. |
 | `i016` | [Soft Sorting Order Residual Ranker](i016_soft_sorting_order_residual_ranker) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. |
 | `i017` | [Conditional Surprisal Gate](i017_conditional_surprisal_gate) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. |
-| `i018` | [Oriented Tactical Sheaf Laplacian](i018_oriented_tactical_sheaf_laplacian) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i018` | [Oriented Tactical Sheaf Laplacian](i018_oriented_tactical_sheaf_laplacian) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i019` | [Tactical Sheaf Curvature Network](i019_tactical_sheaf_curvature_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i020` | [Attack-Defense Sheaf Energy Network](i020_attack_defense_sheaf_energy_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i021` | [Tactical Sheaf Tension Network](i021_tactical_sheaf_tension_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

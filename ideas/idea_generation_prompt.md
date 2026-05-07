@@ -229,13 +229,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i018_oriented_tactical_sheaf_laplacian",
       "idea_id": "i018",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Oriented Tactical Sheaf Laplacian",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md`; uses a sheaf mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md`; uses a side-to-move-oriented cellular sheaf Laplacian over typed tactical incidence edges instead of generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus sheaf-tension, per-relation energy, transport, triad-defect, pin, king-ring, and board diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Oriented Tactical Sheaf Laplacian - One-sentence thesis: Classify puzzle-likeness by learning whether the board-only attack/defense incidence structure ha...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3095,15 +3095,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:30+00:00",
       "folder": "ideas/i018_oriented_tactical_sheaf_laplacian",
       "idea_id": "i018",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "sheaf",
       "name": "Oriented Tactical Sheaf Laplacian",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Implemented as the bespoke oriented_tactical_sheaf_laplacian model in src/chess_nn_playground/models/oriented_tactical_sheaf.py with an idea-local wrapper.",
       "short_thesis": "- Idea name: Oriented Tactical Sheaf Laplacian - One-sentence thesis: Classify puzzle-likeness by learning whether the board-only attack/defense incidence structure ha...",
       "slug": "oriented_tactical_sheaf_laplacian",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

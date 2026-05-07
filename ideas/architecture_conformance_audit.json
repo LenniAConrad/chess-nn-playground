@@ -341,6 +341,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i018_oriented_tactical_sheaf_laplacian/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i018_oriented_tactical_sheaf_laplacian",
+      "idea_id": "i018",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "oriented_tactical_sheaf_laplacian",
+      "slug": "oriented_tactical_sheaf_laplacian",
+      "source_files": [
+        "ideas/i018_oriented_tactical_sheaf_laplacian/model.py",
+        "src/chess_nn_playground/models/oriented_tactical_sheaf.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i022_tactical_threat_sheaf_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1620,6 +1640,7 @@
       "ideas/i015_material_locked_tactical_dro",
       "ideas/i016_soft_sorting_order_residual_ranker",
       "ideas/i017_conditional_surprisal_gate",
+      "ideas/i018_oriented_tactical_sheaf_laplacian",
       "ideas/i022_tactical_threat_sheaf_network",
       "ideas/i023_attack_hodge_sheaf_tension_network",
       "ideas/i024_directed_attack_sheaf_tension_network",
@@ -1684,7 +1705,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 80,
+    "implemented_architecture_count": 81,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -528,35 +528,35 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i018_oriented_tactical_sheaf_laplacian",
       "idea_id": "i018",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "oriented_tactical_sheaf_laplacian",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "oriented_tactical_sheaf_laplacian",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.oriented_tactical_sheaf.build_oriented_tactical_sheaf_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.oriented_tactical_sheaf.build_oriented_tactical_sheaf_from_config",
           "config.get",
+          "data_cfg.get",
           "dict",
+          "isinstance",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.oriented_tactical_sheaf.OrientedTacticalSheafNet",
+          "chess_nn_playground.models.oriented_tactical_sheaf.build_oriented_tactical_sheaf_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8430,17 +8430,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 80,
-      "shared_probe_variant": 160
+      "bespoke_model": 81,
+      "shared_probe_variant": 159
     },
     "by_metadata_kind": {
-      "bespoke_model": 80,
-      "shared_probe_variant": 160
+      "bespoke_model": 81,
+      "shared_probe_variant": 159
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i018_oriented_tactical_sheaf_laplacian",
       "ideas/i019_tactical_sheaf_curvature_network",
       "ideas/i020_attack_defense_sheaf_energy_network",
       "ideas/i021_tactical_sheaf_tension_network",

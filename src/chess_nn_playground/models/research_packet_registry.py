@@ -10,6 +10,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 _BESPOKE_MODEL_NAMES = {
     "geometry_conditioned_board_pseudo_likelihood_ratio_network",
     "king_escape_percolation_network",
+    "oriented_tactical_sheaf_laplacian",
     "king_shelter_microkernel_network",
     "mobius_piece_constellation_network",
     "one_ply_counterfactual_move_landscape_network",
