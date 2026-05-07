@@ -1957,35 +1957,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i060_tropical_constraint_circuit_network",
       "idea_id": "i060",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tropical_constraint_circuit_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tropical_constraint_circuit_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tropical_constraint_circuit_network.build_tropical_constraint_circuit_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tropical_constraint_circuit_network.build_tropical_constraint_circuit_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tropical_constraint_circuit_network.TropicalConstraintCircuitNet",
+          "chess_nn_playground.models.tropical_constraint_circuit_network.build_tropical_constraint_circuit_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8373,17 +8371,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 111,
-      "shared_probe_variant": 129
+      "bespoke_model": 112,
+      "shared_probe_variant": 128
     },
     "by_metadata_kind": {
-      "bespoke_model": 111,
-      "shared_probe_variant": 129
+      "bespoke_model": 112,
+      "shared_probe_variant": 128
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i060_tropical_constraint_circuit_network",
       "ideas/i061_grassmannian_principal_angle_bottleneck",
       "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
       "ideas/i063_polar_procrustes_alignment_bottleneck",

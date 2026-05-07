@@ -6161,3 +6161,178 @@ def test_i059_harmonic_board_potential_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i060_tropical_constraint_circuit_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i060_tropical_constraint_circuit_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.tropical_constraint_circuit_network import (
+        TropicalConstraintCircuitNet,
+        Simple18LiteralCostEncoder,
+        TropicalClauseLayer,
+        TropicalMarginPool,
+        TropicalConstraintHead,
+    )
+
+    assert isinstance(model, TropicalConstraintCircuitNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.encoder, Simple18LiteralCostEncoder)
+    assert isinstance(model.clause_layer, TropicalClauseLayer)
+    assert isinstance(model.margin_pool, TropicalMarginPool)
+    assert isinstance(model.head, TropicalConstraintHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[1, 1, 5, 5] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "monomial_costs",
+        "clause_softmin_cost",
+        "clause_value",
+        "clause_margin",
+        "clause_entropy",
+        "clause_mean_cost",
+        "clause_softmin_probabilities",
+        "effective_monomials_per_clause",
+        "active_literal_mass",
+        "mechanism_energy",
+        "ablation_active",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    k = int(config["model"]["clause_count"])
+    m = int(config["model"]["monomials_per_clause"])
+    assert output["monomial_costs"].shape == (2, k, m)
+    assert output["clause_softmin_cost"].shape == (2, k)
+    assert output["clause_margin"].shape == (2, k)
+    assert output["clause_entropy"].shape == (2, k)
+    assert output["clause_softmin_probabilities"].shape == (2, k, m)
+
+    # Clause weights and biases must be nonnegative (so monotonicity in
+    # literals holds).
+    weights = model.clause_layer.clause_weights()
+    assert weights.shape == (k, m, model.clause_layer.literal_dim)
+    assert torch.all(weights >= 0)
+    bias = torch.nn.functional.softplus(model.clause_layer.bias_raw)
+    assert torch.all(bias >= 0)
+
+    # Literal costs are nonnegative (softplus output) and the literal-cost
+    # encoder consumes board + 4 coordinate planes.
+    costs = model.encoder(x)
+    assert costs.shape == (2, model.literal_channels, 8, 8)
+    assert torch.all(costs >= 0)
+
+    # Best-second margin must be nonnegative for all clauses.
+    assert torch.all(output["clause_margin"] >= -1.0e-5)
+
+    # Softmin probabilities must sum to 1 along the monomial axis.
+    probs_sum = output["clause_softmin_probabilities"].sum(dim=-1)
+    assert torch.allclose(probs_sum, torch.ones_like(probs_sum), atol=1.0e-4)
+
+    # Soft-min identity: -tau * logsumexp(-m / tau, dim=-1) == clause_softmin_cost.
+    tau = model.effective_temperature
+    expected_softmin = -tau * torch.logsumexp(-output["monomial_costs"] / tau, dim=-1)
+    assert torch.allclose(expected_softmin, output["clause_softmin_cost"], atol=1.0e-5)
+
+    # Effective monomial count is in [1, M].
+    eff = output["effective_monomials_per_clause"]
+    assert torch.all(eff >= 1.0 - 1.0e-4)
+    assert torch.all(eff <= float(m) + 1.0e-4)
+
+    # All five central falsifier ablations build, run, and produce finite logits.
+    for ablation in (
+        "sum_product_clause",
+        "mean_literal_pool",
+        "literal_square_shuffle",
+        "high_temperature_softmin",
+        "material_only_literals",
+    ):
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = module.build_tropical_constraint_circuit_network_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,)
+        assert torch.isfinite(abl_out["logits"]).all()
+        assert abl_model.ablation == ablation
+        if ablation == "high_temperature_softmin":
+            # The effective temperature must actually be larger than the
+            # configured temperature, so softmin approaches averaging.
+            assert float(abl_model.effective_temperature) > float(abl_model.softmin_temperature)
+        if ablation == "sum_product_clause":
+            # The clause aggregator changes from the soft-min surrogate to
+            # the soft-average surrogate. With the same monomial costs,
+            # the clause_value must lie between the per-clause min and the
+            # per-clause mean (any convex combination of monomial costs).
+            mono = abl_out["monomial_costs"]
+            mn = mono.amin(dim=-1)
+            mean = mono.mean(dim=-1)
+            tol = 1.0e-3 * mean.abs().clamp_min(1.0)
+            value = abl_out["clause_value"]
+            assert torch.all(value >= mn - tol)
+            assert torch.all(value <= mean + tol)
+        if ablation == "literal_square_shuffle":
+            # The fixed permutation buffer must be a permutation of
+            # range(64), i.e. each index appears exactly once.
+            perm = abl_model.square_permutation
+            assert perm.shape == (64,)
+            assert torch.equal(torch.sort(perm).values, torch.arange(64))
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tropical_constraint_circuit_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TropicalConstraintCircuitNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i060"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

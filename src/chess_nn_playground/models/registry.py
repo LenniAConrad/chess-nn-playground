@@ -32,6 +32,9 @@ from chess_nn_playground.models.hadamard_spectrum import build_hadamard_spectrum
 from chess_nn_playground.models.harmonic_board_potential_network import (
     build_harmonic_board_potential_network_from_config,
 )
+from chess_nn_playground.models.tropical_constraint_circuit_network import (
+    build_tropical_constraint_circuit_network_from_config,
+)
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
 )
@@ -357,6 +360,7 @@ MODEL_BUILDERS = {
     "non_backtracking_tactical_walk_network": build_non_backtracking_tactical_walk_network_from_config,
     "determinantal_tactical_volume_bottleneck": build_determinantal_tactical_volume_bottleneck_from_config,
     "harmonic_board_potential_network": build_harmonic_board_potential_network_from_config,
+    "tropical_constraint_circuit_network": build_tropical_constraint_circuit_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

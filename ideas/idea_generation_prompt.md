@@ -733,13 +733,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i060_tropical_constraint_circuit_network",
       "idea_id": "i060",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tropical Constraint Circuit Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2046_friday_shanghai_tropical_circuit.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2046_friday_shanghai_tropical_circuit.md`; central operator is a differentiable min-plus tropical clause circuit over learned nonnegative current-board literal costs, not a CNN, residual stack, attention block, sheaf, transport, or move-delta bottleneck.",
+      "output_heads": "One puzzle logit plus tropical-circuit diagnostics (clause_softmin_cost, clause_value, clause_margin, clause_entropy, clause_mean_cost, effective_monomials_per_clause, mechanism_energy).",
       "short_thesis": "- Idea name: Tropical Constraint Circuit Network - One-sentence thesis: Puzzle-like positions may be better modeled as the near-satisfaction of a small number of laten...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3725,15 +3725,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i060_tropical_constraint_circuit_network",
       "idea_id": "i060",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "logic",
       "name": "Tropical Constraint Circuit Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Bespoke TropicalConstraintCircuitNet over the simple_18 board tensor with a Simple18LiteralCostEncoder (1x1 conv plus four fixed coordinate planes and a softplus), a TropicalClauseLayer with low-rank nonnegative weights a = softplus(U V), a TropicalMarginPool emitting clause soft-min cost / best-second margin / softmin entropy / mean monomial cost per clause, and a TropicalConstraintHead. The sum_product_clause, mean_literal_pool, literal_square_shuffle, high_temperature_softmin, and material_only_literals falsifiers from section 9 are exposed via the model.ablation config flag.",
       "short_thesis": "- Idea name: Tropical Constraint Circuit Network - One-sentence thesis: Puzzle-like positions may be better modeled as the near-satisfaction of a small number of laten...",
       "slug": "tropical_constraint_circuit_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-24_2046_friday_shanghai_tropical_circuit.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {
