@@ -51,6 +51,9 @@ from chess_nn_playground.models.safe_reply_certificate import build_safe_reply_c
 from chess_nn_playground.models.specialist_head_cnn import build_specialist_head_cnn_from_config
 from chess_nn_playground.models.tactical_sheaf_curvature import build_tactical_sheaf_curvature_from_config
 from chess_nn_playground.models.tactical_sheaf_tension import build_tactical_sheaf_tension_from_config
+from chess_nn_playground.models.tactical_transport_imbalance import (
+    build_tactical_transport_imbalance_network_from_config,
+)
 from chess_nn_playground.models.sparse_witness_bottleneck import (
     build_sparse_witness_piece_bottleneck_network_from_config,
 )
@@ -271,6 +274,7 @@ MODEL_BUILDERS = {
     "pfaffian_skew_threat_network": build_pfaffian_skew_threat_network_from_config,
     "padic_ultrametric_threat_network": build_padic_ultrametric_threat_network_from_config,
     "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
+    "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

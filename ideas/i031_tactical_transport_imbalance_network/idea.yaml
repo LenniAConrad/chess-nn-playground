@@ -1,15 +1,16 @@
 idea_id: i031
 name: Tactical Transport Imbalance Network
 slug: tactical_transport_imbalance_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:30+00:00'
 author: Codex
 short_thesis: '- Idea name: Tactical Transport Imbalance Network - One-sentence thesis:
   A chess puzzle-like position should often exhibit an asymmetric low-cost, low-entropy
   transpor...'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0512_tuesday_local_transport_imbalance.md`;
-  uses a transport mechanism profile over board-only features rather than generic
-  CNN-only pooling.
+  uses an entropic-Sinkhorn transport mechanism with a chess-geometry cost basis to
+  measure side-to-move vs. opponent transport imbalance rather than generic CNN-only
+  pooling.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
@@ -18,15 +19,16 @@ input_representation: Current-board simple_18 tensor only; CRTK/source metadata 
   reporting-only and never used as model input.
 output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
   artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+compute_notes: Compact convolutional trunk plus deterministic chess-geometry transport
+  diagnostics computed by entropic Sinkhorn iterations.
+implementation_status: implemented
 trainer_entrypoint: ideas/i031_tactical_transport_imbalance_network/train.py
 config_path: ideas/i031_tactical_transport_imbalance_network/config.yaml
 model_path: ideas/i031_tactical_transport_imbalance_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0512_tuesday_local_transport_imbalance.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
-implementation_kind: shared_probe_variant
+  Bespoke implementation in `src/chess_nn_playground/models/tactical_transport_imbalance.py`
+  realises the markdown architecture (side-to-move canonicalised local CNN trunk +
+  entropic Sinkhorn transport with a chess-geometry cost basis); the idea-local
+  `model.py` is a thin wrapper around the registered builder.
+implementation_kind: bespoke_model
