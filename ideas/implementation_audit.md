@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 112 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 128 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 113 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 127 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i061_grassmannian_principal_angle_bottleneck`
 - `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck`
 - `ideas/i063_polar_procrustes_alignment_bottleneck`
 - `ideas/i064_multi_scale_dilated_board_mixer_cnn`
@@ -217,7 +216,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i058` | `ideas/i058_determinantal_tactical_volume_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `determinantal_tactical_volume_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i059` | `ideas/i059_harmonic_board_potential_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `harmonic_board_potential_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i060` | `ideas/i060_tropical_constraint_circuit_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tropical_constraint_circuit_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i061` | `ideas/i061_grassmannian_principal_angle_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `grassmannian_principal_angle_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i061` | `ideas/i061_grassmannian_principal_angle_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `grassmannian_principal_angle_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i062` | `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `matrix_pencil_generalized_spectrum_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i063` | `ideas/i063_polar_procrustes_alignment_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `polar_procrustes_alignment_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i064` | `ideas/i064_multi_scale_dilated_board_mixer_cnn` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `multi_scale_dilated_board_mixer_cnn` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
