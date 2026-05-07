@@ -632,35 +632,35 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i021_tactical_sheaf_tension_network",
       "idea_id": "i021",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_sheaf_tension_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_sheaf_tension_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_sheaf_tension.build_tactical_sheaf_tension_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_sheaf_tension.build_tactical_sheaf_tension_from_config",
           "config.get",
+          "data_cfg.get",
           "dict",
+          "isinstance",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_sheaf_tension.TacticalSheafTensionNet",
+          "chess_nn_playground.models.tactical_sheaf_tension.build_tactical_sheaf_tension_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8426,17 +8426,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 83,
-      "shared_probe_variant": 157
+      "bespoke_model": 84,
+      "shared_probe_variant": 156
     },
     "by_metadata_kind": {
-      "bespoke_model": 83,
-      "shared_probe_variant": 157
+      "bespoke_model": 84,
+      "shared_probe_variant": 156
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i021_tactical_sheaf_tension_network",
       "ideas/i026_counterfactual_move_delta_spectrum_network",
       "ideas/i027_rule_only_counterfactual_move_delta_bottleneck",
       "ideas/i028_file_mirror_tension_sheaf",

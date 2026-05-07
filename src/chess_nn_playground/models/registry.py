@@ -43,6 +43,7 @@ from chess_nn_playground.models.piece_plane_gated_cnn import build_piece_plane_g
 from chess_nn_playground.models.safe_reply_certificate import build_safe_reply_certificate_verifier_from_config
 from chess_nn_playground.models.specialist_head_cnn import build_specialist_head_cnn_from_config
 from chess_nn_playground.models.tactical_sheaf_curvature import build_tactical_sheaf_curvature_from_config
+from chess_nn_playground.models.tactical_sheaf_tension import build_tactical_sheaf_tension_from_config
 from chess_nn_playground.models.sparse_witness_bottleneck import (
     build_sparse_witness_piece_bottleneck_network_from_config,
 )
@@ -203,6 +204,7 @@ MODEL_BUILDERS = {
     "tactical_threat_sheaf_network": build_tactical_threat_sheaf_from_config,
     "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
     "tactical_sheaf_curvature_network": build_tactical_sheaf_curvature_from_config,
+    "tactical_sheaf_tension_network": build_tactical_sheaf_tension_from_config,
     "attack_defense_sheaf_energy_network": build_attack_defense_sheaf_from_config,
     "attack_hodge_sheaf_tension_network": build_attack_hodge_sheaf_from_config,
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
