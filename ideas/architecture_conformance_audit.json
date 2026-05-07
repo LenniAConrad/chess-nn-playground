@@ -1221,6 +1221,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
+      "idea_id": "i062",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "matrix_pencil_generalized_spectrum_bottleneck",
+      "slug": "matrix_pencil_generalized_spectrum_bottleneck",
+      "source_files": [
+        "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py",
+        "src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i070_relational_query_algebra_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2324,6 +2344,7 @@
       "ideas/i059_harmonic_board_potential_network",
       "ideas/i060_tropical_constraint_circuit_network",
       "ideas/i061_grassmannian_principal_angle_bottleneck",
+      "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
       "ideas/i070_relational_query_algebra_network",
       "ideas/i071_variational_board_action_network",
       "ideas/i072_tensor_core_square_pair_field_network",
@@ -2377,7 +2398,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 113,
+    "implemented_architecture_count": 114,
     "issue_folders": [],
     "validation_issue_count": 0
   }

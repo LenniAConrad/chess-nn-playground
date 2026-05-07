@@ -2025,35 +2025,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
       "idea_id": "i062",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "matrix_pencil_generalized_spectrum_bottleneck",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "matrix_pencil_generalized_spectrum_bottleneck",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck.build_matrix_pencil_generalized_spectrum_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck.build_matrix_pencil_generalized_spectrum_bottleneck_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck.MatrixPencilGeneralizedSpectrumNet",
+          "chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck.build_matrix_pencil_generalized_spectrum_bottleneck_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8369,17 +8367,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 113,
-      "shared_probe_variant": 127
+      "bespoke_model": 114,
+      "shared_probe_variant": 126
     },
     "by_metadata_kind": {
-      "bespoke_model": 113,
-      "shared_probe_variant": 127
+      "bespoke_model": 114,
+      "shared_probe_variant": 126
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
       "ideas/i063_polar_procrustes_alignment_bottleneck",
       "ideas/i064_multi_scale_dilated_board_mixer_cnn",
       "ideas/i065_piece_token_cnn_hybrid",

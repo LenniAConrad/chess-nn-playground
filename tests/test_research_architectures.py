@@ -6515,3 +6515,186 @@ def test_i061_grassmannian_principal_angle_bottleneck_is_bespoke_and_conformant(
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i062_matrix_pencil_generalized_spectrum_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i062_matrix_pencil_generalized_spectrum_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
+        MatrixPencilGeneralizedSpectrumNet,
+        Simple18OccupiedTokenExtractor,
+        PieceSquareTokenEncoder,
+        LowRankBoardMatrixPair,
+        GeneralizedSpectrumLayer,
+        MatrixPencilHead,
+    )
+
+    assert isinstance(model, MatrixPencilGeneralizedSpectrumNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.token_extractor, Simple18OccupiedTokenExtractor)
+    assert isinstance(model.token_encoder, PieceSquareTokenEncoder)
+    assert isinstance(model.matrix_pair, LowRankBoardMatrixPair)
+    assert isinstance(model.spectrum, GeneralizedSpectrumLayer)
+    assert isinstance(model.head, MatrixPencilHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    matrix_dim = int(config["model"]["matrix_dim"])
+    factor_rank = int(config["model"]["factor_rank"])
+    probe_count = int(config["model"]["probe_count"])
+    assert input_channels == 18
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Two distinct boards so the batch_shuffled_b ablation has structure to break.
+    x[0, 0, 6, 4] = 1.0
+    x[0, 1, 6, 3] = 1.0
+    x[0, 3, 5, 2] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 4] = 1.0
+    x[0, 9, 2, 5] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 2, 4, 4] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 6, 2, 5] = 1.0
+    x[1, 8, 1, 3] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "generalized_eigenvalues",
+        "log_generalized_eigenvalues",
+        "rayleigh_probes",
+        "matrix_a",
+        "matrix_b",
+        "eigenvalues_a",
+        "eigenvalues_b",
+        "trace_a",
+        "trace_b",
+        "trace_ratio",
+        "condition_b",
+        "proportionality_diagnostic",
+        "mechanism_energy",
+        "active_token_count",
+        "ablation_active",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+
+    assert output["generalized_eigenvalues"].shape == (2, matrix_dim)
+    assert output["log_generalized_eigenvalues"].shape == (2, matrix_dim)
+    assert output["rayleigh_probes"].shape == (2, probe_count)
+    assert output["matrix_a"].shape == (2, matrix_dim, matrix_dim)
+    assert output["matrix_b"].shape == (2, matrix_dim, matrix_dim)
+    assert output["eigenvalues_a"].shape == (2, matrix_dim)
+    assert output["eigenvalues_b"].shape == (2, matrix_dim)
+
+    # Generalized eigenvalues are positive (B is PD, A is PSD + eps*I) and sorted descending.
+    gen = output["generalized_eigenvalues"]
+    assert torch.all(gen > 0.0)
+    gen_diff = gen[..., 1:] - gen[..., :-1]
+    assert torch.all(gen_diff <= 1.0e-4)
+
+    # Separate spectra are nonneg and sorted descending.
+    eig_a = output["eigenvalues_a"]
+    eig_b = output["eigenvalues_b"]
+    assert torch.all(eig_a >= 0.0)
+    assert torch.all(eig_b > 0.0)
+    a_diff = eig_a[..., 1:] - eig_a[..., :-1]
+    b_diff = eig_b[..., 1:] - eig_b[..., :-1]
+    assert torch.all(a_diff <= 1.0e-4)
+    assert torch.all(b_diff <= 1.0e-4)
+
+    # Backward through Cholesky + eigvalsh stays finite for the trainable model.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    enc_grad = trainable.token_encoder.mlp[0].weight.grad
+    pair_grad_a = trainable.matrix_pair.value_a.weight.grad
+    pair_grad_b = trainable.matrix_pair.value_b.weight.grad
+    head_grad = trainable.head.mlp[1].weight.grad
+    probe_grad = trainable.spectrum.probes.grad
+    assert enc_grad is not None and torch.isfinite(enc_grad).all()
+    assert pair_grad_a is not None and torch.isfinite(pair_grad_a).all()
+    assert pair_grad_b is not None and torch.isfinite(pair_grad_b).all()
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+    assert probe_grad is not None and torch.isfinite(probe_grad).all()
+
+    # All section-9 falsifier ablations must build, run, and produce finite logits.
+    for ablation in (
+        "separate_spectra_only",
+        "trace_ratio_only",
+        "batch_shuffled_b",
+        "random_factors",
+        "single_matrix_spectrum",
+        "mean_pool_head",
+        "material_only_tokens",
+    ):
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = module.build_matrix_pencil_generalized_spectrum_bottleneck_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "random_factors":
+            for parameter in abl_model.token_encoder.parameters():
+                assert not parameter.requires_grad, ablation
+            for parameter in abl_model.matrix_pair.parameters():
+                assert not parameter.requires_grad, ablation
+
+    # Permutation invariance over batch: reordering samples in the batch must
+    # preserve per-sample logits (the model has no cross-sample interaction
+    # in the default ablation).
+    x_shuffle = x[[1, 0]]
+    with torch.no_grad():
+        out_shuffle = model(x_shuffle)
+    assert torch.allclose(out_shuffle["logits"], output["logits"][[1, 0]], atol=1.0e-4)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "matrix_pencil_generalized_spectrum_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MatrixPencilGeneralizedSpectrumNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i062"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
