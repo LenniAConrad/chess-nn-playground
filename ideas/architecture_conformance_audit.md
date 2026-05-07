@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `91`
+- Implemented architecture rows audited: `92`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -44,6 +44,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i030` | `ideas/i030_nuisance_orthogonal_puzzle_bottleneck` | `nuisance_orthogonal_puzzle_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i030_nuisance_orthogonal_puzzle_bottleneck/model.py`<br>`src/chess_nn_playground/models/nuisance_orthogonal_puzzle_bottleneck.py` | - |
 | `i031` | `ideas/i031_tactical_transport_imbalance_network` | `tactical_transport_imbalance_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i031_tactical_transport_imbalance_network/model.py`<br>`src/chess_nn_playground/models/tactical_transport_imbalance.py` | - |
 | `i032` | `ideas/i032_king_anchored_material_null_transport_bottleneck` | `king_anchored_material_null_transport_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i032_king_anchored_material_null_transport_bottleneck/model.py`<br>`src/chess_nn_playground/models/king_anchored_material_null_transport.py` | - |
+| `i033` | `ideas/i033_piece_target_entropic_transport_bottleneck` | `piece_target_entropic_transport_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i033_piece_target_entropic_transport_bottleneck/model.py`<br>`src/chess_nn_playground/models/piece_target_transport.py` | - |
 | `i036` | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network` | `geometry_conditioned_board_pseudo_likelihood_ratio_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`<br>`src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py` | - |
 | `i037` | `ideas/i037_mobius_piece_constellation_network` | `mobius_piece_constellation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i037_mobius_piece_constellation_network/model.py`<br>`src/chess_nn_playground/models/mobius_piece_constellation.py` | - |
 | `i038` | `ideas/i038_sparse_witness_piece_bottleneck_network` | `sparse_witness_piece_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i038_sparse_witness_piece_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/sparse_witness_bottleneck.py` | - |

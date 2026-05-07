@@ -16,6 +16,9 @@ from chess_nn_playground.models.empty_square_opportunity_network import build_em
 from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
     build_entropic_piece_target_transport_bottleneck_from_config,
 )
+from chess_nn_playground.models.piece_target_transport import (
+    build_piece_target_entropic_transport_bottleneck_from_config,
+)
 from chess_nn_playground.models.hadamard_spectrum import build_hadamard_spectrum_from_config
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
@@ -229,6 +232,7 @@ MODEL_BUILDERS = {
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "file_mirror_tension_sheaf": build_file_mirror_tension_sheaf_from_config,
     "entropic_piece_target_transport_bottleneck": build_entropic_piece_target_transport_bottleneck_from_config,
+    "piece_target_entropic_transport_bottleneck": build_piece_target_entropic_transport_bottleneck_from_config,
     "king_anchored_material_null_transport_bottleneck": build_king_anchored_material_null_transport_bottleneck_from_config,
     "nuisance_orthogonal_puzzle_bottleneck": build_nuisance_orthogonal_puzzle_bottleneck_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
