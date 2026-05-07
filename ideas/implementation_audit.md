@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 108 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 132 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 109 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 131 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i057_soft_formal_concept_closure_network`
 - `ideas/i058_determinantal_tactical_volume_bottleneck`
 - `ideas/i059_harmonic_board_potential_network`
 - `ideas/i060_tropical_constraint_circuit_network`
@@ -217,7 +216,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i054` | `ideas/i054_threat_topology_betti_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `threat_topology_betti_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i055` | `ideas/i055_non_backtracking_tactical_walk_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `non_backtracking_tactical_walk_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i056` | `ideas/i056_non_puzzle_score_field_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `non_puzzle_score_field_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i057` | `ideas/i057_soft_formal_concept_closure_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `soft_formal_concept_closure_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i057` | `ideas/i057_soft_formal_concept_closure_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `soft_formal_concept_closure_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i058` | `ideas/i058_determinantal_tactical_volume_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `determinantal_tactical_volume_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i059` | `ideas/i059_harmonic_board_potential_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `harmonic_board_potential_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i060` | `ideas/i060_tropical_constraint_circuit_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tropical_constraint_circuit_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
