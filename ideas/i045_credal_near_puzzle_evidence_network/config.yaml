@@ -16,13 +16,20 @@ model:
   name: credal_near_puzzle_evidence_network
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  encoding: simple_18
+  hidden_channels: 64
+  hidden_dim: 128
+  num_res_blocks: 4
+  evidence_floor: 1.0
+  near_tau: 0.55
+  near_s_max: 6.0
+  lambda_near_evidence_cap: 0.05
+  lambda_dirichlet_kl: 0.001
+  kl_anneal_epochs: 2
   dropout: 0.1
   use_batchnorm: true
+  allow_unknown_channels: false
   mechanism_family: information
-  packet_profile: credal_near_puzzle_evidence_network
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +53,5 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke implementation of the credal/Dirichlet evidential head over a
+  compact residual board encoder. CRTK metadata is reporting-only.

@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 100 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 140 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 101 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 139 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i045_credal_near_puzzle_evidence_network`
 - `ideas/i046_rule_exact_orbit_bottleneck_network`
 - `ideas/i047_color_flip_orbit_evidence_bottleneck`
 - `ideas/i048_rule_automorphism_quotient_bottleneck_network`
@@ -213,7 +212,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i042` | `ideas/i042_legal_automorphism_quotient_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_automorphism_quotient_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i043` | `ideas/i043_side_canonical_rule_partition_invariant_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `side_canonical_rule_partition_invariant_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i044` | `ideas/i044_masked_board_code_length_surprise_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `masked_board_code_length_surprise_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i045` | `ideas/i045_credal_near_puzzle_evidence_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `credal_near_puzzle_evidence_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i045` | `ideas/i045_credal_near_puzzle_evidence_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `credal_near_puzzle_evidence_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i046` | `ideas/i046_rule_exact_orbit_bottleneck_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `rule_exact_orbit_bottleneck_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i047` | `ideas/i047_color_flip_orbit_evidence_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `color_flip_orbit_evidence_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i048` | `ideas/i048_rule_automorphism_quotient_bottleneck_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `rule_automorphism_quotient_bottleneck_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

@@ -4689,3 +4689,123 @@ def test_i044_masked_board_code_length_surprise_network_is_bespoke_and_conforman
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i045_credal_near_puzzle_evidence_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i045_credal_near_puzzle_evidence_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with kings on e1/e8 and a few pieces.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    # Sample 1: black-to-move with a different geometry.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "alpha",
+        "alpha_pos",
+        "alpha_neg",
+        "evidence",
+        "evidence_pos",
+        "evidence_neg",
+        "evidence_mass",
+        "mu_pos",
+        "uncertainty",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Dirichlet structural invariants from math_thesis.md.
+    alpha = output["alpha"]
+    assert alpha.shape == (2, 2)
+    assert (alpha >= 1.0 - 1e-5).all(), "alpha must satisfy alpha = 1 + softplus(...)"
+    s = output["evidence_mass"]
+    assert torch.allclose(s, alpha.sum(dim=1), atol=1e-5)
+    mu = output["mu_pos"]
+    assert torch.allclose(mu, alpha[:, 1] / s, atol=1e-5)
+    # The reported single binary logit's sigmoid equals the Dirichlet predictive mean.
+    assert torch.allclose(torch.sigmoid(output["logits"]), mu, atol=1e-5)
+    # Uncertainty diagnostic equals 2/S.
+    assert torch.allclose(output["uncertainty"], 2.0 / s, atol=1e-5)
+
+    # Fail-closed adapter rejects unknown channel counts.
+    from chess_nn_playground.models.credal_near_puzzle_evidence import (
+        CredalEvidencePuzzleNet,
+        FailClosedBoardAdapter,
+    )
+
+    with pytest.raises(ValueError):
+        FailClosedBoardAdapter(input_channels=37, hidden_channels=8, encoding=None)
+    with pytest.raises(ValueError):
+        FailClosedBoardAdapter(input_channels=18, hidden_channels=8, encoding="lc0_unknown")
+    # Allowing unknown channels constructs the adapter without raising.
+    FailClosedBoardAdapter(
+        input_channels=37, hidden_channels=8, encoding=None, allow_unknown_channels=True
+    )
+
+    # num_classes=2 head returns log(alpha+eps) so softmax equals the Dirichlet mean.
+    binary_pair = CredalEvidencePuzzleNet(
+        input_channels=18,
+        num_classes=2,
+        hidden_channels=16,
+        hidden_dim=32,
+        num_res_blocks=2,
+        encoding="simple_18",
+    ).eval()
+    with torch.no_grad():
+        pair_out = binary_pair(x)
+    assert pair_out["logits"].shape == (2, 2)
+    pair_softmax = torch.softmax(pair_out["logits"], dim=1)
+    pair_alpha = pair_out["alpha"]
+    assert torch.allclose(pair_softmax, pair_alpha / pair_alpha.sum(dim=1, keepdim=True), atol=1e-5)
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "credal_near_puzzle_evidence_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i045"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

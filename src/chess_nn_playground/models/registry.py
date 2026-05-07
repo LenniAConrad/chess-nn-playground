@@ -192,6 +192,9 @@ from chess_nn_playground.models.vetoselect import build_vetoselect_from_config
 
 from chess_nn_playground.models.orbit_disagreement import build_orbit_disagreement_residual_network_from_config
 from chess_nn_playground.models.hall_dual_residual import build_hall_defect_dual_residual_network_from_config
+from chess_nn_playground.models.credal_near_puzzle_evidence import (
+    build_credal_near_puzzle_evidence_network_from_config,
+)
 from chess_nn_playground.models.credal_temperature import build_credal_temperature_field_network_from_config
 from chess_nn_playground.models.sylvester_coupling import build_sylvester_tactical_coupling_network_from_config
 from chess_nn_playground.models.schur_complement_defender import build_schur_complement_defender_network_from_config
@@ -300,6 +303,7 @@ MODEL_BUILDERS = {
     "kinematic_commutator_bottleneck_network": build_kinematic_commutator_bottleneck_network_from_config,
     "orbit_disagreement_residual_network": build_orbit_disagreement_residual_network_from_config,
     "hall_defect_dual_residual_network": build_hall_defect_dual_residual_network_from_config,
+    "credal_near_puzzle_evidence_network": build_credal_near_puzzle_evidence_network_from_config,
     "credal_temperature_field_network": build_credal_temperature_field_network_from_config,
     "sylvester_tactical_coupling_network": build_sylvester_tactical_coupling_network_from_config,
     "schur_complement_defender_network": build_schur_complement_defender_network_from_config,
