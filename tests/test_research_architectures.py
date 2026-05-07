@@ -2139,6 +2139,86 @@ def test_i026_counterfactual_move_delta_spectrum_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i027_rule_only_counterfactual_move_delta_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i027_rule_only_counterfactual_move_delta_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 6, 1, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "move_cone_kappa",
+        "move_cone_score_max",
+        "move_cone_score_logmeanexp",
+        "move_cone_sparse_active_count",
+        "move_cone_alpha_max",
+        "move_cone_alpha_entropy",
+        "move_cone_b_sparse_norm",
+        "move_cone_b_mean_norm",
+        "move_cone_b_second_sum",
+        "pseudo_legal_move_count",
+        "capture_move_fraction",
+        "promotion_move_fraction",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert value.shape == (2,) or value.shape == (2, output["logits"].shape[-1] if value.dim() > 1 else 0), key
+            assert torch.isfinite(value).all(), key
+    assert (output["pseudo_legal_move_count"] > 0).all()
+    assert (output["move_cone_alpha_max"] >= 0.0).all()
+    assert (output["move_cone_alpha_max"] <= 1.0 + 1.0e-4).all()
+    assert (output["move_cone_sparse_active_count"] >= 1.0).all()
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    model_cfg["encoding"] = config["data"]["encoding"]
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i027"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i127_square_color_parity_mixer_is_bespoke_and_conformant():
     folder = Path("ideas/i127_square_color_parity_mixer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))

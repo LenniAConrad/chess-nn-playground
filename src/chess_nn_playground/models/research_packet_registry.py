@@ -15,6 +15,7 @@ _BESPOKE_MODEL_NAMES = {
     "mobius_piece_constellation_network",
     "one_ply_counterfactual_move_landscape_network",
     "counterfactual_move_delta_spectrum_network",
+    "rule_only_counterfactual_move_delta_bottleneck",
     "occupancy_run_length_segment_encoder",
     "patch_mixer_boardnet",
     "piece_plane_gated_cnn",

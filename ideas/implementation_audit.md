@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 85 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 155 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 86 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 154 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i027_rule_only_counterfactual_move_delta_bottleneck`
 - `ideas/i028_file_mirror_tension_sheaf`
 - `ideas/i029_entropic_piece_target_transport_bottleneck`
 - `ideas/i030_nuisance_orthogonal_puzzle_bottleneck`
@@ -210,7 +209,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i024` | `ideas/i024_directed_attack_sheaf_tension_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `directed_attack_sheaf_tension_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i025` | `ideas/i025_one_ply_counterfactual_move_landscape_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `one_ply_counterfactual_move_landscape_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i026` | `ideas/i026_counterfactual_move_delta_spectrum_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `counterfactual_move_delta_spectrum_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i027` | `ideas/i027_rule_only_counterfactual_move_delta_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `rule_only_counterfactual_move_delta_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i027` | `ideas/i027_rule_only_counterfactual_move_delta_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_only_counterfactual_move_delta_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i028` | `ideas/i028_file_mirror_tension_sheaf` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `file_mirror_tension_sheaf` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i029` | `ideas/i029_entropic_piece_target_transport_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `entropic_piece_target_transport_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i030` | `ideas/i030_nuisance_orthogonal_puzzle_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `nuisance_orthogonal_puzzle_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

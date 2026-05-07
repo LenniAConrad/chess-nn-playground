@@ -521,6 +521,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i027_rule_only_counterfactual_move_delta_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i027_rule_only_counterfactual_move_delta_bottleneck",
+      "idea_id": "i027",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rule_only_counterfactual_move_delta_bottleneck",
+      "slug": "rule_only_counterfactual_move_delta_bottleneck",
+      "source_files": [
+        "ideas/i027_rule_only_counterfactual_move_delta_bottleneck/model.py",
+        "src/chess_nn_playground/models/counterfactual_delta_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1729,6 +1749,7 @@
       "ideas/i024_directed_attack_sheaf_tension_network",
       "ideas/i025_one_ply_counterfactual_move_landscape_network",
       "ideas/i026_counterfactual_move_delta_spectrum_network",
+      "ideas/i027_rule_only_counterfactual_move_delta_bottleneck",
       "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network",
       "ideas/i037_mobius_piece_constellation_network",
       "ideas/i038_sparse_witness_piece_bottleneck_network",
@@ -1789,7 +1810,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 85,
+    "implemented_architecture_count": 86,
     "issue_folders": [],
     "validation_issue_count": 0
   }

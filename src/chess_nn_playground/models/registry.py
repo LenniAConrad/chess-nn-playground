@@ -90,6 +90,9 @@ from chess_nn_playground.models.residual_calibration import build_residual_calib
 from chess_nn_playground.models.residual_cnn import build_residual_cnn_from_config
 from chess_nn_playground.models.set_query_attention import build_set_query_attention_bottleneck_from_config
 from chess_nn_playground.models.sparse_relation_pursuit import build_sparse_relation_pursuit_from_config
+from chess_nn_playground.models.counterfactual_delta_bottleneck import (
+    build_counterfactual_delta_bottleneck_from_config,
+)
 from chess_nn_playground.models.counterfactual_move_delta_spectrum import (
     build_counterfactual_move_delta_spectrum_network_from_config,
 )
@@ -213,6 +216,7 @@ MODEL_BUILDERS = {
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
     "counterfactual_move_delta_spectrum_network": build_counterfactual_move_delta_spectrum_network_from_config,
+    "rule_only_counterfactual_move_delta_bottleneck": build_counterfactual_delta_bottleneck_from_config,
     "specialist_head_cnn": build_specialist_head_cnn_from_config,
     "patch_mixer_boardnet": build_patch_mixer_boardnet_from_config,
     "piece_plane_gated_cnn": build_piece_plane_gated_cnn_from_config,
