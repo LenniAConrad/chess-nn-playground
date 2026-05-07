@@ -421,13 +421,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i034_entropic_chess_geometry_transport_network",
       "idea_id": "i034",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Entropic Chess Geometry Transport Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0703_tuesday_los_angeles_geom_ot.md`; uses a transport mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0703_tuesday_los_angeles_geom_ot.md`; uses a deterministic chess-distance entropic Sinkhorn transport layer between side-to-move source atoms and opponent target atoms, fused with a compact CNN trunk, rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus transport plan diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Entropic Chess Geometry Transport Network, abbreviated ECGT-Net. - One-sentence thesis: Puzzle-like positions often contain an unusually organized transpo...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3335,15 +3335,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i034_entropic_chess_geometry_transport_network",
       "idea_id": "i034",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "transport",
       "name": "Entropic Chess Geometry Transport Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0703_tuesday_los_angeles_geom_ot.md`. Implemented as a bespoke board-only entropic chess geometry transport network with a fail-closed simple_18 semantic adapter, deterministic source/target atom builder, learned chess-distance cost, log-domain Sinkhorn, transport flow and pressure-map projector, and a CNN trunk fused with a transport MLP. The folder keeps the repository i034 target contract with fine labels 0 and 1 as non-puzzle and fine label 2 as puzzle.",
       "short_thesis": "- Idea name: Entropic Chess Geometry Transport Network, abbreviated ECGT-Net. - One-sentence thesis: Puzzle-like positions often contain an unusually organized transpo...",
       "slug": "entropic_chess_geometry_transport_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0703_tuesday_los_angeles_geom_ot.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

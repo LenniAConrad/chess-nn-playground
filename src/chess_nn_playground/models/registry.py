@@ -8,6 +8,9 @@ from chess_nn_playground.models.attack_defense_sheaf import build_attack_defense
 from chess_nn_playground.models.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
 from chess_nn_playground.models.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
 from chess_nn_playground.models.cayley_orthogonal import build_cayley_orthogonal_from_config
+from chess_nn_playground.models.chess_geometry_transport import (
+    build_entropic_chess_geometry_transport_network_from_config,
+)
 from chess_nn_playground.models.cnn import build_cnn_from_config
 from chess_nn_playground.models.directed_attack_sheaf import build_directed_attack_sheaf_from_config
 from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
@@ -283,6 +286,7 @@ MODEL_BUILDERS = {
     "padic_ultrametric_threat_network": build_padic_ultrametric_threat_network_from_config,
     "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
+    "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

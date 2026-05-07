@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 92 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 148 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 93 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 147 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i034_entropic_chess_geometry_transport_network`
 - `ideas/i035_ordinal_evidence_ladder_network`
 - `ideas/i039_ray_language_automaton_network`
 - `ideas/i040_kinematic_commutator_bottleneck_network`
@@ -210,7 +209,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i031` | `ideas/i031_tactical_transport_imbalance_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_transport_imbalance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i032` | `ideas/i032_king_anchored_material_null_transport_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `king_anchored_material_null_transport_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i033` | `ideas/i033_piece_target_entropic_transport_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_target_entropic_transport_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i034` | `ideas/i034_entropic_chess_geometry_transport_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `entropic_chess_geometry_transport_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i034` | `ideas/i034_entropic_chess_geometry_transport_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `entropic_chess_geometry_transport_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i035` | `ideas/i035_ordinal_evidence_ladder_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `ordinal_evidence_ladder_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i036` | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `geometry_conditioned_board_pseudo_likelihood_ratio_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i037` | `ideas/i037_mobius_piece_constellation_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `mobius_piece_constellation_network` | `-` | model.py delegates to a non-shared architecture builder | - |
