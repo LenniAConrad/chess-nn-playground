@@ -154,6 +154,9 @@ from chess_nn_playground.models.pinned_mobility_nullspace import (
 from chess_nn_playground.models.ray_grammar_edit_distance import (
     build_ray_grammar_edit_distance_network_from_config,
 )
+from chess_nn_playground.models.ray_language_automaton_network import (
+    build_ray_language_automaton_network_from_config,
+)
 from chess_nn_playground.models.role_counterfactual_necessity import (
     build_role_counterfactual_necessity_network_from_config,
 )
@@ -277,6 +280,7 @@ MODEL_BUILDERS = {
     "masked_codec_interaction_curvature_network": build_masked_codec_interaction_curvature_network_from_config,
     "non_puzzle_score_curl_divergence_bottleneck": build_non_puzzle_score_curl_divergence_bottleneck_from_config,
     "ray_grammar_edit_distance_network": build_ray_grammar_edit_distance_network_from_config,
+    "ray_language_automaton_network": build_ray_language_automaton_network_from_config,
     "orbit_disagreement_residual_network": build_orbit_disagreement_residual_network_from_config,
     "hall_defect_dual_residual_network": build_hall_defect_dual_residual_network_from_config,
     "credal_temperature_field_network": build_credal_temperature_field_network_from_config,

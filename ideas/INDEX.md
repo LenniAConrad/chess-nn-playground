@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 87, 'probe_scaffold_only': 146, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 94, 'shared_probe_variant': 146}`
+- Registered implementation states: `{'implemented': 88, 'probe_scaffold_only': 145, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 95, 'shared_probe_variant': 145}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 94 | Materially distinct model implementation. |
-| `shared_probe_variant` | 146 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 95 | Materially distinct model implementation. |
+| `shared_probe_variant` | 145 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -77,7 +77,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i036` | [Geometry-Conditioned Board Pseudo-Likelihood Ratio Network](i036_geometry_conditioned_board_pseudo_likelihood_ratio_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i037` | [Möbius Piece-Constellation Network](i037_mobius_piece_constellation_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i038` | [Sparse Witness-Piece Bottleneck Network](i038_sparse_witness_piece_bottleneck_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i039` | [Ray-Language Automaton Network](i039_ray_language_automaton_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i039` | [Ray-Language Automaton Network](i039_ray_language_automaton_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i040` | [Kinematic Commutator Bottleneck Network](i040_kinematic_commutator_bottleneck_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i041` | [Centered Tempo-Odd Interventional Bottleneck](i041_centered_tempo_odd_interventional_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i042` | [Legal Automorphism Quotient Network](i042_legal_automorphism_quotient_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

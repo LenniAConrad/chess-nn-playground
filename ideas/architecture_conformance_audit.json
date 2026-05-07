@@ -761,6 +761,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i039_ray_language_automaton_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i039_ray_language_automaton_network",
+      "idea_id": "i039",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "ray_language_automaton_network",
+      "slug": "ray_language_automaton_network",
+      "source_files": [
+        "ideas/i039_ray_language_automaton_network/model.py",
+        "src/chess_nn_playground/models/ray_language_automaton_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i051_king_escape_percolation_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1921,6 +1941,7 @@
       "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network",
       "ideas/i037_mobius_piece_constellation_network",
       "ideas/i038_sparse_witness_piece_bottleneck_network",
+      "ideas/i039_ray_language_automaton_network",
       "ideas/i051_king_escape_percolation_network",
       "ideas/i052_soft_king_cage_path_bottleneck_network",
       "ideas/i053_hall_defect_obligation_matroid_network",
@@ -1978,7 +1999,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 94,
+    "implemented_architecture_count": 95,
     "issue_folders": [],
     "validation_issue_count": 0
   }

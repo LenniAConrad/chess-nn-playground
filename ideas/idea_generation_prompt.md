@@ -481,13 +481,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i039_ray_language_automaton_network",
       "idea_id": "i039",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Ray-Language Automaton Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0719_tuesday_local_ray_language_automaton.md`; uses a grammar mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0719_tuesday_local_ray_language_automaton.md`; central operator is a family of differentiable log-semiring weighted finite automata over side-relative chess-ray piece-token strings, not a CNN, sheaf, or transport scaffold.",
+      "output_heads": "One puzzle logit plus ray-language diagnostics (ray scores, axis maxima, per-batch automaton diversity) saved to prediction artifacts.",
       "short_thesis": "- Idea name: Ray-Language Automaton Network, abbreviated `RLAN`. - One-sentence thesis: Many chess puzzle-like positions contain short, ordered, gapped piece strings a...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3410,15 +3410,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i039_ray_language_automaton_network",
       "idea_id": "i039",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "grammar",
       "name": "Ray-Language Automaton Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke implementation lives in src/chess_nn_playground/models/ray_language_automaton_network.py; the idea-local model.py is a thin wrapper around the registered builder.",
       "short_thesis": "- Idea name: Ray-Language Automaton Network, abbreviated `RLAN`. - One-sentence thesis: Many chess puzzle-like positions contain short, ordered, gapped piece strings a...",
       "slug": "ray_language_automaton_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0719_tuesday_local_ray_language_automaton.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {
