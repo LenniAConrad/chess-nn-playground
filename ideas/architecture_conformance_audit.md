@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `99`
+- Implemented architecture rows audited: `100`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -55,6 +55,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i041` | `ideas/i041_centered_tempo_odd_interventional_bottleneck` | `centered_tempo_odd_interventional_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i041_centered_tempo_odd_interventional_bottleneck/model.py`<br>`src/chess_nn_playground/models/centered_tempo_odd_interventional_bottleneck.py` | - |
 | `i042` | `ideas/i042_legal_automorphism_quotient_network` | `legal_automorphism_quotient_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i042_legal_automorphism_quotient_network/model.py`<br>`src/chess_nn_playground/models/legal_automorphism_quotient_network.py` | - |
 | `i043` | `ideas/i043_side_canonical_rule_partition_invariant_bottleneck` | `side_canonical_rule_partition_invariant_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i043_side_canonical_rule_partition_invariant_bottleneck/model.py`<br>`src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py` | - |
+| `i044` | `ideas/i044_masked_board_code_length_surprise_network` | `masked_board_code_length_surprise_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i044_masked_board_code_length_surprise_network/model.py`<br>`src/chess_nn_playground/models/masked_surprise_codec.py` | - |
 | `i051` | `ideas/i051_king_escape_percolation_network` | `king_escape_percolation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i051_king_escape_percolation_network/model.py`<br>`src/chess_nn_playground/models/king_escape_percolation.py` | - |
 | `i052` | `ideas/i052_soft_king_cage_path_bottleneck_network` | `soft_king_cage_path_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i052_soft_king_cage_path_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/soft_king_cage_path.py` | - |
 | `i053` | `ideas/i053_hall_defect_obligation_matroid_network` | `hall_defect_obligation_matroid_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i053_hall_defect_obligation_matroid_network/model.py`<br>`src/chess_nn_playground/models/hall_defect_obligation_matroid.py` | - |

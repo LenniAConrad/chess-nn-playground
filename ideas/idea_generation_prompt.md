@@ -541,13 +541,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i044_masked_board_code_length_surprise_network",
       "idea_id": "i044",
-      "implementation_kind": "shared_probe_variant",
-      "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
+      "implementation_kind": "bespoke_model",
+      "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input. LC0 schemas fail closed.",
       "name": "Masked Board Code-Length Surprise Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0739_tuesday_los_angeles_masked_surprise_codec.md`; uses a information mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0739_tuesday_los_angeles_masked_surprise_codec.md`; the central operator is a label-free masked board codec whose mask-averaged conditional code-length / entropy / true-token-probability fields are fed alongside the original board tensor to a compact residual classifier. Materially distinct from the shared mechanism-profile probe.",
+      "output_heads": "One puzzle logit plus MBCS-Net diagnostics (code_length_field, code_length_scaled_field, entropy_field, p_true_field, code_length_mean, code_length_max, entropy_mean, entropy_max, p_true_mean, codec_nll, mask_coverage) saved to prediction artifacts.",
       "short_thesis": "- Idea name: **Masked Board Code-Length Surprise Network** (`MBCS-Net`) - One-sentence thesis: Train a label-free masked board codec to estimate how many nats it takes...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

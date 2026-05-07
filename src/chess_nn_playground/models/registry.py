@@ -145,6 +145,9 @@ from chess_nn_playground.models.hierarchical_tactical_option import (
 from chess_nn_playground.models.masked_codec_interaction_curvature import (
     build_masked_codec_interaction_curvature_network_from_config,
 )
+from chess_nn_playground.models.masked_surprise_codec import (
+    build_masked_board_code_length_surprise_network_from_config,
+)
 from chess_nn_playground.models.non_puzzle_score_curl_divergence import (
     build_non_puzzle_score_curl_divergence_bottleneck_from_config,
 )
@@ -290,6 +293,7 @@ MODEL_BUILDERS = {
     "forced_target_funnel_network": build_forced_target_funnel_network_from_config,
     "tactical_subgoal_automaton_network": build_tactical_subgoal_automaton_network_from_config,
     "masked_codec_interaction_curvature_network": build_masked_codec_interaction_curvature_network_from_config,
+    "masked_board_code_length_surprise_network": build_masked_board_code_length_surprise_network_from_config,
     "non_puzzle_score_curl_divergence_bottleneck": build_non_puzzle_score_curl_divergence_bottleneck_from_config,
     "ray_grammar_edit_distance_network": build_ray_grammar_edit_distance_network_from_config,
     "ray_language_automaton_network": build_ray_language_automaton_network_from_config,

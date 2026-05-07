@@ -1,33 +1,38 @@
 idea_id: i044
 name: Masked Board Code-Length Surprise Network
 slug: masked_board_code_length_surprise_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: **Masked Board Code-Length Surprise Network** (`MBCS-Net`)
   - One-sentence thesis: Train a label-free masked board codec to estimate how many
   nats it takes...'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0739_tuesday_los_angeles_masked_surprise_codec.md`;
-  uses a information mechanism profile over board-only features rather than generic
-  CNN-only pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  the central operator is a label-free masked board codec whose mask-averaged
+  conditional code-length / entropy / true-token-probability fields are fed
+  alongside the original board tensor to a compact residual classifier. Materially
+  distinct from the shared mechanism-profile probe.
+expected_advantage: Test the packet's proposed mask-averaged conditional
+  code-length signal under the puzzle_binary benchmark contract using a bespoke
+  masked codec + surprise classifier rather than a shared mechanism profile.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
-  reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+  reporting-only and never used as model input. LC0 schemas fail closed.
+output_heads: One puzzle logit plus MBCS-Net diagnostics (code_length_field,
+  code_length_scaled_field, entropy_field, p_true_field, code_length_mean,
+  code_length_max, entropy_mean, entropy_max, p_true_mean, codec_nll,
+  mask_coverage) saved to prediction artifacts.
+compute_notes: Compact convolutional codec (3 residual blocks at width 32) plus
+  4-block residual classifier at width 64; four 2x2 residue masks chunked through
+  the codec; ~0.4M trainable parameters at default widths.
+implementation_status: implemented
 trainer_entrypoint: ideas/i044_masked_board_code_length_surprise_network/train.py
 config_path: ideas/i044_masked_board_code_length_surprise_network/config.yaml
 model_path: ideas/i044_masked_board_code_length_surprise_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0739_tuesday_los_angeles_masked_surprise_codec.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation lives in `src/chess_nn_playground/models/masked_surprise_codec.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: information
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

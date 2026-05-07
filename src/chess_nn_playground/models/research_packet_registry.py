@@ -37,6 +37,7 @@ _BESPOKE_MODEL_NAMES = {
     "forced_target_funnel_network",
     "hierarchical_tactical_option_network",
     "masked_codec_interaction_curvature_network",
+    "masked_board_code_length_surprise_network",
     "non_puzzle_score_curl_divergence_bottleneck",
     "phase_specialist_calibration_mixture",
     "pinned_mobility_nullspace_network",
@@ -174,4 +175,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "side_canonical_rule_partition_invariant_bottleneck"
+]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "masked_board_code_length_surprise_network"
 ]

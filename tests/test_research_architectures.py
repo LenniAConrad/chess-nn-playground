@@ -4579,3 +4579,113 @@ def test_i043_side_canonical_rule_partition_invariant_bottleneck_is_bespoke_and_
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i044_masked_board_code_length_surprise_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i044_masked_board_code_length_surprise_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with kings on e1/e8 and a few pieces.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    # Sample 1: black-to-move with a different geometry.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "code_length_field",
+        "code_length_scaled_field",
+        "entropy_field",
+        "p_true_field",
+        "code_length_mean",
+        "code_length_max",
+        "entropy_mean",
+        "entropy_max",
+        "p_true_mean",
+        "codec_nll",
+        "mask_coverage",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+    # Spatial diagnostic shapes.
+    assert output["code_length_field"].shape == (2, 8, 8)
+    assert output["entropy_field"].shape == (2, 8, 8)
+    assert output["p_true_field"].shape == (2, 8, 8)
+    # The 2x2 residue mask bank covers every square exactly once.
+    assert torch.allclose(output["mask_coverage"], torch.ones(2, 8, 8))
+    # P_true is a probability and code length is non-negative.
+    assert (output["p_true_field"] >= 0.0).all()
+    assert (output["p_true_field"] <= 1.0).all()
+    assert (output["code_length_field"] >= 0.0).all()
+
+    # Tokenizer round-trip on a clean board.
+    from chess_nn_playground.models.masked_surprise_codec import (
+        MaskBank2x2Residues,
+        Simple18PieceTokenizer,
+    )
+
+    tokenizer = Simple18PieceTokenizer(strict=True)
+    tokens = tokenizer(x)
+    assert tokens.shape == (2, 8, 8)
+    # White king on e1 -> WK token (channel 5, so token = 6).
+    assert int(tokens[0, 7, 4]) == 6
+    # Black queen on a8 -> BQ token (channel 10, so token = 11).
+    assert int(tokens[0, 0, 0]) == 11
+    # Empty squares stay at token 0.
+    assert int(tokens[0, 4, 4]) == 0
+
+    # The fixed mask bank covers every square exactly once.
+    bank = MaskBank2x2Residues()
+    masks = bank.get_masks(device=torch.device("cpu"), dtype=torch.float32)
+    assert masks.shape == (4, 1, 8, 8)
+    assert torch.allclose(masks.sum(dim=0), torch.ones(1, 8, 8))
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "masked_board_code_length_surprise_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i044"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
