@@ -52,6 +52,7 @@ results/**
 *.npz
 
 # Generated report assets and run logs
+logs/
 reports/**/*.log
 reports/**/*.png
 reports/**/*.pdf

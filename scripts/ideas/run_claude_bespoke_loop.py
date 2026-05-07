@@ -161,8 +161,12 @@ def _run_one_idea(
         return True
 
     if _working_tree_dirty():
-        print("   refusing to start: working tree is dirty. commit or stash first.", flush=True)
-        return False
+        if restore_on_fail:
+            print("   pre-idea cleanup: tree dirty from previous run, restoring.", flush=True)
+            _restore()
+        else:
+            print("   refusing to start: working tree is dirty. commit or stash first.", flush=True)
+            return False
 
     with log_path.open("w", encoding="utf-8") as log:
         log.write(f"# idea: {idea_id}\n# folder: {folder}\n# argv: {claude_argv}\n\n")
@@ -221,7 +225,13 @@ def main() -> None:
     parser.add_argument("--model", default=None, help="Override Claude model (e.g. claude-sonnet-4-6).")
     parser.add_argument("--claude-bin", default=None, help="Path to claude CLI (default: PATH lookup).")
     parser.add_argument("--safe", action="store_true", help="Use acceptEdits + tool allowlist instead of dangerously-skip-permissions.")
-    parser.add_argument("--restore-on-fail", action="store_true", help="git reset --hard + clean -fd if an idea fails.")
+    parser.add_argument(
+        "--restore-on-fail",
+        dest="restore_on_fail",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="On idea failure, git reset --hard + clean -fd so the next idea starts clean. Default: on. Use --no-restore-on-fail to keep the dirty tree for inspection (will halt the loop).",
+    )
     parser.add_argument("--stop-on-fail", action="store_true", help="Halt the loop on the first failure.")
     parser.add_argument("--log-dir", default=str(DEFAULT_LOG_DIR))
     parser.add_argument("--dry-run", action="store_true", help="Print what would run without invoking claude.")
