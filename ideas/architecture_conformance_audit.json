@@ -901,6 +901,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i046_rule_exact_orbit_bottleneck_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i046_rule_exact_orbit_bottleneck_network",
+      "idea_id": "i046",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rule_exact_orbit_bottleneck_network",
+      "slug": "rule_exact_orbit_bottleneck_network",
+      "source_files": [
+        "ideas/i046_rule_exact_orbit_bottleneck_network/model.py",
+        "src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i051_king_escape_percolation_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2068,6 +2088,7 @@
       "ideas/i043_side_canonical_rule_partition_invariant_bottleneck",
       "ideas/i044_masked_board_code_length_surprise_network",
       "ideas/i045_credal_near_puzzle_evidence_network",
+      "ideas/i046_rule_exact_orbit_bottleneck_network",
       "ideas/i051_king_escape_percolation_network",
       "ideas/i052_soft_king_cage_path_bottleneck_network",
       "ideas/i053_hall_defect_obligation_matroid_network",
@@ -2125,7 +2146,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 101,
+    "implemented_architecture_count": 102,
     "issue_folders": [],
     "validation_issue_count": 0
   }
