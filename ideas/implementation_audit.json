@@ -1632,35 +1632,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i050_king_anchored_euler_interaction_network",
       "idea_id": "i050",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "king_anchored_euler_interaction_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "king_anchored_euler_interaction_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.king_anchored_euler_interaction_network.build_king_anchored_euler_interaction_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.king_anchored_euler_interaction_network.build_king_anchored_euler_interaction_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.king_anchored_euler_interaction_network.build_king_anchored_euler_interaction_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8388,17 +8386,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 105,
-      "shared_probe_variant": 135
+      "bespoke_model": 106,
+      "shared_probe_variant": 134
     },
     "by_metadata_kind": {
-      "bespoke_model": 105,
-      "shared_probe_variant": 135
+      "bespoke_model": 106,
+      "shared_probe_variant": 134
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i050_king_anchored_euler_interaction_network",
       "ideas/i055_non_backtracking_tactical_walk_network",
       "ideas/i056_non_puzzle_score_field_bottleneck_network",
       "ideas/i057_soft_formal_concept_closure_network",

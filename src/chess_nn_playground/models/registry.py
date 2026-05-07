@@ -40,6 +40,9 @@ from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
 from chess_nn_playground.models.independence_residual import (
     build_independence_residual_interaction_network_from_config,
 )
+from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+    build_king_anchored_euler_interaction_network_from_config,
+)
 from chess_nn_playground.models.king_anchored_material_null_transport import (
     build_king_anchored_material_null_transport_bottleneck_from_config,
 )
@@ -333,6 +336,7 @@ MODEL_BUILDERS = {
     "color_flip_orbit_evidence_bottleneck": build_color_flip_orbit_evidence_bottleneck_from_config,
     "rule_automorphism_quotient_bottleneck_network": build_rule_automorphism_quotient_bottleneck_from_config,
     "tempo_odd_bottleneck_network": build_tempo_odd_bottleneck_from_config,
+    "king_anchored_euler_interaction_network": build_king_anchored_euler_interaction_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

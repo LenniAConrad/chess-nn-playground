@@ -5368,3 +5368,155 @@ def test_i049_tempo_odd_bottleneck_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i050_king_anchored_euler_interaction_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+        KingAnchoredEulerInteractionNet,
+        _cubical_chi,
+    )
+
+    assert isinstance(model, KingAnchoredEulerInteractionNet)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    # cubical chi sanity checks for V - E + F on the 8x8 grid.
+    single = torch.zeros(8, 8)
+    single[3, 3] = 1.0
+    assert _cubical_chi(single).item() == 1.0
+    two_adj = torch.zeros(8, 8)
+    two_adj[3, 3] = 1.0
+    two_adj[3, 4] = 1.0
+    assert _cubical_chi(two_adj).item() == 1.0
+    two_sep = torch.zeros(8, 8)
+    two_sep[0, 0] = 1.0
+    two_sep[7, 7] = 1.0
+    assert _cubical_chi(two_sep).item() == 2.0
+    ring = torch.zeros(8, 8)
+    for r, c in [(2, 2), (2, 3), (2, 4), (3, 2), (3, 4), (4, 2), (4, 3), (4, 4)]:
+        ring[r, c] = 1.0
+    assert _cubical_chi(ring).item() == 0.0
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 12] = 1.0  # white to move
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 4, 7, 3] = 1.0   # white queen d1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    x[1, 12] = 0.0  # black to move
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "role_curve_energy",
+        "interaction_curve_energy",
+        "opp_king_interaction_pressure",
+        "own_king_interaction_pressure",
+        "center_interaction_pressure",
+        "own_role_count",
+        "opp_role_count",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Side-relative role swap: a position with white to move and a position obtained by
+    # toggling the side-to-move bit and swapping the white<->black piece planes should
+    # have identical role tensors and therefore identical Euler features.
+    swapped = x.clone()
+    swapped[0, 12] = 0.0  # toggle stm
+    # swap white/black piece planes for the first sample (channels 0..5 <-> 6..11)
+    swapped[0, 0:6] = x[0, 6:12]
+    swapped[0, 6:12] = x[0, 0:6]
+    with torch.no_grad():
+        aux_orig = model(x[:1], return_aux=True)
+        aux_swap = model(swapped[:1], return_aux=True)
+    assert torch.allclose(aux_orig["roles"], aux_swap["roles"])
+    assert torch.allclose(aux_orig["features"], aux_swap["features"])
+
+    # Euler additivity identity: J = chi(union) - chi(r) - chi(s) = -chi(intersection).
+    # For distinct role bitboards which never share a 2-cell, this should equal
+    # -chi(closure(shared boundary cells)). Verify that on a simple two-cell pair
+    # (white king e1 + black queen e2 are not sharing a cell, but adjacent so their
+    # cubical closures share a single grid edge → chi(intersection) = 1, J = -1).
+    probe = torch.zeros(1, 18, 8, 8)
+    probe[0, 12] = 1.0
+    probe[0, 5, 7, 4] = 1.0   # white king e1 (own_king)
+    probe[0, 10, 6, 4] = 1.0  # black queen e2 (opp_heavy, adjacent to own_king)
+    probe[0, 11, 0, 4] = 1.0  # black king e8 anywhere
+    with torch.no_grad():
+        aux = model(probe, return_aux=True)
+    role_curves = aux["role_curves"]  # (1, R, A, U, T)
+    interaction_curves = aux["interaction_curves"]  # (1, P, A, U, T)
+
+    from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+        DEFAULT_INTERACTION_PAIRS,
+        ROLE_OPP_HEAVY,
+        ROLE_OWN_KING,
+    )
+
+    pair_index = DEFAULT_INTERACTION_PAIRS.index((ROLE_OPP_HEAVY, ROLE_OWN_KING))
+    # Pick the centre anchor (a=2) and direction +inf-style threshold (last τ) so the
+    # half-plane swallows the whole board: J should equal chi(union) - chi(r) - chi(s).
+    a, u, t = 2, 0, role_curves.shape[-1] - 1
+    chi_r = role_curves[0, ROLE_OPP_HEAVY, a, u, t].item()
+    chi_s = role_curves[0, ROLE_OWN_KING, a, u, t].item()
+    union_role_mask = torch.clamp(
+        aux["roles"][0, ROLE_OPP_HEAVY] + aux["roles"][0, ROLE_OWN_KING], 0.0, 1.0
+    )
+    chi_union = _cubical_chi(union_role_mask).item()
+    expected_j = chi_union - chi_r - chi_s
+    actual_j = interaction_curves[0, pair_index, a, u, t].item()
+    assert abs(actual_j - expected_j) < 1.0e-5
+    # Two adjacent unit cells of distinct roles: union chi = 1, individual chi = 1 each, J = -1.
+    assert abs(actual_j - (-1.0)) < 1.0e-5
+
+    # Registry-built model from the same config produces identical structure.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "king_anchored_euler_interaction_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i050"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
