@@ -397,13 +397,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i032_king_anchored_material_null_transport_bottleneck",
       "idea_id": "i032",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "King-Anchored Material-Null Transport Bottleneck",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0657_tuesday_local_material_ot_bottleneck.md`; uses a transport mechanism profile over board-only features rather than generic CNN-only pooling.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0657_tuesday_local_material_ot_bottleneck.md`; uses entropic optimal transport from current pieces to opponent piece and king-zone targets with deterministic material-preserving null shuffles for residual centering, rather than generic CNN-only pooling.",
       "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: King-Anchored Material-Null Transport Bottleneck, abbreviated `KAMN-OTB`. - One-sentence thesis: A puzzle-like position should often exhibit unusually eff...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

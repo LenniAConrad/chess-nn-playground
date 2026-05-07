@@ -31,6 +31,9 @@ from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
 from chess_nn_playground.models.independence_residual import (
     build_independence_residual_interaction_network_from_config,
 )
+from chess_nn_playground.models.king_anchored_material_null_transport import (
+    build_king_anchored_material_null_transport_bottleneck_from_config,
+)
 from chess_nn_playground.models.king_escape_percolation import build_king_escape_percolation_network_from_config
 from chess_nn_playground.models.king_shelter_microkernel import build_king_shelter_microkernel_network_from_config
 from chess_nn_playground.models.latent_reply_entropy import build_latent_reply_entropy_network_from_config
@@ -226,6 +229,7 @@ MODEL_BUILDERS = {
     "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
     "file_mirror_tension_sheaf": build_file_mirror_tension_sheaf_from_config,
     "entropic_piece_target_transport_bottleneck": build_entropic_piece_target_transport_bottleneck_from_config,
+    "king_anchored_material_null_transport_bottleneck": build_king_anchored_material_null_transport_bottleneck_from_config,
     "nuisance_orthogonal_puzzle_bottleneck": build_nuisance_orthogonal_puzzle_bottleneck_from_config,
     "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
     "counterfactual_move_delta_spectrum_network": build_counterfactual_move_delta_spectrum_network_from_config,
