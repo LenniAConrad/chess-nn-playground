@@ -4954,3 +4954,151 @@ def test_i046_rule_exact_orbit_bottleneck_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i047_color_flip_orbit_evidence_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i047_color_flip_orbit_evidence_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with kings on e1/e8 and a few pieces.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    # Sample 1: black-to-move with a different geometry.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "negative_evidence",
+        "puzzle_evidence",
+        "evidence_balance",
+        "view_negative_evidence_gap",
+        "view_puzzle_evidence_gap",
+        "orbit_evidence_residual",
+        "symmetry_residual",
+        "latent_orbit_variance",
+        "identity_puzzle_evidence",
+        "flipped_puzzle_evidence",
+        "identity_negative_evidence",
+        "flipped_negative_evidence",
+        "intersection_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Color-flip invariance: the binary logit for tau(x) must match the logit for x.
+    from chess_nn_playground.models.color_flip_orbit_evidence import (
+        ColorFlipOrbitAdapter,
+        ColorFlipOrbitEvidenceNet,
+    )
+
+    flipped = ColorFlipOrbitAdapter().color_flip(x)
+    with torch.no_grad():
+        output_flipped = model(flipped)
+    assert torch.allclose(output["logits"], output_flipped["logits"], atol=1e-5)
+    assert torch.allclose(
+        output["puzzle_evidence"], output_flipped["puzzle_evidence"], atol=1e-5
+    )
+    assert torch.allclose(
+        output["negative_evidence"], output_flipped["negative_evidence"], atol=1e-5
+    )
+
+    # tau(tau(x)) == x for the deterministic color-flip adapter.
+    twice = ColorFlipOrbitAdapter().color_flip(flipped)
+    assert torch.allclose(twice, x, atol=1e-6)
+
+    # bad_rank_color falsifier shares parameters and runs end-to-end.
+    falsifier = ColorFlipOrbitEvidenceNet(
+        input_channels=input_channels,
+        num_classes=1,
+        hidden_channels=int(config["model"].get("channels", 64)),
+        latent_dim=int(config["model"].get("hidden_dim", 96)),
+        num_res_blocks=int(config["model"].get("depth", 2)),
+        orbit_transform="bad_rank_color",
+    ).eval()
+    with torch.no_grad():
+        falsifier_out = falsifier(x)
+    assert falsifier_out["logits"].shape == (2,)
+
+    # Identity orbit reduces to a duplicated-view ablation.
+    identity_model = ColorFlipOrbitEvidenceNet(
+        input_channels=input_channels,
+        num_classes=1,
+        hidden_channels=int(config["model"].get("channels", 64)),
+        latent_dim=int(config["model"].get("hidden_dim", 96)),
+        num_res_blocks=int(config["model"].get("depth", 2)),
+        orbit_transform="identity",
+    ).eval()
+    with torch.no_grad():
+        identity_out = identity_model(x)
+    # With identity orbit the two views are equal, so per-class evidence gaps are 0.
+    assert torch.allclose(identity_out["view_puzzle_evidence_gap"], torch.zeros(2), atol=1e-6)
+
+    # Fail-closed adapter rejects unknown channel counts unless explicitly opted out.
+    adapter = ColorFlipOrbitAdapter()
+    with pytest.raises(ValueError):
+        adapter.make_orbit(torch.zeros(1, 17, 8, 8))
+    ColorFlipOrbitAdapter(fail_closed_unknown_channels=False).make_orbit(
+        torch.zeros(1, 17, 8, 8)
+    )
+
+    # num_classes=2 head returns two-class log-probability vectors.
+    pair = ColorFlipOrbitEvidenceNet(
+        input_channels=input_channels,
+        num_classes=2,
+        hidden_channels=16,
+        latent_dim=24,
+        num_res_blocks=2,
+    ).eval()
+    with torch.no_grad():
+        pair_out = pair(x)
+    assert pair_out["logits"].shape == (2, 2)
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "color_flip_orbit_evidence_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i047"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

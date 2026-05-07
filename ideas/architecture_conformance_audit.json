@@ -921,6 +921,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i047_color_flip_orbit_evidence_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i047_color_flip_orbit_evidence_bottleneck",
+      "idea_id": "i047",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "color_flip_orbit_evidence_bottleneck",
+      "slug": "color_flip_orbit_evidence_bottleneck",
+      "source_files": [
+        "ideas/i047_color_flip_orbit_evidence_bottleneck/model.py",
+        "src/chess_nn_playground/models/color_flip_orbit_evidence.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i051_king_escape_percolation_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2089,6 +2109,7 @@
       "ideas/i044_masked_board_code_length_surprise_network",
       "ideas/i045_credal_near_puzzle_evidence_network",
       "ideas/i046_rule_exact_orbit_bottleneck_network",
+      "ideas/i047_color_flip_orbit_evidence_bottleneck",
       "ideas/i051_king_escape_percolation_network",
       "ideas/i052_soft_king_cage_path_bottleneck_network",
       "ideas/i053_hall_defect_obligation_matroid_network",
@@ -2146,7 +2167,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 102,
+    "implemented_architecture_count": 103,
     "issue_folders": [],
     "validation_issue_count": 0
   }

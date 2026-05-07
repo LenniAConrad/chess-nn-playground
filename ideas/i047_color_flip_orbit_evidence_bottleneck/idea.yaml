@@ -1,32 +1,47 @@
 idea_id: i047
 name: Color-Flip Orbit Evidence Bottleneck
 slug: color_flip_orbit_evidence_bottleneck
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
-short_thesis: '- Idea name: Color-Flip Orbit Evidence Bottleneck, abbreviated `CFOEB`
-  - One-sentence thesis: A chess position is puzzle-like only if its evidence survives
-  the exact c...'
+short_thesis: 'A chess position is puzzle-like only if its evidence survives the
+  exact color-flip/rank-reflection symmetry of chess, so the classifier should
+  intersect evidence from a board and its color-flipped orbit mate rather than
+  trust orientation-specific shortcuts.'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0751_tuesday_los_angeles_color_flip_orbit.md`;
-  uses a symmetry mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke harmonic evidence-intersection head on top of a shared compact
+  convolutional encoder over the deterministic chess color-flip orbit
+  `G = {e, tau}`. Materially distinct from the i046 Reynolds probability-mean
+  variant because the per-class evidence is fused with a *harmonic* mean rather
+  than a probability/logit average, and the central `bad_rank_color` falsifier
+  from the research packet is wired into the same model class for
+  parameter-matched ablations.
+expected_advantage: Test the packet's proposed harmonic evidence-intersection
+  invariance under the puzzle_binary benchmark contract, with built-in
+  semantics-destroying falsifiers (`bad_rank_color` and `identity`) that keep
+  compute and parameter count matched.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
-input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
-  reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+input_representation: Current-board simple_18 tensor only; the deterministic
+  color-flip adapter fails closed on unknown channel schemas. CRTK/source
+  metadata is reporting-only and never used as model input.
+output_heads: One puzzle logit (harmonic intersection of two-view per-class
+  evidence) plus orbit diagnostics (negative_evidence, puzzle_evidence,
+  evidence_balance, view_negative_evidence_gap, view_puzzle_evidence_gap,
+  orbit_evidence_residual, symmetry_residual, latent_orbit_variance,
+  identity_puzzle_evidence, flipped_puzzle_evidence, identity_negative_evidence,
+  flipped_negative_evidence, intersection_energy) saved to prediction
   artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+compute_notes: Compact convolutional encoder shared across orbit views (default
+  hidden_channels=96, latent_dim=128, num_res_blocks=2). The orbit only
+  doubles the per-batch forward pass; it adds no trainable parameters.
+implementation_status: implemented
 trainer_entrypoint: ideas/i047_color_flip_orbit_evidence_bottleneck/train.py
 config_path: ideas/i047_color_flip_orbit_evidence_bottleneck/config.yaml
 model_path: ideas/i047_color_flip_orbit_evidence_bottleneck/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0751_tuesday_los_angeles_color_flip_orbit.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
-implementation_kind: shared_probe_variant
+  Bespoke implementation lives in `src/chess_nn_playground/models/color_flip_orbit_evidence.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+mechanism_family: symmetry
+implementation_kind: bespoke_model
