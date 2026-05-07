@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 103, 'probe_scaffold_only': 130, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 110, 'shared_probe_variant': 130}`
+- Registered implementation states: `{'implemented': 104, 'probe_scaffold_only': 129, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 111, 'shared_probe_variant': 129}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 110 | Materially distinct model implementation. |
-| `shared_probe_variant` | 130 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 111 | Materially distinct model implementation. |
+| `shared_probe_variant` | 129 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -97,7 +97,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i056` | [Non-Puzzle Score-Field Bottleneck Network](i056_non_puzzle_score_field_bottleneck_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i057` | [Soft Formal-Concept Closure Network](i057_soft_formal_concept_closure_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i058` | [Determinantal Tactical Volume Bottleneck](i058_determinantal_tactical_volume_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i059` | [Harmonic Board Potential Network](i059_harmonic_board_potential_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i059` | [Harmonic Board Potential Network](i059_harmonic_board_potential_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i060` | [Tropical Constraint Circuit Network](i060_tropical_constraint_circuit_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i061` | [Grassmannian Principal-Angle Bottleneck](i061_grassmannian_principal_angle_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i062` | [Matrix-Pencil Generalized Spectrum Bottleneck](i062_matrix_pencil_generalized_spectrum_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

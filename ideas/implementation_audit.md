@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 110 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 130 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 111 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 129 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i059_harmonic_board_potential_network`
 - `ideas/i060_tropical_constraint_circuit_network`
 - `ideas/i061_grassmannian_principal_angle_bottleneck`
 - `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck`
@@ -217,7 +216,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i056` | `ideas/i056_non_puzzle_score_field_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `non_puzzle_score_field_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i057` | `ideas/i057_soft_formal_concept_closure_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `soft_formal_concept_closure_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i058` | `ideas/i058_determinantal_tactical_volume_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `determinantal_tactical_volume_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i059` | `ideas/i059_harmonic_board_potential_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `harmonic_board_potential_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i059` | `ideas/i059_harmonic_board_potential_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `harmonic_board_potential_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i060` | `ideas/i060_tropical_constraint_circuit_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tropical_constraint_circuit_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i061` | `ideas/i061_grassmannian_principal_angle_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `grassmannian_principal_angle_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i062` | `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `matrix_pencil_generalized_spectrum_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

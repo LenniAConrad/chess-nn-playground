@@ -1,33 +1,45 @@
 idea_id: i059
 name: Harmonic Board Potential Network
 slug: harmonic_board_potential_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: Harmonic Board Potential Network - One-sentence thesis:
   Puzzle-like positions may be identifiable by long-range board tension patterns that
   appear after s...'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2045_friday_shanghai_harmonic_potential.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  central operator is a fixed inverse-Laplacian Green-function potential solver over
+  learned current-board charge maps, not a CNN, attention, sheaf, transport, or
+  move-delta bottleneck.
+expected_advantage: Test the packet's proposed harmonic potential signal under the
+  same puzzle_binary benchmark contract as the other ideas, with random-orthogonal,
+  local-Gaussian, and charge-only-stats ablations exposed via `model.ablation` for
+  the central falsifiers from section 9.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus harmonic-potential diagnostics
+  (charge_potential_energy, dirichlet_energy, potential_mean/std/absmax,
+  boundary_flux, king_us_potential, king_them_potential, charge_magnitude,
+  mechanism_energy).
+compute_notes: Dense Green multiplication costs O(B * K * L * 64^2) with K=12 and
+  L=4 by default; the Green matrices are precomputed once at construction and stored
+  as non-trainable buffers.
+implementation_status: implemented
 trainer_entrypoint: ideas/i059_harmonic_board_potential_network/train.py
 config_path: ideas/i059_harmonic_board_potential_network/config.yaml
 model_path: ideas/i059_harmonic_board_potential_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2045_friday_shanghai_harmonic_potential.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: 'Bespoke Harmonic Board Potential Network with a Simple18ChargeEncoder, a
+  FixedBoardPoissonSolver that materialises Green matrices G_l = (L + lambda_l I)^{-1}
+  on the 8x8 grid Laplacian (Neumann or Dirichlet boundary) as non-trainable
+  buffers, a PotentialStatsPool emitting per-(charge, lambda) charge-potential
+  energy / Dirichlet energy / boundary flux / king-ring potential / charge magnitude
+  features, and a HarmonicPotentialHead that fuses these stats with a deterministic
+  global broadcast vector. The random_orthogonal_solver, local_gaussian_solver, and
+  charge_only_stats falsifiers from section 9 are exposed via the model.ablation
+  config flag. Engine, source, verification, and CRTK metadata are never used as
+  input.'
 mechanism_family: topology
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

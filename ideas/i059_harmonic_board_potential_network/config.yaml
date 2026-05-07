@@ -16,11 +16,13 @@ model:
   name: harmonic_board_potential_network
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  charge_channels: 12
+  lambdas: [0.03, 0.1, 0.3, 1.0]
+  boundary: neumann
+  head_hidden: 128
+  mean_center_charges: true
+  ablation: none
   dropout: 0.1
-  use_batchnorm: true
   mechanism_family: topology
   packet_profile: harmonic_board_potential_network
 training:
@@ -46,5 +48,5 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke implementation of the markdown harmonic potential thesis. CRTK
+  metadata is reporting-only.

@@ -6014,3 +6014,150 @@ def test_i058_determinantal_tactical_volume_bottleneck_is_bespoke_and_conformant
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i059_harmonic_board_potential_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i059_harmonic_board_potential_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.harmonic_board_potential_network import (
+        HarmonicBoardPotentialNet,
+        Simple18ChargeEncoder,
+        FixedBoardPoissonSolver,
+        PotentialStatsPool,
+        HarmonicPotentialHead,
+        _build_grid_laplacian,
+    )
+
+    assert isinstance(model, HarmonicBoardPotentialNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.charge_encoder, Simple18ChargeEncoder)
+    assert isinstance(model.solver, FixedBoardPoissonSolver)
+    assert isinstance(model.stats_pool, PotentialStatsPool)
+    assert isinstance(model.head, HarmonicPotentialHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[0, 5, 7, 4] = 1.0    # white king e1
+    x[0, 11, 0, 4] = 1.0   # black king e8
+    x[0, 0, 6, 4] = 1.0    # white pawn e2
+    x[0, 3, 7, 0] = 1.0    # white rook a1
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[1, 1, 5, 5] = 1.0    # white knight f3
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "charge_potential_energy",
+        "charge_potential_energy_mean",
+        "dirichlet_energy",
+        "dirichlet_energy_mean",
+        "potential_mean",
+        "potential_std",
+        "potential_absmax",
+        "boundary_flux",
+        "king_us_potential",
+        "king_them_potential",
+        "charge_magnitude",
+        "mechanism_energy",
+        "ablation_active",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Per-(charge, lambda) tensors must have shape (B, K, L).
+    k = int(config["model"]["charge_channels"])
+    num_l = len(config["model"]["lambdas"])
+    assert output["charge_potential_energy"].shape == (2, k, num_l)
+    assert output["dirichlet_energy"].shape == (2, k, num_l)
+    assert output["potential_mean"].shape == (2, k, num_l)
+    assert output["king_us_potential"].shape == (2, k, num_l)
+    assert output["king_them_potential"].shape == (2, k, num_l)
+
+    # Green matrices are precomputed and non-trainable.
+    green = model.solver.green_matrices
+    assert tuple(green.shape) == (num_l, 64, 64)
+    # The harmonic Green matrices must really invert the screened Laplacian.
+    laplacian = _build_grid_laplacian(model.solver.boundary).to(green.dtype)
+    eye64 = torch.eye(64, dtype=green.dtype)
+    for idx, lam in enumerate(model.solver.lambdas):
+        product = (laplacian + lam * eye64) @ model.solver.green_harmonic[idx]
+        assert torch.allclose(product, eye64, atol=1.0e-3, rtol=1.0e-3), (idx, lam)
+
+    # Variational identity: u^T (L + lambda I) u = u^T rho when u = G_l rho.
+    rho = model.charge_encoder(x)
+    u = model.solver(rho)
+    rho_flat = rho.reshape(2, k, 64)
+    u_flat = u.reshape(2, k, num_l, 64)
+    rho_dot_u = (rho_flat.unsqueeze(2) * u_flat).sum(dim=-1)
+    # u^T (L + lambda I) u
+    Lu = torch.einsum("ij,bklj->bkli", laplacian.float(), u_flat)
+    quad = (u_flat * Lu).sum(dim=-1)
+    lam_tensor = torch.tensor(model.solver.lambdas, dtype=quad.dtype).view(1, 1, num_l)
+    quad = quad + lam_tensor * (u_flat * u_flat).sum(dim=-1)
+    assert torch.allclose(quad, rho_dot_u, atol=1.0e-3, rtol=1.0e-3)
+
+    # All three central falsifier ablations build, run, and produce finite logits.
+    for ablation in ("random_orthogonal_solver", "local_gaussian_solver", "charge_only_stats"):
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = module.build_harmonic_board_potential_network_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,)
+        assert torch.isfinite(abl_out["logits"]).all()
+        assert abl_model.solver.ablation == ablation
+        if ablation == "charge_only_stats":
+            # Solver must produce identically-zero potentials so the head only
+            # sees charge moments and constant-zero potential statistics.
+            assert torch.all(abl_model.solver(rho) == 0.0)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "harmonic_board_potential_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, HarmonicBoardPotentialNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i059"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

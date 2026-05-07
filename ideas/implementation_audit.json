@@ -1923,35 +1923,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i059_harmonic_board_potential_network",
       "idea_id": "i059",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "harmonic_board_potential_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "harmonic_board_potential_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.harmonic_board_potential_network.build_harmonic_board_potential_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.harmonic_board_potential_network.build_harmonic_board_potential_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.harmonic_board_potential_network.HarmonicBoardPotentialNet",
+          "chess_nn_playground.models.harmonic_board_potential_network.build_harmonic_board_potential_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8375,17 +8373,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 110,
-      "shared_probe_variant": 130
+      "bespoke_model": 111,
+      "shared_probe_variant": 129
     },
     "by_metadata_kind": {
-      "bespoke_model": 110,
-      "shared_probe_variant": 130
+      "bespoke_model": 111,
+      "shared_probe_variant": 129
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i059_harmonic_board_potential_network",
       "ideas/i060_tropical_constraint_circuit_network",
       "ideas/i061_grassmannian_principal_angle_bottleneck",
       "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",

@@ -29,6 +29,9 @@ from chess_nn_playground.models.piece_target_transport import (
     build_piece_target_entropic_transport_bottleneck_from_config,
 )
 from chess_nn_playground.models.hadamard_spectrum import build_hadamard_spectrum_from_config
+from chess_nn_playground.models.harmonic_board_potential_network import (
+    build_harmonic_board_potential_network_from_config,
+)
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
 )
@@ -353,6 +356,7 @@ MODEL_BUILDERS = {
     "king_anchored_euler_interaction_network": build_king_anchored_euler_interaction_network_from_config,
     "non_backtracking_tactical_walk_network": build_non_backtracking_tactical_walk_network_from_config,
     "determinantal_tactical_volume_bottleneck": build_determinantal_tactical_volume_bottleneck_from_config,
+    "harmonic_board_potential_network": build_harmonic_board_potential_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
