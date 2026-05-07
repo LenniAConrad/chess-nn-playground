@@ -1394,35 +1394,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i043_side_canonical_rule_partition_invariant_bottleneck",
       "idea_id": "i043",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "side_canonical_rule_partition_invariant_bottleneck",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "side_canonical_rule_partition_invariant_bottleneck",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.rule_partition_invariant_bottleneck.build_side_canonical_rule_partition_invariant_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.rule_partition_invariant_bottleneck.build_side_canonical_rule_partition_invariant_bottleneck_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.rule_partition_invariant_bottleneck.build_side_canonical_rule_partition_invariant_bottleneck_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8402,17 +8400,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 98,
-      "shared_probe_variant": 142
+      "bespoke_model": 99,
+      "shared_probe_variant": 141
     },
     "by_metadata_kind": {
-      "bespoke_model": 98,
-      "shared_probe_variant": 142
+      "bespoke_model": 99,
+      "shared_probe_variant": 141
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i043_side_canonical_rule_partition_invariant_bottleneck",
       "ideas/i044_masked_board_code_length_surprise_network",
       "ideas/i045_credal_near_puzzle_evidence_network",
       "ideas/i046_rule_exact_orbit_bottleneck_network",

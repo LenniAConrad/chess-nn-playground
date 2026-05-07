@@ -163,6 +163,9 @@ from chess_nn_playground.models.kinematic_commutator_bottleneck import (
 from chess_nn_playground.models.legal_automorphism_quotient_network import (
     build_legal_automorphism_quotient_network_from_config,
 )
+from chess_nn_playground.models.rule_partition_invariant_bottleneck import (
+    build_side_canonical_rule_partition_invariant_bottleneck_from_config,
+)
 from chess_nn_playground.models.ray_language_automaton_network import (
     build_ray_language_automaton_network_from_config,
 )
@@ -307,6 +310,7 @@ MODEL_BUILDERS = {
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
     "centered_tempo_odd_interventional_bottleneck": build_centered_tempo_odd_interventional_bottleneck_from_config,
     "legal_automorphism_quotient_network": build_legal_automorphism_quotient_network_from_config,
+    "side_canonical_rule_partition_invariant_bottleneck": build_side_canonical_rule_partition_invariant_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

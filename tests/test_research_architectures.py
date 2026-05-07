@@ -4467,3 +4467,115 @@ def test_i042_legal_automorphism_quotient_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i043_side_canonical_rule_partition_invariant_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i043_side_canonical_rule_partition_invariant_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move, kings + a couple of pieces.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    x[0, 13] = 1.0        # white kingside castling rights
+    x[0, 17, 5, 3] = 1.0  # en-passant target square
+    # Sample 1: black-to-move, distinct geometry.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "z",
+        "mu",
+        "logvar",
+        "kl",
+        "phase_logits",
+        "adv_logits",
+        "color_logits",
+        "phase_labels",
+        "adv_labels",
+        "color_labels",
+        "group_ids",
+        "total_material",
+        "side_relative_advantage",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Adversary head logits agree with the configured partition arity.
+    assert output["phase_logits"].shape == (2, 3)
+    assert output["adv_logits"].shape == (2, 5)
+    assert output["color_logits"].shape == (2, 2)
+    # Deterministic partitions stay inside their declared ranges.
+    assert int(output["phase_labels"].min()) >= 0 and int(output["phase_labels"].max()) <= 2
+    assert int(output["adv_labels"].min()) >= 0 and int(output["adv_labels"].max()) <= 4
+    assert int(output["color_labels"].min()) >= 0 and int(output["color_labels"].max()) <= 1
+    assert int(output["group_ids"].min()) >= 0 and int(output["group_ids"].max()) <= 29
+    # Sample 0 is white-to-move, sample 1 is black-to-move (pre-canonical color).
+    assert output["color_labels"].tolist() == [0, 1]
+
+    # Side-to-move canonicalization: under white-to-move the canonical
+    # tensor must equal the identity on piece/castling/ep planes
+    # (with the absolute side-to-move plane removed). Under black-to-move
+    # the canonicalizer must vertically flip the white-piece planes onto
+    # the enemy slot.
+    from chess_nn_playground.models.rule_partition_invariant_bottleneck import (
+        Simple18SideCanonicalizer,
+    )
+
+    canon = Simple18SideCanonicalizer()
+    canonical = canon(x)
+    assert canonical.shape == (2, 17, 8, 8)
+    # White-to-move: friendly piece slot equals original white planes.
+    assert torch.equal(canonical[0, 0:6], x[0, 0:6])
+    # Black-to-move: friendly slot equals vertically flipped black planes
+    # (so the moving side is always "friendly").
+    assert torch.equal(canonical[1, 0:6], torch.flip(x[1, 6:12], dims=[1]))
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "side_canonical_rule_partition_invariant_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i043"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

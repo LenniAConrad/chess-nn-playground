@@ -529,13 +529,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i043_side_canonical_rule_partition_invariant_bottleneck",
       "idea_id": "i043",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Side-Canonical Rule-Partition Invariant Bottleneck",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0732_tuesday_pdt_rule_partition_bottleneck.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0732_tuesday_pdt_rule_partition_bottleneck.md`; the central operator is a deterministic side-to-move canonicalizer feeding a variational information bottleneck whose latent is forced toward invariance to the rule partitions (phase, side-relative material advantage, absolute color) through gradient-reversed adversary heads. Materially distinct from the shared mechanism-profile probe.",
+      "output_heads": "One puzzle logit plus SCRIB diagnostics (z, mu, logvar, kl, phase_logits, adv_logits, color_logits, phase_labels, adv_labels, color_labels, group_ids, total_material, side_relative_advantage) saved to prediction artifacts.",
       "short_thesis": "- Idea name: Side-Canonical Rule-Partition Invariant Bottleneck, abbreviated `SCRIB`. - One-sentence thesis: Puzzle-likeness should be predicted from side-relative tac...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
