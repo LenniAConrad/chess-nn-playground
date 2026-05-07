@@ -32,6 +32,7 @@ _BESPOKE_MODEL_NAMES = {
     "defender_opportunity_cost_auction_network",
     "defender_timing_schedule_network",
     "directed_attack_sheaf_tension_network",
+    "file_mirror_tension_sheaf",
     "discovered_ray_switchboard_network",
     "forced_target_funnel_network",
     "hierarchical_tactical_option_network",

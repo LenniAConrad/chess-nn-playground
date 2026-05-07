@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 78, 'probe_scaffold_only': 155, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 85, 'shared_probe_variant': 155}`
+- Registered implementation states: `{'implemented': 80, 'probe_scaffold_only': 153, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 87, 'shared_probe_variant': 153}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 85 | Materially distinct model implementation. |
-| `shared_probe_variant` | 155 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 87 | Materially distinct model implementation. |
+| `shared_probe_variant` | 153 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -66,7 +66,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i025` | [One-Ply Counterfactual Move Landscape Network](i025_one_ply_counterfactual_move_landscape_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i026` | [Counterfactual Move-Delta Spectrum Network](i026_counterfactual_move_delta_spectrum_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i027` | [Rule-Only Counterfactual Move-Delta Bottleneck](i027_rule_only_counterfactual_move_delta_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i028` | [File-Mirror Tension Sheaf](i028_file_mirror_tension_sheaf) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i028` | [File-Mirror Tension Sheaf](i028_file_mirror_tension_sheaf) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i029` | [Entropic Piece-Target Transport Bottleneck](i029_entropic_piece_target_transport_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i030` | [Nuisance-Orthogonal Puzzle Bottleneck](i030_nuisance_orthogonal_puzzle_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i031` | [Tactical Transport Imbalance Network](i031_tactical_transport_imbalance_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
