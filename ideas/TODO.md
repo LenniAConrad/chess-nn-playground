@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `76`
-- Bespoke model implementations: `83`
-- Shared ResearchPacketProbe variants: `157`
+- Fully implemented architectures still needing a linked benchmark run: `78`
+- Bespoke model implementations: `85`
+- Shared ResearchPacketProbe variants: `155`
 
 Recommended immediate sequence:
 
@@ -25,10 +25,10 @@ Recommended immediate sequence:
 
 Benchmark queue by ID:
 
-- Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i022`, `i023`, `i024`, `i025`, `i036`, `i037`, `i038`, `i051`, `i052`, `i053`, `i054`
-- Batch 2: `i070`, `i071`, `i072`, `i073`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`
-- Batch 3: `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`
-- Batch 4: `i237`, `i238`, `i239`, `i240`
+- Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i036`, `i037`, `i038`, `i051`, `i052`
+- Batch 2: `i053`, `i054`, `i070`, `i071`, `i072`, `i073`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`
+- Batch 3: `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`
+- Batch 4: `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -73,12 +73,12 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i018` | [Oriented Tactical Sheaf Laplacian](i018_oriented_tactical_sheaf_laplacian) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i019` | [Tactical Sheaf Curvature Network](i019_tactical_sheaf_curvature_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i020` | [Attack-Defense Sheaf Energy Network](i020_attack_defense_sheaf_energy_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i021` | [Tactical Sheaf Tension Network](i021_tactical_sheaf_tension_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i021` | [Tactical Sheaf Tension Network](i021_tactical_sheaf_tension_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i022` | [Tactical Threat-Sheaf Network](i022_tactical_threat_sheaf_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i023` | [Attack-Hodge Sheaf Tension Network](i023_attack_hodge_sheaf_tension_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i024` | [Directed Attack-Sheaf Tension Network](i024_directed_attack_sheaf_tension_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i025` | [One-Ply Counterfactual Move Landscape Network](i025_one_ply_counterfactual_move_landscape_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i026` | [Counterfactual Move-Delta Spectrum Network](i026_counterfactual_move_delta_spectrum_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i026` | [Counterfactual Move-Delta Spectrum Network](i026_counterfactual_move_delta_spectrum_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i027` | [Rule-Only Counterfactual Move-Delta Bottleneck](i027_rule_only_counterfactual_move_delta_bottleneck) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i028` | [File-Mirror Tension Sheaf](i028_file_mirror_tension_sheaf) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i029` | [Entropic Piece-Target Transport Bottleneck](i029_entropic_piece_target_transport_bottleneck) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |

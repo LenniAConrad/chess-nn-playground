@@ -14,6 +14,7 @@ _BESPOKE_MODEL_NAMES = {
     "king_shelter_microkernel_network",
     "mobius_piece_constellation_network",
     "one_ply_counterfactual_move_landscape_network",
+    "counterfactual_move_delta_spectrum_network",
     "occupancy_run_length_segment_encoder",
     "patch_mixer_boardnet",
     "piece_plane_gated_cnn",

@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `84`
+- Implemented architecture rows audited: `85`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -37,6 +37,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i023` | `ideas/i023_attack_hodge_sheaf_tension_network` | `attack_hodge_sheaf_tension_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i023_attack_hodge_sheaf_tension_network/model.py`<br>`src/chess_nn_playground/models/attack_hodge_sheaf.py` | - |
 | `i024` | `ideas/i024_directed_attack_sheaf_tension_network` | `directed_attack_sheaf_tension_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i024_directed_attack_sheaf_tension_network/model.py`<br>`src/chess_nn_playground/models/directed_attack_sheaf.py` | - |
 | `i025` | `ideas/i025_one_ply_counterfactual_move_landscape_network` | `one_ply_counterfactual_move_landscape_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i025_one_ply_counterfactual_move_landscape_network/model.py`<br>`src/chess_nn_playground/models/move_landscape_net.py` | - |
+| `i026` | `ideas/i026_counterfactual_move_delta_spectrum_network` | `counterfactual_move_delta_spectrum_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i026_counterfactual_move_delta_spectrum_network/model.py`<br>`src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py` | - |
 | `i036` | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network` | `geometry_conditioned_board_pseudo_likelihood_ratio_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`<br>`src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py` | - |
 | `i037` | `ideas/i037_mobius_piece_constellation_network` | `mobius_piece_constellation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i037_mobius_piece_constellation_network/model.py`<br>`src/chess_nn_playground/models/mobius_piece_constellation.py` | - |
 | `i038` | `ideas/i038_sparse_witness_piece_bottleneck_network` | `sparse_witness_piece_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i038_sparse_witness_piece_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/sparse_witness_bottleneck.py` | - |

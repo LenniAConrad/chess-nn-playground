@@ -812,35 +812,35 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i026_counterfactual_move_delta_spectrum_network",
       "idea_id": "i026",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "counterfactual_move_delta_spectrum_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "counterfactual_move_delta_spectrum_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.counterfactual_move_delta_spectrum.build_counterfactual_move_delta_spectrum_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.counterfactual_move_delta_spectrum.build_counterfactual_move_delta_spectrum_network_from_config",
           "config.get",
+          "data_cfg.get",
           "dict",
+          "isinstance",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.counterfactual_move_delta_spectrum.MoveDeltaSpectrumNet",
+          "chess_nn_playground.models.counterfactual_move_delta_spectrum.build_counterfactual_move_delta_spectrum_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8426,17 +8426,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 84,
-      "shared_probe_variant": 156
+      "bespoke_model": 85,
+      "shared_probe_variant": 155
     },
     "by_metadata_kind": {
-      "bespoke_model": 84,
-      "shared_probe_variant": 156
+      "bespoke_model": 85,
+      "shared_probe_variant": 155
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i026_counterfactual_move_delta_spectrum_network",
       "ideas/i027_rule_only_counterfactual_move_delta_bottleneck",
       "ideas/i028_file_mirror_tension_sheaf",
       "ideas/i029_entropic_piece_target_transport_bottleneck",
