@@ -15,6 +15,9 @@ from chess_nn_playground.models.chess_geometry_transport import (
     build_entropic_chess_geometry_transport_network_from_config,
 )
 from chess_nn_playground.models.cnn import build_cnn_from_config
+from chess_nn_playground.models.determinantal_volume import (
+    build_determinantal_tactical_volume_bottleneck_from_config,
+)
 from chess_nn_playground.models.directed_attack_sheaf import build_directed_attack_sheaf_from_config
 from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
 from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
@@ -349,6 +352,7 @@ MODEL_BUILDERS = {
     "tempo_odd_bottleneck_network": build_tempo_odd_bottleneck_from_config,
     "king_anchored_euler_interaction_network": build_king_anchored_euler_interaction_network_from_config,
     "non_backtracking_tactical_walk_network": build_non_backtracking_tactical_walk_network_from_config,
+    "determinantal_tactical_volume_bottleneck": build_determinantal_tactical_volume_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

@@ -16,13 +16,15 @@ model:
   name: determinantal_tactical_volume_bottleneck
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  token_dim: 48
+  role_count: 8
+  role_rank: 16
+  head_hidden: 128
+  determinant_eps: 0.001
+  ablation: none
+  max_tokens: 32
   dropout: 0.1
-  use_batchnorm: true
   mechanism_family: linear_algebra
-  packet_profile: determinantal_tactical_volume_bottleneck
 training:
   epochs: 20
   batch_size: 256

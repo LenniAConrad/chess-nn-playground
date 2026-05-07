@@ -5887,3 +5887,130 @@ def test_i057_soft_formal_concept_closure_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i058_determinantal_tactical_volume_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i058_determinantal_tactical_volume_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.determinantal_volume import (
+        DeterminantalTacticalVolumeNet,
+        Simple18OccupiedTokenExtractor,
+        PieceSquareTokenEncoder,
+        RoleGatedPSDVolume,
+        DeterminantalVolumeHead,
+    )
+
+    assert isinstance(model, DeterminantalTacticalVolumeNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.token_extractor, Simple18OccupiedTokenExtractor)
+    assert isinstance(model.token_encoder, PieceSquareTokenEncoder)
+    assert isinstance(model.volume, RoleGatedPSDVolume)
+    assert isinstance(model.head, DeterminantalVolumeHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[0, 5, 7, 4] = 1.0    # white king e1
+    x[0, 11, 0, 4] = 1.0   # black king e8
+    x[0, 0, 6, 4] = 1.0    # white pawn e2
+    x[0, 3, 7, 0] = 1.0    # white rook a1
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[1, 1, 5, 5] = 1.0    # white knight f3
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "log_volume",
+        "log_volume_mean",
+        "log_volume_max",
+        "log_volume_min",
+        "trace",
+        "trace_mean",
+        "gate_mass",
+        "gate_mass_mean",
+        "top_eig_ratio",
+        "top_eig_ratio_mean",
+        "active_count",
+        "mechanism_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Token extractor: at most 32 occupied tokens, mask matches actual occupancy.
+    tokens = model.token_extractor(x)
+    assert tokens.features.shape == (2, model.max_tokens, model.token_extractor.feature_dim)
+    assert tokens.mask.shape == (2, model.max_tokens)
+    # Sample 0 has 4 pieces, sample 1 has 3 pieces.
+    assert int(tokens.mask[0].sum().item()) == 4
+    assert int(tokens.mask[1].sum().item()) == 3
+    # Padded slots must be exactly zero.
+    assert torch.all(tokens.features * (1.0 - tokens.mask).unsqueeze(-1) == 0.0)
+
+    # Permutation invariance of log-volume over occupied tokens (the central thesis).
+    embed = model.token_encoder(tokens.features, tokens.mask)
+    volume_a = model.volume(embed, tokens.mask).log_volume
+    perm = torch.randperm(model.max_tokens)
+    embed_perm = embed[:, perm, :]
+    mask_perm = tokens.mask[:, perm]
+    volume_b = model.volume(embed_perm, mask_perm).log_volume
+    assert torch.allclose(volume_a, volume_b, atol=1.0e-4, rtol=1.0e-4)
+
+    # Diagonal-trace ablation must produce a different signal than the determinant.
+    abl_cfg = dict(config["model"])
+    abl_cfg["ablation"] = "diagonal_trace_only"
+    abl_cfg.pop("name", None)
+    abl_model = module.build_determinantal_tactical_volume_bottleneck_from_config(abl_cfg).eval()
+    with torch.no_grad():
+        abl_out = abl_model(x)
+    assert abl_out["logits"].shape == (2,)
+    assert torch.isfinite(abl_out["logits"]).all()
+    assert abl_model.volume.ablation == "diagonal_trace_only"
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "determinantal_tactical_volume_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, DeterminantalTacticalVolumeNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i058"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

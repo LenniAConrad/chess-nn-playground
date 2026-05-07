@@ -1,33 +1,40 @@
 idea_id: i058
 name: Determinantal Tactical Volume Bottleneck
 slug: determinantal_tactical_volume_bottleneck
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: Determinantal Tactical Volume Bottleneck - One-sentence
-  thesis: Puzzle-like positions may concentrate the occupied pieces into a low-dimensional
-  learned t...'
+  thesis: Puzzle-like positions may differ by learned occupied-piece role-volume
+  collapse or diversity measured through log-determinants of role-gated PSD token
+  kernels.'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2044_friday_shanghai_determinantal_volume.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  central operator is a role-gated PSD log-determinant over occupied piece tokens,
+  not a CNN, attention, sheaf, transport, or move-delta bottleneck.
+expected_advantage: Test the packet's proposed log-volume signal under the same
+  puzzle_binary benchmark contract as the other ideas, with a diagonal-only ablation
+  exposed via `model.ablation` for the central falsifier.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus determinantal-volume diagnostics (log_volume,
+  trace, gate_mass, top_eig_ratio, active_count, mechanism_energy).
+compute_notes: Sylvester/Weinstein log-det at O(B * R * q^3) with q = role_rank,
+  so total cost is dominated by O(B * R * N * q) gram contractions over up to 32
+  occupied tokens.
+implementation_status: implemented
 trainer_entrypoint: ideas/i058_determinantal_tactical_volume_bottleneck/train.py
 config_path: ideas/i058_determinantal_tactical_volume_bottleneck/config.yaml
 model_path: ideas/i058_determinantal_tactical_volume_bottleneck/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2044_friday_shanghai_determinantal_volume.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: 'Bespoke Determinantal Tactical Volume Bottleneck with a
+  Simple18OccupiedTokenExtractor, a PieceSquareTokenEncoder, a RoleGatedPSDVolume
+  module that materialises K_r = D_r Phi A_r A_r^T Phi^T D_r + eps I and computes
+  log det via the Sylvester identity in (q x q) space, and a DeterminantalVolumeHead
+  that fuses role statistics with a deterministic global broadcast vector. The
+  diagonal-trace falsifier is exposed via the model.ablation=diagonal_trace_only
+  config flag. Engine, source, verification, and CRTK metadata are never used as
+  input.'
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

@@ -1889,35 +1889,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i058_determinantal_tactical_volume_bottleneck",
       "idea_id": "i058",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "determinantal_tactical_volume_bottleneck",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "determinantal_tactical_volume_bottleneck",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.determinantal_volume.build_determinantal_tactical_volume_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.determinantal_volume.build_determinantal_tactical_volume_bottleneck_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.determinantal_volume.DeterminantalTacticalVolumeNet",
+          "chess_nn_playground.models.determinantal_volume.build_determinantal_tactical_volume_bottleneck_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8377,17 +8375,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 109,
-      "shared_probe_variant": 131
+      "bespoke_model": 110,
+      "shared_probe_variant": 130
     },
     "by_metadata_kind": {
-      "bespoke_model": 109,
-      "shared_probe_variant": 131
+      "bespoke_model": 110,
+      "shared_probe_variant": 130
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i058_determinantal_tactical_volume_bottleneck",
       "ideas/i059_harmonic_board_potential_network",
       "ideas/i060_tropical_constraint_circuit_network",
       "ideas/i061_grassmannian_principal_angle_bottleneck",

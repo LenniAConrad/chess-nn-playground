@@ -1,6 +1,17 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/determinantal_volume.py`.
+- Builder: `build_determinantal_tactical_volume_bottleneck_from_config`.
 - Registry key: `determinantal_tactical_volume_bottleneck`.
-- Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2044_friday_shanghai_determinantal_volume.md`.
-- This is intentionally board-only and does not consume engine, verification, source, or CRTK metadata as input.
+- Idea-local wrapper: `ideas/i058_determinantal_tactical_volume_bottleneck/model.py`
+  delegates to the bespoke builder. It does not use `ResearchPacketProbe` or
+  `build_research_packet_probe_from_config`.
+- Source packet:
+  `ideas/research_packets/chess_nn_research_2026-04-24_2044_friday_shanghai_determinantal_volume.md`.
+- Input: simple_18 board tensor only. CRTK / engine / source / verification
+  metadata is reporting-only and never used as model input.
+- The Gram-matrix log-determinant is computed in (q x q) Sylvester form for
+  numerical stability and O(B * R * q^3) cost; the (N x N) form is never
+  materialised at inference time.
+- The diagonal-trace ablation is exposed via the config field
+  `model.ablation: diagonal_trace_only`.
