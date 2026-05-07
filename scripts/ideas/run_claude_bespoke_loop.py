@@ -71,7 +71,7 @@ def _resolve_claude_bin(explicit: str | None) -> str:
 
 
 def _build_claude_argv(*, claude_bin: str, safe: bool, max_turns: int, model: str | None) -> list[str]:
-    argv = [claude_bin, "-p", "--output-format", "text"]
+    argv = [claude_bin, "-p", "--verbose", "--output-format", "stream-json"]
     if max_turns > 0:
         argv += ["--max-turns", str(max_turns)]
     if model:
@@ -271,7 +271,7 @@ def main() -> None:
     parser.add_argument("--idea", action="append", help="Idea id, folder name, or folder path. May be repeated.")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--offset", type=int, default=0)
-    parser.add_argument("--max-turns", type=int, default=40, help="Per-idea --max-turns. 0 disables.")
+    parser.add_argument("--max-turns", type=int, default=80, help="Per-idea --max-turns. 0 disables.")
     parser.add_argument("--timeout", type=int, default=1800, help="Per-idea wallclock timeout in seconds.")
     parser.add_argument("--model", default=None, help="Override Claude model (e.g. claude-sonnet-4-6).")
     parser.add_argument("--claude-bin", default=None, help="Path to claude CLI (default: PATH lookup).")
