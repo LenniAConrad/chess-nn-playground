@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 89, 'probe_scaffold_only': 144, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 96, 'shared_probe_variant': 144}`
+- Registered implementation states: `{'implemented': 90, 'probe_scaffold_only': 143, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 97, 'shared_probe_variant': 143}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 96 | Materially distinct model implementation. |
-| `shared_probe_variant` | 144 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 97 | Materially distinct model implementation. |
+| `shared_probe_variant` | 143 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -79,7 +79,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i038` | [Sparse Witness-Piece Bottleneck Network](i038_sparse_witness_piece_bottleneck_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i039` | [Ray-Language Automaton Network](i039_ray_language_automaton_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i040` | [Kinematic Commutator Bottleneck Network](i040_kinematic_commutator_bottleneck_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i041` | [Centered Tempo-Odd Interventional Bottleneck](i041_centered_tempo_odd_interventional_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i041` | [Centered Tempo-Odd Interventional Bottleneck](i041_centered_tempo_odd_interventional_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i042` | [Legal Automorphism Quotient Network](i042_legal_automorphism_quotient_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i043` | [Side-Canonical Rule-Partition Invariant Bottleneck](i043_side_canonical_rule_partition_invariant_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i044` | [Masked Board Code-Length Surprise Network](i044_masked_board_code_length_surprise_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

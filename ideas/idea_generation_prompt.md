@@ -505,13 +505,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i041_centered_tempo_odd_interventional_bottleneck",
       "idea_id": "i041",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Centered Tempo-Odd Interventional Bottleneck",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0729_tuesday_pacific_tempo_odd_bottleneck.md`; uses a tempo mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0729_tuesday_pacific_tempo_odd_bottleneck.md`; central operator is a deterministic C2 side-to-move involution combined with a null-board centering of the encoder's pure-turn response, not a generic CNN trunk over board-only mechanism profiles.",
+      "output_heads": "One puzzle logit plus tempo-intervention diagnostics (tempo_odd_norm, tempo_even_norm, null_odd_norm, centered_odd_norm, side_intervention_gap, centered_odd_energy) saved to prediction artifacts.",
       "short_thesis": "- Idea name: **Centered Tempo-Odd Interventional Bottleneck**. - One-sentence thesis: Puzzle-likeness should be predicted from the board-dependent part of the position...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3440,15 +3440,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i041_centered_tempo_odd_interventional_bottleneck",
       "idea_id": "i041",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "tempo",
       "name": "Centered Tempo-Odd Interventional Bottleneck",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke implementation lives in src/chess_nn_playground/models/centered_tempo_odd_interventional_bottleneck.py; the idea-local model.py is a thin wrapper around the registered builder.",
       "short_thesis": "- Idea name: **Centered Tempo-Odd Interventional Bottleneck**. - One-sentence thesis: Puzzle-likeness should be predicted from the board-dependent part of the position...",
       "slug": "centered_tempo_odd_interventional_bottleneck",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0729_tuesday_pacific_tempo_odd_bottleneck.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

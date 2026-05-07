@@ -8,6 +8,9 @@ from chess_nn_playground.models.attack_defense_sheaf import build_attack_defense
 from chess_nn_playground.models.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
 from chess_nn_playground.models.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
 from chess_nn_playground.models.cayley_orthogonal import build_cayley_orthogonal_from_config
+from chess_nn_playground.models.centered_tempo_odd_interventional_bottleneck import (
+    build_centered_tempo_odd_interventional_bottleneck_from_config,
+)
 from chess_nn_playground.models.chess_geometry_transport import (
     build_entropic_chess_geometry_transport_network_from_config,
 )
@@ -299,6 +302,7 @@ MODEL_BUILDERS = {
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
+    "centered_tempo_odd_interventional_bottleneck": build_centered_tempo_odd_interventional_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

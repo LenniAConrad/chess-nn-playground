@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 96 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 144 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 97 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 143 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -24,7 +24,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
-- `ideas/i041_centered_tempo_odd_interventional_bottleneck`
 - `ideas/i042_legal_automorphism_quotient_network`
 - `ideas/i043_side_canonical_rule_partition_invariant_bottleneck`
 - `ideas/i044_masked_board_code_length_surprise_network`
@@ -213,7 +212,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i038` | `ideas/i038_sparse_witness_piece_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_witness_piece_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i039` | `ideas/i039_ray_language_automaton_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_language_automaton_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i040` | `ideas/i040_kinematic_commutator_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `kinematic_commutator_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i041` | `ideas/i041_centered_tempo_odd_interventional_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `centered_tempo_odd_interventional_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i041` | `ideas/i041_centered_tempo_odd_interventional_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `centered_tempo_odd_interventional_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i042` | `ideas/i042_legal_automorphism_quotient_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `legal_automorphism_quotient_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i043` | `ideas/i043_side_canonical_rule_partition_invariant_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `side_canonical_rule_partition_invariant_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i044` | `ideas/i044_masked_board_code_length_surprise_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `masked_board_code_length_surprise_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
