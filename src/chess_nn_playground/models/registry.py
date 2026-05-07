@@ -52,6 +52,9 @@ from chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck import (
     build_nuisance_orthogonal_puzzle_bottleneck_from_config,
 )
 from chess_nn_playground.models.occupancy_run_length_segment import build_occupancy_run_length_segment_encoder_from_config
+from chess_nn_playground.models.ordinal_evidence_ladder import (
+    build_ordinal_evidence_ladder_network_from_config,
+)
 from chess_nn_playground.models.oriented_tactical_sheaf import build_oriented_tactical_sheaf_from_config
 from chess_nn_playground.models.permanent_ryser import build_permanent_ryser_from_config
 from chess_nn_playground.models.patch_mixer_boardnet import build_patch_mixer_boardnet_from_config
@@ -287,6 +290,7 @@ MODEL_BUILDERS = {
     "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
+    "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

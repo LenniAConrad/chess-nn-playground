@@ -433,13 +433,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i035_ordinal_evidence_ladder_network",
       "idea_id": "i035",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Ordinal Evidence Ladder Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0711_tuesday_los_angeles_ordinal_evidence_ladder.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0711_tuesday_los_angeles_ordinal_evidence_ladder.md`; uses a scalar puzzle-potential bottleneck with two learned ordered cumulative thresholds and a Dirichlet evidence concentration over the rank-consistent fine-label distribution, rather than a generic CNN-only binary head.",
+      "output_heads": "One puzzle logit (cumulative `q_ge2`) plus rank-consistent fine-label probabilities, ordinal cumulative logits, Dirichlet evidence parameters, and selective diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Ordinal Evidence Ladder Network - One-sentence thesis: Treat `known non-puzzle -> verified near-puzzle -> verified puzzle` as an ordered ladder and force...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3350,15 +3350,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i035_ordinal_evidence_ladder_network",
       "idea_id": "i035",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "information",
       "name": "Ordinal Evidence Ladder Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Implemented as a bespoke ordinal evidence ladder network with a tiny board backbone, a scalar puzzle-potential head, two learned ordered cumulative thresholds, and a Dirichlet evidence concentration. The benchmark logit is the cumulative q_ge2 survival probability so that the i035 puzzle-binary contract (fine labels 0 and 1 as non-puzzle, fine label 2 as puzzle) is preserved.",
       "short_thesis": "- Idea name: Ordinal Evidence Ladder Network - One-sentence thesis: Treat `known non-puzzle -> verified near-puzzle -> verified puzzle` as an ordered ladder and force...",
       "slug": "ordinal_evidence_ladder_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0711_tuesday_los_angeles_ordinal_evidence_ladder.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

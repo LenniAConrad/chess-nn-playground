@@ -681,6 +681,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i035_ordinal_evidence_ladder_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i035_ordinal_evidence_ladder_network",
+      "idea_id": "i035",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "ordinal_evidence_ladder_network",
+      "slug": "ordinal_evidence_ladder_network",
+      "source_files": [
+        "ideas/i035_ordinal_evidence_ladder_network/model.py",
+        "src/chess_nn_playground/models/ordinal_evidence_ladder.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1897,6 +1917,7 @@
       "ideas/i032_king_anchored_material_null_transport_bottleneck",
       "ideas/i033_piece_target_entropic_transport_bottleneck",
       "ideas/i034_entropic_chess_geometry_transport_network",
+      "ideas/i035_ordinal_evidence_ladder_network",
       "ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network",
       "ideas/i037_mobius_piece_constellation_network",
       "ideas/i038_sparse_witness_piece_bottleneck_network",
@@ -1957,7 +1978,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 93,
+    "implemented_architecture_count": 94,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `93`
+- Implemented architecture rows audited: `94`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -46,6 +46,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i032` | `ideas/i032_king_anchored_material_null_transport_bottleneck` | `king_anchored_material_null_transport_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i032_king_anchored_material_null_transport_bottleneck/model.py`<br>`src/chess_nn_playground/models/king_anchored_material_null_transport.py` | - |
 | `i033` | `ideas/i033_piece_target_entropic_transport_bottleneck` | `piece_target_entropic_transport_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i033_piece_target_entropic_transport_bottleneck/model.py`<br>`src/chess_nn_playground/models/piece_target_transport.py` | - |
 | `i034` | `ideas/i034_entropic_chess_geometry_transport_network` | `entropic_chess_geometry_transport_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i034_entropic_chess_geometry_transport_network/model.py`<br>`src/chess_nn_playground/models/chess_geometry_transport.py` | - |
+| `i035` | `ideas/i035_ordinal_evidence_ladder_network` | `ordinal_evidence_ladder_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i035_ordinal_evidence_ladder_network/model.py`<br>`src/chess_nn_playground/models/ordinal_evidence_ladder.py` | - |
 | `i036` | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network` | `geometry_conditioned_board_pseudo_likelihood_ratio_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`<br>`src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py` | - |
 | `i037` | `ideas/i037_mobius_piece_constellation_network` | `mobius_piece_constellation_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i037_mobius_piece_constellation_network/model.py`<br>`src/chess_nn_playground/models/mobius_piece_constellation.py` | - |
 | `i038` | `ideas/i038_sparse_witness_piece_bottleneck_network` | `sparse_witness_piece_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i038_sparse_witness_piece_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/sparse_witness_bottleneck.py` | - |
