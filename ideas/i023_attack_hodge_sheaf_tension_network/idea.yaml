@@ -1,7 +1,7 @@
 idea_id: i023
 name: Attack-Hodge Sheaf Tension Network
 slug: attack_hodge_sheaf_tension_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:30+00:00'
 author: Codex
 short_thesis: '- Idea name: Attack-Hodge Sheaf Tension Network, abbreviated `AHS-TensionNet`.
@@ -16,17 +16,16 @@ target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzl
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus node-edge sheaf tension, face-curl Hodge tension,
+  tactical face energies, and edge/face density diagnostics saved to prediction artifacts.
+compute_notes: Board-only pseudo-legal attack complex with x-ray edges, fork/overload/ray-pin
+  2-cells, learned low-rank sheaf restrictions, and Hodge tension pooling.
+implementation_status: implemented
 trainer_entrypoint: ideas/i023_attack_hodge_sheaf_tension_network/train.py
 config_path: ideas/i023_attack_hodge_sheaf_tension_network/config.yaml
 model_path: ideas/i023_attack_hodge_sheaf_tension_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0256_tuesday_local_attack_hodge_sheaf.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
-implementation_kind: shared_probe_variant
+notes: Implemented as the bespoke `attack_hodge_sheaf_tension_network` model in `src/chess_nn_playground/models/attack_hodge_sheaf.py`
+  with an idea-local wrapper. The implementation follows the repo's one-logit
+  puzzle_binary contract and uses board tensors only.
+implementation_kind: bespoke_model

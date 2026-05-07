@@ -1,24 +1,35 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Numerical-Range Boundary Network` builds a learned non-symmetric chess
+operator `A in R^{r x r}` and samples its field-of-values `W(A)` boundary
+along `K` angles by computing the top eigenvalue of a Hermitian-equivalent
+real symmetric block matrix at each angle.
 
+## Components
 
-`Numerical-Range Boundary Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk with pooled mean/max summary.
+- Operator head: linear projection to `r x r`, spectrally normalized.
+- Boundary sampler: at each angle theta, builds the block-real Hermitian
+  representation
+  `[[cos(t) sym, -sin(t) skew], [sin(t) skew, cos(t) sym]]`
+  whose top eigenvalue equals the support of `W(A)` along
+  `e^{i theta}`.
+- Spectrum block: complex `eigvals(A)`, spectral radius `rho(A)`.
+- Non-normality features: numerical radius `numr = max_k mu_k`, gap
+  `numr - rho`, Crawford number `min_k mu_k`, boundary curvature.
+- Classifier: pooled board features + boundary support + curvature +
+  `(gap, numr, rho, crawford, std, mean curvature)` feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `numerical_range_boundary_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `numerical_radius`, `spectral_radius`, `non_normality_gap`
+- `crawford_number`, `boundary_support`, `boundary_curvature`
+- `boundary_support_std`
+
+## Implementation Binding
+
+- Registered model name: `numerical_range_boundary_network`
+- Source implementation file: `src/chess_nn_playground/models/numerical_range_boundary.py`
+- Idea-local wrapper: `ideas/i224_numerical_range_boundary_network/model.py`

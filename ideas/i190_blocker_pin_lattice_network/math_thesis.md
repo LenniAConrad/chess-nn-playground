@@ -8,4 +8,8 @@ Batch candidate rank: `5`.
 
 Working thesis: Line tactics are not only about pieces sharing ranks, files, or diagonals. They depend on ordered blockers and pin constraints. A line can be almost tactical, but one blocker order or one unpinned defender changes everything.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+Implementation thesis: represent each side-to-move slider ray as a short
+latent program over blocker order. The current state, remove-first state,
+remove-second state, and side-swap diagnostic expose whether a line tactic is
+caused by a specific blocker order or by a pinned defender shielding a valuable
+target.

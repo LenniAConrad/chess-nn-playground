@@ -1,15 +1,45 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Piece-Plane Gated CNN` is a board-only classifier for the repository
+`simple_18` tensor contract. It treats the first 12 planes as semantically
+typed piece planes and the final 6 planes as side/state planes instead of
+feeding all channels through a single image stem.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Channel Groups
 
+For `simple_18`, the model uses the known repository channel mapping:
 
-`Piece-Plane Gated CNN` uses the shared proposal-conditioned research-packet probe.
+- White piece planes: `P, N, B, R, Q, K`.
+- Black piece planes: `p, n, b, r, q, k`.
+- State planes: side-to-move, castling rights, and en-passant.
 
-- Mechanism family: `generic`.
-- Active proposal profiles: `spatial_cnn`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+Each group is processed by its own small convolutional stem with shared
+`group_width` output size. If a non-`simple_18` channel count is requested, the
+implementation switches to deterministic contiguous groups and exposes
+`semantic_grouping_known = 0` in the output diagnostics.
+
+## Gates And Fusion
+
+The gate summary is built from safe board-only counts: per-piece occupancy
+counts, state-plane means, white-minus-black piece deltas, and grouped totals.
+A learned MLP maps this summary to sigmoid gates for the white, black, and
+state feature stems.
+
+The gated group features are concatenated, projected with a `1x1` convolution,
+and passed through an ordinary residual CNN trunk. The classifier head uses
+mean and max global pooling followed by an MLP to emit one puzzle logit for
+the puzzle-binary task.
+
+## Ablations
+
+- `ungrouped_stem_matched`: replace the semantic group stems with one matched
+  single stem over all input planes.
+- `no_gates`: keep semantic group stems but use unit gates.
+- `random_channel_groups`: preserve group sizes but assign channels to groups
+  using a fixed random permutation.
+
+## Implementation Binding
+
+- Registered model name: `piece_plane_gated_cnn`
+- Source implementation file: `src/chess_nn_playground/models/piece_plane_gated_cnn.py`
+- Idea-local wrapper: `ideas/i145_piece_plane_gated_cnn/model.py`

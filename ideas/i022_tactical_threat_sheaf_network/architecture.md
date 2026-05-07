@@ -1,15 +1,31 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Tactical Threat-Sheaf Network` implements the packet's board-only attack-defense sheaf for the repo's `puzzle_binary` task.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Implementation Binding
 
+- Registered model name: `tactical_threat_sheaf_network`
+- Source implementation file: `src/chess_nn_playground/models/tactical_threat_sheaf.py`
+- Idea-local wrapper: `ideas/i022_tactical_threat_sheaf_network/model.py`
 
-`Tactical Threat-Sheaf Network` uses the shared proposal-conditioned research-packet probe.
+## Modules
 
-- Mechanism family: `sheaf`.
-- Active proposal profiles: `sheaf`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+`EncodingPieceAdapter` decodes current piece planes, side-to-move, colors, piece types, and side-relative roles from `(B, C, 8, 8)` board tensors. It supports `simple_18` and LC0-style 112-plane tensors with the current piece slice in the first twelve planes. It does not consume engine output, fine labels, source tags, candidate metadata, or verifier fields.
+
+`PseudoLegalAttackBuilder` constructs a padded dynamic complex over the 64 board squares. Pawns create diagonal attack/control edges; knights and kings create jump/step edges; bishops, rooks, and queens trace slider rays through empty squares and stop at the first occupied blocker. Blocker edges are typed as own defense, enemy attack, king contact, or pin-line when an enemy blocker shields its own king.
+
+Each edge carries source and target square, relation type, target role, source side-relative role, geometry family, edge group, padding mask, degree-normalized edge weight, and pin flag. The learned relation type compactly ties source role, source piece, target tactical bucket, and direction bucket; target-role and geometry embeddings are also supplied to the gate.
+
+`SquareStem` maps raw square planes plus decoded piece/color/role features, side-to-move, coordinates, and optional square embeddings into vertex stalks `z in R^d`.
+
+`SheafRestrictionBank` stores learned source and target restrictions for every relation type. It supports `diagonal_lowrank`, `full`, and `identity_ablation` forms. The default coboundary is:
+
+```text
+delta_e = A_src[type_e] z_src(e) - A_dst[type_e] z_dst(e)
+```
+
+`ThreatSheafLayer` computes gated edge tension, scatters the sheaf-gradient terms back to source and target squares, adds contest-cell messages, and updates node stalks with a learned step size, residual MLP, and layer norm.
+
+`ContestCellPool` aggregates incoming target-square tension by side-to-move and not-side-to-move energy, maximum incoming energy, side counts, and signed imbalance. These summaries are used as node messages and as readout features.
+
+`SheafReadout` pools final node states, per-layer sheaf energy statistics, tactical group energies, contest pressure, overload pressure, and board-level counts. The classifier returns the repo trainer's one BCE puzzle logit in `output["logits"]`; diagnostics such as `sheaf_tension`, `attack_energy`, `defense_energy`, `pin_energy`, `contest_pressure`, `overload_pressure`, `gate_mean`, and `edge_density` are reporting outputs only.

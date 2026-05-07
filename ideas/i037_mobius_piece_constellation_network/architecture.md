@@ -1,15 +1,29 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Möbius Piece-Constellation Network` implements the MPCN packet as a low-rank polynomial set functional over occupied current-board piece-square facts. It uses no convolutional trunk, residual spatial stack, transformer attention, graph message passing, legal move generation, attack graph, sheaf, or transport operator.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Architecture
 
+Input `x` has shape `[B, 18, 8, 8]` for the supported `simple_18` path. `SafeBoardStateAdapter` validates the board tensor, extracts piece planes `0:12`, and flattens the safe state planes `12:18` containing side-to-move, castling rights, and en-passant state. Non-`simple_18` encodings fail closed unless an explicit current-board piece-plane `channel_map` is provided.
 
-`Möbius Piece-Constellation Network` uses the shared proposal-conditioned research-packet probe.
+`PieceSquareTokenizer` turns the 12 piece planes into 64 occupied square token vectors without using argmax or tuple enumeration. Each token combines a learned piece embedding, a learned square embedding, and a learned joint piece-square table. Empty squares are multiplied by an occupancy mask and therefore contribute zero token vectors.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profiles: `linear_algebra`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+`ElementarySymmetricInteractionBlock` computes the degree-isolated Möbius/ANOVA features by the descending elementary-symmetric recurrence:
+
+```text
+E3 <- E3 + E2 * v
+E2 <- E2 + E1 * v
+E1 <- E1 + v
+```
+
+The descending update prevents a token from interacting with itself. The model keeps `H1`, `H2`, and `H3`, normalized by `sqrt(n)`, `sqrt(C(n,2))`, and `sqrt(C(n,3))` when `normalize_by_tuple_count` is enabled.
+
+`DegreeGate` applies learned sigmoid gates to each degree channel. `ConstellationClassifierHead` layer-normalizes the gated degree features, concatenates them with the safe state embedding, and maps them through a compact MLP to the configured logits. With `num_classes: 1`, the repo puzzle-binary trainer receives one logit of shape `[B]` for fine label `2` versus labels `0` and `1`. With `num_classes: 2`, the same head returns two logits of shape `[B, 2]`.
+
+Returned diagnostics include degree norms, occupied count, mean occupancy, degree-gate summaries, state embedding norm, and the optional gate sparsity auxiliary value.
+
+## Implementation Binding
+
+- Registered model name: `mobius_piece_constellation_network`
+- Source implementation file: `src/chess_nn_playground/models/mobius_piece_constellation.py`
+- Idea-local wrapper: `ideas/i037_mobius_piece_constellation_network/model.py`

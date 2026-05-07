@@ -16,13 +16,17 @@ model:
   name: mobius_piece_constellation_network
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  encoding: simple_18
+  embedding_dim: 96
+  state_dim: 96
+  hidden_dim: 192
+  max_degree: 3
   dropout: 0.1
-  use_batchnorm: true
+  use_degree_gates: true
+  gate_l1_weight: 1.0e-05
+  normalize_by_tuple_count: true
+  channel_map: null
   mechanism_family: linear_algebra
-  packet_profile: mobius_piece_constellation_network
 training:
   epochs: 20
   batch_size: 256

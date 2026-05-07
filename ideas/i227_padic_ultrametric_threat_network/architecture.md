@@ -1,24 +1,39 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`p-adic Ultrametric Threat Embedding Network` maps each square through a
+learned p-adic encoder `phi(s) in {0,...,p-1}^k`, computes soft ultrametric
+distances `d_p(s, t) = p^{-prefix_len(s, t)}`, builds a valuation-weighted
+`64 x 64` matrix `M_p` from learned p-adic relation classes, and classifies
+puzzle-likeness from the depth histogram of `D`, `M_p` spectrum, and
+log-magnitude (Newton-polygon style) slopes of the eigenvalues.
 
+## Components
 
-`p-adic Ultrametric Threat Embedding Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk + pooled mean/max summary.
+- Digit head: per-square soft digit distribution
+  `phi in R^{64 x k x p}` via softmax.
+- Prefix-match probability: `match[s, t, i] = sum_d phi_i(s, d) phi_i(t, d)`.
+- Cumulative prefix prob and expected divergence depth
+  `E[min_diff] = sum_i (1 - prod_{j <= i} match_j)`.
+- Ultrametric distance: `D = p^{-E[min_diff]}`.
+- Relation head + p-adic absorption: per-square soft relation distribution
+  combined into a `R^{64 x 64}` matrix `M_p` whose entries are valuation-
+  weighted sums `sum_i p^{-i} f_i(phi_i(K_p))`.
+- Symmetric `M_p` -> `eigh` -> top-k eigenvalues by magnitude and Newton-
+  polygon slope proxies (consecutive log-magnitude differences).
+- Classifier: pooled board features + depth histogram + eigenvalue topk +
+  slopes + `D`, `M_p` norm features feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `padic_ultrametric_threat_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `padic_depth_histogram`, `padic_distance_mean`, `padic_distance_max`
+- `padic_spectrum_topk`, `padic_newton_slopes`
+- `padic_M_norm`, `padic_spectral_norm`
+
+## Implementation Binding
+
+- Registered model name: `padic_ultrametric_threat_network`
+- Source implementation file: `src/chess_nn_playground/models/padic_ultrametric_threat.py`
+- Idea-local wrapper: `ideas/i227_padic_ultrametric_threat_network/model.py`

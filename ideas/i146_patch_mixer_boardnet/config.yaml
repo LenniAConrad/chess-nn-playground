@@ -16,11 +16,15 @@ model:
   name: patch_mixer_boardnet
   input_channels: 18
   num_classes: 1
-  channels: 64
+  patch_size: 2
+  token_count: 16
+  embed_dim: 96
+  token_mlp_dim: 64
+  channel_mlp_dim: 192
   hidden_dim: 96
-  depth: 2
+  depth: 4
   dropout: 0.1
-  use_batchnorm: true
+  ablation: none
   mechanism_family: generic
   packet_profile: patch_mixer_boardnet
 training:

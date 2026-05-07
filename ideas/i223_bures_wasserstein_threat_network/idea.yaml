@@ -1,7 +1,7 @@
 idea_id: i223
 name: Bures-Wasserstein SPD Threat Manifold Network
 slug: bures_wasserstein_threat_network
-status: scaffolded
+status: implemented
 created_at: '2026-05-05T15:50:00+00:00'
 author: Claude
 short_thesis: Embeds boards as SPD threat covariances and classifies via Bures-Wasserstein
@@ -19,14 +19,13 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by the linear-algebra packet profile.
-implementation_status: probe_scaffold_only
+implementation_status: implemented
 trainer_entrypoint: ideas/i223_bures_wasserstein_threat_network/train.py
 config_path: ideas/i223_bures_wasserstein_threat_network/config.yaml
 model_path: ideas/i223_bures_wasserstein_threat_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-05-05_1510_tuesday_local_bures_wasserstein_threat.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation lives in `src/chess_nn_playground/models/bures_wasserstein_threat.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

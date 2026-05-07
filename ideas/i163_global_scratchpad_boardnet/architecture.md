@@ -1,15 +1,56 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Global Scratchpad BoardNet` is a board-only classifier for the `puzzle_binary`
+task. It accepts the repo's simple 18-plane current-board tensor with shape
+`(B, 18, 8, 8)` and returns one puzzle logit per position.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+The board encoder is a compact coordinate-aware CNN stem:
 
+```text
+h0 = CNNStem(concat(board, rank_plane, file_plane))
+```
 
-`Global Scratchpad BoardNet` uses the shared proposal-conditioned research-packet probe.
+The model maintains a small fixed set of global memory slots. Initial memory is
+the sum of learned slot vectors and a board-conditioned projection:
 
-- Mechanism family: `logic`.
-- Active proposal profiles: `logic`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+```text
+m0 = learned_memory + MLP(global_pool(h0))
+```
+
+For each scratchpad step, the board sends fixed pooled summaries into every
+memory slot. The summary uses global board pooling and coordinate-weighted board
+pooling, not square-to-memory attention:
+
+```text
+summary_t = pool([h_t, h_t * rank, h_t * file])
+m_{t+1} = GRUCell(summary_t, m_t)
+```
+
+The updated memory broadcasts global context back to every square through FiLM
+modulation. A residual convolutional update keeps the recurrent scratchpad
+stable:
+
+```text
+film_t = MLP(mean/max_pool_slots(m_{t+1})) -> gamma_t, beta_t
+h_{t+1} = h_t + 0.25 * (ConvBlock(gamma_t * h_t + beta_t) - h_t)
+```
+
+The classifier reads pooled final board features and pooled final memory slots:
+
+```text
+z = concat(mean/max/std_pool(h_T), mean_pool(m_T), max_pool(m_T))
+logits = MLP(z)
+```
+
+Implemented ablations are `no_scratchpad`, `one_step`, `no_broadcast`,
+`random_memory`, and `single_slot`.
+
+Diagnostics include memory slot norms by step, memory update norms by step,
+board activation change after each broadcast, final memory slot similarity,
+board feature energy, and scratchpad step/slot counts.
+
+## Implementation Binding
+
+- Registered model name: `global_scratchpad_boardnet`
+- Source implementation file: `src/chess_nn_playground/models/global_scratchpad_boardnet.py`
+- Idea-local wrapper: `ideas/i163_global_scratchpad_boardnet/model.py`

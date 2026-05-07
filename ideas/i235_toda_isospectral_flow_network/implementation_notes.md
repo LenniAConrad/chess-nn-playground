@@ -1,14 +1,18 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
-- Registry key: `toda_isospectral_flow_network`.
+- Bespoke implementation: `src/chess_nn_playground/models/toda_isospectral_flow.py`.
+- Registered model name: `toda_isospectral_flow_network`.
+- Idea-local wrapper: `ideas/i235_toda_isospectral_flow_network/model.py` (calls
+  `build_toda_isospectral_flow_network_from_config`).
 - Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1620_tuesday_local_toda_isospectral_flow.md`.
-- This is intentionally board-only and does not consume engine, verification, source,
-  or CRTK metadata as input.
-- The custom linear-algebra operator described in the source packet is NOT yet
-  implemented as a bespoke `nn.Module`; this folder uses the shared
-  `ResearchPacketProbe` with `mechanism_family=linear_algebra` and
-  `packet_profile=toda_isospectral_flow_network` so that the idea passes the registry contract
-  and runs on the standard puzzle_binary benchmark. To upgrade to a bespoke module,
-  add `src/chess_nn_playground/models/toda_isospectral_flow_network.py`, register a builder in
-  `registry.py`, and update this idea's `model.py` and `config.yaml`.
+- Input contract: `simple_18` board tensor with shape `(batch, 18, 8, 8)`.
+- Output: dictionary with `logits` of shape `(batch,)` plus diagnostic tensors
+  (`diag_initial`, `diag_final`, `off_initial`, `off_final`, `sorting_score`,
+  `max_off_diag_decay`, `mean_off_diag_decay`, `slowest_off_diag`,
+  `spectral_gap_estimate`, `manakov_drift`, `manakov_drift_max`,
+  `operator_frobenius_norm`).
+- Flow integrator: explicit Euler on the matrix Lax form with re-symmetrisation
+  at each step. Configurable `flow_steps`, `flow_dt`, and `manakov_order` keys
+  in `config.yaml`.
+- The model never consumes engine, verification, source, or CRTK metadata -
+  those remain reporting-only artefacts.

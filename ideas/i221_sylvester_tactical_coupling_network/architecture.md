@@ -1,24 +1,36 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Sylvester Tactical Coupling Network` couples a learned attacker operator `A`
+and defender operator `B` through the Sylvester equation `A X + X B = C`,
+where `C` is a board-derived obligation matrix.
 
+## Components
 
-`Sylvester Tactical Coupling Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk with pooled mean/max summary.
+- Operator heads: linear maps to `r x r` operators `A`, `B`, `C`.
+- `A` and `B` are spectrally normalized so `||A||_2, ||B||_2 <= 1`.
+- Sylvester solver: vec-form solve via batched Kronecker
+  `(I_r kron A + B^T kron I_r) vec(X) = vec(C)`, fully differentiable.
+- Spectral readout: top-`k` singular values of `X`, Frobenius / spectral
+  norms, soft rank, attacker/defender projected energies, bounded
+  log-volume `log|det(I + X X^T)|`.
+- Resonance readout: `min/mean |lambda_i(A) + mu_j(B)|` over the cross
+  spectrum.
+- Classifier: pooled board features + spectral readout + resonance summary
+  feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `sylvester_tactical_coupling_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `sylvester_frobenius`, `sylvester_spectral`, `sylvester_soft_rank`
+- `sylvester_log_volume`, `sylvester_attacker_energy`,
+  `sylvester_defender_energy`
+- `sylvester_resonance_min`, `sylvester_resonance_mean`,
+  `sylvester_singular_topk`
+
+## Implementation Binding
+
+- Registered model name: `sylvester_tactical_coupling_network`
+- Source implementation file: `src/chess_nn_playground/models/sylvester_coupling.py`
+- Idea-local wrapper: `ideas/i221_sylvester_tactical_coupling_network/model.py`

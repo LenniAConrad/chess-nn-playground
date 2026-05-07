@@ -1,15 +1,29 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Geometry-Conditioned Board Pseudo-Likelihood Ratio Network` implements the GeomPLR packet directly as a class-conditioned square-token pseudo-likelihood model over verified `simple_18` current-board planes.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Architecture
 
+Input `x` has shape `[B, 18, 8, 8]`. `Simple18TokenAdapter` validates the tensor contract, maps the first 12 piece planes to a 13-token square vocabulary (`0 = empty`, `1..12 = piece type/color`), and derives only side-to-move, castling, and en-passant metadata from the remaining planes. Unknown channel semantics fail closed instead of being silently adapted.
 
-`Geometry-Conditioned Board Pseudo-Likelihood Ratio Network` uses the shared proposal-conditioned research-packet probe.
+`StaticChessRelationIndex` precomputes a fixed leave-self-out neighborhood for each square. Relations include same-rank rays, same-file rays, both diagonal-ray families, knight offsets, king-neighborhood offsets, and white/black pawn-direction offsets. The relation table stores padded neighbor indices, relation ids, distance buckets, and valid-neighbor masks. It does not call a legal-move generator, engine oracle, check detector, or source/CRTK metadata.
 
-- Mechanism family: `topology`.
-- Active proposal profiles: `topology`, `information`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+The network embeds square tokens, square coordinates, and metadata into a shared hidden space. For each target-square chunk, `TypedNeighborAggregator` gathers only the target square's static neighbors, adds relation and distance embeddings, applies typed gates and relation dropout, masks padded entries, and returns a context vector mixed with target coordinate and metadata embeddings. The target square's own token is never present in its prediction context.
+
+`ClassConditionalTokenDecoder` predicts the target square token distribution twice, once under a class-0 decoder state and once under a class-1 decoder state. `PseudoLikelihoodScorer` accumulates weighted cross-entropy terms for all 64 squares, downweighting empty squares by `empty_square_weight`, and normalizes by the active board weight. This yields class-conditioned description lengths `S_0` and `S_1`.
+
+The packet's two-class pseudo-log-likelihood scores are:
+
+```text
+class_logits = -S / softplus(score_temperature) + class_bias
+```
+
+The repository task for this idea is binary BCE with fine labels `0` and `1` mapped to non-puzzle and fine label `2` mapped to puzzle, so the configured `num_classes: 1` head returns the likelihood-ratio logit `class_logits[:, 1] - class_logits[:, 0]` with shape `[B]`. If the model is built with `num_classes: 2`, it returns the raw two-column `class_logits` matrix.
+
+Returned diagnostics include the two class pseudo-NLL scores, the description-length ratio, the internal two-class logits, token-NLL summaries, square occupancy fractions, total token weight, and learned score temperature.
+
+## Implementation Binding
+
+- Registered model name: `geometry_conditioned_board_pseudo_likelihood_ratio_network`
+- Source implementation file: `src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py`
+- Idea-local wrapper: `ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`

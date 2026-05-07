@@ -19,12 +19,15 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Independence Residual Diagnostics
 
-- Mechanism family: `generic`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Residual L1/L2:
+- Positive / negative residual mass:
+- Maximum absolute residual:
+- Expected-map entropy:
+- Piece / square / rank / file entropy:
+- Rank/file coupling:
+- Channel interaction energy:
 - Near-puzzle false positives:
 
 ## Slice Findings

@@ -19,12 +19,14 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Specialist Diagnostics
 
-- Mechanism family: `generic`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Global / center / edge / king / material head logits:
+- Active head count:
+- Learned fusion logit versus uniform logit average:
+- Specialist logit shares:
+- King-zone decode rate:
+- Material balance and phase calibration:
 - Near-puzzle false positives:
 
 ## Slice Findings
@@ -39,4 +41,5 @@ Summarize performance by:
 
 ## Decision
 
-State whether `Specialist-Head CNN` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior.
+State whether `Specialist-Head CNN` is kept, refined, scaled, or rejected. The
+decision must cite both aggregate metrics and specialist-head diagnostics.

@@ -1,15 +1,28 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Tactical Subgoal Automaton Network` is a board-only `puzzle_binary` classifier. The implementation
+replaces the shared research-packet probe with a materially distinct
+bespoke model so the markdown thesis is exercised by trainable code, not
+by a generic scaffold.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Mechanism
 
+The model accepts the repository `simple_18` board tensor (`B x 18 x 8 x 8`).
+A compact convolutional square-encoder produces shared trunk features, and
+an idea-specific head implements the architecture's distinguishing
+mechanism described in the math thesis. Diagnostic tensors are exposed
+alongside the puzzle logit so the trainer can record per-batch evidence
+signals defined in `math_thesis.md`.
 
-`Tactical Subgoal Automaton Network` uses the shared proposal-conditioned research-packet probe.
+## Output Contract
 
-- Mechanism family: `grammar`.
-- Active proposal profiles: `grammar`, `sequence_memory`, `proof_certificate`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+Forward returns a `dict` whose `"logits"` entry has shape `(B,)` for the
+repository `puzzle_binary` BCE-with-logits trainer. Idea-specific
+diagnostic tensors are always finite and align with the registered
+builder.
+
+## Implementation Binding
+
+- Registered model name: `tactical_subgoal_automaton_network`
+- Source implementation file: `src/chess_nn_playground/models/tactical_subgoal_automaton.py`
+- Idea-local wrapper: `ideas/i214_tactical_subgoal_automaton_network/model.py`

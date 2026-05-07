@@ -1,24 +1,38 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Bures-Wasserstein SPD Threat Manifold Network` embeds each board into the cone
+of symmetric positive-definite matrices via a learned threat covariance and
+classifies puzzle-likeness using the Bures-Wasserstein metric on `S^d_{++}`.
+The model uses operator-geometric-mean closed forms rather than Fisher-Rao or
+log-Euclidean geometry.
 
+## Components
 
-`Bures-Wasserstein SPD Threat Manifold Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk plus pooled mean/max board summary.
+- Feature projection: `1 x 1` conv to a `(B, d, 8, 8)` field, then
+  `Sigma = (1 / 64) F^T F + eps I_d`.
+- Class Frechet means: two learnable Cholesky factors for `mu_0`, `mu_1`,
+  reprojected to the SPD cone as `L L^T + eps I_d`.
+- Bures distance: differentiable
+  `d_BW(Sigma, mu)^2 = tr(Sigma) + tr(mu) - 2 tr[(Sigma^{1/2} mu Sigma^{1/2})^{1/2}]`
+  using `eigh`-based symmetric square roots.
+- Tangent log map: `T_{mu -> Sigma} - I` with
+  `T = mu^{-1/2} (mu^{1/2} Sigma mu^{1/2})^{1/2} mu^{-1/2}`, then upper-
+  triangle vectorization.
+- Classifier: pooled board features + per-class log-map features +
+  `(d_BW_0, d_BW_1, d_BW_0 - d_BW_1)` + `log|det Sigma|` + `tr(Sigma)`
+  feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `bures_wasserstein_threat_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `bures_distance_class0`, `bures_distance_class1`, `bures_distance_gap`
+- `bures_log_det_sigma`, `bures_trace_sigma`, `bures_spectral_sigma`
+- `bures_log_phi0`, `bures_log_phi1`
+
+## Implementation Binding
+
+- Registered model name: `bures_wasserstein_threat_network`
+- Source implementation file: `src/chess_nn_playground/models/bures_wasserstein_threat.py`
+- Idea-local wrapper: `ideas/i223_bures_wasserstein_threat_network/model.py`

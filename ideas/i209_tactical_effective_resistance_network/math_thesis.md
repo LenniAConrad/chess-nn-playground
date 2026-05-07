@@ -7,5 +7,3 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-28_1859_tuesday
 Batch candidate rank: `5`.
 
 Working thesis: A cut measures the weakest separation between attacker and target. Effective resistance measures how many redundant routes exist and how well defenders can dissipate pressure across the whole tactical graph.
-
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

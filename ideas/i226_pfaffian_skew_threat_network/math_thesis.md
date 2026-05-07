@@ -1,9 +1,31 @@
 # Math Thesis
 
-Pfaffian Skew Threat Network
+## Working thesis
 
-Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1525_tuesday_local_pfaffian_skew_threat.md`.
+Attacker-defender pairing has natural orientation: attacker `i` engaging
+defender `j` is *signed* (like a perfect matching of a directed graph). For
+a skew-symmetric `K = -K^T`, the Pfaffian `pf(K)` is the unique polynomial
+satisfying `pf(K)^2 = det(K)` and
+`pf(M^T K M) = det(M) pf(K)`, and its absolute value enumerates perfect
+matchings *with sign*. Near-puzzle and puzzle positions can have matched
+`||K||_F` but very different signed enumerator due to orientation
+cancellation.
 
-Working thesis: Builds a skew-symmetric chess operator K and uses its Pfaffian pf(K) (signed perfect-matching enumerator) plus sub-Pfaffian fingerprints; orientation cancellation discriminates puzzle vs near-puzzle at matched ||K||_F.
+## Setup
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+Build `K in R^{2m x 2m}` skew-symmetric from learned upper-triangle entries.
+Compute `log|pf(K)|` and a sign proxy via the eigenvalue product, plus a
+sub-Pfaffian fingerprint over a fixed family of even-sized index subsets.
+
+## Claim
+
+`(pf(K), sign_balance)` are not derivable from spectrum or singular-value
+features of `K` alone. The model should beat any spectrum-only baseline at
+puzzle vs near-puzzle separation when those have matched `||K||_F`.
+
+## Falsifiers
+
+- `abs_only`: replace `pf` with `|pf|` and zero the sign balance.
+- `det_swap`: replace `pf(K)` with `sqrt(det(K))`.
+- `force_symmetric_K`: use `(E + E^T)/2`. Then `pf = 0` and the model
+  collapses to a constant.

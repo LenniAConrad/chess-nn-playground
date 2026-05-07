@@ -1,7 +1,7 @@
 idea_id: i207
 name: Counterplay Insolvency Ledger
 slug: counterplay_insolvency_ledger
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:02+00:00'
 author: Codex
 short_thesis: Near-puzzles often fail because the defender has counterplay. A model
@@ -21,18 +21,17 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by packet family.
-implementation_status: probe_scaffold_only
+implementation_status: implemented
 trainer_entrypoint: ideas/i207_counterplay_insolvency_ledger/train.py
 config_path: ideas/i207_counterplay_insolvency_ledger/config.yaml
 model_path: ideas/i207_counterplay_insolvency_ledger/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation lives in `src/chess_nn_playground/models/counterplay_insolvency_ledger.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md
 source_packet_candidate: Counterplay Insolvency Ledger
 source_packet_rank: 3
 source_packet_status: batch packet
 mechanism_family: graph
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

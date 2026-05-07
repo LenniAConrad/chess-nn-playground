@@ -1,24 +1,43 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
-
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
-
-
-`Toda Isospectral Flow Network` uses the shared proposal-conditioned research-packet probe.
+`Toda Isospectral Flow Network` is a bespoke implementation of the Toda lattice
+Lax flow over a learned chess operator.
 
 - Mechanism family: `linear_algebra`.
-- Active proposal profile: `toda_isospectral_flow_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+- Input: board tensor only (`simple_18`); CRTK/source metadata is reporting-only.
+- Board trunk: `BoardConvStem` of configurable width and depth, pooled with mean
+  and max along the spatial axes.
+- Operator construction: a linear projection turns the pooled features into
+  `2n - 1` parameters (n diagonals plus n - 1 positive off-diagonals), forming a
+  symmetric tridiagonal `L_0 = tridiag(b, a, b)`.
+- Lax flow: explicit Euler integration of `dot L = [L, B(L)]` with
+  `B(L) = L_- - L_+` (strictly lower minus strictly upper triangular). The
+  iterates are re-symmetrised at every step to absorb roundoff drift.
+- Diagnostics:
+  * sorting score of the diagonal at the final time;
+  * Manakov drift `Tr(L_T^k) - Tr(L_0^k)` for `k = 2..K` (zero in the
+    continuous limit; deviation reports numerical fidelity);
+  * off-diagonal magnitudes and per-step decay rates;
+  * smallest spectral gap estimate `gap = -min_i log(b_i(T) / b_i(0)) / T`.
+- Head: pooled features concatenated with the diagnostics feed a LayerNorm +
+  GELU MLP that returns one puzzle logit and a dictionary of diagnostic
+  tensors.
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+The flow integrates the standard non-periodic Toda lattice. As `T -> inf` the
+diagonal sorts to the descending order of `eig(L_0)`; the off-diagonals decay at
+rates set by adjacent eigenvalue gaps. This makes the diagnostics correlated
+with the spectral structure of the learned operator without ever calling an
+eigendecomposition - the head only sees the lattice variables and the conserved
+power sums.
+
+## Implementation Binding
+
+- Registered model name: `toda_isospectral_flow_network`
+- Source implementation file: `src/chess_nn_playground/models/toda_isospectral_flow.py`
+- Idea-local wrapper: `ideas/i235_toda_isospectral_flow_network/model.py`
+
+The wrapper builds the bespoke
+`chess_nn_playground.models.toda_isospectral_flow.TodaIsospectralFlowNetwork`
+through `build_toda_isospectral_flow_network_from_config(config["model"])`; it
+no longer delegates to `ResearchPacketProbe` or
+`build_research_packet_probe_from_config`.

@@ -17,12 +17,20 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
+  field_channels: 12
+  context_width: 48
+  residual_map_width: 32
   hidden_dim: 96
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: information
-  packet_profile: variational_board_action_network
+  boundary_mode: reflect
+  include_residual_map_cnn: true
+  include_board_cnn_summary: true
+  use_force_head_approximation: true
+  use_exact_potential_autograd: false
+  eps: 1.0e-4
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

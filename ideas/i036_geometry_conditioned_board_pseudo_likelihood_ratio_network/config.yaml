@@ -16,13 +16,22 @@ model:
   name: geometry_conditioned_board_pseudo_likelihood_ratio_network
   input_channels: 18
   num_classes: 1
-  channels: 64
+  adapter: simple18_token
+  num_square_tokens: 13
   hidden_dim: 96
-  depth: 2
-  dropout: 0.1
-  use_batchnorm: true
+  decoder_hidden_dim: 192
+  max_neighbors: 40
+  target_chunk_size: 8
+  empty_square_weight: 0.25
+  nonempty_square_weight: 1.0
+  score_temperature_init: 1.0
+  dropout: 0.05
+  relation_dropout: 0.05
+  randomize_relations: false
+  unary_only: false
+  allow_soft_tokenization: false
+  fail_closed_unknown_channels: true
   mechanism_family: topology
-  packet_profile: geometry_conditioned_board_pseudo_likelihood_ratio_network
 training:
   epochs: 20
   batch_size: 256

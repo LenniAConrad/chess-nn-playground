@@ -1,24 +1,36 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Lyapunov Stability Threat Network` treats each board as an autonomous linear
+system `dot x = A x` with a learned damping that keeps `A` Hurwitz at
+initialization, builds a board-derived PSD weighting `Q`, and solves the
+continuous Lyapunov equation `A^T P + P A = -Q` via the vec form.
 
+## Components
 
-`Lyapunov Stability Threat Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk + pooled mean/max summary.
+- Flow operator: `A = -damping * I + flow(X_sq)` in `R^{r x r}`.
+- Hurwitz clip: subtract `(max_real + safety) * I` from `A` to guarantee a
+  unique solution at solve time.
+- `Q` head: `Q = factor factor^T + q_floor I` (PSD).
+- Lyapunov solver: vec-form solve
+  `(I kron A^T + A^T kron I) vec(P) = -vec(Q)` via batched Kronecker.
+- Diagnostics: soft Haynsworth inertia of `P`, top-`k` eigenvalues, trace,
+  log-determinant, condition number, worst-direction settling proxy,
+  Hurwitz indicator on `max real eig(A)`.
+- Classifier: pooled board features + inertia + top eigenvalues + scalar
+  features feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `lyapunov_threat_stability_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `lyapunov_inertia_pos`, `lyapunov_inertia_zero`, `lyapunov_inertia_neg`
+- `lyapunov_log_det_P`, `lyapunov_trace_P`, `lyapunov_cond_P`
+- `lyapunov_spectral_P`, `lyapunov_hurwitz_indicator`,
+  `lyapunov_max_real_A`, `lyapunov_eigvals_topk`
+
+## Implementation Binding
+
+- Registered model name: `lyapunov_threat_stability_network`
+- Source implementation file: `src/chess_nn_playground/models/lyapunov_threat_stability.py`
+- Idea-local wrapper: `ideas/i225_lyapunov_threat_stability_network/model.py`

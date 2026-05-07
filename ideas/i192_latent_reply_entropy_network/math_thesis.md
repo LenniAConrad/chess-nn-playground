@@ -8,4 +8,26 @@ Batch candidate rank: `7`.
 
 Working thesis: A forcing puzzle often reduces the opponent's viable reply distribution. A near-puzzle may have many replies that keep the position acceptable. The network can learn a reply entropy proxy without engine labels.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+Let `R(B)` be a deterministic reply/resource set extracted from the current board: king escapes, captures, line blocks, target defenses, counter-threats, and quiet resources. Each reply token `r_i` is scored against the board context:
+
+```text
+s_i = safe_reply_score(r_i, board_context)
+p_i = softmax(s_i / temperature)
+```
+
+The model then reads concentration statistics of the latent reply distribution:
+
+```text
+H = -sum_i p_i log p_i
+top1 = max_i p_i
+top2_gap = top1 - second_largest_i p_i
+effective_reply_count = exp(H)
+```
+
+The final classifier receives the board context plus these entropy and concentration features:
+
+```text
+puzzle_logit = MLP([board_context, H, top1, top2_gap, effective_reply_count])
+```
+
+The intended signal is compression of viable replies. A true forcing puzzle should put high probability on very few defensive resources; a near-puzzle should retain a broader, higher-entropy reply distribution.

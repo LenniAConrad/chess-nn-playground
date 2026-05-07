@@ -1,7 +1,7 @@
 idea_id: i054
 name: Threat-Topology Betti Bottleneck Network
 slug: threat_topology_betti_bottleneck_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: Threat-Topology Betti Bottleneck Network - One-sentence
@@ -16,17 +16,16 @@ target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzl
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One BCE puzzle logit, internal two-class logits, and threat-topology
+  diagnostics including Betti, boundary, pressure, and mechanism-energy summaries.
+compute_notes: Deterministic simple_18 rule-pressure fields plus rank top-k cubical
+  Betti curves, a small topology MLP, and a matched CNN stem.
+implementation_status: implemented
 trainer_entrypoint: ideas/i054_threat_topology_betti_bottleneck_network/train.py
 config_path: ideas/i054_threat_topology_betti_bottleneck_network/config.yaml
 model_path: ideas/i054_threat_topology_betti_bottleneck_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0814_tuesday_los_angeles_threat_topology.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
-implementation_kind: shared_probe_variant
+notes: Bespoke implementation of the threat-topology packet. The rule branch is
+  simple_18-only and fail-closed for unknown deterministic encodings; LC0 current-piece
+  decoding requires a future explicit channel map.
+implementation_kind: bespoke_model

@@ -19,12 +19,12 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Model Diagnostics
 
-- Mechanism family: `generic`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Patch token energy and spread:
+- Token-mixing and channel-mixing energy:
+- Mean patch occupancy and active patch fraction:
+- Patch count and patch size:
 - Near-puzzle false positives:
 
 ## Slice Findings

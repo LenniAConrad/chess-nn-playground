@@ -1,7 +1,7 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/hierarchical_tactical_option.py`.
+- Idea-local wrapper: `ideas/i203_hierarchical_tactical_option_network/model.py` calls the registered builder.
 - Registry key: `hierarchical_tactical_option_network`.
-- Source packet: `ideas/research_packets/chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md`.
-- Batch candidate: `Hierarchical Tactical Option Network`.
-- This is intentionally board-only and does not consume engine, verification, source, or CRTK metadata as input.
+- Input contract: simple_18 board tensor only; CRTK metadata remains reporting-only.
+- Output contract: one puzzle logit (shape `(B,)`) plus idea-specific diagnostic tensors.

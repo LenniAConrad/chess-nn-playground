@@ -1,7 +1,7 @@
 idea_id: i162
 name: Empty-Square Opportunity Network
 slug: empty_square_opportunity_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'Chess tactics often depend on empty squares: escape squares, mating
@@ -9,30 +9,31 @@ short_thesis: 'Chess tactics often depend on empty squares: escape squares, mati
   squares. A classifier that separately models occupied-square evidence and empty-square
   o...'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
+  uses explicit occupied-square and empty-square opportunity branches rather than
+  generic CNN-only pooling.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus opportunity maps, empty opportunity norm, occupied
+  and empty branch norms, interaction energy, top opportunity square, occupancy
+  counts, and named opportunity-channel diagnostics.
+compute_notes: Shared coordinate-aware CNN trunk with separate occupied and empty
+  ConvStack branches, learned empty-square opportunity maps, masked mean/max/top-k
+  pooling, and occupied/empty product-difference fusion.
+implementation_status: implemented
 trainer_entrypoint: ideas/i162_empty_square_opportunity_network/train.py
 config_path: ideas/i162_empty_square_opportunity_network/config.yaml
 model_path: ideas/i162_empty_square_opportunity_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Implemented as a bespoke board-only empty-square opportunity model registered
+  under `empty_square_opportunity_network`.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md
 source_packet_candidate: Empty-Square Opportunity Network
 source_packet_rank: 1
 source_packet_status: batch packet
 mechanism_family: convex
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

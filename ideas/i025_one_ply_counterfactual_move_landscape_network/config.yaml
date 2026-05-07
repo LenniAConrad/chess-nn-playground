@@ -19,6 +19,16 @@ model:
   channels: 64
   hidden_dim: 96
   depth: 2
+  root_channels: 48
+  root_embedding_dim: 96
+  move_dim: 96
+  max_moves: 256
+  landscape_temperature: 0.5
+  use_count_scalar: false
+  include_path_summary: false
+  include_castling_candidates: false
+  adapter_strict: true
+  classifier_hidden: 128
   dropout: 0.1
   use_batchnorm: true
   mechanism_family: move_delta

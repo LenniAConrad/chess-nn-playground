@@ -19,12 +19,14 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Model Diagnostics
 
-- Mechanism family: `generic`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- White/black/state gate means:
+- Gate entropy:
+- White and black piece counts:
+- State signal:
+- Semantic grouping known:
+- Trunk feature energy and pooled feature spread:
 - Near-puzzle false positives:
 
 ## Slice Findings

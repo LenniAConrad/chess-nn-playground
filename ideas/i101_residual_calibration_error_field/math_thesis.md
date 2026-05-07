@@ -6,6 +6,21 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_
 
 Batch candidate rank: `5`.
 
-Working thesis: If the existing CNN has good accuracy but poor reliability on near-puzzles, a residual calibration architecture can predict where the baseline is likely overconfident. The model learns a spatial "calibration error field" and uses it to adjust logits or prod...
+Working thesis: If the existing CNN has good accuracy but poor reliability on
+near-puzzles, a residual calibration architecture can predict where the baseline
+is likely overconfident. The model learns a spatial calibration error field and
+uses it to adjust logits or produce diagnostics.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+The implemented classifier follows the source packet equation:
+
+`error_field = conv_head(features)`
+
+`temperature = softplus(pool(error_field)) + eps`
+
+`correction = small_mlp(pool(error_field))`
+
+`logit = raw_logit / temperature + correction`
+
+The residual field is not a replacement classifier. It models calibration
+residuals of the baseline CNN by predicting a sample-wise temperature and a
+bounded additive correction from spatial error evidence.

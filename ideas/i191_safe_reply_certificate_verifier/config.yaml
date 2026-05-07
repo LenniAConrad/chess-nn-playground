@@ -21,6 +21,9 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  certificate_dim: 96
+  max_certificates: 128
+  ablation: none
   mechanism_family: logic
   packet_profile: safe_reply_certificate_verifier
 training:

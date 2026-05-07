@@ -16,13 +16,21 @@ model:
   name: tensor_core_square_pair_field_network
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  model_dim: 128
+  heads: 8
+  head_dim: 32
+  layers: 3
+  pair_rank: 16
+  relation_count: 18
+  hidden_dim: 128
+  classifier_hidden: 128
+  ffn_multiplier: 2
   dropout: 0.1
-  use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: tensor_core_square_pair_field_network
+  norm: rmsnorm
+  activation: gelu
+  use_pair_energy_readout: true
+  use_relation_energy_readout: true
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

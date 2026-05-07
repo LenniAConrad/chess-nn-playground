@@ -1,15 +1,52 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Hypercolumn Square Readout CNN` is a board-only convolutional classifier for the
+`puzzle_binary` task. It accepts the repo's simple 18-plane current-board tensor
+with shape `(B, 18, 8, 8)` and returns one puzzle logit per position.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+The trunk is a compact residual CNN that preserves the board grid at every depth:
 
+```text
+h1, h2, h3, h4 = trunk_layers(x)
+```
 
-`Hypercolumn Square Readout CNN` uses the shared proposal-conditioned research-packet probe.
+Each saved layer is projected to a common per-square width with an independent
+`1x1` convolution:
 
-- Mechanism family: `generic`.
-- Active proposal profiles: `spatial_cnn`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+```text
+p_t = Conv1x1(h_t -> hyper_width)
+```
+
+The projected layer maps are concatenated at every square to form a hypercolumn:
+
+```text
+H_square = concat(p1, p2, p3, p4)  # (B, 4 * hyper_width, 8, 8)
+```
+
+A square evidence head reads each hypercolumn, emits local evidence features, and
+then produces a two-channel square-logit map:
+
+```text
+e = Conv1x1(H_square -> evidence_width)
+e = Conv3x3(e -> evidence_width)
+square_logits = Conv1x1(e -> 2)
+```
+
+The final classifier aggregates dense and sparse square evidence:
+
+```text
+z = concat(mean_pool(e), max_pool(e), topk_pool(square_logits))
+logits = MLP(z)
+```
+
+The implementation exposes diagnostics for the markdown's intended inspection
+surface: square evidence maps, square logits, layer projection energy, early/late
+projection dominance, and top evidence square indices. Central ablations are
+available through the `ablation` config key: `last_layer_only`, `no_square_logits`,
+`mean_pool_only`, `cnn_head_matched`, and `random_layer_order`.
+
+## Implementation Binding
+
+- Registered model name: `hypercolumn_square_readout_cnn`
+- Source implementation file: `src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py`
+- Idea-local wrapper: `ideas/i160_hypercolumn_square_readout_cnn/model.py`

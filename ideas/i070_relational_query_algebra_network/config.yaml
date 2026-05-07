@@ -17,12 +17,19 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
+  piece_width: 64
+  square_width: 48
+  query_count: 8
+  relation_count: 16
   hidden_dim: 96
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: graph
-  packet_profile: relational_query_algebra_network
+  use_piece_square_join: true
+  use_piece_piece_join: true
+  use_semijoin: true
+  use_cnn_summary: true
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

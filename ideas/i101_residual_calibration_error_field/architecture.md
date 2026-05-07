@@ -1,15 +1,58 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Residual Calibration Error Field` is a board-only `puzzle_binary` classifier
+that decomposes prediction into a raw CNN logit and a learned residual
+calibration field.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+The model accepts the repository board tensor contract `B x 18 x 8 x 8`, adds
+rank/file coordinate planes, and encodes the board with a compact CNN. The
+pooled CNN feature map produces the baseline score:
 
+`raw_logit = raw_head(pool(features))`.
 
-`Residual Calibration Error Field` uses the shared proposal-conditioned research-packet probe.
+## Calibration Error Field
 
-- Mechanism family: `robustness`.
-- Active proposal profiles: `robustness`, `phase_calibration`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+A spatial branch predicts an error field from the same intermediate feature map:
+
+`error_field = conv_head(features)`.
+
+The model pools this field and derives two residual calibration terms:
+
+`temperature = softplus(temperature_head(pool(error_field))) + temperature_floor`
+
+`correction = correction_scale * tanh(correction_head(pool(error_field)))`
+
+The final puzzle logit is:
+
+`logits = raw_logit / temperature + correction`.
+
+The bounded additive correction is the trainable residual logit adjustment. The
+positive sample-wise temperature is the calibration component: values above one
+soften overconfident raw logits, while values below one sharpen underconfident
+raw logits.
+
+## Diagnostics
+
+The model returns scalar diagnostics for both the raw and calibrated paths:
+`raw_logit`, `calibration_temperature`, `calibration_correction`,
+`correction_norm`, `correction_regularizer`, `temperature_log`,
+`raw_probability`, `calibrated_probability`, `confidence_delta`, and
+`calibration_strength`.
+
+It also returns error-field summaries: `error_field_energy`,
+`error_field_peak`, `error_field_l1`, `error_field_entropy`,
+`error_field_center_mass`, `error_field_edge_mass`, and
+`error_field_signed_mean`. The full `error_field` tensor is included as the
+spatial heatmap diagnostic; prediction export ignores non-scalar tensors, while
+in-memory analysis can inspect the heatmap directly.
+
+## Output Contract
+
+The primary `logits` tensor has shape `(B,)` and is compatible with the
+repository's BCE puzzle-binary trainer.
+
+## Implementation Binding
+
+- Registered model name: `residual_calibration_error_field`
+- Source implementation file: `src/chess_nn_playground/models/residual_calibration.py`
+- Idea-local wrapper: `ideas/i101_residual_calibration_error_field/model.py`

@@ -19,6 +19,13 @@ model:
   channels: 64
   hidden_dim: 96
   depth: 2
+  restriction_rank: 4
+  max_edges: 1024
+  edge_type_count: 4608
+  use_xray_edges: true
+  edge_dropout: 0.0
+  step_size: 0.2
+  classifier_hidden: 96
   dropout: 0.1
   use_batchnorm: true
   mechanism_family: sheaf

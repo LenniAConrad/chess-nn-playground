@@ -1,15 +1,49 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Relational Query Algebra Network` implements the source packet as a differentiable
+board-only relational executor. The model treats the current `simple_18` board tensor
+as two learned fact tables: a padded occupied-piece table and a dense 64-square table.
+It then evaluates learned query blocks over fixed chess-square relations before fusing
+those query summaries with a compact CNN board summary.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Fact Tables
 
+- `PieceTableExtractor` selects up to 32 occupied squares and emits piece facts with
+  piece type, side-to-move ownership, color, absolute and side-relative coordinates,
+  slider/king/pawn indicators, normalized material value, castling flags, en-passant
+  flags, and a board-level material summary.
+- `SquareTableBuilder` emits 64 square facts from occupancy, side-to-move ownership,
+  coordinates, center/edge/ray features, en-passant/castling context, and a learned
+  projection of local board planes.
+- A compact CNN trunk provides dense 8x8 convolutional features so the relational
+  path is not forced to rediscover local board texture.
 
-`Relational Query Algebra Network` uses the shared proposal-conditioned research-packet probe.
+## Query Algebra
 
-- Mechanism family: `graph`.
-- Active proposal profiles: `graph`, `token_attention`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+Each learned query owns piece-left, piece-right, and square predicates plus a static
+learned mixture over a fixed relation bank:
+
+- piece-square join: gated piece facts join square facts through mixed square
+  relations;
+- piece-piece join: two gated piece tables join through mixed relations between
+  their occupied squares;
+- piece-square-piece semijoin: two piece predicates gather square evidence lying
+  between aligned piece pairs.
+
+The join outputs are summarized with signed mean, magnitude mean, max, top-k mean,
+log-sum-exp, and support entropy. Query summaries, material features, and CNN summary
+features feed a small MLP classifier that returns one puzzle-binary logit plus
+diagnostics including relation entropy, query support entropy, join strengths, CNN
+energy, material balance, and piece count.
+
+## Ablation Hooks
+
+The implementation exposes the packet's intended mechanism tests through config:
+`no_joins`, `relation_shuffle`, `piece_pair_only`, `no_semijoin`,
+`static_relation_mix_only`, `mlp_same_params`, and `fact_table_permutation`.
+
+## Implementation Binding
+
+- Registered model name: `relational_query_algebra_network`.
+- Source implementation file: `src/chess_nn_playground/models/relational_query_algebra.py`.
+- Idea-local wrapper: `ideas/i070_relational_query_algebra_network/model.py`.

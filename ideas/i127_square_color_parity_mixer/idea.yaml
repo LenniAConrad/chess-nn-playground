@@ -1,7 +1,7 @@
 idea_id: i127
 name: Square-Color Parity Mixer
 slug: square_color_parity_mixer
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: The chessboard is naturally bipartite by square color. Bishops stay
@@ -9,30 +9,29 @@ short_thesis: The chessboard is naturally bipartite by square color. Bishops sta
   pawn captures switch files and square color. A neural model can explicitly split
   dark/light square subspaces...
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
+  implements a bespoke dark/light parity block mixer with piece-conditioned same-color
+  and cross-color gates over board square tokens.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus square-color parity diagnostics for same-color
+  gates, cross-color gates, block energy, and dark/light token energy.
+compute_notes: Compact convolutional square encoder, learned dark/light block mixers,
+  trainable piece-conditioned parity gates, and an MLP readout.
+implementation_status: implemented
 trainer_entrypoint: ideas/i127_square_color_parity_mixer/train.py
 config_path: ideas/i127_square_color_parity_mixer/config.yaml
 model_path: ideas/i127_square_color_parity_mixer/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation in `src/chess_nn_playground/models/square_color_parity_mixer.py`;
+  wrapper delegates through `ideas/i127_square_color_parity_mixer/model.py`.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md
 source_packet_candidate: Square-Color Parity Mixer
 source_packet_rank: 3
 source_packet_status: batch packet
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

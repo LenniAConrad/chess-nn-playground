@@ -1,5 +1,12 @@
 # Ablations
 
-- Set `model.mechanism_family: generic` to test the packet mechanism against a generic diagnostic profile.
-- Reduce `model.depth` to 1 to test whether the mechanism survives a smaller trunk.
-- Compare against LC0 BT4, NNUE, and the strongest registered idea runs on the same split and seeds.
+- `single_global_head`: use only the global pooling head.
+- `no_king_head`: remove the king-zone specialist.
+- `no_material_head`: remove the material/count specialist.
+- `uniform_logit_average`: average active specialist logits instead of using
+  the learned fusion MLP.
+- `same_region_random_masks`: replace center and edge masks with deterministic
+  random masks of the same sizes.
+
+Compare each ablation against the default `specialist_head_cnn` config on the
+same puzzle_binary split and seeds.

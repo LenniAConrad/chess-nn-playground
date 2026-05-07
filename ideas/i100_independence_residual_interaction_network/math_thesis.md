@@ -6,6 +6,19 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_
 
 Batch candidate rank: `4`.
 
-Working thesis: Some puzzle-like signals may be interactions that remain after subtracting a simple independence explanation of board occupancy. Instead of modeling all piece-square interactions directly, compute signed residuals:
+Working thesis: Some puzzle-like signals may be interactions that remain after
+subtracting a simple independence explanation of board occupancy. Instead of
+modeling all piece-square interactions directly, compute signed residuals:
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+`observed(piece, square) - expected(piece) * expected(square)`.
+
+The implemented classifier constructs an expected piece-square occupancy tensor
+from current-board piece/channel marginals, occupied-square mass, and
+side-relative rank/file marginals. It then classifies from the signed residual
+maps:
+
+`r_{p,s}(x) = x_{p,s} - E_{p,s}(x)`.
+
+The purpose is to force the head to focus on piece-square arrangements that are
+not explained by material counts, global occupancy, or a low-rank rank/file
+occupancy baseline.

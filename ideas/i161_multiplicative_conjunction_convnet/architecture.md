@@ -1,15 +1,43 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Multiplicative Conjunction ConvNet` is a board-only convolutional classifier for
+the `puzzle_binary` task. It accepts the repo's simple 18-plane current-board
+tensor with shape `(B, 18, 8, 8)` and returns one puzzle logit per position.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+The model starts with a plain two-layer CNN stem. When enabled, fixed rank and
+file coordinate planes are appended before the stem:
 
+```text
+h = CNNStem(concat(board, rank_plane, file_plane))
+```
 
-`Multiplicative Conjunction ConvNet` uses the shared proposal-conditioned research-packet probe.
+Each residual block follows the packet's paired-branch conjunction sketch:
 
-- Mechanism family: `logic`.
-- Active proposal profiles: `logic`, `spatial_cnn`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+```text
+a = Conv3x3_A(h)
+b = Conv3x3_B(h)
+g = sigmoid(Conv1x1_G(h))
+product = a * b
+y = Conv1x1(concat(a, b, product, g * a))
+h = h + NormActDropout(y)
+```
+
+The product feature is an explicit channel group in the residual fusion path; it
+is not just a sigmoid gate. The default uses `width: 64`, `depth: 5`,
+`branch_width: 32`, `dropout: 0.1`, and `use_coordinate_planes: true`, matching
+the research packet defaults. The final head pools the board feature map with
+mean and max pooling and classifies the pooled vector with an MLP.
+
+Implemented ablations are selected with the `ablation` config key:
+`additive_only`, `gate_only_no_product`, `single_branch_matched`,
+`late_product_only`, and `cnn_matched_params`.
+
+Diagnostics expose product branch norm by layer, raw product norm by layer, gate
+mean and saturation by layer, branch balance, fusion energy, final feature energy,
+and aggregate feature energy.
+
+## Implementation Binding
+
+- Registered model name: `multiplicative_conjunction_convnet`
+- Source implementation file: `src/chess_nn_playground/models/multiplicative_conjunction_convnet.py`
+- Idea-local wrapper: `ideas/i161_multiplicative_conjunction_convnet/model.py`

@@ -1,7 +1,7 @@
 idea_id: i224
 name: Numerical-Range Boundary Network
 slug: numerical_range_boundary_network
-status: scaffolded
+status: implemented
 created_at: '2026-05-05T15:50:00+00:00'
 author: Claude
 short_thesis: Computes the field-of-values W(A) of a learned non-symmetric chess operator
@@ -19,14 +19,13 @@ output_heads: One puzzle logit plus packet-profile diagnostics saved to predicti
   artifacts.
 compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
   selected by the linear-algebra packet profile.
-implementation_status: probe_scaffold_only
+implementation_status: implemented
 trainer_entrypoint: ideas/i224_numerical_range_boundary_network/train.py
 config_path: ideas/i224_numerical_range_boundary_network/config.yaml
 model_path: ideas/i224_numerical_range_boundary_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-05-05_1515_tuesday_local_numerical_range_boundary.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation lives in `src/chess_nn_playground/models/numerical_range_boundary.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

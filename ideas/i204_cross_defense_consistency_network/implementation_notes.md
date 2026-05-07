@@ -1,7 +1,7 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/cross_defense_consistency.py`.
+- Idea-local wrapper: `ideas/i204_cross_defense_consistency_network/model.py` calls the registered builder.
 - Registry key: `cross_defense_consistency_network`.
-- Source packet: `ideas/research_packets/chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md`.
-- Batch candidate: `Cross-Defense Consistency Network`.
-- This is intentionally board-only and does not consume engine, verification, source, or CRTK metadata as input.
+- Input contract: simple_18 board tensor only; CRTK metadata remains reporting-only.
+- Output contract: one puzzle logit (shape `(B,)`) plus idea-specific diagnostic tensors.

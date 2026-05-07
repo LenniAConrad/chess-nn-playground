@@ -1,24 +1,37 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Pfaffian Skew Threat Network` builds a learned skew-symmetric chess
+interaction operator `K = -K^T in R^{2m x 2m}` and classifies puzzle-likeness
+from the signed Pfaffian `pf(K)` (oriented enumerator of perfect matchings)
+plus a fingerprint of sub-Pfaffians on chess-natural square subsets.
 
+## Components
 
-`Pfaffian Skew Threat Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk + pooled mean/max summary.
+- Upper head: produces the strict upper-triangle of `K`; the model fills the
+  lower triangle as `-upper^T` so `K` is skew by construction.
+- Pfaffian block: differentiably approximates `pf(K)` via the product of
+  positive imaginary parts of the eigenvalues, with an upper-triangle sign
+  proxy for orientation tracking.
+- Sub-Pfaffian fingerprint: a fixed family of even-sized index subsets
+  `(I_q)_q` (deterministic from a seeded permutation) yields per-subset
+  signed Pfaffians; their mean sign is the orientation balance score.
+- Spectral features: Frobenius norm, spectral norm, nuclear norm, stable
+  rank, smallest singular value.
+- Classifier: pooled board features + scalar / fingerprint / spectral
+  features feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `pfaffian_skew_threat_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `pfaffian_signed_log`, `pfaffian_log_abs`, `pfaffian_sign`
+- `pfaffian_sign_balance`, `pfaffian_subset_signs`,
+  `pfaffian_subset_log_abs`
+- `pfaffian_frobenius`, `pfaffian_spectral`, `pfaffian_stable_rank`
+
+## Implementation Binding
+
+- Registered model name: `pfaffian_skew_threat_network`
+- Source implementation file: `src/chess_nn_playground/models/pfaffian_skew_threat.py`
+- Idea-local wrapper: `ideas/i226_pfaffian_skew_threat_network/model.py`

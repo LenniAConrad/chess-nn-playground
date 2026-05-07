@@ -19,12 +19,13 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Calibration Diagnostics
 
-- Mechanism family: `information`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Raw logit quality:
+- Calibration temperature distribution:
+- Bounded correction norm:
+- Confidence shift:
+- Error-field energy / peak / entropy:
 - Near-puzzle false positives:
 
 ## Slice Findings

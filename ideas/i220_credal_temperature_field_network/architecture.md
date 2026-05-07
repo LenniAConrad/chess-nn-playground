@@ -1,15 +1,28 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Credal Temperature Field Network` keeps the standard binary puzzle classifier
+but adds a sample-wise calibration branch that predicts a positive temperature
+`T(x)` and bounded smoothing `alpha(x)` from current-board features.
 
+## Components
 
-`Credal Temperature Field Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk + pooled mean/max board summary.
+- Shared MLP head (LayerNorm + Linear + GELU + Dropout).
+- Logit head produces the raw puzzle logit `z`.
+- Temperature head produces `T(x) = softplus(t(x)) + temperature_floor`.
+- Smoothing head produces `alpha(x) = max_alpha * sigmoid(a(x))`.
+- Final logit: `(1 - alpha(x)) * z / T(x)`.
 
-- Mechanism family: `information`.
-- Active proposal profiles: `information`, `robustness`, `probabilistic`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+## Diagnostics returned by the forward pass
+
+- `raw_logits`, `calibrated_logits`
+- `credal_temperature`, `credal_temperature_log`
+- `credal_smoothing`, `credal_entropy`
+
+## Implementation Binding
+
+- Registered model name: `credal_temperature_field_network`
+- Source implementation file: `src/chess_nn_playground/models/credal_temperature.py`
+- Idea-local wrapper: `ideas/i220_credal_temperature_field_network/model.py`

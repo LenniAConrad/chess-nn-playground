@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.research_packet_probe import ResearchPacketProbe
-from chess_nn_playground.models.research_packet_probe import build_research_packet_probe_from_config
+from chess_nn_playground.models.sparse_witness_bottleneck import SparseWitnessBottleneckNet
+from chess_nn_playground.models.sparse_witness_bottleneck import (
+    build_sparse_witness_piece_bottleneck_network_from_config,
+)
 
 
-def build_model_from_config(config: dict[str, Any]) -> ResearchPacketProbe:
+def build_model_from_config(config: dict[str, Any]) -> SparseWitnessBottleneckNet:
     model_cfg = dict(config.get("model", {}))
     model_cfg.setdefault("num_classes", 1)
-    return build_research_packet_probe_from_config(model_cfg)
+    return build_sparse_witness_piece_bottleneck_network_from_config(model_cfg)

@@ -7,5 +7,3 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-25_0109_saturda
 Batch candidate rank: `7`.
 
 Working thesis: A true puzzle should survive multiple independent defensive interpretations:
-
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.

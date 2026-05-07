@@ -16,13 +16,14 @@ model:
   name: multiplicative_conjunction_convnet
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  width: 64
+  depth: 5
+  branch_width: 32
+  hidden_dim: 128
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: logic
-  packet_profile: multiplicative_conjunction_convnet
+  use_coordinate_planes: true
+  ablation: none
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +47,5 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Promoted from a research packet as a board-only multiplicative conjunction
+  ConvNet. CRTK metadata is reporting-only.

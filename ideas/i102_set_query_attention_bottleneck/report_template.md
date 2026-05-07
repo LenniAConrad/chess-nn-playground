@@ -19,12 +19,15 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Attention Bottleneck Diagnostics
 
 - Mechanism family: `graph`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Attention entropy:
+- Best-second attention margin:
+- Occupied versus empty attention mass:
+- Side-to-move versus opponent piece mass:
+- Query diversity:
+- Ablation comparison:
 - Near-puzzle false positives:
 
 ## Slice Findings

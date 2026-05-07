@@ -1,15 +1,33 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Orbit Disagreement Residual Network` treats *disagreement* between safe transform
+views of the board as the primary tactical signal rather than enforcing or pooling
+invariance.
 
+## Components
 
-`Orbit Disagreement Residual Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: a compact convolutional trunk shared across all views.
+- View generator: identity, file flip, rank flip, 180-degree rotation, and a
+  color-flip (white/black plane swap) view. All views are exact safe transforms
+  of the simple_18 board tensor.
+- Latent projection: pooled mean/max board features per view -> latent vector.
+- Per-view binary logit head used to compute logit disagreement statistics.
+- Orbit pooling: invariant orbit mean, residuals from the orbit mean, per-view
+  residual norms, and the residual covariance trace and off-diagonal norm.
+- Classifier: pooled board features, orbit mean, residual mean/std, and the
+  six-element disagreement summary feed an MLP head.
 
-- Mechanism family: `symmetry`.
-- Active proposal profiles: `symmetry`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+## Diagnostics returned by the forward pass
+
+- `orbit_mean_norm`, `orbit_residual_mean_norm`, `orbit_residual_max_norm`
+- `orbit_covariance_trace`, `orbit_covariance_offdiag_norm`
+- `view_logit_disagreement`, `view_logit_range`
+- `per_view_logit`, `symmetry_residual`
+
+## Implementation Binding
+
+- Registered model name: `orbit_disagreement_residual_network`
+- Source implementation file: `src/chess_nn_playground/models/orbit_disagreement.py`
+- Idea-local wrapper: `ideas/i218_orbit_disagreement_residual_network/model.py`

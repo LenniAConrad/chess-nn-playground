@@ -1,15 +1,33 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Directed Attack-Sheaf Tension Network` implements a board-only directed sheaf model for puzzle-binary classification. It receives the repository board tensor contract `(B, C, 8, 8)` and returns one puzzle logit for the configured BCE trainer, plus diagnostic tensors for tension analysis.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Implementation Binding
 
+- Registered model name: `directed_attack_sheaf_tension_network`
+- Source implementation file: `src/chess_nn_playground/models/directed_attack_sheaf.py`
+- Idea-local wrapper: `ideas/i024_directed_attack_sheaf_tension_network/model.py`
 
-`Directed Attack-Sheaf Tension Network` uses the shared proposal-conditioned research-packet probe.
+## Components
 
-- Mechanism family: `sheaf`.
-- Active proposal profiles: `sheaf`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+- `EncodingAdapter`: decodes current piece occupancy, piece type, piece color, side to move, and side-relative role from `simple_18` or current-piece LC0-style planes. It does not consume labels, source tags, verification fields, or engine information.
+- `DirectedAttackGraphBuilder`: builds a directed pseudo-legal attack graph from occupied source pieces. Pawn, knight, king, rook ray, bishop ray, and queen ray relations are included. Sliding pieces emit directed ray edges to squares along each line; blocked continuation edges are retained as x-ray relations with path-clear and blocked-path features.
+- `SquareStateEncoder`: combines raw square planes, decoded piece/color/role one-hot features, square coordinates, and side to move into a learned square state.
+- `DirectedAttackSheafLayer`: learns relation-specific source and target restriction maps \(A_\kappa, B_\kappa\), computes gated sheaf residuals \(A_\kappa z_u - B_\kappa z_v\), scatters outgoing and incoming Laplacian gradients separately, and updates square states with a directed residual block.
+- `DirectedTensionReadout`: pools final square states and per-layer sheaf energy statistics. The classifier receives node-state pools, one-way versus reciprocal tension, attack and defense tension, x-ray tension, king-zone tension, gate means, path-clear means, and edge-density features.
+
+## Forward Contract
+
+The model accepts only a board tensor:
+
+```text
+output = model(x)
+x.shape == (batch, input_channels, 8, 8)
+output["logits"].shape == (batch,)
+```
+
+The diagnostic output includes `sheaf_tension`, `directed_asymmetry`, `outgoing_tension`, `incoming_tension`, `one_way_tension`, `reciprocal_tension`, `xray_tension`, `king_zone_tension`, `attack_energy`, `defense_energy`, `gate_mean`, and `edge_density`.
+
+## Relation Geometry
+
+Edges are typed by side-relative source role, source piece, target bucket, movement geometry, direction, and distance. Reciprocal directed edges are detected after graph construction so the readout can compare asymmetric one-way pressure against mutually constrained relations. The sheaf layer keeps source and destination restrictions distinct, so reversing an edge is not assumed to be equivalent to the original edge.

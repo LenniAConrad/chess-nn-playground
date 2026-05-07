@@ -1,24 +1,34 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Schur-Complement Defender Elimination Network` builds a learned PSD board
+interaction matrix `M in R^{64 x 64}`, partitions the squares into an attacker
+block (top-`a` squares by an attacker score head) and a defender block of size
+`64 - a`, and computes the Schur complement `S = D - B^T A^{-1} B`.
 
+## Components
 
-`Schur-Complement Defender Elimination Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk with pooled mean/max summary.
+- Factor head: produces a 16-rank factor `F in R^{64 x 16}` per board, used to
+  form `M = F F^T / 16 + eps I_{64}` (PSD by construction).
+- Attacker score head: per-square score from the encoder; the `a` highest-
+  scoring squares form the attacker block.
+- Block partition + Cholesky solve:
+  `Z = chol_solve(A + eps I, B)`, `S = D - B^T Z`.
+- Spectral / inertia readout: soft `(n_pos, n_zero, n_neg)`, top-`k`
+  eigenvalues of `S`, log-determinants of `S` and `M`, trace, stable rank.
+- Classifier: pooled board features + inertia + spectrum + log-determinant
+  features feed an MLP head.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `schur_complement_defender_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `schur_inertia_pos`, `schur_inertia_zero`, `schur_inertia_neg`
+- `schur_log_det_S`, `schur_log_det_M`, `schur_trace_S`, `schur_stable_rank`
+- `schur_eigvals_topk`, `schur_spectral_norm`
+
+## Implementation Binding
+
+- Registered model name: `schur_complement_defender_network`
+- Source implementation file: `src/chess_nn_playground/models/schur_complement_defender.py`
+- Idea-local wrapper: `ideas/i222_schur_complement_defender_network/model.py`

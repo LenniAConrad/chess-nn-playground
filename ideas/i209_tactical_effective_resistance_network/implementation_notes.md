@@ -1,7 +1,7 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/tactical_effective_resistance.py`.
+- Idea-local wrapper: `ideas/i209_tactical_effective_resistance_network/model.py` calls the registered builder.
 - Registry key: `tactical_effective_resistance_network`.
-- Source packet: `ideas/research_packets/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`.
-- Batch candidate: `Tactical Effective Resistance Network`.
-- This is intentionally board-only and does not consume engine, verification, source, or CRTK metadata as input.
+- Input contract: simple_18 board tensor only; CRTK metadata remains reporting-only.
+- Output contract: one puzzle logit (shape `(B,)`) plus idea-specific diagnostic tensors.

@@ -1,7 +1,7 @@
 idea_id: i051
 name: King Escape Percolation Network
 slug: king_escape_percolation_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: '- Idea name: **King Escape Percolation Network** - One-sentence thesis:
@@ -16,18 +16,17 @@ target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzl
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One BCE-compatible puzzle logit plus internal two-class scores and
+  escape-percolation diagnostics saved to prediction artifacts.
+compute_notes: Simple_18 rule adapter, pseudo-legal frozen-board attack maps, learned
+  nonnegative cost fields, multi-temperature king escape softmin DP, and a small
+  CNN fusion head.
+implementation_status: implemented
 trainer_entrypoint: ideas/i051_king_escape_percolation_network/train.py
 config_path: ideas/i051_king_escape_percolation_network/config.yaml
 model_path: ideas/i051_king_escape_percolation_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-21_0811_tuesday_pacific_king_escape_percolation.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Implemented as a bespoke simple_18 king escape percolation model in `src/chess_nn_playground/models/king_escape_percolation.py`.
 mechanism_family: topology
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model
