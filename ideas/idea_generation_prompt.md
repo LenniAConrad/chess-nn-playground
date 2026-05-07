@@ -493,13 +493,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i040_kinematic_commutator_bottleneck_network",
       "idea_id": "i040",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Kinematic Commutator Bottleneck Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0728_tuesday_local_kinematic_commutator.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0728_tuesday_local_kinematic_commutator.md`; central operator is a family of degree-two Lie commutators over rule-only chess kinematic motion operators with current-board blocker gating, not a CNN, sheaf, or transport scaffold.",
+      "output_heads": "One puzzle logit plus Lie-bracket diagnostics (commutator field, per-pair mean/max bracket magnitude, bracket energy) saved to prediction artifacts.",
       "short_thesis": "- Idea name: Kinematic Commutator Bottleneck Network, abbreviated KCBN. - One-sentence thesis: Puzzle-like positions should be enriched for non-commuting interactions...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3425,15 +3425,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i040_kinematic_commutator_bottleneck_network",
       "idea_id": "i040",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "linear_algebra",
       "name": "Kinematic Commutator Bottleneck Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke implementation lives in src/chess_nn_playground/models/kinematic_commutator_bottleneck.py; the idea-local model.py is a thin wrapper around the registered builder.",
       "short_thesis": "- Idea name: Kinematic Commutator Bottleneck Network, abbreviated KCBN. - One-sentence thesis: Puzzle-like positions should be enriched for non-commuting interactions...",
       "slug": "kinematic_commutator_bottleneck_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0728_tuesday_local_kinematic_commutator.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {
