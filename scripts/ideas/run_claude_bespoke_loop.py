@@ -98,6 +98,41 @@ def _working_tree_dirty() -> bool:
     return bool(_git(["status", "--porcelain"]).stdout.strip())
 
 
+def _changed_paths() -> list[str]:
+    raw = _git(["status", "--porcelain"]).stdout
+    paths: list[str] = []
+    for line in raw.splitlines():
+        if not line.strip():
+            continue
+        # porcelain v1: "XY path" or "XY path -> path" for renames; we want the post-rename path
+        rest = line[3:]
+        if " -> " in rest:
+            rest = rest.split(" -> ", 1)[1]
+        paths.append(rest.strip().strip('"'))
+    return paths
+
+
+def _scope_violations(target_folder: str) -> list[str]:
+    """Return files claude touched in OTHER ideas/i*/ folders.
+
+    Top-level files in ideas/ (INDEX, TODO, audits) are repo-wide and allowed.
+    Files in src/, tests/, scripts/ are legitimately cross-cutting and allowed.
+    """
+    target = target_folder.rstrip("/") + "/"
+    violations: list[str] = []
+    for path in _changed_paths():
+        if not path.startswith("ideas/"):
+            continue
+        rel = path[len("ideas/") :]
+        if "/" not in rel:
+            # top-level ideas/<file>, e.g. INDEX.md or audit json — allowed
+            continue
+        if path.startswith(target):
+            continue
+        violations.append(path)
+    return violations
+
+
 def _run_verifications(log_handle) -> tuple[bool, str]:
     for cmd in VERIFY_COMMANDS:
         log_handle.write(f"\n$ {' '.join(shlex.quote(c) for c in cmd)}\n")
@@ -196,6 +231,22 @@ def _run_one_idea(
             if restore_on_fail:
                 _restore()
             return False
+
+        log.write("\n=== SCOPE CHECK ===\n")
+        out_of_scope = _scope_violations(folder)
+        if out_of_scope:
+            log.write("[runner] claude modified files outside target idea folder:\n")
+            for path in out_of_scope:
+                log.write(f"  - {path}\n")
+            log.flush()
+            print(f"   scope violation: {len(out_of_scope)} file(s) outside {folder}", flush=True)
+            for path in out_of_scope[:5]:
+                print(f"     - {path}", flush=True)
+            if restore_on_fail:
+                _restore()
+                print("   working tree restored", flush=True)
+            return False
+        log.write("ok\n")
 
         log.write("\n=== VERIFICATION ===\n")
         ok, failed_cmd = _run_verifications(log)

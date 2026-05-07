@@ -91,6 +91,7 @@ def _prompt_for(row: object) -> str:
         - Do not mark this idea as `bespoke_model`, `implemented`, or `tested` unless the bespoke model is actually implemented, registered, smoke-tested, and validated.
         - Preserve the existing idea ID, folder, task contract, and config identity unless the codebase requires a narrowly scoped correction.
         - Keep unrelated benchmark results and unrelated files untouched.
+        - Do NOT modify any file under `ideas/<other_idea>/`. The only `ideas/` folder you may write to is `{folder}/`. Repo-wide `ideas/` files (INDEX.md, TODO.md, audit reports) may be touched only if the conformance audit requires it. Touching another idea's folder is grounds for rejection of this run.
         - If the markdown idea is underspecified or impossible to implement faithfully, stop and document the exact gap instead of pretending.
 
         Implementation requirements:
