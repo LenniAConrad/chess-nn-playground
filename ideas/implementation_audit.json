@@ -1564,35 +1564,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i048_rule_automorphism_quotient_bottleneck_network",
       "idea_id": "i048",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "rule_automorphism_quotient_bottleneck_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "rule_automorphism_quotient_bottleneck_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.rule_automorphism_quotient.build_rule_automorphism_quotient_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.rule_automorphism_quotient.build_rule_automorphism_quotient_bottleneck_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.rule_automorphism_quotient.build_rule_automorphism_quotient_bottleneck_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8392,17 +8390,16 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 103,
-      "shared_probe_variant": 137
+      "bespoke_model": 104,
+      "shared_probe_variant": 136
     },
     "by_metadata_kind": {
-      "bespoke_model": 103,
-      "shared_probe_variant": 137
+      "bespoke_model": 104,
+      "shared_probe_variant": 136
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
-      "ideas/i048_rule_automorphism_quotient_bottleneck_network",
       "ideas/i049_tempo_odd_bottleneck_network",
       "ideas/i050_king_anchored_euler_interaction_network",
       "ideas/i055_non_backtracking_tactical_walk_network",

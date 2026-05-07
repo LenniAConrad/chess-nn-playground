@@ -169,6 +169,9 @@ from chess_nn_playground.models.legal_automorphism_quotient_network import (
 from chess_nn_playground.models.color_flip_orbit_evidence import (
     build_color_flip_orbit_evidence_bottleneck_from_config,
 )
+from chess_nn_playground.models.rule_automorphism_quotient import (
+    build_rule_automorphism_quotient_bottleneck_from_config,
+)
 from chess_nn_playground.models.rule_exact_orbit_bottleneck import (
     build_rule_exact_orbit_bottleneck_from_config,
 )
@@ -327,6 +330,7 @@ MODEL_BUILDERS = {
     "side_canonical_rule_partition_invariant_bottleneck": build_side_canonical_rule_partition_invariant_bottleneck_from_config,
     "rule_exact_orbit_bottleneck_network": build_rule_exact_orbit_bottleneck_from_config,
     "color_flip_orbit_evidence_bottleneck": build_color_flip_orbit_evidence_bottleneck_from_config,
+    "rule_automorphism_quotient_bottleneck_network": build_rule_automorphism_quotient_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

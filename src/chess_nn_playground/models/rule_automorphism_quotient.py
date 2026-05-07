@@ -304,8 +304,9 @@ class RuleAutomorphismQuotientNet(nn.Module):
         mask_float = mask.to(dtype=z.dtype)
         orbit_consistency = (projection_delta * mask_float).sum(dim=1) / mask_float.sum(dim=1).clamp_min(1.0)
         valid_projection = _valid_flat(projection, mask)
-        view_logit_center = _masked_mean(view_logits.unsqueeze(-1), mask).squeeze(-1)
-        view_logit_delta = (view_logits - view_logit_center.unsqueeze(1)).pow(2)
+        view_binary_logits = view_two_class_logits[..., 1] - view_two_class_logits[..., 0]
+        view_logit_center = (view_binary_logits * mask_float).sum(dim=1) / mask_float.sum(dim=1).clamp_min(1.0)
+        view_logit_delta = (view_binary_logits - view_logit_center.unsqueeze(1)).pow(2)
         view_logit_variance = (view_logit_delta * mask_float).sum(dim=1) / mask_float.sum(dim=1).clamp_min(1.0)
 
         output: dict[str, torch.Tensor] = {

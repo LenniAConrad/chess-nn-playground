@@ -5102,3 +5102,183 @@ def test_i047_color_flip_orbit_evidence_bottleneck_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i048_rule_automorphism_quotient_bottleneck_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i048_rule_automorphism_quotient_bottleneck_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move, kings on e1/e8, white rook a1, black queen a8,
+    # castling rights present (so file mirror H must be invalid for this sample).
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    x[0, 13] = 1.0        # white kingside castling rights
+    x[0, 16] = 1.0        # black queenside castling rights
+    # Sample 1: black-to-move, no castling rights, no en-passant, kingside kings.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 1, 7, 1] = 1.0   # white knight b1
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "valid_view_count",
+        "file_mirror_valid",
+        "orbit_variance",
+        "masked_orbit_variance",
+        "view_logit_variance",
+        "symmetry_residual",
+        "orbit_consistency",
+        "reynolds_norm",
+        "projection_norm",
+        "mechanism_energy",
+        "risk_variance_proxy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Castling-gated file mirror: sample 0 has castling rights so H/HC must be
+    # masked out (only |G_x|=2 valid views), sample 1 has no castling so all
+    # four views are valid.
+    assert torch.allclose(output["valid_view_count"], torch.tensor([2.0, 4.0]))
+    assert torch.allclose(output["file_mirror_valid"], torch.tensor([0.0, 1.0]))
+
+    # Color/turn reversal must be a valid orbit member, so the binary logit
+    # must be exactly invariant under T_C on every sample.
+    from chess_nn_playground.models.rule_automorphism_quotient import (
+        RuleAutomorphismQuotientNet,
+        Simple18AutomorphismOrbit,
+    )
+
+    adapter = Simple18AutomorphismOrbit()
+    x_color = adapter.color_turn_reversal(x)
+    with torch.no_grad():
+        output_color = model(x_color)
+    assert torch.allclose(output["logits"], output_color["logits"], atol=1e-5)
+    # File mirror is exact only when castling is absent, which is true for
+    # sample 1; it must not be assumed exact for sample 0.
+    x_file = adapter.file_mirror(x)
+    with torch.no_grad():
+        output_file = model(x_file)
+    assert torch.allclose(
+        output["logits"][1:2], output_file["logits"][1:2], atol=1e-5
+    )
+
+    # Both legal involutions square to identity.
+    assert torch.allclose(adapter.color_turn_reversal(x_color), x, atol=1e-6)
+    assert torch.allclose(adapter.file_mirror(x_file), x, atol=1e-6)
+
+    # Auxiliary path exposes the orbit consistency / VICReg / REx losses
+    # required by the math thesis objective.
+    with torch.no_grad():
+        aux = model(x, return_aux=True)
+    aux_keys = {
+        "orbit_mask",
+        "z",
+        "projection",
+        "view_logits",
+        "view_two_class_logits",
+        "orbit_consistency_loss",
+        "vicreg_variance_loss",
+        "vicreg_covariance_loss",
+        "latent_small_loss",
+    }
+    assert aux_keys.issubset(aux.keys())
+    assert aux["orbit_mask"].shape == (2, 4)
+    assert aux["projection"].shape[0:2] == (2, 4)
+
+    # Pseudo-orbit falsifier shares parameters and runs end-to-end while
+    # marking every view as valid (semantics-destroying same-count control).
+    falsifier = RuleAutomorphismQuotientNet(
+        input_channels=input_channels,
+        num_classes=1,
+        hidden_channels=int(config["model"].get("channels", 64)),
+        latent_dim=int(config["model"].get("hidden_dim", 96)),
+        num_res_blocks=int(config["model"].get("depth", 2)),
+        pseudo_orbit=True,
+    ).eval()
+    with torch.no_grad():
+        falsifier_out = falsifier(x)
+    assert falsifier_out["logits"].shape == (2,)
+    assert torch.allclose(falsifier_out["valid_view_count"], torch.tensor([4.0, 4.0]))
+
+    # Color/turn-only ablation reduces the orbit to {I, C}.
+    color_only = RuleAutomorphismQuotientNet(
+        input_channels=input_channels,
+        num_classes=1,
+        hidden_channels=int(config["model"].get("channels", 64)),
+        latent_dim=int(config["model"].get("hidden_dim", 96)),
+        num_res_blocks=int(config["model"].get("depth", 2)),
+        use_file_mirror_if_castling_absent=False,
+    ).eval()
+    with torch.no_grad():
+        color_only_out = color_only(x)
+    assert torch.allclose(color_only_out["valid_view_count"], torch.tensor([2.0, 2.0]))
+
+    # Fail-closed adapter rejects unknown channel counts unless explicitly opted out.
+    with pytest.raises(ValueError):
+        Simple18AutomorphismOrbit()(torch.zeros(1, 17, 8, 8))
+    Simple18AutomorphismOrbit(fail_closed_unknown_channels=False)(
+        torch.zeros(1, 17, 8, 8)
+    )
+
+    # num_classes=2 head returns two-class logits.
+    pair = RuleAutomorphismQuotientNet(
+        input_channels=input_channels,
+        num_classes=2,
+        hidden_channels=16,
+        latent_dim=24,
+        num_res_blocks=2,
+    ).eval()
+    with torch.no_grad():
+        pair_out = pair(x)
+    assert pair_out["logits"].shape == (2, 2)
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "rule_automorphism_quotient_bottleneck_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i048"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
