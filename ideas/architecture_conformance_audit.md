@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `107`
+- Implemented architecture rows audited: `108`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -67,6 +67,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i053` | `ideas/i053_hall_defect_obligation_matroid_network` | `hall_defect_obligation_matroid_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i053_hall_defect_obligation_matroid_network/model.py`<br>`src/chess_nn_playground/models/hall_defect_obligation_matroid.py` | - |
 | `i054` | `ideas/i054_threat_topology_betti_bottleneck_network` | `threat_topology_betti_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i054_threat_topology_betti_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/threat_topology_betti.py` | - |
 | `i055` | `ideas/i055_non_backtracking_tactical_walk_network` | `non_backtracking_tactical_walk_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i055_non_backtracking_tactical_walk_network/model.py`<br>`src/chess_nn_playground/models/non_backtracking_tactical_walk.py` | - |
+| `i056` | `ideas/i056_non_puzzle_score_field_bottleneck_network` | `non_puzzle_score_field_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i056_non_puzzle_score_field_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/non_puzzle_score_field_bottleneck.py` | - |
 | `i070` | `ideas/i070_relational_query_algebra_network` | `relational_query_algebra_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i070_relational_query_algebra_network/model.py`<br>`src/chess_nn_playground/models/relational_query_algebra.py` | - |
 | `i071` | `ideas/i071_variational_board_action_network` | `variational_board_action_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i071_variational_board_action_network/model.py`<br>`src/chess_nn_playground/models/variational_board_action.py` | - |
 | `i072` | `ideas/i072_tensor_core_square_pair_field_network` | `tensor_core_square_pair_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i072_tensor_core_square_pair_field_network/model.py`<br>`src/chess_nn_playground/models/tensor_core_square_pair_field.py` | - |

@@ -157,6 +157,9 @@ from chess_nn_playground.models.masked_surprise_codec import (
 from chess_nn_playground.models.non_puzzle_score_curl_divergence import (
     build_non_puzzle_score_curl_divergence_bottleneck_from_config,
 )
+from chess_nn_playground.models.non_puzzle_score_field_bottleneck import (
+    build_non_puzzle_score_field_bottleneck_network_from_config,
+)
 from chess_nn_playground.models.phase_specialist_calibration_mixture import (
     build_phase_specialist_calibration_mixture_from_config,
 )
@@ -314,6 +317,7 @@ MODEL_BUILDERS = {
     "masked_codec_interaction_curvature_network": build_masked_codec_interaction_curvature_network_from_config,
     "masked_board_code_length_surprise_network": build_masked_board_code_length_surprise_network_from_config,
     "non_puzzle_score_curl_divergence_bottleneck": build_non_puzzle_score_curl_divergence_bottleneck_from_config,
+    "non_puzzle_score_field_bottleneck_network": build_non_puzzle_score_field_bottleneck_network_from_config,
     "ray_grammar_edit_distance_network": build_ray_grammar_edit_distance_network_from_config,
     "ray_language_automaton_network": build_ray_language_automaton_network_from_config,
     "kinematic_commutator_bottleneck_network": build_kinematic_commutator_bottleneck_network_from_config,

@@ -1101,6 +1101,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i056_non_puzzle_score_field_bottleneck_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i056_non_puzzle_score_field_bottleneck_network",
+      "idea_id": "i056",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "non_puzzle_score_field_bottleneck_network",
+      "slug": "non_puzzle_score_field_bottleneck_network",
+      "source_files": [
+        "ideas/i056_non_puzzle_score_field_bottleneck_network/model.py",
+        "src/chess_nn_playground/models/non_puzzle_score_field_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i070_relational_query_algebra_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2198,6 +2218,7 @@
       "ideas/i053_hall_defect_obligation_matroid_network",
       "ideas/i054_threat_topology_betti_bottleneck_network",
       "ideas/i055_non_backtracking_tactical_walk_network",
+      "ideas/i056_non_puzzle_score_field_bottleneck_network",
       "ideas/i070_relational_query_algebra_network",
       "ideas/i071_variational_board_action_network",
       "ideas/i072_tensor_core_square_pair_field_network",
@@ -2251,7 +2272,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 107,
+    "implemented_architecture_count": 108,
     "issue_folders": [],
     "validation_issue_count": 0
   }

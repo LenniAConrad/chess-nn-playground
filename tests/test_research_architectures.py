@@ -5650,3 +5650,119 @@ def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant(
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i056_non_puzzle_score_field_bottleneck_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i056_non_puzzle_score_field_bottleneck_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.non_puzzle_score_field_bottleneck import (
+        NonPuzzleScoreFieldBottleneckNetwork,
+    )
+
+    assert isinstance(model, NonPuzzleScoreFieldBottleneckNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 0, 6, 4] = 1.0   # white pawn e2
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "score_field_norm",
+        "score_residual_energy",
+        "score_bottleneck_energy",
+        "score_field_mean_abs",
+        "score_field_max_abs",
+        "score_per_sigma_norm",
+        "recon_residual_l2",
+        "mechanism_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["score_per_sigma_norm"].shape == (2, model.num_noise_levels)
+    assert output["recon_residual_l2"].shape == (2, model.num_noise_levels)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.dtype.is_floating_point:
+            assert torch.isfinite(value).all(), key
+
+    # Tweedie/Vincent identity: forward_with_aux exposes the raw score stack and
+    # it must equal (recon - x) / sigma^2. We probe one sigma here.
+    with torch.no_grad():
+        aux = model.forward_with_aux(x)
+    score_maps = aux["score_maps_per_sigma"]  # (B, K, C, 8, 8)
+    assert score_maps.shape == (2, model.num_noise_levels, input_channels, 8, 8)
+    sigma0 = model.noise_sigmas[0]
+    with torch.no_grad():
+        recon0 = model.denoiser(x, model._sigma_buffer.to(x.dtype)[0])
+        expected_score0 = (recon0 - x) / (sigma0 * sigma0)
+    assert torch.allclose(score_maps[:, 0], expected_score0, atol=1.0e-5)
+
+    # Score-matching helper filters to class-0 rows when binary_label is provided.
+    g = torch.Generator().manual_seed(0)
+    label_all_one = torch.ones(2, dtype=torch.long)
+    loss_no_zeros = model.denoising_score_matching_loss(x, binary_label=label_all_one, generator=g)
+    assert torch.allclose(loss_no_zeros, loss_no_zeros.new_zeros(()))
+    label_mixed = torch.tensor([0, 1])
+    loss_mixed = model.denoising_score_matching_loss(x, binary_label=label_mixed, generator=g)
+    assert torch.isfinite(loss_mixed)
+    assert loss_mixed > 0
+
+    # Freezing the score prior turns off gradient flow on the denoiser.
+    model.freeze_score_prior()
+    assert not any(p.requires_grad for p in model.denoiser.parameters())
+    model.unfreeze_score_prior()
+    assert all(p.requires_grad for p in model.denoiser.parameters())
+
+    # Fail-closed adapter for unknown encodings.
+    with pytest.raises(ValueError):
+        module.build_model_from_config({"model": {**config["model"], "input_channels": 12}})
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "non_puzzle_score_field_bottleneck_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NonPuzzleScoreFieldBottleneckNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i056"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
