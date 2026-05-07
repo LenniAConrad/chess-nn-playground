@@ -673,13 +673,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i055_non_backtracking_tactical_walk_network",
       "idea_id": "i055",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Non-Backtracking Tactical Walk Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0922_tuesday_local_nonbacktracking_walk.md`; uses a graph mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-21_0922_tuesday_local_nonbacktracking_walk.md`; uses a Hashimoto-style non-backtracking transition operator over deterministic current-board attack/protection edges, distinct from sheaf, Hodge, transport, topology, ordinal, and move-delta packet families.",
+      "output_heads": "One BCE puzzle logit, internal two-class logits, and non-backtracking walk diagnostics including edge counts, relation-pair distribution, walk energy, and overflow counters.",
       "short_thesis": "- Idea name: Non-Backtracking Tactical Walk Network - One-sentence thesis: Puzzle-like positions are disproportionately marked by short, directed chains of current-boa...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3650,15 +3650,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i055_non_backtracking_tactical_walk_network",
       "idea_id": "i055",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "grammar",
       "name": "Non-Backtracking Tactical Walk Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Bespoke non-backtracking tactical walk implementation with a simple_18 attack/protection edge builder, Hashimoto edge-line transition operator, basis-decomposed typed scatter-add propagation, and a small CNN board adapter. Unknown deterministic rule encodings fail closed.",
       "short_thesis": "- Idea name: Non-Backtracking Tactical Walk Network - One-sentence thesis: Puzzle-like positions are disproportionately marked by short, directed chains of current-boa...",
       "slug": "non_backtracking_tactical_walk_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-21_0922_tuesday_local_nonbacktracking_walk.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

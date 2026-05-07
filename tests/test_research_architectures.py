@@ -1390,6 +1390,136 @@ def test_i053_hall_defect_obligation_matroid_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i055_non_backtracking_tactical_walk_is_bespoke_and_conformant():
+    folder = Path("ideas/i055_non_backtracking_tactical_walk_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    # white king e1, black king e8, white rook a1, black rook a8, white pawn e2,
+    # black knight c6 — produces a real edge graph with attack/protection chains.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 12] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 9, 0, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 7, 2, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+        aux = model(x, return_aux=True)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["two_class_logits"].shape == (2, 2)
+    assert {
+        "non_backtracking_walk_energy",
+        "edge_count",
+        "transition_count",
+        "edge_overflow_count",
+        "transition_overflow_count",
+        "enemy_attack_edge_count",
+        "friendly_protect_edge_count",
+        "enemy_king_zone_edge_count",
+        "own_king_zone_edge_count",
+        "mechanism_energy",
+        "defense_gap",
+        "king_ring_pressure",
+    }.issubset(output)
+    assert (output["edge_count"] > 0).all()
+    assert (output["edge_overflow_count"] == 0).all()
+    assert aux["edge_features"].shape == (2, model.edge_max, 32)
+    assert aux["edge_state"].shape == (2, model.edge_max, model.edge_dim)
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+
+    # Non-backtracking transition correctness: turning the no-immediate-return
+    # exclusion off must add the immediate reverse transitions the default mode
+    # forbids (e.g., WR -> BR -> WR and BR -> WR -> BR are now allowed).
+    backtracking_allowed = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "edge_dim": int(config["model"]["edge_dim"]),
+            "edge_layers": int(config["model"]["edge_layers"]),
+            "edge_max": int(config["model"]["edge_max"]),
+            "transition_max": int(config["model"]["transition_max"]),
+            "r_basis": int(config["model"]["r_basis"]),
+            "board_adapter_channels": int(config["model"]["board_adapter_channels"]),
+            "classifier_hidden_dim": int(config["model"]["classifier_hidden_dim"]),
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation_mode": "backtracking_allowed",
+        },
+    ).eval()
+    with torch.no_grad():
+        bt_output = backtracking_allowed(x)
+    # backtracking_allowed must strictly add transitions (the immediate reverses).
+    assert (bt_output["transition_count"] >= output["transition_count"]).all()
+    assert (bt_output["transition_count"] > output["transition_count"]).any()
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    for ablation in ("backtracking_allowed", "randomized_transitions"):
+        ablated = build_model(
+            model_name,
+            {
+                "input_channels": 18,
+                "num_classes": 1,
+                "edge_dim": 16,
+                "edge_layers": 2,
+                "edge_max": 64,
+                "transition_max": 256,
+                "r_basis": 2,
+                "board_adapter_channels": 8,
+                "classifier_hidden_dim": 16,
+                "dropout": 0.0,
+                "use_batchnorm": False,
+                "ablation_mode": ablation,
+            },
+        ).eval()
+        with torch.no_grad():
+            ablated_output = ablated(x)
+        assert ablated_output["logits"].shape == (2,), ablation
+        assert torch.isfinite(ablated_output["logits"]).all(), ablation
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i055"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i054_threat_topology_betti_is_bespoke_and_conformant():
     folder = Path("ideas/i054_threat_topology_betti_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))

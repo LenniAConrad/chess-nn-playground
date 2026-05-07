@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `99`
-- Bespoke model implementations: `106`
-- Shared ResearchPacketProbe variants: `134`
+- Fully implemented architectures still needing a linked benchmark run: `100`
+- Bespoke model implementations: `107`
+- Shared ResearchPacketProbe variants: `133`
 
 Recommended immediate sequence:
 
@@ -26,10 +26,10 @@ Recommended immediate sequence:
 Benchmark queue by ID:
 
 - Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`
-- Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i070`
-- Batch 3: `i071`, `i072`, `i073`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`
-- Batch 4: `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`
-- Batch 5: `i238`, `i239`, `i240`
+- Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`
+- Batch 3: `i070`, `i071`, `i072`, `i073`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`
+- Batch 4: `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`
+- Batch 5: `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -108,7 +108,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i052` | [Soft King-Cage Path Bottleneck Network](i052_soft_king_cage_path_bottleneck_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i053` | [Hall-Defect Obligation Matroid Network](i053_hall_defect_obligation_matroid_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i054` | [Threat-Topology Betti Bottleneck Network](i054_threat_topology_betti_bottleneck_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i055` | [Non-Backtracking Tactical Walk Network](i055_non_backtracking_tactical_walk_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i055` | [Non-Backtracking Tactical Walk Network](i055_non_backtracking_tactical_walk_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i056` | [Non-Puzzle Score-Field Bottleneck Network](i056_non_puzzle_score_field_bottleneck_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i057` | [Soft Formal-Concept Closure Network](i057_soft_formal_concept_closure_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i058` | [Determinantal Tactical Volume Bottleneck](i058_determinantal_tactical_volume_bottleneck) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |

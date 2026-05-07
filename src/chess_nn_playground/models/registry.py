@@ -43,6 +43,9 @@ from chess_nn_playground.models.independence_residual import (
 from chess_nn_playground.models.king_anchored_euler_interaction_network import (
     build_king_anchored_euler_interaction_network_from_config,
 )
+from chess_nn_playground.models.non_backtracking_tactical_walk import (
+    build_non_backtracking_tactical_walk_network_from_config,
+)
 from chess_nn_playground.models.king_anchored_material_null_transport import (
     build_king_anchored_material_null_transport_bottleneck_from_config,
 )
@@ -337,6 +340,7 @@ MODEL_BUILDERS = {
     "rule_automorphism_quotient_bottleneck_network": build_rule_automorphism_quotient_bottleneck_from_config,
     "tempo_odd_bottleneck_network": build_tempo_odd_bottleneck_from_config,
     "king_anchored_euler_interaction_network": build_king_anchored_euler_interaction_network_from_config,
+    "non_backtracking_tactical_walk_network": build_non_backtracking_tactical_walk_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
