@@ -2005,13 +2005,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i166_channel_bilinear_role_mixer",
       "idea_id": "i166",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Channel-Bilinear Role Mixer",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; uses a grammar mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; implements an explicit low-rank bilinear head over learned role summaries instead of the additive channel pooling that ordinary CNN heads use.",
+      "output_heads": "One puzzle logit plus role-pool, low-rank bilinear, and interaction-matrix diagnostics saved to prediction artifacts.",
       "short_thesis": "Ordinary heads pool channels additively. A low-rank bilinear head can explicitly model pairwise interactions between role summaries, such as own-heavy-piece features with opponent-king-zone features, without building square-pair tensors or local product con...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

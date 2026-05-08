@@ -382,6 +382,17 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "film_scale": 0.25,
         "ablation": "none",
     },
+    "channel_bilinear_role_mixer": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "num_roles": 4,
+        "role_dim": 12,
+        "bilinear_rank": 4,
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4430,6 +4441,111 @@ def test_i165_spatial_film_coordinate_net_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i165"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i166_channel_bilinear_role_mixer_is_bespoke_and_conformant():
+    folder = Path("ideas/i166_channel_bilinear_role_mixer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    num_roles = int(config["model"]["num_roles"])
+    role_dim = int(config["model"]["role_dim"])
+    bilinear_rank = int(config["model"]["bilinear_rank"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["role_gates"].shape == (num_roles, 8, 8)
+    assert output["role_summaries"].shape == (2, num_roles, role_dim)
+    assert output["role_summaries_pre_norm"].shape == (2, num_roles, role_dim)
+    assert output["role_pooled_channels"].shape == (2, num_roles, channels)
+    assert output["bilinear_left"].shape == (2, num_roles, bilinear_rank)
+    assert output["bilinear_right"].shape == (2, num_roles, bilinear_rank)
+    assert output["bilinear_interaction_matrix"].shape == (2, num_roles, num_roles)
+    assert output["bilinear_diag"].shape == (2, num_roles)
+    assert output["role_magnitude"].shape == (2, num_roles)
+    assert output["bilinear_energy"].shape == (2,)
+    assert output["bilinear_off_diag_energy"].shape == (2,)
+    assert output["bilinear_asymmetry"].shape == (2,)
+    assert output["role_gate_entropy"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Role gates are softmax distributions over the 64 squares.
+    gates = output["role_gates"].view(num_roles, -1)
+    assert torch.allclose(gates.sum(dim=-1), torch.ones(num_roles), atol=1e-5)
+    assert (gates >= 0).all()
+
+    # Bilinear interaction matrix is the dot product of left/right rank views.
+    expected = torch.einsum(
+        "bir,bjr->bij",
+        output["bilinear_left"],
+        output["bilinear_right"],
+    ) / (bilinear_rank ** 0.5)
+    assert torch.allclose(output["bilinear_interaction_matrix"], expected, atol=1e-5)
+    # bilinear_diag matches the matrix diagonal.
+    assert torch.allclose(
+        output["bilinear_diag"],
+        torch.diagonal(output["bilinear_interaction_matrix"], dim1=1, dim2=2),
+        atol=1e-6,
+    )
+    assert (output["depth_levels"] == depth).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "channel_bilinear_role_mixer"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["bilinear_interaction_matrix"].shape == (2, num_roles, num_roles)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i166"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
