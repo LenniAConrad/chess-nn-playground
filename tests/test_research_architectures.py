@@ -13938,3 +13938,135 @@ def test_i133_orthogonal_board_moment_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i134_legal_constraint_projection_residual_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i134_legal_constraint_projection_residual_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: legal-looking position with one king per side and a couple
+    # of pieces.
+    x[0, 12] = 1.0
+    x[0, 5, 0, 4] = 1.0   # white king e1
+    x[0, 11, 7, 4] = 1.0  # black king e8
+    x[0, 0, 1, 3] = 1.0   # white pawn d2
+    x[0, 6, 6, 3] = 1.0   # black pawn d7
+    x[0, 1, 0, 1] = 1.0   # white knight b1
+
+    # Sample 1: minimal endgame, black-to-move, en passant set.
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 17, 2, 3] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = {
+        "logits",
+        "residual_total_norm",
+        "residual_simplex_energy",
+        "residual_piece_count_energy",
+        "residual_king_count_energy",
+        "residual_pawn_rank_energy",
+        "belief_entropy",
+        "belief_empty_mass",
+        "projected_empty_mass",
+        "residual_norm_P",
+        "residual_norm_p",
+        "residual_norm_K",
+        "residual_norm_k",
+        "residual_norm_empty",
+        "white_king_belief_total",
+        "black_king_belief_total",
+        "white_king_projected_total",
+        "black_king_projected_total",
+        "backbone_feature_norm",
+        "encoder_summary_norm",
+        "residual_map_summary_norm",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor), key
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+
+    # Residual energies and norms must be non-negative.
+    for key in (
+        "residual_total_norm",
+        "residual_simplex_energy",
+        "residual_piece_count_energy",
+        "residual_king_count_energy",
+        "residual_pawn_rank_energy",
+        "residual_norm_P",
+        "residual_norm_p",
+        "residual_norm_K",
+        "residual_norm_k",
+        "residual_norm_empty",
+        "belief_empty_mass",
+        "projected_empty_mass",
+    ):
+        assert (output[key] >= 0).all(), key
+
+    # The projected white/black king totals must be at most 1 (king-count
+    # constraint), and the projection must non-trivially reduce expected
+    # king totals when the belief decoder hallucinates more than one king.
+    assert (output["white_king_projected_total"] <= 1.0 + 1.0e-5).all()
+    assert (output["black_king_projected_total"] <= 1.0 + 1.0e-5).all()
+
+    # Gradients must flow back through the residual readout into the belief
+    # decoder and the classifier even with stop-gradient projection.
+    model.train()
+    output = model(x)
+    loss = output["logits"].sum()
+    loss.backward()
+    belief_grad = model.belief_head.weight.grad
+    classifier_grad = model.classifier[-1].weight.grad
+    assert belief_grad is not None
+    assert belief_grad.abs().sum() > 0
+    assert classifier_grad is not None
+    assert classifier_grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "legal_constraint_projection_residual_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i134"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

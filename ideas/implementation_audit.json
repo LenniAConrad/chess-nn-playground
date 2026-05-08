@@ -4493,35 +4493,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i134_legal_constraint_projection_residual_network",
       "idea_id": "i134",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "legal_constraint_projection_residual_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "legal_constraint_projection_residual_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.legal_constraint_projection_residual_network.build_legal_constraint_projection_residual_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.legal_constraint_projection_residual_network.build_legal_constraint_projection_residual_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.legal_constraint_projection_residual_network.LegalConstraintProjectionResidualNetwork",
+          "chess_nn_playground.models.legal_constraint_projection_residual_network.build_legal_constraint_projection_residual_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8263,12 +8261,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 172,
-      "shared_probe_variant": 68
+      "bespoke_model": 173,
+      "shared_probe_variant": 67
     },
     "by_metadata_kind": {
-      "bespoke_model": 172,
-      "shared_probe_variant": 68
+      "bespoke_model": 173,
+      "shared_probe_variant": 67
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8276,7 +8274,6 @@
       "ideas/i066_bispectral_phase_coupling_board_network",
       "ideas/i118_channel_dropout_consensus_network",
       "ideas/i124_local_neighborhood_geometry_network",
-      "ideas/i134_legal_constraint_projection_residual_network",
       "ideas/i135_zobrist_kernel_feature_network",
       "ideas/i136_low_rank_signed_cut_query_network",
       "ideas/i137_commutative_view_consistency_network",

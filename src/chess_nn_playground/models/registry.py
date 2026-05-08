@@ -415,6 +415,9 @@ from chess_nn_playground.models.differentiable_bitboard_boolean_network import (
 from chess_nn_playground.models.orthogonal_board_moment_network import (
     build_orthogonal_board_moment_network_from_config,
 )
+from chess_nn_playground.models.legal_constraint_projection_residual_network import (
+    build_legal_constraint_projection_residual_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -601,6 +604,7 @@ MODEL_BUILDERS = {
     "replicator_payoff_piece_dynamics": build_replicator_payoff_piece_dynamics_from_config,
     "differentiable_bitboard_boolean_network": build_differentiable_bitboard_boolean_network_from_config,
     "orthogonal_board_moment_network": build_orthogonal_board_moment_network_from_config,
+    "legal_constraint_projection_residual_network": build_legal_constraint_projection_residual_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
