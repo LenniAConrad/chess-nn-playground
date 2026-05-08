@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 137 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 103 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 138 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 102 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i089_bounded_board_hinge_logic`
 - `ideas/i092_parity_syndrome_puzzle_bottleneck`
 - `ideas/i093_wavelet_scattering_board_network`
 - `ideas/i094_convex_feasibility_residual_network`
@@ -220,7 +219,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i086` | `ideas/i086_differentiable_chess_fact_lattice` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `differentiable_chess_fact_lattice` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i087` | `ideas/i087_tactical_radius_filtration` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_radius_filtration` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i088` | `ideas/i088_traced_threat_motif_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `traced_threat_motif_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i089` | `ideas/i089_bounded_board_hinge_logic` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `bounded_board_hinge_logic` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i089` | `ideas/i089_bounded_board_hinge_logic` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bounded_board_hinge_logic` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i090` | `ideas/i090_chess_mode_tucker_relation_certificate` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `chess_mode_tucker_relation_certificate` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i091` | `ideas/i091_tactical_state_bottleneck_inference` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_state_bottleneck_inference` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i092` | `ideas/i092_parity_syndrome_puzzle_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `parity_syndrome_puzzle_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

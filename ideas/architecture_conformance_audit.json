@@ -1741,6 +1741,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i089_bounded_board_hinge_logic/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i089_bounded_board_hinge_logic",
+      "idea_id": "i089",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "bounded_board_hinge_logic",
+      "slug": "bounded_board_hinge_logic",
+      "source_files": [
+        "ideas/i089_bounded_board_hinge_logic/model.py",
+        "src/chess_nn_playground/models/bounded_board_hinge_logic.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i090_chess_mode_tucker_relation_certificate/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2830,6 +2850,7 @@
       "ideas/i086_differentiable_chess_fact_lattice",
       "ideas/i087_tactical_radius_filtration",
       "ideas/i088_traced_threat_motif_network",
+      "ideas/i089_bounded_board_hinge_logic",
       "ideas/i090_chess_mode_tucker_relation_certificate",
       "ideas/i091_tactical_state_bottleneck_inference",
       "ideas/i100_independence_residual_interaction_network",
@@ -2881,7 +2902,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 137,
+    "implemented_architecture_count": 138,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -2948,35 +2948,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i089_bounded_board_hinge_logic",
       "idea_id": "i089",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "bounded_board_hinge_logic",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "bounded_board_hinge_logic",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.bounded_board_hinge_logic.build_bounded_board_hinge_logic_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.bounded_board_hinge_logic.build_bounded_board_hinge_logic_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.bounded_board_hinge_logic.BoundedBoardHingeLogicNet",
+          "chess_nn_playground.models.bounded_board_hinge_logic.build_bounded_board_hinge_logic_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8324,18 +8323,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 137,
-      "shared_probe_variant": 103
+      "bespoke_model": 138,
+      "shared_probe_variant": 102
     },
     "by_metadata_kind": {
-      "bespoke_model": 137,
-      "shared_probe_variant": 103
+      "bespoke_model": 138,
+      "shared_probe_variant": 102
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i089_bounded_board_hinge_logic",
       "ideas/i092_parity_syndrome_puzzle_bottleneck",
       "ideas/i093_wavelet_scattering_board_network",
       "ideas/i094_convex_feasibility_residual_network",
