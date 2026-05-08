@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 164, 'probe_scaffold_only': 69, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 171, 'shared_probe_variant': 69}`
+- Registered implementation states: `{'implemented': 165, 'probe_scaffold_only': 68, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 172, 'shared_probe_variant': 68}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 171 | Materially distinct model implementation. |
-| `shared_probe_variant` | 69 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 172 | Materially distinct model implementation. |
+| `shared_probe_variant` | 68 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -171,7 +171,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i130` | [Material-Phase Low-Rank Adapter Network](i130_material_phase_low_rank_adapter_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i131` | [Replicator Payoff Piece Dynamics](i131_replicator_payoff_piece_dynamics) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i132` | [Differentiable Bitboard Boolean Network](i132_differentiable_bitboard_boolean_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i133` | [Orthogonal Board Moment Network](i133_orthogonal_board_moment_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i133` | [Orthogonal Board Moment Network](i133_orthogonal_board_moment_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i134` | [Legal-Constraint Projection Residual Network](i134_legal_constraint_projection_residual_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i135` | [Zobrist Kernel Feature Network](i135_zobrist_kernel_feature_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i136` | [Low-Rank Signed Cut Query Network](i136_low_rank_signed_cut_query_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

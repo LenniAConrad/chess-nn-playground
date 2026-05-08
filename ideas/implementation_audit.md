@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 171 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 69 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 172 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 68 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -27,7 +27,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i066_bispectral_phase_coupling_board_network`
 - `ideas/i118_channel_dropout_consensus_network`
 - `ideas/i124_local_neighborhood_geometry_network`
-- `ideas/i133_orthogonal_board_moment_network`
 - `ideas/i134_legal_constraint_projection_residual_network`
 - `ideas/i135_zobrist_kernel_feature_network`
 - `ideas/i136_low_rank_signed_cut_query_network`
@@ -230,7 +229,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i130` | `ideas/i130_material_phase_low_rank_adapter_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `material_phase_low_rank_adapter_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i131` | `ideas/i131_replicator_payoff_piece_dynamics` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `replicator_payoff_piece_dynamics` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i132` | `ideas/i132_differentiable_bitboard_boolean_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `differentiable_bitboard_boolean_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i133` | `ideas/i133_orthogonal_board_moment_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `orthogonal_board_moment_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i133` | `ideas/i133_orthogonal_board_moment_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `orthogonal_board_moment_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i134` | `ideas/i134_legal_constraint_projection_residual_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `legal_constraint_projection_residual_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i135` | `ideas/i135_zobrist_kernel_feature_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `zobrist_kernel_feature_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i136` | `ideas/i136_low_rank_signed_cut_query_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `low_rank_signed_cut_query_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

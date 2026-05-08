@@ -2581,6 +2581,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i133_orthogonal_board_moment_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i133_orthogonal_board_moment_network",
+      "idea_id": "i133",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "orthogonal_board_moment_network",
+      "slug": "orthogonal_board_moment_network",
+      "source_files": [
+        "ideas/i133_orthogonal_board_moment_network/model.py",
+        "src/chess_nn_playground/models/orthogonal_board_moment_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i145_piece_plane_gated_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3552,6 +3572,7 @@
       "ideas/i130_material_phase_low_rank_adapter_network",
       "ideas/i131_replicator_payoff_piece_dynamics",
       "ideas/i132_differentiable_bitboard_boolean_network",
+      "ideas/i133_orthogonal_board_moment_network",
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
@@ -3595,7 +3616,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 171,
+    "implemented_architecture_count": 172,
     "issue_folders": [],
     "validation_issue_count": 0
   }

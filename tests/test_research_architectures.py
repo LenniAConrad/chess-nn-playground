@@ -13817,3 +13817,124 @@ def test_i132_differentiable_bitboard_boolean_network_is_bespoke_and_conformant(
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i133_orthogonal_board_moment_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i133_orthogonal_board_moment_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move centred position with kings on starting squares.
+    x[0, 12] = 1.0
+    x[0, 13:17] = 1.0
+    x[0, 0, 1, :] = 1.0
+    x[0, 6, 6, :] = 1.0
+    x[0, 5, 0, 4] = 1.0
+    x[0, 11, 7, 4] = 1.0
+
+    # Sample 1: lopsided endgame, black-to-move, en passant set.
+    x[1, 5, 1, 1] = 1.0
+    x[1, 11, 6, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 6, 5, 3] = 1.0
+    x[1, 17, 2, 3] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = {
+        "logits",
+        "moment_energy_total",
+        "moment_energy_low",
+        "moment_energy_mid",
+        "moment_energy_high",
+        "moment_energy_legendre",
+        "moment_energy_chebyshev",
+        "moment_energy_degree_0",
+        "moment_energy_degree_1",
+        "moment_energy_degree_2",
+        "moment_energy_degree_3",
+        "moment_energy_degree_4",
+        "moment_energy_degree_5",
+        "moment_energy_degree_6",
+        "field_activity_norm",
+        "backbone_feature_norm",
+        "moment_feature_norm",
+        "cnn_summary_norm",
+        "board_signed_centroid_file",
+        "board_signed_centroid_rank",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor), key
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+
+    # Polynomial moment energies must be non-negative scalars.
+    assert (output["moment_energy_total"] >= 0).all()
+    assert (output["moment_energy_low"] >= 0).all()
+    assert (output["moment_energy_mid"] >= 0).all()
+    assert (output["moment_energy_high"] >= 0).all()
+
+    # Sample 1 has only own pieces on the queenside half of files (file 1 and 3)
+    # and opponent pieces on the kingside half (file 6 and 3 mixed with own).
+    # The signed file centroid should be defined and finite for both samples
+    # and reflect the asymmetry between samples.
+    assert torch.isfinite(output["board_signed_centroid_file"]).all()
+    assert torch.isfinite(output["board_signed_centroid_rank"]).all()
+
+    # Gradients must flow back through the moment readout into the learned
+    # board fields and the classifier.
+    model.train()
+    output = model(x)
+    loss = output["logits"].sum()
+    loss.backward()
+    field_grad = model.field_head.weight.grad
+    classifier_grad = model.classifier[-1].weight.grad
+    assert field_grad is not None
+    assert field_grad.abs().sum() > 0
+    assert classifier_grad is not None
+    assert classifier_grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "orthogonal_board_moment_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i133"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
