@@ -374,3 +374,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "invertible_board_coupling_network"
 ]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "sparse_expert_board_router"
+]

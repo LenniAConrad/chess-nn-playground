@@ -2401,6 +2401,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i123_sparse_expert_board_router/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i123_sparse_expert_board_router",
+      "idea_id": "i123",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "sparse_expert_board_router",
+      "slug": "sparse_expert_board_router",
+      "source_files": [
+        "ideas/i123_sparse_expert_board_router/model.py",
+        "src/chess_nn_playground/models/sparse_expert_board_router.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3423,6 +3443,7 @@
       "ideas/i120_sinkhorn_role_assignment_network",
       "ideas/i121_morphological_threat_field_network",
       "ideas/i122_invertible_board_coupling_network",
+      "ideas/i123_sparse_expert_board_router",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3469,7 +3490,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 165,
+    "implemented_architecture_count": 166,
     "issue_folders": [],
     "validation_issue_count": 0
   }

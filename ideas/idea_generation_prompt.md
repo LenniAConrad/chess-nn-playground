@@ -1489,13 +1489,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i123_sparse_expert_board_router",
       "idea_id": "i123",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Sparse Expert Board Router",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`; selects among heterogeneous expert computations through a sparse top-k router that uses both a deterministic board summary and a small CNN stem pool, rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus router diagnostics (router_probs, router_gate, expert_logits, expert_usage, load_balance_loss, switch_aux_loss, router_entropy, pairwise_expert_disagreement) saved to prediction artifacts.",
       "short_thesis": "Chess positions are heterogeneous. Endgames, king attacks, pawn races, blocked centers, and material imbalances may need different feature extractors. A sparse mixture of small board experts can route positions to specialized encoders without requiring a gi...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

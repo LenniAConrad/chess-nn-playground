@@ -13258,3 +13258,130 @@ def test_i122_invertible_board_coupling_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i123_sparse_expert_board_router_is_bespoke_and_conformant():
+    folder = Path("ideas/i123_sparse_expert_board_router")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 8, 3, 6] = 1.0
+    x[0, 11, 0, 4] = 1.0
+
+    x[1, 6, 1, 4] = 1.0
+    x[1, 11, 0, 4] = 1.0
+    x[1, 2, 4, 5] = 1.0
+    x[1, 5, 7, 4] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "mixture_logit",
+        "fused_logit",
+        "router_logits",
+        "router_probs",
+        "router_gate",
+        "router_entropy",
+        "sparse_gate_entropy",
+        "load_balance_loss",
+        "switch_aux_loss",
+        "router_entropy_loss",
+        "auxiliary_loss",
+        "expert_logits",
+        "pairwise_expert_disagreement",
+        "top1_gate_mass",
+        "top2_gate_mass",
+        "dominant_expert",
+        "expert_selection_counts",
+        "expert_usage",
+    }
+    assert expected_keys.issubset(output)
+
+    num_experts = int(model.num_experts)
+    top_k = int(model.top_k)
+    assert num_experts == 6
+    assert top_k == 2
+
+    # Per-batch tensors:
+    per_batch_keys = {
+        "logits",
+        "mixture_logit",
+        "fused_logit",
+        "router_entropy",
+        "sparse_gate_entropy",
+        "pairwise_expert_disagreement",
+        "top1_gate_mass",
+        "top2_gate_mass",
+        "dominant_expert",
+    }
+    for key in per_batch_keys:
+        assert output[key].shape == (2,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    assert output["router_logits"].shape == (2, num_experts)
+    assert output["router_probs"].shape == (2, num_experts)
+    assert output["router_gate"].shape == (2, num_experts)
+    assert output["expert_logits"].shape == (2, num_experts)
+    assert output["expert_usage"].shape == (num_experts,)
+    assert output["expert_selection_counts"].shape == (num_experts,)
+
+    # Sparse gating: only top_k experts have non-zero gate weight per row.
+    nonzero_per_row = (output["router_gate"] > 0).sum(dim=1)
+    assert (nonzero_per_row == top_k).all()
+    # Gate weights sum to one per row.
+    assert torch.allclose(output["router_gate"].sum(dim=1), torch.ones(2), atol=1e-5)
+    # Selection counts sum to batch * top_k.
+    assert float(output["expert_selection_counts"].sum()) == 2.0 * top_k
+    # Top-2 mass = 1 because top_k = 2 and renormalisation is exact.
+    assert torch.allclose(output["top2_gate_mass"], torch.ones(2), atol=1e-5)
+    assert (output["router_entropy"] >= 0).all()
+    assert (output["sparse_gate_entropy"] >= 0).all()
+    assert (output["pairwise_expert_disagreement"] >= 0).all()
+    assert torch.isfinite(output["auxiliary_loss"])
+    assert torch.isfinite(output["load_balance_loss"])
+    assert torch.isfinite(output["switch_aux_loss"])
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "sparse_expert_board_router"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i123"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
