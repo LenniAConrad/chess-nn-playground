@@ -7651,3 +7651,140 @@ def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
+        TacticalBisimulationPuzzleNetwork,
+        VALID_ABLATIONS,
+        build_tactical_bisimulation_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i075_tactical_bisimulation_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalBisimulationPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0  # white king
+    x[:, 11, 0, 4] = 1.0  # black king
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "base_logit",
+        "prototype_distances",
+        "min_prototype_distance",
+        "soft_min_prototype_distance",
+        "mean_prototype_distance",
+        "puzzle_prototype_distance",
+        "disproof_prototype_distance",
+        "random_prototype_distance",
+        "successor_signature_entropy",
+        "successor_spread",
+        "successor_diameter",
+        "transition_norm",
+        "bisim_residual",
+        "move_proposal_entropy",
+        "move_attention_entropy",
+        "latent_norm",
+        "gamma",
+        "fine_label_pair_mining_active",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    proto_count = int(config["model"].get("prototype_count", 24))
+    assert output["prototype_distances"].shape == (2, proto_count)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    trunk_grad = trainable.stem.layers[0].block[0].weight.grad
+    proto_grad = trainable.prototypes.grad
+    transition_grad = trainable.transition.net[0].weight.grad
+    proposer_grad = trainable.move_proposer.queries.grad
+    for grad in (trunk_grad, proto_grad, transition_grad, proposer_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The packet's required ablations must build, run, and stay finite.
+    expected_ablations = {
+        "none",
+        "no_bisim_loss",
+        "no_successor_signature",
+        "no_transition_consistency",
+        "euclidean_metric_only",
+        "random_move_sampler",
+        "no_prototypes",
+        "binary_margin_only",
+        "fine_label_pair_mining_off",
+    }
+    assert expected_ablations.issubset(VALID_ABLATIONS)
+    for ablation in expected_ablations:
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = build_tactical_bisimulation_puzzle_network_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "no_bisim_loss":
+            assert torch.all(abl_out["bisim_residual"] == 0.0)
+        if ablation == "no_prototypes":
+            assert torch.all(abl_out["prototype_distances"] == 0.0)
+        if ablation == "no_successor_signature":
+            assert torch.all(abl_out["successor_spread"] == 0.0)
+            assert torch.all(abl_out["successor_diameter"] == 0.0)
+        if ablation == "binary_margin_only":
+            assert torch.allclose(abl_out["logits"], abl_out["base_logit"], atol=1e-5)
+        if ablation == "fine_label_pair_mining_off":
+            assert torch.all(abl_out["fine_label_pair_mining_active"] == 0.0)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_bisimulation_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalBisimulationPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i075"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

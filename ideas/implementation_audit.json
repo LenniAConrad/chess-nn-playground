@@ -2471,35 +2471,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i075_tactical_bisimulation_puzzle_network",
       "idea_id": "i075",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_bisimulation_puzzle_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_bisimulation_puzzle_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_bisimulation_puzzle_network.build_tactical_bisimulation_puzzle_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_bisimulation_puzzle_network.build_tactical_bisimulation_puzzle_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_bisimulation_puzzle_network.TacticalBisimulationPuzzleNetwork",
+          "chess_nn_playground.models.tactical_bisimulation_puzzle_network.build_tactical_bisimulation_puzzle_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8353,18 +8351,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 121,
-      "shared_probe_variant": 119
+      "bespoke_model": 122,
+      "shared_probe_variant": 118
     },
     "by_metadata_kind": {
-      "bespoke_model": 121,
-      "shared_probe_variant": 119
+      "bespoke_model": 122,
+      "shared_probe_variant": 118
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i075_tactical_bisimulation_puzzle_network",
       "ideas/i076_krylov_tactical_subspace_network",
       "ideas/i077_adaptive_tactical_resolvent_network",
       "ideas/i078_tactical_controllability_gramian_network",

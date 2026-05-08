@@ -913,13 +913,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i075_tactical_bisimulation_puzzle_network",
       "idea_id": "i075",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tactical Bisimulation Puzzle Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md`; learns a board-only latent space whose distance is shaped by a Bellman-style bisimulation residual against a learnable prototype bank rather than by raw board-texture pooling.",
+      "output_heads": "One puzzle logit plus bisimulation diagnostics (prototype distances, successor signature stats, Bellman-style bisim residual, move proposer entropy) saved to prediction artifacts.",
       "short_thesis": "Tactical Bisimulation Puzzle Network tests whether a generic board mechanism improves puzzle-binary classification.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

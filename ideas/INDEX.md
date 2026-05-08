@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 114, 'probe_scaffold_only': 119, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 121, 'shared_probe_variant': 119}`
+- Registered implementation states: `{'implemented': 115, 'probe_scaffold_only': 118, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 122, 'shared_probe_variant': 118}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 121 | Materially distinct model implementation. |
-| `shared_probe_variant` | 119 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 122 | Materially distinct model implementation. |
+| `shared_probe_variant` | 118 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -113,7 +113,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i072` | [Tensor-Core Square-Pair Field Network](i072_tensor_core_square_pair_field_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i073` | [Tiny Chess MicroNet](i073_tiny_chess_micronet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i074` | [Puzzle-Binary Benchmark Challengers](i074_puzzle_binary_benchmark_challengers) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i075` | [Tactical Bisimulation Puzzle Network](i075_tactical_bisimulation_puzzle_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i075` | [Tactical Bisimulation Puzzle Network](i075_tactical_bisimulation_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i076` | [Krylov Tactical Subspace Network](i076_krylov_tactical_subspace_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i077` | [Adaptive Tactical Resolvent Network](i077_adaptive_tactical_resolvent_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i078` | [Tactical Controllability Gramian Network](i078_tactical_controllability_gramian_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
