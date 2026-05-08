@@ -11649,3 +11649,119 @@ def test_i108_tensorsketch_interaction_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i109_maxout_region_signature_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i109_maxout_region_signature_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg.get("channels", 64))
+    bank_units = int(model_cfg.get("bank_units", 8))
+    bank_pieces = int(model_cfg.get("bank_pieces", 4))
+    num_banks = int(model_cfg.get("num_banks", 2))
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 0, 0] = 1.0
+    x[:, 0, 1, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "trunk_pool",
+        "signature_vector",
+        "bank_activations",
+        "winner_histograms",
+        "region_counts",
+        "rank_region_counts",
+        "file_region_counts",
+        "horizontal_transitions",
+        "vertical_transitions",
+        "margin_stats",
+        "activation_stats",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_pool"].shape == (2, channels)
+    assert output["bank_activations"].shape == (2, num_banks, bank_units, 8, 8)
+    assert output["winner_histograms"].shape == (2, num_banks, bank_units, bank_pieces)
+    assert output["region_counts"].shape == (2, num_banks, bank_units)
+    assert output["rank_region_counts"].shape == (2, num_banks, bank_units)
+    assert output["file_region_counts"].shape == (2, num_banks, bank_units)
+    assert output["horizontal_transitions"].shape == (2, num_banks, bank_units)
+    assert output["vertical_transitions"].shape == (2, num_banks, bank_units)
+    assert output["margin_stats"].shape == (2, num_banks, bank_units, 4)
+    assert output["activation_stats"].shape == (2, num_banks, bank_units, 4)
+
+    sig_dim_per_bank = (
+        bank_units * bank_pieces  # winner histogram
+        + bank_units  # region count
+        + 2 * bank_units  # rank/file region counts
+        + 2 * bank_units  # horizontal / vertical transitions
+        + 4 * bank_units  # margin stats
+        + 4 * bank_units  # activation stats
+    )
+    assert output["signature_vector"].shape == (2, num_banks * sig_dim_per_bank)
+
+    # Region statistics must be in their natural ranges.
+    assert (output["winner_histograms"] >= 0).all()
+    hist_sums = output["winner_histograms"].sum(dim=-1)
+    assert torch.allclose(hist_sums, torch.ones_like(hist_sums), atol=1.0e-5)
+    assert (output["region_counts"] >= 1).all()
+    assert (output["region_counts"] <= bank_pieces).all()
+    assert (output["horizontal_transitions"] >= 0).all()
+    assert (output["horizontal_transitions"] <= 8 * 7).all()
+    assert (output["vertical_transitions"] >= 0).all()
+    assert (output["vertical_transitions"] <= 8 * 7).all()
+    # Margin top1-top2 is non-negative by construction.
+    assert (output["margin_stats"][..., 2] >= -1.0e-6).all()  # max
+    assert (output["margin_stats"][..., 3] >= -1.0e-6).all()  # min
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "maxout_region_signature_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i109"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

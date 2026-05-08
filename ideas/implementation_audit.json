@@ -3639,35 +3639,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i109_maxout_region_signature_network",
       "idea_id": "i109",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "maxout_region_signature_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "maxout_region_signature_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.maxout_region_signature_network.build_maxout_region_signature_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.maxout_region_signature_network.build_maxout_region_signature_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.maxout_region_signature_network.MaxoutRegionSignatureNetwork",
+          "chess_nn_playground.models.maxout_region_signature_network.build_maxout_region_signature_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8303,18 +8301,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 152,
-      "shared_probe_variant": 88
+      "bespoke_model": 153,
+      "shared_probe_variant": 87
     },
     "by_metadata_kind": {
-      "bespoke_model": 152,
-      "shared_probe_variant": 88
+      "bespoke_model": 153,
+      "shared_probe_variant": 87
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i109_maxout_region_signature_network",
       "ideas/i110_spline_board_surface_network",
       "ideas/i111_boundary_condition_disagreement_cnn",
       "ideas/i112_piece_drop_stability_network",
