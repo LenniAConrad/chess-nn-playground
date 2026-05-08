@@ -286,6 +286,9 @@ from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
 from chess_nn_playground.models.chess_hypercut_polynomial import (
     build_chess_hypercut_polynomial_network_from_config,
 )
+from chess_nn_playground.models.fisher_geodesic_tension import (
+    build_fisher_geodesic_tension_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -429,6 +432,7 @@ MODEL_BUILDERS = {
     "loop_frustration_curvature_network": build_loop_frustration_curvature_network_from_config,
     "forcing_response_front_door_bottleneck": build_forcing_response_front_door_bottleneck_from_config,
     "chess_hypercut_polynomial_network": build_chess_hypercut_polynomial_network_from_config,
+    "fisher_geodesic_tension_network": build_fisher_geodesic_tension_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

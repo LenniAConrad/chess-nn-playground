@@ -1621,6 +1621,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i083_fisher_geodesic_tension_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i083_fisher_geodesic_tension_network",
+      "idea_id": "i083",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "fisher_geodesic_tension_network",
+      "slug": "fisher_geodesic_tension_network",
+      "source_files": [
+        "ideas/i083_fisher_geodesic_tension_network/model.py",
+        "src/chess_nn_playground/models/fisher_geodesic_tension.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2664,6 +2684,7 @@
       "ideas/i080_loop_frustration_curvature_network",
       "ideas/i081_forcing_response_front_door_bottleneck",
       "ideas/i082_chess_hypercut_polynomial_network",
+      "ideas/i083_fisher_geodesic_tension_network",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2713,7 +2734,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 129,
+    "implemented_architecture_count": 130,
     "issue_folders": [],
     "validation_issue_count": 0
   }

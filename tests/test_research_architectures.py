@@ -8789,3 +8789,149 @@ def test_i082_chess_hypercut_polynomial_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i083_fisher_geodesic_tension_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.fisher_geodesic_tension import (
+        FisherGeodesicTensionNet,
+        build_fisher_geodesic_tension_network_from_config,
+        fisher_geodesic_excess,
+        fisher_rao_distance,
+    )
+
+    folder = Path("ideas/i083_fisher_geodesic_tension_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, FisherGeodesicTensionNet)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    x[:, 0, 6, 4] = 1.0  # white pawn on e2
+    x[:, 6, 1, 4] = 1.0  # black pawn on e7
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "geometry_only_logits",
+        "route_probs",
+        "route_excess",
+        "direct_distance",
+        "route_ratio",
+        "route_gate",
+        "weighted_excess",
+        "max_excess",
+        "weighted_ratio",
+        "max_ratio",
+        "hinge_turn",
+        "weighted_turn",
+        "max_turn",
+        "geometry_features",
+        "fisher_geodesic_tension",
+        "information_surprisal",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    routes = int(config["model"].get("routes", 8))
+    assert output["route_probs"].shape == (2, routes, 3, 64)
+    assert output["route_excess"].shape == (2, routes)
+    assert output["route_gate"].shape == (2, routes)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Route distributions must lie on the categorical simplex.
+    probs = output["route_probs"]
+    sums = probs.sum(dim=-1)
+    assert torch.allclose(sums, torch.ones_like(sums), atol=1e-4)
+    assert (probs > 0).all()
+
+    # Fisher-Rao geodesic excess is nonnegative within numerical tolerance.
+    assert (output["route_excess"] >= -1e-4).all()
+    # Direct distance is always at least as long as the excess differential
+    # implies, i.e. the path-distance bound holds.
+    assert (
+        output["route_excess"]
+        <= output["direct_distance"] + 2.0 * float(torch.pi) + 1e-4
+    ).all()
+
+    # Helper functions agree on a hand-built example.
+    p = torch.tensor([[0.7, 0.2, 0.1]])
+    q = torch.tensor([[0.7, 0.2, 0.1]])
+    # Bhattacharyya coefficient is clamped to 1 - eps, so d_FR(p, p) is a
+    # small positive number rather than exactly zero.
+    assert (fisher_rao_distance(p, q) < 1e-2).all()
+    p = torch.tensor([[0.5, 0.3, 0.2]])
+    h = torch.tensor([[0.4, 0.4, 0.2]])
+    q = torch.tensor([[0.3, 0.5, 0.2]])
+    excess, _, _, _ = fisher_geodesic_excess(p, h, q)
+    assert (excess >= -1e-5).all()
+    # Symmetry of Fisher-Rao distance.
+    assert torch.allclose(
+        fisher_rao_distance(p, q), fisher_rao_distance(q, p), atol=1e-6
+    )
+
+    # Backward through the bespoke pipeline must produce finite gradients
+    # for the convolutional trunk, route head, route gate, readout, and the
+    # geometry-only ablation head.
+    trainable = build_fisher_geodesic_tension_network_from_config(dict(config["model"]))
+    trainable_out = trainable(x)
+    (trainable_out["logits"].sum() + trainable_out["geometry_only_logits"].sum()).backward()
+    stem_grad = trainable.stem[0].weight.grad
+    route_head_grad = trainable.route_head.weight.grad
+    route_gate_grad = trainable.route_gate[1].weight.grad
+    readout_grad = trainable.readout[1].weight.grad
+    geom_only_grad = trainable.geometry_only_head[1].weight.grad
+    for grad in (stem_grad, route_head_grad, route_gate_grad, readout_grad, geom_only_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "fisher_geodesic_tension_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, FisherGeodesicTensionNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i083"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

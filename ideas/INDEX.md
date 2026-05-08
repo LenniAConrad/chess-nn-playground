@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 122, 'probe_scaffold_only': 111, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 129, 'shared_probe_variant': 111}`
+- Registered implementation states: `{'implemented': 123, 'probe_scaffold_only': 110, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 130, 'shared_probe_variant': 110}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 129 | Materially distinct model implementation. |
-| `shared_probe_variant` | 111 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 130 | Materially distinct model implementation. |
+| `shared_probe_variant` | 110 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -121,7 +121,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i080` | [Loop-Frustration Curvature Network](i080_loop_frustration_curvature_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i081` | [Forcing-Response Front-Door Bottleneck](i081_forcing_response_front_door_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i082` | [Chess Hypercut Polynomial Network](i082_chess_hypercut_polynomial_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i083` | [Fisher-Geodesic Tension Network](i083_fisher_geodesic_tension_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i083` | [Fisher-Geodesic Tension Network](i083_fisher_geodesic_tension_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i084` | [Typed Hypergraph Motif Grammar](i084_typed_hypergraph_motif_grammar) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i085` | [Hall-Defect Zeta Operator](i085_hall_defect_zeta_operator) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i086` | [Differentiable Chess Fact Lattice](i086_differentiable_chess_fact_lattice) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 129 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 111 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 130 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 110 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i083_fisher_geodesic_tension_network`
 - `ideas/i084_typed_hypergraph_motif_grammar`
 - `ideas/i085_hall_defect_zeta_operator`
 - `ideas/i086_differentiable_chess_fact_lattice`
@@ -222,7 +221,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i080` | `ideas/i080_loop_frustration_curvature_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `loop_frustration_curvature_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i081` | `ideas/i081_forcing_response_front_door_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `forcing_response_front_door_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i082` | `ideas/i082_chess_hypercut_polynomial_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `chess_hypercut_polynomial_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i083` | `ideas/i083_fisher_geodesic_tension_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `fisher_geodesic_tension_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i083` | `ideas/i083_fisher_geodesic_tension_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `fisher_geodesic_tension_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i084` | `ideas/i084_typed_hypergraph_motif_grammar` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `typed_hypergraph_motif_grammar` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i085` | `ideas/i085_hall_defect_zeta_operator` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `hall_defect_zeta_operator` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i086` | `ideas/i086_differentiable_chess_fact_lattice` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `differentiable_chess_fact_lattice` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
