@@ -12791,3 +12791,165 @@ def test_i117_prototype_patch_dictionary_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i119_tensor_ring_square_interaction_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i119_tensor_ring_square_interaction_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    token_dim = int(model_cfg["channels"])  # config maps channels -> token_dim
+    hidden_dim = int(model_cfg["hidden_dim"])
+    num_patterns = model.num_patterns
+    rank = model.rank
+    role_count = model.role_count
+    orders = model.orders
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 0, 1, 0] = 1.0  # white pawn a2
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 11, 7, 4] = 1.0  # black king e8
+    x[1, 1, 0, 1] = 1.0  # white knight b1
+    x[1, 5, 0, 6] = 1.0  # white king g1
+    x[1, 11, 7, 4] = 1.0  # black king e8
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "tokens",
+        "role_gates",
+        "role_gate_activity",
+        "role_gate_entropy",
+        "cnn_summary",
+        "contraction_features",
+    }
+    for order in orders:
+        expected_keys.update(
+            {
+                f"contractions_order_{order}",
+                f"contraction_stats_order_{order}",
+                f"pattern_weights_order_{order}",
+                f"core_norms_order_{order}",
+            }
+        )
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["tokens"].shape == (2, 64, token_dim)
+    assert output["role_gates"].shape == (2, 64, role_count)
+    assert output["role_gate_activity"].shape == (2, role_count)
+    assert output["role_gate_entropy"].shape == (2,)
+    assert output["cnn_summary"].shape == (2, model.cnn_stem.output_dim)
+    assert output["contraction_features"].shape == (
+        2,
+        len(orders) * (num_patterns + 4),
+    )
+    for order in orders:
+        assert output[f"contractions_order_{order}"].shape == (2, num_patterns)
+        assert output[f"contraction_stats_order_{order}"].shape == (2, 4)
+        assert output[f"pattern_weights_order_{order}"].shape == (
+            2,
+            num_patterns,
+            order,
+            role_count,
+        )
+        assert output[f"core_norms_order_{order}"].shape == (2, order)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Role gates are sigmoidal probabilities in [0, 1].
+    assert (output["role_gates"] >= 0.0).all()
+    assert (output["role_gates"] <= 1.0).all()
+
+    # Per-order pattern softmax must be a probability over the role axis.
+    for order in orders:
+        weights = output[f"pattern_weights_order_{order}"]
+        assert torch.allclose(
+            weights.sum(dim=-1),
+            torch.ones(2, num_patterns, order),
+            atol=1.0e-5,
+        )
+        assert (weights >= 0.0).all()
+        assert (weights <= 1.0 + 1.0e-6).all()
+
+    # The cyclic trace of (1/64) * sum_s alpha . g . G_k(x_s) must match
+    # what the order module reports. Verify on order 2 explicitly.
+    tokens = output["tokens"]
+    role_gates = output["role_gates"]
+    order_module = model.tensor_ring_orders[str(orders[0])]
+    alpha = order_module.pattern_weights
+    eff_gate = torch.einsum("pkr,bsr->bpks", alpha, role_gates)
+    cores_out = []
+    for core in order_module.cores:
+        cores_out.append(core(tokens).view(2, 64, rank, rank))
+    slot_matrices = []
+    for k, core_out in enumerate(cores_out):
+        slot = eff_gate[:, :, k, :]
+        slot_matrices.append(torch.einsum("bps,bsij->bpij", slot, core_out) / 64.0)
+    product = slot_matrices[0]
+    for matrix in slot_matrices[1:]:
+        product = torch.matmul(product, matrix)
+    expected = product.diagonal(dim1=-2, dim2=-1).sum(dim=-1)
+    assert torch.allclose(expected, output[f"contractions_order_{orders[0]}"], atol=1.0e-5)
+
+    # Tensor-ring cores must be learnable parameters of the right shape.
+    for order in orders:
+        order_module = model.tensor_ring_orders[str(order)]
+        assert len(order_module.cores) == order
+        for core in order_module.cores:
+            assert isinstance(core, torch.nn.Linear)
+            assert core.weight.shape == (rank * rank, token_dim)
+            assert core.weight.requires_grad
+        assert isinstance(order_module.pattern_logits, torch.nn.Parameter)
+        assert order_module.pattern_logits.shape == (num_patterns, order, role_count)
+        assert order_module.pattern_logits.requires_grad
+
+    # Building from the registry must work and must not be backed by the
+    # research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tensor_ring_square_interaction_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea-local wrapper must not import or call the research-packet
+    # probe.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i119"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+    # Sanity: hidden_dim is the classifier's intermediate width.
+    assert hidden_dim == model.hidden_dim
