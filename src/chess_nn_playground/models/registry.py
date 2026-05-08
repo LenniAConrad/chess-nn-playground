@@ -108,6 +108,9 @@ from chess_nn_playground.models.channel_bilinear_role_mixer import (
 from chess_nn_playground.models.evidence_sieve_network import (
     build_evidence_sieve_network_from_config,
 )
+from chess_nn_playground.models.ring_shell_recurrent_boardnet import (
+    build_ring_shell_recurrent_boardnet_from_config,
+)
 from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
@@ -509,6 +512,7 @@ MODEL_BUILDERS = {
     "cross_stitch_cnn_token_fusion_net": build_cross_stitch_cnn_token_fusion_net_from_config,
     "neural_decision_forest_boardnet": build_neural_decision_forest_boardnet_from_config,
     "vector_quantized_motif_codebook_net": build_vector_quantized_motif_codebook_net_from_config,
+    "ring_shell_recurrent_boardnet": build_ring_shell_recurrent_boardnet_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

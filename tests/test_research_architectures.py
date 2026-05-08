@@ -405,6 +405,16 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "spatial_gate_hidden": 6,
         "residual_scale": 0.5,
     },
+    "ring_shell_recurrent_boardnet": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "num_rings": 6,
+        "rnn_hidden": 12,
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4672,6 +4682,124 @@ def test_i167_evidence_sieve_network_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i167"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i168_ring_shell_recurrent_boardnet_is_bespoke_and_conformant():
+    folder = Path("ideas/i168_ring_shell_recurrent_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    # Two boards: a sample with kings present, and a sample with kings missing
+    # so the dynamic-anchor centroid fallback gets exercised in the same
+    # forward pass.
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king on e1
+    x[0, 11, 0, 4] = 1.0  # black king on e8
+    x[0, 0, 6, 0] = 1.0   # white pawn on a2
+    x[0, 6, 1, 7] = 1.0   # black pawn on h7
+    x[0, 12] = 1.0        # white to move
+    # Sample 1 has no kings, so dynamic anchors must fall back to (3.5, 3.5).
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    num_rings = int(config["model"]["num_rings"])
+    rnn_hidden = int(config["model"]["rnn_hidden"])
+    num_anchors = 7  # 2 dynamic kings + 5 static anchors
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["ring_pool"].shape == (2, num_anchors, num_rings, channels)
+    assert output["ring_features"].shape == (2, num_anchors, num_rings, channels)
+    assert output["ring_energy"].shape == (2, num_anchors, num_rings)
+    assert output["ring_counts"].shape == (2, num_anchors, num_rings)
+    assert output["anchor_hidden"].shape == (2, num_anchors, rnn_hidden)
+    assert output["anchor_hidden_progression"].shape == (2, num_anchors, num_rings, rnn_hidden)
+    assert output["anchor_positions"].shape == (2, num_anchors, 2)
+    assert output["anchor_dynamic_mass"].shape == (2, 2)
+    assert output["anchor_dynamic_present"].shape == (2, 2)
+    assert output["anchor_hidden_energy"].shape == (2, num_anchors)
+    assert output["mean_anchor_hidden_energy"].shape == (2,)
+    assert output["mean_ring_energy"].shape == (2,)
+    assert output["radial_progression_energy"].shape == (2, num_anchors, num_rings)
+    assert output["depth_levels"].shape == (2,)
+    assert output["ring_levels"].shape == (2,)
+    assert output["anchor_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Ring counts must partition the 64 squares per anchor (every square
+    # belongs to exactly one Chebyshev shell), so the row sums equal 64.
+    counts_sum = output["ring_counts"].sum(dim=-1)
+    assert torch.allclose(counts_sum, torch.full_like(counts_sum, 64.0))
+
+    # Sample 0 has both kings -> dynamic-anchor positions must match the king
+    # squares; sample 1 has no kings -> the centroid fallback puts both
+    # dynamic anchors at the geometric center (3.5, 3.5).
+    white_king_pos = output["anchor_positions"][0, 0]
+    black_king_pos = output["anchor_positions"][0, 1]
+    assert torch.allclose(white_king_pos, torch.tensor([7.0, 4.0]), atol=1e-4)
+    assert torch.allclose(black_king_pos, torch.tensor([0.0, 4.0]), atol=1e-4)
+    assert torch.allclose(output["anchor_positions"][1, 0], torch.tensor([3.5, 3.5]), atol=1e-4)
+    assert torch.allclose(output["anchor_positions"][1, 1], torch.tensor([3.5, 3.5]), atol=1e-4)
+    assert output["anchor_dynamic_present"][0].sum() == 2
+    assert output["anchor_dynamic_present"][1].sum() == 0
+
+    # Static anchor positions should be identical across batch samples.
+    assert torch.allclose(
+        output["anchor_positions"][0, 2:],
+        output["anchor_positions"][1, 2:],
+        atol=1e-6,
+    )
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["ring_levels"] == num_rings).all()
+    assert (output["anchor_levels"] == num_anchors).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "ring_shell_recurrent_boardnet"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["anchor_hidden"].shape == (2, num_anchors, rnn_hidden)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i168"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
