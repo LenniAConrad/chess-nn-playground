@@ -385,6 +385,9 @@ from chess_nn_playground.models.tensor_ring_square_interaction_network import (
 from chess_nn_playground.models.sinkhorn_role_assignment_network import (
     build_sinkhorn_role_assignment_network_from_config,
 )
+from chess_nn_playground.models.morphological_threat_field_network import (
+    build_morphological_threat_field_network_from_config,
+)
 from chess_nn_playground.models.rank_quantile import (
     build_rank_quantile_evidence_field_network_from_config,
 )
@@ -565,6 +568,7 @@ MODEL_BUILDERS = {
     "prototype_patch_dictionary_network": build_prototype_patch_dictionary_network_from_config,
     "tensor_ring_square_interaction_network": build_tensor_ring_square_interaction_network_from_config,
     "sinkhorn_role_assignment_network": build_sinkhorn_role_assignment_network_from_config,
+    "morphological_threat_field_network": build_morphological_threat_field_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

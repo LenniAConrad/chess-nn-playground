@@ -2361,6 +2361,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i121_morphological_threat_field_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i121_morphological_threat_field_network",
+      "idea_id": "i121",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "morphological_threat_field_network",
+      "slug": "morphological_threat_field_network",
+      "source_files": [
+        "ideas/i121_morphological_threat_field_network/model.py",
+        "src/chess_nn_playground/models/morphological_threat_field_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3381,6 +3401,7 @@
       "ideas/i117_prototype_patch_dictionary_network",
       "ideas/i119_tensor_ring_square_interaction_network",
       "ideas/i120_sinkhorn_role_assignment_network",
+      "ideas/i121_morphological_threat_field_network",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3427,7 +3448,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 163,
+    "implemented_architecture_count": 164,
     "issue_folders": [],
     "validation_issue_count": 0
   }

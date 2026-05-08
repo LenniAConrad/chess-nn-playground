@@ -13087,3 +13087,85 @@ def test_i120_sinkhorn_role_assignment_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i121_morphological_threat_field_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i121_morphological_threat_field_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 8, 3, 6] = 1.0
+    x[0, 11, 0, 4] = 1.0
+
+    x[1, 6, 1, 4] = 1.0
+    x[1, 11, 0, 4] = 1.0
+    x[1, 2, 4, 5] = 1.0
+    x[1, 5, 7, 4] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "morphology_branch_logit",
+        "threat_field_mass",
+        "threat_field_peak",
+        "threat_expansion_mass",
+        "threat_erosion_mass",
+        "morphological_gradient",
+        "thin_corridor_intensity",
+        "opening_residual",
+        "closing_residual",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor)
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+    assert (output["threat_field_mass"] > 0).all()
+    assert (output["threat_field_peak"] >= output["threat_field_mass"] - 1e-5).all()
+    assert (output["morphological_gradient"] >= 0).all()
+    assert (output["thin_corridor_intensity"] >= 0).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "morphological_threat_field_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i121"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
