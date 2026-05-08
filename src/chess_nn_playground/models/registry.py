@@ -373,6 +373,9 @@ from chess_nn_playground.models.piece_conditioned_hypernetwork_cnn import (
 from chess_nn_playground.models.neural_board_cellular_automaton import (
     build_neural_board_cellular_automaton_from_config,
 )
+from chess_nn_playground.models.symmetric_difference_twin_encoder import (
+    build_symmetric_difference_twin_encoder_from_config,
+)
 from chess_nn_playground.models.rank_quantile import (
     build_rank_quantile_evidence_field_network_from_config,
 )
@@ -549,6 +552,7 @@ MODEL_BUILDERS = {
     "row_file_factor_mixer": build_row_file_factor_mixer_from_config,
     "piece_conditioned_hypernetwork_cnn": build_piece_conditioned_hypernetwork_cnn_from_config,
     "neural_board_cellular_automaton": build_neural_board_cellular_automaton_from_config,
+    "symmetric_difference_twin_encoder": build_symmetric_difference_twin_encoder_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

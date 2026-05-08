@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 159 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 81 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 160 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 80 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i116_symmetric_difference_twin_encoder`
 - `ideas/i117_prototype_patch_dictionary_network`
 - `ideas/i118_channel_dropout_consensus_network`
 - `ideas/i119_tensor_ring_square_interaction_network`
@@ -225,7 +224,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i113` | `ideas/i113_row_file_factor_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `row_file_factor_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i114` | `ideas/i114_piece_conditioned_hypernetwork_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_conditioned_hypernetwork_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i115` | `ideas/i115_neural_board_cellular_automaton` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `neural_board_cellular_automaton` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i116` | `ideas/i116_symmetric_difference_twin_encoder` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `symmetric_difference_twin_encoder` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i116` | `ideas/i116_symmetric_difference_twin_encoder` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `symmetric_difference_twin_encoder` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i117` | `ideas/i117_prototype_patch_dictionary_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `prototype_patch_dictionary_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i118` | `ideas/i118_channel_dropout_consensus_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `channel_dropout_consensus_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i119` | `ideas/i119_tensor_ring_square_interaction_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tensor_ring_square_interaction_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

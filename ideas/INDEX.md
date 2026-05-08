@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 151, 'probe_scaffold_only': 82, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 158, 'shared_probe_variant': 82}`
+- Registered implementation states: `{'implemented': 153, 'probe_scaffold_only': 80, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 160, 'shared_probe_variant': 80}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 158 | Materially distinct model implementation. |
-| `shared_probe_variant` | 82 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 160 | Materially distinct model implementation. |
+| `shared_probe_variant` | 80 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -153,8 +153,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i112` | [Piece-Drop Stability Network](i112_piece_drop_stability_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i113` | [Row-File Factor Mixer](i113_row_file_factor_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i114` | [Piece-Conditioned Hypernetwork CNN](i114_piece_conditioned_hypernetwork_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i115` | [Neural Board Cellular Automaton](i115_neural_board_cellular_automaton) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i116` | [Symmetric Difference Twin Encoder](i116_symmetric_difference_twin_encoder) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i115` | [Neural Board Cellular Automaton](i115_neural_board_cellular_automaton) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i116` | [Symmetric Difference Twin Encoder](i116_symmetric_difference_twin_encoder) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i117` | [Prototype Patch Dictionary Network](i117_prototype_patch_dictionary_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i118` | [Channel Dropout Consensus Network](i118_channel_dropout_consensus_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i119` | [Tensor-Ring Square Interaction Network](i119_tensor_ring_square_interaction_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

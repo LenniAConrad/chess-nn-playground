@@ -12474,3 +12474,162 @@ def test_i115_neural_board_cellular_automaton_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i116_symmetric_difference_twin_encoder_is_bespoke_and_conformant():
+    folder = Path("ideas/i116_symmetric_difference_twin_encoder")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg["channels"])
+    hidden_dim = int(model_cfg["hidden_dim"])
+
+    # Build a non-trivial board pair so the safe transform changes the
+    # input (the file mirror is a no-op on a board that is symmetric
+    # under file flip plus castling-channel swap).
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[0, 0, 1, 0] = 1.0  # white pawn on a2
+    x[0, 5, 0, 4] = 1.0  # white king on e1
+    x[0, 11, 7, 4] = 1.0  # black king on e8
+    x[0, 13, :, :] = 1.0  # white kingside castling rights
+    x[1, 0, 1, 7] = 1.0  # white pawn on h2
+    x[1, 5, 0, 6] = 1.0  # white king on g1
+    x[1, 11, 7, 4] = 1.0  # black king on e8
+    x[1, 14, :, :] = 1.0  # white queenside castling rights
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "pooled_preserved",
+        "pooled_changed",
+        "pooled_fused",
+        "preserved_map",
+        "changed_map",
+        "fused_map",
+        "z",
+        "z_transformed",
+        "symmetric_difference_energy",
+        "preserved_energy",
+        "latent_disagreement",
+        "symmetry_residual",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["pooled_preserved"].shape == (2, channels)
+    assert output["pooled_changed"].shape == (2, channels)
+    assert output["pooled_fused"].shape == (2, hidden_dim)
+    assert output["preserved_map"].shape == (2, channels, 8, 8)
+    assert output["changed_map"].shape == (2, channels, 8, 8)
+    assert output["fused_map"].shape == (2, hidden_dim, 8, 8)
+    assert output["z"].shape == (2, channels, 8, 8)
+    assert output["z_transformed"].shape == (2, channels, 8, 8)
+    assert output["symmetric_difference_energy"].shape == (2,)
+    assert output["preserved_energy"].shape == (2,)
+    assert output["latent_disagreement"].shape == (2,)
+    assert output["symmetry_residual"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # changed = |z - z_aligned| must be elementwise non-negative.
+    assert (output["changed_map"] >= 0.0).all()
+    # symmetric_difference_energy is a squared norm so it must be >= 0.
+    assert (output["symmetric_difference_energy"] >= -1.0e-6).all()
+    assert (output["preserved_energy"] >= -1.0e-6).all()
+    assert (output["latent_disagreement"] >= -1.0e-6).all()
+    # The element-wise mean of |z - z_aligned| equals symmetry_residual.
+    assert torch.allclose(
+        output["symmetry_residual"],
+        output["changed_map"].mean(dim=(1, 2, 3)),
+        atol=1.0e-6,
+    )
+    # preserved + changed reconstructs the larger of z and z_aligned per sign:
+    #   z + z_aligned = 2 * preserved
+    #   |z - z_aligned| = changed
+    z_plus = output["z"] + output["z_transformed"]
+    assert torch.allclose(2.0 * output["preserved_map"], z_plus, atol=1.0e-5)
+    assert torch.allclose(
+        (output["z"] - output["z_transformed"]).abs(), output["changed_map"], atol=1.0e-6
+    )
+
+    # The model must expose exactly one shared trunk module reused for
+    # both branches (twin pass with tied weights). Untying would defeat
+    # the point of the architecture.
+    trunk_modules = [m for m in model.modules() if type(m).__name__ == "_SharedBoardTrunk"]
+    assert len(trunk_modules) == 1, (
+        "Twin encoder must expose exactly one shared trunk module, "
+        f"got {len(trunk_modules)}"
+    )
+
+    # The safe transform must actually transform the inputs in this
+    # batch (otherwise the comparison is vacuous).
+    x_t = model.safe_transform(x)
+    assert not torch.allclose(x_t, x)
+    # And it must be an involution.
+    assert torch.allclose(model.safe_transform(x_t), x)
+
+    # The transform must permute the kingside / queenside castling
+    # channels (planes 13/14 and 15/16) on simple_18.
+    src = torch.zeros(1, input_channels, 8, 8)
+    src[0, 13] = 1.0
+    flipped = model.safe_transform(src)
+    assert flipped[0, 14].sum() > 0.0
+    assert flipped[0, 13].sum() == 0.0
+    src2 = torch.zeros(1, input_channels, 8, 8)
+    src2[0, 15] = 1.0
+    flipped2 = model.safe_transform(src2)
+    assert flipped2[0, 16].sum() > 0.0
+    assert flipped2[0, 15].sum() == 0.0
+
+    # If the inputs differ across the file flip, the changed_map must
+    # have non-zero energy somewhere; otherwise the model has nothing
+    # to read.
+    assert output["symmetric_difference_energy"].sum() > 0.0
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "symmetric_difference_twin_encoder"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea-local wrapper must not import or call the research packet
+    # probe.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i116"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
