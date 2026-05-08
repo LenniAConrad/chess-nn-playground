@@ -1,31 +1,43 @@
 idea_id: i088
 name: Traced Threat Motif Network
 slug: traced_threat_motif_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
 short_thesis: Select **Traced Threat Motif Network**.
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0857_tuesday_new_york_trace_motif.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Bespoke traced-motif algebra over ten typed `(64 x 64)` board
+  group operators (`u_ctrl`, `u_hit`, `u_quiet`, `u_ray`, `u_jump`, and the
+  enemy duals), a per-channel geometry-masked relation gate, a fixed
+  24-word traced-threat motif vocabulary scored by trace, mass, king-mass,
+  and material-value contractions, and a contest pullback combining
+  inbound friendly and enemy control.
+expected_advantage: Test the packet's proposed traced-motif signal under
+  the same puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus motif scores, top-motif indices,
+  trace/king/value motif scalars, monoidal-closure features, contest
+  heatmap, contest scalars, and the standard packet diagnostic scalars
+  saved to prediction artifacts.
+compute_notes: Residual board trunk plus a per-channel relation gate
+  (`K = 36`), ten board-typed group operators
+  (`u_ctrl`, `u_hit`, `u_quiet`, `u_ray`, `u_jump`, plus the enemy duals),
+  a fixed 24-word motif vocabulary composed via `torch.bmm`, four
+  monoidal-closure trace features, and a contest pullback. The motif
+  vocabulary is fixed; only the relation gate, group-mixing softmax,
+  material value vector, and head are trainable.
+implementation_status: implemented
 trainer_entrypoint: ideas/i088_traced_threat_motif_network/train.py
 config_path: ideas/i088_traced_threat_motif_network/config.yaml
 model_path: ideas/i088_traced_threat_motif_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-28_0857_tuesday_new_york_trace_motif.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0857_tuesday_new_york_trace_motif.md`.
+  Bespoke `TracedThreatMotifNet` with deterministic geometry-masked
+  relation gate, ten board-typed group operators, a fixed 24-word
+  traced-threat motif vocabulary scored by trace / king / value / mass
+  contractions, four monoidal-closure trace features, and a contest
+  pullback diagnostic.
 mechanism_family: sparse
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

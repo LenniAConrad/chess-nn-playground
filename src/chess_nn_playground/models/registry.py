@@ -307,6 +307,9 @@ from chess_nn_playground.models.tactical_radius_filtration import (
 from chess_nn_playground.models.tactical_state_bottleneck import (
     build_tactical_state_bottleneck_from_config,
 )
+from chess_nn_playground.models.traced_threat_motif import (
+    build_traced_threat_motif_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -457,6 +460,7 @@ MODEL_BUILDERS = {
     "tactical_radius_filtration": build_tactical_radius_filtration_from_config,
     "chess_mode_tucker_relation_certificate": build_chess_mode_tucker_relation_certificate_from_config,
     "tactical_state_bottleneck_inference": build_tactical_state_bottleneck_from_config,
+    "traced_threat_motif_network": build_traced_threat_motif_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

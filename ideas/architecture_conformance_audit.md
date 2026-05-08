@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `136`
+- Implemented architecture rows audited: `137`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -98,6 +98,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i085` | `ideas/i085_hall_defect_zeta_operator` | `hall_defect_zeta_operator` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i085_hall_defect_zeta_operator/model.py`<br>`src/chess_nn_playground/models/hall_defect_zeta.py` | - |
 | `i086` | `ideas/i086_differentiable_chess_fact_lattice` | `differentiable_chess_fact_lattice` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i086_differentiable_chess_fact_lattice/model.py`<br>`src/chess_nn_playground/models/differentiable_chess_fact_lattice.py` | - |
 | `i087` | `ideas/i087_tactical_radius_filtration` | `tactical_radius_filtration` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i087_tactical_radius_filtration/model.py`<br>`src/chess_nn_playground/models/tactical_radius_filtration.py` | - |
+| `i088` | `ideas/i088_traced_threat_motif_network` | `traced_threat_motif_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i088_traced_threat_motif_network/model.py`<br>`src/chess_nn_playground/models/traced_threat_motif.py` | - |
 | `i090` | `ideas/i090_chess_mode_tucker_relation_certificate` | `chess_mode_tucker_relation_certificate` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i090_chess_mode_tucker_relation_certificate/model.py`<br>`src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py` | - |
 | `i091` | `ideas/i091_tactical_state_bottleneck_inference` | `tactical_state_bottleneck_inference` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i091_tactical_state_bottleneck_inference/model.py`<br>`src/chess_nn_playground/models/tactical_state_bottleneck.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
