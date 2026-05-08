@@ -409,6 +409,9 @@ from chess_nn_playground.models.material_phase_low_rank_adapter import (
 from chess_nn_playground.models.replicator_payoff_piece_dynamics import (
     build_replicator_payoff_piece_dynamics_from_config,
 )
+from chess_nn_playground.models.differentiable_bitboard_boolean_network import (
+    build_differentiable_bitboard_boolean_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -593,6 +596,7 @@ MODEL_BUILDERS = {
     "pawn_skeleton_barrier_network": build_pawn_skeleton_barrier_network_from_config,
     "material_phase_low_rank_adapter_network": build_material_phase_low_rank_adapter_network_from_config,
     "replicator_payoff_piece_dynamics": build_replicator_payoff_piece_dynamics_from_config,
+    "differentiable_bitboard_boolean_network": build_differentiable_bitboard_boolean_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

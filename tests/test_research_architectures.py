@@ -13706,3 +13706,114 @@ def test_i130_material_phase_low_rank_adapter_network_is_bespoke_and_conformant(
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i132_differentiable_bitboard_boolean_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i132_differentiable_bitboard_boolean_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move starting-style position with full castling rights.
+    x[0, 12] = 1.0
+    x[0, 13:17] = 1.0
+    x[0, 0, 1, :] = 1.0
+    x[0, 6, 6, :] = 1.0
+    x[0, 5, 0, 4] = 1.0
+    x[0, 11, 7, 4] = 1.0
+
+    # Sample 1: lopsided endgame, black-to-move, no castling, en passant set.
+    x[1, 5, 1, 1] = 1.0
+    x[1, 11, 6, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 6, 5, 3] = 1.0
+    x[1, 17, 2, 3] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = {
+        "logits",
+        "predicate_mean_activation",
+        "predicate_max_activation",
+        "predicate_entropy",
+        "clause_mean_activation",
+        "clause_max_activation",
+        "clause_entropy",
+        "clause_active_fraction",
+        "disjunct_mean_activation",
+        "disjunct_max_activation",
+        "disjunct_entropy",
+        "disjunct_active_fraction",
+        "clause_selector_strength",
+        "disjunct_selector_strength",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor), key
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+
+    # Soft bitboard predicates and Boolean primitives must stay in [0, 1].
+    assert (output["predicate_max_activation"] <= 1.0 + 1.0e-5).all()
+    assert (output["predicate_max_activation"] >= 0.0).all()
+    assert (output["clause_max_activation"] <= 1.0 + 1.0e-5).all()
+    assert (output["disjunct_max_activation"] <= 1.0 + 1.0e-5).all()
+
+    # Gradients must flow through the differentiable Boolean operations
+    # back into the predicate trunk and the clause / disjunct selectors.
+    model.train()
+    output = model(x)
+    loss = output["logits"].sum()
+    loss.backward()
+    clause_grad = model.boolean_layer.clause_logits.grad
+    disjunct_grad = model.boolean_layer.disjunct_logits.grad
+    head_weight = model.predicate_bank.predicate_head.weight
+    assert clause_grad is not None
+    assert disjunct_grad is not None
+    assert clause_grad.abs().sum() > 0
+    assert disjunct_grad.abs().sum() > 0
+    assert head_weight.grad is not None
+    assert head_weight.grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "differentiable_bitboard_boolean_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i132"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
