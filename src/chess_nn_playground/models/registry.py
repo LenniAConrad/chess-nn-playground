@@ -314,6 +314,7 @@ from chess_nn_playground.models.piece_token_cnn_hybrid import (
     build_piece_token_cnn_hybrid_from_config,
 )
 from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+    build_negative_class_disentangled_puzzle_head_from_config,
     build_puzzle_binary_benchmark_challengers_from_config,
 )
 from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
@@ -492,6 +493,7 @@ MODEL_BUILDERS = {
     "schur_ray_line_algebra_network": build_schur_ray_line_algebra_network_from_config,
     "bitboard_shift_algebra_network": build_bitboard_shift_algebra_network_from_config,
     "puzzle_binary_benchmark_challengers": build_puzzle_binary_benchmark_challengers_from_config,
+    "negative_class_disentangled_puzzle_head": build_negative_class_disentangled_puzzle_head_from_config,
     "tactical_bisimulation_puzzle_network": build_tactical_bisimulation_puzzle_network_from_config,
     "krylov_tactical_subspace_network": build_krylov_tactical_subspace_network_from_config,
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,

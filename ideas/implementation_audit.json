@@ -5816,35 +5816,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i170_negative_class_disentangled_puzzle_head",
       "idea_id": "i170",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "negative_class_disentangled_puzzle_head",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "negative_class_disentangled_puzzle_head",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.puzzle_binary_benchmark_challengers.build_negative_class_disentangled_puzzle_head_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.puzzle_binary_benchmark_challengers.build_negative_class_disentangled_puzzle_head_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.puzzle_binary_benchmark_challengers.NegativeClassDisentangledPuzzleHead",
+          "chess_nn_playground.models.puzzle_binary_benchmark_challengers.build_negative_class_disentangled_puzzle_head_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8304,12 +8302,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 151,
-      "shared_probe_variant": 89
+      "bespoke_model": 152,
+      "shared_probe_variant": 88
     },
     "by_metadata_kind": {
-      "bespoke_model": 151,
-      "shared_probe_variant": 89
+      "bespoke_model": 152,
+      "shared_probe_variant": 88
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8367,7 +8365,6 @@
       "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
-      "ideas/i170_negative_class_disentangled_puzzle_head",
       "ideas/i171_line_piece_crossbar_network",
       "ideas/i172_near_puzzle_margin_twin_network",
       "ideas/i173_stripe_selective_mixer_cnn",

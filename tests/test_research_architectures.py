@@ -8566,6 +8566,104 @@ def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i170_negative_class_disentangled_puzzle_head_is_bespoke_and_conformant():
+    from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+        NegativeClassDisentangledPuzzleHead,
+        build_negative_class_disentangled_puzzle_head_from_config,
+    )
+
+    folder = Path("ideas/i170_negative_class_disentangled_puzzle_head")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NegativeClassDisentangledPuzzleHead)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "negative_class_disentangled_puzzle_head"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 0, 6, 4] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 3] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "evidence_random",
+        "evidence_near",
+        "evidence_puzzle",
+        "aux_3way_logits",
+        "negative_margin",
+        "random_vs_near_gap",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert output["aux_3way_logits"].shape == (2, 3)
+    for key in expected_keys:
+        assert torch.isfinite(output[key]).all(), key
+
+    e_random = output["evidence_random"]
+    e_near = output["evidence_near"]
+    e_puzzle = output["evidence_puzzle"]
+    expected_logit = e_puzzle - torch.logsumexp(torch.stack([e_random, e_near], dim=1), dim=1)
+    assert torch.allclose(output["logits"], expected_logit, atol=1e-5)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "negative_class_disentangled_puzzle_head"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NegativeClassDisentangledPuzzleHead)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # The idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_negative_class_disentangled_puzzle_head_from_config
+        is build_negative_class_disentangled_puzzle_head_from_config
+    )
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i170"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
     from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
         TacticalBisimulationPuzzleNetwork,
