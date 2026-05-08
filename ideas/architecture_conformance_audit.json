@@ -2081,6 +2081,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i158_neural_decision_forest_boardnet/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i158_neural_decision_forest_boardnet",
+      "idea_id": "i158",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "neural_decision_forest_boardnet",
+      "slug": "neural_decision_forest_boardnet",
+      "source_files": [
+        "ideas/i158_neural_decision_forest_boardnet/model.py",
+        "src/chess_nn_playground/models/neural_decision_forest_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2967,6 +2987,7 @@
       "ideas/i155_capsule_motif_boardnet",
       "ideas/i156_multi_order_board_scan_network",
       "ideas/i157_cross_stitch_cnn_token_fusion_net",
+      "ideas/i158_neural_decision_forest_boardnet",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -3007,7 +3028,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 143,
+    "implemented_architecture_count": 144,
     "issue_folders": [],
     "validation_issue_count": 0
   }

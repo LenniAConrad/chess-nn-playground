@@ -1,37 +1,45 @@
 idea_id: i158
 name: Neural Decision Forest BoardNet
 slug: neural_decision_forest_boardnet
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'Chess puzzle-likeness may be piecewise: different board regimes require
   different cues. A differentiable decision forest on top of a CNN feature vector
   can model soft oblique splits and leaf predictors without a sparse expert router.'
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`;
-  uses a logic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Bespoke differentiable neural decision forest for the puzzle_binary
+  contract. A compact CNN trunk produces a pooled board feature vector, and a
+  forest of soft binary trees with oblique splits and learned leaf logits returns
+  the puzzle logit; the routing is fully soft so every leaf receives gradient on
+  every sample, without a sparse expert router.
+expected_advantage: Test the packet's "piecewise board regimes need different cues"
+  thesis under the same puzzle_binary benchmark contract as the other ideas. Per-tree
+  leaf usage entropy, dominant-leaf indices, and per-tree disagreement quantify
+  whether the forest actually specialises trees and leaves to different regimes.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+output_heads: One puzzle logit plus per-tree leaf-usage entropy, per-tree
+  disagreement, dominant-leaf index/probability, mean split probability,
+  trunk/feature energies, and split/leaf parameter norms saved to prediction
   artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+compute_notes: Compact convolutional trunk plus a fully soft differentiable decision
+  forest (`num_trees` balanced trees at depth `tree_depth`) over the pooled board
+  feature vector.
+implementation_status: implemented
 trainer_entrypoint: ideas/i158_neural_decision_forest_boardnet/train.py
 config_path: ideas/i158_neural_decision_forest_boardnet/config.yaml
 model_path: ideas/i158_neural_decision_forest_boardnet/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
+  Bespoke `NeuralDecisionForestBoardNet` model. A compact convolutional trunk with
+  mean+max pooling feeds a fully soft differentiable decision forest with oblique
+  splits at every internal node and learned leaf logits; the puzzle logit is the
+  mean across trees of each tree's path-probability-weighted leaf logit.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md
 source_packet_candidate: Neural Decision Forest BoardNet
 source_packet_rank: 4
 source_packet_status: batch packet
 mechanism_family: logic
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model
