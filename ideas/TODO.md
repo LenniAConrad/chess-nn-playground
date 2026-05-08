@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `128`
-- Bespoke model implementations: `135`
-- Shared ResearchPacketProbe variants: `105`
+- Fully implemented architectures still needing a linked benchmark run: `130`
+- Bespoke model implementations: `137`
+- Shared ResearchPacketProbe variants: `103`
 
 Recommended immediate sequence:
 
@@ -28,9 +28,9 @@ Benchmark queue by ID:
 - Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`
 - Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`
 - Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`
-- Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i090`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`
-- Batch 5: `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`
-- Batch 6: `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i090`, `i091`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i150`, `i160`, `i161`, `i162`, `i163`, `i190`
+- Batch 5: `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`
+- Batch 6: `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -145,7 +145,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [ ] | `i088` | [Traced Threat Motif Network](i088_traced_threat_motif_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i089` | [Bounded Board Hinge Logic](i089_bounded_board_hinge_logic) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [x] | `i090` | [Chess-Mode Tucker Relation Certificate](i090_chess_mode_tucker_relation_certificate) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i091` | [Tactical State Bottleneck Inference](i091_tactical_state_bottleneck_inference) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i091` | [Tactical State Bottleneck Inference](i091_tactical_state_bottleneck_inference) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i092` | [Parity-Syndrome Puzzle Bottleneck](i092_parity_syndrome_puzzle_bottleneck) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i093` | [Wavelet Scattering Board Network](i093_wavelet_scattering_board_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i094` | [Convex Feasibility Residual Network](i094_convex_feasibility_residual_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
@@ -204,7 +204,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i147` | [Specialist-Head CNN](i147_specialist_head_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i149` | [Axial Rank-File ConvNet](i149_axial_rank_file_convnet) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
-| [ ] | `i150` | [Early-Exit Cascade BoardNet](i150_early_exit_cascade_boardnet) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i150` | [Early-Exit Cascade BoardNet](i150_early_exit_cascade_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i151` | [Auxiliary Reconstruction BoardNet](i151_auxiliary_reconstruction_boardnet) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i152` | [Iterative Logit Refinement CNN](i152_iterative_logit_refinement_cnn) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i153` | [Agreement-Variance Head Net](i153_agreement_variance_head_net) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |

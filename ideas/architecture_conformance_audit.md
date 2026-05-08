@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `136`
+- Implemented architecture rows audited: `137`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -109,6 +109,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i145` | `ideas/i145_piece_plane_gated_cnn` | `piece_plane_gated_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i145_piece_plane_gated_cnn/model.py`<br>`src/chess_nn_playground/models/piece_plane_gated_cnn.py` | - |
 | `i146` | `ideas/i146_patch_mixer_boardnet` | `patch_mixer_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i146_patch_mixer_boardnet/model.py`<br>`src/chess_nn_playground/models/patch_mixer_boardnet.py` | - |
 | `i147` | `ideas/i147_specialist_head_cnn` | `specialist_head_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i147_specialist_head_cnn/model.py`<br>`src/chess_nn_playground/models/specialist_head_cnn.py` | - |
+| `i150` | `ideas/i150_early_exit_cascade_boardnet` | `early_exit_cascade_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i150_early_exit_cascade_boardnet/model.py`<br>`src/chess_nn_playground/models/early_exit_cascade_boardnet.py` | - |
 | `i160` | `ideas/i160_hypercolumn_square_readout_cnn` | `hypercolumn_square_readout_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i160_hypercolumn_square_readout_cnn/model.py`<br>`src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py` | - |
 | `i161` | `ideas/i161_multiplicative_conjunction_convnet` | `multiplicative_conjunction_convnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i161_multiplicative_conjunction_convnet/model.py`<br>`src/chess_nn_playground/models/multiplicative_conjunction_convnet.py` | - |
 | `i162` | `ideas/i162_empty_square_opportunity_network` | `empty_square_opportunity_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i162_empty_square_opportunity_network/model.py`<br>`src/chess_nn_playground/models/empty_square_opportunity_network.py` | - |

@@ -1105,13 +1105,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i091_tactical_state_bottleneck_inference",
       "idea_id": "i091",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tactical State Bottleneck Inference",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0901_tuesday_new_york_tactical_latent.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke discrete-latent tactical-state bottleneck with a typed six-group categorical inference network (motif / anchor / target / relation / vulnerability / tempo), prior + posterior heads, capped direct-path logit, and a parameter-matched no-latent control.",
+      "output_heads": "One puzzle logit plus per-group categorical entropies, batch-mean usage, anchor/target null-slot rates, and the standard packet diagnostic scalars saved to prediction artifacts.",
       "short_thesis": "Select **Tactical State Bottleneck Inference**.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -1813,13 +1813,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i150_early_exit_cascade_boardnet",
       "idea_id": "i150",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Early-Exit Cascade BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke cascade of stage-wise board classifiers fused by a learned forward-halting expectation, so a single BCE-with-logits loss on the cascade log-odds trains every exit and every halting gate jointly without trainer modifications.",
+      "output_heads": "One cascade puzzle logit plus per-exit logits, per-exit halting probabilities, cascade weights, and the expected-exit-index diagnostic.",
       "short_thesis": "Some positions may be easy and should not need a heavy model, while ambiguous near-puzzles need deeper computation. Build a cascade with several classifier exits and train it to produce useful early predictions plus a final refined prediction.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

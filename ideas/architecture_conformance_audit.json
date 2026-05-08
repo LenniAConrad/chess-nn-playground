@@ -1941,6 +1941,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i150_early_exit_cascade_boardnet/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i150_early_exit_cascade_boardnet",
+      "idea_id": "i150",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "early_exit_cascade_boardnet",
+      "slug": "early_exit_cascade_boardnet",
+      "source_files": [
+        "ideas/i150_early_exit_cascade_boardnet/model.py",
+        "src/chess_nn_playground/models/early_exit_cascade_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2820,6 +2840,7 @@
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
+      "ideas/i150_early_exit_cascade_boardnet",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -2860,7 +2881,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 136,
+    "implemented_architecture_count": 137,
     "issue_folders": [],
     "validation_issue_count": 0
   }
