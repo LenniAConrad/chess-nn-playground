@@ -1721,6 +1721,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i090_chess_mode_tucker_relation_certificate/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i090_chess_mode_tucker_relation_certificate",
+      "idea_id": "i090",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "chess_mode_tucker_relation_certificate",
+      "slug": "chess_mode_tucker_relation_certificate",
+      "source_files": [
+        "ideas/i090_chess_mode_tucker_relation_certificate/model.py",
+        "src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2769,6 +2789,7 @@
       "ideas/i085_hall_defect_zeta_operator",
       "ideas/i086_differentiable_chess_fact_lattice",
       "ideas/i087_tactical_radius_filtration",
+      "ideas/i090_chess_mode_tucker_relation_certificate",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2818,7 +2839,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 134,
+    "implemented_architecture_count": 135,
     "issue_folders": [],
     "validation_issue_count": 0
   }

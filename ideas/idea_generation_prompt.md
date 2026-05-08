@@ -1093,13 +1093,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i090_chess_mode_tucker_relation_certificate",
       "idea_id": "i090",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Chess-Mode Tucker Relation Certificate",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0900_tuesday_new_york_relation_tucker.md`; uses a linear_algebra mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke chess-constrained Tucker contraction over a fixed `(K, R, D, G)` relation-moment tensor with a per-example multilinear-rank certificate, plus a parameter-matched FlatProjectedMLP control for ablations.",
+      "output_heads": "One puzzle logit plus Tucker-mode rank certificate, nuclear bottleneck, orthogonality penalty, and structural sanity diagnostics.",
       "short_thesis": "Build **CMTRC**, a compact neural architecture whose main learnable decision operator is not a CNN block, attention module, Transformer, pair-field model, or tensor ri...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

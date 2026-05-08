@@ -14,6 +14,9 @@ from chess_nn_playground.models.centered_tempo_odd_interventional_bottleneck imp
 from chess_nn_playground.models.chess_geometry_transport import (
     build_entropic_chess_geometry_transport_network_from_config,
 )
+from chess_nn_playground.models.chess_mode_tucker_relation_certificate import (
+    build_chess_mode_tucker_relation_certificate_from_config,
+)
 from chess_nn_playground.models.cnn import build_cnn_from_config
 from chess_nn_playground.models.determinantal_volume import (
     build_determinantal_tactical_volume_bottleneck_from_config,
@@ -449,6 +452,7 @@ MODEL_BUILDERS = {
     "typed_hypergraph_motif_grammar": build_typed_hypergraph_motif_grammar_from_config,
     "differentiable_chess_fact_lattice": build_differentiable_chess_fact_lattice_from_config,
     "tactical_radius_filtration": build_tactical_radius_filtration_from_config,
+    "chess_mode_tucker_relation_certificate": build_chess_mode_tucker_relation_certificate_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

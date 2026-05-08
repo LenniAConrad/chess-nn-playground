@@ -9422,3 +9422,114 @@ def test_i087_tactical_radius_filtration_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i090_chess_mode_tucker_relation_certificate_is_bespoke_and_conformant():
+    folder = Path("ideas/i090_chess_mode_tucker_relation_certificate")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.chess_mode_tucker_relation_certificate import (
+        ChessModeTuckerRelationCertificate,
+        FlatProjectedMLPControl,
+        count_trainable_parameters,
+        fine_label_diagnostic_3x2,
+    )
+
+    assert isinstance(model, ChessModeTuckerRelationCertificate)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "chess_mode_tucker_relation_certificate"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 5, 2] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 6, 1, 4] = 1.0
+    x[:, 10, 2, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        relation_tensor = model.relation_tensor(x)
+        projected = model.tucker_project(relation_tensor)
+        output = model(x)
+
+    assert relation_tensor.shape == (2, model.latent_channels, 12, 8, 10)
+    assert projected.shape == (2, *model.rank_shape)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert {
+        "logits",
+        "rank_certificate",
+        "K_mode_eff_rank",
+        "R_mode_eff_rank",
+        "D_mode_eff_rank",
+        "G_mode_eff_rank",
+        "nuclear_bottleneck",
+        "orthogonality_penalty",
+        "fixed_relation_density",
+        "region_mass_error",
+    }.issubset(output)
+    assert output["rank_certificate"].shape == (2, 4)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    counts, rates = fine_label_diagnostic_3x2(
+        torch.tensor([2.0, -2.0, 2.0]),
+        torch.tensor([0, 1, 2]),
+    )
+    assert counts.shape == (3, 2)
+    assert rates.shape == (3, 2)
+    assert int(counts.sum()) == 3
+
+    paper_main = ChessModeTuckerRelationCertificate(input_channels=input_channels)
+    paper_control = FlatProjectedMLPControl(input_channels=input_channels)
+    assert count_trainable_parameters(paper_control) == count_trainable_parameters(paper_main)
+    with torch.no_grad():
+        control_output = paper_control(x)
+    assert control_output["logits"].shape == (2,)
+    assert torch.isfinite(control_output["logits"]).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    assert isinstance(registry_model, ChessModeTuckerRelationCertificate)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i090"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
