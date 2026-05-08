@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `159`
-- Bespoke model implementations: `166`
-- Shared ResearchPacketProbe variants: `74`
+- Fully implemented architectures still needing a linked benchmark run: `160`
+- Bespoke model implementations: `167`
+- Shared ResearchPacketProbe variants: `73`
 
 Recommended immediate sequence:
 
@@ -30,8 +30,8 @@ Benchmark queue by ID:
 - Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`
 - Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i090`, `i091`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i150`, `i151`, `i153`, `i154`, `i155`, `i156`
 - Batch 5: `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i177`, `i179`, `i180`, `i181`, `i182`
-- Batch 6: `i183`, `i184`, `i185`, `i186`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`
-- Batch 7: `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 6: `i183`, `i184`, `i185`, `i186`, `i187`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`
+- Batch 7: `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -242,7 +242,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i184` | [Puzzle Boundary Twin Encoder](i184_puzzle_boundary_twin_encoder) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i185` | [Critical-Square Budget Network](i185_critical_square_budget_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i186` | [Legal-Reaction Bottleneck Network](i186_legal_reaction_bottleneck_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i187` | [Exchange-Soundness Graph Network](i187_exchange_soundness_graph_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i187` | [Exchange-Soundness Graph Network](i187_exchange_soundness_graph_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i188` | [Tactical Program Induction Network](i188_tactical_program_induction_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i189` | [Counterfactual Defender Dropout Network](i189_counterfactual_defender_dropout_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [x] | `i190` | [Blocker-Pin Lattice Network](i190_blocker_pin_lattice_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |

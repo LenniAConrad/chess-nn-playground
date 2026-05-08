@@ -2257,13 +2257,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i187_exchange_soundness_graph_network",
       "idea_id": "i187",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Exchange-Soundness Graph Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; bespoke board-only exchange-soundness graph network that learns per-square attacker and defender intensities plus piece-type-aware cheapest-attacker / cheapest-defender value fields, runs a bounded-depth differentiable static exchange evaluation on the resulting attack/defense graph, and feeds the SEE-weighted target pool plus explicit `max_see_target`, `frac_unsound_targets`, `defense_gap` and `reply_pressure` scalars through a small head.",
+      "output_heads": "One puzzle logit plus exchange-soundness graph diagnostics (`attacker_intensity`, `defender_intensity`, `attacker_value_field`, `defender_value_field`, `target_value_field`, `exchange_score_field`, `exchange_soundness_field`, `target_mask`, `max_see_target`, `mean_see_target`, `frac_unsound_targets`, `graph_pressure`, `reply_pressure`, `defense_gap`, `transport_imbalance`, `sheaf_tension`, `target_count`, `trunk_energy`).",
       "short_thesis": "Many false puzzle signals come from attacks that look strong but lose material or fail tactically after exchanges. A puzzle detector should know whether an apparent tactic is exchange-sound.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

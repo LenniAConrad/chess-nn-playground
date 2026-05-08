@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 166 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 74 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 167 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 73 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -79,7 +79,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
 - `ideas/i178_defender_exhaustion_cascade_network`
-- `ideas/i187_exchange_soundness_graph_network`
 - `ideas/i188_tactical_program_induction_network`
 - `ideas/i189_counterfactual_defender_dropout_network`
 - `ideas/i193_exchange_then_king_dual_stream`
@@ -289,7 +288,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i184` | `ideas/i184_puzzle_boundary_twin_encoder` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `puzzle_boundary_twin_encoder` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i185` | `ideas/i185_critical_square_budget_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `critical_square_budget_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i186` | `ideas/i186_legal_reaction_bottleneck_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_reaction_bottleneck_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i187` | `ideas/i187_exchange_soundness_graph_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `exchange_soundness_graph_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i187` | `ideas/i187_exchange_soundness_graph_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `exchange_soundness_graph_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i188` | `ideas/i188_tactical_program_induction_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tactical_program_induction_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i189` | `ideas/i189_counterfactual_defender_dropout_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `counterfactual_defender_dropout_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `blocker_pin_lattice_network` | `-` | model.py delegates to a non-shared architecture builder | - |

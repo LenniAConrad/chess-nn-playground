@@ -14143,3 +14143,191 @@ def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.exchange_soundness_graph_network import (
+        ExchangeSoundnessGraphNetwork,
+        build_exchange_soundness_graph_network_from_config,
+    )
+
+    folder = Path("ideas/i187_exchange_soundness_graph_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ExchangeSoundnessGraphNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "exchange_soundness_graph_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    # Three structurally distinct positions exercising the
+    # exchange-soundness graph: a sound capture target, a defended
+    # target, and a position with no opponent pieces (empty-target
+    # fallback).
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under attack from a white
+    # queen with no defenders -- a sound capture (positive SEE).
+    x[0, 5, 0, 4] = 1.0  # white king on e1
+    x[0, 4, 4, 4] = 1.0  # white queen on e4
+    x[0, 11, 7, 7] = 1.0  # black king h8 (off any sensible defense)
+    x[0, 7, 5, 4] = 1.0  # black knight on e3 (target)
+    # Position 1: a black queen guarded by another black piece, so any
+    # would-be capture by a cheaper white piece is unsound after
+    # exchanges.
+    x[1, 5, 0, 4] = 1.0  # white king
+    x[1, 1, 4, 4] = 1.0  # white knight on e4
+    x[1, 10, 5, 4] = 1.0  # black queen on e3 (target)
+    x[1, 9, 6, 4] = 1.0  # black rook on e2 defends e3
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: white-to-move with no opponent pieces (empty-target
+    # fallback path).
+    x[2, 5, 0, 4] = 1.0  # white king only
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    for key in (
+        "attacker_intensity",
+        "defender_intensity",
+        "attacker_value_field",
+        "defender_value_field",
+        "target_value_field",
+        "exchange_score_field",
+        "exchange_soundness_field",
+        "target_mask",
+    ):
+        assert output[key].shape == (3, 8, 8), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Attacker / defender intensities are in [0, 1].
+    for key in ("attacker_intensity", "defender_intensity", "exchange_soundness_field"):
+        assert (output[key] >= 0.0).all() and (output[key] <= 1.0 + 1e-5).all(), key
+
+    # Cheapest-attacker / cheapest-defender values are bounded by the
+    # standard piece-value range [P=1, K=12].
+    for key in ("attacker_value_field", "defender_value_field"):
+        assert (output[key] >= 1.0 - 1e-4).all(), key
+        assert (output[key] <= 12.0 + 1e-4).all(), key
+
+    # Target value field is exactly the value of the opp piece on each
+    # square (zero off opp squares). Row 0 has a black knight (3) on
+    # e3 and the black king (12) on h8; row 1 has a black queen (9),
+    # rook (5) and king (12); row 2 has no opp pieces.
+    assert torch.isclose(output["target_value_field"][0, 5, 4], torch.tensor(3.0))
+    assert torch.isclose(output["target_value_field"][0, 7, 7], torch.tensor(12.0))
+    assert output["target_value_field"][0].nonzero().shape[0] == 2
+    # row 1
+    assert torch.isclose(output["target_value_field"][1, 5, 4], torch.tensor(9.0))
+    assert torch.isclose(output["target_value_field"][1, 6, 4], torch.tensor(5.0))
+    assert torch.isclose(output["target_value_field"][1, 7, 7], torch.tensor(12.0))
+    # row 2: no opp pieces.
+    assert output["target_value_field"][2].abs().max().item() == 0.0
+
+    # Target mask matches opp-piece occupancy.
+    opp = x[:, 6:12].sum(dim=1).clamp(0.0, 1.0)
+    assert torch.allclose(output["target_mask"], opp)
+    assert output["target_count"][0].item() == 2.0
+    assert output["target_count"][1].item() == 3.0
+    assert output["target_count"][2].item() == 0.0
+
+    # No-target row's max_see_target falls back to 0 (deterministic).
+    assert output["max_see_target"][2].item() == 0.0
+    # And all SEE-derived means are zero on that row.
+    assert output["mean_see_target"][2].abs().item() < 1e-6
+    assert output["frac_unsound_targets"][2].abs().item() < 1e-6
+    assert output["sheaf_tension"][2].abs().item() < 1e-6
+    # Bottleneck KL is conceptually a non-negative quantity.
+    assert (output["frac_unsound_targets"] >= -1e-6).all()
+    assert (output["frac_unsound_targets"] <= 1.0 + 1e-5).all()
+
+    for key in (
+        "max_see_target",
+        "mean_see_target",
+        "frac_unsound_targets",
+        "graph_pressure",
+        "reply_pressure",
+        "defense_gap",
+        "transport_imbalance",
+        "sheaf_tension",
+        "target_count",
+        "trunk_energy",
+    ):
+        assert output[key].shape == (3,), key
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["exchange_score_field"][0],
+        twin_output["exchange_score_field"][1],
+        atol=1e-5,
+    )
+
+    # Configured channels and exchange depth/temperature reach the model.
+    assert model.channels == channels
+    assert model.exchange_depth >= 1
+    assert model.exchange_temperature == float(
+        config["model"].get("exchange_temperature", 1.0)
+    )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "exchange_soundness_graph_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ExchangeSoundnessGraphNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_exchange_soundness_graph_network_from_config
+        is build_exchange_soundness_graph_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i187"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
