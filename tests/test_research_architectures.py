@@ -12576,3 +12576,187 @@ def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.prototype_margin_puzzle_network import (
+        PrototypeBank,
+        PrototypeMarginPuzzleNetwork,
+        build_prototype_margin_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i175_prototype_margin_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PrototypeMarginPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "prototype_margin_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    for bank in (model.puzzle_bank, model.random_bank):
+        assert isinstance(bank, PrototypeBank)
+    assert isinstance(model.near_bank, PrototypeBank)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    proto_dim = int(config["model"]["proto_dim"])
+    num_prototypes = int(config["model"]["num_prototypes"])
+    temperature = float(config["model"]["temperature"])
+    assert model.channels == channels
+    assert model.proto_dim == proto_dim
+    assert model.num_prototypes == num_prototypes
+    assert model.temperature == temperature
+    assert model.puzzle_bank.prototypes.shape == (num_prototypes, proto_dim)
+    assert model.random_bank.prototypes.shape == (num_prototypes, proto_dim)
+    assert model.near_bank.prototypes.shape == (num_prototypes, proto_dim)
+    # Default model: random bank is trainable.
+    assert model.random_bank.prototypes.requires_grad
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["z"].shape == (2, proto_dim)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["sim_random"].shape == (2,)
+    assert output["sim_near"].shape == (2,)
+    assert output["sim_puzzle"].shape == (2,)
+    assert output["negative_logsumexp"].shape == (2,)
+    assert output["puzzle_margin_signal"].shape == (2,)
+    assert output["random_scores"].shape == (2, num_prototypes)
+    assert output["near_scores"].shape == (2, num_prototypes)
+    assert output["puzzle_scores"].shape == (2, num_prototypes)
+    for key in (
+        "num_prototypes_levels",
+        "proto_dim_levels",
+        "temperature_levels",
+        "ablation_active",
+        "uses_separate_negatives",
+        "uses_margin_head",
+        "random_proto_frozen",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["num_prototypes_levels"] == num_prototypes).all()
+    assert (output["proto_dim_levels"] == proto_dim).all()
+    assert (output["temperature_levels"] == temperature).all()
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_separate_negatives"] == 1.0).all()
+    assert (output["uses_margin_head"] == 1.0).all()
+    assert (output["random_proto_frozen"] == 0.0).all()
+
+    # Margin head wires the packet's identity:
+    #   logits == sim_puzzle - logsumexp([sim_random, sim_near])
+    expected_margin = output["sim_puzzle"] - output["negative_logsumexp"]
+    assert torch.allclose(output["logits"], expected_margin, atol=1e-5)
+    assert torch.equal(output["puzzle_margin_signal"], output["logits"])
+
+    # Cosine scores are bounded.
+    for key in ("random_scores", "near_scores", "puzzle_scores"):
+        assert (output[key] >= -1.0 - 1e-5).all() and (output[key] <= 1.0 + 1e-5).all(), key
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sep, expected_margin_flag, expected_frozen in (
+        ("none", 1.0, 1.0, 0.0),
+        ("single_negative_proto", 0.0, 1.0, 0.0),
+        ("no_margin_logsumexp", 1.0, 0.0, 0.0),
+        ("random_proto_freeze", 1.0, 1.0, 1.0),
+        ("prototype_count_sweep", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_prototype_margin_puzzle_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_separate_negatives"][0].item() == expected_sep
+        assert ab_output["uses_margin_head"][0].item() == expected_margin_flag
+        assert ab_output["random_proto_frozen"][0].item() == expected_frozen
+        if ablation == "single_negative_proto":
+            assert ab_model.near_bank is None
+            # With one negative bank the margin reduces to sim_puzzle - sim_random.
+            ab_expected = ab_output["sim_puzzle"] - ab_output["sim_random"]
+            assert torch.allclose(ab_output["logits"], ab_expected, atol=1e-5)
+            assert torch.equal(ab_output["sim_near"], ab_output["sim_random"])
+        elif ablation == "no_margin_logsumexp":
+            # The linear head bypasses the margin.
+            assert ab_model.linear_head is not None
+        elif ablation == "random_proto_freeze":
+            assert not ab_model.random_bank.prototypes.requires_grad
+            # Puzzle and near banks remain trainable.
+            assert ab_model.puzzle_bank.prototypes.requires_grad
+            assert ab_model.near_bank is not None
+            assert ab_model.near_bank.prototypes.requires_grad
+        else:
+            # Default and sweep configurations keep all banks trainable.
+            assert ab_model.random_bank.prototypes.requires_grad
+
+    # prototype_count_sweep is structurally a no-op flag for varying num_prototypes.
+    sweep_cfg = dict(config["model"])
+    sweep_cfg["ablation"] = "prototype_count_sweep"
+    sweep_cfg["num_prototypes"] = 16
+    sweep_model = build_prototype_margin_puzzle_network_from_config(sweep_cfg).eval()
+    assert sweep_model.num_prototypes == 16
+    with torch.no_grad():
+        sweep_output = sweep_model(x)
+    assert sweep_output["puzzle_scores"].shape == (2, 16)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "prototype_margin_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PrototypeMarginPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_prototype_margin_puzzle_network_from_config
+        is build_prototype_margin_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i175"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

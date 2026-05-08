@@ -2113,13 +2113,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i175_prototype_margin_puzzle_network",
       "idea_id": "i175",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Prototype-Margin Puzzle Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`; uses a sparse mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
-      "short_thesis": "The model should not merely say \"puzzle-like.\" It should compare the board to separate learned prototypes:",
-      "status": "scaffolded",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md` (Idea 6, \"Prototype-Margin Puzzle Network\"); replaces a single puzzle head with three learned prototype banks (`P_random`, `P_near`, `P_puzzle`) and a `sim_puzzle - logsumexp([sim_random, sim_near])` margin head, so near-puzzle hard negatives get their own attractors instead of being absorbed into a generic negative logit.",
+      "output_heads": "One puzzle logit (BCE-with-logits) plus per-class log-sum-exp similarities (`sim_random`, `sim_near`, `sim_puzzle`), the negative log-sum-exp margin term, per-prototype cosine score tensors for collapse diagnostics, and the encoded board latent `z`.",
+      "short_thesis": "The model should not merely say \"puzzle-like.\" It should compare the board to separate learned prototypes for random non-puzzle positions, near-puzzle hard negatives, and real puzzles, and read the puzzle logit out of the margin between the puzzle similarity and the largest non-puzzle similarity.",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
