@@ -12308,3 +12308,169 @@ def test_i114_piece_conditioned_hypernetwork_cnn_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i115_neural_board_cellular_automaton_is_bespoke_and_conformant():
+    folder = Path("ideas/i115_neural_board_cellular_automaton")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg["channels"])
+    steps = int(model_cfg.get("steps", 6))
+    assert steps >= 1
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    if input_channels > 12:
+        x[0, 12] = 1.0
+    # Sample 0: a complex pattern likely to require relaxation.
+    x[0, 0, 1, 4] = 1.0
+    x[0, 1, 0, 1] = 1.0
+    x[0, 5, 0, 4] = 1.0
+    x[0, 11, 7, 4] = 1.0
+    x[0, 6, 6, 3] = 1.0
+    # Sample 1: a sparser pattern.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 0, 4] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "pooled_features",
+        "final_state",
+        "update_energy",
+        "update_energy_mean",
+        "final_step_update_energy",
+        "update_energy_per_step",
+        "state_energy_per_step",
+        "final_state_energy",
+        "step_size",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["pooled_features"].shape == (2, channels)
+    assert output["final_state"].shape == (2, channels, 8, 8)
+    assert output["update_energy"].shape == (2,)
+    assert output["update_energy_mean"].shape == (2,)
+    assert output["final_step_update_energy"].shape == (2,)
+    assert output["update_energy_per_step"].shape == (2, steps)
+    assert output["state_energy_per_step"].shape == (2, steps + 1)
+    assert output["final_state_energy"].shape == (2,)
+    assert output["step_size"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Energies are squared norms divided by N, so they are non-negative.
+    assert (output["update_energy_per_step"] >= -1.0e-6).all()
+    assert (output["state_energy_per_step"] >= -1.0e-6).all()
+    assert (output["update_energy"] >= -1.0e-6).all()
+    assert (output["final_state_energy"] >= -1.0e-6).all()
+
+    # Per-step update energies must sum to the aggregate update energy.
+    assert torch.allclose(
+        output["update_energy"],
+        output["update_energy_per_step"].sum(dim=-1),
+        atol=1.0e-5,
+    )
+    # Per-step update mean must equal mean over the steps axis.
+    assert torch.allclose(
+        output["update_energy_mean"],
+        output["update_energy_per_step"].mean(dim=-1),
+        atol=1.0e-5,
+    )
+    # final_step_update_energy must equal the last column of the trajectory.
+    assert torch.allclose(
+        output["final_step_update_energy"],
+        output["update_energy_per_step"][:, -1],
+        atol=1.0e-5,
+    )
+
+    # The learnable step size is sigmoid-bounded by max_step_size (default 1.0).
+    max_step_size = float(model_cfg.get("max_step_size", 1.0))
+    assert (output["step_size"] >= 0.0).all()
+    assert (output["step_size"] <= max_step_size + 1.0e-6).all()
+
+    # The update rule's final 1x1 conv is zero-initialized, so an
+    # untrained model should produce numerically zero per-step update
+    # energies (the CA dynamics start out as the identity fixed point).
+    assert torch.allclose(
+        output["update_energy_per_step"],
+        torch.zeros_like(output["update_energy_per_step"]),
+        atol=1.0e-7,
+    )
+
+    # The state energy at every step should equal the initial state
+    # energy (no update has fired) at init.
+    initial_state_energy = output["state_energy_per_step"][:, :1]
+    assert torch.allclose(
+        output["state_energy_per_step"],
+        initial_state_energy.expand_as(output["state_energy_per_step"]),
+        atol=1.0e-5,
+    )
+
+    # The CA must apply the *same* local update rule at every step; the
+    # bespoke model exposes a single _LocalUpdateRule submodule that
+    # is reused across iterations.
+    update_rule_modules = [m for m in model.modules() if type(m).__name__ == "_LocalUpdateRule"]
+    assert len(update_rule_modules) == 1, (
+        "Tied-weight CA must expose exactly one shared local update rule, "
+        f"got {len(update_rule_modules)}"
+    )
+
+    # Once the update rule's final 1x1 conv has non-zero weights, the
+    # per-step update energy must be strictly positive: this confirms
+    # the iteration loop actually fires `f` at each step.
+    with torch.no_grad():
+        model.update_rule.update.weight.normal_(mean=0.0, std=0.05)
+        if model.update_rule.update.bias is not None:
+            model.update_rule.update.bias.normal_(mean=0.0, std=0.05)
+    with torch.no_grad():
+        active_output = model(x)
+    assert (active_output["update_energy_per_step"] > 0.0).all()
+    assert active_output["update_energy"].sum() > 0.0
+    # And the final state must differ from the initial embedded state.
+    embed_state = model.embed(x)
+    assert not torch.allclose(active_output["final_state"], embed_state, atol=1.0e-5)
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "neural_board_cellular_automaton"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i115"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
