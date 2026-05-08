@@ -2781,6 +2781,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i196_source_invariant_puzzle_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i196_source_invariant_puzzle_bottleneck",
+      "idea_id": "i196",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "source_invariant_puzzle_bottleneck",
+      "slug": "source_invariant_puzzle_bottleneck",
+      "source_files": [
+        "ideas/i196_source_invariant_puzzle_bottleneck/model.py",
+        "src/chess_nn_playground/models/source_invariant_puzzle_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i203_hierarchical_tactical_option_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3562,6 +3582,7 @@
       "ideas/i192_latent_reply_entropy_network",
       "ideas/i193_exchange_then_king_dual_stream",
       "ideas/i194_tactical_symptom_bayesian_network",
+      "ideas/i196_source_invariant_puzzle_bottleneck",
       "ideas/i203_hierarchical_tactical_option_network",
       "ideas/i204_cross_defense_consistency_network",
       "ideas/i205_defender_timing_schedule_network",
@@ -3595,7 +3616,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 171,
+    "implemented_architecture_count": 172,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -15077,3 +15077,203 @@ def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
+    from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+        BoardFeatureTrunk,
+        InvariantBottleneck,
+        SourceInvariantPuzzleBottleneck,
+        SymmetryOrbitEncoder,
+        VIEW_NAMES,
+        build_source_invariant_puzzle_bottleneck_from_config,
+    )
+
+    folder = Path("ideas/i196_source_invariant_puzzle_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, SourceInvariantPuzzleBottleneck)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "source_invariant_puzzle_bottleneck"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    assert isinstance(model.trunk, BoardFeatureTrunk)
+    assert isinstance(model.orbit, SymmetryOrbitEncoder)
+    assert isinstance(model.bottleneck, InvariantBottleneck)
+    assert model.view_names == VIEW_NAMES
+    assert model.orbit.num_views == 4
+
+    input_channels = int(config["model"]["input_channels"])
+    code_dim = int(config["model"]["code_dim"])
+    assert model.code_dim == code_dim
+    assert model.bottleneck.code_dim == code_dim
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under white queen attack.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: nearly-empty board (degenerate fallback).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = (
+        "logits",
+        "invariant_code_norm",
+        "main_code_norm",
+        "residual_energy",
+        "residual_direction_strength",
+        "orthogonalize_gate",
+        "aux_residual_logit",
+        "view_consistency",
+        "num_views",
+        "mechanism_energy",
+        "symmetry_residual",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    )
+    for key in expected_keys:
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # mechanism_energy and symmetry_residual are aliases of residual_energy.
+    assert torch.allclose(output["mechanism_energy"], output["residual_energy"])
+    assert torch.allclose(output["symmetry_residual"], output["residual_energy"])
+    assert (output["residual_energy"] >= 0.0).all()
+    assert (output["num_views"] == float(model.orbit.num_views)).all()
+    assert (output["proposal_keyword_count"] == float(model.orbit.num_views)).all()
+    # Orthogonalize gate is a sigmoid scalar broadcast to the batch.
+    assert (output["orthogonalize_gate"] > 0.0).all()
+    assert (output["orthogonalize_gate"] < 1.0).all()
+
+    # The puzzle head reads only the orthogonalised main code.
+    main_logits = model.head(model.bottleneck(model.orbit(x))["main_code"]).view(-1)
+    assert torch.allclose(main_logits, output["logits"], atol=1e-5)
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(num_classes=2)
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(ablation="not_a_real_ablation")
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(view_names=("nonsense_view",))
+
+    # `no_invariance` ablation drops the orbit down to the identity view only.
+    no_inv = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_invariance"}
+    ).eval()
+    assert no_inv.orbit.num_views == 1
+    assert no_inv.view_names == ("identity",)
+    with torch.no_grad():
+        no_inv_out = no_inv(x)
+    assert no_inv_out["logits"].shape == (3,)
+    assert torch.isfinite(no_inv_out["logits"]).all()
+    # With a single view, the residual subspace is trivial.
+    assert torch.allclose(no_inv_out["residual_energy"], torch.zeros(3), atol=1e-6)
+
+    # `no_orthogonalization` ablation must keep four views but use c_main = c̄.
+    no_orth = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_orthogonalization"}
+    ).eval()
+    assert no_orth.orbit.num_views == 4
+    with torch.no_grad():
+        no_orth_out = no_orth(x)
+        per_view = no_orth.orbit(x)
+        bottleneck = no_orth.bottleneck(per_view, orthogonalize=False)
+    assert torch.allclose(bottleneck["main_code"], bottleneck["invariant_code"])
+    assert no_orth_out["logits"].shape == (3,)
+    assert torch.isfinite(no_orth_out["logits"]).all()
+
+    # `no_aux_residual_logit` ablation must zero out the aux residual logit.
+    no_aux = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_aux_residual_logit"}
+    ).eval()
+    with torch.no_grad():
+        no_aux_out = no_aux(x)
+    assert torch.allclose(no_aux_out["aux_residual_logit"], torch.zeros(3))
+
+    # The orbit-mean code really is invariant to the symmetries it averages
+    # over: averaging trunk(view_k(x)) is equal to averaging
+    # trunk(view_k(view_j(x))) up to a permutation of the view list, since the
+    # symmetry orbit is closed under composition. We check the empirical
+    # invariance: forwarding view_k(x) for any k in the orbit produces the
+    # same orbit-mean code as forwarding x.
+    with torch.no_grad():
+        per_view_x = model.orbit(x)
+        invariant_x = model.bottleneck(per_view_x)["invariant_code"]
+        flipped = torch.flip(x, dims=[3])
+        per_view_flipped = model.orbit(flipped)
+        invariant_flipped = model.bottleneck(per_view_flipped)["invariant_code"]
+    assert torch.allclose(invariant_x, invariant_flipped, atol=1e-5)
+
+    # Identical boards must produce identical outputs regardless of batch
+    # position (board-only determinism in eval mode).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "source_invariant_puzzle_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, SourceInvariantPuzzleBottleneck)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_source_invariant_puzzle_bottleneck_from_config
+        is build_source_invariant_puzzle_bottleneck_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i196"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

@@ -21,6 +21,8 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  code_dim: 64
+  ablation: none
   mechanism_family: symmetry
   packet_profile: source_invariant_puzzle_bottleneck
 training:

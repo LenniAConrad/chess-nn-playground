@@ -238,6 +238,9 @@ from chess_nn_playground.models.counterfactual_defender_dropout import (
 from chess_nn_playground.models.exchange_then_king_dual_stream import (
     build_exchange_then_king_dual_stream_from_config,
 )
+from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+    build_source_invariant_puzzle_bottleneck_from_config,
+)
 from chess_nn_playground.models.tactical_symptom_bayesian_network import (
     build_tactical_symptom_bayesian_network_from_config,
 )
@@ -595,6 +598,7 @@ MODEL_BUILDERS = {
     "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
     "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
+    "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

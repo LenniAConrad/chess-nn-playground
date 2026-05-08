@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 164, 'probe_scaffold_only': 69, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 171, 'shared_probe_variant': 69}`
+- Registered implementation states: `{'implemented': 165, 'probe_scaffold_only': 68, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 172, 'shared_probe_variant': 68}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 171 | Materially distinct model implementation. |
-| `shared_probe_variant` | 69 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 172 | Materially distinct model implementation. |
+| `shared_probe_variant` | 68 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -234,7 +234,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i193` | [Exchange-Then-King Dual Stream](i193_exchange_then_king_dual_stream) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i194` | [Tactical Symptom Bayesian Network](i194_tactical_symptom_bayesian_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i195` | [Minimal-Edit Puzzle Distance Network](i195_minimal_edit_puzzle_distance_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i196` | [Source-Invariant Puzzle Bottleneck](i196_source_invariant_puzzle_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i196` | [Source-Invariant Puzzle Bottleneck](i196_source_invariant_puzzle_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i197` | [Reply-Set Contrastive Transformer](i197_reply_set_contrastive_transformer) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i198` | [Barrier-Cut Puzzle Network](i198_barrier_cut_puzzle_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i199` | [Tactical Hessian Spectrum Network](i199_tactical_hessian_spectrum_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
