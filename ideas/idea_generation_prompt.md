@@ -1189,13 +1189,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i098_baseline_logit_residual_adapter",
       "idea_id": "i098",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Baseline Logit Residual Adapter",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`; uses a grammar mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`; bespoke decomposition of the puzzle logit into an explicit simple-CNN-shaped baseline logit plus a FiLM-conditioned, gated residual adapter that is forced (via a detached conditioning vector of the baseline latent, baseline logit, and a deterministic board summary) to encode only signal residual to the baseline.",
+      "output_heads": "One puzzle logit (s = s_b + alpha * g * s_r) plus baseline-vs-residual diagnostics (baseline_logit, residual_logit, adapter_correction, residual_gate, baseline_probability, residual_to_baseline_ratio, baseline_latent_norm, adapter_feature_norm, adapter_field_energy, and pass-through summary scalars) saved to prediction artifacts.",
       "short_thesis": "The existing simple CNN likely has systematic errors. A small residual adapter can test what information remains after the baseline logit and latent representation are known:",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

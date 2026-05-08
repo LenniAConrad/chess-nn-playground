@@ -10766,3 +10766,162 @@ def test_i097_fixed_point_residual_defect_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i098_baseline_logit_residual_adapter_is_bespoke_and_conformant():
+    from chess_nn_playground.models.baseline_logit_residual_adapter import (
+        BaselineLogitBranch,
+        BaselineLogitResidualAdapter,
+        FiLMResidualAdapter,
+        Simple18BoardSummary,
+        build_baseline_logit_residual_adapter_from_config,
+    )
+
+    folder = Path("ideas/i098_baseline_logit_residual_adapter")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, BaselineLogitResidualAdapter)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "baseline_logit_residual_adapter"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert isinstance(model.baseline, BaselineLogitBranch)
+    assert isinstance(model.summary, Simple18BoardSummary)
+    assert isinstance(model.adapter, FiLMResidualAdapter)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — a non-trivial pin/fork pattern.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "baseline_logit",
+        "residual_logit",
+        "adapter_correction",
+        "residual_gate",
+        "baseline_probability",
+        "residual_to_baseline_ratio",
+        "baseline_latent_norm",
+        "adapter_feature_norm",
+        "adapter_field_energy",
+        "material_balance",
+        "material_total",
+        "occupancy_count",
+        "rank_file_imbalance",
+        "center_pressure",
+        "king_ring_pressure",
+    }
+    assert expected_keys.issubset(output)
+    assert output["baseline_logit"].shape == (2,)
+    assert output["residual_logit"].shape == (2,)
+    assert output["adapter_correction"].shape == (2,)
+    assert output["residual_gate"].shape == (2,)
+    # The decomposition s = s_b + alpha * g * s_r must hold exactly at inference.
+    expected_logits = output["baseline_logit"] + output["adapter_correction"]
+    assert torch.allclose(output["logits"], expected_logits, atol=1e-6)
+    # The gate is a sigmoid, so it must lie in (0, 1).
+    assert torch.all(output["residual_gate"] > 0.0)
+    assert torch.all(output["residual_gate"] < 1.0)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "baseline_logit_residual_adapter"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, BaselineLogitResidualAdapter)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Gradients must flow into the baseline branch, the adapter blocks, and both heads.
+    trainable_cfg = dict(config["model"])
+    trainable_cfg.pop("name", None)
+    trainable_cfg.pop("packet_profile", None)
+    trainable_cfg.pop("mechanism_family", None)
+    trainable = build_baseline_logit_residual_adapter_from_config(trainable_cfg)
+    trainable.train()
+    train_output = trainable(x)
+    train_output["logits"].sum().backward()
+    baseline_conv = next(
+        m for m in trainable.baseline.features.modules() if isinstance(m, torch.nn.Conv2d)
+    )
+    adapter_conv = next(
+        m
+        for m in trainable.adapter.blocks.modules()
+        if isinstance(m, torch.nn.Conv2d)
+    )
+    baseline_head = trainable.baseline.logit_head
+    residual_head_linear = next(
+        m for m in trainable.adapter.residual_head if isinstance(m, torch.nn.Linear)
+    )
+    for grad in (
+        baseline_conv.weight.grad,
+        adapter_conv.weight.grad,
+        baseline_head.weight.grad,
+        residual_head_linear.weight.grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The baseline-only ablation (residual_scale=0) must zero the adapter correction
+    # without breaking the contract.
+    ablation_cfg = dict(config["model"])
+    ablation_cfg.pop("name", None)
+    ablation_cfg.pop("packet_profile", None)
+    ablation_cfg.pop("mechanism_family", None)
+    ablation_cfg["residual_scale"] = 0.0
+    ablation_model = build_baseline_logit_residual_adapter_from_config(ablation_cfg).eval()
+    with torch.no_grad():
+        ablation_output = ablation_model(x)
+    assert ablation_output["logits"].shape == (2,)
+    assert torch.allclose(
+        ablation_output["adapter_correction"],
+        torch.zeros_like(ablation_output["adapter_correction"]),
+        atol=1e-7,
+    )
+    assert torch.allclose(ablation_output["logits"], ablation_output["baseline_logit"], atol=1e-6)
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i098"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

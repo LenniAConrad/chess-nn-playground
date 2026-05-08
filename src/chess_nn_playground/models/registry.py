@@ -328,6 +328,9 @@ from chess_nn_playground.models.oriented_matroid_covector import (
 from chess_nn_playground.models.fixed_point_residual import (
     build_fixed_point_residual_defect_network_from_config,
 )
+from chess_nn_playground.models.baseline_logit_residual_adapter import (
+    build_baseline_logit_residual_adapter_from_config,
+)
 from chess_nn_playground.models.rank_quantile import (
     build_rank_quantile_evidence_field_network_from_config,
 )
@@ -489,6 +492,7 @@ MODEL_BUILDERS = {
     "rank_quantile_evidence_field_network": build_rank_quantile_evidence_field_network_from_config,
     "oriented_matroid_covector_bottleneck": build_oriented_matroid_covector_bottleneck_from_config,
     "fixed_point_residual_defect_network": build_fixed_point_residual_defect_network_from_config,
+    "baseline_logit_residual_adapter": build_baseline_logit_residual_adapter_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

@@ -1921,6 +1921,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i098_baseline_logit_residual_adapter/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i098_baseline_logit_residual_adapter",
+      "idea_id": "i098",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "baseline_logit_residual_adapter",
+      "slug": "baseline_logit_residual_adapter",
+      "source_files": [
+        "ideas/i098_baseline_logit_residual_adapter/model.py",
+        "src/chess_nn_playground/models/baseline_logit_residual_adapter.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2979,6 +2999,7 @@
       "ideas/i095_rank_quantile_evidence_field_network",
       "ideas/i096_oriented_matroid_covector_bottleneck",
       "ideas/i097_fixed_point_residual_defect_network",
+      "ideas/i098_baseline_logit_residual_adapter",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -3028,7 +3049,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 144,
+    "implemented_architecture_count": 145,
     "issue_folders": [],
     "validation_issue_count": 0
   }
