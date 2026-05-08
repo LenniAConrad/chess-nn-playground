@@ -2269,13 +2269,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i188_tactical_program_induction_network",
       "idea_id": "i188",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tactical Program Induction Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; bespoke board-only program-induction network that runs an ordered, latent program of typed tactical operations (`threaten`, `pin`, `deflect`, `overload`, `fork`, `clear_line`, `trap_king`, `win_target`) over learned source/target square distributions, grounded against a closed-form typed-relation tensor on the `simple_18` board, with per-step precondition / postcondition / relation evidence combined into a program-coherence summary feeding the puzzle head.",
+      "output_heads": "One puzzle logit plus tactical-program-induction diagnostics (`program_coherence`, `program_log_coherence`, `precondition_score`, `postcondition_score`, `relation_coherence`, `operation_entropy`, `step_coherence`, `step_precondition_scores`, `step_postcondition_scores`, `step_relation_scores`, `operation_probs`, `primary_piece_probs`, `target_square_probs`, `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `relation_fact_count`, `material_balance`, `board_activation_energy`, plus per-op `op_<name>_strength` / `op_<name>_mass` for each typed operation).",
       "short_thesis": "A puzzle can be viewed as a tiny latent program:",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

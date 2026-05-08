@@ -14331,3 +14331,187 @@ def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_program_induction import (
+        OP_COUNT,
+        OP_NAMES,
+        TacticalProgramInductionNetwork,
+        build_tactical_program_induction_network_from_config,
+    )
+
+    folder = Path("ideas/i188_tactical_program_induction_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalProgramInductionNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_program_induction_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    program_steps = model.program_steps
+
+    # Two structurally distinct boards plus an empty-target row.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen on e4 attacks a hanging black knight on e3,
+    # white king e1, black king h8 -- typed facts (threat, win_target)
+    # should fire.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3 (target)
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: pin geometry -- white rook a1, black knight a4
+    # blocks line to black king a8.
+    x[1, 5, 0, 7] = 1.0  # white king h1
+    x[1, 3, 0, 0] = 1.0  # white rook a1
+    x[1, 7, 3, 0] = 1.0  # black knight a4 (pinned to king)
+    x[1, 11, 7, 0] = 1.0  # black king a8
+    # Position 2: white-to-move with no opponent pieces (empty-target
+    # fallback path). Only a white king.
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Per-step program tensors have the expected shapes.
+    assert output["operation_probs"].shape == (3, program_steps, OP_COUNT)
+    assert output["primary_piece_probs"].shape == (3, program_steps, 64)
+    assert output["target_square_probs"].shape == (3, program_steps, 64)
+    for key in (
+        "step_coherence",
+        "step_precondition_scores",
+        "step_postcondition_scores",
+        "step_relation_scores",
+    ):
+        assert output[key].shape == (3, program_steps), key
+
+    # Per-row program-level scalars.
+    for key in (
+        "program_coherence",
+        "program_log_coherence",
+        "precondition_score",
+        "postcondition_score",
+        "relation_coherence",
+        "operation_entropy",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "relation_fact_count",
+        "material_balance",
+        "board_activation_energy",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Operation probabilities sum to 1 over OP_COUNT and stay in [0, 1].
+    op_sums = output["operation_probs"].sum(dim=-1)
+    assert torch.allclose(op_sums, torch.ones_like(op_sums), atol=1e-5)
+    assert (output["operation_probs"] >= 0.0).all()
+
+    # Source / target square distributions sum to 1 over 64 squares.
+    src_sums = output["primary_piece_probs"].sum(dim=-1)
+    tgt_sums = output["target_square_probs"].sum(dim=-1)
+    assert torch.allclose(src_sums, torch.ones_like(src_sums), atol=1e-4)
+    assert torch.allclose(tgt_sums, torch.ones_like(tgt_sums), atol=1e-4)
+
+    # Coherence scores live in (0, 1].
+    assert ((output["program_coherence"] > 0.0) & (output["program_coherence"] <= 1.0 + 1e-5)).all()
+    assert ((output["precondition_score"] > 0.0) & (output["precondition_score"] <= 1.0 + 1e-5)).all()
+    assert ((output["postcondition_score"] > 0.0) & (output["postcondition_score"] <= 1.0 + 1e-5)).all()
+    assert ((output["relation_coherence"] >= 0.0) & (output["relation_coherence"] <= 1.0 + 1e-5)).all()
+
+    # Per-op typed-fact strength and program op-mass are exposed for
+    # every typed operation in the alphabet.
+    for name in OP_NAMES:
+        assert output[f"op_{name}_strength"].shape == (3,), name
+        assert output[f"op_{name}_mass"].shape == (3,), name
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["operation_probs"][0],
+        twin_output["operation_probs"][1],
+        atol=1e-5,
+    )
+
+    # Configured knobs reach the model.
+    assert model.program_steps == int(config["model"].get("program_steps", 4))
+    assert model.token_dim == int(config["model"].get("token_dim", config["model"].get("hidden_dim", 96)))
+    assert model.ablation == "none"
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        TacticalProgramInductionNetwork(num_classes=2)
+
+    # Ablation switches actually produce structurally different programs.
+    one_step_model = build_tactical_program_induction_network_from_config(
+        {**config["model"], "ablation": "one_step_program"}
+    ).eval()
+    with torch.no_grad():
+        one_step_output = one_step_model(x)
+    assert one_step_model.active_steps == 1
+    # Padded steps must have uniform op probabilities and zero pre/post/relation.
+    pad_op_probs = one_step_output["operation_probs"][:, 1:, :]
+    assert torch.allclose(
+        pad_op_probs,
+        torch.full_like(pad_op_probs, 1.0 / OP_COUNT),
+        atol=1e-5,
+    )
+    assert one_step_output["step_precondition_scores"][:, 1:].abs().max().item() < 1e-6
+    assert one_step_output["step_postcondition_scores"][:, 1:].abs().max().item() < 1e-6
+    assert one_step_output["step_relation_scores"][:, 1:].abs().max().item() < 1e-6
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_program_induction_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalProgramInductionNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_program_induction_network_from_config
+        is build_tactical_program_induction_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i188"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

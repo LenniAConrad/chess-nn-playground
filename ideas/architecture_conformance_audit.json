@@ -2641,6 +2641,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i188_tactical_program_induction_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i188_tactical_program_induction_network",
+      "idea_id": "i188",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tactical_program_induction_network",
+      "slug": "tactical_program_induction_network",
+      "source_files": [
+        "ideas/i188_tactical_program_induction_network/model.py",
+        "src/chess_nn_playground/models/tactical_program_induction.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i190_blocker_pin_lattice_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3475,6 +3495,7 @@
       "ideas/i185_critical_square_budget_network",
       "ideas/i186_legal_reaction_bottleneck_network",
       "ideas/i187_exchange_soundness_graph_network",
+      "ideas/i188_tactical_program_induction_network",
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
@@ -3511,7 +3532,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 167,
+    "implemented_architecture_count": 168,
     "issue_folders": [],
     "validation_issue_count": 0
   }

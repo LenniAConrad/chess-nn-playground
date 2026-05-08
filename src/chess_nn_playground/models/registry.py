@@ -129,6 +129,9 @@ from chess_nn_playground.models.critical_square_budget_network import (
 from chess_nn_playground.models.exchange_soundness_graph_network import (
     build_exchange_soundness_graph_network_from_config,
 )
+from chess_nn_playground.models.tactical_program_induction import (
+    build_tactical_program_induction_network_from_config,
+)
 from chess_nn_playground.models.legal_reaction_bottleneck_network import (
     build_legal_reaction_bottleneck_network_from_config,
 )
@@ -570,6 +573,7 @@ MODEL_BUILDERS = {
     "critical_square_budget_network": build_critical_square_budget_network_from_config,
     "legal_reaction_bottleneck_network": build_legal_reaction_bottleneck_network_from_config,
     "exchange_soundness_graph_network": build_exchange_soundness_graph_network_from_config,
+    "tactical_program_induction_network": build_tactical_program_induction_network_from_config,
     "prototype_margin_puzzle_network": build_prototype_margin_puzzle_network_from_config,
     "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
     "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,

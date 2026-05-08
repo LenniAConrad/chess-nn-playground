@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `167`
+- Implemented architecture rows audited: `168`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -144,6 +144,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i185` | `ideas/i185_critical_square_budget_network` | `critical_square_budget_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i185_critical_square_budget_network/model.py`<br>`src/chess_nn_playground/models/critical_square_budget_network.py` | - |
 | `i186` | `ideas/i186_legal_reaction_bottleneck_network` | `legal_reaction_bottleneck_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i186_legal_reaction_bottleneck_network/model.py`<br>`src/chess_nn_playground/models/legal_reaction_bottleneck_network.py` | - |
 | `i187` | `ideas/i187_exchange_soundness_graph_network` | `exchange_soundness_graph_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i187_exchange_soundness_graph_network/model.py`<br>`src/chess_nn_playground/models/exchange_soundness_graph_network.py` | - |
+| `i188` | `ideas/i188_tactical_program_induction_network` | `tactical_program_induction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i188_tactical_program_induction_network/model.py`<br>`src/chess_nn_playground/models/tactical_program_induction.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |
