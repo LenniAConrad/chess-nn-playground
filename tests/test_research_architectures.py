@@ -12087,3 +12087,117 @@ def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.near_puzzle_margin_twin_network import (
+        NearPuzzleMarginTwinNetwork,
+        build_near_puzzle_margin_twin_network_from_config,
+    )
+
+    folder = Path("ideas/i172_near_puzzle_margin_twin_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NearPuzzleMarginTwinNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "near_puzzle_margin_twin_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["z_shared"].shape == (2, model.shared_dim)
+    assert output["z_ordinary"].shape == (2, model.ordinary_dim)
+    assert output["z_tactical"].shape == (2, model.tactical_dim)
+    assert output["ordinary_norm"].shape == (2,)
+    assert output["tactical_norm"].shape == (2,)
+    assert output["ordinary_tactical_alignment"].shape == (2,)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["puzzle_margin_signal"].shape == (2,)
+    assert torch.equal(output["puzzle_margin_signal"], output["logits"])
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Twin head reads tactical latent only -- gradient through z_ordinary
+    # vanishes for the puzzle logit.
+    grad_model = build_near_puzzle_margin_twin_network_from_config(dict(config["model"])).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8, requires_grad=False)
+    x_grad[:, 12] = 1.0
+    out = grad_model(x_grad)
+    out["logits"].sum().backward()
+    ordinary_params = [
+        p.grad for p in grad_model.ordinary_projector.parameters() if p.grad is not None
+    ]
+    tactical_params = [
+        p.grad for p in grad_model.tactical_projector.parameters() if p.grad is not None
+    ]
+    assert tactical_params, "tactical projector must receive gradient from puzzle logit"
+    for grad in tactical_params:
+        assert torch.isfinite(grad).all()
+    assert all(torch.allclose(grad, torch.zeros_like(grad)) for grad in ordinary_params)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "near_puzzle_margin_twin_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NearPuzzleMarginTwinNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["z_ordinary"].shape == (2, registry_model.ordinary_dim)
+    assert registry_output["z_tactical"].shape == (2, registry_model.tactical_dim)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_near_puzzle_margin_twin_network_from_config
+        is build_near_puzzle_margin_twin_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i172"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

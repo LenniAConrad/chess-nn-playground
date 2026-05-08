@@ -2361,6 +2361,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i172_near_puzzle_margin_twin_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i172_near_puzzle_margin_twin_network",
+      "idea_id": "i172",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "near_puzzle_margin_twin_network",
+      "slug": "near_puzzle_margin_twin_network",
+      "source_files": [
+        "ideas/i172_near_puzzle_margin_twin_network/model.py",
+        "src/chess_nn_playground/models/near_puzzle_margin_twin_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i190_blocker_pin_lattice_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3181,6 +3201,7 @@
       "ideas/i169_rank_file_memory_grid_net",
       "ideas/i170_negative_class_disentangled_puzzle_head",
       "ideas/i171_line_piece_crossbar_network",
+      "ideas/i172_near_puzzle_margin_twin_network",
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
@@ -3217,7 +3238,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 153,
+    "implemented_architecture_count": 154,
     "issue_folders": [],
     "validation_issue_count": 0
   }
