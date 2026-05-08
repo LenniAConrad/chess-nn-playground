@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 154, 'probe_scaffold_only': 79, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 161, 'shared_probe_variant': 79}`
+- Registered implementation states: `{'implemented': 156, 'probe_scaffold_only': 77, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 163, 'shared_probe_variant': 77}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 161 | Materially distinct model implementation. |
-| `shared_probe_variant` | 79 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 163 | Materially distinct model implementation. |
+| `shared_probe_variant` | 77 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -157,8 +157,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i116` | [Symmetric Difference Twin Encoder](i116_symmetric_difference_twin_encoder) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i117` | [Prototype Patch Dictionary Network](i117_prototype_patch_dictionary_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i118` | [Channel Dropout Consensus Network](i118_channel_dropout_consensus_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i119` | [Tensor-Ring Square Interaction Network](i119_tensor_ring_square_interaction_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i120` | [Sinkhorn Role Assignment Network](i120_sinkhorn_role_assignment_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i119` | [Tensor-Ring Square Interaction Network](i119_tensor_ring_square_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i120` | [Sinkhorn Role Assignment Network](i120_sinkhorn_role_assignment_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i121` | [Morphological Threat Field Network](i121_morphological_threat_field_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i122` | [Invertible Board Coupling Network](i122_invertible_board_coupling_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i123` | [Sparse Expert Board Router](i123_sparse_expert_board_router) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

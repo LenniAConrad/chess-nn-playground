@@ -4015,35 +4015,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i120_sinkhorn_role_assignment_network",
       "idea_id": "i120",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "sinkhorn_role_assignment_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "sinkhorn_role_assignment_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.sinkhorn_role_assignment_network.build_sinkhorn_role_assignment_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.sinkhorn_role_assignment_network.build_sinkhorn_role_assignment_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.sinkhorn_role_assignment_network.SinkhornRoleAssignmentNetwork",
+          "chess_nn_playground.models.sinkhorn_role_assignment_network.build_sinkhorn_role_assignment_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8283,19 +8281,18 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 162,
-      "shared_probe_variant": 78
+      "bespoke_model": 163,
+      "shared_probe_variant": 77
     },
     "by_metadata_kind": {
-      "bespoke_model": 162,
-      "shared_probe_variant": 78
+      "bespoke_model": 163,
+      "shared_probe_variant": 77
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
       "ideas/i118_channel_dropout_consensus_network",
-      "ideas/i120_sinkhorn_role_assignment_network",
       "ideas/i121_morphological_threat_field_network",
       "ideas/i122_invertible_board_coupling_network",
       "ideas/i123_sparse_expert_board_router",

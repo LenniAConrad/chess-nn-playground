@@ -17,12 +17,19 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
-  hidden_dim: 96
+  hidden_dim: 128
   depth: 2
   dropout: 0.1
-  use_batchnorm: true
-  mechanism_family: transport
-  packet_profile: sinkhorn_role_assignment_network
+  num_roles: 10
+  max_tokens: 32
+  sinkhorn_iters: 8
+  sinkhorn_temperature: 0.5
+  token_hidden: 96
+  pair_hidden: 64
+  head_hidden: 128
+  cnn_channels: 32
+  cnn_depth: 2
+  use_dustbin: true
 training:
   epochs: 20
   batch_size: 256

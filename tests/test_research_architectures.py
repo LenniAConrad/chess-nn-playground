@@ -12953,3 +12953,137 @@ def test_i119_tensor_ring_square_interaction_network_is_bespoke_and_conformant()
     assert not conformance_rows[0].issues
     # Sanity: hidden_dim is the classifier's intermediate width.
     assert hidden_dim == model.hidden_dim
+
+
+def test_i120_sinkhorn_role_assignment_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i120_sinkhorn_role_assignment_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    token_dim = int(model_cfg["channels"])  # config maps channels -> token_dim
+    num_roles = int(model_cfg["num_roles"])
+    max_tokens = int(model_cfg["max_tokens"])
+    total_roles = num_roles + (1 if model_cfg.get("use_dustbin", True) else 0)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # side-to-move plane
+    x[0, 0, 1, 0] = 1.0  # white pawn a2
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 11, 7, 4] = 1.0  # black king e8
+    x[1, 1, 0, 1] = 1.0  # white knight b1
+    x[1, 5, 0, 6] = 1.0  # white king g1
+    x[1, 11, 7, 4] = 1.0  # black king e8
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "tokens",
+        "token_mask",
+        "occupancy_mask",
+        "cost",
+        "assignment",
+        "role_vectors",
+        "role_mass",
+        "role_share",
+        "role_norms",
+        "piece_share",
+        "piece_share_mean",
+        "piece_share_var",
+        "dustbin_share",
+        "mean_assignment_entropy",
+        "pair_summary",
+        "cnn_summary",
+        "diagnostic_features",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["tokens"].shape == (2, max_tokens, token_dim)
+    assert output["assignment"].shape == (2, max_tokens, total_roles)
+    assert output["role_vectors"].shape == (2, total_roles, token_dim)
+    assert output["role_mass"].shape == (2, total_roles)
+    assert output["role_share"].shape == (2, total_roles)
+    assert output["role_norms"].shape == (2, total_roles)
+    assert output["piece_share"].shape == (2, max_tokens)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Sinkhorn transport must be non-negative.
+    assert (output["assignment"] >= 0.0).all()
+
+    # Row sums equal the token mask: occupied pieces transport mass 1, padded
+    # rows transport mass 0.
+    row_sums = output["assignment"].sum(dim=-1)
+    token_mask = output["token_mask"]
+    assert torch.allclose(row_sums, token_mask, atol=1.0e-4)
+
+    # Column sums match the learned role-mass prior scaled by the active
+    # token count.
+    col_sums = output["assignment"].sum(dim=1)
+    token_count = token_mask.sum(dim=-1, keepdim=True)
+    role_prior = torch.softmax(model.role_mass_logits, dim=-1)
+    expected_col = role_prior.unsqueeze(0) * token_count
+    assert torch.allclose(col_sums, expected_col, atol=1.0e-4)
+
+    # Padded rows must contribute zero to role pooling.
+    padded_rows = output["assignment"][token_mask <= 0.0]
+    assert torch.all(padded_rows == 0.0)
+
+    # role_vectors[b, j, :] = sum_i A[b, i, j] * tokens[b, i, :]
+    expected_roles = torch.einsum("bij,bid->bjd", output["assignment"], output["tokens"])
+    assert torch.allclose(expected_roles, output["role_vectors"], atol=1.0e-5)
+
+    # Role prototypes and the mass prior must be learnable parameters.
+    assert isinstance(model.role_prototypes, torch.nn.Parameter)
+    assert model.role_prototypes.shape == (total_roles, token_dim)
+    assert model.role_prototypes.requires_grad
+    assert isinstance(model.role_mass_logits, torch.nn.Parameter)
+    assert model.role_mass_logits.shape == (total_roles,)
+    assert model.role_mass_logits.requires_grad
+
+    # Building from the registry must work and must not be backed by the
+    # research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "sinkhorn_role_assignment_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea-local wrapper must not import or call the research-packet
+    # probe.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i120"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
