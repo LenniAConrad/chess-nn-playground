@@ -2233,13 +2233,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i185_critical_square_budget_network",
       "idea_id": "i185",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Critical-Square Budget Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`; bespoke board-only critical-square budget network that produces a soft mask over the 64 squares with a fixed total mass `K` and routes the puzzle logit through that mask, with deterministic king-zone / promotion / line-intersection priors fed to the saliency head.",
+      "output_heads": "One puzzle logit plus critical-square diagnostics (`saliency_mask`, `saliency_logits`, `budget_used`, `saliency_entropy`, `top_k_mass`, `own_king_zone_mass`, `opp_king_zone_mass`, `promotion_mass`, `line_intersection_mass`, `empty_square_mass`, `trunk_energy`).",
       "short_thesis": "Puzzles often hinge on a small number of critical squares: king escape squares, line intersections, pinned-piece squares, promotion squares, or overloaded defender squares.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -5861,7 +5861,7 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:50:01+00:00",
       "folder": "ideas/i184_puzzle_boundary_twin_encoder",
       "idea_id": "i184",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "implementation_status": "probe_scaffold_only",
       "mechanism_family": "convex",
       "name": "Puzzle Boundary Twin Encoder",

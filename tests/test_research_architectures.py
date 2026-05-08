@@ -13845,3 +13845,138 @@ def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.critical_square_budget_network import (
+        CriticalSquareBudgetNetwork,
+        build_critical_square_budget_network_from_config,
+    )
+
+    folder = Path("ideas/i185_critical_square_budget_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CriticalSquareBudgetNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "critical_square_budget_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    budget = float(config["model"]["budget"])
+
+    # Build a small batch with three structurally distinct positions so
+    # the saliency mask actually exercises the prior regions.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Puzzle-like: white rook checking the black king on the back rank.
+    x[0, 5, 0, 4] = 1.0
+    x[0, 3, 7, 4] = 1.0
+    x[0, 11, 7, 0] = 1.0
+    # Near-puzzle: same material on adjacent squares.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 7, 5] = 1.0
+    x[1, 11, 7, 0] = 1.0
+    # Random placement with a white pawn one square from promotion.
+    x[2, 5, 0, 4] = 1.0
+    x[2, 0, 6, 0] = 1.0
+    x[2, 11, 7, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    assert output["saliency_logits"].shape == (3, 8, 8)
+    assert output["saliency_mask"].shape == (3, 8, 8)
+    assert (output["saliency_mask"] >= 0.0).all()
+
+    # Budget contract: mask sums to budget per batch row.
+    budget_used = output["budget_used"]
+    assert budget_used.shape == (3,)
+    assert torch.allclose(budget_used, torch.full_like(budget_used, budget), atol=1e-4)
+
+    # Sanity: top-K mass is bounded by budget and entropy is non-negative.
+    assert (output["top_k_mass"] >= 0.0).all()
+    assert (output["top_k_mass"] <= budget + 1e-4).all()
+    assert (output["saliency_entropy"] >= -1e-6).all()
+
+    # Prior-region masses sum to <= budget (priors overlap, so we can't
+    # demand equality, but each must be non-negative and bounded).
+    for key in (
+        "own_king_zone_mass",
+        "opp_king_zone_mass",
+        "promotion_mass",
+        "line_intersection_mass",
+        "empty_square_mass",
+    ):
+        assert output[key].shape == (3,)
+        assert (output[key] >= -1e-6).all(), key
+        assert (output[key] <= budget + 1e-4).all(), key
+
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (sanity test for board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(twin_output["saliency_mask"][0], twin_output["saliency_mask"][1], atol=1e-5)
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+    assert model.budget == budget
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "critical_square_budget_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CriticalSquareBudgetNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_critical_square_budget_network_from_config
+        is build_critical_square_budget_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i185"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
