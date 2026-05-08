@@ -2221,13 +2221,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i184_puzzle_boundary_twin_encoder",
       "idea_id": "i184",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Puzzle Boundary Twin Encoder",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`; bespoke siamese board encoder with a linear boundary surface in a unit-norm embedding space, exposing the raw signed margin so the trainer can attach the packet's in-batch (puzzle, near, random) pair-margin objective.",
+      "output_heads": "One puzzle logit plus boundary diagnostics (`boundary_score`, `boundary_distance`, `boundary_embedding`, `embedding_norm`, `trunk_energy`).",
       "short_thesis": "The hardest part is the boundary between verified puzzles and verified near-puzzles. Learn that boundary directly with a twin encoder and margin objective.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -5843,7 +5843,7 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:50:01+00:00",
       "folder": "ideas/i183_tempo_alignment_gate_network",
       "idea_id": "i183",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "implementation_status": "probe_scaffold_only",
       "mechanism_family": "tempo",
       "name": "Tempo-Alignment Gate Network",

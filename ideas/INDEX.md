@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 156, 'probe_scaffold_only': 77, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 163, 'shared_probe_variant': 77}`
+- Registered implementation states: `{'implemented': 157, 'probe_scaffold_only': 76, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 164, 'shared_probe_variant': 76}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 163 | Materially distinct model implementation. |
-| `shared_probe_variant` | 77 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 164 | Materially distinct model implementation. |
+| `shared_probe_variant` | 76 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -222,7 +222,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i181` | [Disproof-Ledger Puzzle Network](i181_disproof_ledger_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i182` | [Motif Tensor Factorization Network](i182_motif_tensor_factorization_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i183` | [Tempo-Alignment Gate Network](i183_tempo_alignment_gate_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i184` | [Puzzle Boundary Twin Encoder](i184_puzzle_boundary_twin_encoder) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i184` | [Puzzle Boundary Twin Encoder](i184_puzzle_boundary_twin_encoder) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i185` | [Critical-Square Budget Network](i185_critical_square_budget_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i186` | [Legal-Reaction Bottleneck Network](i186_legal_reaction_bottleneck_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i187` | [Exchange-Soundness Graph Network](i187_exchange_soundness_graph_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

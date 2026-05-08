@@ -6,6 +6,31 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturda
 
 Batch candidate rank: `8`.
 
-Working thesis: The hardest part is the boundary between verified puzzles and verified near-puzzles. Learn that boundary directly with a twin encoder and margin objective.
+Working thesis: The hardest part of the `puzzle_binary` task is the
+decision boundary between verified puzzles and verified near-puzzles.
+A single-readout classifier collapses them because they share material,
+king geometry, and threat structure. Learn that boundary directly with
+a siamese (twin) encoder shared across in-batch pairs (puzzle, near,
+random) and a margin objective on a linear boundary surface in a
+unit-norm embedding space.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+Geometry. Let `z = encoder(board)` be a shared encoder. Project to a
+margin embedding `e = projector(z)` and L2-normalise to the unit
+sphere `e_unit = e / ||e||`. The decision boundary is the hyperplane
+`{e_unit : <e_unit, w_unit> = -b / s}` for a learned unit direction
+`w_unit`, learned scale `s > 0`, and learned bias `b`. The puzzle
+logit is the signed cosine margin to that hyperplane,
+
+    boundary_score(board) = <e_unit, w_unit> * s + b
+    logit                  = boundary_score.
+
+Training contract. The trainer applies BCE-with-logits on `logit` and,
+when reliable in-batch pair groups are available, the packet's pair-
+margin terms,
+
+    boundary_score(puzzle) >= boundary_score(near)   + m_near,
+    boundary_score(near)   >= boundary_score(random) + m_random_surface.
+
+These are exactly the inequalities the markdown idea writes down; the
+forward pass exposes `boundary_score` and the unit-norm embedding so
+the trainer can compute them without rerunning the encoder.

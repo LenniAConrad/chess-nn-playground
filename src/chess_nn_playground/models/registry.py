@@ -120,6 +120,9 @@ from chess_nn_playground.models.line_piece_crossbar_network import (
 from chess_nn_playground.models.near_puzzle_margin_twin_network import (
     build_near_puzzle_margin_twin_network_from_config,
 )
+from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+    build_puzzle_boundary_twin_encoder_from_config,
+)
 from chess_nn_playground.models.prototype_margin_puzzle_network import (
     build_prototype_margin_puzzle_network_from_config,
 )
@@ -554,6 +557,7 @@ MODEL_BUILDERS = {
     "rank_file_memory_grid_net": build_rank_file_memory_grid_net_from_config,
     "line_piece_crossbar_network": build_line_piece_crossbar_network_from_config,
     "near_puzzle_margin_twin_network": build_near_puzzle_margin_twin_network_from_config,
+    "puzzle_boundary_twin_encoder": build_puzzle_boundary_twin_encoder_from_config,
     "prototype_margin_puzzle_network": build_prototype_margin_puzzle_network_from_config,
     "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
     "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,

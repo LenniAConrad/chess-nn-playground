@@ -13716,3 +13716,132 @@ def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
+    from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+        PuzzleBoundaryTwinEncoder,
+        build_puzzle_boundary_twin_encoder_from_config,
+    )
+
+    folder = Path("ideas/i184_puzzle_boundary_twin_encoder")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PuzzleBoundaryTwinEncoder)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "puzzle_boundary_twin_encoder"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    embedding_dim = model.embedding_dim
+    shared_dim = model.shared_dim
+
+    # Build a small in-batch (puzzle, near, random) triple so the
+    # margin contract is exercised with three distinct positions.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Puzzle-like: white rook checking the black king on the back rank.
+    x[0, 5, 0, 4] = 1.0
+    x[0, 3, 7, 4] = 1.0
+    x[0, 11, 7, 0] = 1.0
+    # Near-puzzle: same material on adjacent squares (no real check).
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 7, 5] = 1.0
+    x[1, 11, 7, 0] = 1.0
+    # Random: starting-rank-ish placement.
+    x[2, 5, 0, 4] = 1.0
+    x[2, 3, 0, 0] = 1.0
+    x[2, 11, 7, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["boundary_score"].shape == (3,)
+    assert output["boundary_distance"].shape == (3,)
+    assert (output["boundary_distance"] >= 0.0).all()
+    assert output["boundary_embedding"].shape == (3, embedding_dim)
+    assert output["z_shared"].shape == (3, shared_dim)
+    assert output["embedding_norm"].shape == (3,)
+    assert (output["embedding_norm"] >= 0.0).all()
+    assert output["trunk_energy"].shape == (3,)
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    # boundary_score equals logits in the binary case so the trainer's
+    # in-batch pair-margin reads against the same scalar the BCE term
+    # uses.
+    assert torch.equal(output["boundary_score"], output["logits"])
+
+    # boundary_embedding is unit-normalised (margin objective is
+    # scale-free in this latent).
+    embed_norm = output["boundary_embedding"].norm(dim=1)
+    assert torch.allclose(embed_norm, torch.ones_like(embed_norm), atol=1e-4)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Twin = shared encoder: two identical boards must produce
+    # identical logits, regardless of where they sit in the batch.
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["boundary_embedding"][0],
+        twin_output["boundary_embedding"][1],
+        atol=1e-5,
+    )
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "puzzle_boundary_twin_encoder"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PuzzleBoundaryTwinEncoder)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_puzzle_boundary_twin_encoder_from_config
+        is build_puzzle_boundary_twin_encoder_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i184"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
