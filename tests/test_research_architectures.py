@@ -11854,3 +11854,101 @@ def test_i110_spline_board_surface_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i111_boundary_condition_disagreement_cnn_is_bespoke_and_conformant():
+    folder = Path("ideas/i111_boundary_condition_disagreement_cnn")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg.get("channels", 64))
+    boundary_modes = tuple(model.boundary_modes)
+    num_modes = len(boundary_modes)
+    assert num_modes >= 2
+    assert set(boundary_modes).issubset({"zeros", "reflect", "replicate", "circular"})
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 0, 0] = 1.0
+    x[:, 0, 1, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "boundary_features",
+        "disagreement_map",
+        "disagreement_mean",
+        "disagreement_max",
+        "disagreement_energy",
+        "pairwise_disagreement_energy",
+        "per_mode_mean",
+        "per_mode_max",
+        "per_mode_pooled",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["boundary_features"].shape == (num_modes, 2, channels, 8, 8)
+    assert output["disagreement_map"].shape == (2, channels, 8, 8)
+    assert output["disagreement_mean"].shape == (2, channels)
+    assert output["disagreement_max"].shape == (2, channels)
+    assert output["disagreement_energy"].shape == (2, 2 * channels)
+    assert output["pairwise_disagreement_energy"].shape == (2, num_modes, num_modes)
+    assert output["per_mode_mean"].shape == (2, num_modes, channels)
+    assert output["per_mode_max"].shape == (2, num_modes, channels)
+    assert output["per_mode_pooled"].shape == (2, num_modes, 2 * channels)
+
+    # Variance and pairwise energies are non-negative.
+    assert (output["disagreement_map"] >= -1.0e-6).all()
+    assert (output["pairwise_disagreement_energy"] >= -1.0e-6).all()
+    diag = torch.diagonal(output["pairwise_disagreement_energy"], dim1=-2, dim2=-1)
+    assert torch.allclose(diag, torch.zeros_like(diag), atol=1.0e-5)
+    pairwise = output["pairwise_disagreement_energy"]
+    assert torch.allclose(pairwise, pairwise.transpose(-1, -2), atol=1.0e-5)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "boundary_condition_disagreement_cnn"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i111"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

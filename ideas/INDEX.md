@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 147, 'probe_scaffold_only': 86, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 154, 'shared_probe_variant': 86}`
+- Registered implementation states: `{'implemented': 148, 'probe_scaffold_only': 85, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 155, 'shared_probe_variant': 85}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 154 | Materially distinct model implementation. |
-| `shared_probe_variant` | 86 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 155 | Materially distinct model implementation. |
+| `shared_probe_variant` | 85 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -149,7 +149,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i108` | [TensorSketch Interaction Network](i108_tensorsketch_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i109` | [Maxout Region Signature Network](i109_maxout_region_signature_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i110` | [Spline Board Surface Network](i110_spline_board_surface_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i111` | [Boundary-Condition Disagreement CNN](i111_boundary_condition_disagreement_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i111` | [Boundary-Condition Disagreement CNN](i111_boundary_condition_disagreement_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i112` | [Piece-Drop Stability Network](i112_piece_drop_stability_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i113` | [Row-File Factor Mixer](i113_row_file_factor_mixer) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i114` | [Piece-Conditioned Hypernetwork CNN](i114_piece_conditioned_hypernetwork_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

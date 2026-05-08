@@ -2181,6 +2181,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i111_boundary_condition_disagreement_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i111_boundary_condition_disagreement_cnn",
+      "idea_id": "i111",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "boundary_condition_disagreement_cnn",
+      "slug": "boundary_condition_disagreement_cnn",
+      "source_files": [
+        "ideas/i111_boundary_condition_disagreement_cnn/model.py",
+        "src/chess_nn_playground/models/boundary_condition_disagreement_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3192,6 +3212,7 @@
       "ideas/i108_tensorsketch_interaction_network",
       "ideas/i109_maxout_region_signature_network",
       "ideas/i110_spline_board_surface_network",
+      "ideas/i111_boundary_condition_disagreement_cnn",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3238,7 +3259,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 154,
+    "implemented_architecture_count": 155,
     "issue_folders": [],
     "validation_issue_count": 0
   }

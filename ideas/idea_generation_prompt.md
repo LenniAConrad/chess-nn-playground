@@ -1345,13 +1345,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i111_boundary_condition_disagreement_cnn",
       "idea_id": "i111",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Boundary-Condition Disagreement CNN",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; a board-only puzzle classifier whose head reads the disagreement between a shared-weight convolutional trunk run under several boundary conditions, rather than a generic CNN feature pool.",
+      "output_heads": "One puzzle logit plus per-mode feature pools, per-position disagreement map, disagreement-pool features, and pairwise disagreement-energy matrix saved to prediction artifacts.",
       "short_thesis": "Chess board edges matter: pawns, rooks, kings, and tactics behave differently near boundaries. A CNN's padding convention imposes a boundary assumption. Run a shared CNN under multiple boundary conditions and classify from disagreement.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
