@@ -313,6 +313,9 @@ from chess_nn_playground.models.bounded_board_hinge_logic import (
 from chess_nn_playground.models.traced_threat_motif import (
     build_traced_threat_motif_network_from_config,
 )
+from chess_nn_playground.models.parity_syndrome import (
+    build_parity_syndrome_puzzle_bottleneck_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -465,6 +468,7 @@ MODEL_BUILDERS = {
     "tactical_state_bottleneck_inference": build_tactical_state_bottleneck_from_config,
     "traced_threat_motif_network": build_traced_threat_motif_network_from_config,
     "bounded_board_hinge_logic": build_bounded_board_hinge_logic_from_config,
+    "parity_syndrome_puzzle_bottleneck": build_parity_syndrome_puzzle_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

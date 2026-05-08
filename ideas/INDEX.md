@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 131, 'probe_scaffold_only': 102, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 138, 'shared_probe_variant': 102}`
+- Registered implementation states: `{'implemented': 132, 'probe_scaffold_only': 101, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 139, 'shared_probe_variant': 101}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 138 | Materially distinct model implementation. |
-| `shared_probe_variant` | 102 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 139 | Materially distinct model implementation. |
+| `shared_probe_variant` | 101 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -130,7 +130,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i089` | [Bounded Board Hinge Logic](i089_bounded_board_hinge_logic) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i090` | [Chess-Mode Tucker Relation Certificate](i090_chess_mode_tucker_relation_certificate) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i091` | [Tactical State Bottleneck Inference](i091_tactical_state_bottleneck_inference) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i092` | [Parity-Syndrome Puzzle Bottleneck](i092_parity_syndrome_puzzle_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i092` | [Parity-Syndrome Puzzle Bottleneck](i092_parity_syndrome_puzzle_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i093` | [Wavelet Scattering Board Network](i093_wavelet_scattering_board_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i094` | [Convex Feasibility Residual Network](i094_convex_feasibility_residual_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i095` | [Rank-Quantile Evidence Field Network](i095_rank_quantile_evidence_field_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
