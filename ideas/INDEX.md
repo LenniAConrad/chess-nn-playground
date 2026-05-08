@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 138, 'probe_scaffold_only': 95, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 145, 'shared_probe_variant': 95}`
+- Registered implementation states: `{'implemented': 139, 'probe_scaffold_only': 94, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 146, 'shared_probe_variant': 94}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 145 | Materially distinct model implementation. |
-| `shared_probe_variant` | 95 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 146 | Materially distinct model implementation. |
+| `shared_probe_variant` | 94 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -137,7 +137,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i096` | [Oriented Matroid Covector Bottleneck](i096_oriented_matroid_covector_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i097` | [Fixed-Point Residual Defect Network](i097_fixed_point_residual_defect_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i098` | [Baseline Logit Residual Adapter](i098_baseline_logit_residual_adapter) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i099` | [Coarse-to-Fine Board Residual Pyramid](i099_coarse_to_fine_board_residual_pyramid) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i099` | [Coarse-to-Fine Board Residual Pyramid](i099_coarse_to_fine_board_residual_pyramid) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i100` | [Independence Residual Interaction Network](i100_independence_residual_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i101` | [Residual Calibration Error Field](i101_residual_calibration_error_field) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i102` | [Set-Query Attention Bottleneck](i102_set_query_attention_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

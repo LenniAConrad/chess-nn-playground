@@ -1941,6 +1941,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i099_coarse_to_fine_board_residual_pyramid/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i099_coarse_to_fine_board_residual_pyramid",
+      "idea_id": "i099",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "coarse_to_fine_board_residual_pyramid",
+      "slug": "coarse_to_fine_board_residual_pyramid",
+      "source_files": [
+        "ideas/i099_coarse_to_fine_board_residual_pyramid/model.py",
+        "src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3000,6 +3020,7 @@
       "ideas/i096_oriented_matroid_covector_bottleneck",
       "ideas/i097_fixed_point_residual_defect_network",
       "ideas/i098_baseline_logit_residual_adapter",
+      "ideas/i099_coarse_to_fine_board_residual_pyramid",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -3049,7 +3070,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 145,
+    "implemented_architecture_count": 146,
     "issue_folders": [],
     "validation_issue_count": 0
   }

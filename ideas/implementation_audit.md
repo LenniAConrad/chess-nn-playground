@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 145 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 95 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 146 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 94 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i099_coarse_to_fine_board_residual_pyramid`
 - `ideas/i103_attention_disagreement_residual_network`
 - `ideas/i104_cross_scale_attention_residual_network`
 - `ideas/i105_slot_attention_role_binding_network`
@@ -222,7 +221,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i096` | `ideas/i096_oriented_matroid_covector_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `oriented_matroid_covector_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i097` | `ideas/i097_fixed_point_residual_defect_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `fixed_point_residual_defect_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i098` | `ideas/i098_baseline_logit_residual_adapter` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `baseline_logit_residual_adapter` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i099` | `ideas/i099_coarse_to_fine_board_residual_pyramid` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `coarse_to_fine_board_residual_pyramid` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i099` | `ideas/i099_coarse_to_fine_board_residual_pyramid` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `coarse_to_fine_board_residual_pyramid` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `independence_residual_interaction_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `residual_calibration_error_field` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `set_query_attention_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |

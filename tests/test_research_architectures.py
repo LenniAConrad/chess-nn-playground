@@ -10925,3 +10925,128 @@ def test_i098_baseline_logit_residual_adapter_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i099_coarse_to_fine_board_residual_pyramid_is_bespoke_and_conformant():
+    from chess_nn_playground.models.coarse_to_fine_residual_pyramid import (
+        BoardSummary,
+        CoarseToFineBoardResidualPyramid,
+        PyramidResidualBlock,
+        build_coarse_to_fine_board_residual_pyramid_from_config,
+    )
+
+    folder = Path("ideas/i099_coarse_to_fine_board_residual_pyramid")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CoarseToFineBoardResidualPyramid)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "coarse_to_fine_board_residual_pyramid"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert isinstance(model.summary, BoardSummary)
+    assert any(isinstance(m, PyramidResidualBlock) for m in model.modules())
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — a non-trivial pin/fork pattern.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "coarse_l2",
+        "explained_l2",
+        "residual4_l1",
+        "residual4_l2",
+        "residual4_max",
+        "residual8_l1",
+        "residual8_l2",
+        "residual8_max",
+        "unexplained_ratio",
+        "residual_gain",
+        "detail_concentration",
+        "residual_alignment",
+        "material_balance",
+        "occupancy_count",
+        "rank_file_imbalance",
+        "center_pressure",
+    }
+    assert expected_keys.issubset(output)
+    # Unexplained-ratio is a normalized L2 share, must lie in [0, 1].
+    assert torch.all(output["unexplained_ratio"] >= 0.0)
+    assert torch.all(output["unexplained_ratio"] <= 1.0)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "coarse_to_fine_board_residual_pyramid"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CoarseToFineBoardResidualPyramid)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Gradients must flow into the stem, the per-scale refiners, and the classifier.
+    trainable_cfg = dict(config["model"])
+    trainable_cfg.pop("name", None)
+    trainable_cfg.pop("packet_profile", None)
+    trainable_cfg.pop("mechanism_family", None)
+    trainable = build_coarse_to_fine_board_residual_pyramid_from_config(trainable_cfg)
+    trainable.train()
+    train_output = trainable(x)
+    train_output["logits"].sum().backward()
+    stem_conv = next(m for m in trainable.stem.modules() if isinstance(m, torch.nn.Conv2d))
+    refine4_conv = next(m for m in trainable.residual4_refine.modules() if isinstance(m, torch.nn.Conv2d))
+    refine8_conv = next(m for m in trainable.residual8_refine.modules() if isinstance(m, torch.nn.Conv2d))
+    classifier_linear = trainable.classifier
+    for grad in (
+        stem_conv.weight.grad,
+        refine4_conv.weight.grad,
+        refine8_conv.weight.grad,
+        classifier_linear.weight.grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i099"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
