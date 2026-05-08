@@ -1261,6 +1261,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i064_multi_scale_dilated_board_mixer_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i064_multi_scale_dilated_board_mixer_cnn",
+      "idea_id": "i064",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "multi_scale_dilated_board_mixer_cnn",
+      "slug": "multi_scale_dilated_board_mixer_cnn",
+      "source_files": [
+        "ideas/i064_multi_scale_dilated_board_mixer_cnn/model.py",
+        "src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i070_relational_query_algebra_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2366,6 +2386,7 @@
       "ideas/i061_grassmannian_principal_angle_bottleneck",
       "ideas/i062_matrix_pencil_generalized_spectrum_bottleneck",
       "ideas/i063_polar_procrustes_alignment_bottleneck",
+      "ideas/i064_multi_scale_dilated_board_mixer_cnn",
       "ideas/i070_relational_query_algebra_network",
       "ideas/i071_variational_board_action_network",
       "ideas/i072_tensor_core_square_pair_field_network",
@@ -2419,7 +2440,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 115,
+    "implemented_architecture_count": 116,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `115`
+- Implemented architecture rows audited: `116`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -75,6 +75,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i061` | `ideas/i061_grassmannian_principal_angle_bottleneck` | `grassmannian_principal_angle_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i061_grassmannian_principal_angle_bottleneck/model.py`<br>`src/chess_nn_playground/models/grassmannian_principal_angle_bottleneck.py` | - |
 | `i062` | `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck` | `matrix_pencil_generalized_spectrum_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py`<br>`src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py` | - |
 | `i063` | `ideas/i063_polar_procrustes_alignment_bottleneck` | `polar_procrustes_alignment_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i063_polar_procrustes_alignment_bottleneck/model.py`<br>`src/chess_nn_playground/models/polar_procrustes_alignment_bottleneck.py` | - |
+| `i064` | `ideas/i064_multi_scale_dilated_board_mixer_cnn` | `multi_scale_dilated_board_mixer_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i064_multi_scale_dilated_board_mixer_cnn/model.py`<br>`src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py` | - |
 | `i070` | `ideas/i070_relational_query_algebra_network` | `relational_query_algebra_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i070_relational_query_algebra_network/model.py`<br>`src/chess_nn_playground/models/relational_query_algebra.py` | - |
 | `i071` | `ideas/i071_variational_board_action_network` | `variational_board_action_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i071_variational_board_action_network/model.py`<br>`src/chess_nn_playground/models/variational_board_action.py` | - |
 | `i072` | `ideas/i072_tensor_core_square_pair_field_network` | `tensor_core_square_pair_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i072_tensor_core_square_pair_field_network/model.py`<br>`src/chess_nn_playground/models/tensor_core_square_pair_field.py` | - |

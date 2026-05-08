@@ -244,6 +244,9 @@ from chess_nn_playground.models.lyapunov_threat_stability import build_lyapunov_
 from chess_nn_playground.models.pfaffian_skew_threat import build_pfaffian_skew_threat_network_from_config
 from chess_nn_playground.models.padic_ultrametric_threat import build_padic_ultrametric_threat_network_from_config
 from chess_nn_playground.models.free_probability_r_transform import build_free_probability_r_transform_network_from_config
+from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
+    build_multi_scale_dilated_board_mixer_cnn_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -373,6 +376,7 @@ MODEL_BUILDERS = {
     "grassmannian_principal_angle_bottleneck": build_grassmannian_principal_angle_bottleneck_from_config,
     "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
     "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
+    "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
