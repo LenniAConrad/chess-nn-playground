@@ -19,8 +19,15 @@ model:
   channels: 64
   hidden_dim: 96
   depth: 2
+  d_token: 64
+  d_zono: 32
+  n_dirs: 32
+  rel_dim: 16
+  gen_hidden: 128
+  gate_hidden: 64
   dropout: 0.1
   use_batchnorm: true
+  ablation: none
   mechanism_family: convex
   packet_profile: support_polar_zonotope_certificate_network
 training:

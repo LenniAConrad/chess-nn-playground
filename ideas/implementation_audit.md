@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 125 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 115 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 126 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 114 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i079_support_polar_zonotope_certificate_network`
 - `ideas/i080_loop_frustration_curvature_network`
 - `ideas/i081_forcing_response_front_door_bottleneck`
 - `ideas/i082_chess_hypercut_polynomial_network`
@@ -222,7 +221,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i076` | `ideas/i076_krylov_tactical_subspace_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `krylov_tactical_subspace_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i077` | `ideas/i077_adaptive_tactical_resolvent_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `adaptive_tactical_resolvent_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i078` | `ideas/i078_tactical_controllability_gramian_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_controllability_gramian_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i079` | `ideas/i079_support_polar_zonotope_certificate_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `support_polar_zonotope_certificate_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i079` | `ideas/i079_support_polar_zonotope_certificate_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `support_polar_zonotope_certificate_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i080` | `ideas/i080_loop_frustration_curvature_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `loop_frustration_curvature_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i081` | `ideas/i081_forcing_response_front_door_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `forcing_response_front_door_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i082` | `ideas/i082_chess_hypercut_polynomial_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `chess_hypercut_polynomial_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

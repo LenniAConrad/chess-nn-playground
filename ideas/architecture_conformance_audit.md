@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `125`
+- Implemented architecture rows audited: `126`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -89,6 +89,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i076` | `ideas/i076_krylov_tactical_subspace_network` | `krylov_tactical_subspace_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i076_krylov_tactical_subspace_network/model.py`<br>`src/chess_nn_playground/models/krylov_tactical_subspace_network.py` | - |
 | `i077` | `ideas/i077_adaptive_tactical_resolvent_network` | `adaptive_tactical_resolvent_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i077_adaptive_tactical_resolvent_network/model.py`<br>`src/chess_nn_playground/models/adaptive_tactical_resolvent_network.py` | - |
 | `i078` | `ideas/i078_tactical_controllability_gramian_network` | `tactical_controllability_gramian_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i078_tactical_controllability_gramian_network/model.py`<br>`src/chess_nn_playground/models/tactical_controllability_gramian_network.py` | - |
+| `i079` | `ideas/i079_support_polar_zonotope_certificate_network` | `support_polar_zonotope_certificate_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i079_support_polar_zonotope_certificate_network/model.py`<br>`src/chess_nn_playground/models/support_polar_zonotope.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |

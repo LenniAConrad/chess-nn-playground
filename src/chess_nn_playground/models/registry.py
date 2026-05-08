@@ -274,6 +274,9 @@ from chess_nn_playground.models.adaptive_tactical_resolvent_network import (
 from chess_nn_playground.models.tactical_controllability_gramian_network import (
     build_tactical_controllability_gramian_network_from_config,
 )
+from chess_nn_playground.models.support_polar_zonotope import (
+    build_support_polar_zonotope_certificate_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -413,6 +416,7 @@ MODEL_BUILDERS = {
     "krylov_tactical_subspace_network": build_krylov_tactical_subspace_network_from_config,
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
     "tactical_controllability_gramian_network": build_tactical_controllability_gramian_network_from_config,
+    "support_polar_zonotope_certificate_network": build_support_polar_zonotope_certificate_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
