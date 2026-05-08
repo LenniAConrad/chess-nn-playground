@@ -298,6 +298,9 @@ from chess_nn_playground.models.fisher_geodesic_tension import (
 from chess_nn_playground.models.typed_hypergraph_motif_grammar import (
     build_typed_hypergraph_motif_grammar_from_config,
 )
+from chess_nn_playground.models.tactical_radius_filtration import (
+    build_tactical_radius_filtration_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -445,6 +448,7 @@ MODEL_BUILDERS = {
     "fisher_geodesic_tension_network": build_fisher_geodesic_tension_network_from_config,
     "typed_hypergraph_motif_grammar": build_typed_hypergraph_motif_grammar_from_config,
     "differentiable_chess_fact_lattice": build_differentiable_chess_fact_lattice_from_config,
+    "tactical_radius_filtration": build_tactical_radius_filtration_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

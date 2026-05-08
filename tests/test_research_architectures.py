@@ -9300,3 +9300,125 @@ def test_i086_differentiable_chess_fact_lattice_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i087_tactical_radius_filtration_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_radius_filtration import (
+        TacticalRadiusFiltrationClassifier,
+        TacticalRadiusGraphBuilder,
+        build_tactical_radius_filtration_from_config,
+    )
+
+    folder = Path("ideas/i087_tactical_radius_filtration")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalRadiusFiltrationClassifier)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_radius_filtration"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — produces a non-trivial pin/blocker pattern around a1.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key in (
+        "radius_shell_counts",
+        "shell_readout_features",
+        "piece_pool_energy",
+        "topology_pressure",
+        "radius2_pressure",
+        "radius3_pressure",
+        "shell_count_hint",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert key in output, key
+        assert torch.isfinite(output[key]).all(), key
+    assert output["radius_shell_counts"].shape == (2, model.radius + 1)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_radius_filtration"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalRadiusFiltrationClassifier)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Backward through the shell filtration must yield finite gradients on
+    # the per-square lift, the typed shell projections, and the readout head.
+    trainable = build_tactical_radius_filtration_from_config(dict(config["model"]))
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    lift_grad = trainable.square_lift[0].weight.grad
+    self_proj_grad = trainable.self_projections[1].weight.grad
+    group_proj_grad = trainable.group_projections[1][0].weight.grad
+    readout_grad = trainable.readout[1].weight.grad
+    for grad in (lift_grad, self_proj_grad, group_proj_grad, readout_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Math-thesis ablation switches must build and return finite logits at
+    # the puzzle_binary contract shape.
+    for ablation in (
+        {"radius": 1},
+        {"shell_mode": "closed_ball"},
+        {"graph_mode": "chebyshev"},
+        {"use_xray": False},
+        {"use_king_zone": False},
+        {"use_shell_counts": False},
+    ):
+        cfg = {**dict(config["model"]), **ablation}
+        cfg.pop("name", None)
+        ablated = build_tactical_radius_filtration_from_config(cfg).eval()
+        with torch.no_grad():
+            ablated_out = ablated(x)
+        assert ablated_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(ablated_out["logits"]).all(), ablation
+
+    # The graph builder is deterministic and produces typed shells per radius.
+    builder = TacticalRadiusGraphBuilder(max_radius=int(config["model"].get("radius", 3)))
+    graph = builder.build(x)
+    assert len(graph.groups_by_radius) == builder.max_radius + 1
+    assert graph.masks.shape == (2, 6, 64)
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i087"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

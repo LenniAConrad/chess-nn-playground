@@ -2879,35 +2879,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i087_tactical_radius_filtration",
       "idea_id": "i087",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_radius_filtration",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_radius_filtration",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_radius_filtration.build_tactical_radius_filtration_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_radius_filtration.build_tactical_radius_filtration_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_radius_filtration.build_tactical_radius_filtration_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8329,18 +8327,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 133,
-      "shared_probe_variant": 107
+      "bespoke_model": 134,
+      "shared_probe_variant": 106
     },
     "by_metadata_kind": {
-      "bespoke_model": 133,
-      "shared_probe_variant": 107
+      "bespoke_model": 134,
+      "shared_probe_variant": 106
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i087_tactical_radius_filtration",
       "ideas/i088_traced_threat_motif_network",
       "ideas/i089_bounded_board_hinge_logic",
       "ideas/i090_chess_mode_tucker_relation_certificate",
