@@ -1481,6 +1481,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i076_krylov_tactical_subspace_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i076_krylov_tactical_subspace_network",
+      "idea_id": "i076",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "krylov_tactical_subspace_network",
+      "slug": "krylov_tactical_subspace_network",
+      "source_files": [
+        "ideas/i076_krylov_tactical_subspace_network/model.py",
+        "src/chess_nn_playground/models/krylov_tactical_subspace_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2517,6 +2537,7 @@
       "ideas/i073_tiny_chess_micronet",
       "ideas/i074_puzzle_binary_benchmark_challengers",
       "ideas/i075_tactical_bisimulation_puzzle_network",
+      "ideas/i076_krylov_tactical_subspace_network",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2566,7 +2587,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 122,
+    "implemented_architecture_count": 123,
     "issue_folders": [],
     "validation_issue_count": 0
   }

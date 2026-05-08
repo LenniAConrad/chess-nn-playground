@@ -21,6 +21,16 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  operator_rank: 16
+  krylov_steps: 6
+  roles:
+    - attack
+    - defense
+    - king_zone
+    - high_value_target
+    - blocker
+    - tempo
+  ablation: none
   mechanism_family: linear_algebra
   packet_profile: krylov_tactical_subspace_network
 training:

@@ -265,6 +265,9 @@ from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
 from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
     build_tactical_bisimulation_puzzle_network_from_config,
 )
+from chess_nn_playground.models.krylov_tactical_subspace_network import (
+    build_krylov_tactical_subspace_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -401,6 +404,7 @@ MODEL_BUILDERS = {
     "bitboard_shift_algebra_network": build_bitboard_shift_algebra_network_from_config,
     "puzzle_binary_benchmark_challengers": build_puzzle_binary_benchmark_challengers_from_config,
     "tactical_bisimulation_puzzle_network": build_tactical_bisimulation_puzzle_network_from_config,
+    "krylov_tactical_subspace_network": build_krylov_tactical_subspace_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
