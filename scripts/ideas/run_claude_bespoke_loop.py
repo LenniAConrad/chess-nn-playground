@@ -35,24 +35,63 @@ from print_codex_bespoke_prompt import _matching_rows, _prompt_for  # noqa: E402
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LOG_DIR = REPO_ROOT / "logs" / "claude_bespoke"
 
-# test_idea_registry_validation is a "whole repo is valid" gate — it iterates
-# every idea and fails if any one is invalid. Since the loop's whole purpose is
-# to fix the ~150 currently-invalid scaffolds, gating each idea on that test
-# would block every commit until the loop is done. Deselect it; the two audit
-# scripts already check scaffold honesty across all ideas, and the per-idea
-# tests in test_research_architectures.py still run.
 VERIFY_COMMANDS: list[list[str]] = [
     ["python", "scripts/ideas/audit_implementation_kinds.py", "--check"],
     ["python", "scripts/ideas/audit_architecture_conformance.py", "--check"],
-    [
-        "pytest",
-        "tests/test_idea_registry.py",
-        "tests/test_research_architectures.py",
-        "-q",
-        "--deselect",
-        "tests/test_idea_registry.py::test_idea_registry_validation",
-    ],
 ]
+
+
+def _verification_commands(idea_id: str) -> list[list[str]]:
+    """Per-idea verify: the audits cover the global honesty gate; the focused
+    pytest only runs the current idea's test so a backlog of pre-existing
+    broken tests in tests/test_research_architectures.py does not block
+    progress on unrelated ideas.
+    """
+    # test_idea_registry_validation is a "whole repo is valid" gate; it
+    # iterates every idea and fails if any one is invalid. Deselect it here and
+    # let the per-idea -k filter exercise the current idea's bespoke test.
+    return [
+        *VERIFY_COMMANDS,
+        [
+            "pytest",
+            "tests/test_idea_registry.py",
+            "tests/test_research_architectures.py",
+            "-q",
+            "--deselect",
+            "tests/test_idea_registry.py::test_idea_registry_validation",
+            "-k",
+            idea_id,
+        ],
+    ]
+
+
+def _format_cmd(cmd: list[str]) -> str:
+    return " ".join(shlex.quote(c) for c in cmd)
+
+
+def _format_dry_run_verify_cmd(cmd: list[str]) -> str:
+    parts: list[str] = []
+    quote_next = False
+    for arg in cmd:
+        if quote_next:
+            escaped = arg.replace("\\", "\\\\").replace('"', '\\"')
+            parts.append(f'"{escaped}"')
+            quote_next = False
+        else:
+            parts.append(shlex.quote(arg))
+            quote_next = arg == "-k"
+    return " ".join(parts)
+
+
+def _selector_idea_id(selector: str) -> str:
+    return Path(selector).name.split("_", 1)[0]
+
+
+def _print_dry_run_verify_commands(idea_id: str, *, label: str = "verify commands") -> None:
+    print(f"   [dry-run] {label}:", flush=True)
+    for cmd in _verification_commands(idea_id):
+        print(f"   [dry-run]   {_format_dry_run_verify_cmd(cmd)}", flush=True)
+
 
 SAFE_ALLOWED_TOOLS = [
     "Read",
@@ -155,9 +194,9 @@ def _scope_violations(target_folder: str) -> list[str]:
     return violations
 
 
-def _run_verifications(log_handle) -> tuple[bool, str]:
-    for cmd in VERIFY_COMMANDS:
-        log_handle.write(f"\n$ {' '.join(shlex.quote(c) for c in cmd)}\n")
+def _run_verifications(log_handle, idea_id: str) -> tuple[bool, str]:
+    for cmd in _verification_commands(idea_id):
+        log_handle.write(f"\n$ {_format_cmd(cmd)}\n")
         log_handle.flush()
         env = os.environ.copy()
         env.setdefault("PYTHONDONTWRITEBYTECODE", "1")
@@ -215,6 +254,7 @@ def _run_one_idea(
     if dry_run:
         print("   [dry-run] would run:", " ".join(shlex.quote(a) for a in claude_argv), flush=True)
         print(f"   [dry-run] prompt length: {len(prompt)} chars", flush=True)
+        _print_dry_run_verify_commands(idea_id)
         return True
 
     if _working_tree_dirty():
@@ -268,7 +308,7 @@ def _run_one_idea(
         log.write("ok\n")
 
         log.write("\n=== VERIFICATION ===\n")
-        ok, failed_cmd = _run_verifications(log)
+        ok, failed_cmd = _run_verifications(log, idea_id)
 
     if not ok:
         print(f"   verification failed: {failed_cmd}", flush=True)
@@ -311,6 +351,10 @@ def main() -> None:
     rows = _matching_rows(args)
     if not rows:
         print("No matching scaffold-only ideas found.")
+        if args.dry_run and args.idea:
+            for selector in args.idea:
+                idea_id = _selector_idea_id(selector)
+                _print_dry_run_verify_commands(idea_id, label=f"verify commands for {idea_id}")
         return
 
     claude_bin = _resolve_claude_bin(args.claude_bin) if not args.dry_run else (args.claude_bin or "claude")
