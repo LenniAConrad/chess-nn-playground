@@ -415,6 +415,15 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "num_rings": 6,
         "rnn_hidden": 12,
     },
+    "rank_file_memory_grid_net": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "memory_dim": 8,
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4800,6 +4809,94 @@ def test_i168_ring_shell_recurrent_boardnet_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i168"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i169_rank_file_memory_grid_net_is_bespoke_and_conformant():
+    folder = Path("ideas/i169_rank_file_memory_grid_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 0, 6, 0] = 1.0
+    x[0, 6, 1, 7] = 1.0
+    x[0, 12] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[1, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    memory_dim = int(config["model"]["memory_dim"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["square_pool"].shape == (2, channels)
+    assert output["rank_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["file_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["rank_write_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["file_write_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["read_stack"].shape == (2, depth, 8, 8, channels)
+    assert output["rank_memory_energy"].shape == (2, depth, 8)
+    assert output["file_memory_energy"].shape == (2, depth, 8)
+    assert output["mean_rank_memory_energy"].shape == (2,)
+    assert output["mean_file_memory_energy"].shape == (2,)
+    assert output["rank_minus_file_energy"].shape == (2, depth)
+    assert output["rank_file_imbalance"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert output["memory_dim_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["memory_dim_levels"] == memory_dim).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "rank_file_memory_grid_net"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["rank_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i169"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues

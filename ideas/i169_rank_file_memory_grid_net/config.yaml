@@ -21,8 +21,7 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: rank_file_memory_grid_net
+  memory_dim: 32
 training:
   epochs: 20
   batch_size: 256

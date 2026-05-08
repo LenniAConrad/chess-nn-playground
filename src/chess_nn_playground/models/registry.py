@@ -111,6 +111,9 @@ from chess_nn_playground.models.evidence_sieve_network import (
 from chess_nn_playground.models.ring_shell_recurrent_boardnet import (
     build_ring_shell_recurrent_boardnet_from_config,
 )
+from chess_nn_playground.models.rank_file_memory_grid_net import (
+    build_rank_file_memory_grid_net_from_config,
+)
 from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
@@ -513,6 +516,7 @@ MODEL_BUILDERS = {
     "neural_decision_forest_boardnet": build_neural_decision_forest_boardnet_from_config,
     "vector_quantized_motif_codebook_net": build_vector_quantized_motif_codebook_net_from_config,
     "ring_shell_recurrent_boardnet": build_ring_shell_recurrent_boardnet_from_config,
+    "rank_file_memory_grid_net": build_rank_file_memory_grid_net_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
