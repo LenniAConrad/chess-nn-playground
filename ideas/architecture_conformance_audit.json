@@ -2601,6 +2601,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i186_legal_reaction_bottleneck_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i186_legal_reaction_bottleneck_network",
+      "idea_id": "i186",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "legal_reaction_bottleneck_network",
+      "slug": "legal_reaction_bottleneck_network",
+      "source_files": [
+        "ideas/i186_legal_reaction_bottleneck_network/model.py",
+        "src/chess_nn_playground/models/legal_reaction_bottleneck_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i190_blocker_pin_lattice_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3433,6 +3453,7 @@
       "ideas/i183_tempo_alignment_gate_network",
       "ideas/i184_puzzle_boundary_twin_encoder",
       "ideas/i185_critical_square_budget_network",
+      "ideas/i186_legal_reaction_bottleneck_network",
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
@@ -3469,7 +3490,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 165,
+    "implemented_architecture_count": 166,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -13980,3 +13980,166 @@ def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.legal_reaction_bottleneck_network import (
+        LegalReactionBottleneckNetwork,
+        build_legal_reaction_bottleneck_network_from_config,
+    )
+
+    folder = Path("ideas/i186_legal_reaction_bottleneck_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, LegalReactionBottleneckNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "legal_reaction_bottleneck_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    # Three structurally distinct positions exercising the defender-reply
+    # graph: a tight reaction set, a wide reaction set, and a position
+    # with no opponent pieces to test the empty-defender fallback.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0 (tight): a white queen pinning a single black piece.
+    x[0, 5, 0, 4] = 1.0   # white king
+    x[0, 4, 7, 4] = 1.0   # white queen on the e-file
+    x[0, 11, 7, 7] = 1.0  # black king (corner)
+    x[0, 7, 7, 5] = 1.0   # one black knight near the king
+    # Position 1 (wide): the same threat but the opponent has a flock
+    # of pieces with mobility.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 4, 7, 4] = 1.0
+    x[1, 11, 7, 7] = 1.0
+    for sq in [(7, 5), (6, 5), (6, 7), (5, 6), (5, 5), (4, 4)]:
+        x[1, 7, sq[0], sq[1]] = 1.0
+    # Position 2: white to move with no opponent pieces at all -- the
+    # defender-reply fallback (uniform over 64 squares, K_eff = 64).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    assert output["reaction_logits"].shape == (3, 8, 8)
+    dist = output["reaction_distribution"]
+    assert dist.shape == (3, 8, 8)
+    assert (dist >= 0.0).all()
+    # Rows with at least one defender must sum to 1; the empty-defender
+    # row falls back to a uniform-over-64 distribution which also sums
+    # to 1.
+    assert torch.allclose(
+        dist.flatten(1).sum(dim=1), torch.ones(3), atol=1e-4
+    )
+
+    # Defender-reply mask: the distribution must be zero off the
+    # opponent-piece squares for rows that have any defenders.
+    own_pieces = x[:, 0:6].sum(dim=1).clamp(0.0, 1.0)
+    black_pieces = x[:, 6:12].sum(dim=1).clamp(0.0, 1.0)
+    opp = black_pieces  # white-to-move for all rows
+    for i in range(2):  # rows 0 and 1 have defenders
+        off_def = dist[i] * (1.0 - opp[i])
+        assert off_def.abs().max().item() < 1e-5
+
+    # Tight defender set has fewer effective reactions than the wide
+    # defender set: K_eff_0 < K_eff_1.
+    assert output["effective_reaction_count"][0] < output["effective_reaction_count"][1] + 1e-3
+
+    # K_eff is a positive number bounded by the defender count for rows
+    # with defenders, and falls back to 64 (uniform over the board) for
+    # the empty-defender row.
+    K_eff = output["effective_reaction_count"]
+    defender_count = output["defender_count"]
+    assert (K_eff > 0).all()
+    assert K_eff[0] <= defender_count[0] + 1e-4
+    assert K_eff[1] <= defender_count[1] + 1e-4
+    assert defender_count[2].item() == 0.0
+    assert torch.allclose(K_eff[2], torch.tensor(64.0), atol=1e-3)
+
+    assert (output["reaction_max_strength"] >= 0.0).all()
+    assert (output["reaction_max_strength"] <= 1.0 + 1e-5).all()
+    assert (output["reaction_entropy"] >= -1e-6).all()
+    assert (output["bottleneck_kl"] >= -1e-6).all()
+    # Empty-defender row's KL is zero by convention (fallback uniform).
+    assert output["bottleneck_kl"][2].abs().item() < 1e-5
+
+    assert output["own_piece_pressure"].shape == (3,)
+    assert (output["own_piece_pressure"] >= 0.0).all()
+    assert (output["own_piece_pressure"] <= 1.0 + 1e-5).all()
+
+    for key in ("defense_gap", "reply_pressure", "trunk_energy"):
+        assert output[key].shape == (3,), key
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["reaction_distribution"][0],
+        twin_output["reaction_distribution"][1],
+        atol=1e-5,
+    )
+
+    # Configured channels and reaction temperature reach the model.
+    assert model.channels == channels
+    assert model.reaction_temperature == float(config["model"]["reaction_temperature"])
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "legal_reaction_bottleneck_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, LegalReactionBottleneckNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_legal_reaction_bottleneck_network_from_config
+        is build_legal_reaction_bottleneck_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i186"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

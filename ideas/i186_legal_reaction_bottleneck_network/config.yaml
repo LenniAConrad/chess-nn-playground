@@ -23,6 +23,9 @@ model:
   use_batchnorm: true
   mechanism_family: graph
   packet_profile: legal_reaction_bottleneck_network
+  reaction_temperature: 1.0
+  reaction_hidden: 0
+  threat_hidden: 0
 training:
   epochs: 20
   batch_size: 256
