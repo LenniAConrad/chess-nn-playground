@@ -1153,13 +1153,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i095_rank_quantile_evidence_field_network",
       "idea_id": "i095",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Rank-Quantile Evidence Field Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; uses a information mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; bespoke differentiable rank-quantile pooling head over learned scalar evidence fields with explicit tail-gap and soft tail-mass diagnostics, distinct from the shared research-packet probe.",
+      "output_heads": "One puzzle logit plus rank-quantile diagnostics (per-field quantiles, tail gaps, top-k/bottom-k means, rank entropy, robust range, soft tail mass, mode code) saved to prediction artifacts.",
       "short_thesis": "Puzzle-likeness may be driven by extreme sparse evidence fields rather than average board evidence. Differentiable rank and quantile pooling can test this while still allowing the classifier to see the full board, unlike a sparse witness mask.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

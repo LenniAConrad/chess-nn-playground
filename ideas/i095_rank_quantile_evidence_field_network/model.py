@@ -2,11 +2,17 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.research_packet_probe import ResearchPacketProbe
-from chess_nn_playground.models.research_packet_probe import build_research_packet_probe_from_config
+from chess_nn_playground.models.rank_quantile import (
+    RankQuantileEvidenceFieldNetwork,
+    build_rank_quantile_evidence_field_network_from_config,
+)
 
 
-def build_model_from_config(config: dict[str, Any]) -> ResearchPacketProbe:
+def build_model_from_config(config: dict[str, Any]) -> RankQuantileEvidenceFieldNetwork:
     model_cfg = dict(config.get("model", {}))
     model_cfg.setdefault("num_classes", 1)
-    return build_research_packet_probe_from_config(model_cfg)
+    model_cfg.setdefault("input_channels", 18)
+    model_cfg.pop("name", None)
+    model_cfg.pop("packet_profile", None)
+    model_cfg.pop("mechanism_family", None)
+    return build_rank_quantile_evidence_field_network_from_config(model_cfg)

@@ -1861,6 +1861,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i095_rank_quantile_evidence_field_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i095_rank_quantile_evidence_field_network",
+      "idea_id": "i095",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rank_quantile_evidence_field_network",
+      "slug": "rank_quantile_evidence_field_network",
+      "source_files": [
+        "ideas/i095_rank_quantile_evidence_field_network/model.py",
+        "src/chess_nn_playground/models/rank_quantile.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2916,6 +2936,7 @@
       "ideas/i092_parity_syndrome_puzzle_bottleneck",
       "ideas/i093_wavelet_scattering_board_network",
       "ideas/i094_convex_feasibility_residual_network",
+      "ideas/i095_rank_quantile_evidence_field_network",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2965,7 +2986,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 141,
+    "implemented_architecture_count": 142,
     "issue_folders": [],
     "validation_issue_count": 0
   }

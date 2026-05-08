@@ -322,6 +322,9 @@ from chess_nn_playground.models.wavelet_scattering_board_network import (
 from chess_nn_playground.models.convex_feasibility import (
     build_convex_feasibility_residual_network_from_config,
 )
+from chess_nn_playground.models.rank_quantile import (
+    build_rank_quantile_evidence_field_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -477,6 +480,7 @@ MODEL_BUILDERS = {
     "parity_syndrome_puzzle_bottleneck": build_parity_syndrome_puzzle_bottleneck_from_config,
     "wavelet_scattering_board_network": build_wavelet_scattering_board_network_from_config,
     "convex_feasibility_residual_network": build_convex_feasibility_residual_network_from_config,
+    "rank_quantile_evidence_field_network": build_rank_quantile_evidence_field_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
