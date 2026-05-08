@@ -14693,3 +14693,192 @@ def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant(
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
+    from chess_nn_playground.models.exchange_then_king_dual_stream import (
+        DualStreamFeatureBuilder,
+        ExchangeThenKingDualStreamNetwork,
+        build_exchange_then_king_dual_stream_from_config,
+    )
+
+    folder = Path("ideas/i193_exchange_then_king_dual_stream")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ExchangeThenKingDualStreamNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "exchange_then_king_dual_stream"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+
+    # Three structurally distinct boards spanning material exchange,
+    # king attack, and a degenerate single-king edge case.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen attacks a hanging black knight (material
+    # exchange family).
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3 (hanging target)
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook on enemy king's file with a black pawn
+    # blocking and white queen on the king diagonal (king-attack
+    # family).
+    x[1, 5, 0, 4] = 1.0  # white king e1
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: only a white king (degenerate empty-target row).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Per-row diagnostics required by the architecture contract.
+    for key in (
+        "logits",
+        "exchange_logit",
+        "king_logit",
+        "gate",
+        "gate_logit",
+        "residual_logit",
+        "gate_entropy",
+        "stream_disagreement",
+        "exchange_pool_norm",
+        "king_pool_norm",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # The gate is a sigmoid in (0, 1).
+    assert (output["gate"] > 0.0).all()
+    assert (output["gate"] < 1.0).all()
+
+    # Logits factorise as gate * king + (1 - gate) * exchange + residual
+    # (the central thesis wiring).
+    expected = (
+        output["gate"] * output["king_logit"]
+        + (1.0 - output["gate"]) * output["exchange_logit"]
+        + output["residual_logit"]
+    )
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+
+    # Stream disagreement is exactly |king_logit - exchange_logit|.
+    assert torch.allclose(
+        output["stream_disagreement"],
+        (output["king_logit"] - output["exchange_logit"]).abs(),
+        atol=1e-6,
+    )
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+    assert torch.allclose(twin["gate"][0], twin["gate"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+    assert DualStreamFeatureBuilder.EXCHANGE_PLANES == 8
+    assert DualStreamFeatureBuilder.KING_PLANES == 8
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        ExchangeThenKingDualStreamNetwork(num_classes=2)
+    with pytest.raises(ValueError):
+        ExchangeThenKingDualStreamNetwork(ablation="not_a_real_ablation")
+
+    # `fixed_half_gate` ablation overrides the gate to 0.5 exactly.
+    half_gate = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "fixed_half_gate"}
+    ).eval()
+    with torch.no_grad():
+        half_out = half_gate(x)
+    assert torch.allclose(half_out["gate"], torch.full_like(half_out["gate"], 0.5))
+    half_expected = 0.5 * half_out["king_logit"] + 0.5 * half_out["exchange_logit"] + half_out["residual_logit"]
+    assert torch.allclose(half_out["logits"], half_expected, atol=1e-5)
+
+    # `king_only` and `exchange_only` ablations clamp the gate to 1 / 0.
+    king_only = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "king_only"}
+    ).eval()
+    exchange_only = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "exchange_only"}
+    ).eval()
+    with torch.no_grad():
+        king_out = king_only(x)
+        exch_out = exchange_only(x)
+    assert torch.allclose(king_out["gate"], torch.ones_like(king_out["gate"]))
+    assert torch.allclose(king_out["logits"], king_out["king_logit"] + king_out["residual_logit"], atol=1e-5)
+    assert torch.allclose(exch_out["gate"], torch.zeros_like(exch_out["gate"]))
+    assert torch.allclose(
+        exch_out["logits"], exch_out["exchange_logit"] + exch_out["residual_logit"], atol=1e-5
+    )
+
+    # `shared_stream_only` ablation must drive king and exchange pool
+    # features to be identical (shared encoder + shared input).
+    shared = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "shared_stream_only"}
+    ).eval()
+    assert shared.exchange_encoder is shared.king_encoder
+    with torch.no_grad():
+        shared_out = shared(x)
+    assert torch.allclose(shared_out["exchange_pool_norm"], shared_out["king_pool_norm"], atol=1e-5)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "exchange_then_king_dual_stream"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ExchangeThenKingDualStreamNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_exchange_then_king_dual_stream_from_config
+        is build_exchange_then_king_dual_stream_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i193"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

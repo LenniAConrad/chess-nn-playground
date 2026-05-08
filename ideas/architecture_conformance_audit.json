@@ -2741,6 +2741,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i193_exchange_then_king_dual_stream/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i193_exchange_then_king_dual_stream",
+      "idea_id": "i193",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "exchange_then_king_dual_stream",
+      "slug": "exchange_then_king_dual_stream",
+      "source_files": [
+        "ideas/i193_exchange_then_king_dual_stream/model.py",
+        "src/chess_nn_playground/models/exchange_then_king_dual_stream.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i203_hierarchical_tactical_option_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3520,6 +3540,7 @@
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
+      "ideas/i193_exchange_then_king_dual_stream",
       "ideas/i203_hierarchical_tactical_option_network",
       "ideas/i204_cross_defense_consistency_network",
       "ideas/i205_defender_timing_schedule_network",
@@ -3553,7 +3574,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 169,
+    "implemented_architecture_count": 170,
     "issue_folders": [],
     "validation_issue_count": 0
   }

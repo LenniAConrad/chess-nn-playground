@@ -235,6 +235,9 @@ from chess_nn_playground.models.sparse_relation_pursuit import build_sparse_rela
 from chess_nn_playground.models.counterfactual_defender_dropout import (
     build_counterfactual_defender_dropout_network_from_config,
 )
+from chess_nn_playground.models.exchange_then_king_dual_stream import (
+    build_exchange_then_king_dual_stream_from_config,
+)
 from chess_nn_playground.models.counterfactual_delta_bottleneck import (
     build_counterfactual_delta_bottleneck_from_config,
 )
@@ -587,6 +590,7 @@ MODEL_BUILDERS = {
     "motif_tensor_factorization_network": build_motif_tensor_factorization_network_from_config,
     "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
     "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
+    "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
