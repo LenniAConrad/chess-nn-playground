@@ -261,6 +261,9 @@ from chess_nn_playground.models.slot_attention_role_binding_network import (
 from chess_nn_playground.models.attention_perturbation_sensitivity_network import (
     build_attention_perturbation_sensitivity_network_from_config,
 )
+from chess_nn_playground.models.kernel_mean_prototype_network import (
+    build_kernel_mean_prototype_network_from_config,
+)
 from chess_nn_playground.models.hall_dual_residual import build_hall_defect_dual_residual_network_from_config
 from chess_nn_playground.models.credal_near_puzzle_evidence import (
     build_credal_near_puzzle_evidence_network_from_config,
@@ -513,6 +516,7 @@ MODEL_BUILDERS = {
     "cross_scale_attention_residual_network": build_cross_scale_attention_residual_network_from_config,
     "slot_attention_role_binding_network": build_slot_attention_role_binding_network_from_config,
     "attention_perturbation_sensitivity_network": build_attention_perturbation_sensitivity_network_from_config,
+    "kernel_mean_prototype_network": build_kernel_mean_prototype_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

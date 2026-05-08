@@ -329,3 +329,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "attention_perturbation_sensitivity_network"
 ]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "kernel_mean_prototype_network"
+]

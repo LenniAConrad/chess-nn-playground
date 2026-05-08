@@ -11453,3 +11453,101 @@ def test_i106_attention_perturbation_sensitivity_network_is_bespoke_and_conforma
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i107_kernel_mean_prototype_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i107_kernel_mean_prototype_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 0, 0] = 1.0
+    x[:, 0, 1, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "kernel_mean",
+        "kernel_features",
+        "occupancy_mask",
+        "occupied_count",
+        "log_occupied_count",
+        "canonical_piece_counts",
+        "us_them_imbalance",
+        "kernel_self_similarity",
+        "prototype_distances",
+        "prototype_similarities",
+        "prototype_log_gamma",
+        "diagnostic_features",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    token_dim = int(config["model"].get("token_dim", config["model"].get("channels", 64)))
+    phi_dim = int(config["model"].get("phi_dim", config["model"].get("kernel_dim", 128)))
+    num_prototypes = int(config["model"].get("num_prototypes", 8))
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["kernel_mean"].shape == (2, phi_dim)
+    assert output["kernel_features"].shape == (2, 64, phi_dim)
+    assert output["occupancy_mask"].shape == (2, 64)
+    assert output["occupied_count"].shape == (2,)
+    assert output["log_occupied_count"].shape == (2,)
+    assert output["canonical_piece_counts"].shape == (2, 6)
+    assert output["us_them_imbalance"].shape == (2,)
+    assert output["kernel_self_similarity"].shape == (2,)
+    assert output["prototype_distances"].shape == (2, num_prototypes)
+    assert output["prototype_similarities"].shape == (2, num_prototypes)
+    assert output["prototype_log_gamma"].shape == (2, num_prototypes)
+    diagnostic_dim = 1 + 6 + 1 + 1 + 2 * num_prototypes
+    assert output["diagnostic_features"].shape == (2, diagnostic_dim)
+
+    assert (output["occupied_count"] == 5).all()
+    assert (output["prototype_distances"] >= -1.0e-6).all()
+    assert (output["prototype_similarities"] >= 0.0).all()
+    assert (output["prototype_similarities"] <= 1.0 + 1.0e-6).all()
+    assert (output["kernel_self_similarity"] >= -1.0e-6).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "kernel_mean_prototype_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i107"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

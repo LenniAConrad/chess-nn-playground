@@ -1297,13 +1297,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i107_kernel_mean_prototype_network",
       "idea_id": "i107",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Kernel Mean Prototype Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; uses a sparse mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
-      "short_thesis": "Puzzle-like positions may be separable by the distribution of occupied piece tokens in a learned kernel feature space. Instead of attending to pieces or computing pairwise transport, embed the occupied-piece set as a kernel mean and compare it to learned pr...",
-      "status": "scaffolded",
+      "novelty_claim": "Bespoke kernel-mean / prototype bottleneck where each occupied piece token is lifted through a learnable random-Fourier-style map, the position is summarised as a single empirical kernel mean ``mu(x) = mean_i phi(x_i)``, and the classifier only reads ``mu(x)`` plus squared MMD-like distances to a bank of learnable prototype embeddings (with per-prototype RBF similarities) and a small set of set-cardinality diagnostics.",
+      "output_heads": "One puzzle logit plus kernel mean ``mu(x)``, per-square kernel features, occupancy mask, occupied-piece count and its log, side-canonical per-piece-type counts, us-vs-them imbalance, kernel self-similarity, prototype distances, prototype similarities, per-prototype log-gamma, and the concatenated diagnostic feature vector.",
+      "short_thesis": "Puzzle-like positions may be separable by the distribution of occupied piece tokens in a learned kernel feature space. Instead of attending to pieces or computing pairwise transport, embed the occupied-piece set as a kernel mean and compare it to learned prototype embeddings.",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

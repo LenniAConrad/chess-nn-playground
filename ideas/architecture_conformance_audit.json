@@ -2101,6 +2101,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i107_kernel_mean_prototype_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i107_kernel_mean_prototype_network",
+      "idea_id": "i107",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "kernel_mean_prototype_network",
+      "slug": "kernel_mean_prototype_network",
+      "source_files": [
+        "ideas/i107_kernel_mean_prototype_network/model.py",
+        "src/chess_nn_playground/models/kernel_mean_prototype_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3108,6 +3128,7 @@
       "ideas/i104_cross_scale_attention_residual_network",
       "ideas/i105_slot_attention_role_binding_network",
       "ideas/i106_attention_perturbation_sensitivity_network",
+      "ideas/i107_kernel_mean_prototype_network",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3154,7 +3175,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 150,
+    "implemented_architecture_count": 151,
     "issue_folders": [],
     "validation_issue_count": 0
   }

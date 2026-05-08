@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `150`
+- Implemented architecture rows audited: `151`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -117,6 +117,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i104` | `ideas/i104_cross_scale_attention_residual_network` | `cross_scale_attention_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i104_cross_scale_attention_residual_network/model.py`<br>`src/chess_nn_playground/models/cross_scale_attention_residual_network.py` | - |
 | `i105` | `ideas/i105_slot_attention_role_binding_network` | `slot_attention_role_binding_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i105_slot_attention_role_binding_network/model.py`<br>`src/chess_nn_playground/models/slot_attention_role_binding_network.py` | - |
 | `i106` | `ideas/i106_attention_perturbation_sensitivity_network` | `attention_perturbation_sensitivity_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i106_attention_perturbation_sensitivity_network/model.py`<br>`src/chess_nn_playground/models/attention_perturbation_sensitivity_network.py` | - |
+| `i107` | `ideas/i107_kernel_mean_prototype_network` | `kernel_mean_prototype_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i107_kernel_mean_prototype_network/model.py`<br>`src/chess_nn_playground/models/kernel_mean_prototype_network.py` | - |
 | `i127` | `ideas/i127_square_color_parity_mixer` | `square_color_parity_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i127_square_color_parity_mixer/model.py`<br>`src/chess_nn_playground/models/square_color_parity_mixer.py` | - |
 | `i128` | `ideas/i128_occupancy_run_length_segment_encoder` | `occupancy_run_length_segment_encoder` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i128_occupancy_run_length_segment_encoder/model.py`<br>`src/chess_nn_playground/models/occupancy_run_length_segment.py` | - |
 | `i129` | `ideas/i129_king_shelter_microkernel_network` | `king_shelter_microkernel_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i129_king_shelter_microkernel_network/model.py`<br>`src/chess_nn_playground/models/king_shelter_microkernel.py` | - |

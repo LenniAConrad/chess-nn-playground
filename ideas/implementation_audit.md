@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 150 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 90 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 151 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 89 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i107_kernel_mean_prototype_network`
 - `ideas/i108_tensorsketch_interaction_network`
 - `ideas/i109_maxout_region_signature_network`
 - `ideas/i110_spline_board_surface_network`
@@ -225,7 +224,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i104` | `ideas/i104_cross_scale_attention_residual_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cross_scale_attention_residual_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i105` | `ideas/i105_slot_attention_role_binding_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `slot_attention_role_binding_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i106` | `ideas/i106_attention_perturbation_sensitivity_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `attention_perturbation_sensitivity_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i107` | `ideas/i107_kernel_mean_prototype_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `kernel_mean_prototype_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i107` | `ideas/i107_kernel_mean_prototype_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `kernel_mean_prototype_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i108` | `ideas/i108_tensorsketch_interaction_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tensorsketch_interaction_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i109` | `ideas/i109_maxout_region_signature_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `maxout_region_signature_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i110` | `ideas/i110_spline_board_surface_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `spline_board_surface_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
