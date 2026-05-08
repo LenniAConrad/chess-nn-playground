@@ -12633,3 +12633,161 @@ def test_i116_symmetric_difference_twin_encoder_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i117_prototype_patch_dictionary_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i117_prototype_patch_dictionary_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    patch_dim = int(model_cfg["channels"])
+    hidden_dim = int(model_cfg["hidden_dim"])
+    num_prototypes = int(model_cfg["num_prototypes"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 0, 1, 0] = 1.0  # white pawn a2
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 11, 7, 4] = 1.0  # black king e8
+    x[1, 1, 0, 1] = 1.0  # white knight b1
+    x[1, 5, 0, 6] = 1.0  # white king g1
+    x[1, 11, 7, 4] = 1.0  # black king e8
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "patch_map",
+        "patches",
+        "soft_assignment",
+        "assignment_map",
+        "top1_motif_map",
+        "reconstruction_map",
+        "residual_map",
+        "prototype_histogram",
+        "residual_per_prototype",
+        "residual_energy_per_square",
+        "residual_energy",
+        "prototype_entropy",
+        "temperature",
+        "pooled_patch",
+        "pooled_reconstruction",
+        "pooled_residual",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["patch_map"].shape == (2, patch_dim, 8, 8)
+    assert output["patches"].shape == (2, 64, patch_dim)
+    assert output["soft_assignment"].shape == (2, 64, num_prototypes)
+    assert output["assignment_map"].shape == (2, num_prototypes, 8, 8)
+    assert output["top1_motif_map"].shape == (2, 8, 8)
+    assert output["top1_motif_map"].dtype == torch.long
+    assert output["reconstruction_map"].shape == (2, patch_dim, 8, 8)
+    assert output["residual_map"].shape == (2, patch_dim, 8, 8)
+    assert output["prototype_histogram"].shape == (2, num_prototypes)
+    assert output["residual_per_prototype"].shape == (2, num_prototypes)
+    assert output["residual_energy_per_square"].shape == (2, 8, 8)
+    assert output["residual_energy"].shape == (2,)
+    assert output["prototype_entropy"].shape == (2,)
+    assert output["temperature"].shape == (2,)
+    assert output["pooled_patch"].shape == (2, patch_dim)
+    assert output["pooled_reconstruction"].shape == (2, patch_dim)
+    assert output["pooled_residual"].shape == (2, patch_dim)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The soft assignment is a per-square probability distribution over
+    # prototypes, so it must sum to 1 along the prototype axis and be
+    # non-negative.
+    assert (output["soft_assignment"] >= 0.0).all()
+    assert torch.allclose(
+        output["soft_assignment"].sum(dim=-1),
+        torch.ones(2, 64),
+        atol=1.0e-5,
+    )
+    # The prototype histogram is the spatial mean of the assignment, so
+    # it must also sum to 1 along the prototype axis.
+    assert torch.allclose(
+        output["prototype_histogram"].sum(dim=-1),
+        torch.ones(2),
+        atol=1.0e-5,
+    )
+    assert (output["prototype_histogram"] >= 0.0).all()
+    # Residual energies must be non-negative (sums of squares).
+    assert (output["residual_energy_per_square"] >= -1.0e-6).all()
+    assert (output["residual_energy"] >= -1.0e-6).all()
+    # Top-1 motif ids must lie in [0, num_prototypes).
+    assert (output["top1_motif_map"] >= 0).all()
+    assert (output["top1_motif_map"] < num_prototypes).all()
+    # The temperature is exposed positive.
+    assert (output["temperature"] > 0.0).all()
+    # Reconstruction + residual must reconstruct the original patch.
+    assert torch.allclose(
+        output["reconstruction_map"] + output["residual_map"],
+        output["patch_map"],
+        atol=1.0e-5,
+    )
+    # The reconstruction must use the *same* dictionary directions that
+    # the assignment softmax sees: assignment @ prototypes == reconstruction.
+    explicit_recon = torch.matmul(output["soft_assignment"], model.prototypes)
+    assert torch.allclose(
+        explicit_recon.permute(0, 2, 1).reshape(2, patch_dim, 8, 8),
+        output["reconstruction_map"],
+        atol=1.0e-5,
+    )
+
+    # The dictionary must be a learnable parameter exposed on the model
+    # and contain exactly num_prototypes rows of width patch_dim.
+    assert isinstance(model.prototypes, torch.nn.Parameter)
+    assert model.prototypes.shape == (num_prototypes, patch_dim)
+    assert model.prototypes.requires_grad
+    # The temperature must also be learnable.
+    assert isinstance(model.log_tau, torch.nn.Parameter)
+    assert model.log_tau.requires_grad
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "prototype_patch_dictionary_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea-local wrapper must not import or call the research-packet
+    # probe.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i117"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
