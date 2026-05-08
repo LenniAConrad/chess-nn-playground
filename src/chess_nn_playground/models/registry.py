@@ -41,6 +41,9 @@ from chess_nn_playground.models.grassmannian_principal_angle_bottleneck import (
 from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
     build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
 )
+from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
+    build_polar_procrustes_alignment_bottleneck_from_config,
+)
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
 )
@@ -369,6 +372,7 @@ MODEL_BUILDERS = {
     "tropical_constraint_circuit_network": build_tropical_constraint_circuit_network_from_config,
     "grassmannian_principal_angle_bottleneck": build_grassmannian_principal_angle_bottleneck_from_config,
     "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
+    "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

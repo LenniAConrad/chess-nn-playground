@@ -6698,3 +6698,198 @@ def test_i062_matrix_pencil_generalized_spectrum_bottleneck_is_bespoke_and_confo
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i063_polar_procrustes_alignment_bottleneck_is_bespoke_and_conformant():
+    folder = Path("ideas/i063_polar_procrustes_alignment_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
+        PolarProcrustesAlignmentNet,
+        Simple18OwnOpponentTokenExtractor,
+        PieceSquareTokenEncoder,
+        RoleMatrixPooler,
+        PolarProcrustesLayer,
+        PolarProcrustesHead,
+    )
+
+    assert isinstance(model, PolarProcrustesAlignmentNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.token_extractor, Simple18OwnOpponentTokenExtractor)
+    assert isinstance(model.token_encoder, PieceSquareTokenEncoder)
+    assert isinstance(model.role_pooler, RoleMatrixPooler)
+    assert isinstance(model.procrustes, PolarProcrustesLayer)
+    assert isinstance(model.head, PolarProcrustesHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    token_dim = int(config["model"]["token_dim"])
+    role_count = int(config["model"]["role_count"])
+    matrix_space = str(config["model"]["matrix_space"])
+    assert input_channels == 18
+    expected_matrix_dim = token_dim if matrix_space == "embedding" else role_count
+    assert model.matrix_dim == expected_matrix_dim
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 0, 6, 4] = 1.0
+    x[0, 1, 6, 3] = 1.0
+    x[0, 3, 5, 2] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 4] = 1.0
+    x[0, 9, 2, 5] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 2, 4, 4] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 6, 2, 5] = 1.0
+    x[1, 8, 1, 3] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "two_class_logits",
+        "cross_covariance",
+        "orthogonal_alignment",
+        "singular_values",
+        "polar_strain_diagonal",
+        "procrustes_residual",
+        "identity_residual",
+        "alignment_improvement",
+        "per_role_residual",
+        "nuclear_norm",
+        "spectral_norm",
+        "stable_rank",
+        "x_norm",
+        "y_norm",
+        "x_singular_values",
+        "y_singular_values",
+        "own_role_mass",
+        "opp_role_mass",
+        "active_token_count",
+        "mechanism_energy",
+        "ablation_active",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert output["two_class_logits"].shape == (2, 2)
+    assert torch.isfinite(output["logits"]).all()
+
+    assert output["cross_covariance"].shape == (2, expected_matrix_dim, expected_matrix_dim)
+    assert output["orthogonal_alignment"].shape == (2, expected_matrix_dim, expected_matrix_dim)
+    assert output["singular_values"].shape == (2, expected_matrix_dim)
+    assert output["polar_strain_diagonal"].shape == (2, expected_matrix_dim)
+    assert output["per_role_residual"].shape == (2, role_count)
+    assert output["x_singular_values"].shape == (2, role_count)
+    assert output["y_singular_values"].shape == (2, role_count)
+    assert output["own_role_mass"].shape == (2, role_count)
+    assert output["opp_role_mass"].shape == (2, role_count)
+
+    # Q* must be orthogonal: Q* Q*^T = I, up to numerical noise.
+    q = output["orthogonal_alignment"]
+    eye = torch.eye(expected_matrix_dim).expand(2, -1, -1)
+    qqt = torch.matmul(q, q.transpose(-1, -2))
+    assert torch.allclose(qqt, eye, atol=1.0e-3)
+
+    # Singular values are sorted descending and nonneg.
+    sigma = output["singular_values"]
+    sigma_diff = sigma[..., 1:] - sigma[..., :-1]
+    assert torch.all(sigma_diff <= 1.0e-4)
+    assert torch.all(sigma >= -1.0e-5)
+
+    # Procrustes residual <= identity residual (alignment improvement >= 0 up to eps).
+    improvement = output["alignment_improvement"]
+    assert torch.all(improvement >= -1.0e-3)
+
+    # Per-role residual norms are nonneg.
+    assert torch.all(output["per_role_residual"] >= 0.0)
+    # Procrustes residual equals the L2 norm of per_role_residual (its definition).
+    rebuilt = torch.linalg.vector_norm(output["per_role_residual"], dim=-1)
+    assert torch.allclose(rebuilt, output["procrustes_residual"], atol=1.0e-4)
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    enc_grad = trainable.token_encoder.mlp[0].weight.grad
+    own_query_grad = trainable.role_pooler.own_query.weight.grad
+    opp_query_grad = trainable.role_pooler.opp_query.weight.grad
+    head_grad = trainable.head.mlp[1].weight.grad
+    assert enc_grad is not None and torch.isfinite(enc_grad).all()
+    assert own_query_grad is not None and torch.isfinite(own_query_grad).all()
+    assert opp_query_grad is not None and torch.isfinite(opp_query_grad).all()
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+
+    # All section-9 falsifier ablations must build, run, and produce finite logits.
+    for ablation in (
+        "separate_matrix_stats_only",
+        "identity_alignment_only",
+        "random_orthogonal_alignment",
+        "batch_shuffled_opponent",
+        "material_only_matrices",
+        "role_pool_mean_only",
+        "singular_values_only",
+    ):
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = module.build_polar_procrustes_alignment_bottleneck_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "identity_alignment_only":
+            # Q* should be the identity for every sample.
+            q_abl = abl_out["orthogonal_alignment"]
+            target_eye = torch.eye(expected_matrix_dim).expand(2, -1, -1)
+            assert torch.allclose(q_abl, target_eye, atol=1.0e-5), ablation
+
+    # Permutation invariance over batch: reordering samples in the batch must
+    # preserve per-sample logits (the model has no cross-sample interaction
+    # in the default ablation).
+    x_shuffle = x[[1, 0]]
+    with torch.no_grad():
+        out_shuffle = model(x_shuffle)
+    assert torch.allclose(out_shuffle["logits"], output["logits"][[1, 0]], atol=1.0e-4)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "polar_procrustes_alignment_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PolarProcrustesAlignmentNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i063"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
