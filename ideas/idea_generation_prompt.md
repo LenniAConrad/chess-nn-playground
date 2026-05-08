@@ -829,13 +829,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i068_schur_ray_line_algebra_network",
       "idea_id": "i068",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Schur-Ray Line Algebra Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`; uses a low-rank Woodbury/Schur line-equilibrium solve over the 46 rank/file/diagonal ray incidence rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus Schur/Woodbury, line-correction, energy, and material diagnostics saved to prediction artifacts.",
       "short_thesis": "Schur-Ray Line Algebra Network tests whether a generic board mechanism improves puzzle-binary classification.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

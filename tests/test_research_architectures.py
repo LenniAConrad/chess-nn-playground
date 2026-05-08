@@ -7307,3 +7307,100 @@ def test_i067_finite_field_character_sum_board_network_is_bespoke_and_conformant
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i068_schur_ray_line_algebra_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i068_schur_ray_line_algebra_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.schur_ray_line_algebra import (
+        BoardConditionedLineModes,
+        CoordinateBoardStem,
+        SchurRayLineAlgebraNetwork,
+    )
+
+    assert isinstance(model, SchurRayLineAlgebraNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.stem, CoordinateBoardStem)
+    assert isinstance(model.line_modes, BoardConditionedLineModes)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[0, 1, 7, 1] = 1.0
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[1, 0, 6, 4] = 1.0
+    x[1, 6, 1, 3] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "schur_logdet",
+        "schur_trace",
+        "line_correction_norm",
+        "mean_abs_correction",
+        "data_energy",
+        "line_energy",
+        "king_zone_energy",
+        "slider_line_energy",
+        "schur_feature_norm",
+        "material_balance",
+        "piece_count",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    classifier_grad = trainable.classifier[1].weight.grad
+    assert classifier_grad is not None and torch.isfinite(classifier_grad).all()
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "schur_ray_line_algebra_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, SchurRayLineAlgebraNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i068"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

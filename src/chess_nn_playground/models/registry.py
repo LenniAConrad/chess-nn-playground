@@ -23,6 +23,9 @@ from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirr
 from chess_nn_playground.models.finite_field_character_sum import (
     build_finite_field_character_sum_board_network_from_config,
 )
+from chess_nn_playground.models.schur_ray_line_algebra import (
+    build_schur_ray_line_algebra_network_from_config,
+)
 from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
 from chess_nn_playground.models.empty_square_opportunity_network import build_empty_square_opportunity_network_from_config
 from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
@@ -385,6 +388,7 @@ MODEL_BUILDERS = {
     "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
     "piece_token_cnn_hybrid": build_piece_token_cnn_hybrid_from_config,
     "finite_field_character_sum_board_network": build_finite_field_character_sum_board_network_from_config,
+    "schur_ray_line_algebra_network": build_schur_ray_line_algebra_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
