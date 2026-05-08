@@ -12169,3 +12169,142 @@ def test_i113_row_file_factor_mixer_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i114_piece_conditioned_hypernetwork_cnn_is_bespoke_and_conformant():
+    folder = Path("ideas/i114_piece_conditioned_hypernetwork_cnn")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg["channels"])
+    depth = int(model_cfg["depth"])
+    assert depth >= 1
+
+    # Two boards with different piece inventories so the hypernetwork
+    # must produce different per-sample gates and kernels.
+    x = torch.zeros(2, input_channels, 8, 8)
+    if input_channels > 12:
+        x[0, 12] = 1.0
+    # Sample 0: dense own-side material on the back rank.
+    x[0, 0, 0, 0] = 1.0  # white pawn
+    x[0, 1, 0, 1] = 1.0  # white knight
+    x[0, 2, 0, 2] = 1.0  # white bishop
+    x[0, 3, 0, 3] = 1.0  # white rook
+    x[0, 4, 0, 4] = 1.0  # white queen
+    x[0, 5, 0, 5] = 1.0  # white king
+    # Sample 1: only black pieces, sparse.
+    x[1, 6, 7, 0] = 1.0  # black pawn
+    x[1, 11, 7, 4] = 1.0  # black king
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "pooled_features",
+        "inventory_summary",
+        "gate_mean",
+        "gate_entropy",
+        "kernel_energy",
+        "gated_energy",
+        "gate_mean_per_block",
+        "gate_entropy_per_block",
+        "kernel_norm_per_block",
+        "block_energy_per_block",
+        "material_delta",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["pooled_features"].shape == (2, channels)
+    assert output["inventory_summary"].shape == (2, 27)
+    assert output["gate_mean"].shape == (2,)
+    assert output["gate_entropy"].shape == (2,)
+    assert output["kernel_energy"].shape == (2,)
+    assert output["gated_energy"].shape == (2,)
+    assert output["gate_mean_per_block"].shape == (2, depth)
+    assert output["gate_entropy_per_block"].shape == (2, depth)
+    assert output["kernel_norm_per_block"].shape == (2, depth)
+    assert output["block_energy_per_block"].shape == (2, depth)
+    assert output["material_delta"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Gates pass through sigmoid so they live in [0, 1].
+    assert (output["gate_mean_per_block"] >= -1.0e-6).all()
+    assert (output["gate_mean_per_block"] <= 1.0 + 1.0e-6).all()
+    # Kernel norms and post-activation block energies are non-negative.
+    assert (output["kernel_norm_per_block"] >= -1.0e-6).all()
+    assert (output["block_energy_per_block"] >= -1.0e-6).all()
+    # Per-block kernel norms must sum to the aggregate kernel energy.
+    assert torch.allclose(
+        output["kernel_energy"],
+        output["kernel_norm_per_block"].sum(dim=-1),
+        atol=1.0e-5,
+    )
+    # Per-block block energies must sum to the aggregate gated energy.
+    assert torch.allclose(
+        output["gated_energy"],
+        output["block_energy_per_block"].sum(dim=-1),
+        atol=1.0e-5,
+    )
+
+    # Different piece inventories must produce different summaries.
+    summary_diff = (output["inventory_summary"][0] - output["inventory_summary"][1]).abs().sum()
+    assert summary_diff.item() > 0.0
+    # And different summaries must yield different per-sample gates.
+    gate_diff = (
+        output["gate_mean_per_block"][0] - output["gate_mean_per_block"][1]
+    ).abs().sum()
+    assert gate_diff.item() > 0.0
+
+    # The dense, own-material sample must have a strictly positive
+    # material delta and the bare-king sample must have a strictly
+    # negative one.
+    assert output["material_delta"][0].item() > 0.0
+    assert output["material_delta"][1].item() < 0.0
+
+    # Total post-activation energy must be strictly positive: a static
+    # all-zeros depthwise kernel would not yield this.
+    assert output["gated_energy"].sum() > 0.0
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "piece_conditioned_hypernetwork_cnn"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i114"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

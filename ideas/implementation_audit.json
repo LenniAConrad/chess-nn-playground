@@ -3809,35 +3809,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i114_piece_conditioned_hypernetwork_cnn",
       "idea_id": "i114",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "piece_conditioned_hypernetwork_cnn",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "piece_conditioned_hypernetwork_cnn",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.piece_conditioned_hypernetwork_cnn.build_piece_conditioned_hypernetwork_cnn_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.piece_conditioned_hypernetwork_cnn.build_piece_conditioned_hypernetwork_cnn_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.piece_conditioned_hypernetwork_cnn.PieceConditionedHypernetworkCNN",
+          "chess_nn_playground.models.piece_conditioned_hypernetwork_cnn.build_piece_conditioned_hypernetwork_cnn_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8293,18 +8291,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 157,
-      "shared_probe_variant": 83
+      "bespoke_model": 158,
+      "shared_probe_variant": 82
     },
     "by_metadata_kind": {
-      "bespoke_model": 157,
-      "shared_probe_variant": 83
+      "bespoke_model": 158,
+      "shared_probe_variant": 82
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i114_piece_conditioned_hypernetwork_cnn",
       "ideas/i115_neural_board_cellular_automaton",
       "ideas/i116_symmetric_difference_twin_encoder",
       "ideas/i117_prototype_patch_dictionary_network",

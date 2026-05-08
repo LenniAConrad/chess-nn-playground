@@ -1381,13 +1381,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i114_piece_conditioned_hypernetwork_cnn",
       "idea_id": "i114",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Piece-Conditioned Hypernetwork CNN",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
-      "short_thesis": "The best local filters may depend on material and piece inventory. A lightweight hypernetwork can condition CNN channel gates or depthwise kernels on safe current-board summaries, adapting the feature extractor without using engine metadata.",
-      "status": "scaffolded",
+      "novelty_claim": "Bespoke hypernetwork CNN whose per-block depthwise 3x3 kernels and per-channel sigmoid gates are produced per sample by a small MLP conditioned on a deterministic piece-inventory summary, materially distinct from the shared ResearchPacketProbe scaffold and from the static piece-plane gated CNN.",
+      "output_heads": "One puzzle logit plus per-block gate / kernel / block-energy diagnostics and an inventory-summary vector saved to prediction artifacts.",
+      "short_thesis": "The best local filters may depend on material and piece inventory. A lightweight hypernetwork can condition CNN channel gates on safe current-board summaries, adapting the feature extractor without using engine metadata.",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
