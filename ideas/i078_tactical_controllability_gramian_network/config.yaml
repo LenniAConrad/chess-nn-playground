@@ -23,6 +23,13 @@ model:
   use_batchnorm: true
   mechanism_family: linear_algebra
   packet_profile: tactical_controllability_gramian_network
+  operator_rank: 12
+  input_rank: 8
+  target_rank: 8
+  gramian_steps: 6
+  readout_modes: 8
+  spectral_norm_iters: 3
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

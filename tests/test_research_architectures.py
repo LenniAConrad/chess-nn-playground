@@ -8071,3 +8071,157 @@ def test_i077_adaptive_tactical_resolvent_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i078_tactical_controllability_gramian_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_controllability_gramian_network import (
+        TacticalControllabilityGramianNetwork,
+        VALID_ABLATIONS,
+        build_tactical_controllability_gramian_network_from_config,
+    )
+
+    folder = Path("ideas/i078_tactical_controllability_gramian_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalControllabilityGramianNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # side-to-move = white
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "T_a",
+        "T_d",
+        "T_net",
+        "observability_trace",
+        "attacker_hankel_modes",
+        "defender_hankel_modes",
+        "mode_ratio",
+        "subspace_principal_angles",
+        "target_diag_attacker",
+        "target_diag_defender",
+        "operator_norm",
+        "operator_gate_weights",
+        "operator_low_rank_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    readout_modes = int(config["model"]["readout_modes"])
+    target_rank = int(config["model"]["target_rank"])
+    assert output["T_a"].shape == (2,)
+    assert output["T_d"].shape == (2,)
+    assert output["T_net"].shape == (2,)
+    assert output["observability_trace"].shape == (2,)
+    assert output["attacker_hankel_modes"].shape == (2, readout_modes)
+    assert output["defender_hankel_modes"].shape == (2, readout_modes)
+    assert output["mode_ratio"].shape == (2, readout_modes)
+    assert output["subspace_principal_angles"].shape == (2, readout_modes)
+    assert output["target_diag_attacker"].shape == (2, target_rank)
+    assert output["target_diag_defender"].shape == (2, target_rank)
+    assert output["operator_gate_weights"].shape[1] == 5  # ray, knight, pawn, king, defense
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    trunk_grad = trainable.stem.layers[0].block[0].weight.grad
+    gate_grad = trainable.gate_head[0].weight.grad
+    low_rank_grad = trainable.low_rank_left.weight.grad
+    attacker_grad = trainable.attacker_input_head.weight.grad
+    defender_grad = trainable.defender_input_head.weight.grad
+    target_grad = trainable.target_output_head.weight.grad
+    head_grad = trainable.head[0].weight.grad
+    for grad in (trunk_grad, gate_grad, low_rank_grad, attacker_grad, defender_grad, target_grad, head_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The packet's required ablations must build, run, and stay finite.
+    expected_ablations = {
+        "none",
+        "attacker_only",
+        "defender_only",
+        "no_observability",
+        "one_step_gramian",
+        "random_target_C",
+        "random_geometry_A",
+        "fixed_A_no_gates",
+        "diag_only_gramian",
+        "cnn_same_params",
+    }
+    assert expected_ablations.issubset(VALID_ABLATIONS)
+    for ablation in expected_ablations:
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = build_tactical_controllability_gramian_network_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "fixed_A_no_gates":
+            assert torch.all(abl_out["operator_low_rank_energy"] == 0.0)
+            uniform = 1.0 / 5.0
+            assert torch.allclose(
+                abl_out["operator_gate_weights"],
+                torch.full_like(abl_out["operator_gate_weights"], uniform),
+                atol=1e-6,
+            )
+        if ablation == "attacker_only":
+            assert torch.all(abl_out["T_d"] == 0.0)
+            assert torch.all(abl_out["target_diag_defender"] == 0.0)
+        if ablation == "defender_only":
+            assert torch.all(abl_out["T_a"] == 0.0)
+            assert torch.all(abl_out["target_diag_attacker"] == 0.0)
+        if ablation == "cnn_same_params":
+            assert torch.all(abl_out["ablation_cnn_same_params"] == 1.0)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_controllability_gramian_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalControllabilityGramianNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i078"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
