@@ -8935,3 +8935,145 @@ def test_i083_fisher_geodesic_tension_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i084_typed_hypergraph_motif_grammar_is_bespoke_and_conformant():
+    from chess_nn_playground.models.typed_hypergraph_motif_grammar import (
+        TypedHypergraphMotifGrammarNet,
+        build_typed_hypergraph_motif_grammar_from_config,
+    )
+
+    folder = Path("ideas/i084_typed_hypergraph_motif_grammar")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TypedHypergraphMotifGrammarNet)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    x[:, 0, 6, 4] = 1.0  # white pawn on e2
+    x[:, 6, 1, 4] = 1.0  # black pawn on e7
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "grammar_only_logits",
+        "motif_summary",
+        "pressure_motif_strength",
+        "loose_target_strength",
+        "king_zone_pressure_strength",
+        "pin_shape_strength",
+        "line_pressure_strength",
+        "fork_shape_strength",
+        "battery_shape_strength",
+        "compromised_defender_strength",
+        "overload_shape_strength",
+        "tactical_convergence_strength",
+        "puzzle_like_motif_strength",
+        "grammar_chart_energy",
+        "motif_entropy",
+        "relation_fact_count",
+        "piece_count",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "grammar_composition_depth",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert output["grammar_only_logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The deterministic relation extractor should see exactly the six
+    # pieces placed on the board for both batch entries.
+    assert torch.equal(output["piece_count"], torch.tensor([6.0, 6.0]))
+    # Per-production strength scalars are bounded sigmoids.
+    for name in (
+        "pressure_motif_strength",
+        "loose_target_strength",
+        "king_zone_pressure_strength",
+        "pin_shape_strength",
+        "line_pressure_strength",
+        "fork_shape_strength",
+        "battery_shape_strength",
+        "compromised_defender_strength",
+        "overload_shape_strength",
+        "tactical_convergence_strength",
+        "puzzle_like_motif_strength",
+    ):
+        assert output[name].shape == (2,)
+        assert ((output[name] >= 0.0) & (output[name] <= 1.0)).all(), name
+
+    # The auxiliary production-mass tensor is exposed when requested.
+    aux_output = model(x, return_aux=True)
+    assert aux_output["production_mass"].shape == (2, 11)
+
+    # Backward through the bespoke pipeline must produce finite gradients
+    # for the convolutional trunk, piece encoder, pair scorer, grammar-only
+    # head, and the fused readout.
+    trainable = build_typed_hypergraph_motif_grammar_from_config(dict(config["model"]))
+    trainable_out = trainable(x)
+    (trainable_out["logits"].sum() + trainable_out["grammar_only_logits"].sum()).backward()
+    stem_grad = trainable.board_stem[0].weight.grad
+    piece_encoder_grad = trainable.piece_encoder[1].weight.grad
+    pair_scorer_grad = trainable.pair_scorer[1].weight.grad
+    grammar_only_grad = trainable.grammar_only_head[0].weight.grad
+    head_grad = trainable.head[1].weight.grad
+    production_bias_grad = trainable.production_bias.grad
+    for grad in (
+        stem_grad,
+        piece_encoder_grad,
+        pair_scorer_grad,
+        grammar_only_grad,
+        head_grad,
+        production_bias_grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "typed_hypergraph_motif_grammar"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TypedHypergraphMotifGrammarNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i084"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
