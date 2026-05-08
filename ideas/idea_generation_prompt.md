@@ -1981,13 +1981,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i164_learnable_pooling_tree_boardnet",
       "idea_id": "i164",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Learnable Pooling Tree BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; uses a fixed pooling tree over the board with learnable per-node aggregators and FiLM-style top-down broadcasts rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus per-level pooled features, learned pooling gate weights, gate entropy diagnostics, and feature-energy diagnostics.",
       "short_thesis": "Instead of pooling the whole board at once or using an FPN, build a fixed hierarchy over the `8 x 8` board: squares become `2 x 2` cells, cells become quadrants, quadrants become a board root. Each tree node has a small learned aggregator and passes feature...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

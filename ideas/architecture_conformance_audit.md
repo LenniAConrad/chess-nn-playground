@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `145`
+- Implemented architecture rows audited: `146`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -122,6 +122,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i161` | `ideas/i161_multiplicative_conjunction_convnet` | `multiplicative_conjunction_convnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i161_multiplicative_conjunction_convnet/model.py`<br>`src/chess_nn_playground/models/multiplicative_conjunction_convnet.py` | - |
 | `i162` | `ideas/i162_empty_square_opportunity_network` | `empty_square_opportunity_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i162_empty_square_opportunity_network/model.py`<br>`src/chess_nn_playground/models/empty_square_opportunity_network.py` | - |
 | `i163` | `ideas/i163_global_scratchpad_boardnet` | `global_scratchpad_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i163_global_scratchpad_boardnet/model.py`<br>`src/chess_nn_playground/models/global_scratchpad_boardnet.py` | - |
+| `i164` | `ideas/i164_learnable_pooling_tree_boardnet` | `learnable_pooling_tree_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i164_learnable_pooling_tree_boardnet/model.py`<br>`src/chess_nn_playground/models/learnable_pooling_tree_boardnet.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |

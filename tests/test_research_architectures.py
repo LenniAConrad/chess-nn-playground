@@ -361,6 +361,17 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "use_coordinate_planes": True,
         "ablation": "none",
     },
+    "learnable_pooling_tree_boardnet": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 1,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "pool_temperature": 1.0,
+        "use_top_down": True,
+        "ablation": "none",
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4085,6 +4096,133 @@ def test_i163_global_scratchpad_boardnet_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i163"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i164_learnable_pooling_tree_boardnet_is_bespoke_and_conformant():
+    folder = Path("ideas/i164_learnable_pooling_tree_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["square_features"].shape == (2, channels, 8, 8)
+    assert output["cell_features"].shape == (2, channels, 4, 4)
+    assert output["quadrant_features"].shape == (2, channels, 2, 2)
+    assert output["root_features"].shape == (2, channels)
+    assert output["cell_gate_weights"].shape == (2, 4, 4, 4)
+    assert output["quadrant_gate_weights"].shape == (2, 2, 2, 4)
+    assert output["root_gate_weights"].shape == (2, 1, 1, 4)
+    # Pooling gate weights must be a softmax distribution over the four children.
+    for key in ("cell_gate_weights", "quadrant_gate_weights", "root_gate_weights"):
+        gate = output[key]
+        assert torch.allclose(gate.sum(dim=-1), torch.ones_like(gate.sum(dim=-1)), atol=1e-5)
+        assert (gate >= 0).all()
+    assert {
+        "cell_gate_entropy",
+        "quadrant_gate_entropy",
+        "root_gate_entropy",
+        "square_feature_energy",
+        "cell_feature_energy",
+        "quadrant_feature_energy",
+        "root_feature_energy",
+        "tree_levels",
+        "prob",
+    }.issubset(output)
+    assert (output["tree_levels"] == 4).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["root_features"].shape == (2, channels)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    no_top_down = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "channels": 16,
+            "hidden_dim": 24,
+            "depth": 1,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "pool_temperature": 1.0,
+            "use_top_down": True,
+            "ablation": "no_top_down",
+        },
+    ).eval()
+    with torch.no_grad():
+        no_td_output = no_top_down(x)
+    assert no_td_output["logits"].shape == (2,)
+    assert torch.isfinite(no_td_output["logits"]).all()
+
+    uniform_pool = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "channels": 16,
+            "hidden_dim": 24,
+            "depth": 1,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "pool_temperature": 1.0,
+            "use_top_down": True,
+            "ablation": "uniform_pool",
+        },
+    ).eval()
+    with torch.no_grad():
+        uniform_output = uniform_pool(x)
+    # Uniform pool ablation collapses all gate weights to ~0.25 over four children.
+    quarter = torch.full_like(uniform_output["cell_gate_weights"], 0.25)
+    assert torch.allclose(uniform_output["cell_gate_weights"], quarter, atol=1e-3)
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i164"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues

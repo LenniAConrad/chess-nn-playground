@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 145 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 95 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 146 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 94 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -77,7 +77,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i148_shallow_wide_residual_boardnet`
 - `ideas/i149_axial_rank_file_convnet`
 - `ideas/i152_iterative_logit_refinement_cnn`
-- `ideas/i164_learnable_pooling_tree_boardnet`
 - `ideas/i165_spatial_film_coordinate_net`
 - `ideas/i166_channel_bilinear_role_mixer`
 - `ideas/i167_evidence_sieve_network`
@@ -287,7 +286,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i161` | `ideas/i161_multiplicative_conjunction_convnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `multiplicative_conjunction_convnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i162` | `ideas/i162_empty_square_opportunity_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `empty_square_opportunity_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i163` | `ideas/i163_global_scratchpad_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `global_scratchpad_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i164` | `ideas/i164_learnable_pooling_tree_boardnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `learnable_pooling_tree_boardnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i164` | `ideas/i164_learnable_pooling_tree_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `learnable_pooling_tree_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i165` | `ideas/i165_spatial_film_coordinate_net` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `spatial_film_coordinate_net` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i166` | `ideas/i166_channel_bilinear_role_mixer` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `channel_bilinear_role_mixer` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i167` | `ideas/i167_evidence_sieve_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `evidence_sieve_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

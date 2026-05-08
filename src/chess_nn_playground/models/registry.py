@@ -96,6 +96,9 @@ from chess_nn_playground.models.geometry_pseudolikelihood_ratio import (
     build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
 )
 from chess_nn_playground.models.global_scratchpad_boardnet import build_global_scratchpad_boardnet_from_config
+from chess_nn_playground.models.learnable_pooling_tree_boardnet import (
+    build_learnable_pooling_tree_boardnet_from_config,
+)
 from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
@@ -403,6 +406,7 @@ MODEL_BUILDERS = {
     "multiplicative_conjunction_convnet": build_multiplicative_conjunction_convnet_from_config,
     "empty_square_opportunity_network": build_empty_square_opportunity_network_from_config,
     "global_scratchpad_boardnet": build_global_scratchpad_boardnet_from_config,
+    "learnable_pooling_tree_boardnet": build_learnable_pooling_tree_boardnet_from_config,
     "square_color_parity_mixer": build_square_color_parity_mixer_from_config,
     "independence_residual_interaction_network": build_independence_residual_interaction_network_from_config,
     "residual_calibration_error_field": build_residual_calibration_error_field_from_config,
