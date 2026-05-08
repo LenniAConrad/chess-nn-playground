@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `135`
+- Implemented architecture rows audited: `136`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -99,6 +99,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i086` | `ideas/i086_differentiable_chess_fact_lattice` | `differentiable_chess_fact_lattice` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i086_differentiable_chess_fact_lattice/model.py`<br>`src/chess_nn_playground/models/differentiable_chess_fact_lattice.py` | - |
 | `i087` | `ideas/i087_tactical_radius_filtration` | `tactical_radius_filtration` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i087_tactical_radius_filtration/model.py`<br>`src/chess_nn_playground/models/tactical_radius_filtration.py` | - |
 | `i090` | `ideas/i090_chess_mode_tucker_relation_certificate` | `chess_mode_tucker_relation_certificate` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i090_chess_mode_tucker_relation_certificate/model.py`<br>`src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py` | - |
+| `i091` | `ideas/i091_tactical_state_bottleneck_inference` | `tactical_state_bottleneck_inference` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i091_tactical_state_bottleneck_inference/model.py`<br>`src/chess_nn_playground/models/tactical_state_bottleneck.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |

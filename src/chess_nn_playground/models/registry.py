@@ -304,6 +304,9 @@ from chess_nn_playground.models.typed_hypergraph_motif_grammar import (
 from chess_nn_playground.models.tactical_radius_filtration import (
     build_tactical_radius_filtration_from_config,
 )
+from chess_nn_playground.models.tactical_state_bottleneck import (
+    build_tactical_state_bottleneck_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -453,6 +456,7 @@ MODEL_BUILDERS = {
     "differentiable_chess_fact_lattice": build_differentiable_chess_fact_lattice_from_config,
     "tactical_radius_filtration": build_tactical_radius_filtration_from_config,
     "chess_mode_tucker_relation_certificate": build_chess_mode_tucker_relation_certificate_from_config,
+    "tactical_state_bottleneck_inference": build_tactical_state_bottleneck_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

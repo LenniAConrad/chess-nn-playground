@@ -9533,3 +9533,167 @@ def test_i090_chess_mode_tucker_relation_certificate_is_bespoke_and_conformant()
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i091_tactical_state_bottleneck_inference_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_state_bottleneck import (
+        LATENT_SIZES,
+        NoLatentMatchedBaseline,
+        TacticalStateBottleneckModel,
+        build_tactical_state_bottleneck_from_config,
+        diagnostic_3x2,
+        kl_freebits,
+        tactical_state_loss_components,
+    )
+
+    folder = Path("ideas/i091_tactical_state_bottleneck_inference")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalStateBottleneckModel)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_state_bottleneck_inference"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — a board with a non-trivial tactical context.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent_probs",
+        "prior_entropy_by_group",
+        "prior_usage_by_group",
+        "motif_entropy",
+        "anchor_entropy",
+        "target_entropy",
+        "relation_entropy",
+        "vulnerability_entropy",
+        "tempo_entropy",
+        "motif_usage",
+        "relation_usage",
+        "vulnerability_usage",
+        "tempo_usage",
+        "anchor_null_rate",
+        "target_null_rate",
+        "pooled_energy",
+        "direct_alpha",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert expected_keys.issubset(output)
+    for name, size in LATENT_SIZES.items():
+        assert output["latent_probs"][name].shape == (2, size), name
+    assert output["anchor_null_rate"].shape == (2,)
+    assert output["target_null_rate"].shape == (2,)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_state_bottleneck_inference"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalStateBottleneckModel)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # The prior path must produce finite gradients on the trunk and the
+    # latent-conditioned puzzle head.
+    trainable = build_tactical_state_bottleneck_from_config(dict(config["model"]))
+    trainable.train()
+    output = trainable(x)
+    output["logits"].sum().backward()
+    trunk_grad = trainable.trunk.input.weight.grad
+    motif_grad = trainable.prior_head.motif.weight.grad
+    motif_emb_grad = trainable.latents["motif"].embedding.grad
+    head_grad = trainable.latent_head[1].weight.grad
+    direct_grad = trainable.direct_head[1].weight.grad
+    for grad in (trunk_grad, motif_grad, motif_emb_grad, head_grad, direct_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The full posterior-aware path must build, return finite logits at the
+    # puzzle_binary contract shape, and produce a finite multi-loss bundle.
+    trainable.train()
+    fine_label = torch.tensor([2, 0], dtype=torch.long)
+    train_output = trainable(x, fine_label=fine_label)
+    assert train_output["logits"].shape == (2,)
+    for key in ("logit_q", "logit_p", "prior_logits", "posterior_logits", "losses"):
+        assert key in train_output, key
+    losses = train_output["losses"]
+    for key in ("loss", "loss_pred", "loss_prior_pred", "loss_kl", "loss_usage", "loss_entropy"):
+        assert key in losses, key
+        assert torch.isfinite(losses[key]).all(), key
+    standalone = tactical_state_loss_components(
+        logit_q=train_output["logit_q"],
+        logit_p=train_output["logit_p"],
+        posterior_logits=train_output["posterior_logits"],
+        prior_logits=train_output["prior_logits"],
+        fine_label=fine_label,
+    )
+    assert torch.isfinite(standalone["loss"]).all()
+    kl_total, kl_by_group = kl_freebits(train_output["posterior_logits"], train_output["prior_logits"])
+    assert torch.isfinite(kl_total).all()
+    assert set(kl_by_group) == set(LATENT_SIZES)
+
+    # The 3x2 fine-label diagnostic must be a [3, 2] long tensor with the right
+    # per-row totals.
+    diag_table = diagnostic_3x2(torch.tensor([0, 1, 2, 2]), torch.tensor([2.0, -2.0, 2.0, -2.0]))
+    assert diag_table.shape == (3, 2)
+    assert int(diag_table.sum()) == 4
+
+    # The matched no-latent baseline must build and return the puzzle_binary
+    # contract shape so ablations can run beside the main model.
+    baseline = NoLatentMatchedBaseline(input_channels=input_channels)
+    with torch.no_grad():
+        baseline_output = baseline(x)
+    assert baseline_output["logits"].shape == (2,)
+    assert torch.isfinite(baseline_output["logits"]).all()
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i091"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

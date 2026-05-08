@@ -1741,6 +1741,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i091_tactical_state_bottleneck_inference/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i091_tactical_state_bottleneck_inference",
+      "idea_id": "i091",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tactical_state_bottleneck_inference",
+      "slug": "tactical_state_bottleneck_inference",
+      "source_files": [
+        "ideas/i091_tactical_state_bottleneck_inference/model.py",
+        "src/chess_nn_playground/models/tactical_state_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2790,6 +2810,7 @@
       "ideas/i086_differentiable_chess_fact_lattice",
       "ideas/i087_tactical_radius_filtration",
       "ideas/i090_chess_mode_tucker_relation_certificate",
+      "ideas/i091_tactical_state_bottleneck_inference",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2839,7 +2860,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 135,
+    "implemented_architecture_count": 136,
     "issue_folders": [],
     "validation_issue_count": 0
   }
