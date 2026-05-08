@@ -1513,13 +1513,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i125_ray_state_space_scan_network",
       "idea_id": "i125",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Ray State-Space Scan Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`; uses a grammar mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`; applies a bidirectional linear state-space recurrence with line-type-conditioned matrices to every rank, file, diagonal, and anti-diagonal of the board, rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus per-line scan diagnostics (line_state_energy, endpoint_state_norm, rank/file/diagonal/anti_diagonal_scan_energy and _response, topk_line_response, king_line_response) saved to prediction artifacts.",
       "short_thesis": "Chess line motifs often require long-range context, but all-square attention and dynamic attack graphs are not the only way to get it. A state-space scan can process every rank, file, diagonal, and anti-diagonal as a short sequence with shared continuous re...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
