@@ -793,13 +793,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i065_piece_token_cnn_hybrid",
       "idea_id": "i065",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Piece-Token CNN Hybrid",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2109_friday_shanghai_piece_token_cnn_hybrid.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2109_friday_shanghai_piece_token_cnn_hybrid.md`; bespoke board-only CNN + explicit piece-token mixer with multiplicative late fusion. Not a CNN/residual/attention/sheaf/transport variant; the dual-stream contract is the missing strong conventional baseline for the piece-token hybrid family.",
+      "output_heads": "One puzzle logit plus hybrid diagnostics (token_count, piece_count, material_balance, cnn_energy, token_energy, cnn_token_interaction, token_coordinate_energy).",
       "short_thesis": "- Idea name: Piece-Token CNN Hybrid - One-sentence thesis: A strong regular chess-board benchmark should combine dense 8x8 convolutional features with an explicit occu...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3800,7 +3800,7 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i065_piece_token_cnn_hybrid",
       "idea_id": "i065",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "implementation_status": "probe_scaffold_only",
       "mechanism_family": "graph",
       "name": "Piece-Token CNN Hybrid",

@@ -247,6 +247,9 @@ from chess_nn_playground.models.free_probability_r_transform import build_free_p
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
+from chess_nn_playground.models.piece_token_cnn_hybrid import (
+    build_piece_token_cnn_hybrid_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -377,6 +380,7 @@ MODEL_BUILDERS = {
     "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
     "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
     "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
+    "piece_token_cnn_hybrid": build_piece_token_cnn_hybrid_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

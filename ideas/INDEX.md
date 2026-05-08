@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 109, 'probe_scaffold_only': 124, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 116, 'shared_probe_variant': 124}`
+- Registered implementation states: `{'implemented': 110, 'probe_scaffold_only': 123, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 117, 'shared_probe_variant': 123}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 116 | Materially distinct model implementation. |
-| `shared_probe_variant` | 124 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 117 | Materially distinct model implementation. |
+| `shared_probe_variant` | 123 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -103,7 +103,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i062` | [Matrix-Pencil Generalized Spectrum Bottleneck](i062_matrix_pencil_generalized_spectrum_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i063` | [Polar-Procrustes Alignment Bottleneck](i063_polar_procrustes_alignment_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i064` | [Multi-Scale Dilated Board Mixer CNN](i064_multi_scale_dilated_board_mixer_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i065` | [Piece-Token CNN Hybrid](i065_piece_token_cnn_hybrid) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i065` | [Piece-Token CNN Hybrid](i065_piece_token_cnn_hybrid) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i066` | [Bispectral Phase-Coupling Board Network](i066_bispectral_phase_coupling_board_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i067` | [Finite-Field Character-Sum Board Network](i067_finite_field_character_sum_board_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i068` | [Schur-Ray Line Algebra Network](i068_schur_ray_line_algebra_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

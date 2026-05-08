@@ -7057,3 +7057,145 @@ def test_i064_multi_scale_dilated_board_mixer_cnn_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i065_piece_token_cnn_hybrid_is_bespoke_and_conformant():
+    folder = Path("ideas/i065_piece_token_cnn_hybrid")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.piece_token_cnn_hybrid import (
+        BoardCNNTrunk,
+        CNNTokenFusionHead,
+        PieceTokenCNNHybrid,
+        PieceTokenMixer,
+        Simple18PieceTokenExtractor,
+        TokenMixerLayer,
+        build_piece_token_cnn_hybrid_from_config,
+    )
+
+    assert isinstance(model, PieceTokenCNNHybrid)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.extractor, Simple18PieceTokenExtractor)
+    assert isinstance(model.cnn, BoardCNNTrunk)
+    assert isinstance(model.token_mixer, PieceTokenMixer)
+    assert isinstance(model.head, CNNTokenFusionHead)
+    assert all(isinstance(layer, TokenMixerLayer) for layer in model.token_mixer.layers)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 0, 6, 4] = 1.0
+    x[0, 1, 6, 3] = 1.0
+    x[0, 3, 5, 2] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 4] = 1.0
+    x[0, 9, 2, 5] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 2, 4, 4] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 6, 2, 5] = 1.0
+    x[1, 8, 1, 3] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "token_count",
+        "piece_count",
+        "material_balance",
+        "cnn_energy",
+        "token_energy",
+        "cnn_token_interaction",
+        "token_coordinate_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert torch.all(output["cnn_energy"] >= 0.0)
+    assert torch.all(output["token_energy"] >= 0.0)
+    assert torch.all(output["cnn_token_interaction"] >= 0.0)
+    assert torch.all(output["token_coordinate_energy"] >= 0.0)
+    # 7 occupied tokens per board in the synthetic batch above.
+    assert torch.all(output["token_count"] == 7.0)
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    cnn_grad = trainable.cnn.blocks[0].weight.grad
+    encoder_grad = trainable.token_mixer.encoder[0].weight.grad
+    head_grad = trainable.head.classifier[1].weight.grad
+    cnn_proj_grad = trainable.head.cnn_proj.weight.grad
+    token_proj_grad = trainable.head.token_proj.weight.grad
+    assert cnn_grad is not None and torch.isfinite(cnn_grad).all()
+    assert encoder_grad is not None and torch.isfinite(encoder_grad).all()
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+    assert cnn_proj_grad is not None and torch.isfinite(cnn_proj_grad).all()
+    assert token_proj_grad is not None and torch.isfinite(token_proj_grad).all()
+
+    # Falsifier ablations must build, run, and produce finite logits.
+    for ablation in (
+        "cnn_only_matched",
+        "token_only",
+        "no_interaction_fusion",
+        "material_token_only",
+        "shuffle_token_coordinates",
+        "single_token_layer",
+    ):
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = build_piece_token_cnn_hybrid_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation in {"cnn_only_matched", "no_interaction_fusion"}:
+            assert abl_model.head.include_interaction is False
+        if ablation == "single_token_layer":
+            assert len(abl_model.token_mixer.layers) == 1
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "piece_token_cnn_hybrid"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PieceTokenCNNHybrid)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i065"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
