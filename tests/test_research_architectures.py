@@ -11966,3 +11966,124 @@ def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.line_piece_crossbar_network import (
+        LinePieceCrossbarNetwork,
+        NUM_LINES,
+        NUM_PIECES,
+        build_line_piece_crossbar_network_from_config,
+    )
+
+    folder = Path("ideas/i171_line_piece_crossbar_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, LinePieceCrossbarNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "line_piece_crossbar_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["piece_pool"].shape == (2, channels)
+    assert output["piece_tokens"].shape == (2, NUM_PIECES, channels)
+    assert output["line_tokens"].shape == (2, NUM_LINES, channels)
+    assert output["rank_tokens"].shape == (2, 8, channels)
+    assert output["file_tokens"].shape == (2, 8, channels)
+    assert output["diag_tokens"].shape == (2, 15, channels)
+    assert output["antidiag_tokens"].shape == (2, 15, channels)
+    assert output["piece_token_history"].shape == (2, depth, NUM_PIECES, channels)
+    assert output["line_token_history"].shape == (2, depth, NUM_LINES, channels)
+    assert output["piece_message_stack"].shape == (2, depth, NUM_PIECES, channels)
+    assert output["line_message_stack"].shape == (2, depth, NUM_LINES, channels)
+    assert output["piece_energy"].shape == (2, NUM_PIECES)
+    assert output["line_energy"].shape == (2, NUM_LINES)
+    assert output["rank_line_energy"].shape == (2, 8)
+    assert output["file_line_energy"].shape == (2, 8)
+    assert output["diag_line_energy"].shape == (2, 15)
+    assert output["antidiag_line_energy"].shape == (2, 15)
+    assert output["mean_piece_energy"].shape == (2,)
+    assert output["mean_line_energy"].shape == (2,)
+    assert output["rank_minus_file_line_energy"].shape == (2,)
+    assert output["diag_minus_antidiag_line_energy"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert output["num_lines_levels"].shape == (2,)
+    assert output["num_pieces_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["num_lines_levels"] == NUM_LINES).all()
+    assert (output["num_pieces_levels"] == NUM_PIECES).all()
+
+    # The deterministic incidence is exactly the chess piece-line geometry.
+    incidence = model.incidence
+    assert incidence.shape == (NUM_PIECES, NUM_LINES)
+    assert ((incidence == 0) | (incidence == 1)).all()
+    assert torch.equal(incidence.sum(dim=1), torch.full((NUM_PIECES,), 4.0))
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "line_piece_crossbar_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, LinePieceCrossbarNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["piece_tokens"].shape == (2, NUM_PIECES, channels)
+    assert registry_output["line_tokens"].shape == (2, NUM_LINES, channels)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_line_piece_crossbar_network_from_config
+        is build_line_piece_crossbar_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i171"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `152`
+- Implemented architecture rows audited: `153`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -129,6 +129,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i168` | `ideas/i168_ring_shell_recurrent_boardnet` | `ring_shell_recurrent_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i168_ring_shell_recurrent_boardnet/model.py`<br>`src/chess_nn_playground/models/ring_shell_recurrent_boardnet.py` | - |
 | `i169` | `ideas/i169_rank_file_memory_grid_net` | `rank_file_memory_grid_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i169_rank_file_memory_grid_net/model.py`<br>`src/chess_nn_playground/models/rank_file_memory_grid_net.py` | - |
 | `i170` | `ideas/i170_negative_class_disentangled_puzzle_head` | `negative_class_disentangled_puzzle_head` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i170_negative_class_disentangled_puzzle_head/model.py`<br>`src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py` | - |
+| `i171` | `ideas/i171_line_piece_crossbar_network` | `line_piece_crossbar_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i171_line_piece_crossbar_network/model.py`<br>`src/chess_nn_playground/models/line_piece_crossbar_network.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |

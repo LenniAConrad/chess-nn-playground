@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 152 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 88 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 153 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 87 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -77,7 +77,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i148_shallow_wide_residual_boardnet`
 - `ideas/i149_axial_rank_file_convnet`
 - `ideas/i152_iterative_logit_refinement_cnn`
-- `ideas/i171_line_piece_crossbar_network`
 - `ideas/i172_near_puzzle_margin_twin_network`
 - `ideas/i173_stripe_selective_mixer_cnn`
 - `ideas/i174_king_zone_evidence_ledger`
@@ -287,7 +286,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i168` | `ideas/i168_ring_shell_recurrent_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ring_shell_recurrent_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i169` | `ideas/i169_rank_file_memory_grid_net` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rank_file_memory_grid_net` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i170` | `ideas/i170_negative_class_disentangled_puzzle_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `negative_class_disentangled_puzzle_head` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i171` | `ideas/i171_line_piece_crossbar_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `line_piece_crossbar_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i171` | `ideas/i171_line_piece_crossbar_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `line_piece_crossbar_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i172` | `ideas/i172_near_puzzle_margin_twin_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `near_puzzle_margin_twin_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i173` | `ideas/i173_stripe_selective_mixer_cnn` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `stripe_selective_mixer_cnn` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i174` | `ideas/i174_king_zone_evidence_ledger` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `king_zone_evidence_ledger` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
