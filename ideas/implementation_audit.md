@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 160 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 80 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 161 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 79 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -79,7 +79,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
 - `ideas/i178_defender_exhaustion_cascade_network`
-- `ideas/i181_disproof_ledger_puzzle_network`
 - `ideas/i182_motif_tensor_factorization_network`
 - `ideas/i183_tempo_alignment_gate_network`
 - `ideas/i184_puzzle_boundary_twin_encoder`
@@ -289,7 +288,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i178` | `ideas/i178_defender_exhaustion_cascade_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `defender_exhaustion_cascade_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i179` | `ideas/i179_causal_piece_derivative_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `causal_piece_derivative_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i180` | `ideas/i180_phase_transition_pressure_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `phase_transition_pressure_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i181` | `ideas/i181_disproof_ledger_puzzle_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `disproof_ledger_puzzle_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i181` | `ideas/i181_disproof_ledger_puzzle_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `disproof_ledger_puzzle_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i182` | `ideas/i182_motif_tensor_factorization_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `motif_tensor_factorization_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i183` | `ideas/i183_tempo_alignment_gate_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tempo_alignment_gate_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i184` | `ideas/i184_puzzle_boundary_twin_encoder` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `puzzle_boundary_twin_encoder` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

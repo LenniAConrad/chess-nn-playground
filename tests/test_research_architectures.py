@@ -13256,3 +13256,165 @@ def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.disproof_ledger_puzzle_network import (
+        DisproofLedgerPuzzleNetwork,
+        build_disproof_ledger_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i181_disproof_ledger_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, DisproofLedgerPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "disproof_ledger_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    disproof_channels = int(config["model"]["disproof_channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king
+    x[0, 11, 0, 4] = 1.0  # black king
+    x[0, 4, 7, 3] = 1.0   # white queen
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["positive_evidence"].shape == (2,)
+    assert output["disproof_field"].shape == (2, disproof_channels, 8, 8)
+    assert output["disproof_entries"].shape == (2, disproof_channels)
+    assert output["disproof_strengths"].shape == (2, disproof_channels)
+    assert output["disproof_strength_total"].shape == (2,)
+    assert output["disproof_l1"].shape == (2,)
+    assert output["max_disproof_strength"].shape == (2,)
+    assert output["max_disproof_channel"].shape == (2,)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_disproof_subtraction",
+        "uses_disproof_sparsity",
+        "uses_near_disproof_aux",
+        "num_disproof_channels",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_disproof_subtraction"] == 1.0).all()
+    assert (output["uses_disproof_sparsity"] == 1.0).all()
+    assert (output["uses_near_disproof_aux"] == 1.0).all()
+    assert (output["num_disproof_channels"] == disproof_channels).all()
+
+    # Disproof strengths are exactly softplus(entries), and the total is
+    # their sum across the channel axis.
+    expected_strengths = torch.nn.functional.softplus(output["disproof_entries"])
+    assert torch.allclose(output["disproof_strengths"], expected_strengths, atol=1e-5)
+    assert (output["disproof_strengths"] >= 0).all()
+    assert torch.allclose(
+        output["disproof_strength_total"], output["disproof_strengths"].sum(dim=-1), atol=1e-5
+    )
+    assert torch.allclose(output["disproof_l1"], output["disproof_strength_total"], atol=1e-5)
+
+    # The packet's main equation: logits = positive_evidence - sum_d softplus(d).
+    expected_logits = output["positive_evidence"] - output["disproof_strength_total"]
+    assert torch.allclose(output["logits"], expected_logits, atol=1e-5)
+
+    # Channel name table covers every channel and aligns the named six.
+    names = model.disproof_channel_names
+    assert len(names) == disproof_channels
+    for expected_name in (
+        "king_can_escape",
+        "defender_can_recapture",
+        "line_is_blocked",
+        "threat_is_too_slow",
+        "target_is_protected",
+        "side_lacks_tempo",
+    ):
+        assert expected_name in names
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sub, expected_sparsity, expected_near in (
+        ("none", 1.0, 1.0, 1.0),
+        ("no_disproof_subtraction", 0.0, 1.0, 1.0),
+        ("dense_disproof_no_sparsity", 1.0, 0.0, 1.0),
+        ("no_near_aux", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_disproof_ledger_puzzle_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_disproof_subtraction"][0].item() == expected_sub
+        assert ab_output["uses_disproof_sparsity"][0].item() == expected_sparsity
+        assert ab_output["uses_near_disproof_aux"][0].item() == expected_near
+        if ablation == "no_disproof_subtraction":
+            # The puzzle logit collapses to the positive head only.
+            assert torch.allclose(
+                ab_output["logits"], ab_output["positive_evidence"], atol=1e-5
+            )
+        else:
+            # Subtraction stays on under the other ablations.
+            assert torch.allclose(
+                ab_output["logits"],
+                ab_output["positive_evidence"] - ab_output["disproof_strength_total"],
+                atol=1e-5,
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "disproof_ledger_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, DisproofLedgerPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_disproof_ledger_puzzle_network_from_config
+        is build_disproof_ledger_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i181"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

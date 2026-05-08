@@ -21,8 +21,10 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: logic
-  packet_profile: disproof_ledger_puzzle_network
+  disproof_channels: 8
+  disproof_sparsity: 0.01
+  near_disproof_aux_weight: 0.1
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

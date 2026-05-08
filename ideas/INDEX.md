@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 152, 'probe_scaffold_only': 81, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 159, 'shared_probe_variant': 81}`
+- Registered implementation states: `{'implemented': 154, 'probe_scaffold_only': 79, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 161, 'shared_probe_variant': 79}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 159 | Materially distinct model implementation. |
-| `shared_probe_variant` | 81 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 161 | Materially distinct model implementation. |
+| `shared_probe_variant` | 79 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -218,8 +218,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i177` | [Forcing-Certificate Transformer](i177_forcing_certificate_transformer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i178` | [Defender-Exhaustion Cascade Network](i178_defender_exhaustion_cascade_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i179` | [Causal Piece-Derivative Network](i179_causal_piece_derivative_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i180` | [Phase-Transition Pressure Network](i180_phase_transition_pressure_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i181` | [Disproof-Ledger Puzzle Network](i181_disproof_ledger_puzzle_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i180` | [Phase-Transition Pressure Network](i180_phase_transition_pressure_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i181` | [Disproof-Ledger Puzzle Network](i181_disproof_ledger_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i182` | [Motif Tensor Factorization Network](i182_motif_tensor_factorization_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i183` | [Tempo-Alignment Gate Network](i183_tempo_alignment_gate_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i184` | [Puzzle Boundary Twin Encoder](i184_puzzle_boundary_twin_encoder) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
