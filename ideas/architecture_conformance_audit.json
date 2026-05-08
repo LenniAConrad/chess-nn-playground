@@ -1681,6 +1681,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i086_differentiable_chess_fact_lattice/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i086_differentiable_chess_fact_lattice",
+      "idea_id": "i086",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "differentiable_chess_fact_lattice",
+      "slug": "differentiable_chess_fact_lattice",
+      "source_files": [
+        "ideas/i086_differentiable_chess_fact_lattice/model.py",
+        "src/chess_nn_playground/models/differentiable_chess_fact_lattice.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2727,6 +2747,7 @@
       "ideas/i083_fisher_geodesic_tension_network",
       "ideas/i084_typed_hypergraph_motif_grammar",
       "ideas/i085_hall_defect_zeta_operator",
+      "ideas/i086_differentiable_chess_fact_lattice",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2776,7 +2797,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 132,
+    "implemented_architecture_count": 133,
     "issue_folders": [],
     "validation_issue_count": 0
   }

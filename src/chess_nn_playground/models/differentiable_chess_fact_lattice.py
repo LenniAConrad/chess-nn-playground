@@ -310,11 +310,12 @@ class DifferentiableFactInterpreter(nn.Module):
         return torch.stack([lower, upper.clamp_min(lower)], dim=3).clamp(0.0, 1.0)
 
     def _king_zone_transfer(self, occ: torch.Tensor) -> torch.Tensor:
-        lower = occ.new_zeros(occ.shape[0], 2, 8, 8)
-        upper = occ.new_zeros(occ.shape[0], 2, 8, 8)
         if not self.use_king_zone:
-            return torch.stack([lower, upper], dim=2)
+            zeros = occ.new_zeros(occ.shape[0], 2, 8, 8)
+            return torch.stack([zeros, zeros], dim=2)
         gamma2 = torch.sigmoid(self.king_zone_gamma2)
+        lowers: list[torch.Tensor] = []
+        uppers: list[torch.Tensor] = []
         for color in (WHITE, BLACK):
             king_l = occ[:, color, KING, 0]
             king_u = occ[:, color, KING, 1]
@@ -322,8 +323,12 @@ class DifferentiableFactInterpreter(nn.Module):
             zone1_u = _join_shifted(king_u, tuple((r, f) for r in (-1, 0, 1) for f in (-1, 0, 1)))
             zone2_l = _join_shifted(king_l, tuple((r, f) for r in range(-2, 3) for f in range(-2, 3)))
             zone2_u = _join_shifted(king_u, tuple((r, f) for r in range(-2, 3) for f in range(-2, 3)))
-            lower[:, color] = noisy_or_pair(zone1_l, gamma2 * zone2_l)
-            upper[:, color] = noisy_or_pair(zone1_u, gamma2 * zone2_u).clamp_min(lower[:, color])
+            color_lower = noisy_or_pair(zone1_l, gamma2 * zone2_l)
+            color_upper = noisy_or_pair(zone1_u, gamma2 * zone2_u).clamp_min(color_lower)
+            lowers.append(color_lower)
+            uppers.append(color_upper)
+        lower = torch.stack(lowers, dim=1)
+        upper = torch.stack(uppers, dim=1)
         return torch.stack([lower, upper], dim=2)
 
     def _tension_transfer(

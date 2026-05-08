@@ -9178,3 +9178,125 @@ def test_i084_typed_hypergraph_motif_grammar_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i086_differentiable_chess_fact_lattice_is_bespoke_and_conformant():
+    from chess_nn_playground.models.differentiable_chess_fact_lattice import (
+        DifferentiableChessFactLatticeNet,
+        DifferentiableFactInterpreter,
+        build_differentiable_chess_fact_lattice_from_config,
+    )
+
+    folder = Path("ideas/i086_differentiable_chess_fact_lattice")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, DifferentiableChessFactLatticeNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "differentiable_chess_fact_lattice"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — produces a non-trivial pin/overload pattern on a1.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key in (
+        "abstract_features",
+        "abstract_feature_energy",
+        "interval_width_mean",
+        "widening_width",
+        "conflict_energy",
+        "attack_mass",
+        "defense_mass",
+        "king_zone_pressure",
+        "value_at_risk",
+        "line_exposure",
+        "board_consistency_error",
+        "monotonicity_penalty",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert key in output, key
+        assert torch.isfinite(output[key]).all(), key
+    interpreter = model.interpreter
+    expected_channels = interpreter.abstract_feature_channels
+    assert output["abstract_features"].shape == (2, expected_channels, 8, 8)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "differentiable_chess_fact_lattice"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, DifferentiableChessFactLatticeNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Backward through the abstract-interpretation bottleneck must yield
+    # finite gradients on the convolutional readout, the puzzle head, and
+    # the learned per-piece attack gate.
+    trainable = build_differentiable_chess_fact_lattice_from_config(dict(config["model"]))
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    readout_grad = trainable.readout[0].weight.grad
+    head_grad = trainable.head[0].weight.grad
+    gate_grad = trainable.interpreter.piece_attack_gate.grad
+    for grad in (readout_grad, head_grad, gate_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Ablation switches from the math thesis must build and produce finite
+    # logits at the puzzle_binary contract shape.
+    for ablation in (
+        {"use_intervals": False},
+        {"use_meet_channels": False},
+        {"use_ray_transfer": False},
+        {"use_king_zone": False},
+        {"variant": "pool_control"},
+    ):
+        cfg = {**dict(config["model"]), **ablation}
+        cfg.pop("name", None)
+        ablated = build_differentiable_chess_fact_lattice_from_config(cfg).eval()
+        with torch.no_grad():
+            ablated_out = ablated(x)
+        assert ablated_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(ablated_out["logits"]).all(), ablation
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i086"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

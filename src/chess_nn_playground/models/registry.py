@@ -18,6 +18,9 @@ from chess_nn_playground.models.cnn import build_cnn_from_config
 from chess_nn_playground.models.determinantal_volume import (
     build_determinantal_tactical_volume_bottleneck_from_config,
 )
+from chess_nn_playground.models.differentiable_chess_fact_lattice import (
+    build_differentiable_chess_fact_lattice_from_config,
+)
 from chess_nn_playground.models.directed_attack_sheaf import build_directed_attack_sheaf_from_config
 from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
 from chess_nn_playground.models.finite_field_character_sum import (
@@ -441,6 +444,7 @@ MODEL_BUILDERS = {
     "chess_hypercut_polynomial_network": build_chess_hypercut_polynomial_network_from_config,
     "fisher_geodesic_tension_network": build_fisher_geodesic_tension_network_from_config,
     "typed_hypergraph_motif_grammar": build_typed_hypergraph_motif_grammar_from_config,
+    "differentiable_chess_fact_lattice": build_differentiable_chess_fact_lattice_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
