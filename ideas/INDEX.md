@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 161, 'probe_scaffold_only': 72, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 168, 'shared_probe_variant': 72}`
+- Registered implementation states: `{'implemented': 162, 'probe_scaffold_only': 71, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 169, 'shared_probe_variant': 71}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 168 | Materially distinct model implementation. |
-| `shared_probe_variant` | 72 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 169 | Materially distinct model implementation. |
+| `shared_probe_variant` | 71 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -227,7 +227,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i186` | [Legal-Reaction Bottleneck Network](i186_legal_reaction_bottleneck_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i187` | [Exchange-Soundness Graph Network](i187_exchange_soundness_graph_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i188` | [Tactical Program Induction Network](i188_tactical_program_induction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i189` | [Counterfactual Defender Dropout Network](i189_counterfactual_defender_dropout_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i189` | [Counterfactual Defender Dropout Network](i189_counterfactual_defender_dropout_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i190` | [Blocker-Pin Lattice Network](i190_blocker_pin_lattice_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i191` | [Safe-Reply Certificate Verifier](i191_safe_reply_certificate_verifier) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i192` | [Latent Reply Entropy Network](i192_latent_reply_entropy_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

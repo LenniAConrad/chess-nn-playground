@@ -14515,3 +14515,181 @@ def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.counterfactual_defender_dropout import (
+        MASK_KINDS,
+        MASK_KIND_COUNT,
+        CounterfactualDefenderDropoutNetwork,
+        build_counterfactual_defender_dropout_network_from_config,
+    )
+
+    folder = Path("ideas/i189_counterfactual_defender_dropout_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CounterfactualDefenderDropoutNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "counterfactual_defender_dropout_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    max_masks = model.max_masks
+
+    # Three structurally distinct boards.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: pin -- white rook a1, black knight a4 blocking line
+    # to black king a8 (the pinned blocker is the critical defender).
+    x[0, 5, 0, 7] = 1.0  # white king h1
+    x[0, 3, 0, 0] = 1.0  # white rook a1
+    x[0, 7, 3, 0] = 1.0  # black knight a4 (pinned)
+    x[0, 11, 7, 0] = 1.0  # black king a8
+    # Position 1: white queen attacks a hanging black knight; defender
+    # vs attacker asymmetry should differ from position 0.
+    x[1, 5, 0, 4] = 1.0  # white king e1
+    x[1, 4, 4, 4] = 1.0  # white queen e4
+    x[1, 7, 5, 4] = 1.0  # black knight e3 (hanging target)
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: only a white king (degenerate empty-target row).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Mask-level diagnostics carry the (B, M) shape.
+    assert output["intervention_delta"].shape == (3, max_masks)
+    assert output["intervention_mask_scores"].shape == (3, max_masks)
+    assert output["intervention_valid"].shape == (3, max_masks)
+
+    # Per-row scalar diagnostics required by the architecture contract.
+    for key in (
+        "logits",
+        "base_logit",
+        "intervention_correction",
+        "defender_sensitivity",
+        "attacker_sensitivity",
+        "king_escape_sensitivity",
+        "blocker_sensitivity",
+        "sensitivity_asymmetry",
+        "defender_minus_escape",
+        "defender_minus_blocker",
+        "sensitivity_entropy",
+        "max_sensitivity",
+        "mean_sensitivity",
+        "defender_mask_count",
+        "attacker_mask_count",
+        "king_escape_mask_count",
+        "blocker_mask_count",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # The asymmetry diagnostic is exactly defender − attacker.
+    expected_asymmetry = output["defender_sensitivity"] - output["attacker_sensitivity"]
+    assert torch.allclose(output["sensitivity_asymmetry"], expected_asymmetry, atol=1e-6)
+
+    # Logits factorise as base + correction (the central thesis wiring).
+    assert torch.allclose(
+        output["logits"], output["base_logit"] + output["intervention_correction"], atol=1e-5
+    )
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["intervention_delta"][0],
+        twin_output["intervention_delta"][1],
+        atol=1e-5,
+    )
+
+    # Configured knobs reach the model.
+    assert model.max_masks == int(config["model"].get("max_masks", 16))
+    assert model.topk == int(config["model"].get("topk", 3))
+    assert model.ablation == "none"
+    assert MASK_KIND_COUNT == len(MASK_KINDS) == 4
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        CounterfactualDefenderDropoutNetwork(num_classes=2)
+
+    # `no_intervention_head` ablation forces δ = 0 so the per-mask
+    # delta tensor must be exactly zero everywhere.
+    no_head_model = build_counterfactual_defender_dropout_network_from_config(
+        {**config["model"], "ablation": "no_intervention_head"}
+    ).eval()
+    with torch.no_grad():
+        no_head_output = no_head_model(x)
+    assert no_head_model.ablation == "no_intervention_head"
+    assert no_head_output["intervention_delta"].abs().max().item() == 0.0
+    assert no_head_output["sensitivity_asymmetry"].abs().max().item() == 0.0
+
+    # `defenders_only` ablation zeroes out attacker / king-escape /
+    # ray-blocker mask scores so only the defender mask kind can be valid.
+    defenders_only_model = build_counterfactual_defender_dropout_network_from_config(
+        {**config["model"], "ablation": "defenders_only"}
+    ).eval()
+    with torch.no_grad():
+        defenders_only_output = defenders_only_model(x, return_aux=True)
+    mask_types = defenders_only_output["intervention_mask_types"]
+    valid = defenders_only_output["intervention_valid"].bool()
+    # Every valid mask in the defenders_only ablation must have type 0
+    # (defender) -- every other typed kind got its score zeroed out.
+    valid_types = mask_types[valid]
+    if valid_types.numel() > 0:
+        assert (valid_types == 0).all()
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "counterfactual_defender_dropout_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CounterfactualDefenderDropoutNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_counterfactual_defender_dropout_network_from_config
+        is build_counterfactual_defender_dropout_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i189"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

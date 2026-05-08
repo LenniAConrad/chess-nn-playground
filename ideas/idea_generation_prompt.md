@@ -2281,13 +2281,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i189_counterfactual_defender_dropout_network",
       "idea_id": "i189",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Counterfactual Defender Dropout Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; uses a robustness mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; bespoke board-only counterfactual-dropout network that scores typed deletion interventions (defender, attacker, king-escape, ray-blocker) using a closed-form geometry-driven mask builder, computes per-mask counterfactual deltas through an intervention head, and feeds a 13-dimensional counterfactual evidence vector (defender/attacker/king_escape/blocker top-k sensitivities, asymmetry, entropy, max/mean and per-kind valid counts) into a correction head that additively refines the baseline puzzle logit.",
+      "output_heads": "One puzzle logit plus counterfactual-dropout diagnostics (`base_logit`, `intervention_correction`, `intervention_delta`, `intervention_mask_scores`, `intervention_valid`, `defender_sensitivity`, `attacker_sensitivity`, `king_escape_sensitivity`, `blocker_sensitivity`, `sensitivity_asymmetry`, `defender_minus_escape`, `defender_minus_blocker`, `sensitivity_entropy`, `max_sensitivity`, `mean_sensitivity`, `defender_mask_count`, `attacker_mask_count`, `king_escape_mask_count`, `blocker_mask_count`, `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`).",
       "short_thesis": "If a near-puzzle is only superficially tactical, randomly removing defenders or attackers may not reveal a sharp causal structure. If a true puzzle hinges on overloaded defenders, pinning, or one critical escape square, dropout interventions should produce...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
