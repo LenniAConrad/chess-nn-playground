@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `120`
+- Implemented architecture rows audited: `121`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -84,6 +84,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i071` | `ideas/i071_variational_board_action_network` | `variational_board_action_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i071_variational_board_action_network/model.py`<br>`src/chess_nn_playground/models/variational_board_action.py` | - |
 | `i072` | `ideas/i072_tensor_core_square_pair_field_network` | `tensor_core_square_pair_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i072_tensor_core_square_pair_field_network/model.py`<br>`src/chess_nn_playground/models/tensor_core_square_pair_field.py` | - |
 | `i073` | `ideas/i073_tiny_chess_micronet` | `tiny_chess_micronet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i073_tiny_chess_micronet/model.py`<br>`src/chess_nn_playground/models/tiny_chess_micronet.py` | - |
+| `i074` | `ideas/i074_puzzle_binary_benchmark_challengers` | `puzzle_binary_benchmark_challengers` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i074_puzzle_binary_benchmark_challengers/model.py`<br>`src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |

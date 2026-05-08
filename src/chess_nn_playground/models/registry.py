@@ -259,6 +259,9 @@ from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
 from chess_nn_playground.models.piece_token_cnn_hybrid import (
     build_piece_token_cnn_hybrid_from_config,
 )
+from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+    build_puzzle_binary_benchmark_challengers_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -393,6 +396,7 @@ MODEL_BUILDERS = {
     "finite_field_character_sum_board_network": build_finite_field_character_sum_board_network_from_config,
     "schur_ray_line_algebra_network": build_schur_ray_line_algebra_network_from_config,
     "bitboard_shift_algebra_network": build_bitboard_shift_algebra_network_from_config,
+    "puzzle_binary_benchmark_challengers": build_puzzle_binary_benchmark_challengers_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

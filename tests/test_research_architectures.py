@@ -7505,3 +7505,149 @@ def test_i069_bitboard_shift_algebra_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
+    folder = Path("ideas/i074_puzzle_binary_benchmark_challengers")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+        NegativeClassDisentangledPuzzleHead,
+        VALID_ABLATIONS,
+        build_negative_class_disentangled_puzzle_head_from_config,
+        build_puzzle_binary_benchmark_challengers_from_config,
+    )
+
+    assert isinstance(model, NegativeClassDisentangledPuzzleHead)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "puzzle_binary_benchmark_challengers"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 0, 6, 4] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 3] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "evidence_random",
+        "evidence_near",
+        "evidence_puzzle",
+        "aux_3way_logits",
+        "negative_margin",
+        "random_vs_near_gap",
+        "trunk_energy",
+        "ablation_random_near_merged",
+        "ablation_aux_only_no_logsumexp",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert output["aux_3way_logits"].shape == (2, 3)
+    assert torch.isfinite(output["logits"]).all()
+    for key in expected_keys:
+        assert torch.isfinite(output[key]).all(), key
+
+    # Inference logit must equal the disentangled formula.
+    e_random = output["evidence_random"]
+    e_near = output["evidence_near"]
+    e_puzzle = output["evidence_puzzle"]
+    expected_logit = e_puzzle - torch.logsumexp(torch.stack([e_random, e_near], dim=1), dim=1)
+    assert torch.allclose(output["logits"], expected_logit, atol=1e-5)
+    expected_margin = e_puzzle - torch.maximum(e_random, e_near)
+    assert torch.allclose(output["negative_margin"], expected_margin, atol=1e-5)
+    expected_gap = (e_random - e_near).abs()
+    assert torch.allclose(output["random_vs_near_gap"], expected_gap, atol=1e-5)
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    trunk_grad = trainable.trunk.layers[0].block[0].weight.grad
+    proj_grad = trainable.shared_proj[1].weight.grad
+    head_random_grad = trainable.head_random.net[0].weight.grad
+    head_near_grad = trainable.head_near.net[0].weight.grad
+    head_puzzle_grad = trainable.head_puzzle.net[0].weight.grad
+    for grad in (trunk_grad, proj_grad, head_random_grad, head_near_grad, head_puzzle_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The packet's required ablations must build, run, and stay finite.
+    expected_ablations = {
+        "none",
+        "no_aux_3way",
+        "random_near_merged",
+        "aux_only_no_logsumexp",
+        "shuffle_fine_negative_labels",
+    }
+    assert expected_ablations.issubset(VALID_ABLATIONS)
+    for ablation in expected_ablations:
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = build_negative_class_disentangled_puzzle_head_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "random_near_merged":
+            assert torch.allclose(abl_out["evidence_random"], abl_out["evidence_near"], atol=1e-6)
+            assert torch.all(abl_out["random_vs_near_gap"] < 1e-5)
+        if ablation == "aux_only_no_logsumexp":
+            assert torch.allclose(abl_out["logits"], abl_out["evidence_puzzle"], atol=1e-5)
+        if ablation == "no_aux_3way":
+            assert torch.all(abl_out["aux_3way_logits"] == 0.0)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "puzzle_binary_benchmark_challengers"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NegativeClassDisentangledPuzzleHead)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # Both builder names point at the same callable.
+    assert (
+        build_puzzle_binary_benchmark_challengers_from_config
+        is build_negative_class_disentangled_puzzle_head_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i074"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
