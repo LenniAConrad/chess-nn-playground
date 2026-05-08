@@ -1993,13 +1993,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i165_spatial_film_coordinate_net",
       "idea_id": "i165",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Spatial FiLM Coordinate Net",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`; per-square coordinate-conditioned FiLM modulation applied at every CNN depth rather than a single coordinate-plane append.",
+      "output_heads": "One puzzle logit plus per-layer FiLM gamma/beta maps, modulation magnitude diagnostics, and region-conditioned modulation statistics.",
       "short_thesis": "Appending coordinate planes may be too weak. Instead, generate per-square affine modulation parameters from deterministic coordinate features and side-relative coordinates, then modulate CNN features at multiple depths.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

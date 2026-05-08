@@ -372,6 +372,16 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "use_top_down": True,
         "ablation": "none",
     },
+    "spatial_film_coordinate_net": {
+        "input_channels": 18,
+        "width": 16,
+        "depth": 2,
+        "coord_hidden": 12,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "film_scale": 0.25,
+        "ablation": "none",
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4223,6 +4233,203 @@ def test_i164_learnable_pooling_tree_boardnet_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i164"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i165_spatial_film_coordinate_net_is_bespoke_and_conformant():
+    folder = Path("ideas/i165_spatial_film_coordinate_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    width = int(config["model"]["width"])
+    depth = int(config["model"]["depth"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, width, 8, 8)
+    assert output["coordinate_grid"].shape == (6, 8, 8)
+    assert output["gamma_maps"].shape == (depth, width, 8, 8)
+    assert output["beta_maps"].shape == (depth, width, 8, 8)
+    assert output["modulation_magnitudes"].shape == (depth,)
+    # Bounded modulation: gamma in [1 - film_scale, 1 + film_scale],
+    # beta in [-film_scale, film_scale].
+    film_scale = float(config["model"]["film_scale"])
+    assert (output["gamma_maps"] >= 1.0 - film_scale - 1e-6).all()
+    assert (output["gamma_maps"] <= 1.0 + film_scale + 1e-6).all()
+    assert output["beta_maps"].abs().max() <= film_scale + 1e-6
+    assert {
+        "modulation_magnitude_mean",
+        "modulation_center_mean",
+        "modulation_edge_mean",
+        "modulation_back_rank_mean",
+        "depth_levels",
+        "prob",
+    }.issubset(output)
+    assert (output["depth_levels"] == depth).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["gamma_maps"].shape == (depth, width, 8, 8)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    coord_planes = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "coord_planes_only",
+        },
+    ).eval()
+    with torch.no_grad():
+        coord_planes_out = coord_planes(x)
+    # FiLM is disabled, so gamma collapses to ones and beta to zeros.
+    assert torch.allclose(coord_planes_out["gamma_maps"], torch.ones_like(coord_planes_out["gamma_maps"]))
+    assert torch.allclose(coord_planes_out["beta_maps"], torch.zeros_like(coord_planes_out["beta_maps"]))
+    assert torch.isfinite(coord_planes_out["logits"]).all()
+
+    no_side_relative = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "no_side_relative_coord",
+        },
+    ).eval()
+    # Side-relative coordinate channel is zeroed.
+    assert torch.allclose(
+        no_side_relative.coordinate_grid[4],
+        torch.zeros_like(no_side_relative.coordinate_grid[4]),
+    )
+
+    shared_gamma = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "shared_gamma_only",
+        },
+    ).eval()
+    with torch.no_grad():
+        shared_gamma_out = shared_gamma(x)
+    # Beta is forced to zero in the shared-gamma ablation.
+    assert torch.allclose(shared_gamma_out["beta_maps"], torch.zeros_like(shared_gamma_out["beta_maps"]))
+    # Gamma is a per-channel global vector, identical across the 8x8 grid.
+    gamma = shared_gamma_out["gamma_maps"]
+    assert torch.allclose(gamma[:, :, :1, :1].expand_as(gamma), gamma)
+
+    random_coord = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "random_coord_map",
+            "coord_seed": 7,
+        },
+    ).eval()
+    # Random coord map permutes squares deterministically: same total per channel.
+    base = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "none",
+        },
+    ).eval()
+    assert torch.allclose(
+        random_coord.coordinate_grid.flatten(1).sort(dim=1).values,
+        base.coordinate_grid.flatten(1).sort(dim=1).values,
+    )
+    assert not torch.allclose(random_coord.coordinate_grid, base.coordinate_grid)
+
+    matched = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "cnn_matched_params",
+        },
+    ).eval()
+    with torch.no_grad():
+        matched_out = matched(x)
+    # No FiLM -> gamma=1, beta=0 in diagnostics.
+    assert torch.allclose(matched_out["gamma_maps"], torch.ones_like(matched_out["gamma_maps"]))
+    assert torch.allclose(matched_out["beta_maps"], torch.zeros_like(matched_out["beta_maps"]))
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i165"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
