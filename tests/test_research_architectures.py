@@ -9839,3 +9839,142 @@ def test_i150_early_exit_cascade_boardnet_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i151_auxiliary_reconstruction_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
+        AuxiliaryReconstructionBoardNet,
+        auxiliary_reconstruction_loss,
+        build_auxiliary_reconstruction_boardnet_from_config,
+    )
+
+    folder = Path("ideas/i151_auxiliary_reconstruction_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AuxiliaryReconstructionBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "auxiliary_reconstruction_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "reconstruction_logits",
+        "reconstruction_probs",
+        "reconstruction_target_planes",
+        "reconstruction_target_indices",
+        "reconstruction_error",
+        "reconstruction_bce_per_plane",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert expected_keys.issubset(output)
+
+    encoder_width = model.encoder_width
+    targets = model.reconstruction_targets
+    assert targets == tuple(range(input_channels))
+    assert output["latent"].shape == (2, encoder_width, 8, 8)
+    assert output["reconstruction_logits"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_probs"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_target_planes"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_bce_per_plane"].shape == (2, len(targets))
+    assert torch.allclose(
+        output["reconstruction_probs"], torch.sigmoid(output["reconstruction_logits"])
+    )
+    assert torch.allclose(
+        output["reconstruction_target_planes"], x.index_select(1, output["reconstruction_target_indices"])
+    )
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "auxiliary_reconstruction_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AuxiliaryReconstructionBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the encoder + classifier.
+    trainable = build_auxiliary_reconstruction_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.stem[0].weight.grad
+    assert stem_grad is not None and torch.isfinite(stem_grad).all()
+    classifier_grad = trainable.classifier_head[-1].weight.grad
+    assert classifier_grad is not None and torch.isfinite(classifier_grad).all()
+
+    # The auxiliary reconstruction objective must flow gradients into the
+    # decoder and back into the encoder through the shared latent.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    bundle = auxiliary_reconstruction_loss(out, target, lambda_recon=0.5)
+    assert torch.isfinite(bundle["loss"]).all()
+    bundle["loss"].backward()
+    decoder_first = trainable.decoder[0]
+    decoder_last = trainable.decoder[-1]
+    assert decoder_first.weight.grad is not None
+    assert torch.isfinite(decoder_first.weight.grad).all()
+    assert decoder_first.weight.grad.abs().sum() > 0
+    assert decoder_last.weight.grad is not None
+    assert torch.isfinite(decoder_last.weight.grad).all()
+    assert decoder_last.weight.grad.abs().sum() > 0
+    encoder_block_grad = trainable.encoder_blocks[0].conv1.weight.grad
+    assert encoder_block_grad is not None
+    assert torch.isfinite(encoder_block_grad).all()
+    assert encoder_block_grad.abs().sum() > 0
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i151"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

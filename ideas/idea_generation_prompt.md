@@ -1825,13 +1825,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i151_auxiliary_reconstruction_boardnet",
       "idea_id": "i151",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Auxiliary Reconstruction BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke CNN encoder with a pooled puzzle classifier and a lightweight auxiliary decoder that reconstructs configurable current-board input planes. Reconstruction is exposed as an auxiliary BCE objective with `lambda_recon` so the trunk is regularised without leaking future or engine information.",
+      "output_heads": "One puzzle logit plus per-square reconstruction logits for the selected input planes, the reconstructed probabilities, the reconstruction-error diagnostic, and per-plane BCE diagnostics.",
       "short_thesis": "A classifier trunk may discard board detail too early. Add a lightweight decoder that reconstructs safe current-board planes from the latent feature map, using reconstruction only as an auxiliary training loss. The classifier still sees no future or engine...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

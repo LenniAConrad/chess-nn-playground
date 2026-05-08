@@ -5160,35 +5160,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i151_auxiliary_reconstruction_boardnet",
       "idea_id": "i151",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "auxiliary_reconstruction_boardnet",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "auxiliary_reconstruction_boardnet",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.auxiliary_reconstruction_boardnet.build_auxiliary_reconstruction_boardnet_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.auxiliary_reconstruction_boardnet.build_auxiliary_reconstruction_boardnet_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.auxiliary_reconstruction_boardnet.AuxiliaryReconstructionBoardNet",
+          "chess_nn_playground.models.auxiliary_reconstruction_boardnet.build_auxiliary_reconstruction_boardnet_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8324,12 +8323,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 137,
-      "shared_probe_variant": 103
+      "bespoke_model": 138,
+      "shared_probe_variant": 102
     },
     "by_metadata_kind": {
-      "bespoke_model": 137,
-      "shared_probe_variant": 103
+      "bespoke_model": 138,
+      "shared_probe_variant": 102
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8386,7 +8385,6 @@
       "ideas/i144_board_fpn_cnn",
       "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
-      "ideas/i151_auxiliary_reconstruction_boardnet",
       "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i153_agreement_variance_head_net",
       "ideas/i154_adapter_sandwich_residual_cnn",

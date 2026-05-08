@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 137 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 103 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 138 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 102 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -76,7 +76,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i144_board_fpn_cnn`
 - `ideas/i148_shallow_wide_residual_boardnet`
 - `ideas/i149_axial_rank_file_convnet`
-- `ideas/i151_auxiliary_reconstruction_boardnet`
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i153_agreement_variance_head_net`
 - `ideas/i154_adapter_sandwich_residual_cnn`
@@ -282,7 +281,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i148` | `ideas/i148_shallow_wide_residual_boardnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `shallow_wide_residual_boardnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i149` | `ideas/i149_axial_rank_file_convnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `axial_rank_file_convnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i150` | `ideas/i150_early_exit_cascade_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `early_exit_cascade_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i151` | `ideas/i151_auxiliary_reconstruction_boardnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `auxiliary_reconstruction_boardnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i151` | `ideas/i151_auxiliary_reconstruction_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `auxiliary_reconstruction_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i152` | `ideas/i152_iterative_logit_refinement_cnn` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `iterative_logit_refinement_cnn` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i153` | `ideas/i153_agreement_variance_head_net` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `agreement_variance_head_net` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i154` | `ideas/i154_adapter_sandwich_residual_cnn` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `adapter_sandwich_residual_cnn` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

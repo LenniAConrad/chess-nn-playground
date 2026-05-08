@@ -1961,6 +1961,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i151_auxiliary_reconstruction_boardnet/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i151_auxiliary_reconstruction_boardnet",
+      "idea_id": "i151",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "auxiliary_reconstruction_boardnet",
+      "slug": "auxiliary_reconstruction_boardnet",
+      "source_files": [
+        "ideas/i151_auxiliary_reconstruction_boardnet/model.py",
+        "src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2841,6 +2861,7 @@
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
       "ideas/i150_early_exit_cascade_boardnet",
+      "ideas/i151_auxiliary_reconstruction_boardnet",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -2881,7 +2902,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 137,
+    "implemented_architecture_count": 138,
     "issue_folders": [],
     "validation_issue_count": 0
   }
