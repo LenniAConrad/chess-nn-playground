@@ -2481,6 +2481,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i180_phase_transition_pressure_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i180_phase_transition_pressure_network",
+      "idea_id": "i180",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "phase_transition_pressure_network",
+      "slug": "phase_transition_pressure_network",
+      "source_files": [
+        "ideas/i180_phase_transition_pressure_network/model.py",
+        "src/chess_nn_playground/models/phase_transition_pressure_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i190_blocker_pin_lattice_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3307,6 +3327,7 @@
       "ideas/i175_prototype_margin_puzzle_network",
       "ideas/i177_forcing_certificate_transformer",
       "ideas/i179_causal_piece_derivative_network",
+      "ideas/i180_phase_transition_pressure_network",
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
@@ -3343,7 +3364,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 159,
+    "implemented_architecture_count": 160,
     "issue_folders": [],
     "validation_issue_count": 0
   }

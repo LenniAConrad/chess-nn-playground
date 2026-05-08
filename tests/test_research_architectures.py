@@ -13098,3 +13098,161 @@ def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.phase_transition_pressure_network import (
+        PhaseTransitionPressureNetwork,
+        build_phase_transition_pressure_network_from_config,
+    )
+
+    folder = Path("ideas/i180_phase_transition_pressure_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PhaseTransitionPressureNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "phase_transition_pressure_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_thresholds = model.num_thresholds
+    num_summaries = model.num_summaries_effective
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king
+    x[0, 11, 0, 4] = 1.0  # black king
+    x[0, 4, 7, 3] = 1.0   # white queen
+    x[0, 10, 0, 3] = 1.0  # black queen
+    x[0, 3, 7, 0] = 1.0   # white rook
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["pressure_fields"].shape == (2, 5, 8, 8)
+    assert output["pressure_mean"].shape == (2, 5)
+    assert output["thresholds"].shape == (num_thresholds,)
+    assert output["temperature"].shape == ()
+    assert output["field_tau"].shape == (2, 5, num_thresholds, 8, 8)
+    assert output["summaries"].shape == (2, 5, num_thresholds, num_summaries)
+    assert output["critical_curves"].shape == (2, 5, num_thresholds - 1, num_summaries)
+    for key in ("mass_curve", "king_zone_mass_curve", "largest_component_curve", "boundary_length_curve"):
+        assert output[key].shape == (2, 5, num_thresholds), key
+    assert output["critical_pressure_score"].shape == (2,)
+    assert output["readout_features"].shape[0] == 2
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_threshold_sweep",
+        "uses_pressure_curve",
+        "uses_king_zone_features",
+        "num_thresholds_effective",
+        "num_summaries_effective",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_threshold_sweep"] == 1.0).all()
+    assert (output["uses_pressure_curve"] == 1.0).all()
+    assert (output["uses_king_zone_features"] == 1.0).all()
+    assert (output["num_thresholds_effective"] == num_thresholds).all()
+    assert (output["num_summaries_effective"] == num_summaries).all()
+
+    # Critical curves are exactly the first differences of summaries.
+    expected_curves = output["summaries"][..., 1:, :] - output["summaries"][..., :-1, :]
+    assert torch.allclose(output["critical_curves"], expected_curves, atol=1e-5)
+
+    # Field tau matches sigmoid((pressure - tau) / temperature).
+    pressures = output["pressure_fields"]
+    tau = output["thresholds"].view(1, 1, -1, 1, 1)
+    temperature = output["temperature"]
+    expected_tau = torch.sigmoid((pressures.unsqueeze(2) - tau) / temperature)
+    assert torch.allclose(output["field_tau"], expected_tau, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sweep, expected_curve, expected_kz, expected_T, expected_S in (
+        ("none", 1.0, 1.0, 1.0, num_thresholds, 7),
+        ("single_threshold", 1.0, 0.0, 1.0, 1, 7),
+        ("pressure_mean_only", 0.0, 0.0, 1.0, 0, 7),
+        ("no_king_zone_features", 1.0, 1.0, 0.0, num_thresholds, 3),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_phase_transition_pressure_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_threshold_sweep"][0].item() == expected_sweep
+        assert ab_output["uses_pressure_curve"][0].item() == expected_curve
+        assert ab_output["uses_king_zone_features"][0].item() == expected_kz
+        assert ab_model.num_thresholds_effective == expected_T
+        assert ab_model.num_summaries_effective == expected_S
+        if ablation == "pressure_mean_only":
+            assert ab_output["field_tau"].shape == (2, 5, 0, 8, 8)
+            assert ab_output["readout_features"].shape == (2, 5)
+        elif ablation == "single_threshold":
+            assert ab_output["field_tau"].shape == (2, 5, 1, 8, 8)
+            # With a single threshold the model still emits a curve
+            # tensor of shape (B, F, 1, S) but it is exactly zero.
+            assert torch.allclose(
+                ab_output["critical_curves"],
+                torch.zeros_like(ab_output["critical_curves"]),
+                atol=1e-5,
+            )
+        elif ablation == "no_king_zone_features":
+            assert ab_output["summaries"].shape[-1] == 3
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "phase_transition_pressure_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PhaseTransitionPressureNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_phase_transition_pressure_network_from_config
+        is build_phase_transition_pressure_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i180"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

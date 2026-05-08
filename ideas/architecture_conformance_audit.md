@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `159`
+- Implemented architecture rows audited: `160`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -136,6 +136,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i175` | `ideas/i175_prototype_margin_puzzle_network` | `prototype_margin_puzzle_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i175_prototype_margin_puzzle_network/model.py`<br>`src/chess_nn_playground/models/prototype_margin_puzzle_network.py` | - |
 | `i177` | `ideas/i177_forcing_certificate_transformer` | `forcing_certificate_transformer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i177_forcing_certificate_transformer/model.py`<br>`src/chess_nn_playground/models/forcing_certificate_transformer.py` | - |
 | `i179` | `ideas/i179_causal_piece_derivative_network` | `causal_piece_derivative_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i179_causal_piece_derivative_network/model.py`<br>`src/chess_nn_playground/models/causal_piece_derivative_network.py` | - |
+| `i180` | `ideas/i180_phase_transition_pressure_network` | `phase_transition_pressure_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i180_phase_transition_pressure_network/model.py`<br>`src/chess_nn_playground/models/phase_transition_pressure_network.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |

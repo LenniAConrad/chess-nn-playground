@@ -356,6 +356,9 @@ from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
 from chess_nn_playground.models.causal_piece_derivative_network import (
     build_causal_piece_derivative_network_from_config,
 )
+from chess_nn_playground.models.phase_transition_pressure_network import (
+    build_phase_transition_pressure_network_from_config,
+)
 from chess_nn_playground.models.forcing_certificate_transformer import (
     build_forcing_certificate_transformer_from_config,
 )
@@ -547,6 +550,7 @@ MODEL_BUILDERS = {
     "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,
     "forcing_certificate_transformer": build_forcing_certificate_transformer_from_config,
     "causal_piece_derivative_network": build_causal_piece_derivative_network_from_config,
+    "phase_transition_pressure_network": build_phase_transition_pressure_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
