@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 136, 'probe_scaffold_only': 97, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 143, 'shared_probe_variant': 97}`
+- Registered implementation states: `{'implemented': 137, 'probe_scaffold_only': 96, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 144, 'shared_probe_variant': 96}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 143 | Materially distinct model implementation. |
-| `shared_probe_variant` | 97 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 144 | Materially distinct model implementation. |
+| `shared_probe_variant` | 96 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -135,7 +135,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i094` | [Convex Feasibility Residual Network](i094_convex_feasibility_residual_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i095` | [Rank-Quantile Evidence Field Network](i095_rank_quantile_evidence_field_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i096` | [Oriented Matroid Covector Bottleneck](i096_oriented_matroid_covector_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i097` | [Fixed-Point Residual Defect Network](i097_fixed_point_residual_defect_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i097` | [Fixed-Point Residual Defect Network](i097_fixed_point_residual_defect_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i098` | [Baseline Logit Residual Adapter](i098_baseline_logit_residual_adapter) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i099` | [Coarse-to-Fine Board Residual Pyramid](i099_coarse_to_fine_board_residual_pyramid) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i100` | [Independence Residual Interaction Network](i100_independence_residual_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

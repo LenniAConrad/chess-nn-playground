@@ -1177,13 +1177,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i097_fixed_point_residual_defect_network",
       "idea_id": "i097",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Fixed-Point Residual Defect Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`; bespoke damped fixed-point iteration over a learned board-conditioned update operator, with a residual-defect trajectory bottleneck (per-step norm, cosine, contraction ratio, signed delta, learned-axis projection) that classifies puzzles from the failure of equilibration rather than from the final latent alone.",
+      "output_heads": "One puzzle logit plus residual-defect trajectory diagnostics (per-step residual norm, cosine, contraction ratio, signed delta, learned-axis projection, path length, defect decay, terminal defect magnitude, oscillation energy, mode code) saved to prediction artifacts.",
       "short_thesis": "Puzzle-like positions may be harder for a learned board-state operator to equilibrate. Instead of classifying only the final latent, classify from the residual defects of an unrolled update process:",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

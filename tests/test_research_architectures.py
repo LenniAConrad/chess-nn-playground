@@ -10596,3 +10596,173 @@ def test_i096_oriented_matroid_covector_bottleneck_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i097_fixed_point_residual_defect_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.fixed_point_residual import (
+        BoardFixedPointEncoder,
+        DefectTrajectoryStats,
+        FixedPointResidualDefectNetwork,
+        ResidualUpdateBlock,
+        build_fixed_point_residual_defect_network_from_config,
+    )
+
+    folder = Path("ideas/i097_fixed_point_residual_defect_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, FixedPointResidualDefectNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "fixed_point_residual_defect_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert isinstance(model.encoder, BoardFixedPointEncoder)
+    assert isinstance(model.shared_update, ResidualUpdateBlock)
+    assert isinstance(model.stats, DefectTrajectoryStats)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — a non-trivial pin/fork pattern.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "prob",
+        "defect_features",
+        "h_final",
+        "residual_l2",
+        "residual_l1",
+        "residual_cosine",
+        "contraction_ratio",
+        "residual_projection",
+        "residual_signed_delta",
+        "path_length",
+        "defect_decay",
+        "final_defect_l2",
+        "final_defect_l1",
+        "oscillation_energy",
+        "defect_stats",
+        "active_steps",
+        "fixed_point_mode",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert expected_keys.issubset(output)
+    steps = model.steps
+    projection_dim = model.stats.projection_dim
+    assert output["residual_l2"].shape == (2, steps)
+    assert output["residual_l1"].shape == (2, steps)
+    assert output["residual_cosine"].shape == (2, steps)
+    assert output["contraction_ratio"].shape == (2, steps)
+    assert output["residual_signed_delta"].shape == (2, steps)
+    assert output["residual_projection"].shape == (2, steps, projection_dim)
+    assert output["defect_stats"].shape == (2, 8)
+    assert output["defect_features"].shape == (2, model.stats.full_output_dim)
+
+    with torch.no_grad():
+        diag_output = model(x, return_path=True)
+    latent_dim = model.stats.latent_dim
+    board_embed_dim = model.encoder.board_embed[0].out_features
+    assert diag_output["h_path"].shape == (2, steps + 1, latent_dim)
+    assert diag_output["r_path"].shape == (2, steps, latent_dim)
+    assert diag_output["board_embed"].shape == (2, board_embed_dim)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "fixed_point_residual_defect_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, FixedPointResidualDefectNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Gradients must flow into the encoder, the shared update operator, and the head.
+    trainable_cfg = dict(config["model"])
+    trainable_cfg.pop("name", None)
+    trainable_cfg.pop("packet_profile", None)
+    trainable_cfg.pop("mechanism_family", None)
+    trainable = build_fixed_point_residual_defect_network_from_config(trainable_cfg)
+    trainable.train()
+    train_output = trainable(x)
+    train_output["logits"].sum().backward()
+    encoder_conv = next(
+        m for m in trainable.encoder.trunk if isinstance(m, torch.nn.Conv2d)
+    )
+    update_linear = next(
+        m for m in trainable.shared_update.net if isinstance(m, torch.nn.Linear)
+    )
+    head_linear = next(
+        m for m in trainable.full_head if isinstance(m, torch.nn.Linear)
+    )
+    for grad in (
+        encoder_conv.weight.grad,
+        update_linear.weight.grad,
+        head_linear.weight.grad,
+        trainable.stats.projection.grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Ablation modes must build and produce the puzzle_binary contract shape.
+    for mode in (
+        "final_latent_only",
+        "defect_norm_only",
+        "single_step",
+        "untied_residual_blocks",
+        "random_update_operator",
+    ):
+        ablation_cfg = dict(config["model"])
+        ablation_cfg.pop("name", None)
+        ablation_cfg.pop("packet_profile", None)
+        ablation_cfg.pop("mechanism_family", None)
+        ablation_cfg["mode"] = mode
+        ablation_model = build_fixed_point_residual_defect_network_from_config(ablation_cfg).eval()
+        with torch.no_grad():
+            ablation_output = ablation_model(x)
+        assert ablation_output["logits"].shape == (2,), mode
+        assert torch.isfinite(ablation_output["logits"]).all(), mode
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i097"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

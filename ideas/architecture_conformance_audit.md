@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `143`
+- Implemented architecture rows audited: `144`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -107,6 +107,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i094` | `ideas/i094_convex_feasibility_residual_network` | `convex_feasibility_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i094_convex_feasibility_residual_network/model.py`<br>`src/chess_nn_playground/models/convex_feasibility.py` | - |
 | `i095` | `ideas/i095_rank_quantile_evidence_field_network` | `rank_quantile_evidence_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i095_rank_quantile_evidence_field_network/model.py`<br>`src/chess_nn_playground/models/rank_quantile.py` | - |
 | `i096` | `ideas/i096_oriented_matroid_covector_bottleneck` | `oriented_matroid_covector_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i096_oriented_matroid_covector_bottleneck/model.py`<br>`src/chess_nn_playground/models/oriented_matroid_covector.py` | - |
+| `i097` | `ideas/i097_fixed_point_residual_defect_network` | `fixed_point_residual_defect_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i097_fixed_point_residual_defect_network/model.py`<br>`src/chess_nn_playground/models/fixed_point_residual.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |
