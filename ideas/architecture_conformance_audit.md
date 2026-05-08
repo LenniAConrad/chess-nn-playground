@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `131`
+- Implemented architecture rows audited: `132`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -95,6 +95,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i082` | `ideas/i082_chess_hypercut_polynomial_network` | `chess_hypercut_polynomial_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i082_chess_hypercut_polynomial_network/model.py`<br>`src/chess_nn_playground/models/chess_hypercut_polynomial.py` | - |
 | `i083` | `ideas/i083_fisher_geodesic_tension_network` | `fisher_geodesic_tension_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i083_fisher_geodesic_tension_network/model.py`<br>`src/chess_nn_playground/models/fisher_geodesic_tension.py` | - |
 | `i084` | `ideas/i084_typed_hypergraph_motif_grammar` | `typed_hypergraph_motif_grammar` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i084_typed_hypergraph_motif_grammar/model.py`<br>`src/chess_nn_playground/models/typed_hypergraph_motif_grammar.py` | - |
+| `i085` | `ideas/i085_hall_defect_zeta_operator` | `hall_defect_zeta_operator` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i085_hall_defect_zeta_operator/model.py`<br>`src/chess_nn_playground/models/hall_defect_zeta.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |

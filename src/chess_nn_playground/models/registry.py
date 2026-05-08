@@ -56,6 +56,9 @@ from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
 from chess_nn_playground.models.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
 )
+from chess_nn_playground.models.hall_defect_zeta import (
+    build_hall_defect_zeta_operator_from_config,
+)
 from chess_nn_playground.models.geometry_pseudolikelihood_ratio import (
     build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
 )
@@ -331,6 +334,7 @@ MODEL_BUILDERS = {
     "king_escape_percolation_network": build_king_escape_percolation_network_from_config,
     "soft_king_cage_path_bottleneck_network": build_soft_king_cage_path_bottleneck_network_from_config,
     "hall_defect_obligation_matroid_network": build_hall_defect_obligation_matroid_network_from_config,
+    "hall_defect_zeta_operator": build_hall_defect_zeta_operator_from_config,
     "threat_topology_betti_bottleneck_network": build_threat_topology_betti_bottleneck_network_from_config,
     "blocker_pin_lattice_network": build_blocker_pin_lattice_network_from_config,
     "safe_reply_certificate_verifier": build_safe_reply_certificate_verifier_from_config,

@@ -1661,6 +1661,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i085_hall_defect_zeta_operator/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i085_hall_defect_zeta_operator",
+      "idea_id": "i085",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "hall_defect_zeta_operator",
+      "slug": "hall_defect_zeta_operator",
+      "source_files": [
+        "ideas/i085_hall_defect_zeta_operator/model.py",
+        "src/chess_nn_playground/models/hall_defect_zeta.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2706,6 +2726,7 @@
       "ideas/i082_chess_hypercut_polynomial_network",
       "ideas/i083_fisher_geodesic_tension_network",
       "ideas/i084_typed_hypergraph_motif_grammar",
+      "ideas/i085_hall_defect_zeta_operator",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2755,7 +2776,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 131,
+    "implemented_architecture_count": 132,
     "issue_folders": [],
     "validation_issue_count": 0
   }

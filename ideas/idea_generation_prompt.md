@@ -1033,13 +1033,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i085_hall_defect_zeta_operator",
       "idea_id": "i085",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Hall-Defect Zeta Operator",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0802_tuesday_new_york_hall_defect_zeta.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-28_0802_tuesday_new_york_hall_defect_zeta.md`; exposes Hall defects on the Boolean lattice of local obligations under a pin/king-exposure-filtered defense relation, rather than counting raw attackers/defenders.",
+      "output_heads": "One BCE-compatible puzzle logit plus HDZ diagnostics (`hdz_only_logits`, Hall-defect spectrum, effective defense density, pinned defender density, loose target density) saved to prediction artifacts.",
       "short_thesis": "Selected concept: **Hall-Defect Zeta Operator**, a deterministic finite-algebraic board operator that computes local overload spectra in a pin-filtered defense relation.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -4100,15 +4100,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i085_hall_defect_zeta_operator",
       "idea_id": "i085",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "logic",
       "name": "Hall-Defect Zeta Operator",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Implemented as a bespoke Hall-Defect Zeta Operator network in `src/chess_nn_playground/models/hall_defect_zeta.py`.",
       "short_thesis": "Selected concept: **Hall-Defect Zeta Operator**, a deterministic finite-algebraic board operator that computes local overload spectra in a pin-filtered defense relation.",
       "slug": "hall_defect_zeta_operator",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-28_0802_tuesday_new_york_hall_defect_zeta.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

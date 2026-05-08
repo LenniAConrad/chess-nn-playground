@@ -1390,6 +1390,107 @@ def test_i053_hall_defect_obligation_matroid_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i085_hall_defect_zeta_operator_is_bespoke_and_conformant():
+    from chess_nn_playground.models.hall_defect_zeta import HallDefectZetaConvLite
+
+    folder = Path("ideas/i085_hall_defect_zeta_operator")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, HallDefectZetaConvLite)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "hall_defect_zeta_operator"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # White king e1, black king e8, white rook a1, white pawn e2, black queen a3,
+    # black knight c3 — produces a non-trivial pin/overload pattern on a1 and king ring.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["hdz_tensor"].shape == (2, 40, 8, 8)
+    assert output["hdz_only_logits"].shape == (2,)
+    for key in (
+        "zeta_defect_spectrum",
+        "max_hall_defect",
+        "mean_hall_defect",
+        "hall_defect_energy",
+        "effective_defense_density",
+        "pinned_defender_density",
+        "loose_target_density",
+        "loose_target_count",
+        "pinned_piece_count",
+        "effective_defense_total",
+        "mechanism_energy",
+        "proposal_profile_strength",
+    ):
+        assert key in output, key
+        assert torch.isfinite(output[key]).all(), key
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    assert isinstance(registry_model, HallDefectZetaConvLite)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    for algebra_mode in ("hdz", "atom_scramble_hdz", "neural_synth_40"):
+        ablated = HallDefectZetaConvLite(
+            input_channels=18,
+            num_classes=1,
+            channels=8,
+            hidden_dim=16,
+            depth=1,
+            algebra_mode=algebra_mode,
+            max_subset_order=2,
+            max_atoms=8,
+            dropout=0.0,
+            use_batchnorm=False,
+        ).eval()
+        with torch.no_grad():
+            ablated_output = ablated(x)
+        assert ablated_output["logits"].shape == (2,), algebra_mode
+        assert torch.isfinite(ablated_output["logits"]).all(), algebra_mode
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i085"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i055_non_backtracking_tactical_walk_is_bespoke_and_conformant():
     folder = Path("ideas/i055_non_backtracking_tactical_walk_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
