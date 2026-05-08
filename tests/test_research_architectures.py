@@ -15277,3 +15277,225 @@ def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i197_reply_set_contrastive_transformer_is_bespoke_and_conformant():
+    from chess_nn_playground.models.reply_set_contrastive_transformer import (
+        BoardFeatureTrunk,
+        ContrastiveAggregator,
+        DefenderReplyPool,
+        PseudoReplyGenerator,
+        REPLY_OFFSETS,
+        ReplySetContrastiveTransformer,
+        TokenAttentionBlock,
+        build_reply_set_contrastive_transformer_from_config,
+    )
+
+    folder = Path("ideas/i197_reply_set_contrastive_transformer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ReplySetContrastiveTransformer)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "reply_set_contrastive_transformer"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    assert isinstance(model.trunk, BoardFeatureTrunk)
+    assert isinstance(model.reply_generator, PseudoReplyGenerator)
+    assert isinstance(model.token_attention, TokenAttentionBlock)
+    assert isinstance(model.defender_pool, DefenderReplyPool)
+    assert isinstance(model.contrastive_aggregator, ContrastiveAggregator)
+    assert model.reply_generator.offsets == REPLY_OFFSETS
+    assert model.num_replies == 12
+
+    input_channels = int(config["model"]["input_channels"])
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen + king vs lone black king. White to move.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file. White to move.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: black to move (side-to-move plane stays zero).
+    x[2, 5, 0, 4] = 1.0  # white king e1
+    x[2, 11, 7, 7] = 1.0  # black king h8
+    x[2, 7, 5, 4] = 1.0  # black knight e3
+    x[:2, 12] = 1.0  # white-to-move on positions 0 and 1 only
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = (
+        "logits",
+        "current_embedding_norm",
+        "token_summary_norm",
+        "defender_summary_norm",
+        "reply_similarity_mean",
+        "reply_similarity_min",
+        "reply_similarity_std",
+        "reply_pressure",
+        "defense_gap",
+        "mechanism_energy",
+        "graph_pressure",
+        "ray_language_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "num_replies",
+        "reply_embedding_mean_norm",
+        "king_ring_pressure",
+    )
+    for key in expected_keys:
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Diagnostic aliases.
+    assert torch.allclose(output["graph_pressure"], output["reply_pressure"])
+    assert torch.allclose(output["ray_language_energy"], output["defense_gap"])
+    assert torch.allclose(
+        output["mechanism_energy"], 1.0 - output["reply_similarity_mean"], atol=1e-6
+    )
+    assert (output["num_replies"] == float(model.num_replies)).all()
+    assert (output["proposal_keyword_count"] == float(model.num_replies)).all()
+    # Reply similarities live in [-1, 1].
+    assert (output["reply_similarity_mean"] >= -1.0 - 1e-5).all()
+    assert (output["reply_similarity_mean"] <= 1.0 + 1e-5).all()
+    assert (output["reply_similarity_min"] <= output["reply_similarity_mean"] + 1e-5).all()
+    # The defender king-ring pool sees a non-empty 3x3 ring around the enemy king.
+    assert (output["king_ring_pressure"] > 0.0).all()
+
+    # Pseudo-replies must flip the side-to-move plane and zero the en-passant plane.
+    replies = model.reply_generator(x)
+    assert replies.shape == (3, model.num_replies, input_channels, 8, 8)
+    assert torch.allclose(replies[:, :, 12], (1.0 - x[:, 12]).unsqueeze(1).expand_as(replies[:, :, 12]))
+    assert (replies[:, :, 17] == 0.0).all()
+    # Castling planes are preserved across pseudo-replies (one of the architecture's
+    # acknowledged approximations).
+    for plane in (13, 14, 15, 16):
+        assert torch.allclose(replies[:, :, plane], x[:, plane].unsqueeze(1).expand_as(replies[:, :, plane]))
+    # When white is to move, white piece planes change across replies (they were
+    # shifted) but black piece planes are preserved. Position 0 has white pieces.
+    assert torch.allclose(
+        replies[0, 0, 11], x[0, 11]
+    )  # black king plane preserved
+    # At least one shifted reply differs from the original white queen plane.
+    assert not torch.allclose(replies[0, 0, 4], x[0, 4])
+    # Symmetric check for black-to-move: black piece planes may shift, white preserved.
+    assert torch.allclose(replies[2, 0, 5], x[2, 5])  # white king preserved
+    assert not torch.allclose(replies[2, 0, 7], x[2, 7])
+
+    # Off-board shifts must zero out cleanly (no wrap).
+    for k, (drank, dfile) in enumerate(model.reply_generator.offsets):
+        if drank == 0 and dfile == 0:
+            continue
+        # Original white queen on e4 (rank 4, file 4); after a shift only one
+        # cell of the queen plane should ever be set, never two.
+        assert replies[0, k, 4].sum().item() <= 1.0 + 1e-6
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(num_classes=2)
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(ablation="not_a_real_ablation")
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(input_channels=8)
+
+    # `no_replies` ablation must drop the contrastive features and keep the
+    # head shape consistent.
+    no_replies = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_replies"}
+    ).eval()
+    with torch.no_grad():
+        no_replies_out = no_replies(x)
+    assert no_replies_out["logits"].shape == (3,)
+    assert torch.isfinite(no_replies_out["logits"]).all()
+    assert torch.allclose(no_replies_out["reply_similarity_mean"], torch.zeros(3))
+
+    # `no_token_attention` ablation must zero out the token summary.
+    no_tok = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_token_attention"}
+    ).eval()
+    with torch.no_grad():
+        no_tok_out = no_tok(x)
+    assert no_tok_out["logits"].shape == (3,)
+    assert torch.allclose(no_tok_out["token_summary_norm"], torch.zeros(3))
+
+    # `no_defender_reply` ablation must zero out the defender summary.
+    no_def = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_defender_reply"}
+    ).eval()
+    with torch.no_grad():
+        no_def_out = no_def(x)
+    assert no_def_out["logits"].shape == (3,)
+    assert torch.allclose(no_def_out["defender_summary_norm"], torch.zeros(3))
+
+    # Identical boards must produce identical outputs (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+
+    # The contrastive aggregator output really does have six dimensions.
+    sims = torch.tensor([[0.1, 0.5, -0.3, 0.9, 0.2, 0.0, 0.7, 0.1, 0.4, 0.3, 0.6, 0.05]])
+    agg = ContrastiveAggregator()(sims)
+    assert agg.shape == (1, 6)
+    assert torch.isclose(agg[0, 0], sims.min())
+    assert torch.isclose(agg[0, 1], sims.mean())
+    assert torch.isclose(agg[0, 3], sims.max())
+    assert torch.isclose(agg[0, 5], sims.clamp_min(0.0).sum())
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "reply_set_contrastive_transformer"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ReplySetContrastiveTransformer)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_reply_set_contrastive_transformer_from_config
+        is build_reply_set_contrastive_transformer_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i197"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

@@ -2377,13 +2377,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i197_reply_set_contrastive_transformer",
       "idea_id": "i197",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Reply-Set Contrastive Transformer",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; uses a graph mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; bespoke board-only contrastive transformer that builds a deterministic pseudo-reply set by translating the side-to-move's own piece planes along twelve chess-relevant offsets, encodes every reply with the shared trunk, and reads only the aggregated cosine similarities (min/mean/std/top-1/top-2/sum-of-positive) into the puzzle head, alongside a token-attention summary and a king-ring defender-reply pool.",
+      "output_heads": "One puzzle logit plus reply-set contrastive diagnostics (`current_embedding_norm`, `token_summary_norm`, `defender_summary_norm`, `reply_similarity_mean`, `reply_similarity_min`, `reply_similarity_std`, `reply_pressure`, `defense_gap`, `mechanism_energy`, `graph_pressure`, `ray_language_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `num_replies`, `reply_embedding_mean_norm`, `king_ring_pressure`).",
       "short_thesis": "A puzzle position should embed differently from its plausible reply positions. A near-puzzle may remain close to one or more safe replies. Use contrastive learning over current position and pseudo-reply positions.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

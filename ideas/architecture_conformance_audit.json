@@ -2801,6 +2801,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i197_reply_set_contrastive_transformer/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i197_reply_set_contrastive_transformer",
+      "idea_id": "i197",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "reply_set_contrastive_transformer",
+      "slug": "reply_set_contrastive_transformer",
+      "source_files": [
+        "ideas/i197_reply_set_contrastive_transformer/model.py",
+        "src/chess_nn_playground/models/reply_set_contrastive_transformer.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i203_hierarchical_tactical_option_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3583,6 +3603,7 @@
       "ideas/i193_exchange_then_king_dual_stream",
       "ideas/i194_tactical_symptom_bayesian_network",
       "ideas/i196_source_invariant_puzzle_bottleneck",
+      "ideas/i197_reply_set_contrastive_transformer",
       "ideas/i203_hierarchical_tactical_option_network",
       "ideas/i204_cross_defense_consistency_network",
       "ideas/i205_defender_timing_schedule_network",
@@ -3616,7 +3637,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 172,
+    "implemented_architecture_count": 173,
     "issue_folders": [],
     "validation_issue_count": 0
   }

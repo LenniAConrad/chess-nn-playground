@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `165`
-- Bespoke model implementations: `172`
-- Shared ResearchPacketProbe variants: `68`
+- Fully implemented architectures still needing a linked benchmark run: `166`
+- Bespoke model implementations: `173`
+- Shared ResearchPacketProbe variants: `67`
 
 Recommended immediate sequence:
 
@@ -30,8 +30,8 @@ Benchmark queue by ID:
 - Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`
 - Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i090`, `i091`, `i100`, `i101`, `i102`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i150`, `i151`, `i153`, `i154`, `i155`, `i156`
 - Batch 5: `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i177`, `i179`, `i180`, `i181`, `i182`
-- Batch 6: `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i196`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
-- Batch 7: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 6: `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i196`, `i197`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`
+- Batch 7: `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -252,7 +252,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i194` | [Tactical Symptom Bayesian Network](i194_tactical_symptom_bayesian_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i195` | [Minimal-Edit Puzzle Distance Network](i195_minimal_edit_puzzle_distance_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [x] | `i196` | [Source-Invariant Puzzle Bottleneck](i196_source_invariant_puzzle_bottleneck) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i197` | [Reply-Set Contrastive Transformer](i197_reply_set_contrastive_transformer) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i197` | [Reply-Set Contrastive Transformer](i197_reply_set_contrastive_transformer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i198` | [Barrier-Cut Puzzle Network](i198_barrier_cut_puzzle_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i199` | [Tactical Hessian Spectrum Network](i199_tactical_hessian_spectrum_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i200` | [Absorbing Threat Markov Network](i200_absorbing_threat_markov_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |

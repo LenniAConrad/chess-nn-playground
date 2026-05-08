@@ -241,6 +241,9 @@ from chess_nn_playground.models.exchange_then_king_dual_stream import (
 from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
     build_source_invariant_puzzle_bottleneck_from_config,
 )
+from chess_nn_playground.models.reply_set_contrastive_transformer import (
+    build_reply_set_contrastive_transformer_from_config,
+)
 from chess_nn_playground.models.tactical_symptom_bayesian_network import (
     build_tactical_symptom_bayesian_network_from_config,
 )
@@ -599,6 +602,7 @@ MODEL_BUILDERS = {
     "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
+    "reply_set_contrastive_transformer": build_reply_set_contrastive_transformer_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
