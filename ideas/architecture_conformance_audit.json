@@ -1501,6 +1501,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i077_adaptive_tactical_resolvent_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i077_adaptive_tactical_resolvent_network",
+      "idea_id": "i077",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "adaptive_tactical_resolvent_network",
+      "slug": "adaptive_tactical_resolvent_network",
+      "source_files": [
+        "ideas/i077_adaptive_tactical_resolvent_network/model.py",
+        "src/chess_nn_playground/models/adaptive_tactical_resolvent_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2538,6 +2558,7 @@
       "ideas/i074_puzzle_binary_benchmark_challengers",
       "ideas/i075_tactical_bisimulation_puzzle_network",
       "ideas/i076_krylov_tactical_subspace_network",
+      "ideas/i077_adaptive_tactical_resolvent_network",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2587,7 +2608,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 123,
+    "implemented_architecture_count": 124,
     "issue_folders": [],
     "validation_issue_count": 0
   }

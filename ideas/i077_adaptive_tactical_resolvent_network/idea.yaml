@@ -1,32 +1,37 @@
 idea_id: i077
 name: Adaptive Tactical Resolvent Network
 slug: adaptive_tactical_resolvent_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
-short_thesis: Adaptive Tactical Resolvent Network tests whether a generic board mechanism
-  improves puzzle-binary classification.
+short_thesis: Adaptive Tactical Resolvent Network tests whether a learned chess-structured
+  resolvent operator (I - alpha A)^(-1) improves puzzle-binary classification by reading
+  attacker/defender transfer and cancellation directly.
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
+  builds role-conditioned resolvent solves on a learned chess-structured 64x64 operator
+  and reads transfer scalars, cancellation, sensitivity, and king/material energies
+  rather than generic CNN-only pooling.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus resolvent diagnostics (attack/defense/net transfer,
+  transfer ratio, sensitivity, king-zone and material-target field energies, operator
+  gate weights and norm, low-rank energy) saved to prediction artifacts.
+compute_notes: Compact convolutional trunk, 64x64 chess-geometry operator with five
+  fixed masks plus a learned low-rank update, spectrally normalised via power
+  iteration, and three direct batched `torch.linalg.solve` calls per board to form
+  the multi-alpha resolvent transfers.
+implementation_status: implemented
 trainer_entrypoint: ideas/i077_adaptive_tactical_resolvent_network/train.py
 config_path: ideas/i077_adaptive_tactical_resolvent_network/config.yaml
 model_path: ideas/i077_adaptive_tactical_resolvent_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Bespoke implementation of the Adaptive Tactical Resolvent thesis. The operator
+  combines five fixed chess-geometry masks with a learned low-rank board-conditioned
+  update and is spectrally normalised before the multi-alpha resolvent solves; CRTK
+  metadata is reporting-only.
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

@@ -23,6 +23,17 @@ model:
   use_batchnorm: true
   mechanism_family: linear_algebra
   packet_profile: adaptive_tactical_resolvent_network
+  operator_rank: 12
+  alpha_values: [0.25, 0.5, 0.75]
+  spectral_norm_iters: 3
+  roles:
+    - attack
+    - defense
+    - king_target
+    - material_target
+    - blocker
+    - tempo
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

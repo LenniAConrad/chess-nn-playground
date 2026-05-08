@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `115`
-- Bespoke model implementations: `122`
-- Shared ResearchPacketProbe variants: `118`
+- Fully implemented architectures still needing a linked benchmark run: `117`
+- Bespoke model implementations: `124`
+- Shared ResearchPacketProbe variants: `116`
 
 Recommended immediate sequence:
 
@@ -27,9 +27,9 @@ Benchmark queue by ID:
 
 - Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`
 - Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`
-- Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i100`, `i101`, `i102`, `i127`, `i128`
-- Batch 4: `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`
-- Batch 5: `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i100`, `i101`, `i102`
+- Batch 4: `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
+- Batch 5: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -129,8 +129,8 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i073` | [Tiny Chess MicroNet](i073_tiny_chess_micronet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i074` | [Puzzle-Binary Benchmark Challengers](i074_puzzle_binary_benchmark_challengers) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i075` | [Tactical Bisimulation Puzzle Network](i075_tactical_bisimulation_puzzle_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i076` | [Krylov Tactical Subspace Network](i076_krylov_tactical_subspace_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
-| [ ] | `i077` | [Adaptive Tactical Resolvent Network](i077_adaptive_tactical_resolvent_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i076` | [Krylov Tactical Subspace Network](i076_krylov_tactical_subspace_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i077` | [Adaptive Tactical Resolvent Network](i077_adaptive_tactical_resolvent_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i078` | [Tactical Controllability Gramian Network](i078_tactical_controllability_gramian_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i079` | [Support-Polar Zonotope Certificate Network](i079_support_polar_zonotope_certificate_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i080` | [Loop-Frustration Curvature Network](i080_loop_frustration_curvature_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
