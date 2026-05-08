@@ -13418,3 +13418,142 @@ def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.motif_tensor_factorization_network import (
+        MotifTensorFactorizationNetwork,
+        build_motif_tensor_factorization_network_from_config,
+    )
+
+    folder = Path("ideas/i182_motif_tensor_factorization_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, MotifTensorFactorizationNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "motif_tensor_factorization_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    rank = int(config["model"]["rank"])
+    top_candidates = int(config["model"]["top_candidates"])
+    top_motifs = int(config["model"]["top_motifs"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 4, 7, 3] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["motif_score_tensor"].shape == (2, top_candidates, top_candidates, top_candidates)
+    assert output["top_motif_scores"].shape == (2, top_motifs)
+    assert output["top_motif_indices"].shape == (2, top_motifs)
+    assert output["motif_entropy"].shape == (2,)
+    assert output["own_motif_score"].shape == (2,)
+    assert output["opponent_motif_score"].shape == (2,)
+    assert output["motif_contrast"].shape == (2,)
+    assert output["near_disproof_score"].shape == (2,)
+    assert output["attacker_top_indices"].shape == (2, top_candidates)
+    assert output["target_top_indices"].shape == (2, top_candidates)
+    assert output["defender_top_indices"].shape == (2, top_candidates)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_multiplicative_motif",
+        "uses_relation_embedding",
+        "rank",
+        "num_top_candidates",
+        "num_top_motifs",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_multiplicative_motif"] == 1.0).all()
+    assert (output["uses_relation_embedding"] == 1.0).all()
+    assert (output["rank"] == rank).all()
+    assert (output["num_top_candidates"] == top_candidates).all()
+    assert (output["num_top_motifs"] == top_motifs).all()
+
+    # Top motif scores are exactly the top-K of the flattened motif tensor.
+    motif_flat = output["motif_score_tensor"].reshape(2, -1)
+    expected_top, _ = torch.topk(motif_flat, top_motifs, dim=-1)
+    assert torch.allclose(output["top_motif_scores"], expected_top, atol=1e-5)
+    # Motif contrast is exactly own_motif_score - opponent_motif_score.
+    assert torch.allclose(
+        output["motif_contrast"],
+        output["own_motif_score"] - output["opponent_motif_score"],
+        atol=1e-5,
+    )
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_mult, expected_rel in (
+        ("none", 1.0, 1.0),
+        ("additive_motif_score", 0.0, 1.0),
+        ("no_relation_embedding", 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_motif_tensor_factorization_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_multiplicative_motif"][0].item() == expected_mult
+        assert ab_output["uses_relation_embedding"][0].item() == expected_rel
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "motif_tensor_factorization_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MotifTensorFactorizationNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_motif_tensor_factorization_network_from_config
+        is build_motif_tensor_factorization_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i182"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
