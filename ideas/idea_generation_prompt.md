@@ -1261,13 +1261,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i104_cross_scale_attention_residual_network",
       "idea_id": "i104",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Cross-Scale Attention Residual Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`; uses a graph mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
-      "short_thesis": "Puzzle-like evidence may appear when fine-square attention cannot be predicted from coarse board context. This model computes attention from fine tokens to coarse tokens, reconstructs expected fine attention, and classifies from the residual attention map.",
-      "status": "scaffolded",
+      "novelty_claim": "Bespoke cross-scale attention residual where the puzzle logit is decided from `A_actual - A_predicted` with `A_predicted = A_fine_to_coarse @ A_coarse_to_fine`, rather than from any single attention pattern or pooled value.",
+      "output_heads": "One puzzle logit plus residual attention diagnostics (total energy, off-diagonal energy, max absolute, self-diagonal mean, asymmetry, Frobenius norm, row entropy mean and variance, per-source L1 mass) and the actual, predicted, and residual attention maps.",
+      "short_thesis": "Puzzle-like evidence may appear when fine-square attention cannot be predicted from coarse board context. This model computes attention from fine tokens to coarse tokens, reconstructs expected fine attention as a rank-K factorisation through the coarse pivots, and classifies from the residual attention map.",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

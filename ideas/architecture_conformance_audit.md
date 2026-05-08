@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `147`
+- Implemented architecture rows audited: `148`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -114,6 +114,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |
 | `i103` | `ideas/i103_attention_disagreement_residual_network` | `attention_disagreement_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i103_attention_disagreement_residual_network/model.py`<br>`src/chess_nn_playground/models/attention_disagreement_residual_network.py` | - |
+| `i104` | `ideas/i104_cross_scale_attention_residual_network` | `cross_scale_attention_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i104_cross_scale_attention_residual_network/model.py`<br>`src/chess_nn_playground/models/cross_scale_attention_residual_network.py` | - |
 | `i127` | `ideas/i127_square_color_parity_mixer` | `square_color_parity_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i127_square_color_parity_mixer/model.py`<br>`src/chess_nn_playground/models/square_color_parity_mixer.py` | - |
 | `i128` | `ideas/i128_occupancy_run_length_segment_encoder` | `occupancy_run_length_segment_encoder` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i128_occupancy_run_length_segment_encoder/model.py`<br>`src/chess_nn_playground/models/occupancy_run_length_segment.py` | - |
 | `i129` | `ideas/i129_king_shelter_microkernel_network` | `king_shelter_microkernel_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i129_king_shelter_microkernel_network/model.py`<br>`src/chess_nn_playground/models/king_shelter_microkernel.py` | - |
