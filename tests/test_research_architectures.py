@@ -13557,3 +13557,162 @@ def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tempo_alignment_gate_network import (
+        TempoAlignmentGateNetwork,
+        build_tempo_alignment_gate_network_from_config,
+    )
+
+    folder = Path("ideas/i183_tempo_alignment_gate_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TempoAlignmentGateNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tempo_alignment_gate_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move puzzle with a white attacker on e8 and a
+    # black king on e1 -- a tempo-aligned tactic.
+    x[0, 5, 7, 4] = 1.0  # white king e8 (just to fill the position)
+    x[0, 3, 0, 4] = 1.0  # white rook e1
+    x[0, 11, 0, 0] = 1.0  # black king a1
+    x[0, 12] = 1.0  # white-to-move
+    # Sample 1: same static board but black-to-move -- same danger,
+    # different tempo alignment.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 3, 0, 4] = 1.0
+    x[1, 11, 0, 0] = 1.0
+    x[1, 12] = 0.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["danger_field"].shape == (2, 8, 8)
+    assert (output["danger_field"] >= 0.0).all()
+    assert output["side_field"].shape == (2, 8, 8)
+    assert output["alignment_field"].shape == (2, 8, 8)
+    assert ((output["alignment_field"] >= 0.0) & (output["alignment_field"] <= 1.0)).all()
+    assert output["own_pressure"].shape == (2,)
+    assert output["opp_pressure"].shape == (2,)
+    assert output["alignment_gap"].shape == (2,)
+    assert output["gated_pressure"].shape == (2,)
+    assert output["tempo_gate"].shape == (2,)
+    assert ((output["tempo_gate"] >= 0.0) & (output["tempo_gate"] <= 1.0)).all()
+    assert output["mean_danger"].shape == (2,)
+    assert output["max_danger"].shape == (2,)
+    assert output["own_pressure_flipped"].shape == (2,)
+    assert output["gated_pressure_flipped"].shape == (2,)
+    assert output["tempo_gate_flipped"].shape == (2,)
+    assert output["flip_contrast"].shape == (2,)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_tempo_gate",
+        "uses_alignment",
+        "uses_multiplicative_gate",
+    ):
+        assert output[key].shape == (2,), key
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_tempo_gate"] == 1.0).all()
+    assert (output["uses_alignment"] == 1.0).all()
+    assert (output["uses_multiplicative_gate"] == 1.0).all()
+
+    # alignment_gap is exactly own_pressure - opp_pressure.
+    assert torch.allclose(
+        output["alignment_gap"],
+        output["own_pressure"] - output["opp_pressure"],
+        atol=1e-5,
+    )
+    # flip_contrast is exactly gated_pressure - gated_pressure_flipped.
+    assert torch.allclose(
+        output["flip_contrast"],
+        output["gated_pressure"] - output["gated_pressure_flipped"],
+        atol=1e-5,
+    )
+
+    # Required ablations actually flip the markdown-named flags.
+    for ablation, expected_tempo, expected_align, expected_mult in (
+        ("none", 1.0, 1.0, 1.0),
+        ("no_tempo_gate", 0.0, 1.0, 1.0),
+        ("no_alignment", 1.0, 0.0, 1.0),
+        ("additive_gate", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_tempo_alignment_gate_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_tempo_gate"][0].item() == expected_tempo
+        assert ab_output["uses_alignment"][0].item() == expected_align
+        assert ab_output["uses_multiplicative_gate"][0].item() == expected_mult
+        if ablation == "no_alignment":
+            assert torch.allclose(
+                ab_output["alignment_field"],
+                torch.full_like(ab_output["alignment_field"], 0.5),
+            )
+        if ablation == "no_tempo_gate":
+            assert torch.allclose(
+                ab_output["tempo_gate"],
+                torch.ones_like(ab_output["tempo_gate"]),
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tempo_alignment_gate_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TempoAlignmentGateNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tempo_alignment_gate_network_from_config
+        is build_tempo_alignment_gate_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i183"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

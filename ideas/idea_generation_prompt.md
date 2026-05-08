@@ -2209,13 +2209,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i183_tempo_alignment_gate_network",
       "idea_id": "i183",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tempo-Alignment Gate Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md` (Idea 7, \"Tempo-Alignment Gate Network\"); replaces a generic CNN puzzle head with a multiplicative conjunction of (i) an undirected static tactical danger field, (ii) a per-square sigmoid alignment between the local attacker side and the side-to-move signal, and (iii) a global tempo gate over pooled trunk features and material totals, with a side-to-move-flipped counterfactual contrast feeding the final logit.",
+      "output_heads": "One puzzle logit (BCE-with-logits) plus the danger field, the signed side-of-attacker field, the per-square alignment field, the own/opp/gap/gated pressure scalars, the tempo gate, mean/max danger scalars, the side-to-move-flipped counterfactual pressure / tempo gate / flip contrast scalars, the trunk feature map, and the running-ablation flags.",
       "short_thesis": "Many near-puzzles are tactical-looking for the wrong side or require a tempo that the side to move does not have. The model should explicitly gate static tactical danger by side-to-move tempo.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

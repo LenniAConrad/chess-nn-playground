@@ -365,6 +365,9 @@ from chess_nn_playground.models.disproof_ledger_puzzle_network import (
 from chess_nn_playground.models.motif_tensor_factorization_network import (
     build_motif_tensor_factorization_network_from_config,
 )
+from chess_nn_playground.models.tempo_alignment_gate_network import (
+    build_tempo_alignment_gate_network_from_config,
+)
 from chess_nn_playground.models.forcing_certificate_transformer import (
     build_forcing_certificate_transformer_from_config,
 )
@@ -559,6 +562,7 @@ MODEL_BUILDERS = {
     "phase_transition_pressure_network": build_phase_transition_pressure_network_from_config,
     "disproof_ledger_puzzle_network": build_disproof_ledger_puzzle_network_from_config,
     "motif_tensor_factorization_network": build_motif_tensor_factorization_network_from_config,
+    "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
