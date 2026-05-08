@@ -14070,3 +14070,129 @@ def test_i134_legal_constraint_projection_residual_network_is_bespoke_and_confor
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i135_zobrist_kernel_feature_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i135_zobrist_kernel_feature_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: small legal-looking position with one king per side and a
+    # couple of pieces.
+    x[0, 5, 0, 4] = 1.0   # white king e1
+    x[0, 11, 7, 4] = 1.0  # black king e8
+    x[0, 0, 1, 3] = 1.0   # white pawn d2
+    x[0, 6, 6, 3] = 1.0   # black pawn d7
+    x[0, 1, 0, 1] = 1.0   # white knight b1
+
+    # Sample 1: different occupancy -> different fingerprint.
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 4, 0, 3] = 1.0   # white queen d1
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = {
+        "logits",
+        "occupancy_count",
+        "fingerprint_total_norm",
+        "kernel_feature_total_norm",
+        "cos_feature_mean",
+        "sin_feature_mean",
+        "fingerprint_mean_abs",
+        "per_bank_signature_norm_mean",
+        "per_bank_kernel_norm_mean",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor), key
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+
+    # Per-bank diagnostics must exist for every bank.
+    for m in range(model.num_banks):
+        assert f"signature_norm_bank_{m}" in output
+        assert f"kernel_norm_bank_{m}" in output
+        assert (output[f"signature_norm_bank_{m}"] >= 0).all()
+        assert (output[f"kernel_norm_bank_{m}"] >= 0).all()
+
+    # Occupancy count must equal the number of pieces actually placed.
+    assert torch.equal(
+        output["occupancy_count"],
+        torch.tensor([5.0, 4.0]),
+    )
+    assert (output["fingerprint_total_norm"] >= 0).all()
+    assert (output["kernel_feature_total_norm"] >= 0).all()
+
+    # Empty board -> zero raw fingerprint norm but non-zero RFF features
+    # (cos(b) at zero argument).
+    empty = torch.zeros(1, input_channels, 8, 8)
+    with torch.no_grad():
+        empty_out = model(empty)
+    assert torch.isclose(
+        empty_out["fingerprint_total_norm"], torch.zeros(1), atol=1.0e-6
+    ).all()
+    assert empty_out["kernel_feature_total_norm"].item() > 0
+    assert empty_out["occupancy_count"].item() == 0.0
+
+    # The Zobrist code banks, projection matrices, and phase biases are fixed
+    # buffers, never learnable parameters.
+    parameter_names = {name for name, _ in model.named_parameters()}
+    buffer_names = {name for name, _ in model.named_buffers()}
+    for fixed in ("zobrist_codes", "projection", "phase_bias"):
+        assert fixed in buffer_names, fixed
+        assert fixed not in parameter_names, fixed
+
+    # Gradients flow into the classifier head.
+    model.train()
+    output = model(x)
+    loss = output["logits"].sum()
+    loss.backward()
+    classifier_grad = model.classifier[-1].weight.grad
+    assert classifier_grad is not None
+    assert classifier_grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "zobrist_kernel_feature_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i135"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
