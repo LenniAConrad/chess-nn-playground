@@ -5371,35 +5371,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i157_cross_stitch_cnn_token_fusion_net",
       "idea_id": "i157",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "cross_stitch_cnn_token_fusion_net",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "cross_stitch_cnn_token_fusion_net",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.cross_stitch_cnn_token_fusion_net.build_cross_stitch_cnn_token_fusion_net_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.cross_stitch_cnn_token_fusion_net.build_cross_stitch_cnn_token_fusion_net_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.cross_stitch_cnn_token_fusion_net.CrossStitchCNNTokenFusionNet",
+          "chess_nn_playground.models.cross_stitch_cnn_token_fusion_net.build_cross_stitch_cnn_token_fusion_net_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8319,12 +8318,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 142,
-      "shared_probe_variant": 98
+      "bespoke_model": 143,
+      "shared_probe_variant": 97
     },
     "by_metadata_kind": {
-      "bespoke_model": 142,
-      "shared_probe_variant": 98
+      "bespoke_model": 143,
+      "shared_probe_variant": 97
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8382,7 +8381,6 @@
       "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
-      "ideas/i157_cross_stitch_cnn_token_fusion_net",
       "ideas/i158_neural_decision_forest_boardnet",
       "ideas/i159_vector_quantized_motif_codebook_net",
       "ideas/i164_learnable_pooling_tree_boardnet",

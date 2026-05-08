@@ -2061,6 +2061,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i157_cross_stitch_cnn_token_fusion_net/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i157_cross_stitch_cnn_token_fusion_net",
+      "idea_id": "i157",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "cross_stitch_cnn_token_fusion_net",
+      "slug": "cross_stitch_cnn_token_fusion_net",
+      "source_files": [
+        "ideas/i157_cross_stitch_cnn_token_fusion_net/model.py",
+        "src/chess_nn_playground/models/cross_stitch_cnn_token_fusion_net.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2946,6 +2966,7 @@
       "ideas/i154_adapter_sandwich_residual_cnn",
       "ideas/i155_capsule_motif_boardnet",
       "ideas/i156_multi_order_board_scan_network",
+      "ideas/i157_cross_stitch_cnn_token_fusion_net",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -2986,7 +3007,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 142,
+    "implemented_architecture_count": 143,
     "issue_folders": [],
     "validation_issue_count": 0
   }

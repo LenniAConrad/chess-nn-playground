@@ -1,37 +1,44 @@
 idea_id: i157
 name: Cross-Stitch CNN-Token Fusion Net
 slug: cross_stitch_cnn_token_fusion_net
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: Late fusion between a CNN branch and a piece-token branch may be too
   weak. A cross-stitch network can let the branches exchange information at multiple
   depths through learned linear mixing, while still keeping the model practical.
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Bespoke cross-stitch fusion architecture for the puzzle_binary contract.
+  A convolutional board branch and an occupied-piece token branch share the same
+  channel width and exchange information at every stage through per-group ``2x2``
+  cross-stitch matrices initialised to the identity; the mixed summaries are
+  injected back into each branch through learned adapters.
+expected_advantage: Test the packet's "cross-depth fusion is stronger than late
+  concat" thesis under the same puzzle_binary benchmark contract as the other
+  ideas. Off-diagonal cross-stitch energies quantify how much board <-> token
+  transfer the model learns at each depth.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus per-stage cross-stitch matrices, off-diagonal
+  energies, board <-> token transfer magnitudes, and pre/post stitching branch
+  norms saved to prediction artifacts.
+compute_notes: Compact convolutional board branch plus a token-mixer branch over
+  occupied pieces, coupled at every stage through small per-group ``2x2``
+  cross-stitch matrices and per-stage adapters.
+implementation_status: implemented
 trainer_entrypoint: ideas/i157_cross_stitch_cnn_token_fusion_net/train.py
 config_path: ideas/i157_cross_stitch_cnn_token_fusion_net/config.yaml
 model_path: ideas/i157_cross_stitch_cnn_token_fusion_net/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
+  Bespoke `CrossStitchCNNTokenFusionNet` model. A convolutional board branch and an
+  occupied-piece token branch share the same channel width; per-stage per-group
+  ``2x2`` cross-stitch matrices (initialised to the identity) mix the pooled branch
+  summaries and inject them back through learned adapters.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md
 source_packet_candidate: Cross-Stitch CNN-Token Fusion Net
 source_packet_rank: 3
 source_packet_status: batch packet
 mechanism_family: graph
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

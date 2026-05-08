@@ -48,6 +48,9 @@ from chess_nn_playground.models.capsule_motif_boardnet import (
 from chess_nn_playground.models.multi_order_board_scan_network import (
     build_multi_order_board_scan_network_from_config,
 )
+from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+    build_cross_stitch_cnn_token_fusion_net_from_config,
+)
 from chess_nn_playground.models.agreement_variance_head_net import (
     build_agreement_variance_head_net_from_config,
 )
@@ -481,6 +484,7 @@ MODEL_BUILDERS = {
     "adapter_sandwich_residual_cnn": build_adapter_sandwich_residual_cnn_from_config,
     "capsule_motif_boardnet": build_capsule_motif_boardnet_from_config,
     "multi_order_board_scan_network": build_multi_order_board_scan_network_from_config,
+    "cross_stitch_cnn_token_fusion_net": build_cross_stitch_cnn_token_fusion_net_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

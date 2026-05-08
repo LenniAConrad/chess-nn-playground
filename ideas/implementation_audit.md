@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 142 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 98 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 143 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 97 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -77,7 +77,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i148_shallow_wide_residual_boardnet`
 - `ideas/i149_axial_rank_file_convnet`
 - `ideas/i152_iterative_logit_refinement_cnn`
-- `ideas/i157_cross_stitch_cnn_token_fusion_net`
 - `ideas/i158_neural_decision_forest_boardnet`
 - `ideas/i159_vector_quantized_motif_codebook_net`
 - `ideas/i164_learnable_pooling_tree_boardnet`
@@ -283,7 +282,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i154` | `ideas/i154_adapter_sandwich_residual_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `adapter_sandwich_residual_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i155` | `ideas/i155_capsule_motif_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `capsule_motif_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i156` | `ideas/i156_multi_order_board_scan_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `multi_order_board_scan_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i157` | `ideas/i157_cross_stitch_cnn_token_fusion_net` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `cross_stitch_cnn_token_fusion_net` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i157` | `ideas/i157_cross_stitch_cnn_token_fusion_net` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cross_stitch_cnn_token_fusion_net` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i158` | `ideas/i158_neural_decision_forest_boardnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `neural_decision_forest_boardnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i159` | `ideas/i159_vector_quantized_motif_codebook_net` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `vector_quantized_motif_codebook_net` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i160` | `ideas/i160_hypercolumn_square_readout_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `hypercolumn_square_readout_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |

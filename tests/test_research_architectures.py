@@ -10548,3 +10548,197 @@ def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i157_cross_stitch_cnn_token_fusion_net_is_bespoke_and_conformant():
+    from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+        CrossStitchCNNTokenFusionNet,
+        CrossStitchUnit,
+        build_cross_stitch_cnn_token_fusion_net_from_config,
+    )
+
+    folder = Path("ideas/i157_cross_stitch_cnn_token_fusion_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CrossStitchCNNTokenFusionNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "cross_stitch_cnn_token_fusion_net"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_stages = int(config["model"]["num_stages"])
+    cross_stitch_groups = int(config["model"]["cross_stitch_groups"])
+    assert model.channels == channels
+    assert model.num_stages == num_stages
+    assert model.cross_stitch_groups == cross_stitch_groups
+    assert all(isinstance(unit, CrossStitchUnit) for unit in model.cross_stitch)
+    assert len(model.cross_stitch) == num_stages
+
+    # Cross-stitch matrices are initialised to the identity so the model
+    # starts as the parent late-fusion architecture.
+    for unit in model.cross_stitch:
+        eye = torch.eye(2).unsqueeze(0).expand(cross_stitch_groups, -1, -1)
+        assert torch.equal(unit.matrix.detach(), eye)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with white king on e1, black king on e8, a white pawn on e2.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move with white king on e1, black king on g7, a black bishop on c3.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "board_latent",
+        "token_latent",
+        "board_pool_final",
+        "token_pool_final",
+        "material_summary",
+        "token_count",
+        "cross_stitch_matrices",
+        "offdiag_energy_per_stage",
+        "board_to_token_transfer",
+        "token_to_board_transfer",
+        "board_norms_pre",
+        "board_norms_post",
+        "token_norms_pre",
+        "token_norms_post",
+    }
+    assert expected_keys.issubset(output)
+
+    assert output["board_latent"].shape == (2, channels, 8, 8)
+    assert output["token_latent"].shape[0] == 2
+    assert output["token_latent"].shape[2] == channels
+    assert output["board_pool_final"].shape == (2, channels)
+    assert output["token_pool_final"].shape == (2, channels)
+    assert output["cross_stitch_matrices"].shape == (
+        num_stages,
+        cross_stitch_groups,
+        2,
+        2,
+    )
+    assert output["offdiag_energy_per_stage"].shape == (num_stages,)
+    assert output["board_to_token_transfer"].shape == (2, num_stages)
+    assert output["token_to_board_transfer"].shape == (2, num_stages)
+    assert output["board_norms_pre"].shape == (2, num_stages)
+    assert output["board_norms_post"].shape == (2, num_stages)
+    assert output["token_norms_pre"].shape == (2, num_stages)
+    assert output["token_norms_post"].shape == (2, num_stages)
+
+    # At identity initialisation the off-diagonal energy is zero.
+    assert torch.allclose(
+        output["offdiag_energy_per_stage"], torch.zeros(num_stages), atol=1e-6
+    )
+    # And the cross-branch transfer is zero (no exchange yet).
+    assert torch.allclose(output["board_to_token_transfer"], torch.zeros(2, num_stages), atol=1e-5)
+    assert torch.allclose(output["token_to_board_transfer"], torch.zeros(2, num_stages), atol=1e-5)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "cross_stitch_cnn_token_fusion_net"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CrossStitchCNNTokenFusionNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, the
+    # cross-stitch matrices, and the readout head.
+    trainable = build_cross_stitch_cnn_token_fusion_net_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    head_grad = trainable.head[1].weight.grad
+    stem_grad = trainable.stem.conv.weight.grad
+    cross_stitch_grad = trainable.cross_stitch[0].matrix.grad
+    token_embed_grad = trainable.token_embed[0].weight.grad
+    board_adapter_grad = trainable.board_adapters[0].weight.grad
+    token_adapter_grad = trainable.token_adapters[0].weight.grad
+    for grad in (
+        head_grad,
+        stem_grad,
+        cross_stitch_grad,
+        token_embed_grad,
+        board_adapter_grad,
+        token_adapter_grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+        assert grad.abs().sum() > 0
+
+    # Detached diagnostics must not carry gradient.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["cross_stitch_matrices"].requires_grad
+    assert not out["board_to_token_transfer"].requires_grad
+    assert not out["token_to_board_transfer"].requires_grad
+    assert not out["board_norms_pre"].requires_grad
+    assert not out["board_norms_post"].requires_grad
+    assert not out["token_norms_pre"].requires_grad
+    assert not out["token_norms_post"].requires_grad
+
+    # Diagonal-stitch ablation forces the off-diagonals to zero.
+    diag_only_cfg = dict(config["model"])
+    diag_only_cfg.pop("name", None)
+    diag_only_cfg["ablation"] = "diagonal_stitch"
+    diag_only_model = build_cross_stitch_cnn_token_fusion_net_from_config(diag_only_cfg).eval()
+    for unit in diag_only_model.cross_stitch:
+        eff = unit.effective_matrix()
+        assert torch.equal(eff[:, 0, 1], torch.zeros_like(eff[:, 0, 1]))
+        assert torch.equal(eff[:, 1, 0], torch.zeros_like(eff[:, 1, 0]))
+    with torch.no_grad():
+        diag_out = diag_only_model(x)
+    assert torch.allclose(
+        diag_out["board_to_token_transfer"], torch.zeros(2, num_stages), atol=1e-6
+    )
+    assert torch.allclose(
+        diag_out["token_to_board_transfer"], torch.zeros(2, num_stages), atol=1e-6
+    )
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i157"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
