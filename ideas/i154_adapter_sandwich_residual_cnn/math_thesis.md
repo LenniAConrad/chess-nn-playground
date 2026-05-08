@@ -6,6 +6,26 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_
 
 Batch candidate rank: `6`.
 
-Working thesis: Instead of building a much larger new backbone, insert small bottleneck adapters before and after ordinary residual blocks. This tests whether parameter-efficient adapters can improve the existing CNN family while leaving most of the architecture conventional.
+Working thesis: Instead of building a much larger new backbone, insert small bottleneck adapters before and after ordinary residual blocks. Concretely, a stage is
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+  `x_out = (I + A_post) ∘ R ∘ (I + A_pre)(x_in)`
+
+where `R` is a conventional residual block and `A_pre`, `A_post` are
+Houlsby-style 1×1-conv bottlenecks `A(x) = W_up · GELU(W_down · x)` with
+`W_down ∈ R^{adapter_dim × channels}`, `W_up ∈ R^{channels × adapter_dim}`,
+and `adapter_dim ≪ channels`.
+
+`W_up` is zero-initialised, so at step 0 every adapter is the identity
+map and the network is behaviourally a plain residual CNN. The adapters
+introduce a low-rank, locally additive perturbation around each block:
+their contribution lives in a `2 · depth · adapter_dim · channels`
+parameter slack that is small relative to the surrounding `O(depth ·
+channels²)` cost of the 3×3 residual blocks. Whether this slack
+improves the puzzle_binary contract is the empirical question this idea
+tests.
+
+The diagnostics (`pre_adapter_energy`, `post_adapter_energy`,
+`adapter_energy`, plus their per-stage decomposition) measure the L2
+norm of the adapter deltas relative to the pre-adapter input on each
+forward pass. They are reported but detached from the loss so the
+trainer does not implicitly minimise or maximise adapter activity.

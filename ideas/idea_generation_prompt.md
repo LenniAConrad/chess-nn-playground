@@ -1861,13 +1861,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i154_adapter_sandwich_residual_cnn",
       "idea_id": "i154",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Adapter-Sandwich Residual CNN",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke residual CNN where each block is sandwiched between two Houlsby-style 1x1-conv bottleneck adapters with zero-initialised `W_up`. The adapters add a small parameter-efficient capacity knob without changing the surrounding block topology, and the per-stage adapter L2 energy is exposed as a diagnostic rather than a loss term.",
+      "output_heads": "One puzzle logit plus pre-, post-, and total adapter energies and their per-stage decompositions saved to prediction artifacts.",
       "short_thesis": "Instead of building a much larger new backbone, insert small bottleneck adapters before and after ordinary residual blocks. This tests whether parameter-efficient adapters can improve the existing CNN family while leaving most of the architecture conventional.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

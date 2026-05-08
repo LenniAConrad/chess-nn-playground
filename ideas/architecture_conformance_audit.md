@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `139`
+- Implemented architecture rows audited: `140`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -112,6 +112,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i150` | `ideas/i150_early_exit_cascade_boardnet` | `early_exit_cascade_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i150_early_exit_cascade_boardnet/model.py`<br>`src/chess_nn_playground/models/early_exit_cascade_boardnet.py` | - |
 | `i151` | `ideas/i151_auxiliary_reconstruction_boardnet` | `auxiliary_reconstruction_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i151_auxiliary_reconstruction_boardnet/model.py`<br>`src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py` | - |
 | `i153` | `ideas/i153_agreement_variance_head_net` | `agreement_variance_head_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i153_agreement_variance_head_net/model.py`<br>`src/chess_nn_playground/models/agreement_variance_head_net.py` | - |
+| `i154` | `ideas/i154_adapter_sandwich_residual_cnn` | `adapter_sandwich_residual_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i154_adapter_sandwich_residual_cnn/model.py`<br>`src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py` | - |
 | `i160` | `ideas/i160_hypercolumn_square_readout_cnn` | `hypercolumn_square_readout_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i160_hypercolumn_square_readout_cnn/model.py`<br>`src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py` | - |
 | `i161` | `ideas/i161_multiplicative_conjunction_convnet` | `multiplicative_conjunction_convnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i161_multiplicative_conjunction_convnet/model.py`<br>`src/chess_nn_playground/models/multiplicative_conjunction_convnet.py` | - |
 | `i162` | `ideas/i162_empty_square_opportunity_network` | `empty_square_opportunity_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i162_empty_square_opportunity_network/model.py`<br>`src/chess_nn_playground/models/empty_square_opportunity_network.py` | - |

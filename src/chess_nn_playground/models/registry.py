@@ -39,6 +39,9 @@ from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
 from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
     build_auxiliary_reconstruction_boardnet_from_config,
 )
+from chess_nn_playground.models.adapter_sandwich_residual_cnn import (
+    build_adapter_sandwich_residual_cnn_from_config,
+)
 from chess_nn_playground.models.agreement_variance_head_net import (
     build_agreement_variance_head_net_from_config,
 )
@@ -469,6 +472,7 @@ MODEL_BUILDERS = {
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
     "agreement_variance_head_net": build_agreement_variance_head_net_from_config,
+    "adapter_sandwich_residual_cnn": build_adapter_sandwich_residual_cnn_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

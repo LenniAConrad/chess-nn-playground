@@ -2001,6 +2001,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i154_adapter_sandwich_residual_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i154_adapter_sandwich_residual_cnn",
+      "idea_id": "i154",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "adapter_sandwich_residual_cnn",
+      "slug": "adapter_sandwich_residual_cnn",
+      "source_files": [
+        "ideas/i154_adapter_sandwich_residual_cnn/model.py",
+        "src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2883,6 +2903,7 @@
       "ideas/i150_early_exit_cascade_boardnet",
       "ideas/i151_auxiliary_reconstruction_boardnet",
       "ideas/i153_agreement_variance_head_net",
+      "ideas/i154_adapter_sandwich_residual_cnn",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -2923,7 +2944,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 139,
+    "implemented_architecture_count": 140,
     "issue_folders": [],
     "validation_issue_count": 0
   }
