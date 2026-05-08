@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 157, 'probe_scaffold_only': 76, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 164, 'shared_probe_variant': 76}`
+- Registered implementation states: `{'implemented': 158, 'probe_scaffold_only': 75, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 165, 'shared_probe_variant': 75}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 164 | Materially distinct model implementation. |
-| `shared_probe_variant` | 76 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 165 | Materially distinct model implementation. |
+| `shared_probe_variant` | 75 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -160,7 +160,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i119` | [Tensor-Ring Square Interaction Network](i119_tensor_ring_square_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i120` | [Sinkhorn Role Assignment Network](i120_sinkhorn_role_assignment_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i121` | [Morphological Threat Field Network](i121_morphological_threat_field_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i122` | [Invertible Board Coupling Network](i122_invertible_board_coupling_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i122` | [Invertible Board Coupling Network](i122_invertible_board_coupling_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i123` | [Sparse Expert Board Router](i123_sparse_expert_board_router) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i124` | [Local Neighborhood Geometry Network](i124_local_neighborhood_geometry_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i125` | [Ray State-Space Scan Network](i125_ray_state_space_scan_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
