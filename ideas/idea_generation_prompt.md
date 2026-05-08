@@ -1141,13 +1141,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i094_convex_feasibility_residual_network",
       "idea_id": "i094",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Convex Feasibility Residual Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; uses a robustness mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
-      "short_thesis": "Puzzle-like positions may be those that lie near the boundary of several learned safe convex feasibility regions in board-feature space. An unrolled projection layer can test whether distance-to-feasibility is useful without using closed-form nuisance resid...",
-      "status": "scaffolded",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; bespoke unrolled projected-gradient feasibility module over learned half-space and ball constraints with an explicit feasibility-residual head, distinct from the shared research-packet probe.",
+      "output_heads": "One puzzle logit plus convex feasibility diagnostics (per-constraint violations, projected latent, feasibility residual, projection path stats, mode code) saved to prediction artifacts.",
+      "short_thesis": "Puzzle-like positions may be those that lie near the boundary of several learned safe convex feasibility regions in board-feature space. An unrolled projection layer can test whether distance-to-feasibility is useful...",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

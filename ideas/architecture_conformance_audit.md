@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `140`
+- Implemented architecture rows audited: `141`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -104,6 +104,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i091` | `ideas/i091_tactical_state_bottleneck_inference` | `tactical_state_bottleneck_inference` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i091_tactical_state_bottleneck_inference/model.py`<br>`src/chess_nn_playground/models/tactical_state_bottleneck.py` | - |
 | `i092` | `ideas/i092_parity_syndrome_puzzle_bottleneck` | `parity_syndrome_puzzle_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i092_parity_syndrome_puzzle_bottleneck/model.py`<br>`src/chess_nn_playground/models/parity_syndrome.py` | - |
 | `i093` | `ideas/i093_wavelet_scattering_board_network` | `wavelet_scattering_board_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i093_wavelet_scattering_board_network/model.py`<br>`src/chess_nn_playground/models/wavelet_scattering_board_network.py` | - |
+| `i094` | `ideas/i094_convex_feasibility_residual_network` | `convex_feasibility_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i094_convex_feasibility_residual_network/model.py`<br>`src/chess_nn_playground/models/convex_feasibility.py` | - |
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `independence_residual_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i100_independence_residual_interaction_network/model.py`<br>`src/chess_nn_playground/models/independence_residual.py` | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `residual_calibration_error_field` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i101_residual_calibration_error_field/model.py`<br>`src/chess_nn_playground/models/residual_calibration.py` | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `set_query_attention_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i102_set_query_attention_bottleneck/model.py`<br>`src/chess_nn_playground/models/set_query_attention.py` | - |
