@@ -2381,6 +2381,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i173_stripe_selective_mixer_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i173_stripe_selective_mixer_cnn",
+      "idea_id": "i173",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "stripe_selective_mixer_cnn",
+      "slug": "stripe_selective_mixer_cnn",
+      "source_files": [
+        "ideas/i173_stripe_selective_mixer_cnn/model.py",
+        "src/chess_nn_playground/models/stripe_selective_mixer_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i190_blocker_pin_lattice_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3202,6 +3222,7 @@
       "ideas/i170_negative_class_disentangled_puzzle_head",
       "ideas/i171_line_piece_crossbar_network",
       "ideas/i172_near_puzzle_margin_twin_network",
+      "ideas/i173_stripe_selective_mixer_cnn",
       "ideas/i190_blocker_pin_lattice_network",
       "ideas/i191_safe_reply_certificate_verifier",
       "ideas/i192_latent_reply_entropy_network",
@@ -3238,7 +3259,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 154,
+    "implemented_architecture_count": 155,
     "issue_folders": [],
     "validation_issue_count": 0
   }

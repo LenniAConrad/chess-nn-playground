@@ -12201,3 +12201,174 @@ def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
+    from chess_nn_playground.models.stripe_selective_mixer_cnn import (
+        DirectionalStripeConv,
+        StripeSelectiveMixerBlock,
+        StripeSelectiveMixerCNN,
+        build_stripe_selective_mixer_cnn_from_config,
+    )
+
+    folder = Path("ideas/i173_stripe_selective_mixer_cnn")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, StripeSelectiveMixerCNN)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "stripe_selective_mixer_cnn"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert all(isinstance(block, StripeSelectiveMixerBlock) for block in model.blocks)
+    for block in model.blocks:
+        for direction in ("rank", "file", "diag", "antidiag"):
+            assert isinstance(block.stripe_convs[direction], DirectionalStripeConv)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    assert model.channels == channels
+    assert model.depth == depth
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["pooled"].shape == (2, 2 * channels)
+    assert output["gate_history"].shape == (2, depth, channels)
+    assert output["gate_per_block_mean"].shape == (2, depth)
+    assert output["gate_per_block_min"].shape == (2, depth)
+    assert output["gate_per_block_max"].shape == (2, depth)
+    assert output["gate_overall_mean"].shape == (2,)
+    for key in (
+        "local_branch_energy",
+        "rank_branch_energy",
+        "file_branch_energy",
+        "diag_branch_energy",
+        "antidiag_branch_energy",
+        "rank_minus_file_branch_energy",
+        "diag_minus_antidiag_branch_energy",
+        "active_stripe_count",
+        "stripe_kernel_levels",
+        "depth_levels",
+        "ablation_active",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["stripe_kernel_levels"] == model.stripe_kernel).all()
+    assert (output["active_stripe_count"] == 4.0).all()
+    assert (output["ablation_active"] == 0.0).all()
+    # The default model uses all four chess stripe directions.
+    assert tuple(model.blocks[0].active_directions) == ("rank", "file", "diag", "antidiag")
+
+    # Stripe masks lock the kernel to one chess line direction.
+    K = model.stripe_kernel
+    rank_mask = model.blocks[0].stripe_convs["rank"].mask
+    file_mask = model.blocks[0].stripe_convs["file"].mask
+    diag_mask = model.blocks[0].stripe_convs["diag"].mask
+    anti_mask = model.blocks[0].stripe_convs["antidiag"].mask
+    assert rank_mask.shape == (K, K)
+    assert int(rank_mask.sum().item()) == K
+    assert int(rank_mask[K // 2].sum().item()) == K
+    assert int(file_mask[:, K // 2].sum().item()) == K
+    for i in range(K):
+        assert diag_mask[i, i].item() == 1.0
+        assert anti_mask[i, K - 1 - i].item() == 1.0
+
+    # Ablations actually reshape the active stripe set.
+    for ablation, expected_directions in (
+        ("none", ("rank", "file", "diag", "antidiag")),
+        ("local_only", ()),
+        ("rank_file_only", ("rank", "file")),
+        ("diag_only", ("diag",)),
+        ("random_stripes", ("rank", "file", "diag", "antidiag")),
+        ("no_global_gate", ("rank", "file", "diag", "antidiag")),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_stripe_selective_mixer_cnn_from_config(ab_cfg).eval()
+        assert tuple(ab_model.blocks[0].active_directions) == expected_directions
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        if ablation == "local_only":
+            assert (ab_output["rank_branch_energy"] == 0.0).all()
+            assert (ab_output["file_branch_energy"] == 0.0).all()
+            assert (ab_output["diag_branch_energy"] == 0.0).all()
+            assert (ab_output["antidiag_branch_energy"] == 0.0).all()
+        if ablation == "no_global_gate":
+            # Gate is forced to 1 when the gate MLP is disabled.
+            assert torch.allclose(
+                ab_output["gate_history"],
+                torch.ones_like(ab_output["gate_history"]),
+            )
+
+    # Random-stripes ablation breaks the geometric masks at matched K-position support.
+    rand_cfg = dict(config["model"])
+    rand_cfg["ablation"] = "random_stripes"
+    rand_model = build_stripe_selective_mixer_cnn_from_config(rand_cfg).eval()
+    rand_rank_mask = rand_model.blocks[0].stripe_convs["rank"].mask
+    assert int(rand_rank_mask.sum().item()) == K
+    assert not torch.equal(rand_rank_mask, rank_mask)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "stripe_selective_mixer_cnn"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, StripeSelectiveMixerCNN)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_stripe_selective_mixer_cnn_from_config
+        is build_stripe_selective_mixer_cnn_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i173"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

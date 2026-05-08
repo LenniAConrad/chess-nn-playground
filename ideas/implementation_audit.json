@@ -5918,35 +5918,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i173_stripe_selective_mixer_cnn",
       "idea_id": "i173",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "stripe_selective_mixer_cnn",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "stripe_selective_mixer_cnn",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.stripe_selective_mixer_cnn.build_stripe_selective_mixer_cnn_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.stripe_selective_mixer_cnn.build_stripe_selective_mixer_cnn_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.stripe_selective_mixer_cnn.StripeSelectiveMixerCNN",
+          "chess_nn_playground.models.stripe_selective_mixer_cnn.build_stripe_selective_mixer_cnn_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8298,12 +8296,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 154,
-      "shared_probe_variant": 86
+      "bespoke_model": 155,
+      "shared_probe_variant": 85
     },
     "by_metadata_kind": {
-      "bespoke_model": 154,
-      "shared_probe_variant": 86
+      "bespoke_model": 155,
+      "shared_probe_variant": 85
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8361,7 +8359,6 @@
       "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
-      "ideas/i173_stripe_selective_mixer_cnn",
       "ideas/i174_king_zone_evidence_ledger",
       "ideas/i175_prototype_margin_puzzle_network",
       "ideas/i176_source_rate_calibrated_objective",

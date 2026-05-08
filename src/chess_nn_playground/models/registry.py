@@ -120,6 +120,9 @@ from chess_nn_playground.models.line_piece_crossbar_network import (
 from chess_nn_playground.models.near_puzzle_margin_twin_network import (
     build_near_puzzle_margin_twin_network_from_config,
 )
+from chess_nn_playground.models.stripe_selective_mixer_cnn import (
+    build_stripe_selective_mixer_cnn_from_config,
+)
 from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
@@ -527,6 +530,7 @@ MODEL_BUILDERS = {
     "rank_file_memory_grid_net": build_rank_file_memory_grid_net_from_config,
     "line_piece_crossbar_network": build_line_piece_crossbar_network_from_config,
     "near_puzzle_margin_twin_network": build_near_puzzle_margin_twin_network_from_config,
+    "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
