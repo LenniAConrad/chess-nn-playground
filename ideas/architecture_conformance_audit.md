@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `168`
+- Implemented architecture rows audited: `169`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -138,6 +138,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i127` | `ideas/i127_square_color_parity_mixer` | `square_color_parity_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i127_square_color_parity_mixer/model.py`<br>`src/chess_nn_playground/models/square_color_parity_mixer.py` | - |
 | `i128` | `ideas/i128_occupancy_run_length_segment_encoder` | `occupancy_run_length_segment_encoder` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i128_occupancy_run_length_segment_encoder/model.py`<br>`src/chess_nn_playground/models/occupancy_run_length_segment.py` | - |
 | `i129` | `ideas/i129_king_shelter_microkernel_network` | `king_shelter_microkernel_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i129_king_shelter_microkernel_network/model.py`<br>`src/chess_nn_playground/models/king_shelter_microkernel.py` | - |
+| `i130` | `ideas/i130_material_phase_low_rank_adapter_network` | `material_phase_low_rank_adapter_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i130_material_phase_low_rank_adapter_network/model.py`<br>`src/chess_nn_playground/models/material_phase_low_rank_adapter.py` | - |
 | `i145` | `ideas/i145_piece_plane_gated_cnn` | `piece_plane_gated_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i145_piece_plane_gated_cnn/model.py`<br>`src/chess_nn_playground/models/piece_plane_gated_cnn.py` | - |
 | `i146` | `ideas/i146_patch_mixer_boardnet` | `patch_mixer_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i146_patch_mixer_boardnet/model.py`<br>`src/chess_nn_playground/models/patch_mixer_boardnet.py` | - |
 | `i147` | `ideas/i147_specialist_head_cnn` | `specialist_head_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i147_specialist_head_cnn/model.py`<br>`src/chess_nn_playground/models/specialist_head_cnn.py` | - |

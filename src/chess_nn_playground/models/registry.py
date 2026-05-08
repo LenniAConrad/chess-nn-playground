@@ -403,6 +403,9 @@ from chess_nn_playground.models.ray_state_space_scan import (
 from chess_nn_playground.models.pawn_skeleton_barrier import (
     build_pawn_skeleton_barrier_network_from_config,
 )
+from chess_nn_playground.models.material_phase_low_rank_adapter import (
+    build_material_phase_low_rank_adapter_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -585,6 +588,7 @@ MODEL_BUILDERS = {
     "sparse_expert_board_router": build_sparse_expert_board_router_from_config,
     "ray_state_space_scan_network": build_ray_state_space_scan_network_from_config,
     "pawn_skeleton_barrier_network": build_pawn_skeleton_barrier_network_from_config,
+    "material_phase_low_rank_adapter_network": build_material_phase_low_rank_adapter_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

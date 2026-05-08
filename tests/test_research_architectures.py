@@ -13564,3 +13564,145 @@ def test_i126_pawn_skeleton_barrier_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i130_material_phase_low_rank_adapter_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i130_material_phase_low_rank_adapter_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move opening-style position with full castling rights.
+    x[0, 12] = 1.0
+    x[0, 13:17] = 1.0
+    x[0, 0, 1, :] = 1.0
+    x[0, 6, 6, :] = 1.0
+    x[0, 1, 0, 1] = 1.0
+    x[0, 1, 0, 6] = 1.0
+    x[0, 7, 7, 1] = 1.0
+    x[0, 7, 7, 6] = 1.0
+    x[0, 2, 0, 2] = 1.0
+    x[0, 2, 0, 5] = 1.0
+    x[0, 8, 7, 2] = 1.0
+    x[0, 8, 7, 5] = 1.0
+    x[0, 3, 0, 0] = 1.0
+    x[0, 3, 0, 7] = 1.0
+    x[0, 9, 7, 0] = 1.0
+    x[0, 9, 7, 7] = 1.0
+    x[0, 4, 0, 3] = 1.0
+    x[0, 10, 7, 3] = 1.0
+    x[0, 5, 0, 4] = 1.0
+    x[0, 11, 7, 4] = 1.0
+
+    # Sample 1: deep endgame, black-to-move, no castling, lopsided material.
+    x[1, 5, 1, 1] = 1.0
+    x[1, 11, 6, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 6, 5, 3] = 1.0
+    x[1, 17, 2, 3] = 1.0  # en passant square is set
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "mean_adapter_norm",
+        "max_adapter_norm",
+        "backbone_feature_norm",
+        "phase_summary_norm",
+        "adapter_block_0_norm",
+        "adapter_block_1_norm",
+        "side_to_move",
+        "material_signed",
+        "own_material",
+        "opponent_material",
+        "own_pawn_count",
+        "opponent_pawn_count",
+        "own_minor_count",
+        "opponent_minor_count",
+        "own_major_count",
+        "opponent_major_count",
+        "phase",
+        "endgame_score",
+        "total_piece_count",
+        "castling_available",
+        "en_passant_active",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert value.shape == (2,), key
+            assert torch.isfinite(value).all(), key
+
+    # Material/phase summary diagnostics should reflect the engineered samples.
+    assert torch.allclose(output["side_to_move"][0], torch.tensor(1.0))
+    assert torch.allclose(output["side_to_move"][1], torch.tensor(0.0))
+    assert output["own_pawn_count"][0].item() == 8.0
+    assert output["opponent_pawn_count"][0].item() == 8.0
+    assert output["castling_available"][0].item() == 4.0
+    assert output["castling_available"][1].item() == 0.0
+    assert output["en_passant_active"][1].item() == 1.0
+    assert output["phase"][0].item() > output["phase"][1].item()
+
+    # Adapter is zero-initialised; before any training the per-block norms are
+    # zero, but the module wiring is still distinct from the shared backbone.
+    assert (output["mean_adapter_norm"] >= 0).all()
+    assert (output["adapter_block_0_norm"] >= 0).all()
+    assert (output["adapter_block_1_norm"] >= 0).all()
+
+    # Once an adapter generator has non-zero up-projection, the diagnostics
+    # should pick up the per-sample, per-block adapter activity, and gradients
+    # must flow back to the conditional generators.
+    with torch.no_grad():
+        for block in model.adapter_blocks:
+            block.b_generator.weight.add_(0.1)
+            block.b_generator.bias.add_(0.05)
+    model.train()
+    output = model(x)
+    assert (output["mean_adapter_norm"] > 0).all()
+    loss = output["logits"].sum()
+    loss.backward()
+    grad = model.adapter_blocks[0].b_generator.weight.grad
+    assert grad is not None
+    assert grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "material_phase_low_rank_adapter_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i130"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
