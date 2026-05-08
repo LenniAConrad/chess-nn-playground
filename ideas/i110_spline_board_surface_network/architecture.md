@@ -1,15 +1,77 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Spline Board Surface Network` is a board-only puzzle_binary classifier that
+fits a smooth, low-degree tensor-product spline surface to each piece plane on
+the 8x8 grid and reads its smooth coefficients, residual energies, and a
+compact residual-map summary.  It is *not* a CNN: there is no convolutional
+trunk over the original board planes; the only convolution in the model is a
+1x1 mixer applied to residuals.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Pipeline
 
+1. A precomputed tensor-product Bernstein basis ``basis : (64, K)`` over the
+   8x8 grid is built once at construction time, where ``K =
+   spline_basis_size**2``.  Its Moore-Penrose pseudoinverse
+   ``basis_pinv : (K, 64)`` is also cached as a non-trainable buffer.
+2. For each of the ``input_channels = 18`` piece planes the smooth surface
+   coefficients are obtained by least-squares projection,
+   ``coeffs = basis_pinv @ plane_flat``.  The smooth reconstruction is
+   ``reconstruction = basis @ coeffs``, and the residual map is
+   ``residuals = plane - reconstruction``.
+3. The classifier head receives, in this order:
+   * **smooth coefficients** -- ``coefficients : (B, 18, K)`` describing the
+     low-degree surface fit per plane, flattened to ``(B, 18*K)``;
+   * **residual energies** -- ``residual_energy : (B, 18)`` = squared
+     Frobenius norm of each plane's residual map (the sharp / "non-smooth"
+     mass per piece plane);
+   * **residual map summary** -- a 1x1 convolution mixes the 18 residual
+     planes channel-wise into ``residual_summary_channels`` feature maps,
+     normalises with ``LayerNorm`` and produces both a mean and a max pool
+     over the 8x8 grid (``residual_summary_mean`` and
+     ``residual_summary_max``, each ``(B, residual_summary_channels)``).
+4. The head is ``LayerNorm -> Linear -> GELU -> Dropout -> Linear`` and
+   emits a single puzzle logit ``logits : (B,)``.  All diagnostic tensors
+   are exposed alongside the logit so ablations and reports can read them
+   without a second forward pass.
 
-`Spline Board Surface Network` uses the shared proposal-conditioned research-packet probe.
+## Tensor Contract
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profiles: `linear_algebra`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+```text
+input:                 (B, 18, 8, 8)
+basis:                 (64, K)              (non-trainable buffer, K = spline_basis_size**2)
+basis_pinv:            (K, 64)              (non-trainable buffer)
+coefficients:          (B, 18, K)
+reconstruction:        (B, 18, 8, 8)
+residuals:             (B, 18, 8, 8)
+residual_energy:       (B, 18)
+residual_summary_mean: (B, residual_summary_channels)
+residual_summary_max:  (B, residual_summary_channels)
+logits:                (B,)
+```
+
+The head input dimensionality is
+``18*K + 18 + 2*residual_summary_channels``.
+
+## Why this is not a shared probe
+
+There are no proposal-profile diagnostics, no mechanism-family embeddings, and
+no shared `ResearchPacketProbe` code.  The signal that reaches the head is
+exactly the smooth-surface decomposition prescribed by ``math_thesis.md`` --
+spline coefficients, residual energies, and a residual map summary --
+supplemented only by a single 1x1 channel mixer on the residual maps to give
+the head a compact view of where the smooth fit failed.  Ablations on
+``spline_basis_size`` and ``residual_summary_channels`` map directly to the
+central design knobs in the source packet, and ablations that hide individual
+components (drop the coefficients, drop the residual energies, or drop the
+residual summary) are well-defined operations on this code path.
+
+## Implementation Binding
+
+- Registered model name: `spline_board_surface_network`.
+- Source implementation file:
+  `src/chess_nn_playground/models/spline_board_surface_network.py`.
+- Idea-local wrapper:
+  `ideas/i110_spline_board_surface_network/model.py` (a thin
+  `build_model_from_config` over
+  `build_spline_board_surface_network_from_config`; no
+  `ResearchPacketProbe` is involved).

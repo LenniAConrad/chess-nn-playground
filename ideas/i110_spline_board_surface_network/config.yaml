@@ -16,13 +16,10 @@ model:
   name: spline_board_surface_network
   input_channels: 18
   num_classes: 1
-  channels: 64
+  spline_basis_size: 4
+  residual_summary_channels: 32
   hidden_dim: 96
-  depth: 2
   dropout: 0.1
-  use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: spline_board_surface_network
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +43,5 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Promoted from a research packet as a smooth tensor-product spline board surface
+  baseline. CRTK metadata is reporting-only.

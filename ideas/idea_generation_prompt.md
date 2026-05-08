@@ -1333,13 +1333,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i110_spline_board_surface_network",
       "idea_id": "i110",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Spline Board Surface Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; uses a grammar mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; a board-only puzzle classifier whose head reads only the smooth tensor-product spline coefficients, the per-plane residual energies and a compact residual-map summary, with no CNN trunk over the raw piece planes.",
+      "output_heads": "One puzzle logit plus tensor-product spline coefficients, smooth reconstruction, residual maps, residual energies and residual-map summary statistics saved to prediction artifacts.",
       "short_thesis": "Chess boards may benefit from a smooth geometric baseline that is not convolutional. Fit learned tensor-product spline surfaces to piece planes and classify from low-degree surface coefficients plus residual maps.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -4511,7 +4511,7 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:50:01+00:00",
       "folder": "ideas/i109_maxout_region_signature_network",
       "idea_id": "i109",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "implementation_status": "probe_scaffold_only",
       "mechanism_family": "linear_algebra",
       "name": "Maxout Region Signature Network",

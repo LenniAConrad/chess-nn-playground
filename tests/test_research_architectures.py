@@ -11765,3 +11765,92 @@ def test_i109_maxout_region_signature_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i110_spline_board_surface_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i110_spline_board_surface_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    spline_basis_size = int(model_cfg.get("spline_basis_size", 4))
+    residual_summary_channels = int(model_cfg.get("residual_summary_channels", 32))
+    num_basis = spline_basis_size * spline_basis_size
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 0, 0] = 1.0
+    x[:, 0, 1, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "coefficients",
+        "reconstruction",
+        "residuals",
+        "residual_energy",
+        "residual_summary_mean",
+        "residual_summary_max",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["coefficients"].shape == (2, input_channels, num_basis)
+    assert output["reconstruction"].shape == (2, input_channels, 8, 8)
+    assert output["residuals"].shape == (2, input_channels, 8, 8)
+    assert output["residual_energy"].shape == (2, input_channels)
+    assert output["residual_summary_mean"].shape == (2, residual_summary_channels)
+    assert output["residual_summary_max"].shape == (2, residual_summary_channels)
+
+    # The smooth fit + residual must reconstruct the input exactly.
+    rebuilt = output["reconstruction"] + output["residuals"]
+    assert torch.allclose(rebuilt, x, atol=1.0e-4)
+
+    # Residual energies are non-negative by construction.
+    assert (output["residual_energy"] >= -1.0e-6).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "spline_board_surface_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i110"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

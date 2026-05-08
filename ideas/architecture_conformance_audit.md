@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `153`
+- Implemented architecture rows audited: `154`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -120,6 +120,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i107` | `ideas/i107_kernel_mean_prototype_network` | `kernel_mean_prototype_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i107_kernel_mean_prototype_network/model.py`<br>`src/chess_nn_playground/models/kernel_mean_prototype_network.py` | - |
 | `i108` | `ideas/i108_tensorsketch_interaction_network` | `tensorsketch_interaction_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i108_tensorsketch_interaction_network/model.py`<br>`src/chess_nn_playground/models/tensorsketch_interaction_network.py` | - |
 | `i109` | `ideas/i109_maxout_region_signature_network` | `maxout_region_signature_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i109_maxout_region_signature_network/model.py`<br>`src/chess_nn_playground/models/maxout_region_signature_network.py` | - |
+| `i110` | `ideas/i110_spline_board_surface_network` | `spline_board_surface_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i110_spline_board_surface_network/model.py`<br>`src/chess_nn_playground/models/spline_board_surface_network.py` | - |
 | `i127` | `ideas/i127_square_color_parity_mixer` | `square_color_parity_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i127_square_color_parity_mixer/model.py`<br>`src/chess_nn_playground/models/square_color_parity_mixer.py` | - |
 | `i128` | `ideas/i128_occupancy_run_length_segment_encoder` | `occupancy_run_length_segment_encoder` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i128_occupancy_run_length_segment_encoder/model.py`<br>`src/chess_nn_playground/models/occupancy_run_length_segment.py` | - |
 | `i129` | `ideas/i129_king_shelter_microkernel_network` | `king_shelter_microkernel_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i129_king_shelter_microkernel_network/model.py`<br>`src/chess_nn_playground/models/king_shelter_microkernel.py` | - |
