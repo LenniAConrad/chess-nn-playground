@@ -10247,3 +10247,146 @@ def test_i154_adapter_sandwich_residual_cnn_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.capsule_motif_boardnet import (
+        CapsuleMotifBoardNet,
+        build_capsule_motif_boardnet_from_config,
+    )
+
+    folder = Path("ideas/i155_capsule_motif_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CapsuleMotifBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "capsule_motif_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    depth = int(config["model"]["depth"])
+    assert model.depth == depth
+    assert model.channels == int(config["model"]["channels"])
+    assert model.num_primary_caps >= 1
+    assert model.num_motif_caps >= 1
+    assert model.routing_iterations >= 1
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "primary_capsules",
+        "motif_capsules",
+        "motif_norms",
+        "routing_coupling",
+        "routing_logits",
+        "routing_entropy",
+        "max_motif_norm",
+        "mean_motif_norm",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    n_caps = model.num_primary_caps * 8 * 8
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["primary_capsules"].shape == (2, n_caps, model.primary_capsule_dim)
+    assert output["motif_capsules"].shape == (
+        2,
+        model.num_motif_caps,
+        model.motif_capsule_dim,
+    )
+    assert output["motif_norms"].shape == (2, model.num_motif_caps)
+    assert output["routing_coupling"].shape == (2, n_caps, model.num_motif_caps)
+    assert output["routing_logits"].shape == (2, n_caps, model.num_motif_caps)
+    assert output["routing_entropy"].shape == (2,)
+    assert output["max_motif_norm"].shape == (2,)
+    assert output["mean_motif_norm"].shape == (2,)
+
+    # Coupling is a softmax across motifs, so each (sample, primary) row sums to 1.
+    coupling_sum = output["routing_coupling"].sum(dim=2)
+    assert torch.allclose(coupling_sum, torch.ones_like(coupling_sum), atol=1e-5)
+
+    # Squashed motif vectors have norm in [0, 1).
+    assert (output["motif_norms"] >= 0).all()
+    assert (output["motif_norms"] < 1.0 + 1e-5).all()
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "capsule_motif_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CapsuleMotifBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, primary
+    # projection, motif transforms, and the readout head.
+    trainable = build_capsule_motif_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    primary_grad = trainable.primary_conv.weight.grad
+    motif_grad = trainable.motif_transform.grad
+    assert primary_grad is not None and torch.isfinite(primary_grad).all()
+    assert primary_grad.abs().sum() > 0
+    assert motif_grad is not None and torch.isfinite(motif_grad).all()
+    assert motif_grad.abs().sum() > 0
+
+    # The routing/motif diagnostics must NOT carry gradient (they are detached).
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["routing_entropy"].requires_grad
+    assert not out["max_motif_norm"].requires_grad
+    assert not out["mean_motif_norm"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i155"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
