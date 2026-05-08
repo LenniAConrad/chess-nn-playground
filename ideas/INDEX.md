@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 141, 'probe_scaffold_only': 92, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 148, 'shared_probe_variant': 92}`
+- Registered implementation states: `{'implemented': 142, 'probe_scaffold_only': 91, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 149, 'shared_probe_variant': 91}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 148 | Materially distinct model implementation. |
-| `shared_probe_variant` | 92 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 149 | Materially distinct model implementation. |
+| `shared_probe_variant` | 91 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -205,7 +205,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i164` | [Learnable Pooling Tree BoardNet](i164_learnable_pooling_tree_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i165` | [Spatial FiLM Coordinate Net](i165_spatial_film_coordinate_net) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i166` | [Channel-Bilinear Role Mixer](i166_channel_bilinear_role_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i167` | [Evidence Sieve Network](i167_evidence_sieve_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i167` | [Evidence Sieve Network](i167_evidence_sieve_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i168` | [Ring-Shell Recurrent BoardNet](i168_ring_shell_recurrent_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i169` | [Rank-File Memory Grid Net](i169_rank_file_memory_grid_net) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i170` | [Negative-Class Disentangled Puzzle Head](i170_negative_class_disentangled_puzzle_head) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

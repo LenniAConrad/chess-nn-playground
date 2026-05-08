@@ -21,8 +21,10 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: information
-  packet_profile: evidence_sieve_network
+  num_sieves: 3
+  channel_gate_hidden: 32
+  spatial_gate_hidden: 16
+  residual_scale: 0.5
 training:
   epochs: 20
   batch_size: 256

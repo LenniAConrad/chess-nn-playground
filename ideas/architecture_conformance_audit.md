@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `148`
+- Implemented architecture rows audited: `149`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -125,6 +125,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i164` | `ideas/i164_learnable_pooling_tree_boardnet` | `learnable_pooling_tree_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i164_learnable_pooling_tree_boardnet/model.py`<br>`src/chess_nn_playground/models/learnable_pooling_tree_boardnet.py` | - |
 | `i165` | `ideas/i165_spatial_film_coordinate_net` | `spatial_film_coordinate_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i165_spatial_film_coordinate_net/model.py`<br>`src/chess_nn_playground/models/spatial_film_coordinate_net.py` | - |
 | `i166` | `ideas/i166_channel_bilinear_role_mixer` | `channel_bilinear_role_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i166_channel_bilinear_role_mixer/model.py`<br>`src/chess_nn_playground/models/channel_bilinear_role_mixer.py` | - |
+| `i167` | `ideas/i167_evidence_sieve_network` | `evidence_sieve_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i167_evidence_sieve_network/model.py`<br>`src/chess_nn_playground/models/evidence_sieve_network.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |
