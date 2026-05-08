@@ -10390,3 +10390,161 @@ def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.multi_order_board_scan_network import (
+        MultiOrderBoardScanNetwork,
+        SCAN_ORDER_NAMES,
+        build_multi_order_board_scan_network_from_config,
+    )
+
+    folder = Path("ideas/i156_multi_order_board_scan_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, MultiOrderBoardScanNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "multi_order_board_scan_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    depth = int(config["model"]["depth"])
+    assert model.depth == depth
+    assert model.channels == int(config["model"]["channels"])
+    assert model.num_scans == len(SCAN_ORDER_NAMES) == 5
+    assert model.scan_order_names == SCAN_ORDER_NAMES
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move, white king on e1 (rank 7, file 4), black king on e8.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move, white king on e1, black king on g7.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "square_tokens",
+        "scan_perms",
+        "scan_summaries",
+        "scan_summary_norms",
+        "friendly_king_square",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["square_tokens"].shape == (2, 64, channels)
+    assert output["scan_perms"].shape == (model.num_scans, 2, 64)
+    assert output["scan_summaries"].shape == (
+        2,
+        model.num_scans,
+        2 * model.gru_hidden_dim,
+    )
+    assert output["scan_summary_norms"].shape == (2, model.num_scans)
+    assert output["friendly_king_square"].shape == (2,)
+
+    # Each scan permutation must be a permutation of [0..63] for every sample.
+    perms = output["scan_perms"]
+    for scan_idx in range(model.num_scans):
+        for batch_idx in range(2):
+            sorted_perm, _ = perms[scan_idx, batch_idx].sort()
+            assert torch.equal(sorted_perm, torch.arange(64))
+
+    # The friendly king square must reflect the side-to-move plane.
+    # Sample 0 is white-to-move with the white king on (rank=7, file=4).
+    # Sample 1 is black-to-move with the black king on (rank=1, file=6).
+    assert int(output["friendly_king_square"][0].item()) == 7 * 8 + 4
+    assert int(output["friendly_king_square"][1].item()) == 1 * 8 + 6
+
+    # Spiral-from-king order's first square must be the king square itself
+    # (Chebyshev distance 0). The spiral order is the 4th in SCAN_ORDER_NAMES.
+    spiral_idx = SCAN_ORDER_NAMES.index("spiral_from_king")
+    assert int(perms[spiral_idx, 0, 0].item()) == 7 * 8 + 4
+    assert int(perms[spiral_idx, 1, 0].item()) == 1 * 8 + 6
+
+    # Rank-major scan permutation is the identity for every sample.
+    rank_idx = SCAN_ORDER_NAMES.index("rank_major")
+    expected_identity = torch.arange(64).unsqueeze(0).expand(2, -1)
+    assert torch.equal(perms[rank_idx], expected_identity)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "multi_order_board_scan_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MultiOrderBoardScanNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, the per-scan
+    # position embedding, the shared GRU, and the readout head.
+    trainable = build_multi_order_board_scan_network_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+
+    head_grad = trainable.head[0].weight.grad
+    pos_grad = trainable.scan_position_embedding.grad
+    gru_grad = trainable.gru.weight_ih_l0.grad
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+    assert head_grad.abs().sum() > 0
+    assert pos_grad is not None and torch.isfinite(pos_grad).all()
+    assert pos_grad.abs().sum() > 0
+    assert gru_grad is not None and torch.isfinite(gru_grad).all()
+    assert gru_grad.abs().sum() > 0
+
+    # Detached diagnostics must not carry gradient.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["scan_perms"].requires_grad
+    assert not out["scan_summary_norms"].requires_grad
+    assert not out["friendly_king_square"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i156"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

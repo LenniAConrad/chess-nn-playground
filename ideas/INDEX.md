@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 133, 'probe_scaffold_only': 100, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 140, 'shared_probe_variant': 100}`
+- Registered implementation states: `{'implemented': 135, 'probe_scaffold_only': 98, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 142, 'shared_probe_variant': 98}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 140 | Materially distinct model implementation. |
-| `shared_probe_variant` | 100 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 142 | Materially distinct model implementation. |
+| `shared_probe_variant` | 98 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -193,8 +193,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i152` | [Iterative Logit Refinement CNN](i152_iterative_logit_refinement_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i153` | [Agreement-Variance Head Net](i153_agreement_variance_head_net) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i154` | [Adapter-Sandwich Residual CNN](i154_adapter_sandwich_residual_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i155` | [Capsule Motif BoardNet](i155_capsule_motif_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i156` | [Multi-Order Board Scan Network](i156_multi_order_board_scan_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i155` | [Capsule Motif BoardNet](i155_capsule_motif_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i156` | [Multi-Order Board Scan Network](i156_multi_order_board_scan_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i157` | [Cross-Stitch CNN-Token Fusion Net](i157_cross_stitch_cnn_token_fusion_net) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i158` | [Neural Decision Forest BoardNet](i158_neural_decision_forest_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i159` | [Vector-Quantized Motif Codebook Net](i159_vector_quantized_motif_codebook_net) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

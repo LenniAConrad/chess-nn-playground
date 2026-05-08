@@ -5336,35 +5336,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i156_multi_order_board_scan_network",
       "idea_id": "i156",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "multi_order_board_scan_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "multi_order_board_scan_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.multi_order_board_scan_network.build_multi_order_board_scan_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.multi_order_board_scan_network.build_multi_order_board_scan_network_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.multi_order_board_scan_network.MultiOrderBoardScanNetwork",
+          "chess_nn_playground.models.multi_order_board_scan_network.build_multi_order_board_scan_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8320,12 +8319,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 141,
-      "shared_probe_variant": 99
+      "bespoke_model": 142,
+      "shared_probe_variant": 98
     },
     "by_metadata_kind": {
-      "bespoke_model": 141,
-      "shared_probe_variant": 99
+      "bespoke_model": 142,
+      "shared_probe_variant": 98
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8383,7 +8382,6 @@
       "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
-      "ideas/i156_multi_order_board_scan_network",
       "ideas/i157_cross_stitch_cnn_token_fusion_net",
       "ideas/i158_neural_decision_forest_boardnet",
       "ideas/i159_vector_quantized_motif_codebook_net",

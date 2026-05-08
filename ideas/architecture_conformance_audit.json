@@ -2041,6 +2041,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i156_multi_order_board_scan_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i156_multi_order_board_scan_network",
+      "idea_id": "i156",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "multi_order_board_scan_network",
+      "slug": "multi_order_board_scan_network",
+      "source_files": [
+        "ideas/i156_multi_order_board_scan_network/model.py",
+        "src/chess_nn_playground/models/multi_order_board_scan_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i160_hypercolumn_square_readout_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2925,6 +2945,7 @@
       "ideas/i153_agreement_variance_head_net",
       "ideas/i154_adapter_sandwich_residual_cnn",
       "ideas/i155_capsule_motif_boardnet",
+      "ideas/i156_multi_order_board_scan_network",
       "ideas/i160_hypercolumn_square_readout_cnn",
       "ideas/i161_multiplicative_conjunction_convnet",
       "ideas/i162_empty_square_opportunity_network",
@@ -2965,7 +2986,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 141,
+    "implemented_architecture_count": 142,
     "issue_folders": [],
     "validation_issue_count": 0
   }
