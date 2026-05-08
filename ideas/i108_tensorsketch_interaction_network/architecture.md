@@ -1,15 +1,58 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`TensorSketch Interaction Network` is a randomized polynomial-kernel feature
+map that approximates high-order piece-square interactions without enumerating
+tuples. The classifier reads only board features; CRTK / source metadata is
+reporting-only.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Pipeline
 
+1. Build a compact board feature vector `x_vec` from the `(B, 18, 8, 8)`
+   `simple_18` tensor:
+   - flattened occupancy and global planes (`B, 18*64`),
+   - 12 piece-plane material counts (`B, 12`),
+   - per-global-plane scalar reductions for side-to-move, castling rights and
+     en-passant (`B, 6`).
+2. Project `x_vec` linearly into a `base_dim`-dimensional base feature vector,
+   followed by a `LayerNorm`. This is the degree-1 representation.
+3. Apply a frozen CountSketch `(h, s)` from `base_dim -> sketch_dim`, with
+   bucket assignments `h_i ~ Uniform{0, ..., sketch_dim-1}` and signs
+   `s_i ~ Uniform{-1, +1}` sampled once from a fixed `sketch_seed`.
+4. For each polynomial degree `d in sketch_degrees` (default `(2, 3)`), compute
+   the TensorSketch via the FFT trick:
+   `sketch_d(x) = real(IFFT(FFT(CountSketch(x)) ** d))`. A learnable per-degree
+   log-scale lets the head balance polynomial orders.
+5. Concatenate `[base, sketch_2, sketch_3, diagnostics]` (with diagnostics
+   covering base mean / energy and per-degree mean / energy) and feed it to a
+   compact `LayerNorm -> Linear -> GELU -> Dropout -> Linear` MLP head that
+   emits one puzzle logit.
 
-`TensorSketch Interaction Network` uses the shared proposal-conditioned research-packet probe.
+## Tensor Contract
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profiles: `linear_algebra`, `graph`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+```text
+input:        (B, 18, 8, 8)
+x_vec:        (B, 18*64 + 12 + 6) = (B, 1170)
+base:         (B, base_dim)            default base_dim = 512
+count_sketch: (B, sketch_dim)          default sketch_dim = 512
+sketch_d:     (B, sketch_dim) for each d in sketch_degrees
+features:     (B, base_dim + sketch_dim * |sketch_degrees| + 2 + 2*|degrees|)
+logits:       (B,)
+```
+
+## Why this is not a shared probe
+
+There are no convolutional trunks, no proposal-profile diagnostics and no
+mechanism-family embeddings. The signal that reaches the head is exactly the
+randomized polynomial-kernel approximation prescribed by the source packet,
+plus a small number of sketch-energy diagnostics. Ablations on
+`sketch_degrees` directly correspond to the central ablations described in the
+source packet (`degree1_only`, `degree2_only`, sign reshuffles).
+
+## Implementation Binding
+
+- Registered model name: `tensorsketch_interaction_network`.
+- Source implementation file: `src/chess_nn_playground/models/tensorsketch_interaction_network.py`.
+- Idea-local wrapper: `ideas/i108_tensorsketch_interaction_network/model.py` (a
+  thin `build_model_from_config` over
+  `build_tensorsketch_interaction_network_from_config`; no
+  `ResearchPacketProbe` is involved).

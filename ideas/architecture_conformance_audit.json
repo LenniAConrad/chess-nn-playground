@@ -2121,6 +2121,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i108_tensorsketch_interaction_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i108_tensorsketch_interaction_network",
+      "idea_id": "i108",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tensorsketch_interaction_network",
+      "slug": "tensorsketch_interaction_network",
+      "source_files": [
+        "ideas/i108_tensorsketch_interaction_network/model.py",
+        "src/chess_nn_playground/models/tensorsketch_interaction_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3129,6 +3149,7 @@
       "ideas/i105_slot_attention_role_binding_network",
       "ideas/i106_attention_perturbation_sensitivity_network",
       "ideas/i107_kernel_mean_prototype_network",
+      "ideas/i108_tensorsketch_interaction_network",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3175,7 +3196,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 151,
+    "implemented_architecture_count": 152,
     "issue_folders": [],
     "validation_issue_count": 0
   }
