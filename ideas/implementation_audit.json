@@ -2709,35 +2709,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i082_chess_hypercut_polynomial_network",
       "idea_id": "i082",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "chess_hypercut_polynomial_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "chess_hypercut_polynomial_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.chess_hypercut_polynomial.build_chess_hypercut_polynomial_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.chess_hypercut_polynomial.build_chess_hypercut_polynomial_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.chess_hypercut_polynomial.ChessHypercutPolynomialNet",
+          "chess_nn_playground.models.chess_hypercut_polynomial.build_chess_hypercut_polynomial_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8339,18 +8337,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 128,
-      "shared_probe_variant": 112
+      "bespoke_model": 129,
+      "shared_probe_variant": 111
     },
     "by_metadata_kind": {
-      "bespoke_model": 128,
-      "shared_probe_variant": 112
+      "bespoke_model": 129,
+      "shared_probe_variant": 111
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i082_chess_hypercut_polynomial_network",
       "ideas/i083_fisher_geodesic_tension_network",
       "ideas/i084_typed_hypergraph_motif_grammar",
       "ideas/i085_hall_defect_zeta_operator",

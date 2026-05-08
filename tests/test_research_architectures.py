@@ -8689,3 +8689,103 @@ def test_i081_forcing_response_front_door_bottleneck_is_bespoke_and_conformant()
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i082_chess_hypercut_polynomial_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.chess_hypercut_polynomial import (
+        ChessHypercutPolynomialNet,
+        build_chess_hypercut_polynomial_network_from_config,
+    )
+
+    folder = Path("ideas/i082_chess_hypercut_polynomial_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ChessHypercutPolynomialNet)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # white to move
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    x[:, 0, 6, 4] = 1.0  # white pawn on e2
+    x[:, 6, 1, 4] = 1.0  # black pawn on e7
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "hyperedge_count",
+        "hyperedge_size_mean",
+        "hypercut_energy",
+        "hypercut_mean",
+        "hypercut_max",
+        "hypercut_std",
+        "higher_order_residual_energy",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Active hyperedge counts must be positive for a board with sliders / kings.
+    assert int(output["hyperedge_count"].min().item()) > 0
+    # Each active hyperedge must respect the configured size bound.
+    assert float(output["hyperedge_size_mean"].max().item()) <= float(model.edge_builder.max_edge_size)
+
+    # Backward through the bespoke pipeline must produce finite gradients.
+    trainable = build_chess_hypercut_polynomial_network_from_config(dict(config["model"]))
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    stem_grad = trainable.stem[0].weight.grad
+    block_out_grad = trainable.blocks[0].out_weight.grad
+    block_probe_grad = trainable.blocks[0].probe.weight.grad
+    head_grad = trainable.head[1].weight.grad
+    for grad in (stem_grad, block_out_grad, block_probe_grad, head_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "chess_hypercut_polynomial_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ChessHypercutPolynomialNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i082"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
