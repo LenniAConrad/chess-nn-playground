@@ -17,12 +17,15 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
+  code_dim: 64
+  num_codes: 64
   hidden_dim: 96
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: sparse
-  packet_profile: vector_quantized_motif_codebook_net
+  commitment_weight: 0.25
+  ema_decay: 0.99
+  ema_epsilon: 1.0e-5
 training:
   epochs: 20
   batch_size: 256

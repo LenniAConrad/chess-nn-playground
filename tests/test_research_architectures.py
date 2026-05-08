@@ -10898,3 +10898,161 @@ def test_i158_neural_decision_forest_boardnet_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
+    from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+        MotifCodebookQuantizer,
+        VectorQuantizedMotifCodebookNet,
+        build_vector_quantized_motif_codebook_net_from_config,
+    )
+
+    folder = Path("ideas/i159_vector_quantized_motif_codebook_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, VectorQuantizedMotifCodebookNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "vector_quantized_motif_codebook_net"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_codes = int(config["model"]["num_codes"])
+    code_dim = int(config["model"]["code_dim"])
+    hidden_dim = int(config["model"]["hidden_dim"])
+    assert isinstance(model.quantizer, MotifCodebookQuantizer)
+    assert model.quantizer.num_codes == num_codes
+    assert model.quantizer.code_dim == code_dim
+    assert model.quantizer.codebook.shape == (num_codes, code_dim)
+    assert model.code_map_embedding.weight.shape == (num_codes, hidden_dim)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with white king on e1, black king on e8, a white pawn on e2.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move with white king on e1, black king on g7, a black bishop on c3.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "prob",
+        "code_usage_entropy",
+        "code_perplexity",
+        "active_codes",
+        "mean_quantization_distance",
+        "commitment_loss",
+        "codebook_loss",
+        "dominant_code_probability",
+        "spatial_code_homogeneity",
+        "encoder_feature_energy",
+        "quantized_feature_energy",
+        "code_map",
+    }
+    assert expected_keys.issubset(output)
+
+    for key in (
+        "code_usage_entropy",
+        "code_perplexity",
+        "active_codes",
+        "mean_quantization_distance",
+        "commitment_loss",
+        "codebook_loss",
+        "dominant_code_probability",
+        "spatial_code_homogeneity",
+        "encoder_feature_energy",
+        "quantized_feature_energy",
+    ):
+        assert output[key].shape == (2,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    assert output["code_map"].shape == (2, 8, 8)
+    assert output["code_map"].dtype == torch.long
+    assert (output["code_map"] >= 0).all()
+    assert (output["code_map"] < num_codes).all()
+    assert (output["active_codes"] >= 1).all()
+    assert (output["active_codes"] <= num_codes).all()
+    assert (output["dominant_code_probability"] >= 0).all()
+    assert (output["dominant_code_probability"] <= 1.0 + 1e-5).all()
+    assert (output["spatial_code_homogeneity"] >= 0).all()
+    assert (output["spatial_code_homogeneity"] <= 1.0 + 1e-5).all()
+    assert (output["mean_quantization_distance"] >= 0).all()
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "vector_quantized_motif_codebook_net"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, VectorQuantizedMotifCodebookNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the encoder, the
+    # code-map embedding, and the head. The codebook itself is updated
+    # via EMA only, so its grad must remain None.
+    trainable = build_vector_quantized_motif_codebook_net_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    encoder_proj_grad = trainable.encoder.project.weight.grad
+    embed_grad = trainable.code_map_embedding.weight.grad
+    head_linear_grad = trainable.head[1].weight.grad
+    for grad in (encoder_proj_grad, embed_grad, head_linear_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+        assert grad.abs().sum() > 0
+    assert trainable.quantizer.codebook.grad is None
+
+    # EMA cluster sizes must register usage after a training pass.
+    assert bool(trainable.quantizer.initialised.item())
+    assert trainable.quantizer.ema_cluster_size.sum().item() > 0
+
+    # Detached diagnostics must not require grad.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["code_map"].requires_grad
+    assert not out["active_codes"].requires_grad
+    assert not out["mean_quantization_distance"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i159"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

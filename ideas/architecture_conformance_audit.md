@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `144`
+- Implemented architecture rows audited: `145`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -117,6 +117,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i156` | `ideas/i156_multi_order_board_scan_network` | `multi_order_board_scan_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i156_multi_order_board_scan_network/model.py`<br>`src/chess_nn_playground/models/multi_order_board_scan_network.py` | - |
 | `i157` | `ideas/i157_cross_stitch_cnn_token_fusion_net` | `cross_stitch_cnn_token_fusion_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i157_cross_stitch_cnn_token_fusion_net/model.py`<br>`src/chess_nn_playground/models/cross_stitch_cnn_token_fusion_net.py` | - |
 | `i158` | `ideas/i158_neural_decision_forest_boardnet` | `neural_decision_forest_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i158_neural_decision_forest_boardnet/model.py`<br>`src/chess_nn_playground/models/neural_decision_forest_boardnet.py` | - |
+| `i159` | `ideas/i159_vector_quantized_motif_codebook_net` | `vector_quantized_motif_codebook_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i159_vector_quantized_motif_codebook_net/model.py`<br>`src/chess_nn_playground/models/vector_quantized_motif_codebook_net.py` | - |
 | `i160` | `ideas/i160_hypercolumn_square_readout_cnn` | `hypercolumn_square_readout_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i160_hypercolumn_square_readout_cnn/model.py`<br>`src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py` | - |
 | `i161` | `ideas/i161_multiplicative_conjunction_convnet` | `multiplicative_conjunction_convnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i161_multiplicative_conjunction_convnet/model.py`<br>`src/chess_nn_playground/models/multiplicative_conjunction_convnet.py` | - |
 | `i162` | `ideas/i162_empty_square_opportunity_network` | `empty_square_opportunity_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i162_empty_square_opportunity_network/model.py`<br>`src/chess_nn_playground/models/empty_square_opportunity_network.py` | - |

@@ -54,6 +54,9 @@ from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
 from chess_nn_playground.models.neural_decision_forest_boardnet import (
     build_neural_decision_forest_boardnet_from_config,
 )
+from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+    build_vector_quantized_motif_codebook_net_from_config,
+)
 from chess_nn_playground.models.agreement_variance_head_net import (
     build_agreement_variance_head_net_from_config,
 )
@@ -489,6 +492,7 @@ MODEL_BUILDERS = {
     "multi_order_board_scan_network": build_multi_order_board_scan_network_from_config,
     "cross_stitch_cnn_token_fusion_net": build_cross_stitch_cnn_token_fusion_net_from_config,
     "neural_decision_forest_boardnet": build_neural_decision_forest_boardnet_from_config,
+    "vector_quantized_motif_codebook_net": build_vector_quantized_motif_codebook_net_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
