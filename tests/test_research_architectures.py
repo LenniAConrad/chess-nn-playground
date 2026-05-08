@@ -12372,3 +12372,207 @@ def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
+    from chess_nn_playground.models.king_zone_evidence_ledger import (
+        EvidenceLedger,
+        KingZoneEvidenceLedger,
+        build_king_zone_evidence_ledger_from_config,
+    )
+
+    folder = Path("ideas/i174_king_zone_evidence_ledger")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, KingZoneEvidenceLedger)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "king_zone_evidence_ledger"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    for bank in (model.own_ledger, model.opp_ledger, model.global_ledger):
+        assert isinstance(bank, EvidenceLedger)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_slots = int(config["model"]["num_slots"])
+    slot_dim = int(config["model"]["slot_dim"])
+    ledger_layers = int(config["model"]["ledger_layers"])
+    assert model.channels == channels
+    assert model.num_slots == num_slots
+    assert model.slot_dim == slot_dim
+    assert model.ledger_layers == ledger_layers
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Position 0: white king on h1, black king on a8, white to move.
+    x[0, 5, 7, 7] = 1.0
+    x[0, 11, 0, 0] = 1.0
+    # Position 1: white king at e4, black king at e8, black to move.
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 0, 4] = 1.0
+    # Side-to-move plane: 1.0 means white to move.
+    x[0, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["own_king_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["opp_king_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["global_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["ledger_difference"].shape == (2, num_slots, slot_dim)
+    assert output["ledger_product"].shape == (2, num_slots, slot_dim)
+    assert output["own_attention"].shape == (2, num_slots, 64)
+    assert output["opp_attention"].shape == (2, num_slots, 64)
+    assert output["global_attention"].shape == (2, num_slots, 64)
+
+    for key in (
+        "own_king_energy",
+        "opp_king_energy",
+        "global_energy",
+        "own_minus_opp_energy",
+        "own_attention_entropy",
+        "opp_attention_entropy",
+        "global_attention_entropy",
+        "own_king_ring_pressure",
+        "opp_king_ring_pressure",
+        "own_anchor_rank",
+        "own_anchor_file",
+        "opp_anchor_rank",
+        "opp_anchor_file",
+        "own_anchor_rank_used",
+        "own_anchor_file_used",
+        "opp_anchor_rank_used",
+        "opp_anchor_file_used",
+        "side_to_move",
+        "num_slots_levels",
+        "slot_dim_levels",
+        "ledger_layers_levels",
+        "ablation_active",
+        "uses_king_relative",
+        "uses_random_anchor",
+        "uses_global_only",
+    ):
+        assert output[key].shape == (2,), key
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # King anchors come from the right planes, re-keyed by side to move.
+    assert output["own_anchor_rank"][0].item() == 7.0  # white king on rank 7 of tensor (white side to move)
+    assert output["own_anchor_file"][0].item() == 7.0
+    assert output["opp_anchor_rank"][0].item() == 0.0
+    assert output["opp_anchor_file"][0].item() == 0.0
+    # Position 1: black to move, so own == black king, opp == white king.
+    assert output["own_anchor_rank"][1].item() == 0.0
+    assert output["own_anchor_file"][1].item() == 4.0
+    assert output["opp_anchor_rank"][1].item() == 4.0
+    assert output["opp_anchor_file"][1].item() == 4.0
+    assert output["side_to_move"][0].item() == 1.0
+    assert output["side_to_move"][1].item() == 0.0
+
+    # Default model uses king-relative features and real king anchors.
+    assert (output["uses_king_relative"] == 1.0).all()
+    assert (output["uses_random_anchor"] == 0.0).all()
+    assert (output["uses_global_only"] == 0.0).all()
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["num_slots_levels"] == num_slots).all()
+    assert (output["slot_dim_levels"] == slot_dim).all()
+    assert (output["ledger_layers_levels"] == ledger_layers).all()
+
+    # Attention is a softmax over 64 squares.
+    assert torch.allclose(
+        output["own_attention"].sum(dim=-1),
+        torch.ones(2, num_slots),
+        atol=1e-5,
+    )
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_kr, expected_rand, expected_glob in (
+        ("none", 1.0, 0.0, 0.0),
+        ("no_king_relative", 0.0, 0.0, 0.0),
+        ("random_king_anchor", 1.0, 1.0, 0.0),
+        ("global_slots_only", 1.0, 0.0, 1.0),
+        ("slot_count_sweep", 1.0, 0.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_king_zone_evidence_ledger_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_king_relative"][0].item() == expected_kr
+        assert ab_output["uses_random_anchor"][0].item() == expected_rand
+        assert ab_output["uses_global_only"][0].item() == expected_glob
+        if ablation == "random_king_anchor":
+            # The random anchor must differ from the real king square at least
+            # for one of the two batch positions.
+            real = torch.stack(
+                [ab_output["own_anchor_rank"], ab_output["own_anchor_file"]], dim=-1
+            )
+            used = torch.stack(
+                [ab_output["own_anchor_rank_used"], ab_output["own_anchor_file_used"]],
+                dim=-1,
+            )
+            assert not torch.equal(real, used)
+        else:
+            assert torch.equal(ab_output["own_anchor_rank"], ab_output["own_anchor_rank_used"])
+            assert torch.equal(ab_output["own_anchor_file"], ab_output["own_anchor_file_used"])
+
+    # slot_count_sweep is structurally a no-op flag for varying num_slots.
+    sweep_cfg = dict(config["model"])
+    sweep_cfg["ablation"] = "slot_count_sweep"
+    sweep_cfg["num_slots"] = 8
+    sweep_model = build_king_zone_evidence_ledger_from_config(sweep_cfg).eval()
+    assert sweep_model.num_slots == 8
+    with torch.no_grad():
+        sweep_output = sweep_model(x)
+    assert sweep_output["own_king_ledger"].shape == (2, 8, slot_dim)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "king_zone_evidence_ledger"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, KingZoneEvidenceLedger)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_king_zone_evidence_ledger_from_config
+        is build_king_zone_evidence_ledger_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i174"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

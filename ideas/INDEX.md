@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 147, 'probe_scaffold_only': 86, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 154, 'shared_probe_variant': 86}`
+- Registered implementation states: `{'implemented': 149, 'probe_scaffold_only': 84, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 156, 'shared_probe_variant': 84}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 154 | Materially distinct model implementation. |
-| `shared_probe_variant` | 86 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 156 | Materially distinct model implementation. |
+| `shared_probe_variant` | 84 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -211,8 +211,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i170` | [Negative-Class Disentangled Puzzle Head](i170_negative_class_disentangled_puzzle_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i171` | [Line-Piece Crossbar Network](i171_line_piece_crossbar_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i172` | [Near-Puzzle Margin Twin Network](i172_near_puzzle_margin_twin_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i173` | [Stripe-Selective Mixer CNN](i173_stripe_selective_mixer_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i174` | [King-Zone Evidence Ledger](i174_king_zone_evidence_ledger) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i173` | [Stripe-Selective Mixer CNN](i173_stripe_selective_mixer_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i174` | [King-Zone Evidence Ledger](i174_king_zone_evidence_ledger) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i175` | [Prototype-Margin Puzzle Network](i175_prototype_margin_puzzle_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i176` | [Source-Rate Calibrated Objective](i176_source_rate_calibrated_objective) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i177` | [Forcing-Certificate Transformer](i177_forcing_certificate_transformer) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

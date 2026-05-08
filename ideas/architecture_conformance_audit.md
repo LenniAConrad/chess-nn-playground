@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `155`
+- Implemented architecture rows audited: `156`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -132,6 +132,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i171` | `ideas/i171_line_piece_crossbar_network` | `line_piece_crossbar_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i171_line_piece_crossbar_network/model.py`<br>`src/chess_nn_playground/models/line_piece_crossbar_network.py` | - |
 | `i172` | `ideas/i172_near_puzzle_margin_twin_network` | `near_puzzle_margin_twin_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i172_near_puzzle_margin_twin_network/model.py`<br>`src/chess_nn_playground/models/near_puzzle_margin_twin_network.py` | - |
 | `i173` | `ideas/i173_stripe_selective_mixer_cnn` | `stripe_selective_mixer_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i173_stripe_selective_mixer_cnn/model.py`<br>`src/chess_nn_playground/models/stripe_selective_mixer_cnn.py` | - |
+| `i174` | `ideas/i174_king_zone_evidence_ledger` | `king_zone_evidence_ledger` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i174_king_zone_evidence_ledger/model.py`<br>`src/chess_nn_playground/models/king_zone_evidence_ledger.py` | - |
 | `i190` | `ideas/i190_blocker_pin_lattice_network` | `blocker_pin_lattice_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i190_blocker_pin_lattice_network/model.py`<br>`src/chess_nn_playground/models/blocker_pin_lattice.py` | - |
 | `i191` | `ideas/i191_safe_reply_certificate_verifier` | `safe_reply_certificate_verifier` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i191_safe_reply_certificate_verifier/model.py`<br>`src/chess_nn_playground/models/safe_reply_certificate.py` | - |
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |
