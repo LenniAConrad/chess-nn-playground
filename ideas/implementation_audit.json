@@ -3503,35 +3503,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i105_slot_attention_role_binding_network",
       "idea_id": "i105",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "slot_attention_role_binding_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "slot_attention_role_binding_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.slot_attention_role_binding_network.build_slot_attention_role_binding_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.slot_attention_role_binding_network.build_slot_attention_role_binding_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.slot_attention_role_binding_network.SlotAttentionRoleBindingNetwork",
+          "chess_nn_playground.models.slot_attention_role_binding_network.build_slot_attention_role_binding_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8311,18 +8309,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 148,
-      "shared_probe_variant": 92
+      "bespoke_model": 149,
+      "shared_probe_variant": 91
     },
     "by_metadata_kind": {
-      "bespoke_model": 148,
-      "shared_probe_variant": 92
+      "bespoke_model": 149,
+      "shared_probe_variant": 91
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i105_slot_attention_role_binding_network",
       "ideas/i106_attention_perturbation_sensitivity_network",
       "ideas/i107_kernel_mean_prototype_network",
       "ideas/i108_tensorsketch_interaction_network",
