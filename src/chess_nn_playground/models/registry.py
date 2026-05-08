@@ -353,6 +353,9 @@ from chess_nn_playground.models.loop_frustration_curvature_network import (
 from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
     build_forcing_response_front_door_bottleneck_from_config,
 )
+from chess_nn_playground.models.causal_piece_derivative_network import (
+    build_causal_piece_derivative_network_from_config,
+)
 from chess_nn_playground.models.forcing_certificate_transformer import (
     build_forcing_certificate_transformer_from_config,
 )
@@ -543,6 +546,7 @@ MODEL_BUILDERS = {
     "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
     "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,
     "forcing_certificate_transformer": build_forcing_certificate_transformer_from_config,
+    "causal_piece_derivative_network": build_causal_piece_derivative_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

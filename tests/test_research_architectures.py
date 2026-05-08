@@ -12935,3 +12935,166 @@ def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.causal_piece_derivative_network import (
+        CausalPieceDerivativeNetwork,
+        build_causal_piece_derivative_network_from_config,
+    )
+
+    folder = Path("ideas/i179_causal_piece_derivative_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CausalPieceDerivativeNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "causal_piece_derivative_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    candidate_k = model.candidate_k
+    num_intervention_types = model.num_intervention_types
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["base_logit"].shape == (2,)
+    assert output["criticality_residual"].shape == (2,)
+    assert output["candidate_indices"].shape == (2, candidate_k)
+    assert output["candidate_gating_scores"].shape == (2, candidate_k)
+    assert output["candidate_own_indicator"].shape == (2, candidate_k)
+    assert output["candidate_opp_indicator"].shape == (2, candidate_k)
+    assert output["candidate_occupancy"].shape == (2, candidate_k)
+    assert output["delta_logits"].shape == (2, candidate_k, num_intervention_types)
+    assert output["sensitivities"].shape == (2, candidate_k, num_intervention_types)
+    assert output["sensitivity_per_candidate"].shape == (2, candidate_k)
+    for key in (
+        "criticality_max",
+        "criticality_top2_gap",
+        "criticality_entropy",
+        "criticality_signed_sum",
+        "criticality_own_vs_enemy_split",
+        "gating_distribution_entropy",
+    ):
+        assert output[key].shape == (2,), key
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_learned_candidates",
+        "uses_delta_readout",
+        "uses_all_interventions",
+        "candidate_k_levels",
+        "num_intervention_types",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_learned_candidates"] == 1.0).all()
+    assert (output["uses_delta_readout"] == 1.0).all()
+    assert (output["uses_all_interventions"] == 1.0).all()
+    assert (output["candidate_k_levels"] == candidate_k).all()
+    assert (output["num_intervention_types"] == num_intervention_types).all()
+
+    # Default head: logits == base_logit + criticality_residual.
+    expected = output["base_logit"] + output["criticality_residual"]
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+    # Sensitivities are exactly base_logit - delta_logit.
+    expected_sens = output["base_logit"].view(2, 1, 1) - output["delta_logits"]
+    assert torch.allclose(output["sensitivities"], expected_sens, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_learned, expected_delta, expected_all, expected_k, expected_T in (
+        ("none", 1.0, 1.0, 1.0, candidate_k, 3),
+        ("random_candidates", 0.0, 1.0, 1.0, candidate_k, 3),
+        ("no_delta_readout", 1.0, 0.0, 1.0, candidate_k, 3),
+        ("full_remove_only", 1.0, 1.0, 0.0, candidate_k, 1),
+        ("candidate_k_4", 1.0, 1.0, 1.0, 4, 3),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_causal_piece_derivative_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_learned_candidates"][0].item() == expected_learned
+        assert ab_output["uses_delta_readout"][0].item() == expected_delta
+        assert ab_output["uses_all_interventions"][0].item() == expected_all
+        assert ab_model.candidate_k == expected_k
+        assert ab_model.num_intervention_types == expected_T
+        assert ab_output["delta_logits"].shape == (2, expected_k, expected_T)
+        if ablation == "no_delta_readout":
+            # The criticality residual is computed but not added to the
+            # final logit, so the puzzle logit collapses to base_logit.
+            assert torch.allclose(ab_output["logits"], ab_output["base_logit"], atol=1e-5)
+        elif ablation == "random_candidates":
+            # The same fixed permutation is shared across the batch.
+            assert torch.equal(
+                ab_output["candidate_indices"][0], ab_output["candidate_indices"][1]
+            )
+        elif ablation == "candidate_k_4":
+            # Only four candidates are scored under the cost ablation.
+            assert ab_output["candidate_indices"].shape == (2, 4)
+        elif ablation == "full_remove_only":
+            assert ab_output["sensitivities"].shape[-1] == 1
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "causal_piece_derivative_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CausalPieceDerivativeNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_causal_piece_derivative_network_from_config
+        is build_causal_piece_derivative_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i179"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
