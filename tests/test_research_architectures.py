@@ -8577,3 +8577,115 @@ def test_i080_loop_frustration_curvature_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i081_forcing_response_front_door_bottleneck_is_bespoke_and_conformant():
+    from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
+        ForcingResponseFrontDoorBottleneck,
+        build_forcing_response_front_door_bottleneck_from_config,
+    )
+
+    folder = Path("ideas/i081_forcing_response_front_door_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ForcingResponseFrontDoorBottleneck)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # side-to-move = white
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    x[:, 0, 6, 4] = 1.0  # white pawn on e2
+    x[:, 6, 1, 4] = 1.0  # black pawn on e7
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "z_c",
+        "witness_gates",
+        "witness_gate_logits",
+        "fine_logits",
+        "masked_pred",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "reply_pressure",
+        "defense_gap",
+        "sparse_witness_count",
+        "sparse_gate_mass",
+        "gate_entropy",
+        "front_door_bottleneck_l2",
+        "top_witness_gate",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    bottleneck_dim = model.to_z.out_features
+    max_moves = model.max_moves
+    assert output["z_c"].shape == (2, bottleneck_dim)
+    assert output["witness_gates"].shape == (2, max_moves)
+    assert output["fine_logits"].shape == (2, 3)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The sparse witness gate must respect the witness budget at eval time.
+    active = (output["witness_gates"] > 0).sum(dim=1)
+    assert int(active.max().item()) <= model.gate.witness_count
+
+    # The binary head must read only the bottleneck Z_c.
+    assert isinstance(model.binary_head[0], torch.nn.Linear)
+    assert model.binary_head[0].in_features == bottleneck_dim
+
+    # Backward through the bespoke pipeline must produce finite gradients.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    stem_grad = trainable.board_stem.input.weight.grad
+    move_mlp_grad = trainable.move_mlp.net[0].weight.grad
+    response_mlp_grad = trainable.response_mlp.net[0].weight.grad
+    gate_grad = trainable.gate.score[1].weight.grad
+    head_grad = trainable.binary_head[0].weight.grad
+    for grad in (stem_grad, move_mlp_grad, response_mlp_grad, gate_grad, head_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "forcing_response_front_door_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ForcingResponseFrontDoorBottleneck)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i081"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

@@ -1581,6 +1581,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i081_forcing_response_front_door_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i081_forcing_response_front_door_bottleneck",
+      "idea_id": "i081",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "forcing_response_front_door_bottleneck",
+      "slug": "forcing_response_front_door_bottleneck",
+      "source_files": [
+        "ideas/i081_forcing_response_front_door_bottleneck/model.py",
+        "src/chess_nn_playground/models/forcing_response_front_door_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i100_independence_residual_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2622,6 +2642,7 @@
       "ideas/i078_tactical_controllability_gramian_network",
       "ideas/i079_support_polar_zonotope_certificate_network",
       "ideas/i080_loop_frustration_curvature_network",
+      "ideas/i081_forcing_response_front_door_bottleneck",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
@@ -2671,7 +2692,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 127,
+    "implemented_architecture_count": 128,
     "issue_folders": [],
     "validation_issue_count": 0
   }
