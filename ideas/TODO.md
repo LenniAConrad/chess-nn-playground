@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `141`
-- Bespoke model implementations: `148`
-- Shared ResearchPacketProbe variants: `92`
+- Fully implemented architectures still needing a linked benchmark run: `143`
+- Bespoke model implementations: `150`
+- Shared ResearchPacketProbe variants: `90`
 
 Recommended immediate sequence:
 
@@ -29,8 +29,8 @@ Benchmark queue by ID:
 - Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`
 - Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`
 - Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i088`, `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`
-- Batch 5: `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
-- Batch 6: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 5: `i105`, `i106`, `i127`, `i128`, `i129`, `i145`, `i146`, `i147`, `i160`, `i161`, `i162`, `i163`, `i190`, `i191`, `i192`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`
+- Batch 6: `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -159,8 +159,8 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i102` | [Set-Query Attention Bottleneck](i102_set_query_attention_bottleneck) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i103` | [Attention Disagreement Residual Network](i103_attention_disagreement_residual_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i104` | [Cross-Scale Attention Residual Network](i104_cross_scale_attention_residual_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i105` | [Slot Attention Role Binding Network](i105_slot_attention_role_binding_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
-| [ ] | `i106` | [Attention Perturbation Sensitivity Network](i106_attention_perturbation_sensitivity_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i105` | [Slot Attention Role Binding Network](i105_slot_attention_role_binding_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i106` | [Attention Perturbation Sensitivity Network](i106_attention_perturbation_sensitivity_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i107` | [Kernel Mean Prototype Network](i107_kernel_mean_prototype_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i108` | [TensorSketch Interaction Network](i108_tensorsketch_interaction_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i109` | [Maxout Region Signature Network](i109_maxout_region_signature_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |

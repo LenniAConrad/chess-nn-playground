@@ -11311,3 +11311,145 @@ def test_i105_slot_attention_role_binding_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i106_attention_perturbation_sensitivity_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i106_attention_perturbation_sensitivity_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 12] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 10, 0, 0] = 1.0
+    x[:, 0, 1, 4] = 1.0
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "latent_base",
+        "latent_top",
+        "latent_low",
+        "latent_random",
+        "latent_neighborhood",
+        "attention",
+        "per_square_attention",
+        "mean_query_entropy",
+        "max_attention",
+        "topk_attention_mass",
+        "attention_occupied_mass",
+        "attention_empty_mass",
+        "attention_query_disagreement",
+        "attention_range",
+        "occupancy_mask",
+        "keep_mask_top",
+        "keep_mask_low",
+        "keep_mask_random",
+        "keep_mask_neighborhood",
+        "delta_top",
+        "delta_low",
+        "delta_random",
+        "delta_neighborhood",
+        "contrast_top_minus_low",
+        "contrast_top_minus_random",
+        "contrast_neighborhood_minus_top",
+        "ratio_top_over_low",
+        "sensitivity_features",
+        "attention_features",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    num_queries = int(config["model"].get("num_queries", 8))
+    top_k = int(config["model"].get("top_k", 6))
+    token_dim = int(config["model"].get("token_dim", config["model"].get("channels", 64)))
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["latent_base"].shape == (2, token_dim)
+    assert output["latent_top"].shape == (2, token_dim)
+    assert output["latent_low"].shape == (2, token_dim)
+    assert output["latent_random"].shape == (2, token_dim)
+    assert output["latent_neighborhood"].shape == (2, token_dim)
+    assert output["attention"].shape == (2, num_queries, 64)
+    assert output["per_square_attention"].shape == (2, 64)
+    assert output["occupancy_mask"].shape == (2, 64)
+    for key in (
+        "keep_mask_top",
+        "keep_mask_low",
+        "keep_mask_random",
+        "keep_mask_neighborhood",
+    ):
+        assert output[key].shape == (2, 64)
+    for key in (
+        "delta_top",
+        "delta_low",
+        "delta_random",
+        "delta_neighborhood",
+        "contrast_top_minus_low",
+        "contrast_top_minus_random",
+        "contrast_neighborhood_minus_top",
+        "ratio_top_over_low",
+    ):
+        assert output[key].shape == (2,)
+    assert output["sensitivity_features"].shape == (2, 8)
+    assert output["attention_features"].shape == (2, 7)
+
+    assert torch.allclose(
+        output["attention"].sum(dim=-1), torch.ones(2, num_queries), atol=1.0e-5
+    )
+    assert torch.allclose(
+        output["per_square_attention"].sum(dim=-1), torch.ones(2), atol=1.0e-5
+    )
+    # Each keep mask must zero exactly top_k squares (no more, no fewer) for the
+    # top, low, and random selections; the neighbourhood mask zeros 1..9 squares.
+    for key in ("keep_mask_top", "keep_mask_low", "keep_mask_random"):
+        zeros_per_sample = (output[key] < 0.5).sum(dim=-1)
+        assert (zeros_per_sample == top_k).all(), key
+    nbhd_zeros = (output["keep_mask_neighborhood"] < 0.5).sum(dim=-1)
+    assert (nbhd_zeros >= 1).all()
+    assert (nbhd_zeros <= 9).all()
+    # Sensitivity scalars are non-negative norms.
+    for key in ("delta_top", "delta_low", "delta_random", "delta_neighborhood"):
+        assert (output[key] >= -1.0e-6).all(), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "attention_perturbation_sensitivity_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i106"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

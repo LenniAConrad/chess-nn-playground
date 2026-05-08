@@ -326,3 +326,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "slot_attention_role_binding_network"
 ]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "attention_perturbation_sensitivity_network"
+]
