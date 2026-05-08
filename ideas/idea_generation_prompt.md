@@ -1249,13 +1249,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i103_attention_disagreement_residual_network",
       "idea_id": "i103",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Attention Disagreement Residual Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`; uses a graph mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke multi-family attention bottleneck where puzzle-likeness is decided from JS-divergence, cosine distance, and entropy variance among independent query families over a shared board encoder, rather than from any single attention pattern.",
+      "output_heads": "One puzzle logit plus per-family attention diagnostics (JS divergence, cosine distance, entropy variance, attended residual statistics).",
       "short_thesis": "Near-puzzle and puzzle-like positions may contain competing interpretations. Independent attention query families should disagree more on ambiguous or tactically dense boards. The classifier uses the residual disagreement among attention maps as evidence.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

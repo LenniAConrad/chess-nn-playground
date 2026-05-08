@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 139, 'probe_scaffold_only': 94, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 146, 'shared_probe_variant': 94}`
+- Registered implementation states: `{'implemented': 140, 'probe_scaffold_only': 93, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 147, 'shared_probe_variant': 93}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 146 | Materially distinct model implementation. |
-| `shared_probe_variant` | 94 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 147 | Materially distinct model implementation. |
+| `shared_probe_variant` | 93 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -141,7 +141,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i100` | [Independence Residual Interaction Network](i100_independence_residual_interaction_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i101` | [Residual Calibration Error Field](i101_residual_calibration_error_field) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i102` | [Set-Query Attention Bottleneck](i102_set_query_attention_bottleneck) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i103` | [Attention Disagreement Residual Network](i103_attention_disagreement_residual_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i103` | [Attention Disagreement Residual Network](i103_attention_disagreement_residual_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i104` | [Cross-Scale Attention Residual Network](i104_cross_scale_attention_residual_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i105` | [Slot Attention Role Binding Network](i105_slot_attention_role_binding_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i106` | [Attention Perturbation Sensitivity Network](i106_attention_perturbation_sensitivity_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

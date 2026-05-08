@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 146 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 94 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 147 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 93 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i103_attention_disagreement_residual_network`
 - `ideas/i104_cross_scale_attention_residual_network`
 - `ideas/i105_slot_attention_role_binding_network`
 - `ideas/i106_attention_perturbation_sensitivity_network`
@@ -225,7 +224,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i100` | `ideas/i100_independence_residual_interaction_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `independence_residual_interaction_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i101` | `ideas/i101_residual_calibration_error_field` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `residual_calibration_error_field` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i102` | `ideas/i102_set_query_attention_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `set_query_attention_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i103` | `ideas/i103_attention_disagreement_residual_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `attention_disagreement_residual_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i103` | `ideas/i103_attention_disagreement_residual_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `attention_disagreement_residual_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i104` | `ideas/i104_cross_scale_attention_residual_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `cross_scale_attention_residual_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i105` | `ideas/i105_slot_attention_role_binding_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `slot_attention_role_binding_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i106` | `ideas/i106_attention_perturbation_sensitivity_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `attention_perturbation_sensitivity_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

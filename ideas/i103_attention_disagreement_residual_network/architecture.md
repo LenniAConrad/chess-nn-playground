@@ -1,15 +1,62 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Attention Disagreement Residual Network` (ADRN) builds square tokens from the
+current-board `simple_18` tensor and runs `F` independent learned query banks
+with `Q` queries each over a shared key/value projection of those tokens. The
+classifier reads the mean attended value plus residual disagreement statistics
+across the families, so puzzle-likeness is decided from the *spread* of
+attention interpretations rather than from a single attention pattern.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Tensor Contract
 
+```text
+input:                (B, 18, 8, 8)
+square tokens:        (B, 64, D)
+attention maps:       (B, F, Q, 64)
+attended values:      (B, F, Q, D)
+disagreement vector:  (B, 2D + F*(F-1)/2 + F + 4)
+logits:               (B,)
+```
 
-`Attention Disagreement Residual Network` uses the shared proposal-conditioned research-packet probe.
+## Components
 
-- Mechanism family: `graph`.
-- Active proposal profiles: `graph`, `token_attention`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+- Square tokenizer: per-square MLP over channels concatenated with deterministic
+  rank/file/centred coordinates, edge distance, and square colour. No engine,
+  search, source, or CRTK metadata participates.
+- Independent query banks: `nn.Parameter` of shape `(F, Q, D)`. The shared
+  query projection `W_q`, key projection `W_k`, and value projection `W_v` are
+  applied to every family so that disagreement reflects query content, not
+  separate value subspaces.
+- Per-family attention: `softmax(W_q q_{f,i} . W_k t_n / sqrt(D))` over the 64
+  square tokens, giving `A_f in (B, F, Q, 64)`.
+- Disagreement summaries:
+  - Per-family attended value mean and the per-family residual standard
+    deviation across the family axis (the attended residual itself).
+  - Pairwise Jensen-Shannon divergence between family-averaged attention
+    distributions.
+  - Per-family normalised attention entropy mean, plus the variance of those
+    family entropies.
+  - Maximum cosine distance between family-averaged attention distributions
+    (attention residual on the simplex).
+  - Maximum cosine distance between per-query attention distributions taken
+    across families (cross-family query-map disagreement).
+  - Attended-value covariance trace summarising the spread of attended
+    coordinates across families.
+- Classifier head: LayerNorm + linear + GELU + dropout + linear, outputting one
+  puzzle logit.
+
+## Output Diagnostics
+
+Forward returns `logits` plus diagnostics used for ablation and reporting:
+`attention`, `attended_values`, `disagreement_features`,
+`attention_js_divergence_mean`, `attention_js_divergence_max`,
+`attention_entropy_variance`, `attention_entropy_mean`,
+`family_map_cosine_distance_mean`, `family_map_cosine_distance_max`,
+`query_map_cosine_distance_max`, `attended_residual_norm`,
+`attended_covariance_trace`, and `attended_mean_norm`.
+
+## Implementation Binding
+
+- Registered model name: `attention_disagreement_residual_network`.
+- Source implementation file: `src/chess_nn_playground/models/attention_disagreement_residual_network.py`.
+- Idea-local wrapper: `ideas/i103_attention_disagreement_residual_network/model.py`.
