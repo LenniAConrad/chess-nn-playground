@@ -277,6 +277,9 @@ from chess_nn_playground.models.tactical_controllability_gramian_network import 
 from chess_nn_playground.models.support_polar_zonotope import (
     build_support_polar_zonotope_certificate_network_from_config,
 )
+from chess_nn_playground.models.loop_frustration_curvature_network import (
+    build_loop_frustration_curvature_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -417,6 +420,7 @@ MODEL_BUILDERS = {
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
     "tactical_controllability_gramian_network": build_tactical_controllability_gramian_network_from_config,
     "support_polar_zonotope_certificate_network": build_support_polar_zonotope_certificate_network_from_config,
+    "loop_frustration_curvature_network": build_loop_frustration_curvature_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

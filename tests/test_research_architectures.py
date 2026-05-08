@@ -8403,3 +8403,177 @@ def test_i079_support_polar_zonotope_certificate_network_is_bespoke_and_conforma
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i080_loop_frustration_curvature_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.loop_frustration_curvature_network import (
+        LoopFrustrationCurvatureClassifier,
+        VALID_ABLATIONS,
+        build_loop_bank,
+        build_loop_frustration_curvature_network_from_config,
+    )
+
+    folder = Path("ideas/i080_loop_frustration_curvature_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, LoopFrustrationCurvatureClassifier)
+    assert not isinstance(model, ResearchPacketProbe)
+
+    # The static graph must match the packet's section-8 counts exactly:
+    # M = 210 edges, L = 520 loops, Lmax = Vmax = 12.
+    bank = build_loop_bank()
+    assert bank["edge_i"].shape == (210,)
+    assert bank["edge_j"].shape == (210,)
+    assert bank["edge_type"].shape == (210,)
+    assert bank["loop_edge_ids"].shape == (520, 12)
+    assert bank["loop_edge_mask"].shape == (520, 12)
+    assert bank["loop_vertex_ids"].shape == (520, 12)
+    assert bank["loop_vertex_mask"].shape == (520, 12)
+    edge_type_counts = torch.bincount(bank["edge_type"], minlength=4).tolist()
+    assert edge_type_counts == [56, 56, 49, 49]
+    loop_lengths = bank["loop_edge_mask"].sum(dim=-1)
+    assert int((loop_lengths == 3).sum()) == 196  # triangles
+    assert int((loop_lengths == 12).sum()) == 25  # 3x3 rectangles
+    # Edges must reference valid sites with matching adjacency.
+    for idx in range(bank["edge_i"].shape[0]):
+        a = int(bank["edge_i"][idx])
+        b = int(bank["edge_j"][idx])
+        assert a < b
+        ra, ca = divmod(a, 8)
+        rb, cb = divmod(b, 8)
+        dr = abs(ra - rb)
+        dc = abs(ca - cb)
+        assert max(dr, dc) == 1
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0  # side-to-move = white
+    x[:, 5, 7, 4] = 1.0  # white king on e1
+    x[:, 11, 0, 4] = 1.0  # black king on e8
+    x[:, 3, 7, 0] = 1.0  # white rook on a1
+    x[:, 10, 0, 0] = 1.0  # black queen on a8
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "J",
+        "loop_product_mid",
+        "loop_curvature",
+        "loop_omega",
+        "omega_site",
+        "site_spin",
+        "observables",
+        "beta",
+        "frustration_rate",
+        "omega_concentration",
+        "ea_order",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    replicas = model.replicas
+    assert output["J"].shape == (2, replicas, 210)
+    assert output["loop_product_mid"].shape == (2, replicas, 520)
+    assert output["loop_curvature"].shape == (2, replicas, 520)
+    assert output["loop_omega"].shape == (2, replicas, 520)
+    assert output["omega_site"].shape == (2, replicas, 8, 8)
+    assert output["site_spin"].shape == (2, replicas, 8, 8)
+    assert output["observables"].shape == (2, 7 * replicas)
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Loop products must stay bounded in [-1, 1] so log(1 + eta * P) is finite.
+    p_mid = output["loop_product_mid"]
+    assert (p_mid >= -1.0).all()
+    assert (p_mid <= 1.0).all()
+    # Tanh-bounded couplings must respect the 2.5 clamp.
+    assert output["J"].abs().max().item() <= 2.5 + 1e-5
+
+    # Backward through the bespoke pipeline must produce finite gradients.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    encoder_grad = trainable.encoder[0].weight.grad
+    spin_grad = trainable.site_spin.weight.grad
+    edge_grad = trainable.edge_mlp[0].weight.grad
+    beta_grad = trainable.raw_beta.grad
+    head_grad = trainable.head[0].weight.grad
+    for grad in (encoder_grad, spin_grad, edge_grad, beta_grad, head_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+
+    # The packet's required ablations must build, run, and stay finite.
+    expected_ablations = {
+        "none",
+        "no_loop_product",
+        "cycle_scramble",
+        "no_curvature",
+        "no_frustration_weighting",
+        "fixed_beta",
+        "single_replica",
+        "rectangles_only",
+        "triangles_only",
+    }
+    assert expected_ablations.issubset(VALID_ABLATIONS)
+    for ablation in expected_ablations:
+        abl_cfg = dict(config["model"])
+        abl_cfg["ablation"] = ablation
+        abl_cfg.pop("name", None)
+        abl_model = build_loop_frustration_curvature_network_from_config(abl_cfg).eval()
+        with torch.no_grad():
+            abl_out = abl_model(x)
+        assert abl_out["logits"].shape == (2,), ablation
+        assert torch.isfinite(abl_out["logits"]).all(), ablation
+        assert abl_model.ablation == ablation
+        if ablation == "fixed_beta":
+            assert torch.allclose(abl_out["beta"], torch.ones_like(abl_out["beta"]))
+        if ablation == "single_replica":
+            assert abl_model.replicas == 1
+            assert abl_out["loop_omega"].shape == (2, 1, 520)
+        if ablation == "rectangles_only":
+            assert abl_model.loop_edge_ids.shape[0] == 324
+        if ablation == "triangles_only":
+            assert abl_model.loop_edge_ids.shape[0] == 196
+        if ablation == "no_loop_product":
+            # Open-chain magnitudes are non-negative so the surrogate P is in [0, 1].
+            assert (abl_out["loop_product_mid"] >= 0.0).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "loop_frustration_curvature_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, LoopFrustrationCurvatureClassifier)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i080"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
