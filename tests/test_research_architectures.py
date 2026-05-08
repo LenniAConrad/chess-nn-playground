@@ -14196,3 +14196,125 @@ def test_i135_zobrist_kernel_feature_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i136_low_rank_signed_cut_query_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i136_low_rank_signed_cut_query_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white king e1, black king e8, scattered material.
+    x[0, 5, 0, 4] = 1.0
+    x[0, 11, 7, 4] = 1.0
+    x[0, 0, 1, 3] = 1.0
+    x[0, 6, 6, 3] = 1.0
+    x[0, 1, 0, 1] = 1.0
+    # Sample 1: kings translated, different occupancy -> different cuts.
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 6] = 1.0
+    x[1, 0, 4, 3] = 1.0
+    x[1, 4, 0, 3] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = {
+        "logits",
+        "cut_signed_mean",
+        "cut_abs_mean",
+        "cut_squared_mean",
+        "normalised_cut_mean",
+        "cut_abs_max",
+        "field_total_energy",
+        "field_max_abs",
+        "rank_file_imbalance",
+        "king_anchored_cut_mean",
+        "king_anchored_abs_cut_mean",
+        "white_king_cut_energy",
+        "black_king_cut_energy",
+    }
+    assert expected_keys.issubset(output)
+    for key, value in output.items():
+        assert isinstance(value, torch.Tensor), key
+        assert value.shape == (2,), key
+        assert torch.isfinite(value).all(), key
+
+    # |cut| and squared cut are non-negative; squared cut energy is non-negative.
+    assert (output["cut_abs_mean"] >= 0).all()
+    assert (output["cut_squared_mean"] >= 0).all()
+    assert (output["cut_abs_max"] >= 0).all()
+    assert (output["field_total_energy"] >= 0).all()
+    assert (output["white_king_cut_energy"] >= 0).all()
+    assert (output["black_king_cut_energy"] >= 0).all()
+
+    # Empty board: no king present -> king-anchored masks fall back to centre,
+    # and the field-mass denominator stays positive thanks to eps.
+    empty = torch.zeros(1, input_channels, 8, 8)
+    with torch.no_grad():
+        empty_out = model(empty)
+    assert torch.isfinite(empty_out["logits"]).all()
+    assert empty_out["field_total_energy"].item() >= 0.0
+
+    # Translating only the white king should change king-anchored cuts.
+    x_shift = x.clone()
+    x_shift[0, 5, 0, 4] = 0.0
+    x_shift[0, 5, 0, 0] = 1.0  # move white king from e1 to a1
+    with torch.no_grad():
+        shifted = model(x_shift)
+    assert not torch.allclose(output["white_king_cut_energy"], shifted["white_king_cut_energy"])
+
+    # Gradients flow into the low-rank mask factors and the head.
+    model.train()
+    output = model(x)
+    loss = output["logits"].sum()
+    loss.backward()
+    assert model.rank_factor_a.grad is not None
+    assert model.rank_factor_a.grad.abs().sum() > 0
+    assert model.file_factor_b.grad is not None
+    assert model.file_factor_b.grad.abs().sum() > 0
+    classifier_grad = model.classifier[-1].weight.grad
+    assert classifier_grad is not None
+    assert classifier_grad.abs().sum() > 0
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "low_rank_signed_cut_query_network"
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i136"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
