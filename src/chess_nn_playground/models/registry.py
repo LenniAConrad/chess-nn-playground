@@ -276,6 +276,9 @@ from chess_nn_playground.models.spline_board_surface_network import (
 from chess_nn_playground.models.boundary_condition_disagreement_cnn import (
     build_boundary_condition_disagreement_cnn_from_config,
 )
+from chess_nn_playground.models.piece_drop_stability_network import (
+    build_piece_drop_stability_network_from_config,
+)
 from chess_nn_playground.models.hall_dual_residual import build_hall_defect_dual_residual_network_from_config
 from chess_nn_playground.models.credal_near_puzzle_evidence import (
     build_credal_near_puzzle_evidence_network_from_config,
@@ -533,6 +536,7 @@ MODEL_BUILDERS = {
     "maxout_region_signature_network": build_maxout_region_signature_network_from_config,
     "spline_board_surface_network": build_spline_board_surface_network_from_config,
     "boundary_condition_disagreement_cnn": build_boundary_condition_disagreement_cnn_from_config,
+    "piece_drop_stability_network": build_piece_drop_stability_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

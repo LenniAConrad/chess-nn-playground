@@ -11952,3 +11952,108 @@ def test_i111_boundary_condition_disagreement_cnn_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i112_piece_drop_stability_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i112_piece_drop_stability_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    latent_dim = int(model_cfg.get("latent_dim", model_cfg.get("hidden_dim", 64)))
+    drop_masks = tuple(model.drop_masks)
+    num_masks = len(drop_masks)
+    assert num_masks >= 4
+    assert set(drop_masks).issubset(
+        {"own_minor", "own_major", "opp_minor", "opp_major", "center", "king_neigh"}
+    )
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Side-to-move = white for first sample, black for second.
+    x[0, 12] = 1.0
+    x[1, 12] = 0.0
+    # Place pieces relevant to every mask group.
+    x[:, 5, 7, 4] = 1.0   # white king
+    x[:, 11, 0, 4] = 1.0  # black king
+    x[:, 1, 6, 5] = 1.0   # white knight (own minor / king_neigh near white king)
+    x[:, 8, 1, 5] = 1.0   # black bishop (opponent minor)
+    x[:, 3, 7, 0] = 1.0   # white rook (own major)
+    x[:, 9, 0, 0] = 1.0   # black rook (opponent major)
+    x[:, 0, 3, 3] = 1.0   # white pawn on d5 (center)
+    x[:, 6, 4, 4] = 1.0   # black pawn on e4 (center)
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "original_latent",
+        "masked_latents",
+        "delta_vectors",
+        "stability",
+        "stability_ratio",
+        "original_norm",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["original_latent"].shape == (2, latent_dim)
+    assert output["masked_latents"].shape == (2, num_masks, latent_dim)
+    assert output["delta_vectors"].shape == (2, num_masks, latent_dim)
+    assert output["stability"].shape == (2, num_masks)
+    assert output["stability_ratio"].shape == (2, num_masks)
+    assert output["original_norm"].shape == (2,)
+
+    # Stability magnitudes are non-negative and consistent with the delta vector norms.
+    assert (output["stability"] >= -1.0e-6).all()
+    assert (output["stability_ratio"] >= -1.0e-6).all()
+    assert torch.allclose(
+        output["stability"],
+        output["delta_vectors"].norm(dim=-1),
+        atol=1.0e-5,
+    )
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # At least one mask should produce a non-zero latent shift on this packed board.
+    assert output["stability"].sum() > 0.0
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "piece_drop_stability_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i112"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

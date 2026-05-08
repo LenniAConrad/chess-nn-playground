@@ -1357,13 +1357,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i112_piece_drop_stability_network",
       "idea_id": "i112",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Piece-Drop Stability Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`; uses a robustness mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke shared-encoder stability classifier whose head reads only the original latent and a deterministic per-group L2 stability vector, materially distinct from the shared ResearchPacketProbe scaffold and from sparse-witness or attention-perturbation neighbours.",
+      "output_heads": "One puzzle logit plus per-group stability diagnostics (original_latent, masked_latents, delta_vectors, stability, stability_ratio, original_norm).",
       "short_thesis": "Puzzle-like positions may be less stable under deterministic removal of specific safe current-board evidence groups. Instead of forcing a classifier to use sparse witnesses, measure how a small encoder's latent changes when piece groups are dropped.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
