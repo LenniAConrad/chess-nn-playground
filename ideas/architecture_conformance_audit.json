@@ -2221,6 +2221,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i113_row_file_factor_mixer/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i113_row_file_factor_mixer",
+      "idea_id": "i113",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "row_file_factor_mixer",
+      "slug": "row_file_factor_mixer",
+      "source_files": [
+        "ideas/i113_row_file_factor_mixer/model.py",
+        "src/chess_nn_playground/models/row_file_factor_mixer.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3234,6 +3254,7 @@
       "ideas/i110_spline_board_surface_network",
       "ideas/i111_boundary_condition_disagreement_cnn",
       "ideas/i112_piece_drop_stability_network",
+      "ideas/i113_row_file_factor_mixer",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3280,7 +3301,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 156,
+    "implemented_architecture_count": 157,
     "issue_folders": [],
     "validation_issue_count": 0
   }

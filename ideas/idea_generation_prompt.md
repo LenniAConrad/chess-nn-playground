@@ -1369,13 +1369,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i113_row_file_factor_mixer",
       "idea_id": "i113",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Row-File Factor Mixer",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke factorized rank/file/channel mixer with an explicit bilinear rank-file recombination, materially distinct from the shared ResearchPacketProbe scaffold and from the existing convolutional and attention-based ideas.",
+      "output_heads": "One puzzle logit plus rank/file/bilinear energy diagnostics and a rank-file imbalance score saved to prediction artifacts.",
       "short_thesis": "Chess boards have two privileged axes: ranks and files. A model can exploit this without a full Transformer by factorizing board processing into rank mixers, file mixers, and piece-channel mixers, then recombining them with bilinear interactions.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

@@ -12057,3 +12057,115 @@ def test_i112_piece_drop_stability_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i113_row_file_factor_mixer_is_bespoke_and_conformant():
+    folder = Path("ideas/i113_row_file_factor_mixer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    channels = int(model_cfg["channels"])
+    depth = int(model_cfg["depth"])
+    assert depth >= 1
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    if input_channels > 12:
+        x[0, 12] = 1.0
+    # Place a few pieces so rank/file/bilinear energies are non-trivial.
+    x[:, 0, 1, 4] = 1.0
+    x[:, 6, 6, 3] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "pooled_features",
+        "rank_summary",
+        "file_summary",
+        "rank_energy",
+        "file_energy",
+        "bilinear_energy",
+        "rank_energy_per_block",
+        "file_energy_per_block",
+        "bilinear_energy_per_block",
+        "rank_file_imbalance",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["pooled_features"].shape == (2, channels)
+    assert output["rank_summary"].shape == (2, channels, 8)
+    assert output["file_summary"].shape == (2, channels, 8)
+    assert output["rank_energy"].shape == (2,)
+    assert output["file_energy"].shape == (2,)
+    assert output["bilinear_energy"].shape == (2,)
+    assert output["rank_energy_per_block"].shape == (2, depth)
+    assert output["file_energy_per_block"].shape == (2, depth)
+    assert output["bilinear_energy_per_block"].shape == (2, depth)
+    assert output["rank_file_imbalance"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Energies are non-negative (squared-activation means).
+    assert (output["rank_energy"] >= -1.0e-6).all()
+    assert (output["file_energy"] >= -1.0e-6).all()
+    assert (output["bilinear_energy"] >= -1.0e-6).all()
+    assert (output["rank_file_imbalance"] >= -1.0e-6).all()
+    assert (output["rank_file_imbalance"] <= 1.0 + 1.0e-6).all()
+    # Per-block rank energies must sum to the aggregate rank energy.
+    assert torch.allclose(
+        output["rank_energy"],
+        output["rank_energy_per_block"].sum(dim=-1),
+        atol=1.0e-5,
+    )
+    # The packed board should drive at least one factor to a non-zero
+    # energy in expectation; in particular the total mixer energy should
+    # be strictly positive.
+    total_mixer_energy = (
+        output["rank_energy"] + output["file_energy"] + output["bilinear_energy"]
+    )
+    assert total_mixer_energy.sum() > 0.0
+
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "row_file_factor_mixer"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i113"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

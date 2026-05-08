@@ -364,6 +364,9 @@ from chess_nn_playground.models.baseline_logit_residual_adapter import (
 from chess_nn_playground.models.coarse_to_fine_residual_pyramid import (
     build_coarse_to_fine_board_residual_pyramid_from_config,
 )
+from chess_nn_playground.models.row_file_factor_mixer import (
+    build_row_file_factor_mixer_from_config,
+)
 from chess_nn_playground.models.rank_quantile import (
     build_rank_quantile_evidence_field_network_from_config,
 )
@@ -537,6 +540,7 @@ MODEL_BUILDERS = {
     "spline_board_surface_network": build_spline_board_surface_network_from_config,
     "boundary_condition_disagreement_cnn": build_boundary_condition_disagreement_cnn_from_config,
     "piece_drop_stability_network": build_piece_drop_stability_network_from_config,
+    "row_file_factor_mixer": build_row_file_factor_mixer_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
