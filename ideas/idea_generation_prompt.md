@@ -2341,13 +2341,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i194_tactical_symptom_bayesian_network",
       "idea_id": "i194",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Tactical Symptom Bayesian Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`; bespoke board-only differentiable noisy-AND/noisy-OR symptom Bayesian network with K learned per-square sigmoid symptom heads pooled to image-level by noisy-OR, J latent noisy-OR causes, a learned noisy-AND/noisy-OR mixture aggregator, and the source-packet output rule `logit(clamp(puzzle_prob)) + residual_weight * residual_logit`.",
+      "output_heads": "One puzzle logit plus symptom-network diagnostics (`puzzle_prob`, `evidence_logit`, `residual_logit`, `residual_weight`, `symptom_linear_logit`, `symptom_max`, `symptom_mean`, `symptom_entropy`, `cause_max`, `cause_mean`, `cause_entropy`, `noisy_or_prob`, `noisy_and_prob`, `and_or_alpha`, `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`).",
       "short_thesis": "Many tactical concepts behave like noisy logical symptoms:",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

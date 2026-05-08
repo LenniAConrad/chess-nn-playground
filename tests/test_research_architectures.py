@@ -14882,3 +14882,198 @@ def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_symptom_bayesian_network import (
+        NoisyAndOrAggregator,
+        NoisyOrCauseLayer,
+        SymptomHeads,
+        TacticalSymptomBayesianNetwork,
+        build_tactical_symptom_bayesian_network_from_config,
+    )
+
+    folder = Path("ideas/i194_tactical_symptom_bayesian_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalSymptomBayesianNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_symptom_bayesian_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_symptoms = int(config["model"]["symptoms"])
+    num_causes = int(config["model"]["latent_causes"])
+
+    assert isinstance(model.symptom_heads, SymptomHeads)
+    assert isinstance(model.cause_layer, NoisyOrCauseLayer)
+    assert isinstance(model.aggregator, NoisyAndOrAggregator)
+    assert model.num_symptoms == num_symptoms
+    assert model.num_causes == num_causes
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under white queen attack.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: nearly-empty board (degenerate fallback).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    for key in (
+        "logits",
+        "puzzle_prob",
+        "evidence_logit",
+        "residual_logit",
+        "residual_weight",
+        "symptom_linear_logit",
+        "symptom_max",
+        "symptom_mean",
+        "symptom_entropy",
+        "cause_max",
+        "cause_mean",
+        "cause_entropy",
+        "noisy_or_prob",
+        "noisy_and_prob",
+        "and_or_alpha",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Probabilities live in (0, 1).
+    for key in ("puzzle_prob", "noisy_or_prob", "noisy_and_prob", "and_or_alpha"):
+        assert (output[key] > 0.0).all(), key
+        assert (output[key] < 1.0).all(), key
+    assert (output["symptom_max"] >= 0.0).all() and (output["symptom_max"] <= 1.0).all()
+    assert (output["cause_max"] >= 0.0).all() and (output["cause_max"] <= 1.0).all()
+
+    # Default-ablation logit factorises as logit(puzzle_prob) + residual_weight * residual_logit.
+    expected_evidence = output["puzzle_prob"].clamp(1e-6, 1.0 - 1e-6)
+    expected_evidence_logit = expected_evidence.log() - (1.0 - expected_evidence).log()
+    assert torch.allclose(output["evidence_logit"], expected_evidence_logit, atol=1e-5)
+    expected_logits = output["evidence_logit"] + model.residual_weight.detach() * output["residual_logit"]
+    assert torch.allclose(output["logits"], expected_logits, atol=1e-5)
+
+    # Aggregator mixture: puzzle_prob = alpha * prob_or + (1 - alpha) * prob_and.
+    expected_prob = output["and_or_alpha"] * output["noisy_or_prob"] + (
+        1.0 - output["and_or_alpha"]
+    ) * output["noisy_and_prob"]
+    assert torch.allclose(output["puzzle_prob"], expected_prob, atol=1e-5)
+
+    # The cause-layer weights are sigmoid-bounded into [0, 1].
+    weights = model.cause_layer.weights
+    leak = model.cause_layer.leak
+    assert weights.shape == (num_causes, num_symptoms)
+    assert ((weights >= 0.0) & (weights <= 1.0)).all()
+    assert ((leak >= 0.0) & (leak <= 1.0)).all()
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        TacticalSymptomBayesianNetwork(num_classes=2)
+    with pytest.raises(ValueError):
+        TacticalSymptomBayesianNetwork(ablation="not_a_real_ablation")
+
+    # `no_residual_logit` ablation drops the residual term exactly.
+    no_residual = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "no_residual_logit"}
+    ).eval()
+    with torch.no_grad():
+        no_residual_out = no_residual(x)
+    assert torch.allclose(no_residual_out["logits"], no_residual_out["evidence_logit"], atol=1e-5)
+
+    # `linear_symptom_readout` ablation routes the linear logit instead of the noisy logical one.
+    linear = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "linear_symptom_readout"}
+    ).eval()
+    with torch.no_grad():
+        linear_out = linear(x)
+    expected_linear = linear_out["symptom_linear_logit"] + linear.residual_weight.detach() * linear_out[
+        "residual_logit"
+    ]
+    assert torch.allclose(linear_out["evidence_logit"], linear_out["symptom_linear_logit"], atol=1e-5)
+    assert torch.allclose(linear_out["logits"], expected_linear, atol=1e-5)
+
+    # `symptom_dropout` ablation builds and forwards in eval mode (dropout is a no-op).
+    sym_dropout = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "symptom_dropout"}
+    ).eval()
+    with torch.no_grad():
+        sym_dropout_out = sym_dropout(x)
+    assert sym_dropout_out["logits"].shape == (3,)
+    assert torch.isfinite(sym_dropout_out["logits"]).all()
+
+    # Identical boards must produce identical outputs regardless of batch position
+    # (board-only determinism in eval mode).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+    assert torch.allclose(twin["puzzle_prob"][0], twin["puzzle_prob"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_symptom_bayesian_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalSymptomBayesianNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_symptom_bayesian_network_from_config
+        is build_tactical_symptom_bayesian_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i194"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

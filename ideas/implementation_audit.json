@@ -6636,35 +6636,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i194_tactical_symptom_bayesian_network",
       "idea_id": "i194",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_symptom_bayesian_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_symptom_bayesian_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_symptom_bayesian_network.build_tactical_symptom_bayesian_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_symptom_bayesian_network.build_tactical_symptom_bayesian_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_symptom_bayesian_network.TacticalSymptomBayesianNetwork",
+          "chess_nn_playground.models.tactical_symptom_bayesian_network.build_tactical_symptom_bayesian_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8266,12 +8264,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 170,
-      "shared_probe_variant": 70
+      "bespoke_model": 171,
+      "shared_probe_variant": 69
     },
     "by_metadata_kind": {
-      "bespoke_model": 170,
-      "shared_probe_variant": 70
+      "bespoke_model": 171,
+      "shared_probe_variant": 69
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8331,7 +8329,6 @@
       "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i176_source_rate_calibrated_objective",
       "ideas/i178_defender_exhaustion_cascade_network",
-      "ideas/i194_tactical_symptom_bayesian_network",
       "ideas/i195_minimal_edit_puzzle_distance_network",
       "ideas/i196_source_invariant_puzzle_bottleneck",
       "ideas/i197_reply_set_contrastive_transformer",
