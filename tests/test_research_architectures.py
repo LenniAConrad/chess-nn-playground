@@ -9978,3 +9978,150 @@ def test_i092_parity_syndrome_puzzle_bottleneck_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i093_wavelet_scattering_board_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.wavelet_scattering_board_network import (
+        FixedWaveletBank,
+        WaveletScatteringBoardNetwork,
+        WaveletScatteringFeatures,
+        build_wavelet_scattering_board_network_from_config,
+    )
+
+    folder = Path("ideas/i093_wavelet_scattering_board_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, WaveletScatteringBoardNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "wavelet_scattering_board_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert isinstance(model.scattering, WaveletScatteringFeatures)
+    assert all(isinstance(bank, FixedWaveletBank) for bank in model.scattering.first_layer)
+
+    # Filter buffers must not be learnable.
+    parameter_ids = {id(p) for p in model.parameters()}
+    for bank in model.scattering.first_layer:
+        assert id(bank.weight) not in parameter_ids
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sparse but distinguishable test position.
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "prob",
+        "scattering_features",
+        "first_order_mean_field",
+        "first_order_std_field",
+        "first_order_max_field",
+        "lowpass_energy",
+        "second_order_mean_field",
+        "scattering_mode",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "scale_count",
+    }
+    assert expected_keys.issubset(output)
+    assert output["scattering_features"].shape == (2, model.feature_dim)
+    assert output["first_order_mean_field"].shape == (
+        2,
+        input_channels,
+        model.scattering.num_scales,
+        model.scattering.num_orientations,
+    )
+    assert output["lowpass_energy"].shape == (2, input_channels, model.scattering.num_scales)
+
+    with torch.no_grad():
+        diag_output = model(x, return_diag=True)
+    assert "first_order_modulus" in diag_output and "lowpass_field" in diag_output
+    assert diag_output["first_order_modulus"].shape == (
+        2,
+        input_channels,
+        model.scattering.num_scales,
+        model.scattering.num_orientations,
+        8,
+        8,
+    )
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "wavelet_scattering_board_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, WaveletScatteringBoardNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Gradients must flow into the head; wavelet filters must remain frozen.
+    trainable = build_wavelet_scattering_board_network_from_config(dict(config["model"]))
+    trainable.train()
+    train_output = trainable(x)
+    train_output["logits"].sum().backward()
+    head_grads = [p.grad for p in trainable.head.parameters() if p.requires_grad]
+    assert head_grads and all(g is not None and torch.isfinite(g).all() for g in head_grads)
+    for bank in trainable.scattering.first_layer:
+        assert not bank.weight.requires_grad
+
+    # Ablation modes must build and produce the puzzle_binary contract shape.
+    for mode in ("random_fixed_filters", "lowpass_only", "channel_shuffle"):
+        ablation_cfg = dict(config["model"])
+        ablation_cfg.pop("name", None)
+        ablation_cfg.pop("packet_profile", None)
+        ablation_cfg.pop("mechanism_family", None)
+        ablation_cfg["mode"] = mode
+        ablation_model = build_wavelet_scattering_board_network_from_config(ablation_cfg).eval()
+        with torch.no_grad():
+            ablation_output = ablation_model(x)
+        assert ablation_output["logits"].shape == (2,), mode
+        assert torch.isfinite(ablation_output["logits"]).all(), mode
+        assert ablation_output["scattering_mode"][0].item() == float(
+            WaveletScatteringBoardNetwork.MODES.index(mode)
+        )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i093"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

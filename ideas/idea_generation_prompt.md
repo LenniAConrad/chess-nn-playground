@@ -1129,13 +1129,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i093_wavelet_scattering_board_network",
       "idea_id": "i093",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Wavelet Scattering Board Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; uses a robustness mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`; bespoke fixed Haar two-layer scattering front end with channel/scale/orientation pooling and a small MLP head, distinct from learned CNN towers and harmonic-potential models.",
+      "output_heads": "One puzzle logit plus scattering diagnostics (per-channel/scale/orientation modulus statistics, lowpass energies, second-order means, mode code) saved to prediction artifacts.",
       "short_thesis": "Puzzle-like structure may live in multiscale arrangements of piece planes. A fixed wavelet scattering front end can test whether stable multiscale modulus features help beyond learned CNN filters while avoiding engine-specific priors.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

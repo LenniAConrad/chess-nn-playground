@@ -3088,35 +3088,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i093_wavelet_scattering_board_network",
       "idea_id": "i093",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "wavelet_scattering_board_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "wavelet_scattering_board_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.wavelet_scattering_board_network.build_wavelet_scattering_board_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.wavelet_scattering_board_network.build_wavelet_scattering_board_network_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.wavelet_scattering_board_network.WaveletScatteringBoardNetwork",
+          "chess_nn_playground.models.wavelet_scattering_board_network.build_wavelet_scattering_board_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8322,18 +8321,17 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 139,
-      "shared_probe_variant": 101
+      "bespoke_model": 140,
+      "shared_probe_variant": 100
     },
     "by_metadata_kind": {
-      "bespoke_model": 139,
-      "shared_probe_variant": 101
+      "bespoke_model": 140,
+      "shared_probe_variant": 100
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
     "shared_probe_variant_folders": [
       "ideas/i066_bispectral_phase_coupling_board_network",
-      "ideas/i093_wavelet_scattering_board_network",
       "ideas/i094_convex_feasibility_residual_network",
       "ideas/i095_rank_quantile_evidence_field_network",
       "ideas/i096_oriented_matroid_covector_bottleneck",

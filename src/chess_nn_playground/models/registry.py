@@ -316,6 +316,9 @@ from chess_nn_playground.models.traced_threat_motif import (
 from chess_nn_playground.models.parity_syndrome import (
     build_parity_syndrome_puzzle_bottleneck_from_config,
 )
+from chess_nn_playground.models.wavelet_scattering_board_network import (
+    build_wavelet_scattering_board_network_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -469,6 +472,7 @@ MODEL_BUILDERS = {
     "traced_threat_motif_network": build_traced_threat_motif_network_from_config,
     "bounded_board_hinge_logic": build_bounded_board_hinge_logic_from_config,
     "parity_syndrome_puzzle_bottleneck": build_parity_syndrome_puzzle_bottleneck_from_config,
+    "wavelet_scattering_board_network": build_wavelet_scattering_board_network_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:
