@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 157 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 83 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 158 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 82 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -78,7 +78,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i149_axial_rank_file_convnet`
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
-- `ideas/i177_forcing_certificate_transformer`
 - `ideas/i178_defender_exhaustion_cascade_network`
 - `ideas/i179_causal_piece_derivative_network`
 - `ideas/i180_phase_transition_pressure_network`
@@ -288,7 +287,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i174` | `ideas/i174_king_zone_evidence_ledger` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `king_zone_evidence_ledger` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i175` | `ideas/i175_prototype_margin_puzzle_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `prototype_margin_puzzle_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i176` | `ideas/i176_source_rate_calibrated_objective` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `source_rate_calibrated_objective` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i177` | `ideas/i177_forcing_certificate_transformer` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `forcing_certificate_transformer` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i177` | `ideas/i177_forcing_certificate_transformer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `forcing_certificate_transformer` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i178` | `ideas/i178_defender_exhaustion_cascade_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `defender_exhaustion_cascade_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i179` | `ideas/i179_causal_piece_derivative_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `causal_piece_derivative_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i180` | `ideas/i180_phase_transition_pressure_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `phase_transition_pressure_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

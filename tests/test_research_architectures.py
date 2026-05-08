@@ -12760,3 +12760,178 @@ def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
+    from chess_nn_playground.models.forcing_certificate_transformer import (
+        CertificateSlotAttention,
+        ForcingCertificateTransformer,
+        build_forcing_certificate_transformer_from_config,
+    )
+
+    folder = Path("ideas/i177_forcing_certificate_transformer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ForcingCertificateTransformer)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "forcing_certificate_transformer"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert all(isinstance(layer, CertificateSlotAttention) for layer in model.slot_layers)
+    assert model.relations.shape == (8, 64, 64)
+    # Default model uses the relation bias prior.
+    assert model.uses_relation_bias is True
+    assert model.uses_global_residual is True
+    assert model.uses_slot_attention is True
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    token_dim = model.token_dim
+    num_slots = model.num_slots
+    slot_iters = model.slot_iters
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["slot_scores"].shape == (2, num_slots)
+    assert output["slot_logsumexp"].shape == (2,)
+    assert output["global_residual_logit"].shape == (2,)
+    assert output["slot_attention"].shape == (2, num_slots, 64)
+    assert output["slot_attention_entropy"].shape == (2, num_slots)
+    assert output["slot_attention_entropy_mean"].shape == (2,)
+    assert output["slot_attention_max"].shape == (2, num_slots)
+    assert output["slot_attention_margin"].shape == (2, num_slots)
+    assert output["slot_diversity"].shape == (2,)
+    assert output["slot_features"].shape == (2, num_slots, token_dim)
+    assert output["token_features"].shape == (2, 64, token_dim)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["relation_bias"].shape == (2, num_slots, 64)
+    for key in (
+        "ablation_active",
+        "uses_relation_bias",
+        "uses_global_residual",
+        "uses_slot_attention",
+        "num_slots_levels",
+        "slot_iters_levels",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_relation_bias"] == 1.0).all()
+    assert (output["uses_global_residual"] == 1.0).all()
+    assert (output["uses_slot_attention"] == 1.0).all()
+    assert (output["num_slots_levels"] == num_slots).all()
+    assert (output["slot_iters_levels"] == slot_iters).all()
+
+    # Slot attention is a softmax distribution over 64 squares per slot.
+    attention_sums = output["slot_attention"].sum(dim=-1)
+    assert torch.allclose(attention_sums, torch.ones_like(attention_sums), atol=1e-5)
+
+    # Default head: logits == logsumexp(slot_scores) + global_residual_logit.
+    expected = output["slot_logsumexp"] + output["global_residual_logit"]
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_relation, expected_global, expected_slot_attn, expected_num_slots in (
+        ("none", 1.0, 1.0, 1.0, num_slots),
+        ("no_relation_bias", 0.0, 1.0, 1.0, num_slots),
+        ("no_global_residual", 1.0, 0.0, 1.0, num_slots),
+        ("uniform_slot_attention", 1.0, 1.0, 0.0, num_slots),
+        ("single_slot", 1.0, 1.0, 1.0, 1),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_forcing_certificate_transformer_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_relation_bias"][0].item() == expected_relation
+        assert ab_output["uses_global_residual"][0].item() == expected_global
+        assert ab_output["uses_slot_attention"][0].item() == expected_slot_attn
+        assert ab_model.num_slots == expected_num_slots
+        if ablation == "no_relation_bias":
+            # Relation-bias parameters are absent / zero.
+            for layer in ab_model.slot_layers:
+                assert layer.anchor_logits is None
+                assert layer.relation_mix is None
+            assert torch.equal(ab_output["relation_bias"], torch.zeros_like(ab_output["relation_bias"]))
+        elif ablation == "no_global_residual":
+            # Global residual head still runs (so the diagnostic is reported)
+            # but is not added into the puzzle logit.
+            ab_expected = ab_output["slot_logsumexp"]
+            assert torch.allclose(ab_output["logits"], ab_expected, atol=1e-5)
+        elif ablation == "uniform_slot_attention":
+            uniform = torch.full_like(ab_output["slot_attention"], 1.0 / 64.0)
+            assert torch.allclose(ab_output["slot_attention"], uniform, atol=1e-5)
+        elif ablation == "single_slot":
+            assert ab_output["slot_scores"].shape == (2, 1)
+            # With a single slot, slot_logsumexp == slot_scores.squeeze(-1).
+            assert torch.allclose(
+                ab_output["slot_logsumexp"], ab_output["slot_scores"].squeeze(-1), atol=1e-5
+            )
+            # Slot diversity is 0 when there is only one slot to compare.
+            assert torch.allclose(
+                ab_output["slot_diversity"],
+                torch.zeros_like(ab_output["slot_diversity"]),
+                atol=1e-6,
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "forcing_certificate_transformer"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ForcingCertificateTransformer)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_forcing_certificate_transformer_from_config
+        is build_forcing_certificate_transformer_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i177"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
