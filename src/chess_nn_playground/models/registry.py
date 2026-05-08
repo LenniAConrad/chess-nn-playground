@@ -39,6 +39,9 @@ from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
 from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
     build_auxiliary_reconstruction_boardnet_from_config,
 )
+from chess_nn_playground.models.agreement_variance_head_net import (
+    build_agreement_variance_head_net_from_config,
+)
 from chess_nn_playground.models.early_exit_cascade_boardnet import (
     build_early_exit_cascade_boardnet_from_config,
 )
@@ -465,6 +468,7 @@ MODEL_BUILDERS = {
     "tactical_state_bottleneck_inference": build_tactical_state_bottleneck_from_config,
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
+    "agreement_variance_head_net": build_agreement_variance_head_net_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

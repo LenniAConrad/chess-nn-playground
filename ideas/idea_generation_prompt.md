@@ -1849,13 +1849,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i153_agreement_variance_head_net",
       "idea_id": "i153",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Agreement-Variance Head Net",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke shared-trunk CNN with `num_heads` cheap MLP heads averaged to produce the puzzle logit. Head variance is computed under `torch.no_grad()` and reported as an epistemic-uncertainty diagnostic, providing ensemble-style disagreement at the cost of a single trunk forward pass.",
+      "output_heads": "One puzzle logit (mean over `num_heads` cheap heads) plus the per-head logits and probabilities, the head variance / disagreement, and the per-head probability variance saved to prediction artifacts.",
       "short_thesis": "Use one shared trunk and several cheap heads trained on the same label. Classify from the mean logits, and log head variance as an uncertainty diagnostic. This is a lightweight alternative to full ensembles.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
