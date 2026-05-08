@@ -2441,6 +2441,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i126_pawn_skeleton_barrier_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i126_pawn_skeleton_barrier_network",
+      "idea_id": "i126",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "pawn_skeleton_barrier_network",
+      "slug": "pawn_skeleton_barrier_network",
+      "source_files": [
+        "ideas/i126_pawn_skeleton_barrier_network/model.py",
+        "src/chess_nn_playground/models/pawn_skeleton_barrier.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3465,6 +3485,7 @@
       "ideas/i122_invertible_board_coupling_network",
       "ideas/i123_sparse_expert_board_router",
       "ideas/i125_ray_state_space_scan_network",
+      "ideas/i126_pawn_skeleton_barrier_network",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
@@ -3511,7 +3532,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 167,
+    "implemented_architecture_count": 168,
     "issue_folders": [],
     "validation_issue_count": 0
   }
