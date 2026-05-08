@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `117`
+- Implemented architecture rows audited: `118`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -77,6 +77,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i063` | `ideas/i063_polar_procrustes_alignment_bottleneck` | `polar_procrustes_alignment_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i063_polar_procrustes_alignment_bottleneck/model.py`<br>`src/chess_nn_playground/models/polar_procrustes_alignment_bottleneck.py` | - |
 | `i064` | `ideas/i064_multi_scale_dilated_board_mixer_cnn` | `multi_scale_dilated_board_mixer_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i064_multi_scale_dilated_board_mixer_cnn/model.py`<br>`src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py` | - |
 | `i065` | `ideas/i065_piece_token_cnn_hybrid` | `piece_token_cnn_hybrid` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i065_piece_token_cnn_hybrid/model.py`<br>`src/chess_nn_playground/models/piece_token_cnn_hybrid.py` | - |
+| `i067` | `ideas/i067_finite_field_character_sum_board_network` | `finite_field_character_sum_board_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i067_finite_field_character_sum_board_network/model.py`<br>`src/chess_nn_playground/models/finite_field_character_sum.py` | - |
 | `i070` | `ideas/i070_relational_query_algebra_network` | `relational_query_algebra_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i070_relational_query_algebra_network/model.py`<br>`src/chess_nn_playground/models/relational_query_algebra.py` | - |
 | `i071` | `ideas/i071_variational_board_action_network` | `variational_board_action_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i071_variational_board_action_network/model.py`<br>`src/chess_nn_playground/models/variational_board_action.py` | - |
 | `i072` | `ideas/i072_tensor_core_square_pair_field_network` | `tensor_core_square_pair_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i072_tensor_core_square_pair_field_network/model.py`<br>`src/chess_nn_playground/models/tensor_core_square_pair_field.py` | - |

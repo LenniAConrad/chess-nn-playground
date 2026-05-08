@@ -1301,6 +1301,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i067_finite_field_character_sum_board_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i067_finite_field_character_sum_board_network",
+      "idea_id": "i067",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "finite_field_character_sum_board_network",
+      "slug": "finite_field_character_sum_board_network",
+      "source_files": [
+        "ideas/i067_finite_field_character_sum_board_network/model.py",
+        "src/chess_nn_playground/models/finite_field_character_sum.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i070_relational_query_algebra_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2408,6 +2428,7 @@
       "ideas/i063_polar_procrustes_alignment_bottleneck",
       "ideas/i064_multi_scale_dilated_board_mixer_cnn",
       "ideas/i065_piece_token_cnn_hybrid",
+      "ideas/i067_finite_field_character_sum_board_network",
       "ideas/i070_relational_query_algebra_network",
       "ideas/i071_variational_board_action_network",
       "ideas/i072_tensor_core_square_pair_field_network",
@@ -2461,7 +2482,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 117,
+    "implemented_architecture_count": 118,
     "issue_folders": [],
     "validation_issue_count": 0
   }

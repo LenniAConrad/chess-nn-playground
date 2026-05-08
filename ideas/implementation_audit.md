@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 117 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 123 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 118 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 122 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -25,7 +25,6 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
-- `ideas/i067_finite_field_character_sum_board_network`
 - `ideas/i068_schur_ray_line_algebra_network`
 - `ideas/i069_bitboard_shift_algebra_network`
 - `ideas/i074_puzzle_binary_benchmark_challengers`
@@ -218,7 +217,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i064` | `ideas/i064_multi_scale_dilated_board_mixer_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `multi_scale_dilated_board_mixer_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i065` | `ideas/i065_piece_token_cnn_hybrid` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_token_cnn_hybrid` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i066` | `ideas/i066_bispectral_phase_coupling_board_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `bispectral_phase_coupling_board_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i067` | `ideas/i067_finite_field_character_sum_board_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `finite_field_character_sum_board_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i067` | `ideas/i067_finite_field_character_sum_board_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `finite_field_character_sum_board_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i068` | `ideas/i068_schur_ray_line_algebra_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `schur_ray_line_algebra_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i069` | `ideas/i069_bitboard_shift_algebra_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `bitboard_shift_algebra_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i070` | `ideas/i070_relational_query_algebra_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `relational_query_algebra_network` | `-` | model.py delegates to a non-shared architecture builder | - |

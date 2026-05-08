@@ -817,13 +817,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i067_finite_field_character_sum_board_network",
       "idea_id": "i067",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Finite-Field Character-Sum Board Network",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md`; uses fixed multi-prime polynomial probes plus additive/multiplicative character features over piece tokens rather than generic CNN-only pooling.",
+      "output_heads": "One puzzle logit plus character-sum, Legendre, residue, and material diagnostics saved to prediction artifacts.",
       "short_thesis": "- Idea name: Finite-Field Character-Sum Board Network - Heavy math concept: finite-field harmonic analysis, additive and multiplicative characters, Gauss/Jacobi-style...",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -3830,15 +3830,15 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:43:31+00:00",
       "folder": "ideas/i067_finite_field_character_sum_board_network",
       "idea_id": "i067",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "linear_algebra",
       "name": "Finite-Field Character-Sum Board Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md`. Bespoke implementation lives in `src/chess_nn_playground/models/finite_field_character_sum.py`; the idea-local `model.py` is a thin wrapper around the registered builder.",
       "short_thesis": "- Idea name: Finite-Field Character-Sum Board Network - Heavy math concept: finite-field harmonic analysis, additive and multiplicative characters, Gauss/Jacobi-style...",
       "slug": "finite_field_character_sum_board_network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

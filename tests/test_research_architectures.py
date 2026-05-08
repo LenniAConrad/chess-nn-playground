@@ -7199,3 +7199,111 @@ def test_i065_piece_token_cnn_hybrid_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i067_finite_field_character_sum_board_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i067_finite_field_character_sum_board_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    from chess_nn_playground.models.finite_field_character_sum import (
+        CharacterProbeTable,
+        CharacterSumHead,
+        FiniteFieldCharacterFeatures,
+        FiniteFieldCharacterSumBoardNetwork,
+        Simple18FiniteFieldEncoder,
+    )
+
+    assert isinstance(model, FiniteFieldCharacterSumBoardNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert isinstance(model.encoder, Simple18FiniteFieldEncoder)
+    assert isinstance(model.features, FiniteFieldCharacterFeatures)
+    assert isinstance(model.features.table, CharacterProbeTable)
+    assert isinstance(model.head, CharacterSumHead)
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample A: white-to-move with a small piece set.
+    x[0, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0   # white king e1
+    x[0, 11, 0, 4] = 1.0  # black king e8
+    x[0, 3, 7, 0] = 1.0   # white rook a1
+    x[0, 10, 0, 0] = 1.0  # black queen a8
+    x[0, 1, 7, 1] = 1.0   # white knight b1
+    # Sample B: black-to-move, different piece configuration.
+    x[1, 12] = 0.0
+    x[1, 5, 7, 6] = 1.0   # white king g1
+    x[1, 11, 0, 6] = 1.0  # black king g8
+    x[1, 0, 6, 4] = 1.0   # white pawn e2
+    x[1, 6, 1, 3] = 1.0   # black pawn d7
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "character_sum_norm",
+        "legendre_mean",
+        "zero_frequency",
+        "residue_entropy",
+        "polynomial_value_mean",
+        "character_feature_norm",
+        "material_balance",
+        "piece_count",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+    assert torch.all(output["character_sum_norm"] >= 0.0)
+    assert torch.all(output["character_feature_norm"] >= 0.0)
+    assert torch.all(output["zero_frequency"] >= 0.0)
+    assert torch.all(output["zero_frequency"] <= 1.0)
+
+    # Backward through the bespoke pipeline must be finite.
+    trainable = module.build_model_from_config(config)
+    trainable_out = trainable(x)
+    trainable_out["logits"].sum().backward()
+    head_grad = trainable.head.classifier[1].weight.grad
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "finite_field_character_sum_board_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, FiniteFieldCharacterSumBoardNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i067"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
