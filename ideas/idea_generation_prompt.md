@@ -2785,13 +2785,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i231_riccati_optimal_defense_network",
       "idea_id": "i231",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Riccati Optimal-Defense Network",
       "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-05-05_1600_tuesday_local_riccati_optimal_defense.md`; uses a linear_algebra mechanism profile over board-only features.",
       "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
       "short_thesis": "Treats each board as an LQR control problem; solves the algebraic Riccati equation A^T P + P A - P B R^{-1} B^T P + Q = 0 via Schur of the Hamiltonian H = [[A, -BR^{-1}B^T],[-Q,-A^T]]; optimal-defense cost J* = trace(P) and closed-loop spectral margin separate puzzles from non-puzzles.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -6707,18 +6707,18 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-05-05T15:50:00+00:00",
       "folder": "ideas/i231_riccati_optimal_defense_network",
       "idea_id": "i231",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "linear_algebra",
       "name": "Riccati Optimal-Defense Network",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Research-packet promotion. Bespoke implementation lives in src/chess_nn_playground/models/riccati_optimal_defense_network.py; the idea-local model.py is a thin wrapper around the registered builder.",
       "short_thesis": "Treats each board as an LQR control problem; solves the algebraic Riccati equation A^T P + P A - P B R^{-1} B^T P + Q = 0 via Schur of the Hamiltonian H = [[A, -BR^{-1}B^T],[-Q,-A^T]]; optimal-defense cost J* = trace(P) and closed-loop spectral margin separate puzzles from non-puzzles.",
       "slug": "riccati_optimal_defense_network",
       "source_packet_candidate": "Riccati Optimal-Defense Network",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-05-05_1600_tuesday_local_riccati_optimal_defense.md",
       "source_packet_rank": 1,
       "source_packet_status": "research packet",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

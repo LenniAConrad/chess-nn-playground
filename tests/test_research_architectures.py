@@ -5150,6 +5150,17 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
         "magnus_bch_coupling_series_network",
         {"magnus_norms", "magnus_bch_log_norm", "magnus_ratios", "magnus_normalized_norms"},
     ),
+    (
+        "i231",
+        "ideas/i231_riccati_optimal_defense_network",
+        "riccati_optimal_defense_network",
+        {
+            "riccati_optimal_cost_J_star",
+            "riccati_care_residual_F",
+            "riccati_closed_loop_max_real",
+            "riccati_hamiltonian_imag_count",
+        },
+    ),
 ]
 
 

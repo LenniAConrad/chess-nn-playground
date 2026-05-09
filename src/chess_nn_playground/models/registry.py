@@ -388,6 +388,9 @@ from chess_nn_playground.models.williamson_symplectic_threat_network import (
 from chess_nn_playground.models.magnus_bch_coupling_series_network import (
     build_magnus_bch_coupling_series_network_from_config,
 )
+from chess_nn_playground.models.riccati_optimal_defense_network import (
+    build_riccati_optimal_defense_network_from_config,
+)
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
@@ -675,6 +678,7 @@ MODEL_BUILDERS = {
     "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
     "williamson_symplectic_threat_network": build_williamson_symplectic_threat_network_from_config,
     "magnus_bch_coupling_series_network": build_magnus_bch_coupling_series_network_from_config,
+    "riccati_optimal_defense_network": build_riccati_optimal_defense_network_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,

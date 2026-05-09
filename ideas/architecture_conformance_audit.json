@@ -4281,6 +4281,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i231_riccati_optimal_defense_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i231_riccati_optimal_defense_network",
+      "idea_id": "i231",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "riccati_optimal_defense_network",
+      "slug": "riccati_optimal_defense_network",
+      "source_files": [
+        "ideas/i231_riccati_optimal_defense_network/model.py",
+        "src/chess_nn_playground/models/riccati_optimal_defense_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i235_toda_isospectral_flow_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4617,6 +4637,7 @@
       "ideas/i228_free_probability_r_transform_network",
       "ideas/i229_williamson_symplectic_threat_network",
       "ideas/i230_magnus_bch_coupling_series_network",
+      "ideas/i231_riccati_optimal_defense_network",
       "ideas/i235_toda_isospectral_flow_network",
       "ideas/i236_hadamard_spectrum_network",
       "ideas/i237_cayley_orthogonal_network",
@@ -4624,7 +4645,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 220,
+    "implemented_architecture_count": 221,
     "issue_folders": [],
     "validation_issue_count": 0
   }
