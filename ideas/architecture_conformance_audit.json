@@ -1721,6 +1721,46 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i088_traced_threat_motif_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i088_traced_threat_motif_network",
+      "idea_id": "i088",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "traced_threat_motif_network",
+      "slug": "traced_threat_motif_network",
+      "source_files": [
+        "ideas/i088_traced_threat_motif_network/model.py",
+        "src/chess_nn_playground/models/traced_threat_motif.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i089_bounded_board_hinge_logic/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i089_bounded_board_hinge_logic",
+      "idea_id": "i089",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "bounded_board_hinge_logic",
+      "slug": "bounded_board_hinge_logic",
+      "source_files": [
+        "ideas/i089_bounded_board_hinge_logic/model.py",
+        "src/chess_nn_playground/models/bounded_board_hinge_logic.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i090_chess_mode_tucker_relation_certificate/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1756,6 +1796,166 @@
       "source_files": [
         "ideas/i091_tactical_state_bottleneck_inference/model.py",
         "src/chess_nn_playground/models/tactical_state_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i092_parity_syndrome_puzzle_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i092_parity_syndrome_puzzle_bottleneck",
+      "idea_id": "i092",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "parity_syndrome_puzzle_bottleneck",
+      "slug": "parity_syndrome_puzzle_bottleneck",
+      "source_files": [
+        "ideas/i092_parity_syndrome_puzzle_bottleneck/model.py",
+        "src/chess_nn_playground/models/parity_syndrome.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i093_wavelet_scattering_board_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i093_wavelet_scattering_board_network",
+      "idea_id": "i093",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "wavelet_scattering_board_network",
+      "slug": "wavelet_scattering_board_network",
+      "source_files": [
+        "ideas/i093_wavelet_scattering_board_network/model.py",
+        "src/chess_nn_playground/models/wavelet_scattering_board_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i094_convex_feasibility_residual_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i094_convex_feasibility_residual_network",
+      "idea_id": "i094",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "convex_feasibility_residual_network",
+      "slug": "convex_feasibility_residual_network",
+      "source_files": [
+        "ideas/i094_convex_feasibility_residual_network/model.py",
+        "src/chess_nn_playground/models/convex_feasibility.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i095_rank_quantile_evidence_field_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i095_rank_quantile_evidence_field_network",
+      "idea_id": "i095",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rank_quantile_evidence_field_network",
+      "slug": "rank_quantile_evidence_field_network",
+      "source_files": [
+        "ideas/i095_rank_quantile_evidence_field_network/model.py",
+        "src/chess_nn_playground/models/rank_quantile.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i096_oriented_matroid_covector_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i096_oriented_matroid_covector_bottleneck",
+      "idea_id": "i096",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "oriented_matroid_covector_bottleneck",
+      "slug": "oriented_matroid_covector_bottleneck",
+      "source_files": [
+        "ideas/i096_oriented_matroid_covector_bottleneck/model.py",
+        "src/chess_nn_playground/models/oriented_matroid_covector.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i097_fixed_point_residual_defect_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i097_fixed_point_residual_defect_network",
+      "idea_id": "i097",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "fixed_point_residual_defect_network",
+      "slug": "fixed_point_residual_defect_network",
+      "source_files": [
+        "ideas/i097_fixed_point_residual_defect_network/model.py",
+        "src/chess_nn_playground/models/fixed_point_residual.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i098_baseline_logit_residual_adapter/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i098_baseline_logit_residual_adapter",
+      "idea_id": "i098",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "baseline_logit_residual_adapter",
+      "slug": "baseline_logit_residual_adapter",
+      "source_files": [
+        "ideas/i098_baseline_logit_residual_adapter/model.py",
+        "src/chess_nn_playground/models/baseline_logit_residual_adapter.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i099_coarse_to_fine_board_residual_pyramid/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i099_coarse_to_fine_board_residual_pyramid",
+      "idea_id": "i099",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "coarse_to_fine_board_residual_pyramid",
+      "slug": "coarse_to_fine_board_residual_pyramid",
+      "source_files": [
+        "ideas/i099_coarse_to_fine_board_residual_pyramid/model.py",
+        "src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1821,6 +2021,446 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i103_attention_disagreement_residual_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i103_attention_disagreement_residual_network",
+      "idea_id": "i103",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "attention_disagreement_residual_network",
+      "slug": "attention_disagreement_residual_network",
+      "source_files": [
+        "ideas/i103_attention_disagreement_residual_network/model.py",
+        "src/chess_nn_playground/models/attention_disagreement_residual_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i104_cross_scale_attention_residual_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i104_cross_scale_attention_residual_network",
+      "idea_id": "i104",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "cross_scale_attention_residual_network",
+      "slug": "cross_scale_attention_residual_network",
+      "source_files": [
+        "ideas/i104_cross_scale_attention_residual_network/model.py",
+        "src/chess_nn_playground/models/cross_scale_attention_residual_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i105_slot_attention_role_binding_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i105_slot_attention_role_binding_network",
+      "idea_id": "i105",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "slot_attention_role_binding_network",
+      "slug": "slot_attention_role_binding_network",
+      "source_files": [
+        "ideas/i105_slot_attention_role_binding_network/model.py",
+        "src/chess_nn_playground/models/slot_attention_role_binding_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i106_attention_perturbation_sensitivity_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i106_attention_perturbation_sensitivity_network",
+      "idea_id": "i106",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "attention_perturbation_sensitivity_network",
+      "slug": "attention_perturbation_sensitivity_network",
+      "source_files": [
+        "ideas/i106_attention_perturbation_sensitivity_network/model.py",
+        "src/chess_nn_playground/models/attention_perturbation_sensitivity_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i107_kernel_mean_prototype_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i107_kernel_mean_prototype_network",
+      "idea_id": "i107",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "kernel_mean_prototype_network",
+      "slug": "kernel_mean_prototype_network",
+      "source_files": [
+        "ideas/i107_kernel_mean_prototype_network/model.py",
+        "src/chess_nn_playground/models/kernel_mean_prototype_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i108_tensorsketch_interaction_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i108_tensorsketch_interaction_network",
+      "idea_id": "i108",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tensorsketch_interaction_network",
+      "slug": "tensorsketch_interaction_network",
+      "source_files": [
+        "ideas/i108_tensorsketch_interaction_network/model.py",
+        "src/chess_nn_playground/models/tensorsketch_interaction_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i109_maxout_region_signature_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i109_maxout_region_signature_network",
+      "idea_id": "i109",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "maxout_region_signature_network",
+      "slug": "maxout_region_signature_network",
+      "source_files": [
+        "ideas/i109_maxout_region_signature_network/model.py",
+        "src/chess_nn_playground/models/maxout_region_signature_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i110_spline_board_surface_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i110_spline_board_surface_network",
+      "idea_id": "i110",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "spline_board_surface_network",
+      "slug": "spline_board_surface_network",
+      "source_files": [
+        "ideas/i110_spline_board_surface_network/model.py",
+        "src/chess_nn_playground/models/spline_board_surface_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i111_boundary_condition_disagreement_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i111_boundary_condition_disagreement_cnn",
+      "idea_id": "i111",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "boundary_condition_disagreement_cnn",
+      "slug": "boundary_condition_disagreement_cnn",
+      "source_files": [
+        "ideas/i111_boundary_condition_disagreement_cnn/model.py",
+        "src/chess_nn_playground/models/boundary_condition_disagreement_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i112_piece_drop_stability_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i112_piece_drop_stability_network",
+      "idea_id": "i112",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "piece_drop_stability_network",
+      "slug": "piece_drop_stability_network",
+      "source_files": [
+        "ideas/i112_piece_drop_stability_network/model.py",
+        "src/chess_nn_playground/models/piece_drop_stability_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i113_row_file_factor_mixer/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i113_row_file_factor_mixer",
+      "idea_id": "i113",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "row_file_factor_mixer",
+      "slug": "row_file_factor_mixer",
+      "source_files": [
+        "ideas/i113_row_file_factor_mixer/model.py",
+        "src/chess_nn_playground/models/row_file_factor_mixer.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i114_piece_conditioned_hypernetwork_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i114_piece_conditioned_hypernetwork_cnn",
+      "idea_id": "i114",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "piece_conditioned_hypernetwork_cnn",
+      "slug": "piece_conditioned_hypernetwork_cnn",
+      "source_files": [
+        "ideas/i114_piece_conditioned_hypernetwork_cnn/model.py",
+        "src/chess_nn_playground/models/piece_conditioned_hypernetwork_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i115_neural_board_cellular_automaton/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i115_neural_board_cellular_automaton",
+      "idea_id": "i115",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "neural_board_cellular_automaton",
+      "slug": "neural_board_cellular_automaton",
+      "source_files": [
+        "ideas/i115_neural_board_cellular_automaton/model.py",
+        "src/chess_nn_playground/models/neural_board_cellular_automaton.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i116_symmetric_difference_twin_encoder/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i116_symmetric_difference_twin_encoder",
+      "idea_id": "i116",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "symmetric_difference_twin_encoder",
+      "slug": "symmetric_difference_twin_encoder",
+      "source_files": [
+        "ideas/i116_symmetric_difference_twin_encoder/model.py",
+        "src/chess_nn_playground/models/symmetric_difference_twin_encoder.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i117_prototype_patch_dictionary_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i117_prototype_patch_dictionary_network",
+      "idea_id": "i117",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "prototype_patch_dictionary_network",
+      "slug": "prototype_patch_dictionary_network",
+      "source_files": [
+        "ideas/i117_prototype_patch_dictionary_network/model.py",
+        "src/chess_nn_playground/models/prototype_patch_dictionary_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i119_tensor_ring_square_interaction_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i119_tensor_ring_square_interaction_network",
+      "idea_id": "i119",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tensor_ring_square_interaction_network",
+      "slug": "tensor_ring_square_interaction_network",
+      "source_files": [
+        "ideas/i119_tensor_ring_square_interaction_network/model.py",
+        "src/chess_nn_playground/models/tensor_ring_square_interaction_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i120_sinkhorn_role_assignment_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i120_sinkhorn_role_assignment_network",
+      "idea_id": "i120",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "sinkhorn_role_assignment_network",
+      "slug": "sinkhorn_role_assignment_network",
+      "source_files": [
+        "ideas/i120_sinkhorn_role_assignment_network/model.py",
+        "src/chess_nn_playground/models/sinkhorn_role_assignment_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i121_morphological_threat_field_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i121_morphological_threat_field_network",
+      "idea_id": "i121",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "morphological_threat_field_network",
+      "slug": "morphological_threat_field_network",
+      "source_files": [
+        "ideas/i121_morphological_threat_field_network/model.py",
+        "src/chess_nn_playground/models/morphological_threat_field_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i122_invertible_board_coupling_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i122_invertible_board_coupling_network",
+      "idea_id": "i122",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "invertible_board_coupling_network",
+      "slug": "invertible_board_coupling_network",
+      "source_files": [
+        "ideas/i122_invertible_board_coupling_network/model.py",
+        "src/chess_nn_playground/models/invertible_board_coupling_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i123_sparse_expert_board_router/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i123_sparse_expert_board_router",
+      "idea_id": "i123",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "sparse_expert_board_router",
+      "slug": "sparse_expert_board_router",
+      "source_files": [
+        "ideas/i123_sparse_expert_board_router/model.py",
+        "src/chess_nn_playground/models/sparse_expert_board_router.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i125_ray_state_space_scan_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i125_ray_state_space_scan_network",
+      "idea_id": "i125",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "ray_state_space_scan_network",
+      "slug": "ray_state_space_scan_network",
+      "source_files": [
+        "ideas/i125_ray_state_space_scan_network/model.py",
+        "src/chess_nn_playground/models/ray_state_space_scan.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i126_pawn_skeleton_barrier_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i126_pawn_skeleton_barrier_network",
+      "idea_id": "i126",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "pawn_skeleton_barrier_network",
+      "slug": "pawn_skeleton_barrier_network",
+      "source_files": [
+        "ideas/i126_pawn_skeleton_barrier_network/model.py",
+        "src/chess_nn_playground/models/pawn_skeleton_barrier.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i127_square_color_parity_mixer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -1876,6 +2516,146 @@
       "source_files": [
         "ideas/i129_king_shelter_microkernel_network/model.py",
         "src/chess_nn_playground/models/king_shelter_microkernel.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i130_material_phase_low_rank_adapter_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i130_material_phase_low_rank_adapter_network",
+      "idea_id": "i130",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "material_phase_low_rank_adapter_network",
+      "slug": "material_phase_low_rank_adapter_network",
+      "source_files": [
+        "ideas/i130_material_phase_low_rank_adapter_network/model.py",
+        "src/chess_nn_playground/models/material_phase_low_rank_adapter.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i131_replicator_payoff_piece_dynamics/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i131_replicator_payoff_piece_dynamics",
+      "idea_id": "i131",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "replicator_payoff_piece_dynamics",
+      "slug": "replicator_payoff_piece_dynamics",
+      "source_files": [
+        "ideas/i131_replicator_payoff_piece_dynamics/model.py",
+        "src/chess_nn_playground/models/replicator_payoff_piece_dynamics.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i132_differentiable_bitboard_boolean_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i132_differentiable_bitboard_boolean_network",
+      "idea_id": "i132",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "differentiable_bitboard_boolean_network",
+      "slug": "differentiable_bitboard_boolean_network",
+      "source_files": [
+        "ideas/i132_differentiable_bitboard_boolean_network/model.py",
+        "src/chess_nn_playground/models/differentiable_bitboard_boolean_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i133_orthogonal_board_moment_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i133_orthogonal_board_moment_network",
+      "idea_id": "i133",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "orthogonal_board_moment_network",
+      "slug": "orthogonal_board_moment_network",
+      "source_files": [
+        "ideas/i133_orthogonal_board_moment_network/model.py",
+        "src/chess_nn_playground/models/orthogonal_board_moment_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i134_legal_constraint_projection_residual_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i134_legal_constraint_projection_residual_network",
+      "idea_id": "i134",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "legal_constraint_projection_residual_network",
+      "slug": "legal_constraint_projection_residual_network",
+      "source_files": [
+        "ideas/i134_legal_constraint_projection_residual_network/model.py",
+        "src/chess_nn_playground/models/legal_constraint_projection_residual_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i135_zobrist_kernel_feature_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i135_zobrist_kernel_feature_network",
+      "idea_id": "i135",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "zobrist_kernel_feature_network",
+      "slug": "zobrist_kernel_feature_network",
+      "source_files": [
+        "ideas/i135_zobrist_kernel_feature_network/model.py",
+        "src/chess_nn_playground/models/zobrist_kernel_feature_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i136_low_rank_signed_cut_query_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i136_low_rank_signed_cut_query_network",
+      "idea_id": "i136",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "low_rank_signed_cut_query_network",
+      "slug": "low_rank_signed_cut_query_network",
+      "source_files": [
+        "ideas/i136_low_rank_signed_cut_query_network/model.py",
+        "src/chess_nn_playground/models/low_rank_signed_cut_query_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3549,14 +4329,53 @@
       "ideas/i085_hall_defect_zeta_operator",
       "ideas/i086_differentiable_chess_fact_lattice",
       "ideas/i087_tactical_radius_filtration",
+      "ideas/i088_traced_threat_motif_network",
+      "ideas/i089_bounded_board_hinge_logic",
       "ideas/i090_chess_mode_tucker_relation_certificate",
       "ideas/i091_tactical_state_bottleneck_inference",
+      "ideas/i092_parity_syndrome_puzzle_bottleneck",
+      "ideas/i093_wavelet_scattering_board_network",
+      "ideas/i094_convex_feasibility_residual_network",
+      "ideas/i095_rank_quantile_evidence_field_network",
+      "ideas/i096_oriented_matroid_covector_bottleneck",
+      "ideas/i097_fixed_point_residual_defect_network",
+      "ideas/i098_baseline_logit_residual_adapter",
+      "ideas/i099_coarse_to_fine_board_residual_pyramid",
       "ideas/i100_independence_residual_interaction_network",
       "ideas/i101_residual_calibration_error_field",
       "ideas/i102_set_query_attention_bottleneck",
+      "ideas/i103_attention_disagreement_residual_network",
+      "ideas/i104_cross_scale_attention_residual_network",
+      "ideas/i105_slot_attention_role_binding_network",
+      "ideas/i106_attention_perturbation_sensitivity_network",
+      "ideas/i107_kernel_mean_prototype_network",
+      "ideas/i108_tensorsketch_interaction_network",
+      "ideas/i109_maxout_region_signature_network",
+      "ideas/i110_spline_board_surface_network",
+      "ideas/i111_boundary_condition_disagreement_cnn",
+      "ideas/i112_piece_drop_stability_network",
+      "ideas/i113_row_file_factor_mixer",
+      "ideas/i114_piece_conditioned_hypernetwork_cnn",
+      "ideas/i115_neural_board_cellular_automaton",
+      "ideas/i116_symmetric_difference_twin_encoder",
+      "ideas/i117_prototype_patch_dictionary_network",
+      "ideas/i119_tensor_ring_square_interaction_network",
+      "ideas/i120_sinkhorn_role_assignment_network",
+      "ideas/i121_morphological_threat_field_network",
+      "ideas/i122_invertible_board_coupling_network",
+      "ideas/i123_sparse_expert_board_router",
+      "ideas/i125_ray_state_space_scan_network",
+      "ideas/i126_pawn_skeleton_barrier_network",
       "ideas/i127_square_color_parity_mixer",
       "ideas/i128_occupancy_run_length_segment_encoder",
       "ideas/i129_king_shelter_microkernel_network",
+      "ideas/i130_material_phase_low_rank_adapter_network",
+      "ideas/i131_replicator_payoff_piece_dynamics",
+      "ideas/i132_differentiable_bitboard_boolean_network",
+      "ideas/i133_orthogonal_board_moment_network",
+      "ideas/i134_legal_constraint_projection_residual_network",
+      "ideas/i135_zobrist_kernel_feature_network",
+      "ideas/i136_low_rank_signed_cut_query_network",
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
@@ -3637,7 +4456,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 173,
+    "implemented_architecture_count": 212,
     "issue_folders": [],
     "validation_issue_count": 0
   }
