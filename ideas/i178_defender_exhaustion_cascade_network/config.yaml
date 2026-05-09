@@ -21,8 +21,13 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: graph
-  packet_profile: defender_exhaustion_cascade_network
+  token_dim: 48
+  cascade_steps: 4
+  obligation_types: 6
+  resource_types: 6
+  allocation_temperature: 1.0
+  demand_pressure: 1.0
+  capacity_init: 1.0
 training:
   epochs: 20
   batch_size: 256

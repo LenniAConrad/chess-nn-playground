@@ -5196,6 +5196,19 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lgv_neumann_alpha",
         },
     ),
+    (
+        "i178",
+        "ideas/i178_defender_exhaustion_cascade_network",
+        "defender_exhaustion_cascade_network",
+        {
+            "exhaustion_sum_positive_residual",
+            "exhaustion_allocation_entropy",
+            "exhaustion_max_deficit",
+            "exhaustion_final_residual",
+            "exhaustion_final_allocation_marginal",
+            "exhaustion_resource_capacity",
+        },
+    ),
 ]
 
 
