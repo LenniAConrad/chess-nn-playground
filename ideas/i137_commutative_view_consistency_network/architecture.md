@@ -1,5 +1,10 @@
 # Architecture
 
+## Scaffold-Only Implementation Notice
+
+This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+
+
 `Commutative View-Consistency Network` is a board-only multi-view architecture
 for the `puzzle_binary` task. It consumes the repo `simple_18` tensor with
 shape `(batch, 18, 8, 8)` and emits one puzzle logit with shape `(batch,)`.

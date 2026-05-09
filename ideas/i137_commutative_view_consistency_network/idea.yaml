@@ -1,15 +1,14 @@
 idea_id: i137
 name: Commutative View-Consistency Network
 slug: commutative_view_consistency_network
-status: implemented
+status: scaffolded
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'A chess position can be represented through several safe current-board
   views:'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`;
-  bespoke board-only multi-view architecture with learned low-rank latent maps
-  and cross-view consistency defects between square, piece, line, region, and
-  count views.
+  bespoke board-only multi-view architecture with learned low-rank latent maps and
+  cross-view consistency defects between square, piece, line, region, and count views.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
@@ -20,16 +19,18 @@ output_heads: One puzzle logit plus view-latent norms and cross-view defect diag
   saved to prediction artifacts.
 compute_notes: Compact convolutional square trunk, occupied-piece DeepSets, line/region/count
   view encoders, and low-rank map-consistency residuals.
-implementation_status: implemented
+implementation_status: probe_scaffold_only
 trainer_entrypoint: ideas/i137_commutative_view_consistency_network/train.py
 config_path: ideas/i137_commutative_view_consistency_network/config.yaml
 model_path: ideas/i137_commutative_view_consistency_network/model.py
 latest_result_path: null
-notes: Research-packet promotion. Bespoke implementation in src/chess_nn_playground/models/research_architectures.py;
-  wrapper delegates through ideas/i137_commutative_view_consistency_network/model.py.
+notes: Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a
+  completed bespoke implementation of the markdown architecture. Do not benchmark
+  or describe this folder as an implemented architecture until bespoke model code
+  replaces the shared probe.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
 source_packet_candidate: Commutative View-Consistency Network
 source_packet_rank: 1
 source_packet_status: batch packet
 mechanism_family: symmetry
-implementation_kind: bespoke_model
+implementation_kind: shared_probe_variant
