@@ -5209,6 +5209,22 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lng_anisotropy_ratio",
         },
     ),
+    (
+        "i139",
+        "ideas/i139_soft_majorization_line_sorter",
+        "soft_majorization_line_sorter",
+        {
+            "smls_salience_fields",
+            "smls_line_values",
+            "smls_sorted_scores",
+            "smls_line_descriptors",
+            "smls_bucket_descriptors",
+            "smls_per_line_concentration",
+            "smls_per_line_gap01",
+            "smls_per_line_normalized_entropy",
+            "smls_mean_concentration_per_line_type",
+        },
+    ),
 ]
 
 
