@@ -83,6 +83,9 @@ from chess_nn_playground.models.grassmannian_principal_angle_bottleneck import (
 from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
     build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
 )
+from chess_nn_playground.models.pivot_trace_elimination_network import (
+    build_pivot_trace_elimination_network_from_config,
+)
 from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
     build_polar_procrustes_alignment_bottleneck_from_config,
 )
@@ -431,6 +434,9 @@ from chess_nn_playground.models.tactical_controllability_gramian_network import 
 from chess_nn_playground.models.support_polar_zonotope import (
     build_support_polar_zonotope_certificate_network_from_config,
 )
+from chess_nn_playground.models.support_function_envelope_network import (
+    build_support_function_envelope_network_from_config,
+)
 from chess_nn_playground.models.loop_frustration_curvature_network import (
     build_loop_frustration_curvature_network_from_config,
 )
@@ -722,6 +728,7 @@ MODEL_BUILDERS = {
     "tropical_constraint_circuit_network": build_tropical_constraint_circuit_network_from_config,
     "grassmannian_principal_angle_bottleneck": build_grassmannian_principal_angle_bottleneck_from_config,
     "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
+    "pivot_trace_elimination_network": build_pivot_trace_elimination_network_from_config,
     "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
     "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
     "piece_token_cnn_hybrid": build_piece_token_cnn_hybrid_from_config,
@@ -735,6 +742,7 @@ MODEL_BUILDERS = {
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
     "tactical_controllability_gramian_network": build_tactical_controllability_gramian_network_from_config,
     "support_polar_zonotope_certificate_network": build_support_polar_zonotope_certificate_network_from_config,
+    "support_function_envelope_network": build_support_function_envelope_network_from_config,
     "loop_frustration_curvature_network": build_loop_frustration_curvature_network_from_config,
     "forcing_response_front_door_bottleneck": build_forcing_response_front_door_bottleneck_from_config,
     "chess_hypercut_polynomial_network": build_chess_hypercut_polynomial_network_from_config,

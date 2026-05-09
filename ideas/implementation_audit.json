@@ -4631,35 +4631,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i138_support_function_envelope_network",
       "idea_id": "i138",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "support_function_envelope_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "support_function_envelope_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.support_function_envelope_network.build_support_function_envelope_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.support_function_envelope_network.build_support_function_envelope_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.support_function_envelope_network.SupportFunctionEnvelopeNetwork",
+          "chess_nn_playground.models.support_function_envelope_network.build_support_function_envelope_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -4703,33 +4701,35 @@
       }
     },
     {
-      "detected_kind": "bespoke_model",
+      "detected_kind": "shared_probe_variant",
       "evidence": [
-        "model.py delegates to a non-shared architecture builder"
+        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
+        "model.py calls build_research_packet_probe_from_config",
+        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
       ],
       "folder": "ideas/i140_low_displacement_rank_board_operator",
       "idea_id": "i140",
-      "idea_status": "implemented",
-      "implementation_status": "implemented",
+      "idea_status": "scaffolded",
+      "implementation_status": "probe_scaffold_only",
       "issues": [],
-      "metadata_kind": "bespoke_model",
+      "metadata_kind": "shared_probe_variant",
       "model_name": "low_displacement_rank_board_operator",
-      "scaffold": null,
+      "scaffold": "ResearchPacketProbe",
       "slug": "low_displacement_rank_board_operator",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config"
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config",
-          "torch.nn",
+          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -4773,35 +4773,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i142_pivot_trace_elimination_network",
       "idea_id": "i142",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "pivot_trace_elimination_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "pivot_trace_elimination_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.pivot_trace_elimination_network.build_pivot_trace_elimination_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.pivot_trace_elimination_network.build_pivot_trace_elimination_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.pivot_trace_elimination_network.PivotTraceEliminationNetwork",
+          "chess_nn_playground.models.pivot_trace_elimination_network.build_pivot_trace_elimination_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -4983,33 +4981,35 @@
       }
     },
     {
-      "detected_kind": "bespoke_model",
+      "detected_kind": "shared_probe_variant",
       "evidence": [
-        "model.py delegates to a non-shared architecture builder"
+        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
+        "model.py calls build_research_packet_probe_from_config",
+        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
       ],
       "folder": "ideas/i148_shallow_wide_residual_boardnet",
       "idea_id": "i148",
-      "idea_status": "implemented",
-      "implementation_status": "implemented",
+      "idea_status": "scaffolded",
+      "implementation_status": "probe_scaffold_only",
       "issues": [],
-      "metadata_kind": "bespoke_model",
+      "metadata_kind": "shared_probe_variant",
       "model_name": "shallow_wide_residual_boardnet",
-      "scaffold": null,
+      "scaffold": "ResearchPacketProbe",
       "slug": "shallow_wide_residual_boardnet",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config"
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config",
-          "torch.nn",
+          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -5948,33 +5948,35 @@
       }
     },
     {
-      "detected_kind": "bespoke_model",
+      "detected_kind": "shared_probe_variant",
       "evidence": [
-        "model.py delegates to a non-shared architecture builder"
+        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
+        "model.py calls build_research_packet_probe_from_config",
+        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
       ],
       "folder": "ideas/i176_source_rate_calibrated_objective",
       "idea_id": "i176",
-      "idea_status": "implemented",
-      "implementation_status": "implemented",
+      "idea_status": "scaffolded",
+      "implementation_status": "probe_scaffold_only",
       "issues": [],
-      "metadata_kind": "bespoke_model",
+      "metadata_kind": "shared_probe_variant",
       "model_name": "source_rate_calibrated_objective",
-      "scaffold": null,
+      "scaffold": "ResearchPacketProbe",
       "slug": "source_rate_calibrated_objective",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.source_rate_calibrated_objective.build_source_rate_calibrated_objective_from_config"
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.source_rate_calibrated_objective.build_source_rate_calibrated_objective_from_config",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.source_rate_calibrated_objective.build_source_rate_calibrated_objective_from_config",
-          "torch.nn",
+          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6016,33 +6018,35 @@
       }
     },
     {
-      "detected_kind": "bespoke_model",
+      "detected_kind": "shared_probe_variant",
       "evidence": [
-        "model.py delegates to a non-shared architecture builder"
+        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
+        "model.py calls build_research_packet_probe_from_config",
+        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
       ],
       "folder": "ideas/i178_defender_exhaustion_cascade_network",
       "idea_id": "i178",
-      "idea_status": "implemented",
-      "implementation_status": "implemented",
+      "idea_status": "scaffolded",
+      "implementation_status": "probe_scaffold_only",
       "issues": [],
-      "metadata_kind": "bespoke_model",
+      "metadata_kind": "shared_probe_variant",
       "model_name": "defender_exhaustion_cascade_network",
-      "scaffold": null,
+      "scaffold": "ResearchPacketProbe",
       "slug": "defender_exhaustion_cascade_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.defender_exhaustion_cascade_network.build_defender_exhaustion_cascade_network_from_config"
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.defender_exhaustion_cascade_network.build_defender_exhaustion_cascade_network_from_config",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.defender_exhaustion_cascade_network.build_defender_exhaustion_cascade_network_from_config",
-          "torch.nn",
+          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
+          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8160,21 +8164,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-<<<<<<< HEAD
-      "bespoke_model": 227,
-      "shared_probe_variant": 13
+      "bespoke_model": 226,
+      "shared_probe_variant": 14
     },
     "by_metadata_kind": {
-      "bespoke_model": 227,
-      "shared_probe_variant": 13
-=======
-      "bespoke_model": 225,
-      "shared_probe_variant": 15
-    },
-    "by_metadata_kind": {
-      "bespoke_model": 225,
-      "shared_probe_variant": 15
->>>>>>> loop-h
+      "bespoke_model": 226,
+      "shared_probe_variant": 14
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8183,19 +8178,16 @@
       "ideas/i118_channel_dropout_consensus_network",
       "ideas/i124_local_neighborhood_geometry_network",
       "ideas/i137_commutative_view_consistency_network",
-      "ideas/i138_support_function_envelope_network",
       "ideas/i139_soft_majorization_line_sorter",
+      "ideas/i140_low_displacement_rank_board_operator",
       "ideas/i141_submodular_coverage_bottleneck",
-      "ideas/i142_pivot_trace_elimination_network",
       "ideas/i143_convnext_boardnet",
       "ideas/i144_board_fpn_cnn",
+      "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
-<<<<<<< HEAD
+      "ideas/i176_source_rate_calibrated_objective",
       "ideas/i178_defender_exhaustion_cascade_network"
-=======
-      "ideas/i176_source_rate_calibrated_objective"
->>>>>>> loop-h
     ],
     "total": 240,
     "unknown_folders": [],

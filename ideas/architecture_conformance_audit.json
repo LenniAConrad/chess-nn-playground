@@ -2661,21 +2661,41 @@
       "status": "implemented"
     },
     {
-      "architecture_doc": "ideas/i140_low_displacement_rank_board_operator/architecture.md",
+      "architecture_doc": "ideas/i138_support_function_envelope_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
       "architecture_mentions_source": true,
       "architecture_mentions_wrapper": true,
-      "folder": "ideas/i140_low_displacement_rank_board_operator",
-      "idea_id": "i140",
+      "folder": "ideas/i138_support_function_envelope_network",
+      "idea_id": "i138",
       "implementation_kind": "bespoke_model",
       "implementation_status": "implemented",
       "issues": [],
-      "model_name": "low_displacement_rank_board_operator",
-      "slug": "low_displacement_rank_board_operator",
+      "model_name": "support_function_envelope_network",
+      "slug": "support_function_envelope_network",
       "source_files": [
-        "ideas/i140_low_displacement_rank_board_operator/model.py",
-        "src/chess_nn_playground/models/low_displacement_rank_board_operator.py"
+        "ideas/i138_support_function_envelope_network/model.py",
+        "src/chess_nn_playground/models/support_function_envelope_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i142_pivot_trace_elimination_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i142_pivot_trace_elimination_network",
+      "idea_id": "i142",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "pivot_trace_elimination_network",
+      "slug": "pivot_trace_elimination_network",
+      "source_files": [
+        "ideas/i142_pivot_trace_elimination_network/model.py",
+        "src/chess_nn_playground/models/pivot_trace_elimination_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2736,26 +2756,6 @@
       "source_files": [
         "ideas/i147_specialist_head_cnn/model.py",
         "src/chess_nn_playground/models/specialist_head_cnn.py"
-      ],
-      "source_markers": [],
-      "status": "implemented"
-    },
-    {
-      "architecture_doc": "ideas/i148_shallow_wide_residual_boardnet/architecture.md",
-      "architecture_has_binding_section": true,
-      "architecture_mentions_model_name": true,
-      "architecture_mentions_source": true,
-      "architecture_mentions_wrapper": true,
-      "folder": "ideas/i148_shallow_wide_residual_boardnet",
-      "idea_id": "i148",
-      "implementation_kind": "bespoke_model",
-      "implementation_status": "implemented",
-      "issues": [],
-      "model_name": "shallow_wide_residual_boardnet",
-      "slug": "shallow_wide_residual_boardnet",
-      "source_files": [
-        "ideas/i148_shallow_wide_residual_boardnet/model.py",
-        "src/chess_nn_playground/models/shallow_wide_residual_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3261,26 +3261,6 @@
       "status": "implemented"
     },
     {
-      "architecture_doc": "ideas/i176_source_rate_calibrated_objective/architecture.md",
-      "architecture_has_binding_section": true,
-      "architecture_mentions_model_name": true,
-      "architecture_mentions_source": true,
-      "architecture_mentions_wrapper": true,
-      "folder": "ideas/i176_source_rate_calibrated_objective",
-      "idea_id": "i176",
-      "implementation_kind": "bespoke_model",
-      "implementation_status": "implemented",
-      "issues": [],
-      "model_name": "source_rate_calibrated_objective",
-      "slug": "source_rate_calibrated_objective",
-      "source_files": [
-        "ideas/i176_source_rate_calibrated_objective/model.py",
-        "src/chess_nn_playground/models/source_rate_calibrated_objective.py"
-      ],
-      "source_markers": [],
-      "status": "implemented"
-    },
-    {
       "architecture_doc": "ideas/i177_forcing_certificate_transformer/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3296,26 +3276,6 @@
       "source_files": [
         "ideas/i177_forcing_certificate_transformer/model.py",
         "src/chess_nn_playground/models/forcing_certificate_transformer.py"
-      ],
-      "source_markers": [],
-      "status": "implemented"
-    },
-    {
-      "architecture_doc": "ideas/i178_defender_exhaustion_cascade_network/architecture.md",
-      "architecture_has_binding_section": true,
-      "architecture_mentions_model_name": true,
-      "architecture_mentions_source": true,
-      "architecture_mentions_wrapper": true,
-      "folder": "ideas/i178_defender_exhaustion_cascade_network",
-      "idea_id": "i178",
-      "implementation_kind": "bespoke_model",
-      "implementation_status": "implemented",
-      "issues": [],
-      "model_name": "defender_exhaustion_cascade_network",
-      "slug": "defender_exhaustion_cascade_network",
-      "source_files": [
-        "ideas/i178_defender_exhaustion_cascade_network/model.py",
-        "src/chess_nn_playground/models/defender_exhaustion_cascade_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4696,11 +4656,11 @@
       "ideas/i134_legal_constraint_projection_residual_network",
       "ideas/i135_zobrist_kernel_feature_network",
       "ideas/i136_low_rank_signed_cut_query_network",
-      "ideas/i140_low_displacement_rank_board_operator",
+      "ideas/i138_support_function_envelope_network",
+      "ideas/i142_pivot_trace_elimination_network",
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
-      "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i150_early_exit_cascade_boardnet",
       "ideas/i151_auxiliary_reconstruction_boardnet",
       "ideas/i153_agreement_variance_head_net",
@@ -4726,9 +4686,7 @@
       "ideas/i173_stripe_selective_mixer_cnn",
       "ideas/i174_king_zone_evidence_ledger",
       "ideas/i175_prototype_margin_puzzle_network",
-      "ideas/i176_source_rate_calibrated_objective",
       "ideas/i177_forcing_certificate_transformer",
-      "ideas/i178_defender_exhaustion_cascade_network",
       "ideas/i179_causal_piece_derivative_network",
       "ideas/i180_phase_transition_pressure_network",
       "ideas/i181_disproof_ledger_puzzle_network",
@@ -4792,11 +4750,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-<<<<<<< HEAD
-    "implemented_architecture_count": 227,
-=======
-    "implemented_architecture_count": 225,
->>>>>>> loop-h
+    "implemented_architecture_count": 226,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -258,6 +258,9 @@ RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "support_polar_zonotope_certificate_network"
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "support_function_envelope_network"
+]
+RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "loop_frustration_curvature_network"
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
@@ -562,4 +565,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "defender_exhaustion_cascade_network"
+]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "pivot_trace_elimination_network"
 ]
