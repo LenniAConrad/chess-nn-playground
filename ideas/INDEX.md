@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 209, 'probe_scaffold_only': 24, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 216, 'shared_probe_variant': 24}`
+- Registered implementation states: `{'implemented': 211, 'probe_scaffold_only': 22, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 218, 'shared_probe_variant': 22}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 216 | Materially distinct model implementation. |
-| `shared_probe_variant` | 24 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 218 | Materially distinct model implementation. |
+| `shared_probe_variant` | 22 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -239,8 +239,8 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i198` | [Barrier-Cut Puzzle Network](i198_barrier_cut_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i199` | [Tactical Hessian Spectrum Network](i199_tactical_hessian_spectrum_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i200` | [Absorbing Threat Markov Network](i200_absorbing_threat_markov_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i201` | [Neural Clause-Resolution Puzzle Network](i201_neural_clause_resolution_puzzle_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i202` | [Piece Liability Gradient Network](i202_piece_liability_gradient_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i201` | [Neural Clause-Resolution Puzzle Network](i201_neural_clause_resolution_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i202` | [Piece Liability Gradient Network](i202_piece_liability_gradient_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i203` | [Hierarchical Tactical Option Network](i203_hierarchical_tactical_option_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i204` | [Cross-Defense Consistency Network](i204_cross_defense_consistency_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i205` | [Defender Timing Schedule Network](i205_defender_timing_schedule_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
