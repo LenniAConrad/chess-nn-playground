@@ -5210,6 +5210,19 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "ldr_displacement_residual_norm",
         },
     ),
+    (
+        "i148",
+        "ideas/i148_shallow_wide_residual_boardnet",
+        "shallow_wide_residual_boardnet",
+        {
+            "swrb_pool_mean_norm",
+            "swrb_pool_max_max",
+            "swrb_pool_std_norm",
+            "swrb_se_gate_mean",
+            "swrb_residual_energy",
+            "swrb_count_head_logit",
+        },
+    ),
 ]
 
 

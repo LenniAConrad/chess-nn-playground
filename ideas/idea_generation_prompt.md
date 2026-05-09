@@ -1789,13 +1789,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i148_shallow_wide_residual_boardnet",
       "idea_id": "i148",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Shallow Wide Residual BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke shallow-wide residual board network that combines optional coordinate planes, squeeze-excite residual blocks at constant width, a strong mean / max / std pooled head, and an optional material count side-input so the width-vs-depth question can be answered against the deeper residual_cnn baseline with ablate-able components.",
+      "output_heads": "One puzzle logit plus pooled-head and SE-gate diagnostics (swrb_pool_mean_norm, swrb_pool_max_max, swrb_pool_std_norm, swrb_se_gate_mean, swrb_residual_energy, swrb_count_head_logit).",
       "short_thesis": "On an `8 x 8` board, depth may be less useful than width and a good head. A shallow wide residual CNN can test whether the benchmark wants broad feature extraction rather than long convolutional stacks.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

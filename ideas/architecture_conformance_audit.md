@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `225`
+- Implemented architecture rows audited: `226`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -149,6 +149,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i145` | `ideas/i145_piece_plane_gated_cnn` | `piece_plane_gated_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i145_piece_plane_gated_cnn/model.py`<br>`src/chess_nn_playground/models/piece_plane_gated_cnn.py` | - |
 | `i146` | `ideas/i146_patch_mixer_boardnet` | `patch_mixer_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i146_patch_mixer_boardnet/model.py`<br>`src/chess_nn_playground/models/patch_mixer_boardnet.py` | - |
 | `i147` | `ideas/i147_specialist_head_cnn` | `specialist_head_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i147_specialist_head_cnn/model.py`<br>`src/chess_nn_playground/models/specialist_head_cnn.py` | - |
+| `i148` | `ideas/i148_shallow_wide_residual_boardnet` | `shallow_wide_residual_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i148_shallow_wide_residual_boardnet/model.py`<br>`src/chess_nn_playground/models/shallow_wide_residual_boardnet.py` | - |
 | `i150` | `ideas/i150_early_exit_cascade_boardnet` | `early_exit_cascade_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i150_early_exit_cascade_boardnet/model.py`<br>`src/chess_nn_playground/models/early_exit_cascade_boardnet.py` | - |
 | `i151` | `ideas/i151_auxiliary_reconstruction_boardnet` | `auxiliary_reconstruction_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i151_auxiliary_reconstruction_boardnet/model.py`<br>`src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py` | - |
 | `i153` | `ideas/i153_agreement_variance_head_net` | `agreement_variance_head_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i153_agreement_variance_head_net/model.py`<br>`src/chess_nn_playground/models/agreement_variance_head_net.py` | - |

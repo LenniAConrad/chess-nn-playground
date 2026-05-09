@@ -4983,35 +4983,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i148_shallow_wide_residual_boardnet",
       "idea_id": "i148",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "shallow_wide_residual_boardnet",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "shallow_wide_residual_boardnet",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.shallow_wide_residual_boardnet.build_shallow_wide_residual_boardnet_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8166,12 +8164,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 225,
-      "shared_probe_variant": 15
+      "bespoke_model": 226,
+      "shared_probe_variant": 14
     },
     "by_metadata_kind": {
-      "bespoke_model": 225,
-      "shared_probe_variant": 15
+      "bespoke_model": 226,
+      "shared_probe_variant": 14
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8186,7 +8184,6 @@
       "ideas/i142_pivot_trace_elimination_network",
       "ideas/i143_convnext_boardnet",
       "ideas/i144_board_fpn_cnn",
-      "ideas/i148_shallow_wide_residual_boardnet",
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i176_source_rate_calibrated_objective",

@@ -572,6 +572,9 @@ from chess_nn_playground.models.zobrist_kernel_feature_network import (
 from chess_nn_playground.models.low_rank_signed_cut_query_network import (
     build_low_rank_signed_cut_query_network_from_config,
 )
+from chess_nn_playground.models.shallow_wide_residual_boardnet import (
+    build_shallow_wide_residual_boardnet_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -779,6 +782,7 @@ MODEL_BUILDERS = {
     "legal_constraint_projection_residual_network": build_legal_constraint_projection_residual_network_from_config,
     "zobrist_kernel_feature_network": build_zobrist_kernel_feature_network_from_config,
     "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
+    "shallow_wide_residual_boardnet": build_shallow_wide_residual_boardnet_from_config,
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
     "agreement_variance_head_net": build_agreement_variance_head_net_from_config,

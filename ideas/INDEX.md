@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 218, 'probe_scaffold_only': 15, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 225, 'shared_probe_variant': 15}`
+- Registered implementation states: `{'implemented': 219, 'probe_scaffold_only': 14, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 226, 'shared_probe_variant': 14}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 225 | Materially distinct model implementation. |
-| `shared_probe_variant` | 15 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 226 | Materially distinct model implementation. |
+| `shared_probe_variant` | 14 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -186,7 +186,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i145` | [Piece-Plane Gated CNN](i145_piece_plane_gated_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i146` | [Patch Mixer BoardNet](i146_patch_mixer_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i147` | [Specialist-Head CNN](i147_specialist_head_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i149` | [Axial Rank-File ConvNet](i149_axial_rank_file_convnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i150` | [Early-Exit Cascade BoardNet](i150_early_exit_cascade_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i151` | [Auxiliary Reconstruction BoardNet](i151_auxiliary_reconstruction_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
