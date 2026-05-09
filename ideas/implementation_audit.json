@@ -7860,35 +7860,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i232_clifford_rotor_threat_network",
       "idea_id": "i232",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "clifford_rotor_threat_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "clifford_rotor_threat_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8174,12 +8172,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 221,
-      "shared_probe_variant": 19
+      "bespoke_model": 222,
+      "shared_probe_variant": 18
     },
     "by_metadata_kind": {
-      "bespoke_model": 221,
-      "shared_probe_variant": 19
+      "bespoke_model": 222,
+      "shared_probe_variant": 18
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8200,7 +8198,6 @@
       "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i176_source_rate_calibrated_objective",
       "ideas/i178_defender_exhaustion_cascade_network",
-      "ideas/i232_clifford_rotor_threat_network",
       "ideas/i233_tracy_widom_level_spacing_network",
       "ideas/i234_lindstrom_gessel_viennot_path_network"
     ],

@@ -5161,6 +5161,17 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "riccati_hamiltonian_imag_count",
         },
     ),
+    (
+        "i232",
+        "ideas/i232_clifford_rotor_threat_network",
+        "clifford_rotor_threat_network",
+        {
+            "clifford_rotor_bivector_norm_mean",
+            "clifford_chirality_score",
+            "clifford_sandwich_residual",
+            "clifford_grade2_message_mean",
+        },
+    ),
 ]
 
 
