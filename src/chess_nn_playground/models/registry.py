@@ -425,6 +425,9 @@ from chess_nn_playground.models.tactical_controllability_gramian_network import 
 from chess_nn_playground.models.support_polar_zonotope import (
     build_support_polar_zonotope_certificate_network_from_config,
 )
+from chess_nn_playground.models.support_function_envelope_network import (
+    build_support_function_envelope_network_from_config,
+)
 from chess_nn_playground.models.loop_frustration_curvature_network import (
     build_loop_frustration_curvature_network_from_config,
 )
@@ -721,6 +724,7 @@ MODEL_BUILDERS = {
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
     "tactical_controllability_gramian_network": build_tactical_controllability_gramian_network_from_config,
     "support_polar_zonotope_certificate_network": build_support_polar_zonotope_certificate_network_from_config,
+    "support_function_envelope_network": build_support_function_envelope_network_from_config,
     "loop_frustration_curvature_network": build_loop_frustration_curvature_network_from_config,
     "forcing_response_front_door_bottleneck": build_forcing_response_front_door_bottleneck_from_config,
     "chess_hypercut_polynomial_network": build_chess_hypercut_polynomial_network_from_config,
