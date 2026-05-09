@@ -20276,3 +20276,142 @@ def test_i195_minimal_edit_puzzle_distance_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.barrier_cut_puzzle_network import (
+        BarrierCutPuzzleNetwork,
+        build_barrier_cut_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i198_barrier_cut_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, BarrierCutPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "barrier_cut_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    barrier_steps = int(model.barrier_steps)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "attack_field",
+        "defense_field",
+        "target_field",
+        "final_attack_potential",
+        "reachable_target_value",
+        "barrier_absorbed_mass",
+        "barrier_total_absorbed",
+        "defense_gap",
+        "defense_gap_mean",
+        "defense_gap_max",
+        "attack_total_mass",
+        "defense_total_capacity",
+        "target_total_value",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["attack_field"].shape == (2, 8, 8)
+    assert output["defense_field"].shape == (2, 8, 8)
+    assert output["target_field"].shape == (2, 8, 8)
+    assert output["final_attack_potential"].shape == (2, 8, 8)
+    assert output["reachable_target_value"].shape == (2,)
+    assert output["barrier_absorbed_mass"].shape == (2, barrier_steps)
+    assert output["barrier_total_absorbed"].shape == (2,)
+    assert output["defense_gap"].shape == (2, 8, 8)
+    assert output["defense_gap_mean"].shape == (2,)
+    assert output["defense_gap_max"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The three softplus per-square fields must be non-negative.
+    assert (output["attack_field"] >= 0.0).all()
+    assert (output["defense_field"] >= 0.0).all()
+    assert (output["target_field"] >= 0.0).all()
+    assert (output["final_attack_potential"] >= 0.0).all()
+    assert (output["defense_gap"] >= 0.0).all()
+    assert (output["barrier_absorbed_mass"] >= 0.0).all()
+
+    # The diffusion kernel must be a probability simplex.
+    kernel = model.diffusion.diffusion_kernel().view(-1)
+    assert torch.isclose(kernel.sum(), torch.tensor(1.0), atol=1.0e-5)
+    assert (kernel >= 0.0).all()
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "barrier_cut_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, BarrierCutPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_barrier_cut_puzzle_network_from_config
+        is build_barrier_cut_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the diffusion kernel from the puzzle logit.
+    grad_model = build_barrier_cut_puzzle_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    kernel_grad = grad_model.diffusion.kernel_logits.grad
+    assert kernel_grad is not None
+    assert torch.isfinite(kernel_grad).all()
+    assert kernel_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i198"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
