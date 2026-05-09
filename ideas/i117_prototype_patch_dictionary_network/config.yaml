@@ -21,6 +21,8 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  num_prototypes: 32
+  patch_kernel: 3
   mechanism_family: sparse
   packet_profile: prototype_patch_dictionary_network
 training:

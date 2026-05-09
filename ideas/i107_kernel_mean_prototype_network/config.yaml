@@ -16,13 +16,13 @@ model:
   name: kernel_mean_prototype_network
   input_channels: 18
   num_classes: 1
-  channels: 64
+  token_dim: 64
   hidden_dim: 96
-  depth: 2
+  phi_dim: 128
+  num_prototypes: 8
+  head_hidden: 128
   dropout: 0.1
-  use_batchnorm: true
-  mechanism_family: sparse
-  packet_profile: kernel_mean_prototype_network
+  bandwidth: 1.0
 training:
   epochs: 20
   batch_size: 256

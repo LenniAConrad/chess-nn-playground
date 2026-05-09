@@ -6,6 +6,10 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2133_friday_
 
 Batch candidate rank: `6`.
 
-Working thesis: Chess positions vary greatly by material phase. Instead of one encoder for every position, condition low-rank adapter weights on material summaries while keeping a shared backbone. The architecture tests whether small material-conditioned rank updates impro...
+Working thesis: Chess positions vary greatly by material phase. Instead of one encoder for every position, condition low-rank adapter weights on material summaries while keeping a shared backbone. Concretely, a shared CNN encodes the board, a deterministic summary `s` of side-relative piece counts, side-to-move, castling/en-passant, and a smooth phase coordinate is computed from the simple_18 input, and selected hidden layers receive a per-sample LoRA-style update
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+```
+h_out = W h + b + (1 / r) * B(s) A(s) h
+```
+
+with rank `r ≪ d`, where `A(s)` and `B(s)` are produced by linear generators from a phase embedding of `s` and `B(s)` is zero-initialised. The architecture tests whether tiny material-conditioned rank updates improve over a shared-backbone-only model without letting material become a shortcut: rank is held small by construction, and the report exposes per-sample adapter norms and material readouts so material-bucket evaluation, rank ablations, and shortcut probes are first-class diagnostics.

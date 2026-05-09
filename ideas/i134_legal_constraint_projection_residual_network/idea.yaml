@@ -1,7 +1,7 @@
 idea_id: i134
 name: Legal-Constraint Projection Residual Network
 slug: legal_constraint_projection_residual_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: Even when the input board is legal, a learned latent explanation of
@@ -9,30 +9,33 @@ short_thesis: Even when the input board is legal, a learned latent explanation o
   legal-board constraints. Projecting those beliefs back onto a soft legal-board constraint
   set and reading...
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke implementation projects soft per-square piece beliefs onto a soft legal-board
+  constraint set (per-square simplex, per-piece-class count caps, king-count normalisation,
+  and pawn-rank masking) via a few differentiable alternating projection sweeps and
+  classifies from the projection residual.
+expected_advantage: Test the packet's proposed projection-residual signal under the
+  same puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus per-constraint residual energies, per-class residual
+  norms, belief entropy, and projected-vs-belief king totals saved to prediction artifacts.
+compute_notes: Compact convolutional trunk plus a 13-class per-square belief decoder
+  and a few alternating soft-legal-board projection sweeps with a small residual-map
+  CNN.
+implementation_status: implemented
 trainer_entrypoint: ideas/i134_legal_constraint_projection_residual_network/train.py
 config_path: ideas/i134_legal_constraint_projection_residual_network/config.yaml
 model_path: ideas/i134_legal_constraint_projection_residual_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation registered as `legal_constraint_projection_residual_network`,
+  backed by `src/chess_nn_playground/models/legal_constraint_projection_residual_network.py`;
+  wrapper delegates through `ideas/i134_legal_constraint_projection_residual_network/model.py`.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
 source_packet_candidate: Legal-Constraint Projection Residual Network
 source_packet_rank: 4
 source_packet_status: batch packet
 mechanism_family: convex
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model
