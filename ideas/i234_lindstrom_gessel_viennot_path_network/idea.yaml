@@ -1,33 +1,37 @@
 idea_id: i234
 name: Lindstrom-Gessel-Viennot Path Determinant Network
 slug: lindstrom_gessel_viennot_path_network
-status: scaffolded
+status: implemented
 created_at: '2026-05-05T15:50:00+00:00'
 author: Claude
 short_thesis: Builds a path-generating-function matrix M[i,j] = sum_paths(s_i -> t_j)
   prod edge_weights via Neumann series on a learned chess DAG; LGV lemma makes det(M)
   the signed enumerator of non-intersecting attacker-to-target k-tuples. Distinguishes
   overload/double-attack motifs algebraically.
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-05-05_1615_tuesday_local_lindstrom_gessel_viennot_path.md`;
-  uses a linear_algebra mechanism profile over board-only features.
-expected_advantage: Test the packet's proposed coupling/spectral/manifold mechanism
-  under the same puzzle_binary benchmark contract as the other linear-algebra ideas.
+novelty_claim: Bespoke LGV path-determinant readout over a learned DAG-restricted
+  Neumann resolvent; uses non-intersecting multi-path enumeration (det of soft
+  source/target path matrix) rather than eigenvalues or trace of a single Hermitian
+  operator.
+expected_advantage: Test the packet's proposed multi-path-determinant mechanism under
+  the same puzzle_binary benchmark contract as the other linear-algebra ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by the linear-algebra packet profile.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus LGV diagnostics (log|det M|, sign(det M), trace,
+  Frobenius norm, per-pair diagonal and off-diagonal L1, Neumann alpha, source /
+  target selection entropies).
+compute_notes: Compact convolutional trunk; learned 64x64 DAG-masked edge weight
+  matrix W with row-stochastic normalisation; truncated Neumann series of depth
+  `neumann_steps`; soft source/target selection of size `num_paths` and slogdet
+  readout of the resulting path matrix.
+implementation_status: implemented
 trainer_entrypoint: ideas/i234_lindstrom_gessel_viennot_path_network/train.py
 config_path: ideas/i234_lindstrom_gessel_viennot_path_network/config.yaml
 model_path: ideas/i234_lindstrom_gessel_viennot_path_network/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-05-05_1615_tuesday_local_lindstrom_gessel_viennot_path.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Bespoke Lindstrom-Gessel-Viennot path-determinant implementation registered
+  as `lindstrom_gessel_viennot_path_network`; the prior shared `ResearchPacketProbe`
+  scaffold has been removed.
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

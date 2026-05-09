@@ -5183,6 +5183,19 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "tracy_widom_regime_softmax",
         },
     ),
+    (
+        "i234",
+        "ideas/i234_lindstrom_gessel_viennot_path_network",
+        "lindstrom_gessel_viennot_path_network",
+        {
+            "lgv_log_abs_det",
+            "lgv_det_sign",
+            "lgv_path_matrix_trace",
+            "lgv_path_matrix_frobenius",
+            "lgv_path_diagonal",
+            "lgv_neumann_alpha",
+        },
+    ),
 ]
 
 

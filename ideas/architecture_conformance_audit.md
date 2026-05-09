@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `223`
+- Implemented architecture rows audited: `224`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -229,6 +229,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i231` | `ideas/i231_riccati_optimal_defense_network` | `riccati_optimal_defense_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i231_riccati_optimal_defense_network/model.py`<br>`src/chess_nn_playground/models/riccati_optimal_defense_network.py` | - |
 | `i232` | `ideas/i232_clifford_rotor_threat_network` | `clifford_rotor_threat_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i232_clifford_rotor_threat_network/model.py`<br>`src/chess_nn_playground/models/clifford_rotor_threat_network.py` | - |
 | `i233` | `ideas/i233_tracy_widom_level_spacing_network` | `tracy_widom_level_spacing_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i233_tracy_widom_level_spacing_network/model.py`<br>`src/chess_nn_playground/models/tracy_widom_level_spacing_network.py` | - |
+| `i234` | `ideas/i234_lindstrom_gessel_viennot_path_network` | `lindstrom_gessel_viennot_path_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i234_lindstrom_gessel_viennot_path_network/model.py`<br>`src/chess_nn_playground/models/lindstrom_gessel_viennot_path_network.py` | - |
 | `i235` | `ideas/i235_toda_isospectral_flow_network` | `toda_isospectral_flow_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i235_toda_isospectral_flow_network/model.py`<br>`src/chess_nn_playground/models/toda_isospectral_flow.py` | - |
 | `i236` | `ideas/i236_hadamard_spectrum_network` | `hadamard_spectrum_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i236_hadamard_spectrum_network/model.py`<br>`src/chess_nn_playground/models/hadamard_spectrum.py` | - |
 | `i237` | `ideas/i237_cayley_orthogonal_network` | `cayley_orthogonal_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i237_cayley_orthogonal_network/model.py`<br>`src/chess_nn_playground/models/cayley_orthogonal.py` | - |
