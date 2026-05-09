@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `224`
+- Implemented architecture rows audited: `225`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -133,6 +133,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i121` | `ideas/i121_morphological_threat_field_network` | `morphological_threat_field_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i121_morphological_threat_field_network/model.py`<br>`src/chess_nn_playground/models/morphological_threat_field_network.py` | - |
 | `i122` | `ideas/i122_invertible_board_coupling_network` | `invertible_board_coupling_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i122_invertible_board_coupling_network/model.py`<br>`src/chess_nn_playground/models/invertible_board_coupling_network.py` | - |
 | `i123` | `ideas/i123_sparse_expert_board_router` | `sparse_expert_board_router` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i123_sparse_expert_board_router/model.py`<br>`src/chess_nn_playground/models/sparse_expert_board_router.py` | - |
+| `i124` | `ideas/i124_local_neighborhood_geometry_network` | `local_neighborhood_geometry_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i124_local_neighborhood_geometry_network/model.py`<br>`src/chess_nn_playground/models/local_neighborhood_geometry_network.py` | - |
 | `i125` | `ideas/i125_ray_state_space_scan_network` | `ray_state_space_scan_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i125_ray_state_space_scan_network/model.py`<br>`src/chess_nn_playground/models/ray_state_space_scan.py` | - |
 | `i126` | `ideas/i126_pawn_skeleton_barrier_network` | `pawn_skeleton_barrier_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i126_pawn_skeleton_barrier_network/model.py`<br>`src/chess_nn_playground/models/pawn_skeleton_barrier.py` | - |
 | `i127` | `ideas/i127_square_color_parity_mixer` | `square_color_parity_mixer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i127_square_color_parity_mixer/model.py`<br>`src/chess_nn_playground/models/square_color_parity_mixer.py` | - |

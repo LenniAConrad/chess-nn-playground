@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 224 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 16 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 225 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 15 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -26,7 +26,6 @@ These folders were previously easy to read as distinct implemented architectures
 
 - `ideas/i066_bispectral_phase_coupling_board_network`
 - `ideas/i118_channel_dropout_consensus_network`
-- `ideas/i124_local_neighborhood_geometry_network`
 - `ideas/i137_commutative_view_consistency_network`
 - `ideas/i138_support_function_envelope_network`
 - `ideas/i139_soft_majorization_line_sorter`
@@ -168,7 +167,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i121` | `ideas/i121_morphological_threat_field_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `morphological_threat_field_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i122` | `ideas/i122_invertible_board_coupling_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `invertible_board_coupling_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i123` | `ideas/i123_sparse_expert_board_router` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_expert_board_router` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i124` | `ideas/i124_local_neighborhood_geometry_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `local_neighborhood_geometry_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i124` | `ideas/i124_local_neighborhood_geometry_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `local_neighborhood_geometry_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i125` | `ideas/i125_ray_state_space_scan_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_state_space_scan_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i126` | `ideas/i126_pawn_skeleton_barrier_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pawn_skeleton_barrier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i127` | `ideas/i127_square_color_parity_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `square_color_parity_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |

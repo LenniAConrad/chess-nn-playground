@@ -551,3 +551,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "lindstrom_gessel_viennot_path_network"
 ]
+RESEARCH_PACKET_MODEL_NAMES = [
+    name for name in RESEARCH_PACKET_MODEL_NAMES if name != "local_neighborhood_geometry_network"
+]

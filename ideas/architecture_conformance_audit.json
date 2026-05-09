@@ -2421,6 +2421,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i124_local_neighborhood_geometry_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i124_local_neighborhood_geometry_network",
+      "idea_id": "i124",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "local_neighborhood_geometry_network",
+      "slug": "local_neighborhood_geometry_network",
+      "source_files": [
+        "ideas/i124_local_neighborhood_geometry_network/model.py",
+        "src/chess_nn_playground/models/local_neighborhood_geometry_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i125_ray_state_space_scan_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4604,6 +4624,7 @@
       "ideas/i121_morphological_threat_field_network",
       "ideas/i122_invertible_board_coupling_network",
       "ideas/i123_sparse_expert_board_router",
+      "ideas/i124_local_neighborhood_geometry_network",
       "ideas/i125_ray_state_space_scan_network",
       "ideas/i126_pawn_skeleton_barrier_network",
       "ideas/i127_square_color_parity_mixer",
@@ -4708,7 +4729,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 224,
+    "implemented_architecture_count": 225,
     "issue_folders": [],
     "validation_issue_count": 0
   }

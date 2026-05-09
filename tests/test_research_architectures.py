@@ -5196,6 +5196,19 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lgv_neumann_alpha",
         },
     ),
+    (
+        "i124",
+        "ideas/i124_local_neighborhood_geometry_network",
+        "local_neighborhood_geometry_network",
+        {
+            "lng_center_embedding",
+            "lng_view_deltas",
+            "lng_delta_norms",
+            "lng_cosine_delta_offdiag",
+            "lng_local_covariance_spectrum",
+            "lng_anisotropy_ratio",
+        },
+    ),
 ]
 
 
