@@ -552,7 +552,6 @@ RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "lindstrom_gessel_viennot_path_network"
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
-<<<<<<< HEAD
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "low_displacement_rank_board_operator"
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
@@ -560,7 +559,7 @@ RESEARCH_PACKET_MODEL_NAMES = [
 ]
 RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "source_rate_calibrated_objective"
-=======
+]
+RESEARCH_PACKET_MODEL_NAMES = [
     name for name in RESEARCH_PACKET_MODEL_NAMES if name != "defender_exhaustion_cascade_network"
->>>>>>> loop-h
 ]
