@@ -2821,6 +2821,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i152_iterative_logit_refinement_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i152_iterative_logit_refinement_cnn",
+      "idea_id": "i152",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "iterative_logit_refinement_cnn",
+      "slug": "iterative_logit_refinement_cnn",
+      "source_files": [
+        "ideas/i152_iterative_logit_refinement_cnn/model.py",
+        "src/chess_nn_playground/models/iterative_logit_refinement_cnn.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i153_agreement_variance_head_net/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4684,6 +4704,7 @@
       "ideas/i147_specialist_head_cnn",
       "ideas/i150_early_exit_cascade_boardnet",
       "ideas/i151_auxiliary_reconstruction_boardnet",
+      "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i153_agreement_variance_head_net",
       "ideas/i154_adapter_sandwich_residual_cnn",
       "ideas/i155_capsule_motif_boardnet",
@@ -4771,7 +4792,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 227,
+    "implemented_architecture_count": 228,
     "issue_folders": [],
     "validation_issue_count": 0
   }

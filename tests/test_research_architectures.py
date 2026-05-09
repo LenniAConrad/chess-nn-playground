@@ -5239,6 +5239,24 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "piece_density",
         },
     ),
+    (
+        "i152",
+        "ideas/i152_iterative_logit_refinement_cnn",
+        "iterative_logit_refinement_cnn",
+        {
+            "initial_logit",
+            "final_logit",
+            "step_logits",
+            "correction_norms",
+            "correction_norm_mean",
+            "correction_total",
+            "final_minus_initial",
+            "flip_after_step1",
+            "confidence_growth",
+            "trunk_feature_energy",
+            "latent_norm",
+        },
+    ),
 ]
 
 

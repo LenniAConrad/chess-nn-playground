@@ -578,6 +578,9 @@ from chess_nn_playground.models.soft_majorization_line_sorter import (
 from chess_nn_playground.models.convnext_boardnet import (
     build_convnext_boardnet_from_config,
 )
+from chess_nn_playground.models.iterative_logit_refinement_cnn import (
+    build_iterative_logit_refinement_cnn_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -787,6 +790,7 @@ MODEL_BUILDERS = {
     "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
     "soft_majorization_line_sorter": build_soft_majorization_line_sorter_from_config,
     "convnext_boardnet": build_convnext_boardnet_from_config,
+    "iterative_logit_refinement_cnn": build_iterative_logit_refinement_cnn_from_config,
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
     "agreement_variance_head_net": build_agreement_variance_head_net_from_config,

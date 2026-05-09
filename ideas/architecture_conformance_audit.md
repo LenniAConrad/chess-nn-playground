@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `227`
+- Implemented architecture rows audited: `228`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -153,6 +153,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i147` | `ideas/i147_specialist_head_cnn` | `specialist_head_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i147_specialist_head_cnn/model.py`<br>`src/chess_nn_playground/models/specialist_head_cnn.py` | - |
 | `i150` | `ideas/i150_early_exit_cascade_boardnet` | `early_exit_cascade_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i150_early_exit_cascade_boardnet/model.py`<br>`src/chess_nn_playground/models/early_exit_cascade_boardnet.py` | - |
 | `i151` | `ideas/i151_auxiliary_reconstruction_boardnet` | `auxiliary_reconstruction_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i151_auxiliary_reconstruction_boardnet/model.py`<br>`src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py` | - |
+| `i152` | `ideas/i152_iterative_logit_refinement_cnn` | `iterative_logit_refinement_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i152_iterative_logit_refinement_cnn/model.py`<br>`src/chess_nn_playground/models/iterative_logit_refinement_cnn.py` | - |
 | `i153` | `ideas/i153_agreement_variance_head_net` | `agreement_variance_head_net` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i153_agreement_variance_head_net/model.py`<br>`src/chess_nn_playground/models/agreement_variance_head_net.py` | - |
 | `i154` | `ideas/i154_adapter_sandwich_residual_cnn` | `adapter_sandwich_residual_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i154_adapter_sandwich_residual_cnn/model.py`<br>`src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py` | - |
 | `i155` | `ideas/i155_capsule_motif_boardnet` | `capsule_motif_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i155_capsule_motif_boardnet/model.py`<br>`src/chess_nn_playground/models/capsule_motif_boardnet.py` | - |

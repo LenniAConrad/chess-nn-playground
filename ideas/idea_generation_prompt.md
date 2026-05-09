@@ -1837,13 +1837,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i152_iterative_logit_refinement_cnn",
       "idea_id": "i152",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Iterative Logit Refinement CNN",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke iterative logit-refinement classifier \u2014 CNN trunk plus pooled latent feed an initial logit head, then `T` weight-tied (or optionally untied) correction MLPs each emit a clamped `0.25 * tanh` logit delta conditioned on `[latent, previous logit, confidence features]`, refining evidence in logit space rather than in feature maps. Distinct from residual CNNs, fixed-point residual defects, and the proposal-conditioned ResearchPacketProbe scaffold.",
+      "output_heads": "One puzzle logit (final refined logit `l_T`) plus refinement diagnostics \u2014 initial_logit, final_logit, step_logits, correction_norms, correction_norm_mean, correction_total, final_minus_initial, flip_after_step1, confidence_growth, trunk_feature_energy, latent_norm \u2014 saved to prediction artifacts.",
       "short_thesis": "Instead of producing a single logit vector at the end, let a model make an initial prediction and then apply several learned correction steps from shared board features. The model tests whether puzzle evidence is better accumulated as staged corrections.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
