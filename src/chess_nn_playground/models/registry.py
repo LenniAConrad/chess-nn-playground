@@ -83,6 +83,9 @@ from chess_nn_playground.models.grassmannian_principal_angle_bottleneck import (
 from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
     build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
 )
+from chess_nn_playground.models.pivot_trace_elimination_network import (
+    build_pivot_trace_elimination_network_from_config,
+)
 from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
     build_polar_procrustes_alignment_bottleneck_from_config,
 )
@@ -711,6 +714,7 @@ MODEL_BUILDERS = {
     "tropical_constraint_circuit_network": build_tropical_constraint_circuit_network_from_config,
     "grassmannian_principal_angle_bottleneck": build_grassmannian_principal_angle_bottleneck_from_config,
     "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
+    "pivot_trace_elimination_network": build_pivot_trace_elimination_network_from_config,
     "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
     "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
     "piece_token_cnn_hybrid": build_piece_token_cnn_hybrid_from_config,

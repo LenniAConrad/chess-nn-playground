@@ -5196,6 +5196,22 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lgv_neumann_alpha",
         },
     ),
+    (
+        "i142",
+        "ideas/i142_pivot_trace_elimination_network",
+        "pivot_trace_elimination_network",
+        {
+            "log_pivots",
+            "update_norms",
+            "residual_norms",
+            "cond_ratio",
+            "final_residual",
+            "log_determinant",
+            "matrix",
+            "group_summaries",
+            "group_masses",
+        },
+    ),
 ]
 
 
