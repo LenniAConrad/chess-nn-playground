@@ -400,6 +400,9 @@ from chess_nn_playground.models.tracy_widom_level_spacing_network import (
 from chess_nn_playground.models.lindstrom_gessel_viennot_path_network import (
     build_lindstrom_gessel_viennot_path_network_from_config,
 )
+from chess_nn_playground.models.low_displacement_rank_board_operator import (
+    build_low_displacement_rank_board_operator_from_config,
+)
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
@@ -569,6 +572,12 @@ from chess_nn_playground.models.zobrist_kernel_feature_network import (
 from chess_nn_playground.models.low_rank_signed_cut_query_network import (
     build_low_rank_signed_cut_query_network_from_config,
 )
+from chess_nn_playground.models.shallow_wide_residual_boardnet import (
+    build_shallow_wide_residual_boardnet_from_config,
+)
+from chess_nn_playground.models.source_rate_calibrated_objective import (
+    build_source_rate_calibrated_objective_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -691,6 +700,7 @@ MODEL_BUILDERS = {
     "clifford_rotor_threat_network": build_clifford_rotor_threat_network_from_config,
     "tracy_widom_level_spacing_network": build_tracy_widom_level_spacing_network_from_config,
     "lindstrom_gessel_viennot_path_network": build_lindstrom_gessel_viennot_path_network_from_config,
+    "low_displacement_rank_board_operator": build_low_displacement_rank_board_operator_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
@@ -775,6 +785,8 @@ MODEL_BUILDERS = {
     "legal_constraint_projection_residual_network": build_legal_constraint_projection_residual_network_from_config,
     "zobrist_kernel_feature_network": build_zobrist_kernel_feature_network_from_config,
     "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
+    "shallow_wide_residual_boardnet": build_shallow_wide_residual_boardnet_from_config,
+    "source_rate_calibrated_objective": build_source_rate_calibrated_objective_from_config,
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
     "agreement_variance_head_net": build_agreement_variance_head_net_from_config,

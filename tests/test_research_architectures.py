@@ -5196,6 +5196,46 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lgv_neumann_alpha",
         },
     ),
+    (
+        "i140",
+        "ideas/i140_low_displacement_rank_board_operator",
+        "low_displacement_rank_board_operator",
+        {
+            "ldr_energy_t_rank",
+            "ldr_energy_t_file",
+            "ldr_energy_h_diag",
+            "ldr_energy_h_anti",
+            "ldr_energy_low_rank",
+            "ldr_operator_response_residual",
+            "ldr_displacement_residual_norm",
+        },
+    ),
+    (
+        "i148",
+        "ideas/i148_shallow_wide_residual_boardnet",
+        "shallow_wide_residual_boardnet",
+        {
+            "swrb_pool_mean_norm",
+            "swrb_pool_max_max",
+            "swrb_pool_std_norm",
+            "swrb_se_gate_mean",
+            "swrb_residual_energy",
+            "swrb_count_head_logit",
+        },
+    ),
+    (
+        "i176",
+        "ideas/i176_source_rate_calibrated_objective",
+        "source_rate_calibrated_objective",
+        {
+            "source_rate_puzzle_evidence",
+            "source_rate_near_puzzle_evidence",
+            "source_rate_random_negative_evidence",
+            "source_rate_threshold_tau",
+            "source_rate_temperature",
+            "source_rate_soft_indicator",
+        },
+    ),
 ]
 
 

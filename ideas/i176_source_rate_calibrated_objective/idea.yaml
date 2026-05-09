@@ -1,36 +1,36 @@
 idea_id: i176
 name: Source-Rate Calibrated Objective
 slug: source_rate_calibrated_objective
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'The current benchmark''s central question is not only "is F1 high?"
   It is:'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`;
-  uses a robustness mechanism profile over board-only features rather than generic
-  CNN-only pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  carries the rate-calibrated objective into the model by emitting learnable tau /
+  temperature plus per-fine-class evidence channels.
+expected_advantage: Test the packet's rate-calibrated objective by exposing tau, temp,
+  and per-class evidence channels as model state on the puzzle_binary contract.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus per-class evidence channels and the soft-rate
+  calibration outputs (`tau`, `temp`, `soft_indicator`) saved to prediction artifacts.
+compute_notes: Compact convolutional trunk with three evidence heads and learnable
+  calibration parameters (`tau`, `temp`).
+implementation_status: implemented
 trainer_entrypoint: ideas/i176_source_rate_calibrated_objective/train.py
 config_path: ideas/i176_source_rate_calibrated_objective/config.yaml
 model_path: ideas/i176_source_rate_calibrated_objective/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Bespoke implementation of the markdown architecture; the rate-calibrated
+  objective is realised as model state (learnable `tau`, `temp`, per-fine-class
+  evidence channels) so the soft-rate penalty can be wired straight onto the
+  forward output dict.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md
 source_packet_candidate: Source-Rate Calibrated Objective
 source_packet_rank: 7
 source_packet_status: batch packet
 mechanism_family: robustness
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

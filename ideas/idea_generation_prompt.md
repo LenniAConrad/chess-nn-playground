@@ -1693,13 +1693,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i140_low_displacement_rank_board_operator",
       "idea_id": "i140",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Low-Displacement-Rank Board Operator",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke 64x64 board operator built as an explicit sum of structured generators (rank/file Toeplitz plus main / anti-diagonal Hankel-like mixers and a small low-rank residual) so that the Sylvester displacement A - Z A Z^T is low rank by construction; per-component response energies and the displacement-residual norm are exposed as diagnostics.",
+      "output_heads": "One puzzle logit plus low-displacement-rank diagnostics (per-component T_rank / T_file / H_diag / H_anti / U V^T response energies, the operator response residual, and the displacement residual norm).",
       "short_thesis": "Global square mixing can be parameterized by structured matrices instead of dense attention or convolutions. A low-displacement-rank operator over the flattened board can express long-range interactions with Toeplitz/Hankel-like structure and few parameters.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -1789,13 +1789,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i148_shallow_wide_residual_boardnet",
       "idea_id": "i148",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Shallow Wide Residual BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke shallow-wide residual board network that combines optional coordinate planes, squeeze-excite residual blocks at constant width, a strong mean / max / std pooled head, and an optional material count side-input so the width-vs-depth question can be answered against the deeper residual_cnn baseline with ablate-able components.",
+      "output_heads": "One puzzle logit plus pooled-head and SE-gate diagnostics (swrb_pool_mean_norm, swrb_pool_max_max, swrb_pool_std_norm, swrb_se_gate_mean, swrb_residual_energy, swrb_count_head_logit).",
       "short_thesis": "On an `8 x 8` board, depth may be less useful than width and a good head. A shallow wide residual CNN can test whether the benchmark wants broad feature extraction rather than long convolutional stacks.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -2125,13 +2125,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i176_source_rate_calibrated_objective",
       "idea_id": "i176",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Source-Rate Calibrated Objective",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`; uses a robustness mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`; carries the rate-calibrated objective into the model by emitting learnable tau / temperature plus per-fine-class evidence channels.",
+      "output_heads": "One puzzle logit plus per-class evidence channels and the soft-rate calibration outputs (`tau`, `temp`, `soft_indicator`) saved to prediction artifacts.",
       "short_thesis": "The current benchmark's central question is not only \"is F1 high?\" It is:",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {
@@ -5717,18 +5717,18 @@ Before proposing anything, read the existing registry and idea folders. Here is 
       "created_at": "2026-04-30T15:50:01+00:00",
       "folder": "ideas/i176_source_rate_calibrated_objective",
       "idea_id": "i176",
-      "implementation_kind": "shared_probe_variant",
-      "implementation_status": "probe_scaffold_only",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
       "mechanism_family": "robustness",
       "name": "Source-Rate Calibrated Objective",
-      "notes": "Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
+      "notes": "Bespoke implementation of the markdown architecture; the rate-calibrated objective is realised as model state (learnable tau, temp, per-fine-class evidence channels) so the soft-rate penalty can be wired straight onto the forward output dict.",
       "short_thesis": "The current benchmark's central question is not only \"is F1 high?\" It is:",
       "slug": "source_rate_calibrated_objective",
       "source_packet_candidate": "Source-Rate Calibrated Objective",
       "source_packet_path": "ideas/research_packets/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md",
       "source_packet_rank": 7,
       "source_packet_status": "batch packet",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary"
     },
     {

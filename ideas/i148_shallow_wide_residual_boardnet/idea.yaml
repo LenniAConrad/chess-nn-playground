@@ -1,37 +1,42 @@
 idea_id: i148
 name: Shallow Wide Residual BoardNet
 slug: shallow_wide_residual_boardnet
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: On an `8 x 8` board, depth may be less useful than width and a good
   head. A shallow wide residual CNN can test whether the benchmark wants broad feature
   extraction rather than long convolutional stacks.
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Bespoke shallow-wide residual board network that combines optional
+  coordinate planes, squeeze-excite residual blocks at constant width, a strong
+  mean / max / std pooled head, and an optional material count side-input so the
+  width-vs-depth question can be answered against the deeper residual_cnn baseline
+  with ablate-able components.
+expected_advantage: Test whether a wide but shallow residual trunk plus a strong
+  pooled head matches or beats the deeper residual_cnn baseline on the puzzle_binary
+  benchmark.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus pooled-head and SE-gate diagnostics
+  (swrb_pool_mean_norm, swrb_pool_max_max, swrb_pool_std_norm,
+  swrb_se_gate_mean, swrb_residual_energy, swrb_count_head_logit).
+compute_notes: Wide stem Conv3x3 (input + 2 coord planes -> width); 2-3 residual
+  blocks of Conv3x3 + BN + ReLU + Conv3x3 + BN + SE-gate at constant width;
+  pooled head concatenates mean / max / std pooling; optional material count
+  side-MLP added to the trunk logit.
+implementation_status: implemented
 trainer_entrypoint: ideas/i148_shallow_wide_residual_boardnet/train.py
 config_path: ideas/i148_shallow_wide_residual_boardnet/config.yaml
 model_path: ideas/i148_shallow_wide_residual_boardnet/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Bespoke shallow-wide residual board network registered as
+  `shallow_wide_residual_boardnet`; the prior shared `ResearchPacketProbe`
+  scaffold has been removed.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md
 source_packet_candidate: Shallow Wide Residual BoardNet
 source_packet_rank: 6
 source_packet_status: batch packet
 mechanism_family: generic
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model
