@@ -1729,13 +1729,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i143_convnext_boardnet",
       "idea_id": "i143",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "ConvNeXt BoardNet",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke ConvNeXt-style classifier specialized to the 8x8 board, with depthwise spatial mixing, inverted channel MLPs, learned LayerScale residual scaling, deterministic coordinate planes (rank, file, center-distance, square color), and a four-pool head (mean, max, std, learned attention pool) \u2014 distinct from generic CNN baselines and from the proposal-conditioned ResearchPacketProbe scaffold.",
+      "output_heads": "One puzzle logit plus ConvNeXt-trunk diagnostics (convnext_feature_energy, pool_attention_entropy, pool_attention_peak, spatial_contrast, feature_std, coordinate_response, piece_density) saved to prediction artifacts.",
       "short_thesis": "Use a small ConvNeXt-style architecture adapted to `8 x 8` chess boards: depthwise spatial mixing, inverted channel MLPs, residual scaling, coordinate planes, and a strong global pooling head.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

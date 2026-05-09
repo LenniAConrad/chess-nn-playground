@@ -5225,6 +5225,20 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "smls_mean_concentration_per_line_type",
         },
     ),
+    (
+        "i143",
+        "ideas/i143_convnext_boardnet",
+        "convnext_boardnet",
+        {
+            "convnext_feature_energy",
+            "pool_attention_entropy",
+            "pool_attention_peak",
+            "spatial_contrast",
+            "feature_std",
+            "coordinate_response",
+            "piece_density",
+        },
+    ),
 ]
 
 

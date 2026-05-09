@@ -2701,6 +2701,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i143_convnext_boardnet/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i143_convnext_boardnet",
+      "idea_id": "i143",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "convnext_boardnet",
+      "slug": "convnext_boardnet",
+      "source_files": [
+        "ideas/i143_convnext_boardnet/model.py",
+        "src/chess_nn_playground/models/convnext_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i145_piece_plane_gated_cnn/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4658,6 +4678,7 @@
       "ideas/i135_zobrist_kernel_feature_network",
       "ideas/i136_low_rank_signed_cut_query_network",
       "ideas/i139_soft_majorization_line_sorter",
+      "ideas/i143_convnext_boardnet",
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
@@ -4750,7 +4771,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 226,
+    "implemented_architecture_count": 227,
     "issue_folders": [],
     "validation_issue_count": 0
   }

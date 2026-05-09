@@ -575,6 +575,9 @@ from chess_nn_playground.models.low_rank_signed_cut_query_network import (
 from chess_nn_playground.models.soft_majorization_line_sorter import (
     build_soft_majorization_line_sorter_from_config,
 )
+from chess_nn_playground.models.convnext_boardnet import (
+    build_convnext_boardnet_from_config,
+)
 
 
 MODEL_BUILDERS = {
@@ -783,6 +786,7 @@ MODEL_BUILDERS = {
     "zobrist_kernel_feature_network": build_zobrist_kernel_feature_network_from_config,
     "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
     "soft_majorization_line_sorter": build_soft_majorization_line_sorter_from_config,
+    "convnext_boardnet": build_convnext_boardnet_from_config,
     "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
     "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
     "agreement_variance_head_net": build_agreement_variance_head_net_from_config,
