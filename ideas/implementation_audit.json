@@ -6602,35 +6602,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i195_minimal_edit_puzzle_distance_network",
       "idea_id": "i195",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "minimal_edit_puzzle_distance_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "minimal_edit_puzzle_distance_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.minimal_edit_puzzle_distance_network.build_minimal_edit_puzzle_distance_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.minimal_edit_puzzle_distance_network.build_minimal_edit_puzzle_distance_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.minimal_edit_puzzle_distance_network.MinimalEditPuzzleDistanceNetwork",
+          "chess_nn_playground.models.minimal_edit_puzzle_distance_network.build_minimal_edit_puzzle_distance_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6706,35 +6704,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i198_barrier_cut_puzzle_network",
       "idea_id": "i198",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "barrier_cut_puzzle_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "barrier_cut_puzzle_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.barrier_cut_puzzle_network.build_barrier_cut_puzzle_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.barrier_cut_puzzle_network.build_barrier_cut_puzzle_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.barrier_cut_puzzle_network.BarrierCutPuzzleNetwork",
+          "chess_nn_playground.models.barrier_cut_puzzle_network.build_barrier_cut_puzzle_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6742,35 +6738,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i199_tactical_hessian_spectrum_network",
       "idea_id": "i199",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tactical_hessian_spectrum_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tactical_hessian_spectrum_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tactical_hessian_spectrum_network.build_tactical_hessian_spectrum_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_hessian_spectrum_network.build_tactical_hessian_spectrum_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tactical_hessian_spectrum_network.TacticalHessianSpectrumNetwork",
+          "chess_nn_playground.models.tactical_hessian_spectrum_network.build_tactical_hessian_spectrum_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6778,35 +6772,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i200_absorbing_threat_markov_network",
       "idea_id": "i200",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "absorbing_threat_markov_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "absorbing_threat_markov_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.absorbing_threat_markov_network.build_absorbing_threat_markov_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.absorbing_threat_markov_network.build_absorbing_threat_markov_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.absorbing_threat_markov_network.AbsorbingThreatMarkovNetwork",
+          "chess_nn_playground.models.absorbing_threat_markov_network.build_absorbing_threat_markov_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6814,35 +6806,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i201_neural_clause_resolution_puzzle_network",
       "idea_id": "i201",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "neural_clause_resolution_puzzle_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "neural_clause_resolution_puzzle_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.neural_clause_resolution_puzzle_network.build_neural_clause_resolution_puzzle_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.neural_clause_resolution_puzzle_network.build_neural_clause_resolution_puzzle_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.neural_clause_resolution_puzzle_network.NeuralClauseResolutionPuzzleNetwork",
+          "chess_nn_playground.models.neural_clause_resolution_puzzle_network.build_neural_clause_resolution_puzzle_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6850,35 +6840,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i202_piece_liability_gradient_network",
       "idea_id": "i202",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "piece_liability_gradient_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "piece_liability_gradient_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.piece_liability_gradient_network.build_piece_liability_gradient_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.piece_liability_gradient_network.build_piece_liability_gradient_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.piece_liability_gradient_network.PieceLiabilityGradientNetwork",
+          "chess_nn_playground.models.piece_liability_gradient_network.build_piece_liability_gradient_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7770,35 +7758,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i229_williamson_symplectic_threat_network",
       "idea_id": "i229",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "williamson_symplectic_threat_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "williamson_symplectic_threat_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.williamson_symplectic_threat_network.build_williamson_symplectic_threat_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.williamson_symplectic_threat_network.build_williamson_symplectic_threat_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.williamson_symplectic_threat_network.build_williamson_symplectic_threat_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7806,35 +7792,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i230_magnus_bch_coupling_series_network",
       "idea_id": "i230",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "magnus_bch_coupling_series_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "magnus_bch_coupling_series_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.magnus_bch_coupling_series_network.build_magnus_bch_coupling_series_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.magnus_bch_coupling_series_network.build_magnus_bch_coupling_series_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.magnus_bch_coupling_series_network.build_magnus_bch_coupling_series_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7842,35 +7826,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i231_riccati_optimal_defense_network",
       "idea_id": "i231",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "riccati_optimal_defense_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "riccati_optimal_defense_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.riccati_optimal_defense_network.build_riccati_optimal_defense_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.riccati_optimal_defense_network.build_riccati_optimal_defense_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.riccati_optimal_defense_network.build_riccati_optimal_defense_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7878,35 +7860,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i232_clifford_rotor_threat_network",
       "idea_id": "i232",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "clifford_rotor_threat_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "clifford_rotor_threat_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.clifford_rotor_threat_network.build_clifford_rotor_threat_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7914,35 +7894,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i233_tracy_widom_level_spacing_network",
       "idea_id": "i233",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "tracy_widom_level_spacing_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "tracy_widom_level_spacing_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.tracy_widom_level_spacing_network.build_tracy_widom_level_spacing_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tracy_widom_level_spacing_network.build_tracy_widom_level_spacing_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.tracy_widom_level_spacing_network.build_tracy_widom_level_spacing_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -7950,35 +7928,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i234_lindstrom_gessel_viennot_path_network",
       "idea_id": "i234",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "lindstrom_gessel_viennot_path_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "lindstrom_gessel_viennot_path_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.lindstrom_gessel_viennot_path_network.build_lindstrom_gessel_viennot_path_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.lindstrom_gessel_viennot_path_network.build_lindstrom_gessel_viennot_path_network_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.lindstrom_gessel_viennot_path_network.build_lindstrom_gessel_viennot_path_network_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8192,12 +8168,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 212,
-      "shared_probe_variant": 28
+      "bespoke_model": 224,
+      "shared_probe_variant": 16
     },
     "by_metadata_kind": {
-      "bespoke_model": 212,
-      "shared_probe_variant": 28
+      "bespoke_model": 224,
+      "shared_probe_variant": 16
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8217,19 +8193,7 @@
       "ideas/i149_axial_rank_file_convnet",
       "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i176_source_rate_calibrated_objective",
-      "ideas/i178_defender_exhaustion_cascade_network",
-      "ideas/i195_minimal_edit_puzzle_distance_network",
-      "ideas/i198_barrier_cut_puzzle_network",
-      "ideas/i199_tactical_hessian_spectrum_network",
-      "ideas/i200_absorbing_threat_markov_network",
-      "ideas/i201_neural_clause_resolution_puzzle_network",
-      "ideas/i202_piece_liability_gradient_network",
-      "ideas/i229_williamson_symplectic_threat_network",
-      "ideas/i230_magnus_bch_coupling_series_network",
-      "ideas/i231_riccati_optimal_defense_network",
-      "ideas/i232_clifford_rotor_threat_network",
-      "ideas/i233_tracy_widom_level_spacing_network",
-      "ideas/i234_lindstrom_gessel_viennot_path_network"
+      "ideas/i178_defender_exhaustion_cascade_network"
     ],
     "total": 240,
     "unknown_folders": [],

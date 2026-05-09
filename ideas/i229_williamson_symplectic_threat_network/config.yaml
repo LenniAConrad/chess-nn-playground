@@ -21,8 +21,13 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: williamson_symplectic_threat_network
+  phase_n: 32
+  num_primitives: 16
+  primitive_rank: 4
+  lambda_floor: 1.0e-3
+  spd_floor: 1.0e-5
+  topk_d: 12
+  topk_eig: 8
 training:
   epochs: 20
   batch_size: 256

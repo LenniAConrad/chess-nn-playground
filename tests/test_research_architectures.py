@@ -5138,6 +5138,64 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
         "free_probability_r_transform_network",
         {"free_coupling_distance", "free_cumulant_mismatch"},
     ),
+    (
+        "i229",
+        "ideas/i229_williamson_symplectic_threat_network",
+        "williamson_symplectic_threat_network",
+        {"symplectic_spectrum", "symplectic_entropy", "heisenberg_slack"},
+    ),
+    (
+        "i230",
+        "ideas/i230_magnus_bch_coupling_series_network",
+        "magnus_bch_coupling_series_network",
+        {"magnus_norms", "magnus_bch_log_norm", "magnus_ratios", "magnus_normalized_norms"},
+    ),
+    (
+        "i231",
+        "ideas/i231_riccati_optimal_defense_network",
+        "riccati_optimal_defense_network",
+        {
+            "riccati_optimal_cost_J_star",
+            "riccati_care_residual_F",
+            "riccati_closed_loop_max_real",
+            "riccati_hamiltonian_imag_count",
+        },
+    ),
+    (
+        "i232",
+        "ideas/i232_clifford_rotor_threat_network",
+        "clifford_rotor_threat_network",
+        {
+            "clifford_rotor_bivector_norm_mean",
+            "clifford_chirality_score",
+            "clifford_sandwich_residual",
+            "clifford_grade2_message_mean",
+        },
+    ),
+    (
+        "i233",
+        "ideas/i233_tracy_widom_level_spacing_network",
+        "tracy_widom_level_spacing_network",
+        {
+            "tracy_widom_mean_spacing_ratio",
+            "tracy_widom_spacing_histogram",
+            "tracy_widom_spectral_form_factor",
+            "tracy_widom_regime_softmax",
+        },
+    ),
+    (
+        "i234",
+        "ideas/i234_lindstrom_gessel_viennot_path_network",
+        "lindstrom_gessel_viennot_path_network",
+        {
+            "lgv_log_abs_det",
+            "lgv_det_sign",
+            "lgv_path_matrix_trace",
+            "lgv_path_matrix_frobenius",
+            "lgv_path_diagonal",
+            "lgv_neumann_alpha",
+        },
+    ),
 ]
 
 
@@ -20117,6 +20175,1004 @@ def test_i136_low_rank_signed_cut_query_network_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i136"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i195_minimal_edit_puzzle_distance_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.minimal_edit_puzzle_distance_network import (
+        MinimalEditPuzzleDistanceNetwork,
+        build_minimal_edit_puzzle_distance_network_from_config,
+    )
+
+    folder = Path("ideas/i195_minimal_edit_puzzle_distance_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, MinimalEditPuzzleDistanceNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "minimal_edit_puzzle_distance_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    num_prototypes = int(model_cfg["num_prototypes"])
+    num_symbols = int(model_cfg["num_symbols"])
+    assert model.num_prototypes == num_prototypes
+    assert model.num_symbols == num_symbols
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "edit_distances_per_prototype",
+        "min_edit_distance",
+        "hard_min_edit_distance",
+        "nearest_prototype_index",
+        "prototype_assignment",
+        "assignment_entropy",
+        "per_square_min_cost",
+        "per_square_min_cost_mean",
+        "per_square_min_cost_max",
+        "mean_per_square_cost",
+        "max_per_square_cost",
+        "trunk_energy",
+        "symbol_distribution",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["edit_distances_per_prototype"].shape == (2, num_prototypes)
+    assert output["min_edit_distance"].shape == (2,)
+    assert output["hard_min_edit_distance"].shape == (2,)
+    assert output["nearest_prototype_index"].shape == (2,)
+    assert output["prototype_assignment"].shape == (2, num_prototypes)
+    assert output["assignment_entropy"].shape == (2,)
+    assert output["per_square_min_cost"].shape == (2, 8, 8)
+    assert output["symbol_distribution"].shape == (2, num_symbols, 8, 8)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Edit costs are bounded in [0, 1] per square so the per-prototype
+    # distance cannot exceed the number of squares.
+    assert (output["edit_distances_per_prototype"] >= -1.0e-6).all()
+    assert (output["edit_distances_per_prototype"] <= 64.0 + 1.0e-4).all()
+    assert (output["per_square_min_cost"] >= -1.0e-6).all()
+    assert (output["per_square_min_cost"] <= 1.0 + 1.0e-4).all()
+
+    # Soft min must lower-bound the hard min in floating-point.
+    assert (output["min_edit_distance"] <= output["hard_min_edit_distance"] + 1.0e-4).all()
+
+    # Per-square symbol distribution must be a valid probability simplex.
+    assert torch.allclose(
+        output["symbol_distribution"].sum(dim=1),
+        torch.ones(2, 8, 8),
+        atol=1.0e-5,
+    )
+
+    # Soft prototype assignment must sum to 1 per sample.
+    assert torch.allclose(
+        output["prototype_assignment"].sum(dim=1),
+        torch.ones(2),
+        atol=1.0e-5,
+    )
+
+    # The prototype bank must hold the requested number of prototypes
+    # and live in the same symbol simplex as the encoder output.
+    proto = model.prototype_bank()
+    assert proto.shape == (num_prototypes, num_symbols, 8, 8)
+    assert torch.allclose(proto.sum(dim=1), torch.ones(num_prototypes, 8, 8), atol=1.0e-5)
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "minimal_edit_puzzle_distance_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MinimalEditPuzzleDistanceNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_minimal_edit_puzzle_distance_network_from_config
+        is build_minimal_edit_puzzle_distance_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the prototype bank from the puzzle logit.
+    grad_model = build_minimal_edit_puzzle_distance_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    proto_grad = grad_model.prototype_bank.prototype_logits.grad
+    assert proto_grad is not None
+    assert torch.isfinite(proto_grad).all()
+    assert proto_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i195"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.barrier_cut_puzzle_network import (
+        BarrierCutPuzzleNetwork,
+        build_barrier_cut_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i198_barrier_cut_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, BarrierCutPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "barrier_cut_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    barrier_steps = int(model.barrier_steps)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "attack_field",
+        "defense_field",
+        "target_field",
+        "final_attack_potential",
+        "reachable_target_value",
+        "barrier_absorbed_mass",
+        "barrier_total_absorbed",
+        "defense_gap",
+        "defense_gap_mean",
+        "defense_gap_max",
+        "attack_total_mass",
+        "defense_total_capacity",
+        "target_total_value",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["attack_field"].shape == (2, 8, 8)
+    assert output["defense_field"].shape == (2, 8, 8)
+    assert output["target_field"].shape == (2, 8, 8)
+    assert output["final_attack_potential"].shape == (2, 8, 8)
+    assert output["reachable_target_value"].shape == (2,)
+    assert output["barrier_absorbed_mass"].shape == (2, barrier_steps)
+    assert output["barrier_total_absorbed"].shape == (2,)
+    assert output["defense_gap"].shape == (2, 8, 8)
+    assert output["defense_gap_mean"].shape == (2,)
+    assert output["defense_gap_max"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The three softplus per-square fields must be non-negative.
+    assert (output["attack_field"] >= 0.0).all()
+    assert (output["defense_field"] >= 0.0).all()
+    assert (output["target_field"] >= 0.0).all()
+    assert (output["final_attack_potential"] >= 0.0).all()
+    assert (output["defense_gap"] >= 0.0).all()
+    assert (output["barrier_absorbed_mass"] >= 0.0).all()
+
+    # The diffusion kernel must be a probability simplex.
+    kernel = model.diffusion.diffusion_kernel().view(-1)
+    assert torch.isclose(kernel.sum(), torch.tensor(1.0), atol=1.0e-5)
+    assert (kernel >= 0.0).all()
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "barrier_cut_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, BarrierCutPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_barrier_cut_puzzle_network_from_config
+        is build_barrier_cut_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the diffusion kernel from the puzzle logit.
+    grad_model = build_barrier_cut_puzzle_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    kernel_grad = grad_model.diffusion.kernel_logits.grad
+    assert kernel_grad is not None
+    assert torch.isfinite(kernel_grad).all()
+    assert kernel_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i198"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_hessian_spectrum_network import (
+        TacticalHessianSpectrumNetwork,
+        build_tactical_hessian_spectrum_network_from_config,
+    )
+
+    folder = Path("ideas/i199_tactical_hessian_spectrum_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalHessianSpectrumNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_hessian_spectrum_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    K = int(model.num_directions)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "evidence_field",
+        "evidence_total",
+        "perturbation_directions",
+        "directional_gradient",
+        "hessian",
+        "hessian_eigenvalues",
+        "top_eigenvalue",
+        "min_eigenvalue",
+        "spectral_gap",
+        "trace",
+        "concavity",
+        "positive_curvature",
+        "spectral_radius",
+        "gradient_norm",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["evidence_field"].shape == (2, 8, 8)
+    assert output["evidence_total"].shape == (2,)
+    assert output["perturbation_directions"].shape == (K, input_channels, 8, 8)
+    assert output["directional_gradient"].shape == (2, K)
+    assert output["hessian"].shape == (2, K, K)
+    assert output["hessian_eigenvalues"].shape == (2, K)
+    assert output["top_eigenvalue"].shape == (2,)
+    assert output["min_eigenvalue"].shape == (2,)
+    assert output["spectral_gap"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The Hessian must be (numerically) symmetric.
+    H = output["hessian"]
+    assert torch.allclose(H, H.transpose(1, 2), atol=1.0e-5)
+
+    # Eigenvalues must be ascending and sharpness scalars must be consistent.
+    eigs = output["hessian_eigenvalues"]
+    assert (eigs[:, 1:] >= eigs[:, :-1] - 1.0e-4).all()
+    assert torch.allclose(output["top_eigenvalue"], eigs[:, -1])
+    assert torch.allclose(output["min_eigenvalue"], eigs[:, 0])
+    assert (output["concavity"] >= 0.0).all()
+    assert (output["positive_curvature"] >= 0.0).all()
+    assert (output["spectral_radius"] >= 0.0).all()
+
+    # Perturbation directions are unit Frobenius norm.
+    direction_norms = output["perturbation_directions"].flatten(1).norm(dim=-1)
+    assert torch.allclose(direction_norms, torch.ones_like(direction_norms), atol=1.0e-4)
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_hessian_spectrum_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalHessianSpectrumNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_hessian_spectrum_network_from_config
+        is build_tactical_hessian_spectrum_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the per-direction log-scale parameter
+    # from the puzzle logit, since the perturbation basis is what the
+    # spectral readout depends on.
+    grad_model = build_tactical_hessian_spectrum_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    direction_grad = grad_model.direction_log_scales.grad
+    assert direction_grad is not None
+    assert torch.isfinite(direction_grad).all()
+    assert direction_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i199"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.absorbing_threat_markov_network import (
+        AbsorbingThreatMarkovNetwork,
+        STATE_TOKEN_NAMES,
+        build_absorbing_threat_markov_network_from_config,
+    )
+
+    folder = Path("ideas/i200_absorbing_threat_markov_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AbsorbingThreatMarkovNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "absorbing_threat_markov_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    K = int(model.state_count)
+    T = int(model.transition_steps)
+    transient = K - 2
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "board_context",
+        "state_embeddings",
+        "initial_distribution",
+        "transition_matrix",
+        "state_distributions",
+        "final_distribution",
+        "prob_proof",
+        "prob_disproof",
+        "proof_minus_disproof",
+        "expected_steps",
+        "transient_initial",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["board_context"].shape == (2, model.state_dim)
+    assert output["state_embeddings"].shape == (K, model.state_dim)
+    assert output["initial_distribution"].shape == (2, K)
+    assert output["transition_matrix"].shape == (2, K, K)
+    assert output["state_distributions"].shape == (2, T + 1, K)
+    assert output["final_distribution"].shape == (2, K)
+    assert output["prob_proof"].shape == (2,)
+    assert output["prob_disproof"].shape == (2,)
+    assert output["proof_minus_disproof"].shape == (2,)
+    assert output["expected_steps"].shape == (2,)
+    assert output["transient_initial"].shape == (2, transient)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Initial distribution must be a probability distribution that
+    # places zero mass on the two absorbing states.
+    pi_0 = output["initial_distribution"]
+    assert torch.allclose(pi_0.sum(dim=-1), torch.ones(2), atol=1.0e-5)
+    assert torch.allclose(pi_0[:, model.proof_index], torch.zeros(2), atol=1.0e-6)
+    assert torch.allclose(pi_0[:, model.disproof_index], torch.zeros(2), atol=1.0e-6)
+    assert (pi_0 >= -1.0e-6).all()
+
+    # Transition matrix must be row-stochastic.
+    P = output["transition_matrix"]
+    assert torch.allclose(P.sum(dim=-1), torch.ones(2, K), atol=1.0e-5)
+    assert (P >= -1.0e-6).all()
+
+    # Absorbing rows must be identity rows.
+    proof_row = P[:, model.proof_index]
+    disproof_row = P[:, model.disproof_index]
+    expected_proof = torch.zeros(K)
+    expected_proof[model.proof_index] = 1.0
+    expected_disproof = torch.zeros(K)
+    expected_disproof[model.disproof_index] = 1.0
+    assert torch.allclose(proof_row, expected_proof.expand_as(proof_row), atol=1.0e-6)
+    assert torch.allclose(disproof_row, expected_disproof.expand_as(disproof_row), atol=1.0e-6)
+
+    # Power iteration trajectory must start at pi_0 and end at pi_T.
+    trajectory = output["state_distributions"]
+    assert torch.allclose(trajectory[:, 0], pi_0)
+    assert torch.allclose(trajectory[:, -1], output["final_distribution"])
+    # All trajectory rows must be probability distributions.
+    assert torch.allclose(trajectory.sum(dim=-1), torch.ones(2, T + 1), atol=1.0e-5)
+    # Absorbing-mass total is monotonically non-decreasing along the
+    # trajectory because absorbing rows are identity.
+    absorb_mass = trajectory[:, :, model.proof_index] + trajectory[:, :, model.disproof_index]
+    assert (absorb_mass[:, 1:] - absorb_mass[:, :-1] >= -1.0e-6).all()
+
+    # Sanity: prob_proof / prob_disproof / expected_steps line up with
+    # the trajectory.
+    assert torch.allclose(output["prob_proof"], trajectory[:, -1, model.proof_index])
+    assert torch.allclose(output["prob_disproof"], trajectory[:, -1, model.disproof_index])
+    assert (output["prob_proof"] >= -1.0e-6).all()
+    assert (output["prob_disproof"] >= -1.0e-6).all()
+    assert (output["expected_steps"] >= -1.0e-6).all()
+    assert (output["expected_steps"] <= float(T) + 1.0e-4).all()
+
+    # Named state tokens are exposed for diagnostics.
+    assert STATE_TOKEN_NAMES[-2:] == ("proof_absorb", "disproof_absorb")
+    assert model.state_token_names()[-2:] == ("proof_absorb", "disproof_absorb")
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "absorbing_threat_markov_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AbsorbingThreatMarkovNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_absorbing_threat_markov_network_from_config
+        is build_absorbing_threat_markov_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the state-embedding parameter from the
+    # puzzle logit, since the absorption read-out depends on it.
+    grad_model = build_absorbing_threat_markov_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    state_grad = grad_model.state_embeddings.grad
+    assert state_grad is not None
+    assert torch.isfinite(state_grad).all()
+    assert state_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i200"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i201_neural_clause_resolution_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.neural_clause_resolution_puzzle_network import (
+        NeuralClauseResolutionPuzzleNetwork,
+        PREDICATE_TOKEN_NAMES,
+        GLOBAL_PREDICATE_TOKEN_NAMES,
+        build_neural_clause_resolution_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i201_neural_clause_resolution_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NeuralClauseResolutionPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "neural_clause_resolution_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    P_u = int(model.num_unary_predicates)
+    P_g = int(model.num_global_predicates)
+    P = P_u + P_g
+    C = int(model.clause_count)
+    A = int(model.body_arity)
+    R = int(model.relation_count)
+    K = int(model.resolution_rounds)
+    S = int(model.num_squares)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "initial_unary_facts",
+        "initial_global_facts",
+        "final_unary_facts",
+        "final_global_facts",
+        "unary_fact_trajectory",
+        "global_fact_trajectory",
+        "clause_activations",
+        "clause_head_selector",
+        "clause_body_selector",
+        "clause_body_relation",
+        "predicate_embeddings",
+        "relation_kernels",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["initial_unary_facts"].shape == (2, P_u, S)
+    assert output["initial_global_facts"].shape == (2, P_g)
+    assert output["final_unary_facts"].shape == (2, P_u, S)
+    assert output["final_global_facts"].shape == (2, P_g)
+    assert output["unary_fact_trajectory"].shape == (2, K + 1, P_u, S)
+    assert output["global_fact_trajectory"].shape == (2, K + 1, P_g)
+    assert output["clause_activations"].shape == (2, K, C, S)
+    assert output["clause_head_selector"].shape == (C, P)
+    assert output["clause_body_selector"].shape == (C, A, P)
+    assert output["clause_body_relation"].shape == (C, A, R)
+    assert output["predicate_embeddings"].shape == (P, model.predicate_dim)
+    assert output["relation_kernels"].shape == (R, S, S)
+    assert output["trunk_energy"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # All facts are bounded probabilities in [0, 1].
+    assert (output["initial_unary_facts"] >= -1.0e-6).all()
+    assert (output["initial_unary_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["final_unary_facts"] >= -1.0e-6).all()
+    assert (output["final_unary_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["initial_global_facts"] >= -1.0e-6).all()
+    assert (output["initial_global_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["final_global_facts"] >= -1.0e-6).all()
+    assert (output["final_global_facts"] <= 1.0 + 1.0e-6).all()
+
+    # Probabilistic-OR updates are monotonically non-decreasing along
+    # the trajectory because gates and deltas are non-negative.
+    unary_trajectory = output["unary_fact_trajectory"]
+    assert (unary_trajectory[:, 1:] - unary_trajectory[:, :-1] >= -1.0e-6).all()
+    global_trajectory = output["global_fact_trajectory"]
+    if P_g > 0:
+        assert (global_trajectory[:, 1:] - global_trajectory[:, :-1] >= -1.0e-6).all()
+
+    # Soft predicate selectors are probability distributions per clause /
+    # body slot.
+    head_sel = output["clause_head_selector"]
+    body_sel = output["clause_body_selector"]
+    body_rel = output["clause_body_relation"]
+    assert torch.allclose(head_sel.sum(dim=-1), torch.ones(C), atol=1.0e-5)
+    assert torch.allclose(body_sel.sum(dim=-1), torch.ones(C, A), atol=1.0e-5)
+    assert torch.allclose(body_rel.sum(dim=-1), torch.ones(C, A), atol=1.0e-5)
+    assert (head_sel >= -1.0e-6).all()
+    assert (body_sel >= -1.0e-6).all()
+    assert (body_rel >= -1.0e-6).all()
+
+    # Spatial relation kernels are row-stochastic over destination square.
+    relations = output["relation_kernels"]
+    assert torch.allclose(relations.sum(dim=-1), torch.ones(R, S), atol=1.0e-5)
+    assert (relations >= -1.0e-6).all()
+
+    # Trajectory anchors line up with initial / final fact bases.
+    assert torch.allclose(unary_trajectory[:, 0], output["initial_unary_facts"])
+    assert torch.allclose(unary_trajectory[:, -1], output["final_unary_facts"])
+    if P_g > 0:
+        assert torch.allclose(global_trajectory[:, 0], output["initial_global_facts"])
+        assert torch.allclose(global_trajectory[:, -1], output["final_global_facts"])
+
+    # Named predicate tokens are exposed for diagnostics.
+    assert PREDICATE_TOKEN_NAMES[:P_u] == model.predicate_token_names()[:P_u]
+    if P_g > 0:
+        assert GLOBAL_PREDICATE_TOKEN_NAMES[:P_g] == model.global_predicate_token_names()[:P_g]
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "neural_clause_resolution_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NeuralClauseResolutionPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_neural_clause_resolution_puzzle_network_from_config
+        is build_neural_clause_resolution_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the predicate embeddings and clause
+    # queries from the puzzle logit -- the resolution layer must be
+    # exercised.
+    grad_model = build_neural_clause_resolution_puzzle_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    pred_grad = grad_model.predicate_embeddings.grad
+    assert pred_grad is not None
+    assert torch.isfinite(pred_grad).all()
+    assert pred_grad.abs().sum() > 0.0
+    head_query_grad = grad_model.clause_head_query.grad
+    assert head_query_grad is not None
+    assert head_query_grad.abs().sum() > 0.0
+    body_query_grad = grad_model.clause_body_query.grad
+    assert body_query_grad is not None
+    assert body_query_grad.abs().sum() > 0.0
+    relation_grad = grad_model.relation_logits.grad
+    assert relation_grad is not None
+    assert relation_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i201"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i202_piece_liability_gradient_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.piece_liability_gradient_network import (
+        AFFORDANCE_TOKEN_NAMES,
+        PieceLiabilityGradientNetwork,
+        build_piece_liability_gradient_network_from_config,
+    )
+
+    folder = Path("ideas/i202_piece_liability_gradient_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PieceLiabilityGradientNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "piece_liability_gradient_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    A = int(model.num_affordances)
+    R = int(model.relation_count)
+    K = int(model.propagation_rounds)
+    S = int(model.num_squares)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "piece_mask",
+        "action_affordances",
+        "initial_liability",
+        "final_liability",
+        "liability_trajectory",
+        "liability_gradient",
+        "relation_kernels",
+        "propagation_gates",
+        "max_liability",
+        "mean_liability",
+        "top_k_liability",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["piece_mask"].shape == (2, S)
+    assert output["action_affordances"].shape == (2, A, S)
+    assert output["initial_liability"].shape == (2, S)
+    assert output["final_liability"].shape == (2, S)
+    assert output["liability_trajectory"].shape == (2, K + 1, S)
+    assert output["liability_gradient"].shape == (2, S)
+    assert output["relation_kernels"].shape == (R, S, S)
+    assert output["propagation_gates"].shape == (K, R)
+    assert output["max_liability"].shape == (2,)
+    assert output["mean_liability"].shape == (2,)
+    assert output["top_k_liability"].shape == (2,)
+    assert output["trunk_energy"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Liability fields are bounded probabilities in [0, 1].
+    assert (output["initial_liability"] >= -1.0e-6).all()
+    assert (output["initial_liability"] <= 1.0 + 1.0e-6).all()
+    assert (output["final_liability"] >= -1.0e-6).all()
+    assert (output["final_liability"] <= 1.0 + 1.0e-6).all()
+    assert (output["liability_trajectory"] >= -1.0e-6).all()
+    assert (output["liability_trajectory"] <= 1.0 + 1.0e-6).all()
+
+    # Probabilistic-OR propagation never decreases liability along the
+    # trajectory.
+    trajectory = output["liability_trajectory"]
+    assert (trajectory[:, 1:] - trajectory[:, :-1] >= -1.0e-6).all()
+
+    # Trajectory anchors line up with the initial / final fields.
+    assert torch.allclose(trajectory[:, 0], output["initial_liability"])
+    assert torch.allclose(trajectory[:, -1], output["final_liability"])
+
+    # Spatial relation kernels are row-stochastic over destination square.
+    relations = output["relation_kernels"]
+    assert torch.allclose(relations.sum(dim=-1), torch.ones(R, S), atol=1.0e-5)
+    assert (relations >= -1.0e-6).all()
+
+    # Propagation gates are bounded in [0, 1].
+    gates = output["propagation_gates"]
+    assert (gates >= 0.0).all()
+    assert (gates <= 1.0).all()
+
+    # Piece mask is restricted to occupied squares (the simple_18 piece
+    # planes were set above).
+    piece_mask = output["piece_mask"]
+    assert ((piece_mask == 0.0) | (piece_mask == 1.0)).all()
+    # Liability lives only on occupied squares.
+    assert (output["final_liability"] * (1.0 - piece_mask)).abs().max() <= 1.0e-6
+    assert (output["initial_liability"] * (1.0 - piece_mask)).abs().max() <= 1.0e-6
+
+    # Liability gradient equals L_K - L_0.
+    assert torch.allclose(
+        output["liability_gradient"],
+        output["final_liability"] - output["initial_liability"],
+        atol=1.0e-6,
+    )
+
+    # Affordance token names are exposed for diagnostics.
+    assert AFFORDANCE_TOKEN_NAMES[:A] == model.affordance_token_names()[:A]
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "piece_liability_gradient_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PieceLiabilityGradientNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_piece_liability_gradient_network_from_config
+        is build_piece_liability_gradient_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the affordance head, the relation
+    # kernels and the propagation gates from the puzzle logit -- the
+    # liability layer must be exercised.
+    grad_model = build_piece_liability_gradient_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    x_grad[0, 5, 7, 4] = 1.0
+    x_grad[0, 11, 0, 4] = 1.0
+    x_grad[1, 5, 4, 4] = 1.0
+    x_grad[1, 11, 4, 0] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    affordance_grad = grad_model.affordance_logits.weight.grad
+    assert affordance_grad is not None
+    assert torch.isfinite(affordance_grad).all()
+    assert affordance_grad.abs().sum() > 0.0
+    relation_grad = grad_model.relation_logits.grad
+    assert relation_grad is not None
+    assert relation_grad.abs().sum() > 0.0
+    propagation_gate_grad = grad_model.propagation_gate_logits.grad
+    assert propagation_gate_grad is not None
+    assert propagation_gate_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i202"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues

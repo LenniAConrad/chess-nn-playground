@@ -21,8 +21,13 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: convex
-  packet_profile: piece_liability_gradient_network
+  num_affordances: 4
+  relation_count: 8
+  propagation_rounds: 4
+  affordance_temperature: 1.0
+  liability_scale: 1.0
+  liability_top_k: 4
+  num_piece_planes: 12
 training:
   epochs: 20
   batch_size: 256

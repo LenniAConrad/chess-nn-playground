@@ -1,24 +1,52 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Lindstrom-Gessel-Viennot Path Determinant Network` is a bespoke
+implementation of idea `i234`. It builds a learned acyclic chess DAG on the
+64 squares, evaluates its path-generating function via a truncated Neumann
+series, and reads tactical content off the determinant of a path matrix
+between soft-selected source and target squares. By the LGV lemma,
+`det(M)` is the signed enumerator of non-intersecting source-to-target
+`num_paths`-tuples in the DAG.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Pipeline
 
+- Input: board tensor `(B, 18, 8, 8)`. CRTK / source metadata is
+  reporting-only and never used as model input.
+- Convolutional trunk lifts each square to `channels` features.
+- Two `1 x 1` projections produce per-square "left" and "right" edge
+  embeddings of size `edge_embed_dim`. Their scaled outer product gives
+  asymmetric edge scores; sigmoid gives non-negative edge weights, and a
+  strictly upper-triangular mask under the row-major topological order
+  (a8, b8, ..., h1) makes the resulting weighted graph a DAG.
+- Row-stochastic normalisation keeps the spectral radius of `W` at most 1,
+  so for `alpha = sigmoid(alpha_logit) * 0.99 < 1` the path-generating
+  function `G = sum_{k>=1} (alpha W)^k` converges and the truncated series
+  with `neumann_steps` terms is a faithful proxy.
+- Two more `1 x 1` projections plus learned `source_queries` and
+  `target_queries` produce soft-selection matrices `A_src`, `A_tgt` of
+  shape `(num_paths, 64)` whose rows are softmaxes over the 64 squares.
+  These play the role of source / target square choices in the LGV setup.
+- Path matrix: `M = A_src @ G @ A_tgt^T`, of shape
+  `(num_paths, num_paths)`. `M[i, j]` is the alpha-weighted enumerator of
+  paths from soft-source `i` to soft-target `j`.
+- LGV readout: `slogdet(M + det_eps * I)` returns
+  `(sign(det), log|det|)`. Together with `tr(M)`, `||M||_F`, the
+  per-row diagonal and off-diagonal `L1` magnitudes, the alpha scalar
+  and the source / target selection entropies, these are the
+  diagnostics fed to the puzzle head.
+- A LayerNorm + GELU MLP head consumes pooled trunk features (mean and
+  max) plus the LGV diagnostics and returns one puzzle logit.
 
-`Lindstrom-Gessel-Viennot Path Determinant Network` uses the shared proposal-conditioned research-packet probe.
+## Implementation Binding
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `lindstrom_gessel_viennot_path_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
-
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- Registered model name: `lindstrom_gessel_viennot_path_network` (registered in
+  `src/chess_nn_playground/models/registry.py`).
+- Source implementation file:
+  `src/chess_nn_playground/models/lindstrom_gessel_viennot_path_network.py`
+  (`LindstromGesselViennotPathNetwork` and
+  `build_lindstrom_gessel_viennot_path_network_from_config`).
+- Idea-local wrapper:
+  `ideas/i234_lindstrom_gessel_viennot_path_network/model.py` calls
+  `build_lindstrom_gessel_viennot_path_network_from_config`.
+- The shared `ResearchPacketProbe` scaffold is no longer used by this
+  idea.

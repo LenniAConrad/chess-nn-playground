@@ -1,24 +1,52 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+## Overview
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+`Williamson Symplectic-Eigenvalue Threat Network` builds a per-board SPD
+operator `M in S^{2n}_{++}` over a chess position-momentum phase space
+and reads off the symplectic spectrum `{d_i}_{i=1..n}` from Williamson's
+normal form `M = S^T D S, S in Sp(2n, R), D = diag(d_1, ..., d_n, d_1, ...,
+d_n)`. The puzzle logit is produced from the symplectic spectrum (top-k,
+adjacent gaps, entropy, Heisenberg slack) plus the ordinary spectrum of
+`M` (for contrast / falsifier `ordinary_eigvals_swap`) and a pooled board
+summary.
 
+## Components
 
-`Williamson Symplectic-Eigenvalue Threat Network` uses the shared proposal-conditioned research-packet probe.
+- Board encoder: convolutional trunk with mean+max pooling.
+- SPD `M` builder: per-board non-negative weights `w_p(X) = softplus(W
+  pooled)` weight a fixed bank of learnable PSD primitive factors
+  `F_p in R^{2n x r}` (so each `E_p = F_p F_p^T >= 0`); the operator is
+  `M(X) = sum_p w_p(X) F_p F_p^T + lambda I_{2n}`, which is SPD by
+  construction. Three primitives are seeded toward chess-natural
+  position-position, momentum-momentum, and position-momentum couplings.
+- Symplectic eigenvalue block: stable algorithm
+  - `M^{1/2}` via `eigh`,
+  - `K = M^{1/2} J M^{1/2}` (skew-symmetric; `J = [[0, I_n], [-I_n, 0]]`
+    is fixed, not learned),
+  - eigenvalues of `K^T K` are `{d_i^2}` each with numerical multiplicity
+    two,
+  - sort descending, average paired entries to dampen multiplicity-2
+    splitting, take square roots to obtain `{d_i}`.
+- Ordinary spectrum: top-`k` eigenvalues of `M` are returned alongside
+  for the `ordinary_eigvals_swap` ablation.
+- Head: pooled board features concatenated with
+  `[d_topk, eig_topk(M), gaps(d_topk), heisenberg_slack(d_topk),
+  symplectic_entropy, log det M, d_min, d_max, heisenberg_violation]`
+  feed an MLP that returns one puzzle logit.
 
-- Mechanism family: `linear_algebra`.
-- Active proposal profile: `williamson_symplectic_threat_network`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected by the
-  linear-algebra profile (rank/spectral/moment/displacement-style summaries).
-- Head: pooled board features + mechanism family embedding + profile hash features
-  + active profile flags + linear-algebra diagnostics, returning one puzzle logit
-  plus diagnostic outputs (`mechanism_energy`, `rank_file_imbalance`, etc.).
+## Diagnostics returned by the forward pass
 
-The bespoke operator described in the source packet (Sylvester / Schur complement /
-Bures-Wasserstein / numerical range / Lyapunov / Pfaffian / p-adic / free-probability
-/ Williamson / Magnus, depending on the idea) is not yet a hand-written torch
-module. Promote this folder to a custom `model.py` when the mechanism-profile
-smoke test motivates the cost.
+- `symplectic_spectrum`, `symplectic_top_d`, `symplectic_spectral_gaps`
+- `symplectic_entropy = -sum_i log d_i`, `symplectic_log_det_M = 2 sum_i
+  log d_i`
+- `symplectic_d_min`, `symplectic_d_max`
+- `heisenberg_slack = d_topk - 1/2`, `heisenberg_violation = sum_i max(0,
+  1/2 - d_i)`
+- `ordinary_eigvals_topk` (top-`k` eigenvalues of `M`, contrast spectrum)
+
+## Implementation Binding
+
+- Registered model name: `williamson_symplectic_threat_network`
+- Source implementation file: `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`
+- Idea-local wrapper: `ideas/i229_williamson_symplectic_threat_network/model.py`

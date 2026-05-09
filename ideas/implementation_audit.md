@@ -11,12 +11,12 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
-- Registry rows changed by this run: `41`
+- Registry rows changed by this run: `0`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 212 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 28 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 224 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 16 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -40,18 +40,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
 - `ideas/i178_defender_exhaustion_cascade_network`
-- `ideas/i195_minimal_edit_puzzle_distance_network`
-- `ideas/i198_barrier_cut_puzzle_network`
-- `ideas/i199_tactical_hessian_spectrum_network`
-- `ideas/i200_absorbing_threat_markov_network`
-- `ideas/i201_neural_clause_resolution_puzzle_network`
-- `ideas/i202_piece_liability_gradient_network`
-- `ideas/i229_williamson_symplectic_threat_network`
-- `ideas/i230_magnus_bch_coupling_series_network`
-- `ideas/i231_riccati_optimal_defense_network`
-- `ideas/i232_clifford_rotor_threat_network`
-- `ideas/i233_tracy_widom_level_spacing_network`
-- `ideas/i234_lindstrom_gessel_viennot_path_network`
 
 ## Idea-By-Idea Audit
 
@@ -251,14 +239,14 @@ These folders were previously easy to read as distinct implemented architectures
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `latent_reply_entropy_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i193` | `ideas/i193_exchange_then_king_dual_stream` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `exchange_then_king_dual_stream` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i194` | `ideas/i194_tactical_symptom_bayesian_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_symptom_bayesian_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i195` | `ideas/i195_minimal_edit_puzzle_distance_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `minimal_edit_puzzle_distance_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i195` | `ideas/i195_minimal_edit_puzzle_distance_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `minimal_edit_puzzle_distance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i196` | `ideas/i196_source_invariant_puzzle_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `source_invariant_puzzle_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i197` | `ideas/i197_reply_set_contrastive_transformer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_set_contrastive_transformer` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i198` | `ideas/i198_barrier_cut_puzzle_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `barrier_cut_puzzle_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i199` | `ideas/i199_tactical_hessian_spectrum_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tactical_hessian_spectrum_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i200` | `ideas/i200_absorbing_threat_markov_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `absorbing_threat_markov_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i201` | `ideas/i201_neural_clause_resolution_puzzle_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `neural_clause_resolution_puzzle_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i202` | `ideas/i202_piece_liability_gradient_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `piece_liability_gradient_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i198` | `ideas/i198_barrier_cut_puzzle_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `barrier_cut_puzzle_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i199` | `ideas/i199_tactical_hessian_spectrum_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_hessian_spectrum_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i200` | `ideas/i200_absorbing_threat_markov_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `absorbing_threat_markov_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i201` | `ideas/i201_neural_clause_resolution_puzzle_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `neural_clause_resolution_puzzle_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i202` | `ideas/i202_piece_liability_gradient_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_liability_gradient_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i203` | `ideas/i203_hierarchical_tactical_option_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `hierarchical_tactical_option_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i204` | `ideas/i204_cross_defense_consistency_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cross_defense_consistency_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i205` | `ideas/i205_defender_timing_schedule_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `defender_timing_schedule_network` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -285,12 +273,12 @@ These folders were previously easy to read as distinct implemented architectures
 | `i226` | `ideas/i226_pfaffian_skew_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pfaffian_skew_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i227` | `ideas/i227_padic_ultrametric_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `padic_ultrametric_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i228` | `ideas/i228_free_probability_r_transform_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `free_probability_r_transform_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i229` | `ideas/i229_williamson_symplectic_threat_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `williamson_symplectic_threat_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i230` | `ideas/i230_magnus_bch_coupling_series_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `magnus_bch_coupling_series_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i231` | `ideas/i231_riccati_optimal_defense_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `riccati_optimal_defense_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i232` | `ideas/i232_clifford_rotor_threat_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `clifford_rotor_threat_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i233` | `ideas/i233_tracy_widom_level_spacing_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tracy_widom_level_spacing_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
-| `i234` | `ideas/i234_lindstrom_gessel_viennot_path_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `lindstrom_gessel_viennot_path_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i229` | `ideas/i229_williamson_symplectic_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `williamson_symplectic_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i230` | `ideas/i230_magnus_bch_coupling_series_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `magnus_bch_coupling_series_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i231` | `ideas/i231_riccati_optimal_defense_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `riccati_optimal_defense_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i232` | `ideas/i232_clifford_rotor_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `clifford_rotor_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i233` | `ideas/i233_tracy_widom_level_spacing_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tracy_widom_level_spacing_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i234` | `ideas/i234_lindstrom_gessel_viennot_path_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `lindstrom_gessel_viennot_path_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i235` | `ideas/i235_toda_isospectral_flow_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `toda_isospectral_flow_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i236` | `ideas/i236_hadamard_spectrum_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `hadamard_spectrum_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i237` | `ideas/i237_cayley_orthogonal_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cayley_orthogonal_network` | `-` | model.py delegates to a non-shared architecture builder | - |
