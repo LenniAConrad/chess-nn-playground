@@ -6,6 +6,13 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_
 
 Batch candidate rank: `1`.
 
-Working thesis: A chess position can be represented through several safe current-board views:
+A chess position can be represented through several safe current-board views:
+the square grid, occupied piece set, rank/file/diagonal line summaries,
+king-centred regions, and material/phase summaries. Puzzle-like positions may
+be recognizable not only by one view, but by how these views agree or disagree
+after learned projections into a common latent space.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+The model learns low-rank maps between latent views and classifies from
+commutator-like residuals. The central bet is that near-tactical positions
+create unusual cross-view consistency patterns, such as ordinary material
+counts paired with high line or king-region defects.
