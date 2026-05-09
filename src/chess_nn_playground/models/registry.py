@@ -497,6 +497,9 @@ from chess_nn_playground.models.tactical_hessian_spectrum_network import (
 from chess_nn_playground.models.absorbing_threat_markov_network import (
     build_absorbing_threat_markov_network_from_config,
 )
+from chess_nn_playground.models.neural_clause_resolution_puzzle_network import (
+    build_neural_clause_resolution_puzzle_network_from_config,
+)
 from chess_nn_playground.models.prototype_patch_dictionary_network import (
     build_prototype_patch_dictionary_network_from_config,
 )
@@ -728,6 +731,7 @@ MODEL_BUILDERS = {
     "barrier_cut_puzzle_network": build_barrier_cut_puzzle_network_from_config,
     "tactical_hessian_spectrum_network": build_tactical_hessian_spectrum_network_from_config,
     "absorbing_threat_markov_network": build_absorbing_threat_markov_network_from_config,
+    "neural_clause_resolution_puzzle_network": build_neural_clause_resolution_puzzle_network_from_config,
     "prototype_patch_dictionary_network": build_prototype_patch_dictionary_network_from_config,
     "tensor_ring_square_interaction_network": build_tensor_ring_square_interaction_network_from_config,
     "sinkhorn_role_assignment_network": build_sinkhorn_role_assignment_network_from_config,

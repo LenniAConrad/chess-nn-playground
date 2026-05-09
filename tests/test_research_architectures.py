@@ -20736,3 +20736,198 @@ def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i201_neural_clause_resolution_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.neural_clause_resolution_puzzle_network import (
+        NeuralClauseResolutionPuzzleNetwork,
+        PREDICATE_TOKEN_NAMES,
+        GLOBAL_PREDICATE_TOKEN_NAMES,
+        build_neural_clause_resolution_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i201_neural_clause_resolution_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NeuralClauseResolutionPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "neural_clause_resolution_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    P_u = int(model.num_unary_predicates)
+    P_g = int(model.num_global_predicates)
+    P = P_u + P_g
+    C = int(model.clause_count)
+    A = int(model.body_arity)
+    R = int(model.relation_count)
+    K = int(model.resolution_rounds)
+    S = int(model.num_squares)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "initial_unary_facts",
+        "initial_global_facts",
+        "final_unary_facts",
+        "final_global_facts",
+        "unary_fact_trajectory",
+        "global_fact_trajectory",
+        "clause_activations",
+        "clause_head_selector",
+        "clause_body_selector",
+        "clause_body_relation",
+        "predicate_embeddings",
+        "relation_kernels",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["initial_unary_facts"].shape == (2, P_u, S)
+    assert output["initial_global_facts"].shape == (2, P_g)
+    assert output["final_unary_facts"].shape == (2, P_u, S)
+    assert output["final_global_facts"].shape == (2, P_g)
+    assert output["unary_fact_trajectory"].shape == (2, K + 1, P_u, S)
+    assert output["global_fact_trajectory"].shape == (2, K + 1, P_g)
+    assert output["clause_activations"].shape == (2, K, C, S)
+    assert output["clause_head_selector"].shape == (C, P)
+    assert output["clause_body_selector"].shape == (C, A, P)
+    assert output["clause_body_relation"].shape == (C, A, R)
+    assert output["predicate_embeddings"].shape == (P, model.predicate_dim)
+    assert output["relation_kernels"].shape == (R, S, S)
+    assert output["trunk_energy"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # All facts are bounded probabilities in [0, 1].
+    assert (output["initial_unary_facts"] >= -1.0e-6).all()
+    assert (output["initial_unary_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["final_unary_facts"] >= -1.0e-6).all()
+    assert (output["final_unary_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["initial_global_facts"] >= -1.0e-6).all()
+    assert (output["initial_global_facts"] <= 1.0 + 1.0e-6).all()
+    assert (output["final_global_facts"] >= -1.0e-6).all()
+    assert (output["final_global_facts"] <= 1.0 + 1.0e-6).all()
+
+    # Probabilistic-OR updates are monotonically non-decreasing along
+    # the trajectory because gates and deltas are non-negative.
+    unary_trajectory = output["unary_fact_trajectory"]
+    assert (unary_trajectory[:, 1:] - unary_trajectory[:, :-1] >= -1.0e-6).all()
+    global_trajectory = output["global_fact_trajectory"]
+    if P_g > 0:
+        assert (global_trajectory[:, 1:] - global_trajectory[:, :-1] >= -1.0e-6).all()
+
+    # Soft predicate selectors are probability distributions per clause /
+    # body slot.
+    head_sel = output["clause_head_selector"]
+    body_sel = output["clause_body_selector"]
+    body_rel = output["clause_body_relation"]
+    assert torch.allclose(head_sel.sum(dim=-1), torch.ones(C), atol=1.0e-5)
+    assert torch.allclose(body_sel.sum(dim=-1), torch.ones(C, A), atol=1.0e-5)
+    assert torch.allclose(body_rel.sum(dim=-1), torch.ones(C, A), atol=1.0e-5)
+    assert (head_sel >= -1.0e-6).all()
+    assert (body_sel >= -1.0e-6).all()
+    assert (body_rel >= -1.0e-6).all()
+
+    # Spatial relation kernels are row-stochastic over destination square.
+    relations = output["relation_kernels"]
+    assert torch.allclose(relations.sum(dim=-1), torch.ones(R, S), atol=1.0e-5)
+    assert (relations >= -1.0e-6).all()
+
+    # Trajectory anchors line up with initial / final fact bases.
+    assert torch.allclose(unary_trajectory[:, 0], output["initial_unary_facts"])
+    assert torch.allclose(unary_trajectory[:, -1], output["final_unary_facts"])
+    if P_g > 0:
+        assert torch.allclose(global_trajectory[:, 0], output["initial_global_facts"])
+        assert torch.allclose(global_trajectory[:, -1], output["final_global_facts"])
+
+    # Named predicate tokens are exposed for diagnostics.
+    assert PREDICATE_TOKEN_NAMES[:P_u] == model.predicate_token_names()[:P_u]
+    if P_g > 0:
+        assert GLOBAL_PREDICATE_TOKEN_NAMES[:P_g] == model.global_predicate_token_names()[:P_g]
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "neural_clause_resolution_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NeuralClauseResolutionPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_neural_clause_resolution_puzzle_network_from_config
+        is build_neural_clause_resolution_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the predicate embeddings and clause
+    # queries from the puzzle logit -- the resolution layer must be
+    # exercised.
+    grad_model = build_neural_clause_resolution_puzzle_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    pred_grad = grad_model.predicate_embeddings.grad
+    assert pred_grad is not None
+    assert torch.isfinite(pred_grad).all()
+    assert pred_grad.abs().sum() > 0.0
+    head_query_grad = grad_model.clause_head_query.grad
+    assert head_query_grad is not None
+    assert head_query_grad.abs().sum() > 0.0
+    body_query_grad = grad_model.clause_body_query.grad
+    assert body_query_grad is not None
+    assert body_query_grad.abs().sum() > 0.0
+    relation_grad = grad_model.relation_logits.grad
+    assert relation_grad is not None
+    assert relation_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i201"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

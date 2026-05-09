@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `216`
+- Implemented architecture rows audited: `217`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -196,6 +196,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i198` | `ideas/i198_barrier_cut_puzzle_network` | `barrier_cut_puzzle_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i198_barrier_cut_puzzle_network/model.py`<br>`src/chess_nn_playground/models/barrier_cut_puzzle_network.py` | - |
 | `i199` | `ideas/i199_tactical_hessian_spectrum_network` | `tactical_hessian_spectrum_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i199_tactical_hessian_spectrum_network/model.py`<br>`src/chess_nn_playground/models/tactical_hessian_spectrum_network.py` | - |
 | `i200` | `ideas/i200_absorbing_threat_markov_network` | `absorbing_threat_markov_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i200_absorbing_threat_markov_network/model.py`<br>`src/chess_nn_playground/models/absorbing_threat_markov_network.py` | - |
+| `i201` | `ideas/i201_neural_clause_resolution_puzzle_network` | `neural_clause_resolution_puzzle_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i201_neural_clause_resolution_puzzle_network/model.py`<br>`src/chess_nn_playground/models/neural_clause_resolution_puzzle_network.py` | - |
 | `i203` | `ideas/i203_hierarchical_tactical_option_network` | `hierarchical_tactical_option_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i203_hierarchical_tactical_option_network/model.py`<br>`src/chess_nn_playground/models/hierarchical_tactical_option.py` | - |
 | `i204` | `ideas/i204_cross_defense_consistency_network` | `cross_defense_consistency_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i204_cross_defense_consistency_network/model.py`<br>`src/chess_nn_playground/models/cross_defense_consistency.py` | - |
 | `i205` | `ideas/i205_defender_timing_schedule_network` | `defender_timing_schedule_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i205_defender_timing_schedule_network/model.py`<br>`src/chess_nn_playground/models/defender_timing_schedule.py` | - |
