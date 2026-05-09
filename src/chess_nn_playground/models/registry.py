@@ -394,6 +394,9 @@ from chess_nn_playground.models.riccati_optimal_defense_network import (
 from chess_nn_playground.models.clifford_rotor_threat_network import (
     build_clifford_rotor_threat_network_from_config,
 )
+from chess_nn_playground.models.tracy_widom_level_spacing_network import (
+    build_tracy_widom_level_spacing_network_from_config,
+)
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
@@ -683,6 +686,7 @@ MODEL_BUILDERS = {
     "magnus_bch_coupling_series_network": build_magnus_bch_coupling_series_network_from_config,
     "riccati_optimal_defense_network": build_riccati_optimal_defense_network_from_config,
     "clifford_rotor_threat_network": build_clifford_rotor_threat_network_from_config,
+    "tracy_widom_level_spacing_network": build_tracy_widom_level_spacing_network_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,

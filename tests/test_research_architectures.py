@@ -5172,6 +5172,17 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "clifford_grade2_message_mean",
         },
     ),
+    (
+        "i233",
+        "ideas/i233_tracy_widom_level_spacing_network",
+        "tracy_widom_level_spacing_network",
+        {
+            "tracy_widom_mean_spacing_ratio",
+            "tracy_widom_spacing_histogram",
+            "tracy_widom_spectral_form_factor",
+            "tracy_widom_regime_softmax",
+        },
+    ),
 ]
 
 

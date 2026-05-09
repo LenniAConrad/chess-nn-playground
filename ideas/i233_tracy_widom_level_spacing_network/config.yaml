@@ -21,8 +21,11 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: tracy_widom_level_spacing_network
+  hermitian_n: 64
+  embedding_dim: 32
+  spacing_histogram_bins: 8
+  num_form_factor_taps: 16
+  unfolding_window: 5
 training:
   epochs: 20
   batch_size: 256

@@ -1,14 +1,23 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
+- Bespoke source: `src/chess_nn_playground/models/tracy_widom_level_spacing_network.py`.
+- Builder: `build_tracy_widom_level_spacing_network_from_config`.
 - Registry key: `tracy_widom_level_spacing_network`.
+- Idea-local wrapper: `ideas/i233_tracy_widom_level_spacing_network/model.py`.
 - Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1610_tuesday_local_tracy_widom_level_spacing.md`.
-- This is intentionally board-only and does not consume engine, verification, source,
-  or CRTK metadata as input.
-- The custom linear-algebra operator described in the source packet is NOT yet
-  implemented as a bespoke `nn.Module`; this folder uses the shared
-  `ResearchPacketProbe` with `mechanism_family=linear_algebra` and
-  `packet_profile=tracy_widom_level_spacing_network` so that the idea passes the registry contract
-  and runs on the standard puzzle_binary benchmark. To upgrade to a bespoke module,
-  add `src/chess_nn_playground/models/tracy_widom_level_spacing_network.py`, register a builder in
-  `registry.py`, and update this idea's `model.py` and `config.yaml`.
+- Input is the board tensor only; CRTK / source / engine / verification
+  metadata is reporting-only and never consumed as model input.
+- The Hermitian operator is obtained from two convolutional `1 x 1`
+  projections of the trunk feature map (left / right embeddings of size
+  `embedding_dim`), giving an asymmetric `64 x 64` matrix that is then
+  symmetrised. The model uses `torch.linalg.eigvalsh` on the resulting
+  Hermitian matrix to compute the spectrum.
+- Unfolding is a 5-point boxcar smoothing of the empirical staircase
+  (`unfolding_window`); the spacing scale is normalised to mean 1.
+- Output keys (in addition to `logits`):
+  - `tracy_widom_mean_spacing_ratio` (B,)
+  - `tracy_widom_spacing_histogram` (B, `spacing_histogram_bins`)
+  - `tracy_widom_spectral_form_factor` (B, `num_form_factor_taps`)
+  - `tracy_widom_regime_softmax` (B, 3) for `[Poisson, GOE, GUE]`
+  - `tracy_widom_poisson_loglik`, `tracy_widom_goe_loglik`,
+    `tracy_widom_gue_loglik` (B,)

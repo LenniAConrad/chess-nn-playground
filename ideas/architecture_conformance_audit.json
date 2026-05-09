@@ -4321,6 +4321,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i233_tracy_widom_level_spacing_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i233_tracy_widom_level_spacing_network",
+      "idea_id": "i233",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tracy_widom_level_spacing_network",
+      "slug": "tracy_widom_level_spacing_network",
+      "source_files": [
+        "ideas/i233_tracy_widom_level_spacing_network/model.py",
+        "src/chess_nn_playground/models/tracy_widom_level_spacing_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i235_toda_isospectral_flow_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4659,6 +4679,7 @@
       "ideas/i230_magnus_bch_coupling_series_network",
       "ideas/i231_riccati_optimal_defense_network",
       "ideas/i232_clifford_rotor_threat_network",
+      "ideas/i233_tracy_widom_level_spacing_network",
       "ideas/i235_toda_isospectral_flow_network",
       "ideas/i236_hadamard_spectrum_network",
       "ideas/i237_cayley_orthogonal_network",
@@ -4666,7 +4687,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 222,
+    "implemented_architecture_count": 223,
     "issue_folders": [],
     "validation_issue_count": 0
   }
