@@ -15,8 +15,8 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 219 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 21 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 220 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 20 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -40,7 +40,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
 - `ideas/i178_defender_exhaustion_cascade_network`
-- `ideas/i230_magnus_bch_coupling_series_network`
 - `ideas/i231_riccati_optimal_defense_network`
 - `ideas/i232_clifford_rotor_threat_network`
 - `ideas/i233_tracy_widom_level_spacing_network`
@@ -279,7 +278,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i227` | `ideas/i227_padic_ultrametric_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `padic_ultrametric_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i228` | `ideas/i228_free_probability_r_transform_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `free_probability_r_transform_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i229` | `ideas/i229_williamson_symplectic_threat_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `williamson_symplectic_threat_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i230` | `ideas/i230_magnus_bch_coupling_series_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `magnus_bch_coupling_series_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i230` | `ideas/i230_magnus_bch_coupling_series_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `magnus_bch_coupling_series_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i231` | `ideas/i231_riccati_optimal_defense_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `riccati_optimal_defense_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i232` | `ideas/i232_clifford_rotor_threat_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `clifford_rotor_threat_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
 | `i233` | `ideas/i233_tracy_widom_level_spacing_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `tracy_widom_level_spacing_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

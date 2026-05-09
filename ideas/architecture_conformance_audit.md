@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `219`
+- Implemented architecture rows audited: `220`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -225,6 +225,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i227` | `ideas/i227_padic_ultrametric_threat_network` | `padic_ultrametric_threat_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i227_padic_ultrametric_threat_network/model.py`<br>`src/chess_nn_playground/models/padic_ultrametric_threat.py` | - |
 | `i228` | `ideas/i228_free_probability_r_transform_network` | `free_probability_r_transform_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i228_free_probability_r_transform_network/model.py`<br>`src/chess_nn_playground/models/free_probability_r_transform.py` | - |
 | `i229` | `ideas/i229_williamson_symplectic_threat_network` | `williamson_symplectic_threat_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i229_williamson_symplectic_threat_network/model.py`<br>`src/chess_nn_playground/models/williamson_symplectic_threat_network.py` | - |
+| `i230` | `ideas/i230_magnus_bch_coupling_series_network` | `magnus_bch_coupling_series_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i230_magnus_bch_coupling_series_network/model.py`<br>`src/chess_nn_playground/models/magnus_bch_coupling_series_network.py` | - |
 | `i235` | `ideas/i235_toda_isospectral_flow_network` | `toda_isospectral_flow_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i235_toda_isospectral_flow_network/model.py`<br>`src/chess_nn_playground/models/toda_isospectral_flow.py` | - |
 | `i236` | `ideas/i236_hadamard_spectrum_network` | `hadamard_spectrum_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i236_hadamard_spectrum_network/model.py`<br>`src/chess_nn_playground/models/hadamard_spectrum.py` | - |
 | `i237` | `ideas/i237_cayley_orthogonal_network` | `cayley_orthogonal_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i237_cayley_orthogonal_network/model.py`<br>`src/chess_nn_playground/models/cayley_orthogonal.py` | - |

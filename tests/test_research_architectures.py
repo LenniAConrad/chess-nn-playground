@@ -5144,6 +5144,12 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
         "williamson_symplectic_threat_network",
         {"symplectic_spectrum", "symplectic_entropy", "heisenberg_slack"},
     ),
+    (
+        "i230",
+        "ideas/i230_magnus_bch_coupling_series_network",
+        "magnus_bch_coupling_series_network",
+        {"magnus_norms", "magnus_bch_log_norm", "magnus_ratios", "magnus_normalized_norms"},
+    ),
 ]
 
 
