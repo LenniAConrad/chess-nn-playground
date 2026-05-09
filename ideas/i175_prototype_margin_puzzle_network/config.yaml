@@ -17,12 +17,14 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
-  hidden_dim: 96
   depth: 2
+  proto_dim: 96
+  num_prototypes: 8
+  temperature: 1.0
+  hidden_dim: 96
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: sparse
-  packet_profile: prototype_margin_puzzle_network
+  ablation: none
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +48,7 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
+notes: Bespoke prototype-margin model. Three learned prototype banks (random,
+  near-puzzle, puzzle) compete via cosine + log-sum-exp similarities and the
+  puzzle logit is the sim_puzzle - logsumexp([sim_random, sim_near]) margin.
   CRTK metadata is reporting-only.

@@ -1,35 +1,43 @@
 idea_id: i194
 name: Tactical Symptom Bayesian Network
 slug: tactical_symptom_bayesian_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: 'Many tactical concepts behave like noisy logical symptoms:'
 novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke board-only differentiable noisy-AND/noisy-OR symptom Bayesian network with
+  K learned per-square sigmoid symptom heads pooled to image-level by noisy-OR,
+  J latent noisy-OR causes, a learned noisy-AND/noisy-OR mixture aggregator, and
+  the source-packet output rule `logit(clamp(puzzle_prob)) + residual_weight * residual_logit`.
+expected_advantage: Forces puzzle classification through a consistent symptom
+  cluster (noisy-AND/noisy-OR of compatible symptoms) instead of free dense pooling,
+  so near-puzzles that activate only some symptoms cannot reach a strongly positive
+  puzzle logit.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus symptom-network diagnostics (`puzzle_prob`,
+  `evidence_logit`, `residual_logit`, `residual_weight`, `symptom_linear_logit`,
+  `symptom_max`, `symptom_mean`, `symptom_entropy`, `cause_max`, `cause_mean`,
+  `cause_entropy`, `noisy_or_prob`, `noisy_and_prob`, `and_or_alpha`,
+  `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`).
+compute_notes: Compact convolutional trunk, 1x1 per-square symptom readout pooled
+  by noisy-OR, K-by-J noisy-OR cause layer with a per-cause leak, J-cause
+  noisy-AND/noisy-OR mixture aggregator, plus a small residual MLP head fused into
+  `logit(puzzle_prob) + residual_weight * residual_logit`.
+implementation_status: implemented
 trainer_entrypoint: ideas/i194_tactical_symptom_bayesian_network/train.py
 config_path: ideas/i194_tactical_symptom_bayesian_network/config.yaml
 model_path: ideas/i194_tactical_symptom_bayesian_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke noisy-AND/noisy-OR symptom Bayesian network; the idea-local wrapper builds
+  `chess_nn_playground.models.tactical_symptom_bayesian_network.TacticalSymptomBayesianNetwork`.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Tactical Symptom Bayesian Network
 source_packet_rank: 9
 source_packet_status: batch packet
 mechanism_family: information
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

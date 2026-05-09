@@ -6,6 +6,27 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturda
 
 Batch candidate rank: `3`.
 
-Working thesis: In true puzzles, the puzzle signal often depends sharply on a few critical pieces or squares. In near-puzzles, the score may come from broad tactical texture without a decisive dependency.
+Working thesis: In true puzzles, the puzzle signal often depends
+sharply on a few critical pieces or squares. In near-puzzles, the
+score may come from broad tactical texture without a decisive
+dependency.
 
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+The implementation realises this as a *causal piece-derivative*
+readout. A trunk produces a base logit and per-square features; a
+gating head selects the top-`K` candidate squares; for each candidate
+the model applies deterministic interventions (`remove_piece`,
+`hide_square`, `neutralize_side`) through a lightweight shared delta
+encoder, and the puzzle logit is
+
+```
+sensitivity_{i, t} = base_logit - delta_logit_{i, t}
+puzzle_logit       = base_logit
+                   + criticality_mlp(
+                         max, top2_gap, entropy, signed_sum,
+                         own_vs_enemy_split)
+```
+
+over the candidate sensitivities. Real puzzles should have a
+peaked criticality profile — a few pieces dominate the sensitivity
+field — while near-puzzles should have flat sensitivities even when
+the trunk is confident.

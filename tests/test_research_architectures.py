@@ -361,6 +361,69 @@ REGISTERED_RESEARCH_ARCHITECTURES = {
         "use_coordinate_planes": True,
         "ablation": "none",
     },
+    "learnable_pooling_tree_boardnet": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 1,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "pool_temperature": 1.0,
+        "use_top_down": True,
+        "ablation": "none",
+    },
+    "spatial_film_coordinate_net": {
+        "input_channels": 18,
+        "width": 16,
+        "depth": 2,
+        "coord_hidden": 12,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "film_scale": 0.25,
+        "ablation": "none",
+    },
+    "channel_bilinear_role_mixer": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "num_roles": 4,
+        "role_dim": 12,
+        "bilinear_rank": 4,
+    },
+    "evidence_sieve_network": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "num_sieves": 3,
+        "channel_gate_hidden": 12,
+        "spatial_gate_hidden": 6,
+        "residual_scale": 0.5,
+    },
+    "ring_shell_recurrent_boardnet": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "num_rings": 6,
+        "rnn_hidden": 12,
+    },
+    "rank_file_memory_grid_net": {
+        "input_channels": 18,
+        "channels": 16,
+        "hidden_dim": 24,
+        "depth": 2,
+        "dropout": 0.0,
+        "use_batchnorm": False,
+        "memory_dim": 8,
+    },
     "independence_residual_interaction_network": {
         "input_channels": 18,
         "channels": 16,
@@ -4090,6 +4153,755 @@ def test_i163_global_scratchpad_boardnet_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i164_learnable_pooling_tree_boardnet_is_bespoke_and_conformant():
+    folder = Path("ideas/i164_learnable_pooling_tree_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["square_features"].shape == (2, channels, 8, 8)
+    assert output["cell_features"].shape == (2, channels, 4, 4)
+    assert output["quadrant_features"].shape == (2, channels, 2, 2)
+    assert output["root_features"].shape == (2, channels)
+    assert output["cell_gate_weights"].shape == (2, 4, 4, 4)
+    assert output["quadrant_gate_weights"].shape == (2, 2, 2, 4)
+    assert output["root_gate_weights"].shape == (2, 1, 1, 4)
+    # Pooling gate weights must be a softmax distribution over the four children.
+    for key in ("cell_gate_weights", "quadrant_gate_weights", "root_gate_weights"):
+        gate = output[key]
+        assert torch.allclose(gate.sum(dim=-1), torch.ones_like(gate.sum(dim=-1)), atol=1e-5)
+        assert (gate >= 0).all()
+    assert {
+        "cell_gate_entropy",
+        "quadrant_gate_entropy",
+        "root_gate_entropy",
+        "square_feature_energy",
+        "cell_feature_energy",
+        "quadrant_feature_energy",
+        "root_feature_energy",
+        "tree_levels",
+        "prob",
+    }.issubset(output)
+    assert (output["tree_levels"] == 4).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["root_features"].shape == (2, channels)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    no_top_down = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "channels": 16,
+            "hidden_dim": 24,
+            "depth": 1,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "pool_temperature": 1.0,
+            "use_top_down": True,
+            "ablation": "no_top_down",
+        },
+    ).eval()
+    with torch.no_grad():
+        no_td_output = no_top_down(x)
+    assert no_td_output["logits"].shape == (2,)
+    assert torch.isfinite(no_td_output["logits"]).all()
+
+    uniform_pool = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "channels": 16,
+            "hidden_dim": 24,
+            "depth": 1,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "pool_temperature": 1.0,
+            "use_top_down": True,
+            "ablation": "uniform_pool",
+        },
+    ).eval()
+    with torch.no_grad():
+        uniform_output = uniform_pool(x)
+    # Uniform pool ablation collapses all gate weights to ~0.25 over four children.
+    quarter = torch.full_like(uniform_output["cell_gate_weights"], 0.25)
+    assert torch.allclose(uniform_output["cell_gate_weights"], quarter, atol=1e-3)
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i164"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i165_spatial_film_coordinate_net_is_bespoke_and_conformant():
+    folder = Path("ideas/i165_spatial_film_coordinate_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    width = int(config["model"]["width"])
+    depth = int(config["model"]["depth"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, width, 8, 8)
+    assert output["coordinate_grid"].shape == (6, 8, 8)
+    assert output["gamma_maps"].shape == (depth, width, 8, 8)
+    assert output["beta_maps"].shape == (depth, width, 8, 8)
+    assert output["modulation_magnitudes"].shape == (depth,)
+    # Bounded modulation: gamma in [1 - film_scale, 1 + film_scale],
+    # beta in [-film_scale, film_scale].
+    film_scale = float(config["model"]["film_scale"])
+    assert (output["gamma_maps"] >= 1.0 - film_scale - 1e-6).all()
+    assert (output["gamma_maps"] <= 1.0 + film_scale + 1e-6).all()
+    assert output["beta_maps"].abs().max() <= film_scale + 1e-6
+    assert {
+        "modulation_magnitude_mean",
+        "modulation_center_mean",
+        "modulation_edge_mean",
+        "modulation_back_rank_mean",
+        "depth_levels",
+        "prob",
+    }.issubset(output)
+    assert (output["depth_levels"] == depth).all()
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["gamma_maps"].shape == (depth, width, 8, 8)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    coord_planes = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "coord_planes_only",
+        },
+    ).eval()
+    with torch.no_grad():
+        coord_planes_out = coord_planes(x)
+    # FiLM is disabled, so gamma collapses to ones and beta to zeros.
+    assert torch.allclose(coord_planes_out["gamma_maps"], torch.ones_like(coord_planes_out["gamma_maps"]))
+    assert torch.allclose(coord_planes_out["beta_maps"], torch.zeros_like(coord_planes_out["beta_maps"]))
+    assert torch.isfinite(coord_planes_out["logits"]).all()
+
+    no_side_relative = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "no_side_relative_coord",
+        },
+    ).eval()
+    # Side-relative coordinate channel is zeroed.
+    assert torch.allclose(
+        no_side_relative.coordinate_grid[4],
+        torch.zeros_like(no_side_relative.coordinate_grid[4]),
+    )
+
+    shared_gamma = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "shared_gamma_only",
+        },
+    ).eval()
+    with torch.no_grad():
+        shared_gamma_out = shared_gamma(x)
+    # Beta is forced to zero in the shared-gamma ablation.
+    assert torch.allclose(shared_gamma_out["beta_maps"], torch.zeros_like(shared_gamma_out["beta_maps"]))
+    # Gamma is a per-channel global vector, identical across the 8x8 grid.
+    gamma = shared_gamma_out["gamma_maps"]
+    assert torch.allclose(gamma[:, :, :1, :1].expand_as(gamma), gamma)
+
+    random_coord = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "random_coord_map",
+            "coord_seed": 7,
+        },
+    ).eval()
+    # Random coord map permutes squares deterministically: same total per channel.
+    base = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "none",
+        },
+    ).eval()
+    assert torch.allclose(
+        random_coord.coordinate_grid.flatten(1).sort(dim=1).values,
+        base.coordinate_grid.flatten(1).sort(dim=1).values,
+    )
+    assert not torch.allclose(random_coord.coordinate_grid, base.coordinate_grid)
+
+    matched = build_model(
+        model_name,
+        {
+            "input_channels": 18,
+            "num_classes": 1,
+            "width": 16,
+            "depth": 2,
+            "coord_hidden": 12,
+            "dropout": 0.0,
+            "use_batchnorm": False,
+            "ablation": "cnn_matched_params",
+        },
+    ).eval()
+    with torch.no_grad():
+        matched_out = matched(x)
+    # No FiLM -> gamma=1, beta=0 in diagnostics.
+    assert torch.allclose(matched_out["gamma_maps"], torch.ones_like(matched_out["gamma_maps"]))
+    assert torch.allclose(matched_out["beta_maps"], torch.zeros_like(matched_out["beta_maps"]))
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i165"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i166_channel_bilinear_role_mixer_is_bespoke_and_conformant():
+    folder = Path("ideas/i166_channel_bilinear_role_mixer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    num_roles = int(config["model"]["num_roles"])
+    role_dim = int(config["model"]["role_dim"])
+    bilinear_rank = int(config["model"]["bilinear_rank"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["role_gates"].shape == (num_roles, 8, 8)
+    assert output["role_summaries"].shape == (2, num_roles, role_dim)
+    assert output["role_summaries_pre_norm"].shape == (2, num_roles, role_dim)
+    assert output["role_pooled_channels"].shape == (2, num_roles, channels)
+    assert output["bilinear_left"].shape == (2, num_roles, bilinear_rank)
+    assert output["bilinear_right"].shape == (2, num_roles, bilinear_rank)
+    assert output["bilinear_interaction_matrix"].shape == (2, num_roles, num_roles)
+    assert output["bilinear_diag"].shape == (2, num_roles)
+    assert output["role_magnitude"].shape == (2, num_roles)
+    assert output["bilinear_energy"].shape == (2,)
+    assert output["bilinear_off_diag_energy"].shape == (2,)
+    assert output["bilinear_asymmetry"].shape == (2,)
+    assert output["role_gate_entropy"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Role gates are softmax distributions over the 64 squares.
+    gates = output["role_gates"].view(num_roles, -1)
+    assert torch.allclose(gates.sum(dim=-1), torch.ones(num_roles), atol=1e-5)
+    assert (gates >= 0).all()
+
+    # Bilinear interaction matrix is the dot product of left/right rank views.
+    expected = torch.einsum(
+        "bir,bjr->bij",
+        output["bilinear_left"],
+        output["bilinear_right"],
+    ) / (bilinear_rank ** 0.5)
+    assert torch.allclose(output["bilinear_interaction_matrix"], expected, atol=1e-5)
+    # bilinear_diag matches the matrix diagonal.
+    assert torch.allclose(
+        output["bilinear_diag"],
+        torch.diagonal(output["bilinear_interaction_matrix"], dim1=1, dim2=2),
+        atol=1e-6,
+    )
+    assert (output["depth_levels"] == depth).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "channel_bilinear_role_mixer"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["bilinear_interaction_matrix"].shape == (2, num_roles, num_roles)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i166"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i167_evidence_sieve_network_is_bespoke_and_conformant():
+    folder = Path("ideas/i167_evidence_sieve_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[:, 0, 6, 4] = 1.0
+    x[:, 3, 4, 4] = 1.0
+    x[:, 5, 7, 4] = 1.0
+    x[:, 8, 0, 4] = 1.0
+    x[:, 10, 3, 4] = 1.0
+    x[:, 11, 0, 7] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    num_sieves = int(config["model"]["num_sieves"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["stage_selected_evidence"].shape == (2, num_sieves, channels, 8, 8)
+    assert output["stage_channel_masks"].shape == (2, num_sieves, channels)
+    assert output["stage_spatial_masks"].shape == (2, num_sieves, 8, 8)
+    assert output["stage_selection_ratio"].shape == (2, num_sieves)
+    assert output["stage_selected_energy"].shape == (2, num_sieves)
+    assert output["stage_channel_mask_entropy"].shape == (2, num_sieves)
+    assert output["stage_spatial_mask_entropy"].shape == (2, num_sieves)
+    assert output["selected_evidence_mean"].shape == (2, channels, 8, 8)
+    assert output["selected_pool"].shape == (2, channels)
+    assert output["trunk_pool"].shape == (2, channels)
+    assert output["mean_selection_ratio"].shape == (2,)
+    assert output["mean_selected_energy"].shape == (2,)
+    assert output["mean_channel_mask_entropy"].shape == (2,)
+    assert output["mean_spatial_mask_entropy"].shape == (2,)
+    assert output["sieve_carryover_energy"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert output["sieve_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Channel and spatial masks live in (0, 1) because they are sigmoid gates.
+    assert (output["stage_channel_masks"] > 0).all()
+    assert (output["stage_channel_masks"] < 1).all()
+    assert (output["stage_spatial_masks"] > 0).all()
+    assert (output["stage_spatial_masks"] < 1).all()
+
+    # Selected evidence is the elementwise product of the masks with the
+    # *input* feature map of each stage; the across-stage mean must equal the
+    # `selected_evidence_mean` diagnostic.
+    expected_mean = output["stage_selected_evidence"].mean(dim=1)
+    assert torch.allclose(output["selected_evidence_mean"], expected_mean, atol=1e-6)
+
+    # Stage selection ratio is mean(c_t) * mean(s_t) by construction.
+    expected_ratio = (
+        output["stage_channel_masks"].mean(dim=-1)
+        * output["stage_spatial_masks"].mean(dim=(-1, -2))
+    )
+    assert torch.allclose(output["stage_selection_ratio"], expected_ratio, atol=1e-6)
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["sieve_levels"] == num_sieves).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "evidence_sieve_network"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["stage_selected_evidence"].shape == (
+        2,
+        num_sieves,
+        channels,
+        8,
+        8,
+    )
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i167"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i168_ring_shell_recurrent_boardnet_is_bespoke_and_conformant():
+    folder = Path("ideas/i168_ring_shell_recurrent_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    # Two boards: a sample with kings present, and a sample with kings missing
+    # so the dynamic-anchor centroid fallback gets exercised in the same
+    # forward pass.
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king on e1
+    x[0, 11, 0, 4] = 1.0  # black king on e8
+    x[0, 0, 6, 0] = 1.0   # white pawn on a2
+    x[0, 6, 1, 7] = 1.0   # black pawn on h7
+    x[0, 12] = 1.0        # white to move
+    # Sample 1 has no kings, so dynamic anchors must fall back to (3.5, 3.5).
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    num_rings = int(config["model"]["num_rings"])
+    rnn_hidden = int(config["model"]["rnn_hidden"])
+    num_anchors = 7  # 2 dynamic kings + 5 static anchors
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["ring_pool"].shape == (2, num_anchors, num_rings, channels)
+    assert output["ring_features"].shape == (2, num_anchors, num_rings, channels)
+    assert output["ring_energy"].shape == (2, num_anchors, num_rings)
+    assert output["ring_counts"].shape == (2, num_anchors, num_rings)
+    assert output["anchor_hidden"].shape == (2, num_anchors, rnn_hidden)
+    assert output["anchor_hidden_progression"].shape == (2, num_anchors, num_rings, rnn_hidden)
+    assert output["anchor_positions"].shape == (2, num_anchors, 2)
+    assert output["anchor_dynamic_mass"].shape == (2, 2)
+    assert output["anchor_dynamic_present"].shape == (2, 2)
+    assert output["anchor_hidden_energy"].shape == (2, num_anchors)
+    assert output["mean_anchor_hidden_energy"].shape == (2,)
+    assert output["mean_ring_energy"].shape == (2,)
+    assert output["radial_progression_energy"].shape == (2, num_anchors, num_rings)
+    assert output["depth_levels"].shape == (2,)
+    assert output["ring_levels"].shape == (2,)
+    assert output["anchor_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Ring counts must partition the 64 squares per anchor (every square
+    # belongs to exactly one Chebyshev shell), so the row sums equal 64.
+    counts_sum = output["ring_counts"].sum(dim=-1)
+    assert torch.allclose(counts_sum, torch.full_like(counts_sum, 64.0))
+
+    # Sample 0 has both kings -> dynamic-anchor positions must match the king
+    # squares; sample 1 has no kings -> the centroid fallback puts both
+    # dynamic anchors at the geometric center (3.5, 3.5).
+    white_king_pos = output["anchor_positions"][0, 0]
+    black_king_pos = output["anchor_positions"][0, 1]
+    assert torch.allclose(white_king_pos, torch.tensor([7.0, 4.0]), atol=1e-4)
+    assert torch.allclose(black_king_pos, torch.tensor([0.0, 4.0]), atol=1e-4)
+    assert torch.allclose(output["anchor_positions"][1, 0], torch.tensor([3.5, 3.5]), atol=1e-4)
+    assert torch.allclose(output["anchor_positions"][1, 1], torch.tensor([3.5, 3.5]), atol=1e-4)
+    assert output["anchor_dynamic_present"][0].sum() == 2
+    assert output["anchor_dynamic_present"][1].sum() == 0
+
+    # Static anchor positions should be identical across batch samples.
+    assert torch.allclose(
+        output["anchor_positions"][0, 2:],
+        output["anchor_positions"][1, 2:],
+        atol=1e-6,
+    )
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["ring_levels"] == num_rings).all()
+    assert (output["anchor_levels"] == num_anchors).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "ring_shell_recurrent_boardnet"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["anchor_hidden"].shape == (2, num_anchors, rnn_hidden)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i168"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i169_rank_file_memory_grid_net_is_bespoke_and_conformant():
+    folder = Path("ideas/i169_rank_file_memory_grid_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert not isinstance(model, ResearchPacketProbe)
+
+    x = torch.zeros(2, int(config["model"]["input_channels"]), 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 0, 6, 0] = 1.0
+    x[0, 6, 1, 7] = 1.0
+    x[0, 12] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[1, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    memory_dim = int(config["model"]["memory_dim"])
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["square_pool"].shape == (2, channels)
+    assert output["rank_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["file_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["rank_write_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["file_write_stack"].shape == (2, depth, 8, memory_dim)
+    assert output["read_stack"].shape == (2, depth, 8, 8, channels)
+    assert output["rank_memory_energy"].shape == (2, depth, 8)
+    assert output["file_memory_energy"].shape == (2, depth, 8)
+    assert output["mean_rank_memory_energy"].shape == (2,)
+    assert output["mean_file_memory_energy"].shape == (2,)
+    assert output["rank_minus_file_energy"].shape == (2, depth)
+    assert output["rank_file_imbalance"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert output["memory_dim_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["memory_dim_levels"] == memory_dim).all()
+
+    model_cfg = dict(config["model"])
+    model_name = model_cfg.pop("name")
+    assert model_name == "rank_file_memory_grid_net"
+    assert model_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    registry_model = build_model(model_name, model_cfg).eval()
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["rank_memory_stack"].shape == (2, depth, 8, memory_dim)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i169"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i235_toda_isospectral_flow_network_is_bespoke_and_conformant():
     folder = Path("ideas/i235_toda_isospectral_flow_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
@@ -7754,6 +8566,104 @@ def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
     assert not conformance_rows[0].issues
 
 
+def test_i170_negative_class_disentangled_puzzle_head_is_bespoke_and_conformant():
+    from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+        NegativeClassDisentangledPuzzleHead,
+        build_negative_class_disentangled_puzzle_head_from_config,
+    )
+
+    folder = Path("ideas/i170_negative_class_disentangled_puzzle_head")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NegativeClassDisentangledPuzzleHead)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "negative_class_disentangled_puzzle_head"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    assert input_channels == 18
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 0, 6, 4] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 6, 1, 3] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[1, 0, 5, 3] = 1.0
+    x[1, 4, 6, 2] = 1.0
+    x[1, 5, 7, 6] = 1.0
+    x[1, 11, 0, 6] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "evidence_random",
+        "evidence_near",
+        "evidence_puzzle",
+        "aux_3way_logits",
+        "negative_margin",
+        "random_vs_near_gap",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output)
+    assert output["logits"].shape == (2,)
+    assert output["aux_3way_logits"].shape == (2, 3)
+    for key in expected_keys:
+        assert torch.isfinite(output[key]).all(), key
+
+    e_random = output["evidence_random"]
+    e_near = output["evidence_near"]
+    e_puzzle = output["evidence_puzzle"]
+    expected_logit = e_puzzle - torch.logsumexp(torch.stack([e_random, e_near], dim=1), dim=1)
+    assert torch.allclose(output["logits"], expected_logit, atol=1e-5)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "negative_class_disentangled_puzzle_head"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NegativeClassDisentangledPuzzleHead)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+    assert registered_name not in RESEARCH_PACKET_MODEL_NAMES
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # The idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_negative_class_disentangled_puzzle_head_from_config
+        is build_negative_class_disentangled_puzzle_head_from_config
+    )
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i170"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
 def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
     from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
         TacticalBisimulationPuzzleNetwork,
@@ -9694,6 +10604,4898 @@ def test_i091_tactical_state_bottleneck_inference_is_bespoke_and_conformant():
     assert training_report["valid"], training_report
 
     conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i091"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i150_early_exit_cascade_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.early_exit_cascade_boardnet import (
+        EarlyExitCascadeBoardNet,
+        build_early_exit_cascade_boardnet_from_config,
+        cascade_multi_exit_loss,
+    )
+
+    folder = Path("ideas/i150_early_exit_cascade_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, EarlyExitCascadeBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "early_exit_cascade_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "exit_logits",
+        "exit_probs",
+        "exit_halt_logits",
+        "exit_logits_stack",
+        "exit_halt_stack",
+        "exit_weights",
+        "expected_exit_index",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert expected_keys.issubset(output)
+
+    num_exits = model.num_exits
+    assert num_exits >= 2
+    assert output["exit_logits_stack"].shape == (2, num_exits)
+    assert output["exit_halt_stack"].shape == (2, num_exits)
+    assert output["exit_weights"].shape == (2, num_exits)
+    weights = output["exit_weights"]
+    assert torch.allclose(weights.sum(dim=1), torch.ones(2), atol=1.0e-5)
+    assert (weights >= 0).all()
+    assert torch.isfinite(output["expected_exit_index"]).all()
+    for k in range(num_exits):
+        key = f"exit_{k}"
+        assert output["exit_logits"][key].shape == (2,)
+        assert output["exit_probs"][key].shape == (2,)
+        assert output["exit_halt_logits"][key].shape == (2,)
+
+    # Cascade probability is the weighted average of per-exit sigmoids.
+    expected_prob = (weights * torch.sigmoid(output["exit_logits_stack"])).sum(dim=1)
+    assert torch.allclose(output["prob"], expected_prob, atol=1.0e-5)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "early_exit_cascade_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, EarlyExitCascadeBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the cascaded logits must produce finite gradients on the
+    # stem, every stage, every per-exit logit head, and every halting head.
+    trainable = build_early_exit_cascade_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.stem[0].weight.grad
+    assert stem_grad is not None and torch.isfinite(stem_grad).all()
+    for k in range(trainable.num_exits):
+        stage_grad = trainable.stages[k][0].conv1.weight.grad
+        logit_grad = trainable.exits[k].logit.weight.grad
+        halt_grad = trainable.exits[k].halt.weight.grad
+        assert stage_grad is not None and torch.isfinite(stage_grad).all(), k
+        assert logit_grad is not None and torch.isfinite(logit_grad).all(), k
+        # Final exit's halting head is unused; gates are read only from
+        # exits 0..K-2. So allow None / zero on the very last halt head.
+        if k < trainable.num_exits - 1:
+            assert halt_grad is not None and torch.isfinite(halt_grad).all(), k
+            assert halt_grad.abs().sum() > 0, k
+
+    # cascade_multi_exit_loss must expose per-exit BCE and a finite combined
+    # objective that mixes the cascade loss with the per-exit auxiliary.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    bundle = cascade_multi_exit_loss(out, target, exit_weight=0.5)
+    assert torch.isfinite(bundle["loss"]).all()
+    assert bundle["loss_exit_bce_per_exit"].shape == (trainable.num_exits,)
+    bundle["loss"].backward()
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i150"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i151_auxiliary_reconstruction_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
+        AuxiliaryReconstructionBoardNet,
+        auxiliary_reconstruction_loss,
+        build_auxiliary_reconstruction_boardnet_from_config,
+    )
+
+    folder = Path("ideas/i151_auxiliary_reconstruction_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AuxiliaryReconstructionBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "auxiliary_reconstruction_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "reconstruction_logits",
+        "reconstruction_probs",
+        "reconstruction_target_planes",
+        "reconstruction_target_indices",
+        "reconstruction_error",
+        "reconstruction_bce_per_plane",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    }
+    assert expected_keys.issubset(output)
+
+    encoder_width = model.encoder_width
+    targets = model.reconstruction_targets
+    assert targets == tuple(range(input_channels))
+    assert output["latent"].shape == (2, encoder_width, 8, 8)
+    assert output["reconstruction_logits"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_probs"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_target_planes"].shape == (2, len(targets), 8, 8)
+    assert output["reconstruction_bce_per_plane"].shape == (2, len(targets))
+    assert torch.allclose(
+        output["reconstruction_probs"], torch.sigmoid(output["reconstruction_logits"])
+    )
+    assert torch.allclose(
+        output["reconstruction_target_planes"], x.index_select(1, output["reconstruction_target_indices"])
+    )
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "auxiliary_reconstruction_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AuxiliaryReconstructionBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the encoder + classifier.
+    trainable = build_auxiliary_reconstruction_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.stem[0].weight.grad
+    assert stem_grad is not None and torch.isfinite(stem_grad).all()
+    classifier_grad = trainable.classifier_head[-1].weight.grad
+    assert classifier_grad is not None and torch.isfinite(classifier_grad).all()
+
+    # The auxiliary reconstruction objective must flow gradients into the
+    # decoder and back into the encoder through the shared latent.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    bundle = auxiliary_reconstruction_loss(out, target, lambda_recon=0.5)
+    assert torch.isfinite(bundle["loss"]).all()
+    bundle["loss"].backward()
+    decoder_first = trainable.decoder[0]
+    decoder_last = trainable.decoder[-1]
+    assert decoder_first.weight.grad is not None
+    assert torch.isfinite(decoder_first.weight.grad).all()
+    assert decoder_first.weight.grad.abs().sum() > 0
+    assert decoder_last.weight.grad is not None
+    assert torch.isfinite(decoder_last.weight.grad).all()
+    assert decoder_last.weight.grad.abs().sum() > 0
+    encoder_block_grad = trainable.encoder_blocks[0].conv1.weight.grad
+    assert encoder_block_grad is not None
+    assert torch.isfinite(encoder_block_grad).all()
+    assert encoder_block_grad.abs().sum() > 0
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i151"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i153_agreement_variance_head_net_is_bespoke_and_conformant():
+    from chess_nn_playground.models.agreement_variance_head_net import (
+        AgreementVarianceHeadNet,
+        build_agreement_variance_head_net_from_config,
+    )
+
+    folder = Path("ideas/i153_agreement_variance_head_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AgreementVarianceHeadNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "agreement_variance_head_net"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_heads = int(config["model"]["num_heads"])
+    assert model.num_heads == num_heads
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "per_head_logits",
+        "per_head_probs",
+        "head_variance",
+        "head_disagreement",
+        "prob_variance",
+        "latent",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["per_head_logits"].shape == (2, num_heads)
+    assert output["per_head_probs"].shape == (2, num_heads)
+    assert output["head_variance"].shape == (2,)
+    assert output["head_disagreement"].shape == (2,)
+    assert output["prob_variance"].shape == (2,)
+    # Mean-logit aggregation: logits == per_head_logits.mean(dim=1).
+    assert torch.allclose(output["logits"], output["per_head_logits"].mean(dim=1))
+    # Disagreement is non-negative; variance must equal disagreement squared.
+    assert (output["head_variance"] >= 0).all()
+    assert torch.allclose(
+        output["head_disagreement"].pow(2), output["head_variance"], atol=1e-6
+    )
+    # Independent head init must produce non-zero head variance on a real input.
+    assert output["head_variance"].sum() > 0
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "agreement_variance_head_net"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AgreementVarianceHeadNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk and every head.
+    trainable = build_agreement_variance_head_net_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.stem[0].weight.grad
+    assert stem_grad is not None and torch.isfinite(stem_grad).all()
+    assert stem_grad.abs().sum() > 0
+    for head in trainable.heads:
+        head_grad = head.net[-1].weight.grad
+        assert head_grad is not None and torch.isfinite(head_grad).all()
+        assert head_grad.abs().sum() > 0
+
+    # The variance diagnostic must NOT carry gradient (it is detached).
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["head_variance"].requires_grad
+    assert not out["head_disagreement"].requires_grad
+    assert not out["prob_variance"].requires_grad
+    assert not out["per_head_probs"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i153"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i154_adapter_sandwich_residual_cnn_is_bespoke_and_conformant():
+    from chess_nn_playground.models.adapter_sandwich_residual_cnn import (
+        AdapterSandwichResidualCNN,
+        build_adapter_sandwich_residual_cnn_from_config,
+    )
+
+    folder = Path("ideas/i154_adapter_sandwich_residual_cnn")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AdapterSandwichResidualCNN)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "adapter_sandwich_residual_cnn"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    depth = int(config["model"]["depth"])
+    assert model.depth == depth
+    assert model.channels == int(config["model"]["channels"])
+    assert model.adapter_dim >= 1
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "pre_adapter_energy",
+        "post_adapter_energy",
+        "adapter_energy",
+        "per_stage_pre_adapter_energy",
+        "per_stage_post_adapter_energy",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["pre_adapter_energy"].shape == (2,)
+    assert output["post_adapter_energy"].shape == (2,)
+    assert output["adapter_energy"].shape == (2,)
+    assert output["per_stage_pre_adapter_energy"].shape == (2, depth)
+    assert output["per_stage_post_adapter_energy"].shape == (2, depth)
+    # Energies are non-negative L2 norms.
+    assert (output["pre_adapter_energy"] >= 0).all()
+    assert (output["post_adapter_energy"] >= 0).all()
+    assert torch.allclose(
+        output["adapter_energy"],
+        output["pre_adapter_energy"] + output["post_adapter_energy"],
+    )
+    # At init W_up is zero, so adapter delta is exactly zero on every input.
+    assert output["adapter_energy"].sum() == 0
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "adapter_sandwich_residual_cnn"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AdapterSandwichResidualCNN)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk and adapters.
+    trainable = build_adapter_sandwich_residual_cnn_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.stem[0].weight.grad
+    assert stem_grad is not None and torch.isfinite(stem_grad).all()
+    assert stem_grad.abs().sum() > 0
+    for stage in trainable.stages:
+        for adapter in (stage.pre_adapter, stage.post_adapter):
+            down_grad = adapter.down.weight.grad
+            up_grad = adapter.up.weight.grad
+            assert down_grad is not None and torch.isfinite(down_grad).all()
+            assert up_grad is not None and torch.isfinite(up_grad).all()
+            # W_up is zero-init, so its gradient must be non-zero whenever the
+            # downstream gradient is informative; otherwise the adapter could
+            # never escape identity.
+            assert up_grad.abs().sum() > 0
+
+    # The energy diagnostics must NOT carry gradient (they are detached).
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["pre_adapter_energy"].requires_grad
+    assert not out["post_adapter_energy"].requires_grad
+    assert not out["adapter_energy"].requires_grad
+    assert not out["per_stage_pre_adapter_energy"].requires_grad
+    assert not out["per_stage_post_adapter_energy"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i154"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.capsule_motif_boardnet import (
+        CapsuleMotifBoardNet,
+        build_capsule_motif_boardnet_from_config,
+    )
+
+    folder = Path("ideas/i155_capsule_motif_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CapsuleMotifBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "capsule_motif_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    depth = int(config["model"]["depth"])
+    assert model.depth == depth
+    assert model.channels == int(config["model"]["channels"])
+    assert model.num_primary_caps >= 1
+    assert model.num_motif_caps >= 1
+    assert model.routing_iterations >= 1
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 5, 7, 4] = 1.0
+    x[:, 11, 0, 4] = 1.0
+    x[:, 3, 7, 0] = 1.0
+    x[:, 0, 6, 4] = 1.0
+    x[:, 10, 5, 0] = 1.0
+    x[:, 7, 5, 2] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "primary_capsules",
+        "motif_capsules",
+        "motif_norms",
+        "routing_coupling",
+        "routing_logits",
+        "routing_entropy",
+        "max_motif_norm",
+        "mean_motif_norm",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    n_caps = model.num_primary_caps * 8 * 8
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["primary_capsules"].shape == (2, n_caps, model.primary_capsule_dim)
+    assert output["motif_capsules"].shape == (
+        2,
+        model.num_motif_caps,
+        model.motif_capsule_dim,
+    )
+    assert output["motif_norms"].shape == (2, model.num_motif_caps)
+    assert output["routing_coupling"].shape == (2, n_caps, model.num_motif_caps)
+    assert output["routing_logits"].shape == (2, n_caps, model.num_motif_caps)
+    assert output["routing_entropy"].shape == (2,)
+    assert output["max_motif_norm"].shape == (2,)
+    assert output["mean_motif_norm"].shape == (2,)
+
+    # Coupling is a softmax across motifs, so each (sample, primary) row sums to 1.
+    coupling_sum = output["routing_coupling"].sum(dim=2)
+    assert torch.allclose(coupling_sum, torch.ones_like(coupling_sum), atol=1e-5)
+
+    # Squashed motif vectors have norm in [0, 1).
+    assert (output["motif_norms"] >= 0).all()
+    assert (output["motif_norms"] < 1.0 + 1e-5).all()
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "capsule_motif_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CapsuleMotifBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, primary
+    # projection, motif transforms, and the readout head.
+    trainable = build_capsule_motif_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    primary_grad = trainable.primary_conv.weight.grad
+    motif_grad = trainable.motif_transform.grad
+    assert primary_grad is not None and torch.isfinite(primary_grad).all()
+    assert primary_grad.abs().sum() > 0
+    assert motif_grad is not None and torch.isfinite(motif_grad).all()
+    assert motif_grad.abs().sum() > 0
+
+    # The routing/motif diagnostics must NOT carry gradient (they are detached).
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["routing_entropy"].requires_grad
+    assert not out["max_motif_norm"].requires_grad
+    assert not out["mean_motif_norm"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i155"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.multi_order_board_scan_network import (
+        MultiOrderBoardScanNetwork,
+        SCAN_ORDER_NAMES,
+        build_multi_order_board_scan_network_from_config,
+    )
+
+    folder = Path("ideas/i156_multi_order_board_scan_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, MultiOrderBoardScanNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "multi_order_board_scan_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    depth = int(config["model"]["depth"])
+    assert model.depth == depth
+    assert model.channels == int(config["model"]["channels"])
+    assert model.num_scans == len(SCAN_ORDER_NAMES) == 5
+    assert model.scan_order_names == SCAN_ORDER_NAMES
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move, white king on e1 (rank 7, file 4), black king on e8.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move, white king on e1, black king on g7.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "latent",
+        "square_tokens",
+        "scan_perms",
+        "scan_summaries",
+        "scan_summary_norms",
+        "friendly_king_square",
+    }
+    assert expected_keys.issubset(output)
+
+    channels = model.channels
+    assert output["latent"].shape == (2, channels, 8, 8)
+    assert output["square_tokens"].shape == (2, 64, channels)
+    assert output["scan_perms"].shape == (model.num_scans, 2, 64)
+    assert output["scan_summaries"].shape == (
+        2,
+        model.num_scans,
+        2 * model.gru_hidden_dim,
+    )
+    assert output["scan_summary_norms"].shape == (2, model.num_scans)
+    assert output["friendly_king_square"].shape == (2,)
+
+    # Each scan permutation must be a permutation of [0..63] for every sample.
+    perms = output["scan_perms"]
+    for scan_idx in range(model.num_scans):
+        for batch_idx in range(2):
+            sorted_perm, _ = perms[scan_idx, batch_idx].sort()
+            assert torch.equal(sorted_perm, torch.arange(64))
+
+    # The friendly king square must reflect the side-to-move plane.
+    # Sample 0 is white-to-move with the white king on (rank=7, file=4).
+    # Sample 1 is black-to-move with the black king on (rank=1, file=6).
+    assert int(output["friendly_king_square"][0].item()) == 7 * 8 + 4
+    assert int(output["friendly_king_square"][1].item()) == 1 * 8 + 6
+
+    # Spiral-from-king order's first square must be the king square itself
+    # (Chebyshev distance 0). The spiral order is the 4th in SCAN_ORDER_NAMES.
+    spiral_idx = SCAN_ORDER_NAMES.index("spiral_from_king")
+    assert int(perms[spiral_idx, 0, 0].item()) == 7 * 8 + 4
+    assert int(perms[spiral_idx, 1, 0].item()) == 1 * 8 + 6
+
+    # Rank-major scan permutation is the identity for every sample.
+    rank_idx = SCAN_ORDER_NAMES.index("rank_major")
+    expected_identity = torch.arange(64).unsqueeze(0).expand(2, -1)
+    assert torch.equal(perms[rank_idx], expected_identity)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "multi_order_board_scan_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MultiOrderBoardScanNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, the per-scan
+    # position embedding, the shared GRU, and the readout head.
+    trainable = build_multi_order_board_scan_network_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+
+    head_grad = trainable.head[0].weight.grad
+    pos_grad = trainable.scan_position_embedding.grad
+    gru_grad = trainable.gru.weight_ih_l0.grad
+    assert head_grad is not None and torch.isfinite(head_grad).all()
+    assert head_grad.abs().sum() > 0
+    assert pos_grad is not None and torch.isfinite(pos_grad).all()
+    assert pos_grad.abs().sum() > 0
+    assert gru_grad is not None and torch.isfinite(gru_grad).all()
+    assert gru_grad.abs().sum() > 0
+
+    # Detached diagnostics must not carry gradient.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["scan_perms"].requires_grad
+    assert not out["scan_summary_norms"].requires_grad
+    assert not out["friendly_king_square"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i156"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i157_cross_stitch_cnn_token_fusion_net_is_bespoke_and_conformant():
+    from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+        CrossStitchCNNTokenFusionNet,
+        CrossStitchUnit,
+        build_cross_stitch_cnn_token_fusion_net_from_config,
+    )
+
+    folder = Path("ideas/i157_cross_stitch_cnn_token_fusion_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CrossStitchCNNTokenFusionNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "cross_stitch_cnn_token_fusion_net"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_stages = int(config["model"]["num_stages"])
+    cross_stitch_groups = int(config["model"]["cross_stitch_groups"])
+    assert model.channels == channels
+    assert model.num_stages == num_stages
+    assert model.cross_stitch_groups == cross_stitch_groups
+    assert all(isinstance(unit, CrossStitchUnit) for unit in model.cross_stitch)
+    assert len(model.cross_stitch) == num_stages
+
+    # Cross-stitch matrices are initialised to the identity so the model
+    # starts as the parent late-fusion architecture.
+    for unit in model.cross_stitch:
+        eye = torch.eye(2).unsqueeze(0).expand(cross_stitch_groups, -1, -1)
+        assert torch.equal(unit.matrix.detach(), eye)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with white king on e1, black king on e8, a white pawn on e2.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move with white king on e1, black king on g7, a black bishop on c3.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "logit",
+        "prob",
+        "board_latent",
+        "token_latent",
+        "board_pool_final",
+        "token_pool_final",
+        "material_summary",
+        "token_count",
+        "cross_stitch_matrices",
+        "offdiag_energy_per_stage",
+        "board_to_token_transfer",
+        "token_to_board_transfer",
+        "board_norms_pre",
+        "board_norms_post",
+        "token_norms_pre",
+        "token_norms_post",
+    }
+    assert expected_keys.issubset(output)
+
+    assert output["board_latent"].shape == (2, channels, 8, 8)
+    assert output["token_latent"].shape[0] == 2
+    assert output["token_latent"].shape[2] == channels
+    assert output["board_pool_final"].shape == (2, channels)
+    assert output["token_pool_final"].shape == (2, channels)
+    assert output["cross_stitch_matrices"].shape == (
+        num_stages,
+        cross_stitch_groups,
+        2,
+        2,
+    )
+    assert output["offdiag_energy_per_stage"].shape == (num_stages,)
+    assert output["board_to_token_transfer"].shape == (2, num_stages)
+    assert output["token_to_board_transfer"].shape == (2, num_stages)
+    assert output["board_norms_pre"].shape == (2, num_stages)
+    assert output["board_norms_post"].shape == (2, num_stages)
+    assert output["token_norms_pre"].shape == (2, num_stages)
+    assert output["token_norms_post"].shape == (2, num_stages)
+
+    # At identity initialisation the off-diagonal energy is zero.
+    assert torch.allclose(
+        output["offdiag_energy_per_stage"], torch.zeros(num_stages), atol=1e-6
+    )
+    # And the cross-branch transfer is zero (no exchange yet).
+    assert torch.allclose(output["board_to_token_transfer"], torch.zeros(2, num_stages), atol=1e-5)
+    assert torch.allclose(output["token_to_board_transfer"], torch.zeros(2, num_stages), atol=1e-5)
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "cross_stitch_cnn_token_fusion_net"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CrossStitchCNNTokenFusionNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, the
+    # cross-stitch matrices, and the readout head.
+    trainable = build_cross_stitch_cnn_token_fusion_net_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    head_grad = trainable.head[1].weight.grad
+    stem_grad = trainable.stem.conv.weight.grad
+    cross_stitch_grad = trainable.cross_stitch[0].matrix.grad
+    token_embed_grad = trainable.token_embed[0].weight.grad
+    board_adapter_grad = trainable.board_adapters[0].weight.grad
+    token_adapter_grad = trainable.token_adapters[0].weight.grad
+    for grad in (
+        head_grad,
+        stem_grad,
+        cross_stitch_grad,
+        token_embed_grad,
+        board_adapter_grad,
+        token_adapter_grad,
+    ):
+        assert grad is not None and torch.isfinite(grad).all()
+        assert grad.abs().sum() > 0
+
+    # Detached diagnostics must not carry gradient.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["cross_stitch_matrices"].requires_grad
+    assert not out["board_to_token_transfer"].requires_grad
+    assert not out["token_to_board_transfer"].requires_grad
+    assert not out["board_norms_pre"].requires_grad
+    assert not out["board_norms_post"].requires_grad
+    assert not out["token_norms_pre"].requires_grad
+    assert not out["token_norms_post"].requires_grad
+
+    # Diagonal-stitch ablation forces the off-diagonals to zero.
+    diag_only_cfg = dict(config["model"])
+    diag_only_cfg.pop("name", None)
+    diag_only_cfg["ablation"] = "diagonal_stitch"
+    diag_only_model = build_cross_stitch_cnn_token_fusion_net_from_config(diag_only_cfg).eval()
+    for unit in diag_only_model.cross_stitch:
+        eff = unit.effective_matrix()
+        assert torch.equal(eff[:, 0, 1], torch.zeros_like(eff[:, 0, 1]))
+        assert torch.equal(eff[:, 1, 0], torch.zeros_like(eff[:, 1, 0]))
+    with torch.no_grad():
+        diag_out = diag_only_model(x)
+    assert torch.allclose(
+        diag_out["board_to_token_transfer"], torch.zeros(2, num_stages), atol=1e-6
+    )
+    assert torch.allclose(
+        diag_out["token_to_board_transfer"], torch.zeros(2, num_stages), atol=1e-6
+    )
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i157"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i158_neural_decision_forest_boardnet_is_bespoke_and_conformant():
+    from chess_nn_playground.models.neural_decision_forest_boardnet import (
+        DifferentiableObliqueForest,
+        NeuralDecisionForestBoardNet,
+        build_neural_decision_forest_boardnet_from_config,
+    )
+
+    folder = Path("ideas/i158_neural_decision_forest_boardnet")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NeuralDecisionForestBoardNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "neural_decision_forest_boardnet"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_trees = int(config["model"]["num_trees"])
+    tree_depth = int(config["model"]["tree_depth"])
+    hidden_dim = int(config["model"]["hidden_dim"])
+    assert isinstance(model.forest, DifferentiableObliqueForest)
+    assert model.forest.num_trees == num_trees
+    assert model.forest.tree_depth == tree_depth
+    assert model.forest.feature_dim == hidden_dim
+    assert model.forest.leaf_count == 2 ** tree_depth
+    assert model.forest.internal_nodes == 2 ** tree_depth - 1
+    assert model.forest.leaf_logits.shape == (num_trees, 2 ** tree_depth, 1)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with white king on e1, black king on e8, a white pawn on e2.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move with white king on e1, black king on g7, a black bishop on c3.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "prob",
+        "leaf_usage_entropy",
+        "per_tree_disagreement",
+        "dominant_leaf_index",
+        "dominant_leaf_probability",
+        "path_probability_sum",
+        "mean_split_probability",
+        "trunk_energy",
+        "feature_energy",
+        "split_feature_norm",
+        "leaf_logit_norm",
+    }
+    assert expected_keys.issubset(output)
+
+    for key in (
+        "leaf_usage_entropy",
+        "per_tree_disagreement",
+        "dominant_leaf_index",
+        "dominant_leaf_probability",
+        "path_probability_sum",
+        "mean_split_probability",
+        "trunk_energy",
+        "feature_energy",
+        "split_feature_norm",
+        "leaf_logit_norm",
+    ):
+        assert output[key].shape == (2,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Path probabilities sum to one over leaves (per tree, per sample).
+    assert torch.allclose(
+        output["path_probability_sum"], torch.ones(2), atol=1e-5
+    )
+
+    # Routing probabilities are valid probabilities and split logits are
+    # within [0, 1].
+    assert (output["dominant_leaf_probability"] >= 0).all()
+    assert (output["dominant_leaf_probability"] <= 1.0 + 1e-5).all()
+    assert (output["mean_split_probability"] >= 0).all()
+    assert (output["mean_split_probability"] <= 1.0 + 1e-5).all()
+    assert (output["leaf_usage_entropy"] >= 0).all()
+    assert (output["leaf_usage_entropy"] <= 1.0 + 1e-5).all()
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "neural_decision_forest_boardnet"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NeuralDecisionForestBoardNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the trunk, the
+    # oblique split layer, and the per-leaf logits.
+    trainable = build_neural_decision_forest_boardnet_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    stem_grad = trainable.trunk.stem[0].weight.grad
+    project_grad = trainable.trunk.project[1].weight.grad
+    split_grad = trainable.forest.split_layer.weight.grad
+    leaf_grad = trainable.forest.leaf_logits.grad
+    for grad in (stem_grad, project_grad, split_grad, leaf_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+        assert grad.abs().sum() > 0
+
+    # Detached diagnostics must not carry gradient.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["dominant_leaf_index"].requires_grad
+    assert not out["split_feature_norm"].requires_grad
+    assert not out["leaf_logit_norm"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i158"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
+    from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+        MotifCodebookQuantizer,
+        VectorQuantizedMotifCodebookNet,
+        build_vector_quantized_motif_codebook_net_from_config,
+    )
+
+    folder = Path("ideas/i159_vector_quantized_motif_codebook_net")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, VectorQuantizedMotifCodebookNet)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "vector_quantized_motif_codebook_net"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_codes = int(config["model"]["num_codes"])
+    code_dim = int(config["model"]["code_dim"])
+    hidden_dim = int(config["model"]["hidden_dim"])
+    assert isinstance(model.quantizer, MotifCodebookQuantizer)
+    assert model.quantizer.num_codes == num_codes
+    assert model.quantizer.code_dim == code_dim
+    assert model.quantizer.codebook.shape == (num_codes, code_dim)
+    assert model.code_map_embedding.weight.shape == (num_codes, hidden_dim)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move with white king on e1, black king on e8, a white pawn on e2.
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 12] = 1.0
+    x[0, 0, 6, 4] = 1.0
+    # Sample 1: black-to-move with white king on e1, black king on g7, a black bishop on c3.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 11, 1, 6] = 1.0
+    x[1, 7, 5, 2] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    expected_keys = {
+        "logits",
+        "prob",
+        "code_usage_entropy",
+        "code_perplexity",
+        "active_codes",
+        "mean_quantization_distance",
+        "commitment_loss",
+        "codebook_loss",
+        "dominant_code_probability",
+        "spatial_code_homogeneity",
+        "encoder_feature_energy",
+        "quantized_feature_energy",
+        "code_map",
+    }
+    assert expected_keys.issubset(output)
+
+    for key in (
+        "code_usage_entropy",
+        "code_perplexity",
+        "active_codes",
+        "mean_quantization_distance",
+        "commitment_loss",
+        "codebook_loss",
+        "dominant_code_probability",
+        "spatial_code_homogeneity",
+        "encoder_feature_energy",
+        "quantized_feature_energy",
+    ):
+        assert output[key].shape == (2,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    assert output["code_map"].shape == (2, 8, 8)
+    assert output["code_map"].dtype == torch.long
+    assert (output["code_map"] >= 0).all()
+    assert (output["code_map"] < num_codes).all()
+    assert (output["active_codes"] >= 1).all()
+    assert (output["active_codes"] <= num_codes).all()
+    assert (output["dominant_code_probability"] >= 0).all()
+    assert (output["dominant_code_probability"] <= 1.0 + 1e-5).all()
+    assert (output["spatial_code_homogeneity"] >= 0).all()
+    assert (output["spatial_code_homogeneity"] <= 1.0 + 1e-5).all()
+    assert (output["mean_quantization_distance"] >= 0).all()
+
+    fen_inputs = torch.from_numpy(
+        fen_to_tensor("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+    ).unsqueeze(0)
+    with torch.no_grad():
+        fen_output = model(fen_inputs)
+    assert fen_output["logits"].shape == (1,)
+
+    # Registry-built model from the same config keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "vector_quantized_motif_codebook_net"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, VectorQuantizedMotifCodebookNet)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # BCE on the puzzle logits flows gradients into the encoder, the
+    # code-map embedding, and the head. The codebook itself is updated
+    # via EMA only, so its grad must remain None.
+    trainable = build_vector_quantized_motif_codebook_net_from_config(dict(config["model"]))
+    trainable.train()
+    target = torch.tensor([1.0, 0.0])
+    out = trainable(x)
+    bce = torch.nn.functional.binary_cross_entropy_with_logits(out["logits"], target)
+    bce.backward()
+    encoder_proj_grad = trainable.encoder.project.weight.grad
+    embed_grad = trainable.code_map_embedding.weight.grad
+    head_linear_grad = trainable.head[1].weight.grad
+    for grad in (encoder_proj_grad, embed_grad, head_linear_grad):
+        assert grad is not None and torch.isfinite(grad).all()
+        assert grad.abs().sum() > 0
+    assert trainable.quantizer.codebook.grad is None
+
+    # EMA cluster sizes must register usage after a training pass.
+    assert bool(trainable.quantizer.initialised.item())
+    assert trainable.quantizer.ema_cluster_size.sum().item() > 0
+
+    # Detached diagnostics must not require grad.
+    trainable.zero_grad(set_to_none=True)
+    out = trainable(x)
+    assert not out["code_map"].requires_grad
+    assert not out["active_codes"].requires_grad
+    assert not out["mean_quantization_distance"].requires_grad
+
+    # Idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i159"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.line_piece_crossbar_network import (
+        LinePieceCrossbarNetwork,
+        NUM_LINES,
+        NUM_PIECES,
+        build_line_piece_crossbar_network_from_config,
+    )
+
+    folder = Path("ideas/i171_line_piece_crossbar_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, LinePieceCrossbarNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "line_piece_crossbar_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["piece_pool"].shape == (2, channels)
+    assert output["piece_tokens"].shape == (2, NUM_PIECES, channels)
+    assert output["line_tokens"].shape == (2, NUM_LINES, channels)
+    assert output["rank_tokens"].shape == (2, 8, channels)
+    assert output["file_tokens"].shape == (2, 8, channels)
+    assert output["diag_tokens"].shape == (2, 15, channels)
+    assert output["antidiag_tokens"].shape == (2, 15, channels)
+    assert output["piece_token_history"].shape == (2, depth, NUM_PIECES, channels)
+    assert output["line_token_history"].shape == (2, depth, NUM_LINES, channels)
+    assert output["piece_message_stack"].shape == (2, depth, NUM_PIECES, channels)
+    assert output["line_message_stack"].shape == (2, depth, NUM_LINES, channels)
+    assert output["piece_energy"].shape == (2, NUM_PIECES)
+    assert output["line_energy"].shape == (2, NUM_LINES)
+    assert output["rank_line_energy"].shape == (2, 8)
+    assert output["file_line_energy"].shape == (2, 8)
+    assert output["diag_line_energy"].shape == (2, 15)
+    assert output["antidiag_line_energy"].shape == (2, 15)
+    assert output["mean_piece_energy"].shape == (2,)
+    assert output["mean_line_energy"].shape == (2,)
+    assert output["rank_minus_file_line_energy"].shape == (2,)
+    assert output["diag_minus_antidiag_line_energy"].shape == (2,)
+    assert output["depth_levels"].shape == (2,)
+    assert output["num_lines_levels"].shape == (2,)
+    assert output["num_pieces_levels"].shape == (2,)
+    assert "prob" in output
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["num_lines_levels"] == NUM_LINES).all()
+    assert (output["num_pieces_levels"] == NUM_PIECES).all()
+
+    # The deterministic incidence is exactly the chess piece-line geometry.
+    incidence = model.incidence
+    assert incidence.shape == (NUM_PIECES, NUM_LINES)
+    assert ((incidence == 0) | (incidence == 1)).all()
+    assert torch.equal(incidence.sum(dim=1), torch.full((NUM_PIECES,), 4.0))
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "line_piece_crossbar_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, LinePieceCrossbarNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["piece_tokens"].shape == (2, NUM_PIECES, channels)
+    assert registry_output["line_tokens"].shape == (2, NUM_LINES, channels)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_line_piece_crossbar_network_from_config
+        is build_line_piece_crossbar_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i171"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.near_puzzle_margin_twin_network import (
+        NearPuzzleMarginTwinNetwork,
+        build_near_puzzle_margin_twin_network_from_config,
+    )
+
+    folder = Path("ideas/i172_near_puzzle_margin_twin_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, NearPuzzleMarginTwinNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "near_puzzle_margin_twin_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["z_shared"].shape == (2, model.shared_dim)
+    assert output["z_ordinary"].shape == (2, model.ordinary_dim)
+    assert output["z_tactical"].shape == (2, model.tactical_dim)
+    assert output["ordinary_norm"].shape == (2,)
+    assert output["tactical_norm"].shape == (2,)
+    assert output["ordinary_tactical_alignment"].shape == (2,)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["puzzle_margin_signal"].shape == (2,)
+    assert torch.equal(output["puzzle_margin_signal"], output["logits"])
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Twin head reads tactical latent only -- gradient through z_ordinary
+    # vanishes for the puzzle logit.
+    grad_model = build_near_puzzle_margin_twin_network_from_config(dict(config["model"])).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8, requires_grad=False)
+    x_grad[:, 12] = 1.0
+    out = grad_model(x_grad)
+    out["logits"].sum().backward()
+    ordinary_params = [
+        p.grad for p in grad_model.ordinary_projector.parameters() if p.grad is not None
+    ]
+    tactical_params = [
+        p.grad for p in grad_model.tactical_projector.parameters() if p.grad is not None
+    ]
+    assert tactical_params, "tactical projector must receive gradient from puzzle logit"
+    for grad in tactical_params:
+        assert torch.isfinite(grad).all()
+    assert all(torch.allclose(grad, torch.zeros_like(grad)) for grad in ordinary_params)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "near_puzzle_margin_twin_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, NearPuzzleMarginTwinNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert registry_output["z_ordinary"].shape == (2, registry_model.ordinary_dim)
+    assert registry_output["z_tactical"].shape == (2, registry_model.tactical_dim)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_near_puzzle_margin_twin_network_from_config
+        is build_near_puzzle_margin_twin_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i172"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
+    from chess_nn_playground.models.stripe_selective_mixer_cnn import (
+        DirectionalStripeConv,
+        StripeSelectiveMixerBlock,
+        StripeSelectiveMixerCNN,
+        build_stripe_selective_mixer_cnn_from_config,
+    )
+
+    folder = Path("ideas/i173_stripe_selective_mixer_cnn")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, StripeSelectiveMixerCNN)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "stripe_selective_mixer_cnn"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert all(isinstance(block, StripeSelectiveMixerBlock) for block in model.blocks)
+    for block in model.blocks:
+        for direction in ("rank", "file", "diag", "antidiag"):
+            assert isinstance(block.stripe_convs[direction], DirectionalStripeConv)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    depth = int(config["model"]["depth"])
+    assert model.channels == channels
+    assert model.depth == depth
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["pooled"].shape == (2, 2 * channels)
+    assert output["gate_history"].shape == (2, depth, channels)
+    assert output["gate_per_block_mean"].shape == (2, depth)
+    assert output["gate_per_block_min"].shape == (2, depth)
+    assert output["gate_per_block_max"].shape == (2, depth)
+    assert output["gate_overall_mean"].shape == (2,)
+    for key in (
+        "local_branch_energy",
+        "rank_branch_energy",
+        "file_branch_energy",
+        "diag_branch_energy",
+        "antidiag_branch_energy",
+        "rank_minus_file_branch_energy",
+        "diag_minus_antidiag_branch_energy",
+        "active_stripe_count",
+        "stripe_kernel_levels",
+        "depth_levels",
+        "ablation_active",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["depth_levels"] == depth).all()
+    assert (output["stripe_kernel_levels"] == model.stripe_kernel).all()
+    assert (output["active_stripe_count"] == 4.0).all()
+    assert (output["ablation_active"] == 0.0).all()
+    # The default model uses all four chess stripe directions.
+    assert tuple(model.blocks[0].active_directions) == ("rank", "file", "diag", "antidiag")
+
+    # Stripe masks lock the kernel to one chess line direction.
+    K = model.stripe_kernel
+    rank_mask = model.blocks[0].stripe_convs["rank"].mask
+    file_mask = model.blocks[0].stripe_convs["file"].mask
+    diag_mask = model.blocks[0].stripe_convs["diag"].mask
+    anti_mask = model.blocks[0].stripe_convs["antidiag"].mask
+    assert rank_mask.shape == (K, K)
+    assert int(rank_mask.sum().item()) == K
+    assert int(rank_mask[K // 2].sum().item()) == K
+    assert int(file_mask[:, K // 2].sum().item()) == K
+    for i in range(K):
+        assert diag_mask[i, i].item() == 1.0
+        assert anti_mask[i, K - 1 - i].item() == 1.0
+
+    # Ablations actually reshape the active stripe set.
+    for ablation, expected_directions in (
+        ("none", ("rank", "file", "diag", "antidiag")),
+        ("local_only", ()),
+        ("rank_file_only", ("rank", "file")),
+        ("diag_only", ("diag",)),
+        ("random_stripes", ("rank", "file", "diag", "antidiag")),
+        ("no_global_gate", ("rank", "file", "diag", "antidiag")),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_stripe_selective_mixer_cnn_from_config(ab_cfg).eval()
+        assert tuple(ab_model.blocks[0].active_directions) == expected_directions
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        if ablation == "local_only":
+            assert (ab_output["rank_branch_energy"] == 0.0).all()
+            assert (ab_output["file_branch_energy"] == 0.0).all()
+            assert (ab_output["diag_branch_energy"] == 0.0).all()
+            assert (ab_output["antidiag_branch_energy"] == 0.0).all()
+        if ablation == "no_global_gate":
+            # Gate is forced to 1 when the gate MLP is disabled.
+            assert torch.allclose(
+                ab_output["gate_history"],
+                torch.ones_like(ab_output["gate_history"]),
+            )
+
+    # Random-stripes ablation breaks the geometric masks at matched K-position support.
+    rand_cfg = dict(config["model"])
+    rand_cfg["ablation"] = "random_stripes"
+    rand_model = build_stripe_selective_mixer_cnn_from_config(rand_cfg).eval()
+    rand_rank_mask = rand_model.blocks[0].stripe_convs["rank"].mask
+    assert int(rand_rank_mask.sum().item()) == K
+    assert not torch.equal(rand_rank_mask, rank_mask)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "stripe_selective_mixer_cnn"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, StripeSelectiveMixerCNN)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_stripe_selective_mixer_cnn_from_config
+        is build_stripe_selective_mixer_cnn_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i173"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
+    from chess_nn_playground.models.king_zone_evidence_ledger import (
+        EvidenceLedger,
+        KingZoneEvidenceLedger,
+        build_king_zone_evidence_ledger_from_config,
+    )
+
+    folder = Path("ideas/i174_king_zone_evidence_ledger")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, KingZoneEvidenceLedger)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "king_zone_evidence_ledger"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    for bank in (model.own_ledger, model.opp_ledger, model.global_ledger):
+        assert isinstance(bank, EvidenceLedger)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_slots = int(config["model"]["num_slots"])
+    slot_dim = int(config["model"]["slot_dim"])
+    ledger_layers = int(config["model"]["ledger_layers"])
+    assert model.channels == channels
+    assert model.num_slots == num_slots
+    assert model.slot_dim == slot_dim
+    assert model.ledger_layers == ledger_layers
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Position 0: white king on h1, black king on a8, white to move.
+    x[0, 5, 7, 7] = 1.0
+    x[0, 11, 0, 0] = 1.0
+    # Position 1: white king at e4, black king at e8, black to move.
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 0, 4] = 1.0
+    # Side-to-move plane: 1.0 means white to move.
+    x[0, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["own_king_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["opp_king_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["global_ledger"].shape == (2, num_slots, slot_dim)
+    assert output["ledger_difference"].shape == (2, num_slots, slot_dim)
+    assert output["ledger_product"].shape == (2, num_slots, slot_dim)
+    assert output["own_attention"].shape == (2, num_slots, 64)
+    assert output["opp_attention"].shape == (2, num_slots, 64)
+    assert output["global_attention"].shape == (2, num_slots, 64)
+
+    for key in (
+        "own_king_energy",
+        "opp_king_energy",
+        "global_energy",
+        "own_minus_opp_energy",
+        "own_attention_entropy",
+        "opp_attention_entropy",
+        "global_attention_entropy",
+        "own_king_ring_pressure",
+        "opp_king_ring_pressure",
+        "own_anchor_rank",
+        "own_anchor_file",
+        "opp_anchor_rank",
+        "opp_anchor_file",
+        "own_anchor_rank_used",
+        "own_anchor_file_used",
+        "opp_anchor_rank_used",
+        "opp_anchor_file_used",
+        "side_to_move",
+        "num_slots_levels",
+        "slot_dim_levels",
+        "ledger_layers_levels",
+        "ablation_active",
+        "uses_king_relative",
+        "uses_random_anchor",
+        "uses_global_only",
+    ):
+        assert output[key].shape == (2,), key
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # King anchors come from the right planes, re-keyed by side to move.
+    assert output["own_anchor_rank"][0].item() == 7.0  # white king on rank 7 of tensor (white side to move)
+    assert output["own_anchor_file"][0].item() == 7.0
+    assert output["opp_anchor_rank"][0].item() == 0.0
+    assert output["opp_anchor_file"][0].item() == 0.0
+    # Position 1: black to move, so own == black king, opp == white king.
+    assert output["own_anchor_rank"][1].item() == 0.0
+    assert output["own_anchor_file"][1].item() == 4.0
+    assert output["opp_anchor_rank"][1].item() == 4.0
+    assert output["opp_anchor_file"][1].item() == 4.0
+    assert output["side_to_move"][0].item() == 1.0
+    assert output["side_to_move"][1].item() == 0.0
+
+    # Default model uses king-relative features and real king anchors.
+    assert (output["uses_king_relative"] == 1.0).all()
+    assert (output["uses_random_anchor"] == 0.0).all()
+    assert (output["uses_global_only"] == 0.0).all()
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["num_slots_levels"] == num_slots).all()
+    assert (output["slot_dim_levels"] == slot_dim).all()
+    assert (output["ledger_layers_levels"] == ledger_layers).all()
+
+    # Attention is a softmax over 64 squares.
+    assert torch.allclose(
+        output["own_attention"].sum(dim=-1),
+        torch.ones(2, num_slots),
+        atol=1e-5,
+    )
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_kr, expected_rand, expected_glob in (
+        ("none", 1.0, 0.0, 0.0),
+        ("no_king_relative", 0.0, 0.0, 0.0),
+        ("random_king_anchor", 1.0, 1.0, 0.0),
+        ("global_slots_only", 1.0, 0.0, 1.0),
+        ("slot_count_sweep", 1.0, 0.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_king_zone_evidence_ledger_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_king_relative"][0].item() == expected_kr
+        assert ab_output["uses_random_anchor"][0].item() == expected_rand
+        assert ab_output["uses_global_only"][0].item() == expected_glob
+        if ablation == "random_king_anchor":
+            # The random anchor must differ from the real king square at least
+            # for one of the two batch positions.
+            real = torch.stack(
+                [ab_output["own_anchor_rank"], ab_output["own_anchor_file"]], dim=-1
+            )
+            used = torch.stack(
+                [ab_output["own_anchor_rank_used"], ab_output["own_anchor_file_used"]],
+                dim=-1,
+            )
+            assert not torch.equal(real, used)
+        else:
+            assert torch.equal(ab_output["own_anchor_rank"], ab_output["own_anchor_rank_used"])
+            assert torch.equal(ab_output["own_anchor_file"], ab_output["own_anchor_file_used"])
+
+    # slot_count_sweep is structurally a no-op flag for varying num_slots.
+    sweep_cfg = dict(config["model"])
+    sweep_cfg["ablation"] = "slot_count_sweep"
+    sweep_cfg["num_slots"] = 8
+    sweep_model = build_king_zone_evidence_ledger_from_config(sweep_cfg).eval()
+    assert sweep_model.num_slots == 8
+    with torch.no_grad():
+        sweep_output = sweep_model(x)
+    assert sweep_output["own_king_ledger"].shape == (2, 8, slot_dim)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "king_zone_evidence_ledger"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, KingZoneEvidenceLedger)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_king_zone_evidence_ledger_from_config
+        is build_king_zone_evidence_ledger_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i174"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.prototype_margin_puzzle_network import (
+        PrototypeBank,
+        PrototypeMarginPuzzleNetwork,
+        build_prototype_margin_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i175_prototype_margin_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PrototypeMarginPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "prototype_margin_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    for bank in (model.puzzle_bank, model.random_bank):
+        assert isinstance(bank, PrototypeBank)
+    assert isinstance(model.near_bank, PrototypeBank)
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    proto_dim = int(config["model"]["proto_dim"])
+    num_prototypes = int(config["model"]["num_prototypes"])
+    temperature = float(config["model"]["temperature"])
+    assert model.channels == channels
+    assert model.proto_dim == proto_dim
+    assert model.num_prototypes == num_prototypes
+    assert model.temperature == temperature
+    assert model.puzzle_bank.prototypes.shape == (num_prototypes, proto_dim)
+    assert model.random_bank.prototypes.shape == (num_prototypes, proto_dim)
+    assert model.near_bank.prototypes.shape == (num_prototypes, proto_dim)
+    # Default model: random bank is trainable.
+    assert model.random_bank.prototypes.requires_grad
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["z"].shape == (2, proto_dim)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["trunk_energy"].shape == (2,)
+    assert output["sim_random"].shape == (2,)
+    assert output["sim_near"].shape == (2,)
+    assert output["sim_puzzle"].shape == (2,)
+    assert output["negative_logsumexp"].shape == (2,)
+    assert output["puzzle_margin_signal"].shape == (2,)
+    assert output["random_scores"].shape == (2, num_prototypes)
+    assert output["near_scores"].shape == (2, num_prototypes)
+    assert output["puzzle_scores"].shape == (2, num_prototypes)
+    for key in (
+        "num_prototypes_levels",
+        "proto_dim_levels",
+        "temperature_levels",
+        "ablation_active",
+        "uses_separate_negatives",
+        "uses_margin_head",
+        "random_proto_frozen",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["num_prototypes_levels"] == num_prototypes).all()
+    assert (output["proto_dim_levels"] == proto_dim).all()
+    assert (output["temperature_levels"] == temperature).all()
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_separate_negatives"] == 1.0).all()
+    assert (output["uses_margin_head"] == 1.0).all()
+    assert (output["random_proto_frozen"] == 0.0).all()
+
+    # Margin head wires the packet's identity:
+    #   logits == sim_puzzle - logsumexp([sim_random, sim_near])
+    expected_margin = output["sim_puzzle"] - output["negative_logsumexp"]
+    assert torch.allclose(output["logits"], expected_margin, atol=1e-5)
+    assert torch.equal(output["puzzle_margin_signal"], output["logits"])
+
+    # Cosine scores are bounded.
+    for key in ("random_scores", "near_scores", "puzzle_scores"):
+        assert (output[key] >= -1.0 - 1e-5).all() and (output[key] <= 1.0 + 1e-5).all(), key
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sep, expected_margin_flag, expected_frozen in (
+        ("none", 1.0, 1.0, 0.0),
+        ("single_negative_proto", 0.0, 1.0, 0.0),
+        ("no_margin_logsumexp", 1.0, 0.0, 0.0),
+        ("random_proto_freeze", 1.0, 1.0, 1.0),
+        ("prototype_count_sweep", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_prototype_margin_puzzle_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_separate_negatives"][0].item() == expected_sep
+        assert ab_output["uses_margin_head"][0].item() == expected_margin_flag
+        assert ab_output["random_proto_frozen"][0].item() == expected_frozen
+        if ablation == "single_negative_proto":
+            assert ab_model.near_bank is None
+            # With one negative bank the margin reduces to sim_puzzle - sim_random.
+            ab_expected = ab_output["sim_puzzle"] - ab_output["sim_random"]
+            assert torch.allclose(ab_output["logits"], ab_expected, atol=1e-5)
+            assert torch.equal(ab_output["sim_near"], ab_output["sim_random"])
+        elif ablation == "no_margin_logsumexp":
+            # The linear head bypasses the margin.
+            assert ab_model.linear_head is not None
+        elif ablation == "random_proto_freeze":
+            assert not ab_model.random_bank.prototypes.requires_grad
+            # Puzzle and near banks remain trainable.
+            assert ab_model.puzzle_bank.prototypes.requires_grad
+            assert ab_model.near_bank is not None
+            assert ab_model.near_bank.prototypes.requires_grad
+        else:
+            # Default and sweep configurations keep all banks trainable.
+            assert ab_model.random_bank.prototypes.requires_grad
+
+    # prototype_count_sweep is structurally a no-op flag for varying num_prototypes.
+    sweep_cfg = dict(config["model"])
+    sweep_cfg["ablation"] = "prototype_count_sweep"
+    sweep_cfg["num_prototypes"] = 16
+    sweep_model = build_prototype_margin_puzzle_network_from_config(sweep_cfg).eval()
+    assert sweep_model.num_prototypes == 16
+    with torch.no_grad():
+        sweep_output = sweep_model(x)
+    assert sweep_output["puzzle_scores"].shape == (2, 16)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "prototype_margin_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PrototypeMarginPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_prototype_margin_puzzle_network_from_config
+        is build_prototype_margin_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i175"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
+    from chess_nn_playground.models.forcing_certificate_transformer import (
+        CertificateSlotAttention,
+        ForcingCertificateTransformer,
+        build_forcing_certificate_transformer_from_config,
+    )
+
+    folder = Path("ideas/i177_forcing_certificate_transformer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ForcingCertificateTransformer)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "forcing_certificate_transformer"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+    assert all(isinstance(layer, CertificateSlotAttention) for layer in model.slot_layers)
+    assert model.relations.shape == (8, 64, 64)
+    # Default model uses the relation bias prior.
+    assert model.uses_relation_bias is True
+    assert model.uses_global_residual is True
+    assert model.uses_slot_attention is True
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    token_dim = model.token_dim
+    num_slots = model.num_slots
+    slot_iters = model.slot_iters
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["slot_scores"].shape == (2, num_slots)
+    assert output["slot_logsumexp"].shape == (2,)
+    assert output["global_residual_logit"].shape == (2,)
+    assert output["slot_attention"].shape == (2, num_slots, 64)
+    assert output["slot_attention_entropy"].shape == (2, num_slots)
+    assert output["slot_attention_entropy_mean"].shape == (2,)
+    assert output["slot_attention_max"].shape == (2, num_slots)
+    assert output["slot_attention_margin"].shape == (2, num_slots)
+    assert output["slot_diversity"].shape == (2,)
+    assert output["slot_features"].shape == (2, num_slots, token_dim)
+    assert output["token_features"].shape == (2, 64, token_dim)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    assert output["relation_bias"].shape == (2, num_slots, 64)
+    for key in (
+        "ablation_active",
+        "uses_relation_bias",
+        "uses_global_residual",
+        "uses_slot_attention",
+        "num_slots_levels",
+        "slot_iters_levels",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_relation_bias"] == 1.0).all()
+    assert (output["uses_global_residual"] == 1.0).all()
+    assert (output["uses_slot_attention"] == 1.0).all()
+    assert (output["num_slots_levels"] == num_slots).all()
+    assert (output["slot_iters_levels"] == slot_iters).all()
+
+    # Slot attention is a softmax distribution over 64 squares per slot.
+    attention_sums = output["slot_attention"].sum(dim=-1)
+    assert torch.allclose(attention_sums, torch.ones_like(attention_sums), atol=1e-5)
+
+    # Default head: logits == logsumexp(slot_scores) + global_residual_logit.
+    expected = output["slot_logsumexp"] + output["global_residual_logit"]
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_relation, expected_global, expected_slot_attn, expected_num_slots in (
+        ("none", 1.0, 1.0, 1.0, num_slots),
+        ("no_relation_bias", 0.0, 1.0, 1.0, num_slots),
+        ("no_global_residual", 1.0, 0.0, 1.0, num_slots),
+        ("uniform_slot_attention", 1.0, 1.0, 0.0, num_slots),
+        ("single_slot", 1.0, 1.0, 1.0, 1),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_forcing_certificate_transformer_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_relation_bias"][0].item() == expected_relation
+        assert ab_output["uses_global_residual"][0].item() == expected_global
+        assert ab_output["uses_slot_attention"][0].item() == expected_slot_attn
+        assert ab_model.num_slots == expected_num_slots
+        if ablation == "no_relation_bias":
+            # Relation-bias parameters are absent / zero.
+            for layer in ab_model.slot_layers:
+                assert layer.anchor_logits is None
+                assert layer.relation_mix is None
+            assert torch.equal(ab_output["relation_bias"], torch.zeros_like(ab_output["relation_bias"]))
+        elif ablation == "no_global_residual":
+            # Global residual head still runs (so the diagnostic is reported)
+            # but is not added into the puzzle logit.
+            ab_expected = ab_output["slot_logsumexp"]
+            assert torch.allclose(ab_output["logits"], ab_expected, atol=1e-5)
+        elif ablation == "uniform_slot_attention":
+            uniform = torch.full_like(ab_output["slot_attention"], 1.0 / 64.0)
+            assert torch.allclose(ab_output["slot_attention"], uniform, atol=1e-5)
+        elif ablation == "single_slot":
+            assert ab_output["slot_scores"].shape == (2, 1)
+            # With a single slot, slot_logsumexp == slot_scores.squeeze(-1).
+            assert torch.allclose(
+                ab_output["slot_logsumexp"], ab_output["slot_scores"].squeeze(-1), atol=1e-5
+            )
+            # Slot diversity is 0 when there is only one slot to compare.
+            assert torch.allclose(
+                ab_output["slot_diversity"],
+                torch.zeros_like(ab_output["slot_diversity"]),
+                atol=1e-6,
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "forcing_certificate_transformer"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ForcingCertificateTransformer)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_forcing_certificate_transformer_from_config
+        is build_forcing_certificate_transformer_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i177"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.causal_piece_derivative_network import (
+        CausalPieceDerivativeNetwork,
+        build_causal_piece_derivative_network_from_config,
+    )
+
+    folder = Path("ideas/i179_causal_piece_derivative_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CausalPieceDerivativeNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "causal_piece_derivative_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    candidate_k = model.candidate_k
+    num_intervention_types = model.num_intervention_types
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["base_logit"].shape == (2,)
+    assert output["criticality_residual"].shape == (2,)
+    assert output["candidate_indices"].shape == (2, candidate_k)
+    assert output["candidate_gating_scores"].shape == (2, candidate_k)
+    assert output["candidate_own_indicator"].shape == (2, candidate_k)
+    assert output["candidate_opp_indicator"].shape == (2, candidate_k)
+    assert output["candidate_occupancy"].shape == (2, candidate_k)
+    assert output["delta_logits"].shape == (2, candidate_k, num_intervention_types)
+    assert output["sensitivities"].shape == (2, candidate_k, num_intervention_types)
+    assert output["sensitivity_per_candidate"].shape == (2, candidate_k)
+    for key in (
+        "criticality_max",
+        "criticality_top2_gap",
+        "criticality_entropy",
+        "criticality_signed_sum",
+        "criticality_own_vs_enemy_split",
+        "gating_distribution_entropy",
+    ):
+        assert output[key].shape == (2,), key
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_learned_candidates",
+        "uses_delta_readout",
+        "uses_all_interventions",
+        "candidate_k_levels",
+        "num_intervention_types",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_learned_candidates"] == 1.0).all()
+    assert (output["uses_delta_readout"] == 1.0).all()
+    assert (output["uses_all_interventions"] == 1.0).all()
+    assert (output["candidate_k_levels"] == candidate_k).all()
+    assert (output["num_intervention_types"] == num_intervention_types).all()
+
+    # Default head: logits == base_logit + criticality_residual.
+    expected = output["base_logit"] + output["criticality_residual"]
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+    # Sensitivities are exactly base_logit - delta_logit.
+    expected_sens = output["base_logit"].view(2, 1, 1) - output["delta_logits"]
+    assert torch.allclose(output["sensitivities"], expected_sens, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_learned, expected_delta, expected_all, expected_k, expected_T in (
+        ("none", 1.0, 1.0, 1.0, candidate_k, 3),
+        ("random_candidates", 0.0, 1.0, 1.0, candidate_k, 3),
+        ("no_delta_readout", 1.0, 0.0, 1.0, candidate_k, 3),
+        ("full_remove_only", 1.0, 1.0, 0.0, candidate_k, 1),
+        ("candidate_k_4", 1.0, 1.0, 1.0, 4, 3),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_causal_piece_derivative_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_learned_candidates"][0].item() == expected_learned
+        assert ab_output["uses_delta_readout"][0].item() == expected_delta
+        assert ab_output["uses_all_interventions"][0].item() == expected_all
+        assert ab_model.candidate_k == expected_k
+        assert ab_model.num_intervention_types == expected_T
+        assert ab_output["delta_logits"].shape == (2, expected_k, expected_T)
+        if ablation == "no_delta_readout":
+            # The criticality residual is computed but not added to the
+            # final logit, so the puzzle logit collapses to base_logit.
+            assert torch.allclose(ab_output["logits"], ab_output["base_logit"], atol=1e-5)
+        elif ablation == "random_candidates":
+            # The same fixed permutation is shared across the batch.
+            assert torch.equal(
+                ab_output["candidate_indices"][0], ab_output["candidate_indices"][1]
+            )
+        elif ablation == "candidate_k_4":
+            # Only four candidates are scored under the cost ablation.
+            assert ab_output["candidate_indices"].shape == (2, 4)
+        elif ablation == "full_remove_only":
+            assert ab_output["sensitivities"].shape[-1] == 1
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "causal_piece_derivative_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CausalPieceDerivativeNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_causal_piece_derivative_network_from_config
+        is build_causal_piece_derivative_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i179"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.phase_transition_pressure_network import (
+        PhaseTransitionPressureNetwork,
+        build_phase_transition_pressure_network_from_config,
+    )
+
+    folder = Path("ideas/i180_phase_transition_pressure_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PhaseTransitionPressureNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "phase_transition_pressure_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    num_thresholds = model.num_thresholds
+    num_summaries = model.num_summaries_effective
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king
+    x[0, 11, 0, 4] = 1.0  # black king
+    x[0, 4, 7, 3] = 1.0   # white queen
+    x[0, 10, 0, 3] = 1.0  # black queen
+    x[0, 3, 7, 0] = 1.0   # white rook
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["pressure_fields"].shape == (2, 5, 8, 8)
+    assert output["pressure_mean"].shape == (2, 5)
+    assert output["thresholds"].shape == (num_thresholds,)
+    assert output["temperature"].shape == ()
+    assert output["field_tau"].shape == (2, 5, num_thresholds, 8, 8)
+    assert output["summaries"].shape == (2, 5, num_thresholds, num_summaries)
+    assert output["critical_curves"].shape == (2, 5, num_thresholds - 1, num_summaries)
+    for key in ("mass_curve", "king_zone_mass_curve", "largest_component_curve", "boundary_length_curve"):
+        assert output[key].shape == (2, 5, num_thresholds), key
+    assert output["critical_pressure_score"].shape == (2,)
+    assert output["readout_features"].shape[0] == 2
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_threshold_sweep",
+        "uses_pressure_curve",
+        "uses_king_zone_features",
+        "num_thresholds_effective",
+        "num_summaries_effective",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_threshold_sweep"] == 1.0).all()
+    assert (output["uses_pressure_curve"] == 1.0).all()
+    assert (output["uses_king_zone_features"] == 1.0).all()
+    assert (output["num_thresholds_effective"] == num_thresholds).all()
+    assert (output["num_summaries_effective"] == num_summaries).all()
+
+    # Critical curves are exactly the first differences of summaries.
+    expected_curves = output["summaries"][..., 1:, :] - output["summaries"][..., :-1, :]
+    assert torch.allclose(output["critical_curves"], expected_curves, atol=1e-5)
+
+    # Field tau matches sigmoid((pressure - tau) / temperature).
+    pressures = output["pressure_fields"]
+    tau = output["thresholds"].view(1, 1, -1, 1, 1)
+    temperature = output["temperature"]
+    expected_tau = torch.sigmoid((pressures.unsqueeze(2) - tau) / temperature)
+    assert torch.allclose(output["field_tau"], expected_tau, atol=1e-5)
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sweep, expected_curve, expected_kz, expected_T, expected_S in (
+        ("none", 1.0, 1.0, 1.0, num_thresholds, 7),
+        ("single_threshold", 1.0, 0.0, 1.0, 1, 7),
+        ("pressure_mean_only", 0.0, 0.0, 1.0, 0, 7),
+        ("no_king_zone_features", 1.0, 1.0, 0.0, num_thresholds, 3),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_phase_transition_pressure_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_threshold_sweep"][0].item() == expected_sweep
+        assert ab_output["uses_pressure_curve"][0].item() == expected_curve
+        assert ab_output["uses_king_zone_features"][0].item() == expected_kz
+        assert ab_model.num_thresholds_effective == expected_T
+        assert ab_model.num_summaries_effective == expected_S
+        if ablation == "pressure_mean_only":
+            assert ab_output["field_tau"].shape == (2, 5, 0, 8, 8)
+            assert ab_output["readout_features"].shape == (2, 5)
+        elif ablation == "single_threshold":
+            assert ab_output["field_tau"].shape == (2, 5, 1, 8, 8)
+            # With a single threshold the model still emits a curve
+            # tensor of shape (B, F, 1, S) but it is exactly zero.
+            assert torch.allclose(
+                ab_output["critical_curves"],
+                torch.zeros_like(ab_output["critical_curves"]),
+                atol=1e-5,
+            )
+        elif ablation == "no_king_zone_features":
+            assert ab_output["summaries"].shape[-1] == 3
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "phase_transition_pressure_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PhaseTransitionPressureNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_phase_transition_pressure_network_from_config
+        is build_phase_transition_pressure_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i180"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.disproof_ledger_puzzle_network import (
+        DisproofLedgerPuzzleNetwork,
+        build_disproof_ledger_puzzle_network_from_config,
+    )
+
+    folder = Path("ideas/i181_disproof_ledger_puzzle_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, DisproofLedgerPuzzleNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "disproof_ledger_puzzle_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    disproof_channels = int(config["model"]["disproof_channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0   # white king
+    x[0, 11, 0, 4] = 1.0  # black king
+    x[0, 4, 7, 3] = 1.0   # white queen
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["positive_evidence"].shape == (2,)
+    assert output["disproof_field"].shape == (2, disproof_channels, 8, 8)
+    assert output["disproof_entries"].shape == (2, disproof_channels)
+    assert output["disproof_strengths"].shape == (2, disproof_channels)
+    assert output["disproof_strength_total"].shape == (2,)
+    assert output["disproof_l1"].shape == (2,)
+    assert output["max_disproof_strength"].shape == (2,)
+    assert output["max_disproof_channel"].shape == (2,)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_disproof_subtraction",
+        "uses_disproof_sparsity",
+        "uses_near_disproof_aux",
+        "num_disproof_channels",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_disproof_subtraction"] == 1.0).all()
+    assert (output["uses_disproof_sparsity"] == 1.0).all()
+    assert (output["uses_near_disproof_aux"] == 1.0).all()
+    assert (output["num_disproof_channels"] == disproof_channels).all()
+
+    # Disproof strengths are exactly softplus(entries), and the total is
+    # their sum across the channel axis.
+    expected_strengths = torch.nn.functional.softplus(output["disproof_entries"])
+    assert torch.allclose(output["disproof_strengths"], expected_strengths, atol=1e-5)
+    assert (output["disproof_strengths"] >= 0).all()
+    assert torch.allclose(
+        output["disproof_strength_total"], output["disproof_strengths"].sum(dim=-1), atol=1e-5
+    )
+    assert torch.allclose(output["disproof_l1"], output["disproof_strength_total"], atol=1e-5)
+
+    # The packet's main equation: logits = positive_evidence - sum_d softplus(d).
+    expected_logits = output["positive_evidence"] - output["disproof_strength_total"]
+    assert torch.allclose(output["logits"], expected_logits, atol=1e-5)
+
+    # Channel name table covers every channel and aligns the named six.
+    names = model.disproof_channel_names
+    assert len(names) == disproof_channels
+    for expected_name in (
+        "king_can_escape",
+        "defender_can_recapture",
+        "line_is_blocked",
+        "threat_is_too_slow",
+        "target_is_protected",
+        "side_lacks_tempo",
+    ):
+        assert expected_name in names
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_sub, expected_sparsity, expected_near in (
+        ("none", 1.0, 1.0, 1.0),
+        ("no_disproof_subtraction", 0.0, 1.0, 1.0),
+        ("dense_disproof_no_sparsity", 1.0, 0.0, 1.0),
+        ("no_near_aux", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_disproof_ledger_puzzle_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_disproof_subtraction"][0].item() == expected_sub
+        assert ab_output["uses_disproof_sparsity"][0].item() == expected_sparsity
+        assert ab_output["uses_near_disproof_aux"][0].item() == expected_near
+        if ablation == "no_disproof_subtraction":
+            # The puzzle logit collapses to the positive head only.
+            assert torch.allclose(
+                ab_output["logits"], ab_output["positive_evidence"], atol=1e-5
+            )
+        else:
+            # Subtraction stays on under the other ablations.
+            assert torch.allclose(
+                ab_output["logits"],
+                ab_output["positive_evidence"] - ab_output["disproof_strength_total"],
+                atol=1e-5,
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "disproof_ledger_puzzle_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, DisproofLedgerPuzzleNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_disproof_ledger_puzzle_network_from_config
+        is build_disproof_ledger_puzzle_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i181"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.motif_tensor_factorization_network import (
+        MotifTensorFactorizationNetwork,
+        build_motif_tensor_factorization_network_from_config,
+    )
+
+    folder = Path("ideas/i182_motif_tensor_factorization_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, MotifTensorFactorizationNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "motif_tensor_factorization_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    rank = int(config["model"]["rank"])
+    top_candidates = int(config["model"]["top_candidates"])
+    top_motifs = int(config["model"]["top_motifs"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 4, 7, 3] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+    x[:, 12] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["motif_score_tensor"].shape == (2, top_candidates, top_candidates, top_candidates)
+    assert output["top_motif_scores"].shape == (2, top_motifs)
+    assert output["top_motif_indices"].shape == (2, top_motifs)
+    assert output["motif_entropy"].shape == (2,)
+    assert output["own_motif_score"].shape == (2,)
+    assert output["opponent_motif_score"].shape == (2,)
+    assert output["motif_contrast"].shape == (2,)
+    assert output["near_disproof_score"].shape == (2,)
+    assert output["attacker_top_indices"].shape == (2, top_candidates)
+    assert output["target_top_indices"].shape == (2, top_candidates)
+    assert output["defender_top_indices"].shape == (2, top_candidates)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_multiplicative_motif",
+        "uses_relation_embedding",
+        "rank",
+        "num_top_candidates",
+        "num_top_motifs",
+    ):
+        assert output[key].shape == (2,), key
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_multiplicative_motif"] == 1.0).all()
+    assert (output["uses_relation_embedding"] == 1.0).all()
+    assert (output["rank"] == rank).all()
+    assert (output["num_top_candidates"] == top_candidates).all()
+    assert (output["num_top_motifs"] == top_motifs).all()
+
+    # Top motif scores are exactly the top-K of the flattened motif tensor.
+    motif_flat = output["motif_score_tensor"].reshape(2, -1)
+    expected_top, _ = torch.topk(motif_flat, top_motifs, dim=-1)
+    assert torch.allclose(output["top_motif_scores"], expected_top, atol=1e-5)
+    # Motif contrast is exactly own_motif_score - opponent_motif_score.
+    assert torch.allclose(
+        output["motif_contrast"],
+        output["own_motif_score"] - output["opponent_motif_score"],
+        atol=1e-5,
+    )
+
+    # Required ablations actually change behaviour the markdown specifies.
+    for ablation, expected_mult, expected_rel in (
+        ("none", 1.0, 1.0),
+        ("additive_motif_score", 0.0, 1.0),
+        ("no_relation_embedding", 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_motif_tensor_factorization_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_multiplicative_motif"][0].item() == expected_mult
+        assert ab_output["uses_relation_embedding"][0].item() == expected_rel
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "motif_tensor_factorization_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, MotifTensorFactorizationNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_motif_tensor_factorization_network_from_config
+        is build_motif_tensor_factorization_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i182"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tempo_alignment_gate_network import (
+        TempoAlignmentGateNetwork,
+        build_tempo_alignment_gate_network_from_config,
+    )
+
+    folder = Path("ideas/i183_tempo_alignment_gate_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TempoAlignmentGateNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tempo_alignment_gate_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    # Sample 0: white-to-move puzzle with a white attacker on e8 and a
+    # black king on e1 -- a tempo-aligned tactic.
+    x[0, 5, 7, 4] = 1.0  # white king e8 (just to fill the position)
+    x[0, 3, 0, 4] = 1.0  # white rook e1
+    x[0, 11, 0, 0] = 1.0  # black king a1
+    x[0, 12] = 1.0  # white-to-move
+    # Sample 1: same static board but black-to-move -- same danger,
+    # different tempo alignment.
+    x[1, 5, 7, 4] = 1.0
+    x[1, 3, 0, 4] = 1.0
+    x[1, 11, 0, 0] = 1.0
+    x[1, 12] = 0.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (2,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["danger_field"].shape == (2, 8, 8)
+    assert (output["danger_field"] >= 0.0).all()
+    assert output["side_field"].shape == (2, 8, 8)
+    assert output["alignment_field"].shape == (2, 8, 8)
+    assert ((output["alignment_field"] >= 0.0) & (output["alignment_field"] <= 1.0)).all()
+    assert output["own_pressure"].shape == (2,)
+    assert output["opp_pressure"].shape == (2,)
+    assert output["alignment_gap"].shape == (2,)
+    assert output["gated_pressure"].shape == (2,)
+    assert output["tempo_gate"].shape == (2,)
+    assert ((output["tempo_gate"] >= 0.0) & (output["tempo_gate"] <= 1.0)).all()
+    assert output["mean_danger"].shape == (2,)
+    assert output["max_danger"].shape == (2,)
+    assert output["own_pressure_flipped"].shape == (2,)
+    assert output["gated_pressure_flipped"].shape == (2,)
+    assert output["tempo_gate_flipped"].shape == (2,)
+    assert output["flip_contrast"].shape == (2,)
+    assert output["trunk_features"].shape == (2, channels, 8, 8)
+    for key in (
+        "ablation_active",
+        "uses_tempo_gate",
+        "uses_alignment",
+        "uses_multiplicative_gate",
+    ):
+        assert output[key].shape == (2,), key
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    assert (output["ablation_active"] == 0.0).all()
+    assert (output["uses_tempo_gate"] == 1.0).all()
+    assert (output["uses_alignment"] == 1.0).all()
+    assert (output["uses_multiplicative_gate"] == 1.0).all()
+
+    # alignment_gap is exactly own_pressure - opp_pressure.
+    assert torch.allclose(
+        output["alignment_gap"],
+        output["own_pressure"] - output["opp_pressure"],
+        atol=1e-5,
+    )
+    # flip_contrast is exactly gated_pressure - gated_pressure_flipped.
+    assert torch.allclose(
+        output["flip_contrast"],
+        output["gated_pressure"] - output["gated_pressure_flipped"],
+        atol=1e-5,
+    )
+
+    # Required ablations actually flip the markdown-named flags.
+    for ablation, expected_tempo, expected_align, expected_mult in (
+        ("none", 1.0, 1.0, 1.0),
+        ("no_tempo_gate", 0.0, 1.0, 1.0),
+        ("no_alignment", 1.0, 0.0, 1.0),
+        ("additive_gate", 1.0, 1.0, 0.0),
+    ):
+        ab_cfg = dict(config["model"])
+        ab_cfg["ablation"] = ablation
+        ab_model = build_tempo_alignment_gate_network_from_config(ab_cfg).eval()
+        with torch.no_grad():
+            ab_output = ab_model(x)
+        assert ab_output["logits"].shape == (2,)
+        assert torch.isfinite(ab_output["logits"]).all()
+        assert ab_output["uses_tempo_gate"][0].item() == expected_tempo
+        assert ab_output["uses_alignment"][0].item() == expected_align
+        assert ab_output["uses_multiplicative_gate"][0].item() == expected_mult
+        if ablation == "no_alignment":
+            assert torch.allclose(
+                ab_output["alignment_field"],
+                torch.full_like(ab_output["alignment_field"], 0.5),
+            )
+        if ablation == "no_tempo_gate":
+            assert torch.allclose(
+                ab_output["tempo_gate"],
+                torch.ones_like(ab_output["tempo_gate"]),
+            )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tempo_alignment_gate_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TempoAlignmentGateNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tempo_alignment_gate_network_from_config
+        is build_tempo_alignment_gate_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i183"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
+    from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+        PuzzleBoundaryTwinEncoder,
+        build_puzzle_boundary_twin_encoder_from_config,
+    )
+
+    folder = Path("ideas/i184_puzzle_boundary_twin_encoder")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, PuzzleBoundaryTwinEncoder)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "puzzle_boundary_twin_encoder"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    embedding_dim = model.embedding_dim
+    shared_dim = model.shared_dim
+
+    # Build a small in-batch (puzzle, near, random) triple so the
+    # margin contract is exercised with three distinct positions.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Puzzle-like: white rook checking the black king on the back rank.
+    x[0, 5, 0, 4] = 1.0
+    x[0, 3, 7, 4] = 1.0
+    x[0, 11, 7, 0] = 1.0
+    # Near-puzzle: same material on adjacent squares (no real check).
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 7, 5] = 1.0
+    x[1, 11, 7, 0] = 1.0
+    # Random: starting-rank-ish placement.
+    x[2, 5, 0, 4] = 1.0
+    x[2, 3, 0, 0] = 1.0
+    x[2, 11, 7, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["boundary_score"].shape == (3,)
+    assert output["boundary_distance"].shape == (3,)
+    assert (output["boundary_distance"] >= 0.0).all()
+    assert output["boundary_embedding"].shape == (3, embedding_dim)
+    assert output["z_shared"].shape == (3, shared_dim)
+    assert output["embedding_norm"].shape == (3,)
+    assert (output["embedding_norm"] >= 0.0).all()
+    assert output["trunk_energy"].shape == (3,)
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    # boundary_score equals logits in the binary case so the trainer's
+    # in-batch pair-margin reads against the same scalar the BCE term
+    # uses.
+    assert torch.equal(output["boundary_score"], output["logits"])
+
+    # boundary_embedding is unit-normalised (margin objective is
+    # scale-free in this latent).
+    embed_norm = output["boundary_embedding"].norm(dim=1)
+    assert torch.allclose(embed_norm, torch.ones_like(embed_norm), atol=1e-4)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Twin = shared encoder: two identical boards must produce
+    # identical logits, regardless of where they sit in the batch.
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["boundary_embedding"][0],
+        twin_output["boundary_embedding"][1],
+        atol=1e-5,
+    )
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "puzzle_boundary_twin_encoder"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, PuzzleBoundaryTwinEncoder)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_puzzle_boundary_twin_encoder_from_config
+        is build_puzzle_boundary_twin_encoder_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i184"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.critical_square_budget_network import (
+        CriticalSquareBudgetNetwork,
+        build_critical_square_budget_network_from_config,
+    )
+
+    folder = Path("ideas/i185_critical_square_budget_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CriticalSquareBudgetNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "critical_square_budget_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+    budget = float(config["model"]["budget"])
+
+    # Build a small batch with three structurally distinct positions so
+    # the saliency mask actually exercises the prior regions.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Puzzle-like: white rook checking the black king on the back rank.
+    x[0, 5, 0, 4] = 1.0
+    x[0, 3, 7, 4] = 1.0
+    x[0, 11, 7, 0] = 1.0
+    # Near-puzzle: same material on adjacent squares.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 7, 5] = 1.0
+    x[1, 11, 7, 0] = 1.0
+    # Random placement with a white pawn one square from promotion.
+    x[2, 5, 0, 4] = 1.0
+    x[2, 0, 6, 0] = 1.0
+    x[2, 11, 7, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    assert output["saliency_logits"].shape == (3, 8, 8)
+    assert output["saliency_mask"].shape == (3, 8, 8)
+    assert (output["saliency_mask"] >= 0.0).all()
+
+    # Budget contract: mask sums to budget per batch row.
+    budget_used = output["budget_used"]
+    assert budget_used.shape == (3,)
+    assert torch.allclose(budget_used, torch.full_like(budget_used, budget), atol=1e-4)
+
+    # Sanity: top-K mass is bounded by budget and entropy is non-negative.
+    assert (output["top_k_mass"] >= 0.0).all()
+    assert (output["top_k_mass"] <= budget + 1e-4).all()
+    assert (output["saliency_entropy"] >= -1e-6).all()
+
+    # Prior-region masses sum to <= budget (priors overlap, so we can't
+    # demand equality, but each must be non-negative and bounded).
+    for key in (
+        "own_king_zone_mass",
+        "opp_king_zone_mass",
+        "promotion_mass",
+        "line_intersection_mass",
+        "empty_square_mass",
+    ):
+        assert output[key].shape == (3,)
+        assert (output[key] >= -1e-6).all(), key
+        assert (output[key] <= budget + 1e-4).all(), key
+
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (sanity test for board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(twin_output["saliency_mask"][0], twin_output["saliency_mask"][1], atol=1e-5)
+
+    # Trunk channel count actually flows from config to the model.
+    assert model.channels == channels
+    assert model.budget == budget
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "critical_square_budget_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CriticalSquareBudgetNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_critical_square_budget_network_from_config
+        is build_critical_square_budget_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i185"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.legal_reaction_bottleneck_network import (
+        LegalReactionBottleneckNetwork,
+        build_legal_reaction_bottleneck_network_from_config,
+    )
+
+    folder = Path("ideas/i186_legal_reaction_bottleneck_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, LegalReactionBottleneckNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "legal_reaction_bottleneck_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    # Three structurally distinct positions exercising the defender-reply
+    # graph: a tight reaction set, a wide reaction set, and a position
+    # with no opponent pieces to test the empty-defender fallback.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0 (tight): a white queen pinning a single black piece.
+    x[0, 5, 0, 4] = 1.0   # white king
+    x[0, 4, 7, 4] = 1.0   # white queen on the e-file
+    x[0, 11, 7, 7] = 1.0  # black king (corner)
+    x[0, 7, 7, 5] = 1.0   # one black knight near the king
+    # Position 1 (wide): the same threat but the opponent has a flock
+    # of pieces with mobility.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 4, 7, 4] = 1.0
+    x[1, 11, 7, 7] = 1.0
+    for sq in [(7, 5), (6, 5), (6, 7), (5, 6), (5, 5), (4, 4)]:
+        x[1, 7, sq[0], sq[1]] = 1.0
+    # Position 2: white to move with no opponent pieces at all -- the
+    # defender-reply fallback (uniform over 64 squares, K_eff = 64).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    assert output["reaction_logits"].shape == (3, 8, 8)
+    dist = output["reaction_distribution"]
+    assert dist.shape == (3, 8, 8)
+    assert (dist >= 0.0).all()
+    # Rows with at least one defender must sum to 1; the empty-defender
+    # row falls back to a uniform-over-64 distribution which also sums
+    # to 1.
+    assert torch.allclose(
+        dist.flatten(1).sum(dim=1), torch.ones(3), atol=1e-4
+    )
+
+    # Defender-reply mask: the distribution must be zero off the
+    # opponent-piece squares for rows that have any defenders.
+    own_pieces = x[:, 0:6].sum(dim=1).clamp(0.0, 1.0)
+    black_pieces = x[:, 6:12].sum(dim=1).clamp(0.0, 1.0)
+    opp = black_pieces  # white-to-move for all rows
+    for i in range(2):  # rows 0 and 1 have defenders
+        off_def = dist[i] * (1.0 - opp[i])
+        assert off_def.abs().max().item() < 1e-5
+
+    # Tight defender set has fewer effective reactions than the wide
+    # defender set: K_eff_0 < K_eff_1.
+    assert output["effective_reaction_count"][0] < output["effective_reaction_count"][1] + 1e-3
+
+    # K_eff is a positive number bounded by the defender count for rows
+    # with defenders, and falls back to 64 (uniform over the board) for
+    # the empty-defender row.
+    K_eff = output["effective_reaction_count"]
+    defender_count = output["defender_count"]
+    assert (K_eff > 0).all()
+    assert K_eff[0] <= defender_count[0] + 1e-4
+    assert K_eff[1] <= defender_count[1] + 1e-4
+    assert defender_count[2].item() == 0.0
+    assert torch.allclose(K_eff[2], torch.tensor(64.0), atol=1e-3)
+
+    assert (output["reaction_max_strength"] >= 0.0).all()
+    assert (output["reaction_max_strength"] <= 1.0 + 1e-5).all()
+    assert (output["reaction_entropy"] >= -1e-6).all()
+    assert (output["bottleneck_kl"] >= -1e-6).all()
+    # Empty-defender row's KL is zero by convention (fallback uniform).
+    assert output["bottleneck_kl"][2].abs().item() < 1e-5
+
+    assert output["own_piece_pressure"].shape == (3,)
+    assert (output["own_piece_pressure"] >= 0.0).all()
+    assert (output["own_piece_pressure"] <= 1.0 + 1e-5).all()
+
+    for key in ("defense_gap", "reply_pressure", "trunk_energy"):
+        assert output[key].shape == (3,), key
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["reaction_distribution"][0],
+        twin_output["reaction_distribution"][1],
+        atol=1e-5,
+    )
+
+    # Configured channels and reaction temperature reach the model.
+    assert model.channels == channels
+    assert model.reaction_temperature == float(config["model"]["reaction_temperature"])
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "legal_reaction_bottleneck_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, LegalReactionBottleneckNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_legal_reaction_bottleneck_network_from_config
+        is build_legal_reaction_bottleneck_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i186"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.exchange_soundness_graph_network import (
+        ExchangeSoundnessGraphNetwork,
+        build_exchange_soundness_graph_network_from_config,
+    )
+
+    folder = Path("ideas/i187_exchange_soundness_graph_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ExchangeSoundnessGraphNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "exchange_soundness_graph_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    channels = int(config["model"]["channels"])
+
+    # Three structurally distinct positions exercising the
+    # exchange-soundness graph: a sound capture target, a defended
+    # target, and a position with no opponent pieces (empty-target
+    # fallback).
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under attack from a white
+    # queen with no defenders -- a sound capture (positive SEE).
+    x[0, 5, 0, 4] = 1.0  # white king on e1
+    x[0, 4, 4, 4] = 1.0  # white queen on e4
+    x[0, 11, 7, 7] = 1.0  # black king h8 (off any sensible defense)
+    x[0, 7, 5, 4] = 1.0  # black knight on e3 (target)
+    # Position 1: a black queen guarded by another black piece, so any
+    # would-be capture by a cheaper white piece is unsound after
+    # exchanges.
+    x[1, 5, 0, 4] = 1.0  # white king
+    x[1, 1, 4, 4] = 1.0  # white knight on e4
+    x[1, 10, 5, 4] = 1.0  # black queen on e3 (target)
+    x[1, 9, 6, 4] = 1.0  # black rook on e2 defends e3
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: white-to-move with no opponent pieces (empty-target
+    # fallback path).
+    x[2, 5, 0, 4] = 1.0  # white king only
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+    assert output["prob"].shape == (3,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+
+    for key in (
+        "attacker_intensity",
+        "defender_intensity",
+        "attacker_value_field",
+        "defender_value_field",
+        "target_value_field",
+        "exchange_score_field",
+        "exchange_soundness_field",
+        "target_mask",
+    ):
+        assert output[key].shape == (3, 8, 8), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Attacker / defender intensities are in [0, 1].
+    for key in ("attacker_intensity", "defender_intensity", "exchange_soundness_field"):
+        assert (output[key] >= 0.0).all() and (output[key] <= 1.0 + 1e-5).all(), key
+
+    # Cheapest-attacker / cheapest-defender values are bounded by the
+    # standard piece-value range [P=1, K=12].
+    for key in ("attacker_value_field", "defender_value_field"):
+        assert (output[key] >= 1.0 - 1e-4).all(), key
+        assert (output[key] <= 12.0 + 1e-4).all(), key
+
+    # Target value field is exactly the value of the opp piece on each
+    # square (zero off opp squares). Row 0 has a black knight (3) on
+    # e3 and the black king (12) on h8; row 1 has a black queen (9),
+    # rook (5) and king (12); row 2 has no opp pieces.
+    assert torch.isclose(output["target_value_field"][0, 5, 4], torch.tensor(3.0))
+    assert torch.isclose(output["target_value_field"][0, 7, 7], torch.tensor(12.0))
+    assert output["target_value_field"][0].nonzero().shape[0] == 2
+    # row 1
+    assert torch.isclose(output["target_value_field"][1, 5, 4], torch.tensor(9.0))
+    assert torch.isclose(output["target_value_field"][1, 6, 4], torch.tensor(5.0))
+    assert torch.isclose(output["target_value_field"][1, 7, 7], torch.tensor(12.0))
+    # row 2: no opp pieces.
+    assert output["target_value_field"][2].abs().max().item() == 0.0
+
+    # Target mask matches opp-piece occupancy.
+    opp = x[:, 6:12].sum(dim=1).clamp(0.0, 1.0)
+    assert torch.allclose(output["target_mask"], opp)
+    assert output["target_count"][0].item() == 2.0
+    assert output["target_count"][1].item() == 3.0
+    assert output["target_count"][2].item() == 0.0
+
+    # No-target row's max_see_target falls back to 0 (deterministic).
+    assert output["max_see_target"][2].item() == 0.0
+    # And all SEE-derived means are zero on that row.
+    assert output["mean_see_target"][2].abs().item() < 1e-6
+    assert output["frac_unsound_targets"][2].abs().item() < 1e-6
+    assert output["sheaf_tension"][2].abs().item() < 1e-6
+    # Bottleneck KL is conceptually a non-negative quantity.
+    assert (output["frac_unsound_targets"] >= -1e-6).all()
+    assert (output["frac_unsound_targets"] <= 1.0 + 1e-5).all()
+
+    for key in (
+        "max_see_target",
+        "mean_see_target",
+        "frac_unsound_targets",
+        "graph_pressure",
+        "reply_pressure",
+        "defense_gap",
+        "transport_imbalance",
+        "sheaf_tension",
+        "target_count",
+        "trunk_energy",
+    ):
+        assert output[key].shape == (3,), key
+    assert (output["trunk_energy"] >= 0.0).all()
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor) and value.is_floating_point():
+            assert torch.isfinite(value).all(), key
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["exchange_score_field"][0],
+        twin_output["exchange_score_field"][1],
+        atol=1e-5,
+    )
+
+    # Configured channels and exchange depth/temperature reach the model.
+    assert model.channels == channels
+    assert model.exchange_depth >= 1
+    assert model.exchange_temperature == float(
+        config["model"].get("exchange_temperature", 1.0)
+    )
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "exchange_soundness_graph_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ExchangeSoundnessGraphNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_exchange_soundness_graph_network_from_config
+        is build_exchange_soundness_graph_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i187"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_program_induction import (
+        OP_COUNT,
+        OP_NAMES,
+        TacticalProgramInductionNetwork,
+        build_tactical_program_induction_network_from_config,
+    )
+
+    folder = Path("ideas/i188_tactical_program_induction_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalProgramInductionNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_program_induction_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    program_steps = model.program_steps
+
+    # Two structurally distinct boards plus an empty-target row.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen on e4 attacks a hanging black knight on e3,
+    # white king e1, black king h8 -- typed facts (threat, win_target)
+    # should fire.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3 (target)
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: pin geometry -- white rook a1, black knight a4
+    # blocks line to black king a8.
+    x[1, 5, 0, 7] = 1.0  # white king h1
+    x[1, 3, 0, 0] = 1.0  # white rook a1
+    x[1, 7, 3, 0] = 1.0  # black knight a4 (pinned to king)
+    x[1, 11, 7, 0] = 1.0  # black king a8
+    # Position 2: white-to-move with no opponent pieces (empty-target
+    # fallback path). Only a white king.
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Per-step program tensors have the expected shapes.
+    assert output["operation_probs"].shape == (3, program_steps, OP_COUNT)
+    assert output["primary_piece_probs"].shape == (3, program_steps, 64)
+    assert output["target_square_probs"].shape == (3, program_steps, 64)
+    for key in (
+        "step_coherence",
+        "step_precondition_scores",
+        "step_postcondition_scores",
+        "step_relation_scores",
+    ):
+        assert output[key].shape == (3, program_steps), key
+
+    # Per-row program-level scalars.
+    for key in (
+        "program_coherence",
+        "program_log_coherence",
+        "precondition_score",
+        "postcondition_score",
+        "relation_coherence",
+        "operation_entropy",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "relation_fact_count",
+        "material_balance",
+        "board_activation_energy",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Operation probabilities sum to 1 over OP_COUNT and stay in [0, 1].
+    op_sums = output["operation_probs"].sum(dim=-1)
+    assert torch.allclose(op_sums, torch.ones_like(op_sums), atol=1e-5)
+    assert (output["operation_probs"] >= 0.0).all()
+
+    # Source / target square distributions sum to 1 over 64 squares.
+    src_sums = output["primary_piece_probs"].sum(dim=-1)
+    tgt_sums = output["target_square_probs"].sum(dim=-1)
+    assert torch.allclose(src_sums, torch.ones_like(src_sums), atol=1e-4)
+    assert torch.allclose(tgt_sums, torch.ones_like(tgt_sums), atol=1e-4)
+
+    # Coherence scores live in (0, 1].
+    assert ((output["program_coherence"] > 0.0) & (output["program_coherence"] <= 1.0 + 1e-5)).all()
+    assert ((output["precondition_score"] > 0.0) & (output["precondition_score"] <= 1.0 + 1e-5)).all()
+    assert ((output["postcondition_score"] > 0.0) & (output["postcondition_score"] <= 1.0 + 1e-5)).all()
+    assert ((output["relation_coherence"] >= 0.0) & (output["relation_coherence"] <= 1.0 + 1e-5)).all()
+
+    # Per-op typed-fact strength and program op-mass are exposed for
+    # every typed operation in the alphabet.
+    for name in OP_NAMES:
+        assert output[f"op_{name}_strength"].shape == (3,), name
+        assert output[f"op_{name}_mass"].shape == (3,), name
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["operation_probs"][0],
+        twin_output["operation_probs"][1],
+        atol=1e-5,
+    )
+
+    # Configured knobs reach the model.
+    assert model.program_steps == int(config["model"].get("program_steps", 4))
+    assert model.token_dim == int(config["model"].get("token_dim", config["model"].get("hidden_dim", 96)))
+    assert model.ablation == "none"
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        TacticalProgramInductionNetwork(num_classes=2)
+
+    # Ablation switches actually produce structurally different programs.
+    one_step_model = build_tactical_program_induction_network_from_config(
+        {**config["model"], "ablation": "one_step_program"}
+    ).eval()
+    with torch.no_grad():
+        one_step_output = one_step_model(x)
+    assert one_step_model.active_steps == 1
+    # Padded steps must have uniform op probabilities and zero pre/post/relation.
+    pad_op_probs = one_step_output["operation_probs"][:, 1:, :]
+    assert torch.allclose(
+        pad_op_probs,
+        torch.full_like(pad_op_probs, 1.0 / OP_COUNT),
+        atol=1e-5,
+    )
+    assert one_step_output["step_precondition_scores"][:, 1:].abs().max().item() < 1e-6
+    assert one_step_output["step_postcondition_scores"][:, 1:].abs().max().item() < 1e-6
+    assert one_step_output["step_relation_scores"][:, 1:].abs().max().item() < 1e-6
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_program_induction_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalProgramInductionNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_program_induction_network_from_config
+        is build_tactical_program_induction_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i188"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.counterfactual_defender_dropout import (
+        MASK_KINDS,
+        MASK_KIND_COUNT,
+        CounterfactualDefenderDropoutNetwork,
+        build_counterfactual_defender_dropout_network_from_config,
+    )
+
+    folder = Path("ideas/i189_counterfactual_defender_dropout_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, CounterfactualDefenderDropoutNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "counterfactual_defender_dropout_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    max_masks = model.max_masks
+
+    # Three structurally distinct boards.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: pin -- white rook a1, black knight a4 blocking line
+    # to black king a8 (the pinned blocker is the critical defender).
+    x[0, 5, 0, 7] = 1.0  # white king h1
+    x[0, 3, 0, 0] = 1.0  # white rook a1
+    x[0, 7, 3, 0] = 1.0  # black knight a4 (pinned)
+    x[0, 11, 7, 0] = 1.0  # black king a8
+    # Position 1: white queen attacks a hanging black knight; defender
+    # vs attacker asymmetry should differ from position 0.
+    x[1, 5, 0, 4] = 1.0  # white king e1
+    x[1, 4, 4, 4] = 1.0  # white queen e4
+    x[1, 7, 5, 4] = 1.0  # black knight e3 (hanging target)
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: only a white king (degenerate empty-target row).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Mask-level diagnostics carry the (B, M) shape.
+    assert output["intervention_delta"].shape == (3, max_masks)
+    assert output["intervention_mask_scores"].shape == (3, max_masks)
+    assert output["intervention_valid"].shape == (3, max_masks)
+
+    # Per-row scalar diagnostics required by the architecture contract.
+    for key in (
+        "logits",
+        "base_logit",
+        "intervention_correction",
+        "defender_sensitivity",
+        "attacker_sensitivity",
+        "king_escape_sensitivity",
+        "blocker_sensitivity",
+        "sensitivity_asymmetry",
+        "defender_minus_escape",
+        "defender_minus_blocker",
+        "sensitivity_entropy",
+        "max_sensitivity",
+        "mean_sensitivity",
+        "defender_mask_count",
+        "attacker_mask_count",
+        "king_escape_mask_count",
+        "blocker_mask_count",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # The asymmetry diagnostic is exactly defender − attacker.
+    expected_asymmetry = output["defender_sensitivity"] - output["attacker_sensitivity"]
+    assert torch.allclose(output["sensitivity_asymmetry"], expected_asymmetry, atol=1e-6)
+
+    # Logits factorise as base + correction (the central thesis wiring).
+    assert torch.allclose(
+        output["logits"], output["base_logit"] + output["intervention_correction"], atol=1e-5
+    )
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin_output = model(x_twin)
+    assert torch.allclose(twin_output["logits"][0], twin_output["logits"][1], atol=1e-5)
+    assert torch.allclose(
+        twin_output["intervention_delta"][0],
+        twin_output["intervention_delta"][1],
+        atol=1e-5,
+    )
+
+    # Configured knobs reach the model.
+    assert model.max_masks == int(config["model"].get("max_masks", 16))
+    assert model.topk == int(config["model"].get("topk", 3))
+    assert model.ablation == "none"
+    assert MASK_KIND_COUNT == len(MASK_KINDS) == 4
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        CounterfactualDefenderDropoutNetwork(num_classes=2)
+
+    # `no_intervention_head` ablation forces δ = 0 so the per-mask
+    # delta tensor must be exactly zero everywhere.
+    no_head_model = build_counterfactual_defender_dropout_network_from_config(
+        {**config["model"], "ablation": "no_intervention_head"}
+    ).eval()
+    with torch.no_grad():
+        no_head_output = no_head_model(x)
+    assert no_head_model.ablation == "no_intervention_head"
+    assert no_head_output["intervention_delta"].abs().max().item() == 0.0
+    assert no_head_output["sensitivity_asymmetry"].abs().max().item() == 0.0
+
+    # `defenders_only` ablation zeroes out attacker / king-escape /
+    # ray-blocker mask scores so only the defender mask kind can be valid.
+    defenders_only_model = build_counterfactual_defender_dropout_network_from_config(
+        {**config["model"], "ablation": "defenders_only"}
+    ).eval()
+    with torch.no_grad():
+        defenders_only_output = defenders_only_model(x, return_aux=True)
+    mask_types = defenders_only_output["intervention_mask_types"]
+    valid = defenders_only_output["intervention_valid"].bool()
+    # Every valid mask in the defenders_only ablation must have type 0
+    # (defender) -- every other typed kind got its score zeroed out.
+    valid_types = mask_types[valid]
+    if valid_types.numel() > 0:
+        assert (valid_types == 0).all()
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "counterfactual_defender_dropout_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, CounterfactualDefenderDropoutNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_counterfactual_defender_dropout_network_from_config
+        is build_counterfactual_defender_dropout_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i189"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
+    from chess_nn_playground.models.exchange_then_king_dual_stream import (
+        DualStreamFeatureBuilder,
+        ExchangeThenKingDualStreamNetwork,
+        build_exchange_then_king_dual_stream_from_config,
+    )
+
+    folder = Path("ideas/i193_exchange_then_king_dual_stream")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ExchangeThenKingDualStreamNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "exchange_then_king_dual_stream"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+
+    # Three structurally distinct boards spanning material exchange,
+    # king attack, and a degenerate single-king edge case.
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen attacks a hanging black knight (material
+    # exchange family).
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3 (hanging target)
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook on enemy king's file with a black pawn
+    # blocking and white queen on the king diagonal (king-attack
+    # family).
+    x[1, 5, 0, 4] = 1.0  # white king e1
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: only a white king (degenerate empty-target row).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    # Per-row diagnostics required by the architecture contract.
+    for key in (
+        "logits",
+        "exchange_logit",
+        "king_logit",
+        "gate",
+        "gate_logit",
+        "residual_logit",
+        "gate_entropy",
+        "stream_disagreement",
+        "exchange_pool_norm",
+        "king_pool_norm",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # The gate is a sigmoid in (0, 1).
+    assert (output["gate"] > 0.0).all()
+    assert (output["gate"] < 1.0).all()
+
+    # Logits factorise as gate * king + (1 - gate) * exchange + residual
+    # (the central thesis wiring).
+    expected = (
+        output["gate"] * output["king_logit"]
+        + (1.0 - output["gate"]) * output["exchange_logit"]
+        + output["residual_logit"]
+    )
+    assert torch.allclose(output["logits"], expected, atol=1e-5)
+
+    # Stream disagreement is exactly |king_logit - exchange_logit|.
+    assert torch.allclose(
+        output["stream_disagreement"],
+        (output["king_logit"] - output["exchange_logit"]).abs(),
+        atol=1e-6,
+    )
+
+    # Identical boards must produce identical logits regardless of
+    # batch position (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+    assert torch.allclose(twin["gate"][0], twin["gate"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+    assert DualStreamFeatureBuilder.EXCHANGE_PLANES == 8
+    assert DualStreamFeatureBuilder.KING_PLANES == 8
+
+    # The constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        ExchangeThenKingDualStreamNetwork(num_classes=2)
+    with pytest.raises(ValueError):
+        ExchangeThenKingDualStreamNetwork(ablation="not_a_real_ablation")
+
+    # `fixed_half_gate` ablation overrides the gate to 0.5 exactly.
+    half_gate = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "fixed_half_gate"}
+    ).eval()
+    with torch.no_grad():
+        half_out = half_gate(x)
+    assert torch.allclose(half_out["gate"], torch.full_like(half_out["gate"], 0.5))
+    half_expected = 0.5 * half_out["king_logit"] + 0.5 * half_out["exchange_logit"] + half_out["residual_logit"]
+    assert torch.allclose(half_out["logits"], half_expected, atol=1e-5)
+
+    # `king_only` and `exchange_only` ablations clamp the gate to 1 / 0.
+    king_only = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "king_only"}
+    ).eval()
+    exchange_only = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "exchange_only"}
+    ).eval()
+    with torch.no_grad():
+        king_out = king_only(x)
+        exch_out = exchange_only(x)
+    assert torch.allclose(king_out["gate"], torch.ones_like(king_out["gate"]))
+    assert torch.allclose(king_out["logits"], king_out["king_logit"] + king_out["residual_logit"], atol=1e-5)
+    assert torch.allclose(exch_out["gate"], torch.zeros_like(exch_out["gate"]))
+    assert torch.allclose(
+        exch_out["logits"], exch_out["exchange_logit"] + exch_out["residual_logit"], atol=1e-5
+    )
+
+    # `shared_stream_only` ablation must drive king and exchange pool
+    # features to be identical (shared encoder + shared input).
+    shared = build_exchange_then_king_dual_stream_from_config(
+        {**config["model"], "ablation": "shared_stream_only"}
+    ).eval()
+    assert shared.exchange_encoder is shared.king_encoder
+    with torch.no_grad():
+        shared_out = shared(x)
+    assert torch.allclose(shared_out["exchange_pool_norm"], shared_out["king_pool_norm"], atol=1e-5)
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "exchange_then_king_dual_stream"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ExchangeThenKingDualStreamNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_exchange_then_king_dual_stream_from_config
+        is build_exchange_then_king_dual_stream_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i193"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_symptom_bayesian_network import (
+        NoisyAndOrAggregator,
+        NoisyOrCauseLayer,
+        SymptomHeads,
+        TacticalSymptomBayesianNetwork,
+        build_tactical_symptom_bayesian_network_from_config,
+    )
+
+    folder = Path("ideas/i194_tactical_symptom_bayesian_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalSymptomBayesianNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_symptom_bayesian_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    input_channels = int(config["model"]["input_channels"])
+    num_symptoms = int(config["model"]["symptoms"])
+    num_causes = int(config["model"]["latent_causes"])
+
+    assert isinstance(model.symptom_heads, SymptomHeads)
+    assert isinstance(model.cause_layer, NoisyOrCauseLayer)
+    assert isinstance(model.aggregator, NoisyAndOrAggregator)
+    assert model.num_symptoms == num_symptoms
+    assert model.num_causes == num_causes
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under white queen attack.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: nearly-empty board (degenerate fallback).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    for key in (
+        "logits",
+        "puzzle_prob",
+        "evidence_logit",
+        "residual_logit",
+        "residual_weight",
+        "symptom_linear_logit",
+        "symptom_max",
+        "symptom_mean",
+        "symptom_entropy",
+        "cause_max",
+        "cause_mean",
+        "cause_entropy",
+        "noisy_or_prob",
+        "noisy_and_prob",
+        "and_or_alpha",
+        "mechanism_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    ):
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Probabilities live in (0, 1).
+    for key in ("puzzle_prob", "noisy_or_prob", "noisy_and_prob", "and_or_alpha"):
+        assert (output[key] > 0.0).all(), key
+        assert (output[key] < 1.0).all(), key
+    assert (output["symptom_max"] >= 0.0).all() and (output["symptom_max"] <= 1.0).all()
+    assert (output["cause_max"] >= 0.0).all() and (output["cause_max"] <= 1.0).all()
+
+    # Default-ablation logit factorises as logit(puzzle_prob) + residual_weight * residual_logit.
+    expected_evidence = output["puzzle_prob"].clamp(1e-6, 1.0 - 1e-6)
+    expected_evidence_logit = expected_evidence.log() - (1.0 - expected_evidence).log()
+    assert torch.allclose(output["evidence_logit"], expected_evidence_logit, atol=1e-5)
+    expected_logits = output["evidence_logit"] + model.residual_weight.detach() * output["residual_logit"]
+    assert torch.allclose(output["logits"], expected_logits, atol=1e-5)
+
+    # Aggregator mixture: puzzle_prob = alpha * prob_or + (1 - alpha) * prob_and.
+    expected_prob = output["and_or_alpha"] * output["noisy_or_prob"] + (
+        1.0 - output["and_or_alpha"]
+    ) * output["noisy_and_prob"]
+    assert torch.allclose(output["puzzle_prob"], expected_prob, atol=1e-5)
+
+    # The cause-layer weights are sigmoid-bounded into [0, 1].
+    weights = model.cause_layer.weights
+    leak = model.cause_layer.leak
+    assert weights.shape == (num_causes, num_symptoms)
+    assert ((weights >= 0.0) & (weights <= 1.0)).all()
+    assert ((leak >= 0.0) & (leak <= 1.0)).all()
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        TacticalSymptomBayesianNetwork(num_classes=2)
+    with pytest.raises(ValueError):
+        TacticalSymptomBayesianNetwork(ablation="not_a_real_ablation")
+
+    # `no_residual_logit` ablation drops the residual term exactly.
+    no_residual = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "no_residual_logit"}
+    ).eval()
+    with torch.no_grad():
+        no_residual_out = no_residual(x)
+    assert torch.allclose(no_residual_out["logits"], no_residual_out["evidence_logit"], atol=1e-5)
+
+    # `linear_symptom_readout` ablation routes the linear logit instead of the noisy logical one.
+    linear = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "linear_symptom_readout"}
+    ).eval()
+    with torch.no_grad():
+        linear_out = linear(x)
+    expected_linear = linear_out["symptom_linear_logit"] + linear.residual_weight.detach() * linear_out[
+        "residual_logit"
+    ]
+    assert torch.allclose(linear_out["evidence_logit"], linear_out["symptom_linear_logit"], atol=1e-5)
+    assert torch.allclose(linear_out["logits"], expected_linear, atol=1e-5)
+
+    # `symptom_dropout` ablation builds and forwards in eval mode (dropout is a no-op).
+    sym_dropout = build_tactical_symptom_bayesian_network_from_config(
+        {**config["model"], "ablation": "symptom_dropout"}
+    ).eval()
+    with torch.no_grad():
+        sym_dropout_out = sym_dropout(x)
+    assert sym_dropout_out["logits"].shape == (3,)
+    assert torch.isfinite(sym_dropout_out["logits"]).all()
+
+    # Identical boards must produce identical outputs regardless of batch position
+    # (board-only determinism in eval mode).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+    assert torch.allclose(twin["puzzle_prob"][0], twin["puzzle_prob"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_symptom_bayesian_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalSymptomBayesianNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_symptom_bayesian_network_from_config
+        is build_tactical_symptom_bayesian_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i194"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
+    from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+        BoardFeatureTrunk,
+        InvariantBottleneck,
+        SourceInvariantPuzzleBottleneck,
+        SymmetryOrbitEncoder,
+        VIEW_NAMES,
+        build_source_invariant_puzzle_bottleneck_from_config,
+    )
+
+    folder = Path("ideas/i196_source_invariant_puzzle_bottleneck")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, SourceInvariantPuzzleBottleneck)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "source_invariant_puzzle_bottleneck"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    assert isinstance(model.trunk, BoardFeatureTrunk)
+    assert isinstance(model.orbit, SymmetryOrbitEncoder)
+    assert isinstance(model.bottleneck, InvariantBottleneck)
+    assert model.view_names == VIEW_NAMES
+    assert model.orbit.num_views == 4
+
+    input_channels = int(config["model"]["input_channels"])
+    code_dim = int(config["model"]["code_dim"])
+    assert model.code_dim == code_dim
+    assert model.bottleneck.code_dim == code_dim
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: a hanging black knight under white queen attack.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 7, 5, 4] = 1.0  # black knight e3
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: nearly-empty board (degenerate fallback).
+    x[2, 5, 0, 4] = 1.0
+    x[:, 12] = 1.0  # white-to-move
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = (
+        "logits",
+        "invariant_code_norm",
+        "main_code_norm",
+        "residual_energy",
+        "residual_direction_strength",
+        "orthogonalize_gate",
+        "aux_residual_logit",
+        "view_consistency",
+        "num_views",
+        "mechanism_energy",
+        "symmetry_residual",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+    )
+    for key in expected_keys:
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # mechanism_energy and symmetry_residual are aliases of residual_energy.
+    assert torch.allclose(output["mechanism_energy"], output["residual_energy"])
+    assert torch.allclose(output["symmetry_residual"], output["residual_energy"])
+    assert (output["residual_energy"] >= 0.0).all()
+    assert (output["num_views"] == float(model.orbit.num_views)).all()
+    assert (output["proposal_keyword_count"] == float(model.orbit.num_views)).all()
+    # Orthogonalize gate is a sigmoid scalar broadcast to the batch.
+    assert (output["orthogonalize_gate"] > 0.0).all()
+    assert (output["orthogonalize_gate"] < 1.0).all()
+
+    # The puzzle head reads only the orthogonalised main code.
+    main_logits = model.head(model.bottleneck(model.orbit(x))["main_code"]).view(-1)
+    assert torch.allclose(main_logits, output["logits"], atol=1e-5)
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(num_classes=2)
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(ablation="not_a_real_ablation")
+    with pytest.raises(ValueError):
+        SourceInvariantPuzzleBottleneck(view_names=("nonsense_view",))
+
+    # `no_invariance` ablation drops the orbit down to the identity view only.
+    no_inv = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_invariance"}
+    ).eval()
+    assert no_inv.orbit.num_views == 1
+    assert no_inv.view_names == ("identity",)
+    with torch.no_grad():
+        no_inv_out = no_inv(x)
+    assert no_inv_out["logits"].shape == (3,)
+    assert torch.isfinite(no_inv_out["logits"]).all()
+    # With a single view, the residual subspace is trivial.
+    assert torch.allclose(no_inv_out["residual_energy"], torch.zeros(3), atol=1e-6)
+
+    # `no_orthogonalization` ablation must keep four views but use c_main = c̄.
+    no_orth = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_orthogonalization"}
+    ).eval()
+    assert no_orth.orbit.num_views == 4
+    with torch.no_grad():
+        no_orth_out = no_orth(x)
+        per_view = no_orth.orbit(x)
+        bottleneck = no_orth.bottleneck(per_view, orthogonalize=False)
+    assert torch.allclose(bottleneck["main_code"], bottleneck["invariant_code"])
+    assert no_orth_out["logits"].shape == (3,)
+    assert torch.isfinite(no_orth_out["logits"]).all()
+
+    # `no_aux_residual_logit` ablation must zero out the aux residual logit.
+    no_aux = build_source_invariant_puzzle_bottleneck_from_config(
+        {**config["model"], "ablation": "no_aux_residual_logit"}
+    ).eval()
+    with torch.no_grad():
+        no_aux_out = no_aux(x)
+    assert torch.allclose(no_aux_out["aux_residual_logit"], torch.zeros(3))
+
+    # The orbit-mean code really is invariant to the symmetries it averages
+    # over: averaging trunk(view_k(x)) is equal to averaging
+    # trunk(view_k(view_j(x))) up to a permutation of the view list, since the
+    # symmetry orbit is closed under composition. We check the empirical
+    # invariance: forwarding view_k(x) for any k in the orbit produces the
+    # same orbit-mean code as forwarding x.
+    with torch.no_grad():
+        per_view_x = model.orbit(x)
+        invariant_x = model.bottleneck(per_view_x)["invariant_code"]
+        flipped = torch.flip(x, dims=[3])
+        per_view_flipped = model.orbit(flipped)
+        invariant_flipped = model.bottleneck(per_view_flipped)["invariant_code"]
+    assert torch.allclose(invariant_x, invariant_flipped, atol=1e-5)
+
+    # Identical boards must produce identical outputs regardless of batch
+    # position (board-only determinism in eval mode).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+
+    # Configured knobs reach the model.
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "source_invariant_puzzle_bottleneck"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, SourceInvariantPuzzleBottleneck)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_source_invariant_puzzle_bottleneck_from_config
+        is build_source_invariant_puzzle_bottleneck_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i196"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
+
+
+def test_i197_reply_set_contrastive_transformer_is_bespoke_and_conformant():
+    from chess_nn_playground.models.reply_set_contrastive_transformer import (
+        BoardFeatureTrunk,
+        ContrastiveAggregator,
+        DefenderReplyPool,
+        PseudoReplyGenerator,
+        REPLY_OFFSETS,
+        ReplySetContrastiveTransformer,
+        TokenAttentionBlock,
+        build_reply_set_contrastive_transformer_from_config,
+    )
+
+    folder = Path("ideas/i197_reply_set_contrastive_transformer")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, ReplySetContrastiveTransformer)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "reply_set_contrastive_transformer"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    assert isinstance(model.trunk, BoardFeatureTrunk)
+    assert isinstance(model.reply_generator, PseudoReplyGenerator)
+    assert isinstance(model.token_attention, TokenAttentionBlock)
+    assert isinstance(model.defender_pool, DefenderReplyPool)
+    assert isinstance(model.contrastive_aggregator, ContrastiveAggregator)
+    assert model.reply_generator.offsets == REPLY_OFFSETS
+    assert model.num_replies == 12
+
+    input_channels = int(config["model"]["input_channels"])
+    assert model.channels == int(config["model"]["channels"])
+    assert model.hidden_dim == int(config["model"]["hidden_dim"])
+    assert model.depth == int(config["model"]["depth"])
+    assert model.ablation == "none"
+
+    x = torch.zeros(3, input_channels, 8, 8)
+    # Position 0: white queen + king vs lone black king. White to move.
+    x[0, 5, 0, 4] = 1.0  # white king e1
+    x[0, 4, 4, 4] = 1.0  # white queen e4
+    x[0, 11, 7, 7] = 1.0  # black king h8
+    # Position 1: white rook lined up on enemy king's file. White to move.
+    x[1, 5, 0, 4] = 1.0
+    x[1, 3, 0, 7] = 1.0  # white rook h1
+    x[1, 4, 1, 5] = 1.0  # white queen f2
+    x[1, 6, 6, 7] = 1.0  # black pawn h7
+    x[1, 11, 7, 7] = 1.0  # black king h8
+    # Position 2: black to move (side-to-move plane stays zero).
+    x[2, 5, 0, 4] = 1.0  # white king e1
+    x[2, 11, 7, 7] = 1.0  # black king h8
+    x[2, 7, 5, 4] = 1.0  # black knight e3
+    x[:2, 12] = 1.0  # white-to-move on positions 0 and 1 only
+
+    with torch.no_grad():
+        output = model(x)
+
+    assert isinstance(output, dict)
+    assert output["logits"].shape == (3,)
+    assert torch.isfinite(output["logits"]).all()
+
+    expected_keys = (
+        "logits",
+        "current_embedding_norm",
+        "token_summary_norm",
+        "defender_summary_norm",
+        "reply_similarity_mean",
+        "reply_similarity_min",
+        "reply_similarity_std",
+        "reply_pressure",
+        "defense_gap",
+        "mechanism_energy",
+        "graph_pressure",
+        "ray_language_energy",
+        "proposal_profile_strength",
+        "proposal_keyword_count",
+        "num_replies",
+        "reply_embedding_mean_norm",
+        "king_ring_pressure",
+    )
+    for key in expected_keys:
+        assert output[key].shape == (3,), key
+        assert torch.isfinite(output[key]).all(), key
+
+    # Diagnostic aliases.
+    assert torch.allclose(output["graph_pressure"], output["reply_pressure"])
+    assert torch.allclose(output["ray_language_energy"], output["defense_gap"])
+    assert torch.allclose(
+        output["mechanism_energy"], 1.0 - output["reply_similarity_mean"], atol=1e-6
+    )
+    assert (output["num_replies"] == float(model.num_replies)).all()
+    assert (output["proposal_keyword_count"] == float(model.num_replies)).all()
+    # Reply similarities live in [-1, 1].
+    assert (output["reply_similarity_mean"] >= -1.0 - 1e-5).all()
+    assert (output["reply_similarity_mean"] <= 1.0 + 1e-5).all()
+    assert (output["reply_similarity_min"] <= output["reply_similarity_mean"] + 1e-5).all()
+    # The defender king-ring pool sees a non-empty 3x3 ring around the enemy king.
+    assert (output["king_ring_pressure"] > 0.0).all()
+
+    # Pseudo-replies must flip the side-to-move plane and zero the en-passant plane.
+    replies = model.reply_generator(x)
+    assert replies.shape == (3, model.num_replies, input_channels, 8, 8)
+    assert torch.allclose(replies[:, :, 12], (1.0 - x[:, 12]).unsqueeze(1).expand_as(replies[:, :, 12]))
+    assert (replies[:, :, 17] == 0.0).all()
+    # Castling planes are preserved across pseudo-replies (one of the architecture's
+    # acknowledged approximations).
+    for plane in (13, 14, 15, 16):
+        assert torch.allclose(replies[:, :, plane], x[:, plane].unsqueeze(1).expand_as(replies[:, :, plane]))
+    # When white is to move, white piece planes change across replies (they were
+    # shifted) but black piece planes are preserved. Position 0 has white pieces.
+    assert torch.allclose(
+        replies[0, 0, 11], x[0, 11]
+    )  # black king plane preserved
+    # At least one shifted reply differs from the original white queen plane.
+    assert not torch.allclose(replies[0, 0, 4], x[0, 4])
+    # Symmetric check for black-to-move: black piece planes may shift, white preserved.
+    assert torch.allclose(replies[2, 0, 5], x[2, 5])  # white king preserved
+    assert not torch.allclose(replies[2, 0, 7], x[2, 7])
+
+    # Off-board shifts must zero out cleanly (no wrap).
+    for k, (drank, dfile) in enumerate(model.reply_generator.offsets):
+        if drank == 0 and dfile == 0:
+            continue
+        # Original white queen on e4 (rank 4, file 4); after a shift only one
+        # cell of the queen plane should ever be set, never two.
+        assert replies[0, k, 4].sum().item() <= 1.0 + 1e-6
+
+    # Constructor enforces the puzzle_binary one-logit contract.
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(num_classes=2)
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(ablation="not_a_real_ablation")
+    with pytest.raises(ValueError):
+        ReplySetContrastiveTransformer(input_channels=8)
+
+    # `no_replies` ablation must drop the contrastive features and keep the
+    # head shape consistent.
+    no_replies = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_replies"}
+    ).eval()
+    with torch.no_grad():
+        no_replies_out = no_replies(x)
+    assert no_replies_out["logits"].shape == (3,)
+    assert torch.isfinite(no_replies_out["logits"]).all()
+    assert torch.allclose(no_replies_out["reply_similarity_mean"], torch.zeros(3))
+
+    # `no_token_attention` ablation must zero out the token summary.
+    no_tok = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_token_attention"}
+    ).eval()
+    with torch.no_grad():
+        no_tok_out = no_tok(x)
+    assert no_tok_out["logits"].shape == (3,)
+    assert torch.allclose(no_tok_out["token_summary_norm"], torch.zeros(3))
+
+    # `no_defender_reply` ablation must zero out the defender summary.
+    no_def = build_reply_set_contrastive_transformer_from_config(
+        {**config["model"], "ablation": "no_defender_reply"}
+    ).eval()
+    with torch.no_grad():
+        no_def_out = no_def(x)
+    assert no_def_out["logits"].shape == (3,)
+    assert torch.allclose(no_def_out["defender_summary_norm"], torch.zeros(3))
+
+    # Identical boards must produce identical outputs (board-only determinism).
+    x_twin = torch.zeros(2, input_channels, 8, 8)
+    x_twin[0] = x[0]
+    x_twin[1] = x[0]
+    with torch.no_grad():
+        twin = model(x_twin)
+    assert torch.allclose(twin["logits"][0], twin["logits"][1], atol=1e-5)
+
+    # The contrastive aggregator output really does have six dimensions.
+    sims = torch.tensor([[0.1, 0.5, -0.3, 0.9, 0.2, 0.0, 0.7, 0.1, 0.4, 0.3, 0.6, 0.05]])
+    agg = ContrastiveAggregator()(sims)
+    assert agg.shape == (1, 6)
+    assert torch.isclose(agg[0, 0], sims.min())
+    assert torch.isclose(agg[0, 1], sims.mean())
+    assert torch.isclose(agg[0, 3], sims.max())
+    assert torch.isclose(agg[0, 5], sims.clamp_min(0.0).sum())
+
+    # Registry-built model from the same model name keeps the contract.
+    model_cfg = dict(config["model"])
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "reply_set_contrastive_transformer"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, ReplySetContrastiveTransformer)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (3,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_reply_set_contrastive_transformer_from_config
+        is build_reply_set_contrastive_transformer_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i197"]
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues

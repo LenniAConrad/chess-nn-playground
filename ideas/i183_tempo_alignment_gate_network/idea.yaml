@@ -1,37 +1,53 @@
 idea_id: i183
 name: Tempo-Alignment Gate Network
 slug: tempo_alignment_gate_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: Many near-puzzles are tactical-looking for the wrong side or require
   a tempo that the side to move does not have. The model should explicitly gate static
   tactical danger by side-to-move tempo.
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`
+  (Idea 7, "Tempo-Alignment Gate Network"); replaces a generic CNN puzzle head with
+  a multiplicative conjunction of (i) an undirected static tactical danger field,
+  (ii) a per-square sigmoid alignment between the local attacker side and the side-to-move
+  signal, and (iii) a global tempo gate over pooled trunk features and material totals,
+  with a side-to-move-flipped counterfactual contrast feeding the final logit.
+expected_advantage: Test the packet's tempo-alignment signal under the same puzzle_binary
+  benchmark contract as the other ideas. The conjunction should push down the near-puzzle
+  false-positive row by refusing to score a position highly when the static tactical
+  danger is for the wrong side or when the side-to-move tempo gate is small.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit (BCE-with-logits) plus the danger field, the signed
+  side-of-attacker field, the per-square alignment field, the own/opp/gap/gated pressure
+  scalars, the tempo gate, mean/max danger scalars, the side-to-move-flipped counterfactual
+  pressure / tempo gate / flip contrast scalars, the trunk feature map, and the running-ablation
+  flags.
+compute_notes: Compact convolutional trunk over `simple_18`, a 1x1 danger head, a
+  1x1 side-of-attacker head over the trunk concatenated with white/black occupancy
+  summaries, learnable scalar (gamma, beta) for the per-square sigmoid alignment,
+  a small MLP tempo gate over pooled trunk features plus white/black material totals
+  plus stm, a multiplicative conjunction of tempo gate * alignment * relu(danger),
+  and a side-to-move-flipped counterfactual stream re-running the trunk so the contrast
+  is a faithful intervention.
+implementation_status: implemented
 trainer_entrypoint: ideas/i183_tempo_alignment_gate_network/train.py
 config_path: ideas/i183_tempo_alignment_gate_network/config.yaml
 model_path: ideas/i183_tempo_alignment_gate_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke implementation lives in `src/chess_nn_playground/models/tempo_alignment_gate_network.py`
+  (`TempoAlignmentGateNetwork`); the idea-local `model.py` is a thin wrapper around
+  the registered builder. The gated pressure is the multiplicative conjunction
+  `g(s) = tempo_gate * alignment(s) * relu(danger(s))`, pooled into own/opp/gap/gated
+  pressure scalars, with a side-to-move-flipped counterfactual contrast feeding the
+  final logit.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
 source_packet_candidate: Tempo-Alignment Gate Network
 source_packet_rank: 7
 source_packet_status: batch packet
 mechanism_family: tempo
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

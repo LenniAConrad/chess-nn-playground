@@ -17,12 +17,16 @@ model:
   input_channels: 18
   num_classes: 1
   channels: 64
-  hidden_dim: 96
   depth: 2
+  token_dim: 64
+  rank: 24
+  top_candidates: 8
+  top_motifs: 16
+  relation_hidden: 64
+  head_hidden: 96
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: motif_tensor_factorization_network
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

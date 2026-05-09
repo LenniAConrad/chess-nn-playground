@@ -6,6 +6,4 @@ Source packet: `ideas/research_packets/chess_nn_research_2026-04-24_2213_friday_
 
 Batch candidate rank: `2`.
 
-Working thesis: A chess board can be read as several short sequences. Different scan orders expose different dependencies: rank-major order, file-major order, diagonal order, spiral-from-king order, and center-out order. A shared sequence model over fixed board orders can...
-
-Scaffold-only implementation notice: This folder records the thesis and a shared `ResearchPacketProbe` scaffold only. It is not a completed bespoke implementation of the markdown architecture and must remain `implementation_kind: shared_probe_variant` until matching model code replaces the shared probe.
+Working thesis: A chess board can be read as several short sequences. Different scan orders expose different dependencies. Five fixed orderings are used: rank-major (horizontal sweep), file-major (vertical sweep), anti-diagonal (south-west to north-east sweep), spiral-from-king (Chebyshev rings around the side-to-move king), and center-out (Chebyshev rings around the board centre). A shared bidirectional GRU consumes each per-square token sequence in its prescribed order; the order-pooled summaries are concatenated and fed to a small classifier that produces the puzzle logit. Sharing the sequence model across orders forces it to extract dependencies that are useful from multiple scan directions, while a per-scan, per-position embedding lets it tell the orders apart.

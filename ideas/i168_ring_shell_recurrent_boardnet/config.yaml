@@ -21,8 +21,8 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: tempo
-  packet_profile: ring_shell_recurrent_boardnet
+  num_rings: 8
+  rnn_hidden: 48
 training:
   epochs: 20
   batch_size: 256

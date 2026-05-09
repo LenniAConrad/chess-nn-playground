@@ -21,8 +21,11 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: information
-  packet_profile: tactical_symptom_bayesian_network
+  symptoms: 24
+  latent_causes: 8
+  residual_weight_init: 0.1
+  symptom_dropout: 0.2
+  ablation: none
 training:
   epochs: 20
   batch_size: 256

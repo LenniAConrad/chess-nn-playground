@@ -1,38 +1,44 @@
 idea_id: i151
 name: Auxiliary Reconstruction BoardNet
 slug: auxiliary_reconstruction_boardnet
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: A classifier trunk may discard board detail too early. Add a lightweight
   decoder that reconstructs safe current-board planes from the latent feature map,
   using reconstruction only as an auxiliary training loss. The classifier still sees
   no future or engine...
-novelty_claim: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+novelty_claim: Bespoke CNN encoder with a pooled puzzle classifier and a lightweight
+  auxiliary decoder that reconstructs configurable current-board input planes. Reconstruction
+  is exposed as an auxiliary BCE objective with `lambda_recon` so the trunk is regularised
+  without leaking future or engine information.
+expected_advantage: Test the packet's proposed reconstruction regulariser under the
+  same puzzle_binary benchmark contract as the other ideas, with `reconstruction_error`
+  and per-plane BCE diagnostics exposing whether the encoder actually preserves board
+  detail.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus per-square reconstruction logits for the selected
+  input planes, the reconstructed probabilities, the reconstruction-error diagnostic,
+  and per-plane BCE diagnostics.
+compute_notes: CNN encoder of `encoder_depth` residual blocks at `encoder_width`
+  channels, an `AdaptiveAvgPool` classifier head of width `hidden_dim`, and a small
+  decoder of `decoder_width` channels emitting per-square logits over the selected
+  input planes.
+implementation_status: implemented
 trainer_entrypoint: ideas/i151_auxiliary_reconstruction_boardnet/train.py
 config_path: ideas/i151_auxiliary_reconstruction_boardnet/config.yaml
 model_path: ideas/i151_auxiliary_reconstruction_boardnet/model.py
 latest_result_path: null
-notes: Research-packet promotion from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+notes: Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
+  Bespoke `AuxiliaryReconstructionBoardNet` model with a shared convolutional encoder,
+  a pooled puzzle classifier, and a lightweight decoder that reconstructs configurable
+  current-board input planes as an auxiliary BCE objective.
 source_packet_path: ideas/research_packets/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md
 source_packet_candidate: Auxiliary Reconstruction BoardNet
 source_packet_rank: 3
 source_packet_status: batch packet
 mechanism_family: generic
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

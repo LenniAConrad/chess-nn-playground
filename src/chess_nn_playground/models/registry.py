@@ -36,6 +36,33 @@ from chess_nn_playground.models.bitboard_shift_algebra import (
     build_bitboard_shift_algebra_network_from_config,
 )
 from chess_nn_playground.models.dykstra_lcp import build_dykstra_lcp_from_config
+from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
+    build_auxiliary_reconstruction_boardnet_from_config,
+)
+from chess_nn_playground.models.adapter_sandwich_residual_cnn import (
+    build_adapter_sandwich_residual_cnn_from_config,
+)
+from chess_nn_playground.models.capsule_motif_boardnet import (
+    build_capsule_motif_boardnet_from_config,
+)
+from chess_nn_playground.models.multi_order_board_scan_network import (
+    build_multi_order_board_scan_network_from_config,
+)
+from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+    build_cross_stitch_cnn_token_fusion_net_from_config,
+)
+from chess_nn_playground.models.neural_decision_forest_boardnet import (
+    build_neural_decision_forest_boardnet_from_config,
+)
+from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+    build_vector_quantized_motif_codebook_net_from_config,
+)
+from chess_nn_playground.models.agreement_variance_head_net import (
+    build_agreement_variance_head_net_from_config,
+)
+from chess_nn_playground.models.early_exit_cascade_boardnet import (
+    build_early_exit_cascade_boardnet_from_config,
+)
 from chess_nn_playground.models.empty_square_opportunity_network import build_empty_square_opportunity_network_from_config
 from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
     build_entropic_piece_target_transport_bottleneck_from_config,
@@ -69,6 +96,54 @@ from chess_nn_playground.models.geometry_pseudolikelihood_ratio import (
     build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
 )
 from chess_nn_playground.models.global_scratchpad_boardnet import build_global_scratchpad_boardnet_from_config
+from chess_nn_playground.models.learnable_pooling_tree_boardnet import (
+    build_learnable_pooling_tree_boardnet_from_config,
+)
+from chess_nn_playground.models.spatial_film_coordinate_net import (
+    build_spatial_film_coordinate_net_from_config,
+)
+from chess_nn_playground.models.channel_bilinear_role_mixer import (
+    build_channel_bilinear_role_mixer_from_config,
+)
+from chess_nn_playground.models.evidence_sieve_network import (
+    build_evidence_sieve_network_from_config,
+)
+from chess_nn_playground.models.ring_shell_recurrent_boardnet import (
+    build_ring_shell_recurrent_boardnet_from_config,
+)
+from chess_nn_playground.models.rank_file_memory_grid_net import (
+    build_rank_file_memory_grid_net_from_config,
+)
+from chess_nn_playground.models.line_piece_crossbar_network import (
+    build_line_piece_crossbar_network_from_config,
+)
+from chess_nn_playground.models.near_puzzle_margin_twin_network import (
+    build_near_puzzle_margin_twin_network_from_config,
+)
+from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+    build_puzzle_boundary_twin_encoder_from_config,
+)
+from chess_nn_playground.models.critical_square_budget_network import (
+    build_critical_square_budget_network_from_config,
+)
+from chess_nn_playground.models.exchange_soundness_graph_network import (
+    build_exchange_soundness_graph_network_from_config,
+)
+from chess_nn_playground.models.tactical_program_induction import (
+    build_tactical_program_induction_network_from_config,
+)
+from chess_nn_playground.models.legal_reaction_bottleneck_network import (
+    build_legal_reaction_bottleneck_network_from_config,
+)
+from chess_nn_playground.models.prototype_margin_puzzle_network import (
+    build_prototype_margin_puzzle_network_from_config,
+)
+from chess_nn_playground.models.stripe_selective_mixer_cnn import (
+    build_stripe_selective_mixer_cnn_from_config,
+)
+from chess_nn_playground.models.king_zone_evidence_ledger import (
+    build_king_zone_evidence_ledger_from_config,
+)
 from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
@@ -157,6 +232,21 @@ from chess_nn_playground.models.residual_calibration import build_residual_calib
 from chess_nn_playground.models.residual_cnn import build_residual_cnn_from_config
 from chess_nn_playground.models.set_query_attention import build_set_query_attention_bottleneck_from_config
 from chess_nn_playground.models.sparse_relation_pursuit import build_sparse_relation_pursuit_from_config
+from chess_nn_playground.models.counterfactual_defender_dropout import (
+    build_counterfactual_defender_dropout_network_from_config,
+)
+from chess_nn_playground.models.exchange_then_king_dual_stream import (
+    build_exchange_then_king_dual_stream_from_config,
+)
+from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+    build_source_invariant_puzzle_bottleneck_from_config,
+)
+from chess_nn_playground.models.reply_set_contrastive_transformer import (
+    build_reply_set_contrastive_transformer_from_config,
+)
+from chess_nn_playground.models.tactical_symptom_bayesian_network import (
+    build_tactical_symptom_bayesian_network_from_config,
+)
 from chess_nn_playground.models.counterfactual_delta_bottleneck import (
     build_counterfactual_delta_bottleneck_from_config,
 )
@@ -299,6 +389,7 @@ from chess_nn_playground.models.piece_token_cnn_hybrid import (
     build_piece_token_cnn_hybrid_from_config,
 )
 from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+    build_negative_class_disentangled_puzzle_head_from_config,
     build_puzzle_binary_benchmark_challengers_from_config,
 )
 from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
@@ -321,6 +412,24 @@ from chess_nn_playground.models.loop_frustration_curvature_network import (
 )
 from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
     build_forcing_response_front_door_bottleneck_from_config,
+)
+from chess_nn_playground.models.causal_piece_derivative_network import (
+    build_causal_piece_derivative_network_from_config,
+)
+from chess_nn_playground.models.phase_transition_pressure_network import (
+    build_phase_transition_pressure_network_from_config,
+)
+from chess_nn_playground.models.disproof_ledger_puzzle_network import (
+    build_disproof_ledger_puzzle_network_from_config,
+)
+from chess_nn_playground.models.motif_tensor_factorization_network import (
+    build_motif_tensor_factorization_network_from_config,
+)
+from chess_nn_playground.models.tempo_alignment_gate_network import (
+    build_tempo_alignment_gate_network_from_config,
+)
+from chess_nn_playground.models.forcing_certificate_transformer import (
+    build_forcing_certificate_transformer_from_config,
 )
 from chess_nn_playground.models.chess_hypercut_polynomial import (
     build_chess_hypercut_polynomial_network_from_config,
@@ -493,6 +602,10 @@ MODEL_BUILDERS = {
     "multiplicative_conjunction_convnet": build_multiplicative_conjunction_convnet_from_config,
     "empty_square_opportunity_network": build_empty_square_opportunity_network_from_config,
     "global_scratchpad_boardnet": build_global_scratchpad_boardnet_from_config,
+    "learnable_pooling_tree_boardnet": build_learnable_pooling_tree_boardnet_from_config,
+    "spatial_film_coordinate_net": build_spatial_film_coordinate_net_from_config,
+    "channel_bilinear_role_mixer": build_channel_bilinear_role_mixer_from_config,
+    "evidence_sieve_network": build_evidence_sieve_network_from_config,
     "square_color_parity_mixer": build_square_color_parity_mixer_from_config,
     "independence_residual_interaction_network": build_independence_residual_interaction_network_from_config,
     "residual_calibration_error_field": build_residual_calibration_error_field_from_config,
@@ -560,6 +673,7 @@ MODEL_BUILDERS = {
     "schur_ray_line_algebra_network": build_schur_ray_line_algebra_network_from_config,
     "bitboard_shift_algebra_network": build_bitboard_shift_algebra_network_from_config,
     "puzzle_binary_benchmark_challengers": build_puzzle_binary_benchmark_challengers_from_config,
+    "negative_class_disentangled_puzzle_head": build_negative_class_disentangled_puzzle_head_from_config,
     "tactical_bisimulation_puzzle_network": build_tactical_bisimulation_puzzle_network_from_config,
     "krylov_tactical_subspace_network": build_krylov_tactical_subspace_network_from_config,
     "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
@@ -613,6 +727,38 @@ MODEL_BUILDERS = {
     "legal_constraint_projection_residual_network": build_legal_constraint_projection_residual_network_from_config,
     "zobrist_kernel_feature_network": build_zobrist_kernel_feature_network_from_config,
     "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
+    "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
+    "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
+    "agreement_variance_head_net": build_agreement_variance_head_net_from_config,
+    "adapter_sandwich_residual_cnn": build_adapter_sandwich_residual_cnn_from_config,
+    "capsule_motif_boardnet": build_capsule_motif_boardnet_from_config,
+    "multi_order_board_scan_network": build_multi_order_board_scan_network_from_config,
+    "cross_stitch_cnn_token_fusion_net": build_cross_stitch_cnn_token_fusion_net_from_config,
+    "neural_decision_forest_boardnet": build_neural_decision_forest_boardnet_from_config,
+    "vector_quantized_motif_codebook_net": build_vector_quantized_motif_codebook_net_from_config,
+    "ring_shell_recurrent_boardnet": build_ring_shell_recurrent_boardnet_from_config,
+    "rank_file_memory_grid_net": build_rank_file_memory_grid_net_from_config,
+    "line_piece_crossbar_network": build_line_piece_crossbar_network_from_config,
+    "near_puzzle_margin_twin_network": build_near_puzzle_margin_twin_network_from_config,
+    "puzzle_boundary_twin_encoder": build_puzzle_boundary_twin_encoder_from_config,
+    "critical_square_budget_network": build_critical_square_budget_network_from_config,
+    "legal_reaction_bottleneck_network": build_legal_reaction_bottleneck_network_from_config,
+    "exchange_soundness_graph_network": build_exchange_soundness_graph_network_from_config,
+    "tactical_program_induction_network": build_tactical_program_induction_network_from_config,
+    "prototype_margin_puzzle_network": build_prototype_margin_puzzle_network_from_config,
+    "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
+    "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,
+    "forcing_certificate_transformer": build_forcing_certificate_transformer_from_config,
+    "causal_piece_derivative_network": build_causal_piece_derivative_network_from_config,
+    "phase_transition_pressure_network": build_phase_transition_pressure_network_from_config,
+    "disproof_ledger_puzzle_network": build_disproof_ledger_puzzle_network_from_config,
+    "motif_tensor_factorization_network": build_motif_tensor_factorization_network_from_config,
+    "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
+    "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
+    "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
+    "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
+    "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
+    "reply_set_contrastive_transformer": build_reply_set_contrastive_transformer_from_config,
 }
 
 def _make_research_packet_builder(model_name: str) -> Any:

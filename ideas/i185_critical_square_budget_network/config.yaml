@@ -21,6 +21,8 @@ model:
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  budget: 6.0
+  saliency_temperature: 1.0
   mechanism_family: convex
   packet_profile: critical_square_budget_network
 training:
