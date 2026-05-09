@@ -20560,3 +20560,179 @@ def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.absorbing_threat_markov_network import (
+        AbsorbingThreatMarkovNetwork,
+        STATE_TOKEN_NAMES,
+        build_absorbing_threat_markov_network_from_config,
+    )
+
+    folder = Path("ideas/i200_absorbing_threat_markov_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, AbsorbingThreatMarkovNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "absorbing_threat_markov_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    K = int(model.state_count)
+    T = int(model.transition_steps)
+    transient = K - 2
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "board_context",
+        "state_embeddings",
+        "initial_distribution",
+        "transition_matrix",
+        "state_distributions",
+        "final_distribution",
+        "prob_proof",
+        "prob_disproof",
+        "proof_minus_disproof",
+        "expected_steps",
+        "transient_initial",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["board_context"].shape == (2, model.state_dim)
+    assert output["state_embeddings"].shape == (K, model.state_dim)
+    assert output["initial_distribution"].shape == (2, K)
+    assert output["transition_matrix"].shape == (2, K, K)
+    assert output["state_distributions"].shape == (2, T + 1, K)
+    assert output["final_distribution"].shape == (2, K)
+    assert output["prob_proof"].shape == (2,)
+    assert output["prob_disproof"].shape == (2,)
+    assert output["proof_minus_disproof"].shape == (2,)
+    assert output["expected_steps"].shape == (2,)
+    assert output["transient_initial"].shape == (2, transient)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # Initial distribution must be a probability distribution that
+    # places zero mass on the two absorbing states.
+    pi_0 = output["initial_distribution"]
+    assert torch.allclose(pi_0.sum(dim=-1), torch.ones(2), atol=1.0e-5)
+    assert torch.allclose(pi_0[:, model.proof_index], torch.zeros(2), atol=1.0e-6)
+    assert torch.allclose(pi_0[:, model.disproof_index], torch.zeros(2), atol=1.0e-6)
+    assert (pi_0 >= -1.0e-6).all()
+
+    # Transition matrix must be row-stochastic.
+    P = output["transition_matrix"]
+    assert torch.allclose(P.sum(dim=-1), torch.ones(2, K), atol=1.0e-5)
+    assert (P >= -1.0e-6).all()
+
+    # Absorbing rows must be identity rows.
+    proof_row = P[:, model.proof_index]
+    disproof_row = P[:, model.disproof_index]
+    expected_proof = torch.zeros(K)
+    expected_proof[model.proof_index] = 1.0
+    expected_disproof = torch.zeros(K)
+    expected_disproof[model.disproof_index] = 1.0
+    assert torch.allclose(proof_row, expected_proof.expand_as(proof_row), atol=1.0e-6)
+    assert torch.allclose(disproof_row, expected_disproof.expand_as(disproof_row), atol=1.0e-6)
+
+    # Power iteration trajectory must start at pi_0 and end at pi_T.
+    trajectory = output["state_distributions"]
+    assert torch.allclose(trajectory[:, 0], pi_0)
+    assert torch.allclose(trajectory[:, -1], output["final_distribution"])
+    # All trajectory rows must be probability distributions.
+    assert torch.allclose(trajectory.sum(dim=-1), torch.ones(2, T + 1), atol=1.0e-5)
+    # Absorbing-mass total is monotonically non-decreasing along the
+    # trajectory because absorbing rows are identity.
+    absorb_mass = trajectory[:, :, model.proof_index] + trajectory[:, :, model.disproof_index]
+    assert (absorb_mass[:, 1:] - absorb_mass[:, :-1] >= -1.0e-6).all()
+
+    # Sanity: prob_proof / prob_disproof / expected_steps line up with
+    # the trajectory.
+    assert torch.allclose(output["prob_proof"], trajectory[:, -1, model.proof_index])
+    assert torch.allclose(output["prob_disproof"], trajectory[:, -1, model.disproof_index])
+    assert (output["prob_proof"] >= -1.0e-6).all()
+    assert (output["prob_disproof"] >= -1.0e-6).all()
+    assert (output["expected_steps"] >= -1.0e-6).all()
+    assert (output["expected_steps"] <= float(T) + 1.0e-4).all()
+
+    # Named state tokens are exposed for diagnostics.
+    assert STATE_TOKEN_NAMES[-2:] == ("proof_absorb", "disproof_absorb")
+    assert model.state_token_names()[-2:] == ("proof_absorb", "disproof_absorb")
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "absorbing_threat_markov_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, AbsorbingThreatMarkovNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_absorbing_threat_markov_network_from_config
+        is build_absorbing_threat_markov_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the state-embedding parameter from the
+    # puzzle logit, since the absorption read-out depends on it.
+    grad_model = build_absorbing_threat_markov_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    state_grad = grad_model.state_embeddings.grad
+    assert state_grad is not None
+    assert torch.isfinite(state_grad).all()
+    assert state_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i200"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues

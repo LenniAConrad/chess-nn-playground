@@ -3661,6 +3661,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i200_absorbing_threat_markov_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i200_absorbing_threat_markov_network",
+      "idea_id": "i200",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "absorbing_threat_markov_network",
+      "slug": "absorbing_threat_markov_network",
+      "source_files": [
+        "ideas/i200_absorbing_threat_markov_network/model.py",
+        "src/chess_nn_playground/models/absorbing_threat_markov_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i203_hierarchical_tactical_option_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -4486,6 +4506,7 @@
       "ideas/i197_reply_set_contrastive_transformer",
       "ideas/i198_barrier_cut_puzzle_network",
       "ideas/i199_tactical_hessian_spectrum_network",
+      "ideas/i200_absorbing_threat_markov_network",
       "ideas/i203_hierarchical_tactical_option_network",
       "ideas/i204_cross_defense_consistency_network",
       "ideas/i205_defender_timing_schedule_network",
@@ -4519,7 +4540,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 215,
+    "implemented_architecture_count": 216,
     "issue_folders": [],
     "validation_issue_count": 0
   }

@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `207`
-- Bespoke model implementations: `214`
-- Shared ResearchPacketProbe variants: `26`
+- Fully implemented architectures still needing a linked benchmark run: `209`
+- Bespoke model implementations: `216`
+- Shared ResearchPacketProbe variants: `24`
 
 Recommended immediate sequence:
 
@@ -32,8 +32,8 @@ Benchmark queue by ID:
 - Batch 5: `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`, `i112`, `i113`, `i114`, `i115`, `i116`, `i117`, `i119`, `i120`, `i121`, `i122`, `i123`, `i125`, `i126`, `i127`, `i128`, `i129`, `i130`
 - Batch 6: `i131`, `i132`, `i133`, `i134`, `i135`, `i136`, `i145`, `i146`, `i147`, `i150`, `i151`, `i153`, `i154`, `i155`, `i156`, `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`
 - Batch 7: `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i177`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`
-- Batch 8: `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`
-- Batch 9: `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
+- Batch 8: `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`
+- Batch 9: `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -256,8 +256,8 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i196` | [Source-Invariant Puzzle Bottleneck](i196_source_invariant_puzzle_bottleneck) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i197` | [Reply-Set Contrastive Transformer](i197_reply_set_contrastive_transformer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i198` | [Barrier-Cut Puzzle Network](i198_barrier_cut_puzzle_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i199` | [Tactical Hessian Spectrum Network](i199_tactical_hessian_spectrum_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
-| [ ] | `i200` | [Absorbing Threat Markov Network](i200_absorbing_threat_markov_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i199` | [Tactical Hessian Spectrum Network](i199_tactical_hessian_spectrum_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i200` | [Absorbing Threat Markov Network](i200_absorbing_threat_markov_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i201` | [Neural Clause-Resolution Puzzle Network](i201_neural_clause_resolution_puzzle_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [ ] | `i202` | [Piece Liability Gradient Network](i202_piece_liability_gradient_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [x] | `i203` | [Hierarchical Tactical Option Network](i203_hierarchical_tactical_option_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
