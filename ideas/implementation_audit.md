@@ -11,12 +11,12 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
-- Registry rows changed by this run: `41`
+- Registry rows changed by this run: `0`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 212 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 28 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 213 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 27 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
 
@@ -40,7 +40,6 @@ These folders were previously easy to read as distinct implemented architectures
 - `ideas/i152_iterative_logit_refinement_cnn`
 - `ideas/i176_source_rate_calibrated_objective`
 - `ideas/i178_defender_exhaustion_cascade_network`
-- `ideas/i195_minimal_edit_puzzle_distance_network`
 - `ideas/i198_barrier_cut_puzzle_network`
 - `ideas/i199_tactical_hessian_spectrum_network`
 - `ideas/i200_absorbing_threat_markov_network`
@@ -251,7 +250,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `latent_reply_entropy_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i193` | `ideas/i193_exchange_then_king_dual_stream` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `exchange_then_king_dual_stream` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i194` | `ideas/i194_tactical_symptom_bayesian_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tactical_symptom_bayesian_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i195` | `ideas/i195_minimal_edit_puzzle_distance_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `minimal_edit_puzzle_distance_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i195` | `ideas/i195_minimal_edit_puzzle_distance_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `minimal_edit_puzzle_distance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i196` | `ideas/i196_source_invariant_puzzle_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `source_invariant_puzzle_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i197` | `ideas/i197_reply_set_contrastive_transformer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_set_contrastive_transformer` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i198` | `ideas/i198_barrier_cut_puzzle_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `barrier_cut_puzzle_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |

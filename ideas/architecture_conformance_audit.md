@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `212`
+- Implemented architecture rows audited: `213`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -190,6 +190,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i192` | `ideas/i192_latent_reply_entropy_network` | `latent_reply_entropy_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i192_latent_reply_entropy_network/model.py`<br>`src/chess_nn_playground/models/latent_reply_entropy.py` | - |
 | `i193` | `ideas/i193_exchange_then_king_dual_stream` | `exchange_then_king_dual_stream` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i193_exchange_then_king_dual_stream/model.py`<br>`src/chess_nn_playground/models/exchange_then_king_dual_stream.py` | - |
 | `i194` | `ideas/i194_tactical_symptom_bayesian_network` | `tactical_symptom_bayesian_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i194_tactical_symptom_bayesian_network/model.py`<br>`src/chess_nn_playground/models/tactical_symptom_bayesian_network.py` | - |
+| `i195` | `ideas/i195_minimal_edit_puzzle_distance_network` | `minimal_edit_puzzle_distance_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i195_minimal_edit_puzzle_distance_network/model.py`<br>`src/chess_nn_playground/models/minimal_edit_puzzle_distance_network.py` | - |
 | `i196` | `ideas/i196_source_invariant_puzzle_bottleneck` | `source_invariant_puzzle_bottleneck` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i196_source_invariant_puzzle_bottleneck/model.py`<br>`src/chess_nn_playground/models/source_invariant_puzzle_bottleneck.py` | - |
 | `i197` | `ideas/i197_reply_set_contrastive_transformer` | `reply_set_contrastive_transformer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i197_reply_set_contrastive_transformer/model.py`<br>`src/chess_nn_playground/models/reply_set_contrastive_transformer.py` | - |
 | `i203` | `ideas/i203_hierarchical_tactical_option_network` | `hierarchical_tactical_option_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i203_hierarchical_tactical_option_network/model.py`<br>`src/chess_nn_playground/models/hierarchical_tactical_option.py` | - |

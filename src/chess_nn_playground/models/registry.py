@@ -485,6 +485,9 @@ from chess_nn_playground.models.neural_board_cellular_automaton import (
 from chess_nn_playground.models.symmetric_difference_twin_encoder import (
     build_symmetric_difference_twin_encoder_from_config,
 )
+from chess_nn_playground.models.minimal_edit_puzzle_distance_network import (
+    build_minimal_edit_puzzle_distance_network_from_config,
+)
 from chess_nn_playground.models.prototype_patch_dictionary_network import (
     build_prototype_patch_dictionary_network_from_config,
 )
@@ -712,6 +715,7 @@ MODEL_BUILDERS = {
     "piece_conditioned_hypernetwork_cnn": build_piece_conditioned_hypernetwork_cnn_from_config,
     "neural_board_cellular_automaton": build_neural_board_cellular_automaton_from_config,
     "symmetric_difference_twin_encoder": build_symmetric_difference_twin_encoder_from_config,
+    "minimal_edit_puzzle_distance_network": build_minimal_edit_puzzle_distance_network_from_config,
     "prototype_patch_dictionary_network": build_prototype_patch_dictionary_network_from_config,
     "tensor_ring_square_interaction_network": build_tensor_ring_square_interaction_network_from_config,
     "sinkhorn_role_assignment_network": build_sinkhorn_role_assignment_network_from_config,
