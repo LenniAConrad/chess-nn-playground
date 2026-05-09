@@ -382,6 +382,9 @@ from chess_nn_playground.models.lyapunov_threat_stability import build_lyapunov_
 from chess_nn_playground.models.pfaffian_skew_threat import build_pfaffian_skew_threat_network_from_config
 from chess_nn_playground.models.padic_ultrametric_threat import build_padic_ultrametric_threat_network_from_config
 from chess_nn_playground.models.free_probability_r_transform import build_free_probability_r_transform_network_from_config
+from chess_nn_playground.models.williamson_symplectic_threat_network import (
+    build_williamson_symplectic_threat_network_from_config,
+)
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
@@ -667,6 +670,7 @@ MODEL_BUILDERS = {
     "pfaffian_skew_threat_network": build_pfaffian_skew_threat_network_from_config,
     "padic_ultrametric_threat_network": build_padic_ultrametric_threat_network_from_config,
     "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
+    "williamson_symplectic_threat_network": build_williamson_symplectic_threat_network_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,

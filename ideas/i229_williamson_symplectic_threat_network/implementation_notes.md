@@ -1,14 +1,17 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/research_packet_probe.py`.
-- Registry key: `williamson_symplectic_threat_network`.
+- Bespoke implementation: `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`.
+- Idea-local wrapper: `ideas/i229_williamson_symplectic_threat_network/model.py`
+  delegates to `build_williamson_symplectic_threat_network_from_config`.
+- Registered model name: `williamson_symplectic_threat_network`.
 - Source packet: `ideas/research_packets/chess_nn_research_2026-05-05_1540_tuesday_local_williamson_symplectic_threat.md`.
-- This is intentionally board-only and does not consume engine, verification, source,
-  or CRTK metadata as input.
-- The custom linear-algebra operator described in the source packet is NOT yet
-  implemented as a bespoke `nn.Module`; this folder uses the shared
-  `ResearchPacketProbe` with `mechanism_family=linear_algebra` and
-  `packet_profile=williamson_symplectic_threat_network` so that the idea passes the registry contract
-  and runs on the standard puzzle_binary benchmark. To upgrade to a bespoke module,
-  add `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`, register a builder in
-  `registry.py`, and update this idea's `model.py` and `config.yaml`.
+- Input is the current-board `simple_18` tensor only; CRTK / source / engine
+  metadata is reporting-only and never enters the model.
+- Symplectic spectrum is computed via the
+  `M^{1/2} J M^{1/2} -> eigvalsh(K^T K)` route so all operations are
+  differentiable through `eigh`. Paired entries are averaged before
+  taking square roots to mitigate the multiplicity-2 splitting that the
+  numerics produce around `+/- i d_i`.
+- Default phase dimension is `n = phase_n = 32` (so `M` is `64 x 64`).
+  The original packet recommends scaling to `n = 64` once the smaller
+  configuration shows lift; both are supported through `config["model"]`.

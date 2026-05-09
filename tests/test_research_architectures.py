@@ -5138,6 +5138,12 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
         "free_probability_r_transform_network",
         {"free_coupling_distance", "free_cumulant_mismatch"},
     ),
+    (
+        "i229",
+        "ideas/i229_williamson_symplectic_threat_network",
+        "williamson_symplectic_threat_network",
+        {"symplectic_spectrum", "symplectic_entropy", "heisenberg_slack"},
+    ),
 ]
 
 
