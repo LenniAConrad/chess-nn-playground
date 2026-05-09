@@ -20415,3 +20415,148 @@ def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
     assert len(conformance_rows) == 1
     assert conformance_rows[0].implementation_kind == "bespoke_model"
     assert not conformance_rows[0].issues
+
+
+def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
+    from chess_nn_playground.models.tactical_hessian_spectrum_network import (
+        TacticalHessianSpectrumNetwork,
+        build_tactical_hessian_spectrum_network_from_config,
+    )
+
+    folder = Path("ideas/i199_tactical_hessian_spectrum_network")
+    config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
+    module = _load_idea_model(folder)
+    model = module.build_model_from_config(config).eval()
+
+    assert isinstance(model, TacticalHessianSpectrumNetwork)
+    assert not isinstance(model, ResearchPacketProbe)
+    assert config["model"]["name"] == "tactical_hessian_spectrum_network"
+    assert config["model"]["name"] not in RESEARCH_PACKET_MODEL_NAMES
+
+    model_cfg = dict(config["model"])
+    input_channels = int(model_cfg["input_channels"])
+    K = int(model.num_directions)
+
+    x = torch.zeros(2, input_channels, 8, 8)
+    x[:, 12] = 1.0
+    x[0, 5, 7, 4] = 1.0
+    x[0, 11, 0, 4] = 1.0
+    x[0, 3, 7, 0] = 1.0
+    x[0, 10, 0, 0] = 1.0
+    x[1, 5, 4, 4] = 1.0
+    x[1, 11, 4, 0] = 1.0
+
+    with torch.no_grad():
+        output = model(x)
+
+    expected_keys = {
+        "logits",
+        "prob",
+        "evidence_field",
+        "evidence_total",
+        "perturbation_directions",
+        "directional_gradient",
+        "hessian",
+        "hessian_eigenvalues",
+        "top_eigenvalue",
+        "min_eigenvalue",
+        "spectral_gap",
+        "trace",
+        "concavity",
+        "positive_curvature",
+        "spectral_radius",
+        "gradient_norm",
+        "trunk_energy",
+    }
+    assert isinstance(output, dict)
+    assert expected_keys.issubset(output.keys())
+
+    assert output["logits"].shape == (2,)
+    assert output["prob"].shape == (2,)
+    assert ((output["prob"] >= 0.0) & (output["prob"] <= 1.0)).all()
+    assert output["evidence_field"].shape == (2, 8, 8)
+    assert output["evidence_total"].shape == (2,)
+    assert output["perturbation_directions"].shape == (K, input_channels, 8, 8)
+    assert output["directional_gradient"].shape == (2, K)
+    assert output["hessian"].shape == (2, K, K)
+    assert output["hessian_eigenvalues"].shape == (2, K)
+    assert output["top_eigenvalue"].shape == (2,)
+    assert output["min_eigenvalue"].shape == (2,)
+    assert output["spectral_gap"].shape == (2,)
+
+    for key, value in output.items():
+        if isinstance(value, torch.Tensor):
+            assert torch.isfinite(value).all(), key
+
+    # The Hessian must be (numerically) symmetric.
+    H = output["hessian"]
+    assert torch.allclose(H, H.transpose(1, 2), atol=1.0e-5)
+
+    # Eigenvalues must be ascending and sharpness scalars must be consistent.
+    eigs = output["hessian_eigenvalues"]
+    assert (eigs[:, 1:] >= eigs[:, :-1] - 1.0e-4).all()
+    assert torch.allclose(output["top_eigenvalue"], eigs[:, -1])
+    assert torch.allclose(output["min_eigenvalue"], eigs[:, 0])
+    assert (output["concavity"] >= 0.0).all()
+    assert (output["positive_curvature"] >= 0.0).all()
+    assert (output["spectral_radius"] >= 0.0).all()
+
+    # Perturbation directions are unit Frobenius norm.
+    direction_norms = output["perturbation_directions"].flatten(1).norm(dim=-1)
+    assert torch.allclose(direction_norms, torch.ones_like(direction_norms), atol=1.0e-4)
+
+    # Building from the registry must work and must not be backed by
+    # the research-packet probe.
+    registered_name = model_cfg.pop("name")
+    assert registered_name == "tactical_hessian_spectrum_network"
+    registry_model = build_model(registered_name, model_cfg).eval()
+    assert isinstance(registry_model, TacticalHessianSpectrumNetwork)
+    with torch.no_grad():
+        registry_output = registry_model(x)
+    assert registry_output["logits"].shape == (2,)
+    assert torch.isfinite(registry_output["logits"]).all()
+
+    # Idea-local wrapper resolves to the bespoke builder, not the probe builder.
+    assert (
+        module.build_tactical_hessian_spectrum_network_from_config
+        is build_tactical_hessian_spectrum_network_from_config
+    )
+
+    # The idea folder must not depend on the shared ResearchPacketProbe scaffold.
+    wiring = analyze_model_wiring(folder / "model.py")
+    forbidden = {"ResearchPacketProbe", "build_research_packet_probe_from_config"}
+    imported = {item.rsplit(".", 1)[-1] for item in wiring.imports}
+    called = {item.rsplit(".", 1)[-1] for item in wiring.calls}
+    assert not (imported & forbidden)
+    assert "build_research_packet_probe_from_config" not in called
+    model_py = (folder / "model.py").read_text(encoding="utf-8")
+    assert "ResearchPacketProbe" not in model_py
+    assert "build_research_packet_probe_from_config" not in model_py
+
+    # Gradients must flow through the per-direction log-scale parameter
+    # from the puzzle logit, since the perturbation basis is what the
+    # spectral readout depends on.
+    grad_model = build_tactical_hessian_spectrum_network_from_config(
+        dict(config["model"])
+    ).train()
+    x_grad = torch.zeros(2, input_channels, 8, 8)
+    x_grad[:, 12] = 1.0
+    grad_output = grad_model(x_grad)
+    grad_output["logits"].sum().backward()
+    direction_grad = grad_model.direction_log_scales.grad
+    assert direction_grad is not None
+    assert torch.isfinite(direction_grad).all()
+    assert direction_grad.abs().sum() > 0.0
+
+    kind_row = detect_idea_implementation_kind(folder)
+    assert kind_row.detected_kind == "bespoke_model"
+    assert kind_row.implementation_status == "implemented"
+    assert not kind_row.issues
+
+    training_report = validate_idea_for_training(folder)
+    assert training_report["valid"], training_report
+
+    conformance_rows = [row for row in _audit_architecture_conformance_rows() if row.idea_id == "i199"]
+    assert len(conformance_rows) == 1
+    assert conformance_rows[0].implementation_kind == "bespoke_model"
+    assert not conformance_rows[0].issues
