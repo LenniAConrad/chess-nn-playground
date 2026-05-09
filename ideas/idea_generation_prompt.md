@@ -1693,13 +1693,13 @@ Before proposing anything, read the existing registry and idea folders. Here is 
     {
       "folder": "ideas/i140_low_displacement_rank_board_operator",
       "idea_id": "i140",
-      "implementation_kind": "shared_probe_variant",
+      "implementation_kind": "bespoke_model",
       "input_representation": "Current-board simple_18 tensor only; CRTK/source metadata is reporting-only and never used as model input.",
       "name": "Low-Displacement-Rank Board Operator",
-      "novelty_claim": "Promoted from `ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`; uses a generic mechanism profile over board-only features rather than generic CNN-only pooling.",
-      "output_heads": "One puzzle logit plus packet-profile diagnostics saved to prediction artifacts.",
+      "novelty_claim": "Bespoke 64x64 board operator built as an explicit sum of structured generators (rank/file Toeplitz plus main / anti-diagonal Hankel-like mixers and a small low-rank residual) so that the Sylvester displacement A - Z A Z^T is low rank by construction; per-component response energies and the displacement-residual norm are exposed as diagnostics.",
+      "output_heads": "One puzzle logit plus low-displacement-rank diagnostics (per-component T_rank / T_file / H_diag / H_anti / U V^T response energies, the operator response residual, and the displacement residual norm).",
       "short_thesis": "Global square mixing can be parameterized by structured matrices instead of dense attention or convolutions. A low-displacement-rank operator over the flattened board can express long-range interactions with Toeplitz/Hankel-like structure and few parameters.",
-      "status": "scaffolded",
+      "status": "implemented",
       "target_task": "puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle."
     },
     {

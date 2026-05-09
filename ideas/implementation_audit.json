@@ -4703,35 +4703,33 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/i140_low_displacement_rank_board_operator",
       "idea_id": "i140",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "low_displacement_rank_board_operator",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "low_displacement_rank_board_operator",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config",
           "config.get",
           "dict",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.low_displacement_rank_board_operator.build_low_displacement_rank_board_operator_from_config",
+          "torch.nn",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8168,12 +8166,12 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 224,
-      "shared_probe_variant": 16
+      "bespoke_model": 225,
+      "shared_probe_variant": 15
     },
     "by_metadata_kind": {
-      "bespoke_model": 224,
-      "shared_probe_variant": 16
+      "bespoke_model": 225,
+      "shared_probe_variant": 15
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
@@ -8184,7 +8182,6 @@
       "ideas/i137_commutative_view_consistency_network",
       "ideas/i138_support_function_envelope_network",
       "ideas/i139_soft_majorization_line_sorter",
-      "ideas/i140_low_displacement_rank_board_operator",
       "ideas/i141_submodular_coverage_bottleneck",
       "ideas/i142_pivot_trace_elimination_network",
       "ideas/i143_convnext_boardnet",

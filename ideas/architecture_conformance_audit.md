@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `224`
+- Implemented architecture rows audited: `225`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -145,6 +145,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i134` | `ideas/i134_legal_constraint_projection_residual_network` | `legal_constraint_projection_residual_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i134_legal_constraint_projection_residual_network/model.py`<br>`src/chess_nn_playground/models/legal_constraint_projection_residual_network.py` | - |
 | `i135` | `ideas/i135_zobrist_kernel_feature_network` | `zobrist_kernel_feature_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i135_zobrist_kernel_feature_network/model.py`<br>`src/chess_nn_playground/models/zobrist_kernel_feature_network.py` | - |
 | `i136` | `ideas/i136_low_rank_signed_cut_query_network` | `low_rank_signed_cut_query_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i136_low_rank_signed_cut_query_network/model.py`<br>`src/chess_nn_playground/models/low_rank_signed_cut_query_network.py` | - |
+| `i140` | `ideas/i140_low_displacement_rank_board_operator` | `low_displacement_rank_board_operator` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i140_low_displacement_rank_board_operator/model.py`<br>`src/chess_nn_playground/models/low_displacement_rank_board_operator.py` | - |
 | `i145` | `ideas/i145_piece_plane_gated_cnn` | `piece_plane_gated_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i145_piece_plane_gated_cnn/model.py`<br>`src/chess_nn_playground/models/piece_plane_gated_cnn.py` | - |
 | `i146` | `ideas/i146_patch_mixer_boardnet` | `patch_mixer_boardnet` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i146_patch_mixer_boardnet/model.py`<br>`src/chess_nn_playground/models/patch_mixer_boardnet.py` | - |
 | `i147` | `ideas/i147_specialist_head_cnn` | `specialist_head_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i147_specialist_head_cnn/model.py`<br>`src/chess_nn_playground/models/specialist_head_cnn.py` | - |

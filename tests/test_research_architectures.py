@@ -5196,6 +5196,20 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "lgv_neumann_alpha",
         },
     ),
+    (
+        "i140",
+        "ideas/i140_low_displacement_rank_board_operator",
+        "low_displacement_rank_board_operator",
+        {
+            "ldr_energy_t_rank",
+            "ldr_energy_t_file",
+            "ldr_energy_h_diag",
+            "ldr_energy_h_anti",
+            "ldr_energy_low_rank",
+            "ldr_operator_response_residual",
+            "ldr_displacement_residual_norm",
+        },
+    ),
 ]
 
 

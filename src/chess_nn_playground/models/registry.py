@@ -400,6 +400,9 @@ from chess_nn_playground.models.tracy_widom_level_spacing_network import (
 from chess_nn_playground.models.lindstrom_gessel_viennot_path_network import (
     build_lindstrom_gessel_viennot_path_network_from_config,
 )
+from chess_nn_playground.models.low_displacement_rank_board_operator import (
+    build_low_displacement_rank_board_operator_from_config,
+)
 from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
     build_multi_scale_dilated_board_mixer_cnn_from_config,
 )
@@ -691,6 +694,7 @@ MODEL_BUILDERS = {
     "clifford_rotor_threat_network": build_clifford_rotor_threat_network_from_config,
     "tracy_widom_level_spacing_network": build_tracy_widom_level_spacing_network_from_config,
     "lindstrom_gessel_viennot_path_network": build_lindstrom_gessel_viennot_path_network_from_config,
+    "low_displacement_rank_board_operator": build_low_displacement_rank_board_operator_from_config,
     "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
     "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
     "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
