@@ -1,15 +1,61 @@
 # Architecture
 
-## Scaffold-Only Implementation Notice
+`Local Neighborhood Geometry Network` is a bespoke implementation of idea
+`i124`. It encodes ``V`` deterministic, board-only perturbations of the
+input through a single shared encoder and reads tactical content off the
+*geometry* of the resulting embedding cloud. The local-sharpness thesis
+predicts that puzzle-like positions sit in sharper local representation
+basins than quiet non-puzzle positions: removing one piece plane, masking
+one square neighborhood, or zeroing the coordinate planes should move a
+puzzle-like board's representation farther than the same perturbations
+applied to a quiet position.
 
-This folder is not a completed bespoke implementation of the architecture described below. `model.py` is a thin `ResearchPacketProbe` wrapper built with `build_research_packet_probe_from_config`, so this idea remains `implementation_kind: shared_probe_variant` and `implementation_status: probe_scaffold_only` until bespoke model code matching this markdown is added.
+## Pipeline
 
+- Input: board tensor `(B, 18, 8, 8)`. CRTK / source metadata is
+  reporting-only and never used as model input.
+- Deterministic perturbation set (V = 6, board-only):
+  1. `identity`
+  2. `horizontal_mirror` — file-axis flip (kept as a diagnostic; the model
+     is not told that labels are invariant under this perturbation, only
+     that local response is informative)
+  3. `mask_corner_quadrant` — zero a fixed 4x4 corner quadrant
+  4. `zero_coordinate_planes` — zero metadata / coordinate planes from
+     index `coordinate_plane_start` onward
+  5. `mask_king_neighborhood_ring` — zero the 3x3 centre region of the
+     board (a deterministic, board-agnostic stand-in for "mask one square
+     neighborhood")
+  6. `piece_type_dropout_group` — zero one piece-type group (white and
+     black planes of `piece_dropout_group_index`)
+- Shared encoder: a small CNN stem followed by mean+max pooling and a
+  linear projection to `embed_dim`.  Weights are shared across all V
+  views by construction.
+- Local geometry statistics, computed per-sample:
+  - `lng_center_embedding` — embedding of the identity view
+  - `lng_view_deltas` — per-view deltas to the centre embedding
+  - `lng_delta_norms` — L2 norms of those deltas
+  - `lng_cosine_delta_offdiag` — strict upper-triangular cosines between
+    pairs of deltas
+  - `lng_local_covariance_spectrum` — top-K eigenvalues of the centred
+    `V x V` Gram matrix of all view embeddings (proxy for the local
+    embedding covariance spectrum)
+  - `lng_pairwise_distances`, `lng_mean_pairwise_distance`,
+    `lng_max_pairwise_distance`
+  - `lng_mean_delta_norm`
+  - `lng_anisotropy_ratio` — top eigenvalue / sum of eigenvalues of the
+    local Gram spectrum
+- Head: a LayerNorm + GELU MLP over `[center_embedding, geometry_stats]`
+  returning one puzzle logit.
 
-`Local Neighborhood Geometry Network` uses the shared proposal-conditioned research-packet probe.
+## Implementation Binding
 
-- Mechanism family: `topology`.
-- Active proposal profiles: `topology`.
-- Input: board tensor only; CRTK/source metadata remains reporting-only.
-- Board trunk: compact convolutional square encoder over the configured board planes.
-- Proposal diagnostics: deterministic board-mechanism features selected from the active profiles, including sheaf/pressure tension, transport imbalance, symmetry residuals, topology and king-path pressure, logic/ray evidence, linear-algebra moments, information and calibration scores, sparse certificate energy, graph/reply pressure, spatial CNN cues, and phase/cost proxies when relevant.
-- Head: the classifier receives pooled board features, the mechanism family embedding, profile hash features, active profile flags, and the selected proposal diagnostics. It returns one puzzle logit plus diagnostic outputs such as `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`, `sheaf_tension`, `transport_imbalance`, `symmetry_residual`, `topology_pressure`, `ray_language_energy`, `information_surprisal`, `sparse_certificate_energy`, `rank_file_imbalance`, `king_ring_pressure`, `reply_pressure`, and `defense_gap`.
+- Registered model name: `local_neighborhood_geometry_network` (registered in
+  `src/chess_nn_playground/models/registry.py`).
+- Source implementation file:
+  `src/chess_nn_playground/models/local_neighborhood_geometry_network.py`
+  (`LocalNeighborhoodGeometryNetwork` and
+  `build_local_neighborhood_geometry_network_from_config`).
+- Idea-local wrapper:
+  `ideas/i124_local_neighborhood_geometry_network/model.py` calls
+  `build_local_neighborhood_geometry_network_from_config`.
+- The shared `ResearchPacketProbe` scaffold is no longer used by this idea.

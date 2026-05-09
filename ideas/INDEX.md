@@ -21,14 +21,14 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 - Registered idea folders: `240`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 220, 'probe_scaffold_only': 13, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 227, 'shared_probe_variant': 13}`
+- Registered implementation states: `{'implemented': 221, 'probe_scaffold_only': 12, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 228, 'shared_probe_variant': 12}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 227 | Materially distinct model implementation. |
-| `shared_probe_variant` | 13 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
+| `bespoke_model` | 228 | Materially distinct model implementation. |
+| `shared_probe_variant` | 12 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 0 | Not classifiable from current wiring; should remain rare. |
 
@@ -162,7 +162,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i121` | [Morphological Threat Field Network](i121_morphological_threat_field_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i122` | [Invertible Board Coupling Network](i122_invertible_board_coupling_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i123` | [Sparse Expert Board Router](i123_sparse_expert_board_router) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i124` | [Local Neighborhood Geometry Network](i124_local_neighborhood_geometry_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i124` | [Local Neighborhood Geometry Network](i124_local_neighborhood_geometry_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i125` | [Ray State-Space Scan Network](i125_ray_state_space_scan_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i126` | [Pawn Skeleton Barrier Network](i126_pawn_skeleton_barrier_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i127` | [Square-Color Parity Mixer](i127_square_color_parity_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
@@ -177,20 +177,20 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i136` | [Low-Rank Signed Cut Query Network](i136_low_rank_signed_cut_query_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i137` | [Commutative View-Consistency Network](i137_commutative_view_consistency_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i138` | [Support-Function Envelope Network](i138_support_function_envelope_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i139` | [Soft Majorization Line Sorter](i139_soft_majorization_line_sorter) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i140` | [Low-Displacement-Rank Board Operator](i140_low_displacement_rank_board_operator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i139` | [Soft Majorization Line Sorter](i139_soft_majorization_line_sorter) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i140` | [Low-Displacement-Rank Board Operator](i140_low_displacement_rank_board_operator) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i141` | [Submodular Coverage Bottleneck](i141_submodular_coverage_bottleneck) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i142` | [Pivot Trace Elimination Network](i142_pivot_trace_elimination_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i143` | [ConvNeXt BoardNet](i143_convnext_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i143` | [ConvNeXt BoardNet](i143_convnext_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i144` | [Board FPN CNN](i144_board_fpn_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i145` | [Piece-Plane Gated CNN](i145_piece_plane_gated_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i146` | [Patch Mixer BoardNet](i146_patch_mixer_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i147` | [Specialist-Head CNN](i147_specialist_head_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i149` | [Axial Rank-File ConvNet](i149_axial_rank_file_convnet) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i150` | [Early-Exit Cascade BoardNet](i150_early_exit_cascade_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i151` | [Auxiliary Reconstruction BoardNet](i151_auxiliary_reconstruction_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i152` | [Iterative Logit Refinement CNN](i152_iterative_logit_refinement_cnn) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i152` | [Iterative Logit Refinement CNN](i152_iterative_logit_refinement_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i153` | [Agreement-Variance Head Net](i153_agreement_variance_head_net) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i154` | [Adapter-Sandwich Residual CNN](i154_adapter_sandwich_residual_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i155` | [Capsule Motif BoardNet](i155_capsule_motif_boardnet) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
@@ -214,7 +214,7 @@ Implemented-architecture conformance audit: [ideas/architecture_conformance_audi
 | `i173` | [Stripe-Selective Mixer CNN](i173_stripe_selective_mixer_cnn) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i174` | [King-Zone Evidence Ledger](i174_king_zone_evidence_ledger) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i175` | [Prototype-Margin Puzzle Network](i175_prototype_margin_puzzle_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
-| `i176` | [Source-Rate Calibrated Objective](i176_source_rate_calibrated_objective) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i176` | [Source-Rate Calibrated Objective](i176_source_rate_calibrated_objective) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i177` | [Forcing-Certificate Transformer](i177_forcing_certificate_transformer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i178` | [Defender-Exhaustion Cascade Network](i178_defender_exhaustion_cascade_network) | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i179` | [Causal Piece-Derivative Network](i179_causal_piece_derivative_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |

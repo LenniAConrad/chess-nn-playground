@@ -2421,6 +2421,26 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/i124_local_neighborhood_geometry_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i124_local_neighborhood_geometry_network",
+      "idea_id": "i124",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "local_neighborhood_geometry_network",
+      "slug": "local_neighborhood_geometry_network",
+      "source_files": [
+        "ideas/i124_local_neighborhood_geometry_network/model.py",
+        "src/chess_nn_playground/models/local_neighborhood_geometry_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/i125_ray_state_space_scan_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -2661,41 +2681,41 @@
       "status": "implemented"
     },
     {
-      "architecture_doc": "ideas/i138_support_function_envelope_network/architecture.md",
+      "architecture_doc": "ideas/i139_soft_majorization_line_sorter/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
       "architecture_mentions_source": true,
       "architecture_mentions_wrapper": true,
-      "folder": "ideas/i138_support_function_envelope_network",
-      "idea_id": "i138",
+      "folder": "ideas/i139_soft_majorization_line_sorter",
+      "idea_id": "i139",
       "implementation_kind": "bespoke_model",
       "implementation_status": "implemented",
       "issues": [],
-      "model_name": "support_function_envelope_network",
-      "slug": "support_function_envelope_network",
+      "model_name": "soft_majorization_line_sorter",
+      "slug": "soft_majorization_line_sorter",
       "source_files": [
-        "ideas/i138_support_function_envelope_network/model.py",
-        "src/chess_nn_playground/models/support_function_envelope_network.py"
+        "ideas/i139_soft_majorization_line_sorter/model.py",
+        "src/chess_nn_playground/models/soft_majorization_line_sorter.py"
       ],
       "source_markers": [],
       "status": "implemented"
     },
     {
-      "architecture_doc": "ideas/i142_pivot_trace_elimination_network/architecture.md",
+      "architecture_doc": "ideas/i143_convnext_boardnet/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
       "architecture_mentions_source": true,
       "architecture_mentions_wrapper": true,
-      "folder": "ideas/i142_pivot_trace_elimination_network",
-      "idea_id": "i142",
+      "folder": "ideas/i143_convnext_boardnet",
+      "idea_id": "i143",
       "implementation_kind": "bespoke_model",
       "implementation_status": "implemented",
       "issues": [],
-      "model_name": "pivot_trace_elimination_network",
-      "slug": "pivot_trace_elimination_network",
+      "model_name": "convnext_boardnet",
+      "slug": "convnext_boardnet",
       "source_files": [
-        "ideas/i142_pivot_trace_elimination_network/model.py",
-        "src/chess_nn_playground/models/pivot_trace_elimination_network.py"
+        "ideas/i143_convnext_boardnet/model.py",
+        "src/chess_nn_playground/models/convnext_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2796,6 +2816,26 @@
       "source_files": [
         "ideas/i151_auxiliary_reconstruction_boardnet/model.py",
         "src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/i152_iterative_logit_refinement_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/i152_iterative_logit_refinement_cnn",
+      "idea_id": "i152",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "iterative_logit_refinement_cnn",
+      "slug": "iterative_logit_refinement_cnn",
+      "source_files": [
+        "ideas/i152_iterative_logit_refinement_cnn/model.py",
+        "src/chess_nn_playground/models/iterative_logit_refinement_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4644,6 +4684,7 @@
       "ideas/i121_morphological_threat_field_network",
       "ideas/i122_invertible_board_coupling_network",
       "ideas/i123_sparse_expert_board_router",
+      "ideas/i124_local_neighborhood_geometry_network",
       "ideas/i125_ray_state_space_scan_network",
       "ideas/i126_pawn_skeleton_barrier_network",
       "ideas/i127_square_color_parity_mixer",
@@ -4656,13 +4697,14 @@
       "ideas/i134_legal_constraint_projection_residual_network",
       "ideas/i135_zobrist_kernel_feature_network",
       "ideas/i136_low_rank_signed_cut_query_network",
-      "ideas/i138_support_function_envelope_network",
-      "ideas/i142_pivot_trace_elimination_network",
+      "ideas/i139_soft_majorization_line_sorter",
+      "ideas/i143_convnext_boardnet",
       "ideas/i145_piece_plane_gated_cnn",
       "ideas/i146_patch_mixer_boardnet",
       "ideas/i147_specialist_head_cnn",
       "ideas/i150_early_exit_cascade_boardnet",
       "ideas/i151_auxiliary_reconstruction_boardnet",
+      "ideas/i152_iterative_logit_refinement_cnn",
       "ideas/i153_agreement_variance_head_net",
       "ideas/i154_adapter_sandwich_residual_cnn",
       "ideas/i155_capsule_motif_boardnet",
@@ -4750,7 +4792,7 @@
       "ideas/i239_permanent_ryser_network",
       "ideas/i240_cayley_hamilton_coeffs_network"
     ],
-    "implemented_architecture_count": 226,
+    "implemented_architecture_count": 228,
     "issue_folders": [],
     "validation_issue_count": 0
   }

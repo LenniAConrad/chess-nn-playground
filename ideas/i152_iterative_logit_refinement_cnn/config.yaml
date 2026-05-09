@@ -18,7 +18,11 @@ model:
   num_classes: 1
   channels: 64
   hidden_dim: 96
-  depth: 2
+  depth: 4
+  refinement_steps: 4
+  correction_hidden: 64
+  correction_clamp: 0.25
+  untie_corrections: false
   dropout: 0.1
   use_batchnorm: true
   mechanism_family: tempo
