@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `240`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `219`
-- Bespoke model implementations: `226`
-- Shared ResearchPacketProbe variants: `14`
+- Fully implemented architectures still needing a linked benchmark run: `220`
+- Bespoke model implementations: `227`
+- Shared ResearchPacketProbe variants: `13`
 
 Recommended immediate sequence:
 
@@ -31,10 +31,10 @@ Benchmark queue by ID:
 - Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i088`, `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`
 - Batch 5: `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`, `i112`, `i113`, `i114`, `i115`, `i116`, `i117`, `i119`, `i120`, `i121`, `i122`, `i123`, `i125`, `i126`, `i127`, `i128`, `i129`, `i130`
 - Batch 6: `i131`, `i132`, `i133`, `i134`, `i135`, `i136`, `i140`, `i145`, `i146`, `i147`, `i148`, `i150`, `i151`, `i153`, `i154`, `i155`, `i156`, `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`
-- Batch 7: `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i177`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`
-- Batch 8: `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
-- Batch 9: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`
-- Batch 10: `i238`, `i239`, `i240`
+- Batch 7: `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`
+- Batch 8: `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`
+- Batch 9: `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`
+- Batch 10: `i237`, `i238`, `i239`, `i240`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -234,7 +234,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i173` | [Stripe-Selective Mixer CNN](i173_stripe_selective_mixer_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i174` | [King-Zone Evidence Ledger](i174_king_zone_evidence_ledger) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i175` | [Prototype-Margin Puzzle Network](i175_prototype_margin_puzzle_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i176` | [Source-Rate Calibrated Objective](i176_source_rate_calibrated_objective) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i176` | [Source-Rate Calibrated Objective](i176_source_rate_calibrated_objective) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i177` | [Forcing-Certificate Transformer](i177_forcing_certificate_transformer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i178` | [Defender-Exhaustion Cascade Network](i178_defender_exhaustion_cascade_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
 | [x] | `i179` | [Causal Piece-Derivative Network](i179_causal_piece_derivative_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |

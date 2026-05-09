@@ -5223,6 +5223,19 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
             "swrb_count_head_logit",
         },
     ),
+    (
+        "i176",
+        "ideas/i176_source_rate_calibrated_objective",
+        "source_rate_calibrated_objective",
+        {
+            "source_rate_puzzle_evidence",
+            "source_rate_near_puzzle_evidence",
+            "source_rate_random_negative_evidence",
+            "source_rate_threshold_tau",
+            "source_rate_temperature",
+            "source_rate_soft_indicator",
+        },
+    ),
 ]
 
 

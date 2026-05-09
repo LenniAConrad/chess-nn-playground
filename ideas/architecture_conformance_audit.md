@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `226`
+- Implemented architecture rows audited: `227`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -175,6 +175,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i173` | `ideas/i173_stripe_selective_mixer_cnn` | `stripe_selective_mixer_cnn` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i173_stripe_selective_mixer_cnn/model.py`<br>`src/chess_nn_playground/models/stripe_selective_mixer_cnn.py` | - |
 | `i174` | `ideas/i174_king_zone_evidence_ledger` | `king_zone_evidence_ledger` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i174_king_zone_evidence_ledger/model.py`<br>`src/chess_nn_playground/models/king_zone_evidence_ledger.py` | - |
 | `i175` | `ideas/i175_prototype_margin_puzzle_network` | `prototype_margin_puzzle_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i175_prototype_margin_puzzle_network/model.py`<br>`src/chess_nn_playground/models/prototype_margin_puzzle_network.py` | - |
+| `i176` | `ideas/i176_source_rate_calibrated_objective` | `source_rate_calibrated_objective` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i176_source_rate_calibrated_objective/model.py`<br>`src/chess_nn_playground/models/source_rate_calibrated_objective.py` | - |
 | `i177` | `ideas/i177_forcing_certificate_transformer` | `forcing_certificate_transformer` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i177_forcing_certificate_transformer/model.py`<br>`src/chess_nn_playground/models/forcing_certificate_transformer.py` | - |
 | `i179` | `ideas/i179_causal_piece_derivative_network` | `causal_piece_derivative_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i179_causal_piece_derivative_network/model.py`<br>`src/chess_nn_playground/models/causal_piece_derivative_network.py` | - |
 | `i180` | `ideas/i180_phase_transition_pressure_network` | `phase_transition_pressure_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/i180_phase_transition_pressure_network/model.py`<br>`src/chess_nn_playground/models/phase_transition_pressure_network.py` | - |
