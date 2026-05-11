@@ -1621,24 +1621,34 @@ sample efficiency advantages compress --- a sufficiently large transformer
 can learn any decomposition the data implicitly encodes.
 
 \begin{tcolorbox}[goodcallout, title=Which advantages persist? Which vanish?]
+A prior can lose its accuracy edge while still saving wall-clock time at
+inference --- that distinction matters for a chess engine that calls the
+network at every node of a search tree.  We track them separately.
+\smallskip
+
 \begin{footnotesize}
-\begin{tabularx}{\linewidth}{@{}p{6cm} L@{}}
+\begin{tabularx}{\linewidth}{@{}p{4.4cm} L L@{}}
 \toprule
-\textbf{prior} & \textbf{fate at unlimited data + compute} \\
+\textbf{prior} & \textbf{accuracy edge vs BT4} & \textbf{inference-speed edge vs BT4} \\
 \midrule
-King-conditioned inputs (NNUE) & \textbf{Vanishes.} A 50M+ transformer learns king-relative features from the raw board. \\
-Exchange/king dual-stream (i193) & \textbf{Vanishes.} Multi-head attention implicitly partitions the head budget by task. \\
-Chess-aware attention bias (i242) & \textbf{Vanishes.} The bias matrices are a geometric prior; learnable from data. \\
-Group equivariance (i048) & \textbf{Mostly vanishes.} Residual benefit is the $|G|=4\times$ parameter-count saving. \\
+King-conditioned inputs (NNUE / HalfKA) & \textbf{Vanishes.} A 50M+ transformer learns king-relative features from the raw board. & \textbf{Persists.} HalfKA's incremental accumulator updates by $\le 2$ embedding lookups per move --- O(1) regardless of board complexity.  This is why Stockfish runs millions of evals/s on CPU. \\[3pt]
+Exchange/king dual-stream (i193) & \textbf{Vanishes.} Multi-head attention partitions the head budget by task. & \textbf{Partially persists.} Conv-on-token-grid is structurally cheaper than dense MHA for narrow channels; at the channel widths BT4 uses the advantage compresses to $\sim$1.2--1.9$\times$ (measured on our scout). \\[3pt]
+Chess-aware attention bias (i242) & \textbf{Vanishes.} The bias matrices are a geometric prior; learnable from data. & \textbf{Vanishes.} Bias matrices are essentially free; they neither help nor hurt wall-clock at scale. \\[3pt]
+Group equivariance (i048) & \textbf{Mostly vanishes.} Residual benefit is parameter-count saving. & \textbf{Partially persists.} $|G|=4\times$ fewer FLOPs at equivariant layers; the saving's size depends on where in the trunk those layers sit. \\
 \midrule
-Sparse legal-move attention pattern & \textbf{Persists.} Computing attention over $\sim$8 legal-move-related square pairs (vs all 64) saves $8\times$ real FLOPs at any data scale. \\
-Mixture-of-experts / phase routing of FLOPs & \textbf{Persists.} Routing only some FLOPs per position is a wall-clock win regardless of data. \\
-Adaptive depth / early exit & \textbf{Persists.} Easy positions need fewer layers; search can exploit the saving. \\
-INT8/FP8 quantization-aware training & \textbf{Persists.} Hardware-level efficiency, orthogonal to architecture. \\
-Mamba / state-space layers in place of attention & \textbf{Persists.} Linear-time alternative; the quality gap vs attention narrows as data grows. \\
+Sparse legal-move attention pattern & --- & \textbf{Persists.} Computing attention over $\sim$8 legal-move-related square pairs (vs all 64) saves $8\times$ FLOPs at any data scale. \\[3pt]
+Mixture-of-experts / phase routing of FLOPs & --- & \textbf{Persists.} Routing only some FLOPs per position is a wall-clock win regardless of data. \\[3pt]
+Adaptive depth / early exit & --- & \textbf{Persists.} Easy positions need fewer layers; search exploits the saving directly. \\[3pt]
+INT8/FP8 quantization-aware training & --- & \textbf{Persists.} Hardware-level efficiency, orthogonal to architecture. \\[3pt]
+Mamba / state-space layers in place of attention & \textbf{Approaches BT4.} The quality gap vs attention narrows as data grows. & \textbf{Persists.} Linear-time in token count; same speed advantage at every scale. \\
 \bottomrule
 \end{tabularx}
 \end{footnotesize}
+
+\smallskip
+The dash ``---'' in the accuracy column means the prior is purely a
+compute-efficiency lever, not an inductive bias --- it does not change
+what the network can represent, only how fast it represents it.
 \end{tcolorbox}
 
 \subsection{An "unlimited-data, faster-than-BT4" recipe}
