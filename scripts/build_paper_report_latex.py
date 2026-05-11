@@ -1065,7 +1065,6 @@ def main() -> int:
 AUTHOR & Lennart Axel Conrad \quad (Student ID: 2025080264) \\
 AFFILIATION & Zijing College, Tsinghua University \\
 SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\
-REPOSITORY & \href{https://github.com/LenniAConrad/chess-nn-playground}{\texttt{github.com/LenniAConrad/chess-nn-playground}} \\
 \hline\rule{0pt}{2.6ex}
 SCOUT DATE & 2026-05-09 to 2026-05-10 \\
 TASK & puzzle\_binary (single positive logit, BCE loss) \\
@@ -1073,6 +1072,7 @@ DATASET & CRTK-tagged 3-class split (\textasciitilde 173k train / \textasciitild
 HARDWARE & RTX 3070 (8 GiB) --- single GPU, single seed (42), base scale \\
 BUDGET & 12 epochs max, patience 3, 60-min wall per task, CUDA only \\
 GENERATED & """ + today + r""" \\
+REPOSITORY & \href{https://github.com/LenniAConrad/chess-nn-playground}{github.com/LenniAConrad/chess-nn-playground} \\
 \end{tabular}
 
 \vspace{1.0cm}

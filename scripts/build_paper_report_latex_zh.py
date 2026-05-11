@@ -730,7 +730,6 @@ def main() -> int:
 作者 & Lennart Axel Conrad \quad (学号: 2025080264) \\
 所属单位 & 清华大学紫荆书院 \\
 指导教师 & 韩军功教授 \quad (清华大学自动化系) \\
-代码仓库 & \href{https://github.com/LenniAConrad/chess-nn-playground}{\texttt{github.com/LenniAConrad/chess-nn-playground}} \\
 \hline\rule{0pt}{2.6ex}
 侦察日期 & 2026-05-09 至 2026-05-10 \\
 任务 & puzzle\_binary (单正 logit, BCE 损失) \\
@@ -738,6 +737,7 @@ def main() -> int:
 硬件 & RTX 3070 (8 GiB) --- 单 GPU, 单种子 (42), base 规模 \\
 预算 & 最多 12 epoch, patience 3, 每任务 60 分钟墙时, 仅 CUDA \\
 生成日期 & """ + today + r""" \\
+代码仓库 & \href{https://github.com/LenniAConrad/chess-nn-playground}{github.com/LenniAConrad/chess-nn-playground} \\
 \end{tabular}
 
 \vspace{1.0cm}
