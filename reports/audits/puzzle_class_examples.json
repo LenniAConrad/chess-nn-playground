@@ -4,20 +4,26 @@
     "title": "Class 0 \u2014 random_position (non-puzzle)",
     "fen": "8/2r3pk/7p/4n3/8/4K2P/1R4P1/8 b - - 1 47",
     "best_uci": "e5c4",
-    "caption": "Quiet endgame, Black to move.  Best move \\texttt{Nc4+} wins material but the position came from random midgame sampling rather than a curated puzzle source."
+    "caption_en": "Quiet endgame, Black to move.  Best move \\texttt{Nc4+} wins material but the position came from random midgame sampling rather than a curated puzzle source.",
+    "caption_zh": "\u5b89\u9759\u6b8b\u5c40, \u9ed1\u65b9\u8d70\u5b50\u3002\u6700\u4f73\u8d70\u6cd5 \\texttt{Nc4+} \u8d62\u5f97\u5b50\u529b, \u4f46\u8be5\u5c40\u9762\u6765\u81ea\u968f\u673a\u7684\u4e2d\u5c40\u91c7\u6837, \u800c\u975e\u4ece\u8c1c\u9898\u6e90\u4e2d\u7b56\u5212\u3002",
+    "png": "reports/audits/puzzle_class_0.png"
   },
   {
     "label": 1,
     "title": "Class 1 \u2014 verified-near-puzzle (hard negative)",
-    "fen": "r1qr2k1/p1pn1ppp/1pQ5/2p3B1/8/P1n2N2/2PN1PPP/R3R1K1 w - - 4 18",
-    "best_uci": "g5d8",
-    "caption": "Looks like a puzzle (queen \\& bishop coordinated against the king), but Stockfish verifies \\textbf{pv\\_gap = 27 cp}: the second-best move scores almost identically, so there is no unique winning idea.  This is the hard-negative class that the scout was built to distinguish."
+    "fen": "rq2kb1r/1p1b1ppp/p1n2n2/1N2p3/1P3B2/2P2N2/P3BPPP/R2QK2R b KQkq - 1 17",
+    "best_uci": "e5f4",
+    "caption_en": "Black to move.  Best move \\texttt{exf4} (pawn captures bishop) but the second-best line scores within \\textbf{124 cp}, so this is \\emph{not} a unique-solution puzzle.  Shares a CRTK sister parent with the class-2 example to the right: the only structural difference is whether \\texttt{Bxe5} has been played.",
+    "caption_zh": "\u9ed1\u65b9\u8d70\u5b50\u3002\u6700\u4f73\u8d70\u6cd5 \\texttt{exf4} (\u5175\u5403\u8c61), \u4f46\u7b2c\u4e8c\u597d\u7684\u8d70\u6cd5\u5728\\textbf{124 \u5398\u5175}\u4ee5\u5185, \u56e0\u6b64\\emph{\u4e0d\u662f}\u552f\u4e00\u89e3\u8c1c\u9898\u3002\u4e0e\u53f3\u4fa7\u7c7b~2 \u6837\u672c\u5171\u4eab\u4e00\u4e2a CRTK \u59d0\u59b9\u7236\u8282\u70b9: \u552f\u4e00\u7684\u7ed3\u6784\u5dee\u5f02\u662f\\texttt{Bxe5} \u662f\u5426\u5df2\u7ecf\u8d70\u8fc7\u3002",
+    "png": "reports/audits/puzzle_class_1.png"
   },
   {
     "label": 2,
     "title": "Class 2 \u2014 puzzle\\_filter\\_matched (true puzzle)",
-    "fen": "r5k1/1pQ1n2p/p3Prp1/5p2/5q2/P4P2/2P3P1/RN2RK2 b - - 0 25",
-    "best_uci": "f4c7",
-    "caption": "Black to move.  \\texttt{Qxc7} is the unique winning move (\\textbf{pv\\_gap = 838 cp}); all other moves either lose material or fail to convert.  Tactical motif, single-solution: this is what the binary head must recognise."
+    "fen": "rq2kb1r/1p1b1ppp/p1n2n2/1N2B3/1P6/2P2N2/P3BPPP/R1Q1K2R b KQkq - 0 17",
+    "best_uci": "c6e5",
+    "caption_en": "Black to move, after \\texttt{Bxe5}.  Best move \\texttt{Nxe5} is the unique winning move (\\textbf{pv\\_gap = 1036 cp}).  Single solution, large alternative penalty: this is the positive class.  Same CRTK sister parent as the class-1 example on the left.",
+    "caption_zh": "\u9ed1\u65b9\u8d70\u5b50, \\texttt{Bxe5} \u4e4b\u540e\u3002\u6700\u4f73\u8d70\u6cd5 \\texttt{Nxe5} \u662f\u552f\u4e00\u7684\u83b7\u80dc\u8d70\u6cd5 (\\textbf{pv\\_gap = 1036 \u5398\u5175})\u3002\u5355\u4e00\u89e3, \u5907\u9009\u60e9\u7f5a\u5de8\u5927: \u6b64\u4e3a\u6b63\u6837\u672c\u7c7b\u3002\u4e0e\u5de6\u4fa7\u7c7b~1 \u6837\u672c\u540c\u4e00 CRTK \u59d0\u59b9\u7236\u8282\u70b9\u3002",
+    "png": "reports/audits/puzzle_class_2.png"
   }
 ]

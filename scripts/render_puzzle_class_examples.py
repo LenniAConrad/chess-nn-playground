@@ -1,174 +1,123 @@
 #!/usr/bin/env python
 """Render one example chess board per puzzle fine_label for the paper report.
 
-Output: reports/audits/puzzle_class_examples.pdf (3 boards side-by-side)
-The rendering uses matplotlib only — no chess.svg / cairo dependency — so the
-boards stay on the same green palette as the rest of the report.
+Uses CRTK's `fen render` command (PNG output) so the boards match the
+chess-rtk visual style elsewhere in the repo.  For the puzzle / near-puzzle
+pair we pick two positions that share a CRTK sister parent so the contrast
+is as small as possible: same near-source position, one verifies as a
+true puzzle and one as a near-puzzle.
 """
 from __future__ import annotations
 
+import json
+import subprocess
+import sys
 from pathlib import Path
 
-import chess
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.font_manager as fm
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
-
-# --- Inter font for any labels we draw (matches the rest of the report).
-FONT_DIR = Path("assets/fonts")
-for f in FONT_DIR.glob("Inter-*.otf"):
-    fm.fontManager.addfont(str(f))
-plt.rcParams["font.family"] = "Inter"
-
-# --- Green palette (matches build_paper_report_latex.py).
-LIGHT_SQ = "#F4F9F5"   # verylightsage — light square
-DARK_SQ  = "#B8D2BF"   # softer sage for dark square (legible piece contrast)
-BORDER   = "#1B3F2F"   # deepforest border
-LABEL    = "#1B3F2F"
-HIGHLIGHT_FROM = "#C7E2C9"  # subtle green for from-square (lighter than dark sq)
-HIGHLIGHT_TO   = "#7CBE8F"  # mid-green for to-square (matches sage)
-
-# We render pieces using Unicode chess glyphs — DejaVu Sans / Noto Sans have
-# them.  Use white-piece glyphs for both colors and color the fill differently.
-PIECE_GLYPHS = {
-    chess.PAWN:   "♟",  # ♟
-    chess.KNIGHT: "♞",  # ♞
-    chess.BISHOP: "♝",  # ♝
-    chess.ROOK:   "♜",  # ♜
-    chess.QUEEN:  "♛",  # ♛
-    chess.KING:   "♚",  # ♚
-}
-
-
-def draw_board(ax, fen: str, best_uci: str | None = None, title: str = ""):
-    board = chess.Board(fen)
-
-    # Highlighted squares (from/to of best move)
-    hi_from = hi_to = None
-    if best_uci and len(best_uci) >= 4:
-        try:
-            mv = chess.Move.from_uci(best_uci)
-            hi_from = mv.from_square
-            hi_to = mv.to_square
-        except Exception:
-            pass
-
-    for sq in chess.SQUARES:
-        f = chess.square_file(sq)
-        r = chess.square_rank(sq)
-        is_light = (f + r) % 2 == 1
-        color = LIGHT_SQ if is_light else DARK_SQ
-        if sq == hi_from:
-            color = HIGHLIGHT_FROM
-        elif sq == hi_to:
-            color = HIGHLIGHT_TO
-        ax.add_patch(patches.Rectangle((f, r), 1, 1, facecolor=color, edgecolor="none"))
-
-    # Pieces (slightly above center so descenders read cleanly)
-    for sq in chess.SQUARES:
-        piece = board.piece_at(sq)
-        if piece is None:
-            continue
-        f = chess.square_file(sq); r = chess.square_rank(sq)
-        glyph = PIECE_GLYPHS[piece.piece_type]
-        # White pieces: dark fill with white stroke; black pieces: deepforest fill.
-        if piece.color == chess.WHITE:
-            face = "white"; edge = "#0F2C20"
-        else:
-            face = "#0F2C20"; edge = "white"
-        # Two-pass: outline first then fill (path effects).
-        import matplotlib.patheffects as pe
-        t = ax.text(f + 0.5, r + 0.47, glyph,
-                    fontsize=18, ha="center", va="center",
-                    color=face, family="DejaVu Sans")
-        t.set_path_effects([pe.Stroke(linewidth=0.7, foreground=edge), pe.Normal()])
-
-    # Frame and rank/file labels
-    ax.add_patch(patches.Rectangle((0, 0), 8, 8, fill=False,
-                                    edgecolor=BORDER, linewidth=1.4))
-    ax.set_xlim(-0.4, 8.2)
-    ax.set_ylim(-0.4, 8.2)
-    ax.set_aspect("equal")
-    ax.set_xticks([]); ax.set_yticks([])
-    for spine in ax.spines.values(): spine.set_visible(False)
-
-    # File labels (a-h) along the bottom, ranks (1-8) on the left.
-    for i, lbl in enumerate("abcdefgh"):
-        ax.text(i + 0.5, -0.18, lbl, ha="center", va="top",
-                fontsize=6.5, color=LABEL)
-    for i in range(8):
-        ax.text(-0.18, i + 0.5, str(i + 1), ha="right", va="center",
-                fontsize=6.5, color=LABEL)
-
-    if title:
-        ax.set_title(title, fontsize=9, color=LABEL, pad=4)
-
-
-# --- The three hand-picked examples (chosen from train split via inspection)
+# --- Hand-picked examples.  fine_label=1 and =2 share sister_group_id
+#     crtk_parent_-1001373292417858425 from the train split — same parent
+#     branch, the only difference is whether Bxe5 was already played.
 EXAMPLES = [
     {
         "label": 0,
         "title": "Class 0 — random_position (non-puzzle)",
         "fen":  "8/2r3pk/7p/4n3/8/4K2P/1R4P1/8 b - - 1 47",
         "best_uci": "e5c4",
-        "caption": (
-            "Quiet endgame, Black to move.  Best move "
-            "\\texttt{Nc4+} wins material but the position came from random "
-            "midgame sampling rather than a curated puzzle source."
+        "caption_en": (
+            "Quiet endgame, Black to move.  Best move \\texttt{Nc4+} wins "
+            "material but the position came from random midgame sampling "
+            "rather than a curated puzzle source."
+        ),
+        "caption_zh": (
+            "安静残局, 黑方走子。最佳走法 \\texttt{Nc4+} 赢得子力, 但该局面"
+            "来自随机的中局采样, 而非从谜题源中策划。"
         ),
     },
     {
+        # Shares sister_group_id with the class-2 example below.
         "label": 1,
         "title": "Class 1 — verified-near-puzzle (hard negative)",
-        "fen":  "r1qr2k1/p1pn1ppp/1pQ5/2p3B1/8/P1n2N2/2PN1PPP/R3R1K1 w - - 4 18",
-        "best_uci": "g5d8",
-        "caption": (
-            "Looks like a puzzle (queen \\& bishop coordinated against the "
-            "king), but Stockfish verifies \\textbf{pv\\_gap = 27 cp}: the "
-            "second-best move scores almost identically, so there is no "
-            "unique winning idea.  This is the hard-negative class that the "
-            "scout was built to distinguish."
+        "fen":  "rq2kb1r/1p1b1ppp/p1n2n2/1N2p3/1P3B2/2P2N2/P3BPPP/R2QK2R b KQkq - 1 17",
+        "best_uci": "e5f4",
+        "caption_en": (
+            "Black to move.  Best move \\texttt{exf4} (pawn captures bishop) "
+            "but the second-best line scores within \\textbf{124 cp}, so "
+            "this is \\emph{not} a unique-solution puzzle.  Shares a CRTK "
+            "sister parent with the class-2 example to the right: the only "
+            "structural difference is whether \\texttt{Bxe5} has been played."
+        ),
+        "caption_zh": (
+            "黑方走子。最佳走法 \\texttt{exf4} (兵吃象), 但第二好的走法在"
+            "\\textbf{124 厘兵}以内, 因此\\emph{不是}唯一解谜题。与右侧"
+            "类~2 样本共享一个 CRTK 姐妹父节点: 唯一的结构差异是"
+            "\\texttt{Bxe5} 是否已经走过。"
         ),
     },
     {
+        # Sister-pair partner: Bxe5 was played; now Nxe5 is the unique winner.
         "label": 2,
         "title": "Class 2 — puzzle\\_filter\\_matched (true puzzle)",
-        "fen":  "r5k1/1pQ1n2p/p3Prp1/5p2/5q2/P4P2/2P3P1/RN2RK2 b - - 0 25",
-        "best_uci": "f4c7",
-        "caption": (
-            "Black to move.  \\texttt{Qxc7} is the unique winning move "
-            "(\\textbf{pv\\_gap = 838 cp}); all other moves either lose "
-            "material or fail to convert.  Tactical motif, single-solution: "
-            "this is what the binary head must recognise."
+        "fen":  "rq2kb1r/1p1b1ppp/p1n2n2/1N2B3/1P6/2P2N2/P3BPPP/R1Q1K2R b KQkq - 0 17",
+        "best_uci": "c6e5",
+        "caption_en": (
+            "Black to move, after \\texttt{Bxe5}.  Best move \\texttt{Nxe5} "
+            "is the unique winning move (\\textbf{pv\\_gap = 1036 cp}).  "
+            "Single solution, large alternative penalty: this is the "
+            "positive class.  Same CRTK sister parent as the class-1 "
+            "example on the left."
+        ),
+        "caption_zh": (
+            "黑方走子, \\texttt{Bxe5} 之后。最佳走法 \\texttt{Nxe5} 是唯一"
+            "的获胜走法 (\\textbf{pv\\_gap = 1036 厘兵})。单一解, 备选惩罚"
+            "巨大: 此为正样本类。与左侧类~1 样本同一 CRTK 姐妹父节点。"
         ),
     },
 ]
 
 
+def crtk_render(fen: str, best_uci: str, out_path: Path, size: int = 480):
+    """Invoke `crtk fen render` to produce a PNG board with an arrow.
+
+    The crtk launcher cd's into its own repo root, so we pass an absolute
+    output path to land the PNG where the LaTeX builder expects it.
+    """
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_abs = out_path.resolve()
+    cmd = [
+        "crtk", "fen", "render",
+        "--fen", fen,
+        "--output", str(out_abs),
+        "--format", "png",
+        "--arrow", best_uci,
+        "--size", str(size),
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"crtk failed for {fen}: {result.stderr}", file=sys.stderr)
+        raise SystemExit(result.returncode)
+    return out_path
+
+
 def main():
-    out_pdf = Path("reports/audits/puzzle_class_examples.pdf")
-    out_pdf.parent.mkdir(parents=True, exist_ok=True)
-    out_png = out_pdf.with_suffix(".png")
+    out_dir = Path("reports/audits")
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    fig, axes = plt.subplots(1, 3, figsize=(11.5, 4.3))
-    for ax, ex in zip(axes, EXAMPLES):
-        draw_board(ax, ex["fen"], ex["best_uci"], title=ex["title"])
+    # Render each class to its own PNG via CRTK.
+    rendered = []
+    for ex in EXAMPLES:
+        out_png = out_dir / f"puzzle_class_{ex['label']}.png"
+        crtk_render(ex["fen"], ex["best_uci"], out_png)
+        rendered.append(out_png)
+        print(f"Rendered class {ex['label']}: {out_png}")
 
-    plt.subplots_adjust(left=0.02, right=0.98, top=0.92, bottom=0.05, wspace=0.18)
-    fig.savefig(out_pdf, bbox_inches="tight", facecolor="white", pad_inches=0.15)
-    fig.savefig(out_png, dpi=180, bbox_inches="tight", facecolor="white", pad_inches=0.15)
-    print(f"Wrote {out_pdf}")
-    print(f"Wrote {out_png}")
-
-    # Also write the captions to a JSON for the LaTeX builders to consume.
-    import json
+    # Persist metadata so the LaTeX builders can read the captions.
     captions = [{"label": e["label"], "title": e["title"], "fen": e["fen"],
-                 "best_uci": e["best_uci"], "caption": e["caption"]}
+                 "best_uci": e["best_uci"],
+                 "caption_en": e["caption_en"],
+                 "caption_zh": e["caption_zh"],
+                 "png": f"reports/audits/puzzle_class_{e['label']}.png"}
                 for e in EXAMPLES]
-    out_json = out_pdf.with_name("puzzle_class_examples.json")
+    out_json = out_dir / "puzzle_class_examples.json"
     out_json.write_text(json.dumps(captions, indent=2))
     print(f"Wrote {out_json}")
 

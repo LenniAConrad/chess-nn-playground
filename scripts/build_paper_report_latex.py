@@ -981,12 +981,13 @@ def main() -> int:
         # Copy heatmap in
         heat_local = tmpdir / "heatmap.png"
         shutil.copy(heatmap_path, heat_local)
-        # Copy the puzzle-class example board (rendered separately).
-        example_src = Path("reports/audits/puzzle_class_examples.pdf")
-        if example_src.exists():
-            ex_dst_dir = tmpdir / "reports" / "audits"
-            ex_dst_dir.mkdir(parents=True, exist_ok=True)
-            shutil.copy(example_src, ex_dst_dir / example_src.name)
+        # Copy the per-class CRTK-rendered example boards.
+        ex_dst_dir = tmpdir / "reports" / "audits"
+        ex_dst_dir.mkdir(parents=True, exist_ok=True)
+        for cls in (0, 1, 2):
+            src = Path(f"reports/audits/puzzle_class_{cls}.png")
+            if src.exists():
+                shutil.copy(src, ex_dst_dir / src.name)
         # Render confusion matrices (top 8)
         print("Rendering 3x2 confusion matrices...")
         cm_paths = []
@@ -1141,13 +1142,31 @@ per-slice heatmap (next section) cuts the leaderboard along.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{reports/audits/puzzle_class_examples.pdf}
-\caption{One representative example per class drawn from the train split.
-The from-square is shaded pale green, the to-square sage green.  The
-hard-negative middle position (fine\_label~1) looks tactical but its
-pv\_gap is only 27 cp --- the architecture must learn to reject it.  The
-right position (fine\_label~2) has a pv\_gap of 838 cp and is a true
-puzzle.}
+\begin{minipage}[t]{0.32\linewidth}\centering
+\includegraphics[width=\linewidth]{reports/audits/puzzle_class_0.png}\\[2pt]
+{\sffamily\bfseries\small\color{forest}Class 0 --- random\_position}\\
+{\scriptsize\color{muted}\texttt{8/2r3pk/...K2P/1R4P1/8 b}}\\
+{\scriptsize\color{muted}arrow: Nc4+ (random midgame sample, no curated puzzle)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}\centering
+\includegraphics[width=\linewidth]{reports/audits/puzzle_class_1.png}\\[2pt]
+{\sffamily\bfseries\small\color{forest}Class 1 --- near-puzzle}\\
+{\scriptsize\color{muted}\texttt{rq2kb1r/...P3BPPP/R2QK2R b}}\\
+{\scriptsize\color{muted}arrow: exf4 (pv\_gap = 124 cp; not unique-solution)}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\linewidth}\centering
+\includegraphics[width=\linewidth]{reports/audits/puzzle_class_2.png}\\[2pt]
+{\sffamily\bfseries\small\color{forest}Class 2 --- puzzle}\\
+{\scriptsize\color{muted}\texttt{rq2kb1r/...P3BPPP/R1Q1K2R b}}\\
+{\scriptsize\color{muted}arrow: Nxe5 (pv\_gap = 1036 cp; unique winning move)}
+\end{minipage}
+\caption{One representative example per class, rendered with
+\texttt{crtk fen render}.  \textbf{The class~1 and class~2 boards share
+the same CRTK sister parent} (\texttt{crtk\_parent\_-1001373292417858425}):
+the only structural difference is whether \texttt{Bxe5} has been played.
+This makes the discriminator that distinguishes near-puzzle from puzzle
+as small as the data allows --- a near-perfect ablation of the
+``unique-solution'' property.}
 \end{figure}
 
 \begin{tcolorbox}[callout, title=Why this three-way structure matters]
