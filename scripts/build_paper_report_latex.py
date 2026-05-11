@@ -1076,6 +1076,27 @@ REPOSITORY & \href{https://github.com/LenniAConrad/chess-nn-playground}{github.c
 
 \vspace{1.0cm}
 
+\begin{tcolorbox}[callout, title=What this work is]
+We compare bespoke chess-evaluation architectures on a single small-scale
+binary task (\emph{puzzle vs non-puzzle}) to identify \textbf{which
+structural priors a chess engine should actually use}.  ``Best'' is
+judged on two axes simultaneously:
+\begin{itemize}
+\item \textbf{Sample efficiency} --- test PR AUC at a fixed training
+  budget.  Drives Elo per training position.
+\item \textbf{Inference speed} --- network evaluations per second on a
+  fixed GPU.  Drives Elo per second of search.  For an MCTS engine
+  running thousands of nodes per move, a 2$\times$ speed edge is
+  typically worth more than a 30-Elo accuracy edge.
+\end{itemize}
+\noindent
+The scout (this report) uses puzzle\_binary as a small-scale proxy; the
+engine-relevant outcome is the i243 proposal (\S\ref{sec:i243}) that
+composes the surviving priors for engine-grade training.
+\end{tcolorbox}
+
+\vspace{6pt}
+
 \section*{\color{forest} Executive summary}
 \vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{8pt}
 
@@ -1502,7 +1523,7 @@ conv decompositions outperform the transformer-decomposed family.}
 
 % =============================================================================
 \clearpage
-\section{Proposed successor: i243 (HalfKA + dual-stream + LC0 heads)}
+\section{Proposed successor: i243 (HalfKA + dual-stream + LC0 heads)}\label{sec:i243}
 
 i242 falsified the \emph{add attention} composition at small scale.  The
 natural next question is: \emph{which piece of Stockfish NNUE's design buys
@@ -1615,6 +1636,18 @@ medium-scale pre-train + fine-tune cycle.  See
 \clearpage
 \section{Hypothetical: at unlimited data and compute, what would beat BT4?}
 
+\begin{tcolorbox}[callout, title=Read this section as a thought experiment]
+The asymptote analysed below is a \emph{limit}, not a regime any chess
+engine actually trains in.  Stockfish-eval distillation uses $\sim$10$^{7}$
+positions; LC0 self-play uses $\sim$10$^{9}$.  Both are still in the
+finite-data regime where the scout's inductive biases buy real Elo per
+training position.  This section asks what would happen if data became
+free --- which is useful for deciding which priors are worth carrying
+into a much larger run, but is \textbf{not} a verdict that our priors
+stop mattering in practice.
+\end{tcolorbox}
+
+\smallskip
 The scout's strongest priors are \textbf{inductive biases}: they buy
 sample efficiency at limited training. With unlimited data and compute,
 sample efficiency advantages compress --- a sufficiently large transformer
