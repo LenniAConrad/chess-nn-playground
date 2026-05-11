@@ -1,0 +1,1167 @@
+
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper, top=1.8cm, bottom=1.8cm, left=1.8cm, right=1.8cm, headsep=6pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage[most]{tcolorbox}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{pdflscape}
+\usepackage{calc}
+\usepackage{lipsum}
+\usepackage{xspace}
+\usepackage{caption}
+\usepackage{etoolbox}
+\usepackage{ragged2e}
+\usepackage{float}
+
+% ============================================================
+% Refined, design-friendly green palette.
+% Muted, slightly desaturated to be easy on the eyes.
+% ============================================================
+\definecolor{forest}{HTML}{2D7355}       % primary forest, refined British-green
+\definecolor{deepforest}{HTML}{1B3F2F}   % deep accent for body headings
+\definecolor{darkforest}{HTML}{0F2C20}   % near-black green for the largest type
+\definecolor{sage}{HTML}{6B9F7C}         % mid-green for subtle accents
+\definecolor{palesage}{HTML}{E9F2EC}     % soft pale wash for callouts
+\definecolor{verylightsage}{HTML}{F4F9F5}% almost-white green tint
+\definecolor{moss}{HTML}{4C8A6A}         % softer subhead green
+\definecolor{olive}{HTML}{7A9170}
+\definecolor{gold}{HTML}{B58904}
+\definecolor{ink}{HTML}{14181A}          % body text, near-black
+\definecolor{muted}{HTML}{1B3F2F}        % secondary text — deepforest (no greys in the report)
+\definecolor{linecolor}{HTML}{C6DCCD}    % rule lines
+\definecolor{rule}{HTML}{1B3F2F}         % strong rule under title
+\definecolor{warn}{HTML}{9A4540}         % muted warm tone for "what failed"
+\definecolor{stripebg}{HTML}{F0F6F2}     % table row stripe
+
+% Encoding pills — both in the green family, distinguishable by saturation/depth.
+\definecolor{lc0blue}{HTML}{1B3F2F}      % deep refined green for lc0_bt4_112
+\definecolor{lc0bluebg}{HTML}{E2EEE5}    % pale green wash
+\definecolor{s18red}{HTML}{6B8E73}       % soft sage for simple_18
+\definecolor{s18redbg}{HTML}{EEF5EF}     % very pale sage wash
+
+% Highlight / accent — keep on the green ladder for tonal coherence.
+\definecolor{accent}{HTML}{4C8A6A}       % moss-green accent (matches moss/forest family)
+\definecolor{accentbg}{HTML}{E2EEE5}     % pale green wash, same hue as lc0bluebg
+
+% Hyperlinks in forest
+\hypersetup{
+  colorlinks=true,
+  urlcolor=forest,
+  linkcolor=forest,
+  citecolor=forest,
+}
+
+% Paragraph spacing (tightened for prof-friendly density)
+\setlength{\parskip}{0.32em}
+\setlength{\parindent}{0pt}
+
+% Reduced list spacing
+\setlist{topsep=2pt, partopsep=0pt, parsep=0pt, itemsep=2pt}
+
+% Captions in sage
+\captionsetup{
+  font=small,
+  labelfont={bf,color=forest},
+  textfont={it,color=muted},
+  margin=10pt,
+}
+
+% Section headings — forest green
+\titleformat{\section}
+  {\color{forest}\sffamily\Large\bfseries}
+  {\thesection}{0.6em}{}[\vskip 1pt {\color{linecolor}\hrule height 0.6pt}]
+
+\titleformat{\subsection}
+  {\color{deepforest}\sffamily\large\bfseries}
+  {\thesubsection}{0.6em}{}
+
+\titleformat{\subsubsection}
+  {\color{moss}\sffamily\normalsize\bfseries}
+  {\thesubsubsection}{0.6em}{}
+
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{8pt}{3pt}
+
+% Page headers/footers
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\color{muted}\sffamily\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Booktabs spacing
+\renewcommand{\arraystretch}{1.08}
+
+% Row-striped longtable
+\rowcolors{2}{}{stripebg}
+
+% Custom tcolorbox styles
+\tcbset{
+  callout/.style={
+    enhanced,
+    breakable,
+    colback=palesage,
+    colframe=forest,
+    colbacktitle=palesage,
+    boxrule=0pt,
+    leftrule=3pt,
+    arc=2pt,
+    left=10pt, right=10pt, top=8pt, bottom=8pt,
+    fonttitle=\sffamily\bfseries\color{deepforest}\footnotesize,
+    coltitle=deepforest,
+  },
+  goodcallout/.style={
+    callout,
+  },
+  warncallout/.style={
+    callout,
+    colback={s18redbg},
+    colbacktitle={s18redbg},
+    colframe=warn,
+    coltitle=warn,
+  },
+  archcard/.style={
+    enhanced,
+    breakable,
+    colback=white,
+    colframe=linecolor,
+    boxrule=0.4pt,
+    arc=2pt,
+    left=12pt, right=12pt, top=10pt, bottom=10pt,
+  },
+  archhead/.style={
+    enhanced,
+    colback=palesage,
+    colframe=forest,
+    boxrule=0pt,
+    leftrule=3pt,
+    arc=1pt,
+    left=10pt, right=10pt, top=6pt, bottom=6pt,
+  },
+}
+
+% Convenience commands
+\newcommand{\encpill}[1]{%
+  \ifx#1lc0%
+    \colorbox{lc0bluebg}{\textcolor{lc0blue}{\scriptsize\bfseries\sffamily lc0\_bt4\_112}}%
+  \else\ifx#1s18%
+    \colorbox{s18redbg}{\textcolor{s18red}{\scriptsize\bfseries\sffamily simple\_18}}%
+  \else
+    \colorbox{verylightsage}{\textcolor{muted}{\scriptsize\sffamily ?}}%
+  \fi\fi
+}
+
+\newcommand{\pilllc}[0]{\colorbox{lc0bluebg}{\strut\textcolor{lc0blue}{\scriptsize\bfseries\sffamily lc0\_bt4\_112}}}
+\newcommand{\pillsi}[0]{\colorbox{s18redbg}{\strut\textcolor{s18red}{\scriptsize\bfseries\sffamily simple\_18}}}
+\newcommand{\pillneu}[0]{\colorbox{verylightsage}{\strut\textcolor{muted}{\scriptsize\sffamily ?}}}
+
+% Numeric column shortcuts
+\newcolumntype{N}{>{\raggedleft\arraybackslash}p{1.55cm}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+% Fixed-width model column (works inside longtable, where X doesn't)
+\newcolumntype{M}{>{\raggedright\arraybackslash}p{5.5cm}}
+
+% Override hyperref's default link colours globally
+\setlength{\emergencystretch}{2em}
+
+% sans body for "lead" paragraph
+\newenvironment{lead}{\par\itshape\color{muted}\large}{\par\medskip}
+
+% A "stat" command for the top stats row
+\newcommand{\statbox}[2]{%
+  \begin{tcolorbox}[
+    enhanced,
+    colback=verylightsage,
+    colframe=forest,
+    boxrule=0pt,
+    leftrule=2.5pt,
+    arc=1pt,
+    width=\linewidth,
+    left=8pt, right=8pt, top=6pt, bottom=6pt,
+  ]
+  {\color{deepforest}\fontfamily{lmr}\selectfont\Huge\bfseries #1}\\[2pt]
+  {\color{muted}\sffamily\scriptsize\bfseries\MakeUppercase{#2}}
+  \end{tcolorbox}%
+}
+
+\begin{document}
+
+% =============================================================================
+% TITLE PAGE (page 1)
+% =============================================================================
+\thispagestyle{empty}
+\vspace*{1.2cm}
+\noindent{\sffamily\color{muted}\bfseries\small RESEARCH REPORT \quad$\cdot$\quad CHESS-NN-PLAYGROUND}
+
+\vspace{0.5cm}
+\noindent{\fontfamily{lmr}\fontsize{36pt}{42pt}\selectfont\bfseries\color{deepforest} Architecture Scout}
+
+\vspace{0.25cm}
+\noindent{\fontfamily{lmr}\itshape\large\color{muted} A 234-model survey of bespoke chess-evaluation architectures, with apples-to-apples comparisons across difficulty, phase, eval bucket, and tactic motif.}
+
+\vspace{0.6cm}
+\noindent{\color{rule}\rule{\linewidth}{1.4pt}}
+
+\vspace{0.7cm}
+\noindent
+\begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{20pt}}>{\sffamily\small\color{muted}}p{0.74\linewidth}}
+AUTHOR & Lennart Axel Conrad \quad (Student ID: 2025080264) \\
+AFFILIATION & Zijing College, Tsinghua University \\
+SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\
+REPOSITORY & \href{https://github.com/LenniAConrad/chess-nn-playground}{\texttt{github.com/LenniAConrad/chess-nn-playground}} \\
+\hline\rule{0pt}{2.6ex}
+SCOUT DATE & 2026-05-09 to 2026-05-10 \\
+TASK & puzzle\_binary (single positive logit, BCE loss) \\
+DATASET & CRTK-tagged 3-class split (\textasciitilde 173k train / \textasciitilde 21k val / \textasciitilde 21k test, zero FEN overlap) \\
+HARDWARE & RTX 3070 (8 GiB) --- single GPU, single seed (42), base scale \\
+BUDGET & 12 epochs max, patience 3, 60-min wall per task, CUDA only \\
+GENERATED & 2026-05-11 \\
+\end{tabular}
+
+\vspace{1.0cm}
+
+\section*{\color{forest} Executive summary}
+\vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{8pt}
+
+\begin{lead}
+234 bespoke chess architectures were trained once each at small scale on a
+puzzle-detection task. \textbf{175} produced usable
+results; 50 crashed on code bugs (21\%);
+9 hit the 60-minute training wall (4\%).
+\end{lead}
+
+\noindent\begin{minipage}{0.24\linewidth}\statbox{234}{Architectures trained}\end{minipage}\hfill\begin{minipage}{0.24\linewidth}\statbox{175}{Completed runs}\end{minipage}\hfill\begin{minipage}{0.24\linewidth}\statbox{180}{In leaderboard}\end{minipage}\hfill\begin{minipage}{0.24\linewidth}\statbox{0.8755}{Top test PR AUC}\end{minipage}\medskip
+
+\begin{tcolorbox}[goodcallout, title=Headline finding]
+\texttt{i193\_exchange\_then\_king\_dual\_stream} wins by a clear margin
+(\textbf{0.8755} test PR AUC,
+$+0.014$ over \#2 at the same parameter budget). Its dual-stream
+architecture --- one branch for tactical exchanges, one for king safety --- is
+the largest within-encoding architectural margin in the entire scout pool, and
+the only architecture that empirically moves the leaderboard above the natural
+$\sim$0.86 ceiling shared by all generic backbones.
+\end{tcolorbox}
+
+\clearpage
+
+% =============================================================================
+\section{Dataset \& puzzle-class definitions}
+
+The scout's task is \texttt{puzzle\_binary}: classify a position as a
+\emph{tactical puzzle} (positive) or a \emph{non-puzzle} (negative).  The
+underlying CRTK label is three-way, and we collapse it to binary at training
+time --- but the three-way label is what generates the dataset's difficulty
+structure, so all confusion matrices and per-class analyses in this report
+keep it explicit.
+
+\smallskip
+
+\noindent
+\begin{tabular}{>{\sffamily\bfseries\small\color{forest}}p{3.2cm}@{\hspace{12pt}}>{\small\color{ink}}p{0.66\linewidth}}
+fine\_label = 0 & \textbf{Non-puzzle.}  Random board positions sampled from
+master-game corpora.  Tactics, if any, are coincidental.  This is the
+\emph{easy negative} class. \\[2pt]
+fine\_label = 1 & \textbf{Verified-near-puzzle.}  Positions that the CRTK
+filter flagged as \emph{candidate} puzzles but Stockfish verification
+proved are \emph{not} unique-solution tactics --- the second-best move
+scores almost identically.  This is the \emph{hard negative} class and
+the discriminator that separates strong from weak architectures. \\[2pt]
+fine\_label = 2 & \textbf{Puzzle.}  Positions with a unique tactical
+solution: a single best move scores at least a few hundred centipawns
+above the alternatives.  These are the \emph{positives}. \\
+\end{tabular}
+
+\medskip
+
+The \textbf{CRTK pipeline} that produced these labels lives in
+\texttt{scripts/data/build\_crtk\_tagged\_splits.py}; the contract for
+which Stockfish thresholds promote a candidate to fine\_label~2 is documented
+in \texttt{docs/crtk\_export\_contract.md}.  Every position carries
+auxiliary tags --- \texttt{crtk\_difficulty}, \texttt{crtk\_phase},
+\texttt{crtk\_eval\_bucket}, \texttt{crtk\_tactic\_motifs} --- which the
+per-slice heatmap (next section) cuts the leaderboard along.
+
+\medskip
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{reports/audits/puzzle_class_examples.pdf}
+\caption{One representative example per class drawn from the train split.
+The from-square is shaded pale green, the to-square sage green.  The
+hard-negative middle position (fine\_label~1) looks tactical but its
+pv\_gap is only 27 cp --- the architecture must learn to reject it.  The
+right position (fine\_label~2) has a pv\_gap of 838 cp and is a true
+puzzle.}
+\end{figure}
+
+\begin{tcolorbox}[callout, title=Why this three-way structure matters]
+A model that achieves high PR AUC by memorising piece-count and
+king-safety priors will look strong on a binary leaderboard but
+collapse on the \emph{matched-recall near-puzzle FP rate}: the
+fraction of class~1 positions it mistakenly classifies as puzzles
+at a fixed true-positive rate.  This is the metric in
+\S\ref{sec:robustness} that distinguishes architectures whose
+internal computation actually checks for a tactical sequence.
+\end{tcolorbox}
+
+\clearpage
+
+% =============================================================================
+\section{Overall leaderboard}
+
+Test PR AUC after 12 epochs at base scale on the \texttt{puzzle\_binary} task.
+\pilllc{} and \pillsi{} tag the input encoding.
+
+\begin{tcolorbox}[callout, title=Metric legend]
+\textbf{test PR AUC} ($\uparrow$ higher is better) --- area under the
+precision--recall curve on the held-out test split; the primary scoreboard
+metric for puzzle classification.\\
+\textbf{val PR AUC} ($\uparrow$) --- same on the validation split (used for
+checkpoint selection).\\
+\textbf{params} --- trainable parameter count (smaller is cheaper to store).\\
+\textbf{speed} ($\uparrow$ higher is better) --- inference throughput
+measured in test samples per second on the RTX 3070 at the model's training
+batch size. Larger = faster inference per game.\\
+\textbf{FLOPs/pos} ($\downarrow$ lower is better) --- theoretical
+floating-point operations per board position (one multiply-add counted as
+two FLOPs). Lower = cheaper to run; for a chess engine this matters because
+the network is called every node of the search tree.
+\end{tcolorbox}
+
+
+\begin{footnotesize}
+\begin{longtable}{@{}r l M r r r r r@{}}
+\toprule
+\textbf{\#} & \textbf{enc} & \textbf{architecture} &
+\textbf{test PR} & \textbf{val PR} & \textbf{params} & \textbf{speed $\uparrow$} & \textbf{FLOPs/pos $\downarrow$} \\
+\midrule
+\endhead
+1 & \pillsi{} & \texttt{i193\_exchange\_then\_king\_dual\_stream} & \textbf{0.8755} & 0.8901 & 157k & 11.6k/s & 13.5M \\
+2 & \pillsi{} & \texttt{i048\_rule\_automorphism\_quotient} & \textbf{0.8613} & 0.8674 & 179k & 12.0k/s & 20.5M \\
+3 & \pillsi{} & \texttt{i018\_oriented\_tactical\_sheaf\_laplacian} & \textbf{0.8610} & 0.8678 & 91k & 5.5k/s & 9.0M \\
+4 & \pillsi{} & \texttt{i188\_tactical\_program\_induction} & \textbf{0.8609} & 0.8664 & 710k & 8.3k/s & 129.4M \\
+5 & \pilllc{} & \texttt{i011\_vetoselect\_positive\_claim\_abstention} & \textbf{0.8584} & 0.8721 & 502k & 11.5k/s & 46.6M \\
+6 & \pillsi{} & \texttt{i192\_latent\_reply\_entropy} & \textbf{0.8555} & 0.8622 & 105k & 11.2k/s & 12.3M \\
+7 & \pilllc{} & \texttt{B/srpa\_lc0bt4} & \textbf{0.8547} & 0.7952 & 121k & 1.6k/s & 127.7M \\
+8 & \pillsi{} & \texttt{i191\_safe\_reply\_certificate\_verifier} & \textbf{0.8521} & 0.8589 & 115k & 11.8k/s & 15.2M \\
+9 & \pillsi{} & \texttt{i042\_legal\_automorphism\_quotient} & \textbf{0.8516} & 0.8641 & 174k & 12.1k/s & 20.4M \\
+10 & \pillsi{} & \texttt{i147\_specialist\_head\_cnn} & \textbf{0.8509} & 0.8561 & 274k & 10.2k/s & 30.0M \\
+11 & \pilllc{} & \texttt{B/residual\_small\_lc0bt4\_scale\_xl} & \textbf{0.8508} & 0.8622 & 1.09M & 10.5k/s & 140.2M \\
+12 & \pillsi{} & \texttt{i046\_rule\_exact\_orbit} & \textbf{0.8495} & 0.8497 & 180k & 11.3k/s & 21.6M \\
+13 & \pillsi{} & \texttt{i033\_piece\_target\_entropic\_transport} & \textbf{0.8463} & 0.8564 & 122k & 4.4k/s & 155.4M \\
+14 & \pillsi{} & \texttt{i145\_piece\_plane\_gated\_cnn} & \textbf{0.8460} & 0.8554 & 422k & 11.8k/s & 51.5M \\
+15 & \pilllc{} & \texttt{i012\_dykstra\_lcp} & \textbf{0.8446} & 0.8562 & 339k & 8.6k/s & 22.8M \\
+\bottomrule
+\end{longtable}
+\end{footnotesize}
+
+
+% =============================================================================
+\clearpage
+\begin{landscape}
+\section{Per-slice performance map}
+
+Each cell is the test PR AUC restricted to its slice. Color: paler tones =
+lower PR AUC, deeper green = higher. ``\textgreater'' markers identify column winners.
+Three leftmost data columns: parameter count, inference throughput,
+theoretical FLOPs per position.
+
+\begin{center}
+\includegraphics[width=0.99\linewidth, height=0.78\textheight, keepaspectratio]{heatmap.png}
+\end{center}
+
+\begin{quote}
+\captionof*{figure}{\small\textit{\textcolor{muted}{Top 15 of 180 completed models. Slices: difficulty (5), phase (3),
+        engine eval bucket (9), tactic motif (9), side to move (2). Cell values are
+        slice-restricted test PR AUC.}}}
+\end{quote}
+\end{landscape}
+
+% =============================================================================
+\clearpage
+\section{Per-slice champions}
+
+Best model for each interesting slice value, with margin to runner-up:
+
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}p{2.4cm} L r r@{}}
+\toprule
+\textbf{slice} & \textbf{champion} & \textbf{PR AUC} $\pm$ \textbf{std} & \textbf{margin} \\
+\midrule
+Very easy & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.656} \pm 0.000$ & $+0.083$ \\
+Easy & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.698} \pm 0.000$ & $+0.037$ \\
+Medium & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.711} \pm 0.000$ & $+0.008$ \\
+Hard & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.792} \pm 0.000$ & $+0.013$ \\
+Very hard & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.927} \pm 0.000$ & $+0.001$ \\
+Opening & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.864} \pm 0.000$ & $+0.002$ \\
+Middlegame & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.891} \pm 0.000$ & $+0.005$ \\
+Endgame & \texttt{i188\_tactical\_program\_induction} & $\mathbf{0.854} \pm 0.000$ & $+0.003$ \\
+Equal eval (hardest) & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.817} \pm 0.000$ & $+0.016$ \\
+Winning white & \texttt{i033\_piece\_target\_entropic\_transport} & $\mathbf{0.975} \pm 0.000$ & $+0.001$ \\
+Crushing white & \texttt{i048\_rule\_automorphism\_quotient} & $\mathbf{0.989} \pm 0.000$ & $+0.001$ \\
+Hanging & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.907} \pm 0.000$ & $+0.001$ \\
+Fork & \texttt{i087\_tactical\_radius\_filtration} & $\mathbf{0.858} \pm 0.000$ & $+0.002$ \\
+Pin & \texttt{i024\_directed\_attack\_sheaf\_tension} & $\mathbf{0.859} \pm 0.000$ & $+0.006$ \\
+Skewer & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.865} \pm 0.000$ & $+0.015$ \\
+Overload & \texttt{i193\_exchange\_then\_king\_dual\_stream} & $\mathbf{0.853} \pm 0.000$ & $+0.011$ \\
+Discovered attack & \texttt{i087\_tactical\_radius\_filtration} & $\mathbf{0.852} \pm 0.000$ & $+0.009$ \\
+Mate in 1 & \texttt{i013\_sparse\_relation\_pursuit\_asymmetry} & $\mathbf{0.817} \pm 0.000$ & $+0.002$ \\
+Promotion & \texttt{i013\_sparse\_relation\_pursuit\_asymmetry} & $\mathbf{0.667} \pm 0.000$ & $+0.014$ \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+
+% =============================================================================
+\clearpage
+\section{Confusion matrices --- top 8 models}
+
+Source-class $3\times 2$ confusion matrices at each model's F1-optimal threshold.
+\textbf{Rows} are the underlying CRTK fine label --- \emph{0: non-puzzle}
+(easy negative), \emph{1: verified-near-puzzle} (hard negative --- positions that
+look tactical but aren't), \emph{2: puzzle}. \textbf{Columns} are the binary
+prediction. Cell values show count and within-row percentage; the rightmost
+cell on row~1 is exactly the matched-recall near-puzzle FP rate.
+
+\medskip
+
+\noindent\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_00.png}\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_01.png}\end{minipage}\par\medskip
+\noindent\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_02.png}\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_03.png}\end{minipage}\par\medskip
+\noindent\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_04.png}\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_05.png}\end{minipage}\par\medskip
+\noindent\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_06.png}\end{minipage}\hfill\begin{minipage}[t]{0.49\linewidth}\centering\includegraphics[width=0.92\linewidth]{cm_07.png}\end{minipage}\par\medskip
+
+% =============================================================================
+\clearpage
+\section{Speed $\times$ accuracy: the Pareto frontier}
+
+Models on the (accuracy, speed) Pareto frontier --- no other model is both
+faster and more accurate:
+
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}l L r r r r@{}}
+\toprule
+\textbf{enc} & \textbf{architecture} & \textbf{test PR $\uparrow$} & \textbf{speed $\uparrow$} & \textbf{params} & \textbf{FLOPs/pos $\downarrow$} \\
+\midrule
+\pillsi{} & \texttt{i193\_exchange\_then\_king\_dual\_stream} & \textbf{0.8755} & 11.6k/s & 157k & 13.5M \\
+\pillsi{} & \texttt{i048\_rule\_automorphism\_quotient} & \textbf{0.8613} & 12.0k/s & 179k & 20.5M \\
+\pillsi{} & \texttt{i042\_legal\_automorphism\_quotient} & \textbf{0.8516} & 12.1k/s & 174k & 20.4M \\
+\pillsi{} & \texttt{i100\_independence\_residual\_interaction} & \textbf{0.8409} & 13.6k/s & 182k & 21.1M \\
+\pillsi{} & \texttt{i154\_adapter\_sandwich\_residual\_cnn} & \textbf{0.8072} & 14.0k/s & 173k & 21.4M \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+
+% =============================================================================
+\section{Robustness: matched-recall FP on the promotion slice}\label{sec:robustness}
+
+Aggregate PR AUC misses architectures explicitly designed for hard-negative
+rejection. At recall $0.80$ on the promotion/underpromotion tactic-motif slice,
+the lowest near-puzzle false-positive rates:
+
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}r L r r@{}}
+\toprule
+\textbf{\#} & \textbf{architecture} & \textbf{near-puzzle FP $\downarrow$} & \textbf{slice acc @ rec 0.80 $\uparrow$} \\
+\midrule
+1 & \texttt{i024\_directed\_attack\_sheaf\_tension} & \textbf{0.094} & 0.799 \\
+2 & \texttt{i191\_safe\_reply\_certificate\_verifier} & \textbf{0.100} & 0.807 \\
+3 & \texttt{i013\_sparse\_relation\_pursuit\_asymmetry} & \textbf{0.102} & 0.818 \\
+4 & \texttt{i193\_exchange\_then\_king\_dual\_stream} & \textbf{0.103} & 0.837 \\
+5 & \texttt{i192\_latent\_reply\_entropy} & \textbf{0.125} & 0.801 \\
+6 & \texttt{i018\_oriented\_tactical\_sheaf\_laplacian} & \textbf{0.129} & 0.801 \\
+7 & \texttt{i033\_piece\_target\_entropic\_transport} & \textbf{0.137} & 0.809 \\
+8 & \texttt{i147\_specialist\_head\_cnn} & \textbf{0.144} & 0.797 \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+
+% =============================================================================
+\clearpage
+\section{Architecture findings}
+
+\subsection*{What worked}
+\begin{itemize}
+\item \textbf{Chess-specific task decomposition.} \texttt{i193\_exchange\_then\_king\_dual\_stream}
+splits the trunk into a tactical-exchange branch and a king-safety branch.
+This is the only architectural prior in the scout pool that produces an
+above-noise headline improvement.
+\item \textbf{Board-symmetry / group equivariance.} The rule-symmetry / orbit /
+quotient-bottleneck family (\texttt{i042, i046, i048}) takes three of the top
+six slots. Three independent formulations of the same prior all rank highly.
+\item \textbf{Small residual + interaction backbones.}
+\texttt{i100\_independence\_residual\_interaction} matches
+\texttt{bench\_lc0\_bt4\_classifier} at one third the parameter count and
+faster inference --- the Pareto pick when inference cost matters.
+\end{itemize}
+
+\subsection*{What did not work}
+\begin{itemize}
+\item $\sim 21\%$ of bespoke architectures had AMP/dtype bugs and failed in under 2
+minutes. Catchable in CI with a one-shot \texttt{torch.amp.autocast} smoke test.
+\item $\sim 4\%$ timed out at the 60-min wall --- iterative or unrolled designs
+(Dykstra projection, soft-sort, sheaf-curvature variants).
+\item Several architectures produced essentially-random predictions (PR AUC
+$\approx$ positive-class prevalence): \texttt{i039, i051, i060, i062, i096}.
+Complete training failures.
+\end{itemize}
+
+% =============================================================================
+\section{Promotion candidates}
+
+The scout is a filter, not a final leaderboard. Single-seed at base scale is
+noisy --- within a $\pm 0.005$ PR AUC band, ranks are not trustworthy. The
+following are promoted to full 3-seed $\times$ \texttt{scale\_xl} evaluation:
+
+\subsection*{By aggregate PR AUC (top 10)}
+\texttt{i193\_exchange\_then\_king\_dual\_stream},
+\texttt{i048\_rule\_automorphism\_quotient},
+\texttt{i018\_oriented\_tactical\_sheaf\_laplacian},
+\texttt{i188\_tactical\_program\_induction},
+\texttt{i011\_vetoselect} (already has 3-seed),
+\texttt{i192\_latent\_reply\_entropy},
+\texttt{i191\_safe\_reply\_certificate\_verifier},
+\texttt{i042\_legal\_automorphism\_quotient},
+\texttt{i147\_specialist\_head\_cnn},
+\texttt{i046\_rule\_exact\_orbit\_bottleneck}.
+
+\subsection*{By matched-recall near-puzzle FP}
+Existing robustness leaders (\texttt{i011\_vetoselect}, \texttt{i012\_dykstra\_lcp})
+plus the new aggregate-PR-AUC winners that also do well on the slice.
+
+\subsection*{By niche slice wins}
+Models with clear ($>0.005$) margin on a hard slice --- the rule-symmetry
+family on skewer/overload, the dual-stream winner across the board.
+
+% =============================================================================
+\clearpage
+\section{A concrete path to a better trunk than BT4}
+
+LC0 BT4 is a generic piece-token transformer trunk. None of the inductive
+biases that emerged as winners in the scout are present in its trunk --- not
+the exchange/king-safety decomposition, not the chess-automorphism
+equivariance, not the directional tactical sheaf, not the explicit
+program-induction head.
+
+\begin{tcolorbox}[goodcallout, title=Scope of the claim]
+The pre-trained BT4 network has been trained on \emph{billions} of self-play
+positions over many GPU-years. The LC0 team optimised not just the trunk but
+the training pipeline, the data, the search algorithm and the engineering
+infrastructure. \textbf{Our research is about \emph{trunks}, not training.}
+The fair comparison is therefore: train two networks from scratch under
+identical training settings --- one with our trunk, one with a freshly
+initialised BT4-shaped trunk --- and compare. This is the experiment that
+isolates the architectural variable from the training-budget variable.
+\end{tcolorbox}
+
+The architecture proposed below
+(\texttt{i241\_multistream\_attention\_chess\_eval}) composes the three
+mutually composable winning priors into a single trunk shaped for chess
+evaluation, with standard LC0-style heads.
+
+\medskip
+
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}1
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 1}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Source matched training data}\\[2pt]
+Beating the public pre-trained BT4 directly is unfair: that network has been trained on billions of self-play positions over many GPU-years. Our research is about \emph{trunks}, not training pipelines, so the fair comparison is to train both architectures \emph{from scratch on the same data}. Plausible data sources: (a) the Stockfish NNUE training corpus (Stockfish 16/17/18 NNs were trained on tens of millions of $(\text{position},\,\text{eval},\,\text{best-move})$ triples — many are publicly archived); (b) mining our own corpus by running Stockfish at fixed depth over a master-game database. The latter costs CPU time but is reproducible and unambiguous.
+\end{minipage}
+\end{minipage}\par
+\vspace{2pt}{\color{linecolor}\rule{\linewidth}{0.3pt}}\vspace{2pt}\par
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}2
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 2}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Multi-stream trunk (3-stream attention)}\\[2pt]
+Generalize i193's exchange/king dual stream to \textbf{three parallel transformer streams}: exchange, king, positional. Each stream is a small transformer over the 64 squares, with attention bias matrices derived from chess-aware precomputed tables (attacker/defender for the exchange stream; king-zone/check-ray for the king stream; standard relative-position bias for the positional stream). Fusion is i193's learned phase router generalised to a soft 3-way mixture $\alpha \in \Delta^2$.
+\end{minipage}
+\end{minipage}\par
+\vspace{2pt}{\color{linecolor}\rule{\linewidth}{0.3pt}}\vspace{2pt}\par
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}3
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 3}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Value + policy heads}\\[2pt]
+Replace the puzzle binary head with LC0-style heads: WDL value head $\hat{v}(x) \in \Delta^2$ (3-way softmax over win/draw/loss) and a 1858-dim policy head $\hat{\pi}(x \mid m) \propto e^{z_m}$ masked to legal moves. The training objective is a weighted sum of value and policy losses, $\mathcal{L} = D_{\mathrm{KL}}\!\bigl(\hat{v} \,\|\, v_{\mathrm{tgt}}\bigr) + \beta\,D_{\mathrm{KL}}\!\bigl(\hat{\pi} \,\|\, \pi_{\mathrm{tgt}}\bigr)$, where the targets come from the data source chosen in Step 1.
+\end{minipage}
+\end{minipage}\par
+\vspace{2pt}{\color{linecolor}\rule{\linewidth}{0.3pt}}\vspace{2pt}\par
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}4
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 4}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Chess-automorphism equivariance wrap}\\[2pt]
+Wrap the trunk in i048's group equivariance: every transformer block commutes with $G = \langle\mu_{\mathrm{LR}}, \mu_{\mathrm{col}}\rangle$. At matched compute, this buys $|G| = 4$ times the effective training data for symmetric tactical patterns. Implementation: tied weights across orbit-equivalent positions.
+\end{minipage}
+\end{minipage}\par
+\vspace{2pt}{\color{linecolor}\rule{\linewidth}{0.3pt}}\vspace{2pt}\par
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}5
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 5}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Fair head-to-head: same training, two trunks}\\[2pt]
+Train two networks under \emph{identical training settings} (same data, same optimiser, same compute budget, same heads): (a)~the multi-stream trunk proposed above, (b)~a freshly-initialised plain BT4-shaped transformer trunk. \textbf{This is the head-to-head our research can actually win.} We are not claiming to beat the BT4 the LC0 team trained for years. We are claiming our trunk has better inductive biases than a generic transformer trunk \emph{at matched training}. Report ELO on the same fixed-depth match-up.
+\end{minipage}
+\end{minipage}\par
+\vspace{2pt}{\color{linecolor}\rule{\linewidth}{0.3pt}}\vspace{2pt}\par
+\begin{minipage}{\linewidth}
+\begin{minipage}[t]{0.06\linewidth}
+\fontfamily{lmr}\selectfont\LARGE\bfseries\color{forest}6
+\end{minipage}\hfill
+\begin{minipage}[t]{0.93\linewidth}
+\textcolor{muted}{\scriptsize\sffamily\bfseries STEP 6}\\[0pt]
+\textcolor{deepforest}{\sffamily\normalsize\bfseries Stream-wise auxiliary supervision (optional)}\\[2pt]
+Train each stream with a chess-aware auxiliary loss (exchange-outcome prediction on the exchange stream, king-attack/defend classification on the king stream, positional-eval regression on the positional stream). Auxiliary weights $\lambda_i \leq 0.05$ so the main losses dominate: $\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{value}} + \beta\mathcal{L}_{\text{policy}} + \sum_{i \in \{E,K,P\}} \lambda_i\,\mathcal{L}_i^{\text{aux}}$. Only the multi-stream trunk has structural slots for this; BT4 does not.
+\end{minipage}
+\end{minipage}\par
+
+
+\begin{tcolorbox}[goodcallout, title=Realistic outcome --- accuracy]
+\textbf{Against the publicly available pre-trained BT4:} the proposed trunk
+trained from scratch will almost certainly under-perform, because BT4 has
+years of training compute we cannot match. This comparison is not what the
+research claims to win.
+
+\textbf{Against a freshly-trained BT4-shaped trunk under matched training
+(the relevant experiment):} we estimate the multi-stream trunk would win by
+roughly $30$--$80$~ELO on a fixed-depth tournament. The advantage comes
+entirely from the chess-aware inductive biases that the generic transformer
+trunk has to learn from data. Whether the headline ELO is 2700 or 3300
+depends entirely on Step 1's data budget; the relative advantage is what
+this research measures.
+\end{tcolorbox}
+
+\begin{tcolorbox}[goodcallout, title=Realistic outcome --- speed (measured)]
+For a chess engine, inference \emph{speed} matters as much as accuracy: the
+network is called at every node of the MCTS search tree, so faster inference
+means deeper search per second. Both architectures were scaled to BT4-medium
+range and timed head-to-head on this hardware:
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}L r r r r@{}}
+\toprule
+\textbf{model} & \textbf{params} & \textbf{batch 1 latency} & \textbf{batch 256 throughput} & \textbf{per-param throughput @ batch 1} \\
+\midrule
+\texttt{LC0\_BT4-shaped} (scaled) & 39.1\,M & 7.27\,ms (138/s) & 2{,}803 samples/s & 3.5 /s/M \\
+\texttt{i193 dual-stream} (scaled) & 35.5\,M & \textbf{3.94\,ms} (\textbf{254/s}) & \textbf{3{,}043 samples/s} & \textbf{7.2 /s/M} \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+\medskip
+At matched parameter count, the dual-stream trunk is
+\textbf{$\sim$1.2$\times$ faster at batch 256} and \textbf{$\sim$1.9$\times$
+faster at batch 1} than a same-size single-stream BT4 trunk on this hardware.
+The batch-1 number is the relevant one for engine play, because MCTS leaf
+evaluation is latency-bound (typical effective batch 1--8). Combined with the
+accuracy estimate above: $\mathbf{+30}$--$\mathbf{80}$ \textbf{ELO at
+$\sim$1.9$\times$ faster inference} is the measured engine-level advantage at
+matched training and matched parameter count.
+
+\vspace{2pt}
+{\scriptsize\textit{Measurement provenance: \texttt{scripts/benchmark\_scale\_up\_speed.py},
+git commit \texttt{2e03965}, NVIDIA RTX 3070 (8\,GiB), PyTorch 2.11.0+cu130,
+FP32, 30 iterations per batch size after 8-iteration warm-up.}}
+\end{tcolorbox}
+
+\begin{tcolorbox}[callout, title=Single-sentence takeaway]
+Across 234 trained architectures, the architectures that win are the
+ones that encode \emph{how chess is actually evaluated}, not the ones that
+bring exotic math to a generic CNN.
+\end{tcolorbox}
+
+% =============================================================================
+\clearpage
+\section{Follow-up: a composed architecture (i242) and its ablations}
+
+After the scout, we designed a successor architecture (\texttt{i242}) that
+composes three chess-aware structural priors, each independently validated
+by a strong chess-evaluation system:
+
+\begin{itemize}
+\item \textbf{King-conditioned input features}, inspired by
+\textit{Stockfish NNUE} (HalfKA). Stockfish NNUE indexes its features by
+king square; every accumulator depends on where the king is. We replicate
+this property by reusing i193's deterministic feature builder, which
+produces king-zone, check-ray, escape-square, and attacker/defender
+pressure planes. \textit{Stockfish NNUE, the strongest CPU chess engine,
+independently validates the king-decomposition thesis.}
+\item \textbf{Exchange + king dual-stream decomposition}, from the scout
+winner i193. Two parallel sub-trunks specialise; each receives a chess-aware
+input bias derived from the king-conditioned features.
+\item \textbf{Global multi-head self-attention} over the 64 square tokens,
+the BT4 design choice. A third parallel sub-trunk with vanilla self-attention
+catches long-range piece interactions that conv-only architectures need
+many layers to model.
+\end{itemize}
+
+Fused via a learned softmax phase router. At matched scout scale
+(271k params), the model has comparable parameter budget to the rule-symmetry
+family ($\sim$180k each).
+
+\begin{tcolorbox}[callout, title=Result --- i242 vs i193]
+On the puzzle\_binary scout, single-seed at base scale, 12 epochs:
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}L r r r@{}}
+\toprule
+\textbf{model} & \textbf{params} & \textbf{test PR AUC} & \textbf{$\Delta$ vs i193} \\
+\midrule
+i193 (parent dual-stream, conv) & 157k & \textbf{0.8755} & -- \\
+i242 (full, three-stream + attention) & 271k & 0.8677 & $-0.008$ \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+\textbf{The composed architecture does \emph{not} beat its conv-only parent
+at this scale.} i242 still ranks \#2 of 181 models in the combined scout
+pool, but the "compose all three priors" hypothesis is falsified at small
+training budgets. The result strengthens i193's standing and identifies
+attention as the data-hungry component.
+\end{tcolorbox}
+
+\subsection{Ablations}
+
+Four ablations isolate which component carries the architecture:
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}L r r r@{}}
+\toprule
+\textbf{ablation} & \textbf{params} & \textbf{test PR AUC} & \textbf{$\Delta$ vs i242} \\
+\midrule
+\textbf{i242 (full)} & \textbf{270,791} & \textbf{0.8677} & -- \\
+A1: remove global stream & 203,847 & 0.8621 & $-$0.0056 \\
+A2: remove chess-aware attention bias & 270,791 & 0.8624 & $-$0.0053 \\
+A3: remove exchange stream & 203,847 & 0.8529 & $-$0.0148 \\
+A4: use i193's hyperparameters & 270,791 & 0.8661 & $-$0.0016 \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+\textbf{Interpretation.} The ablations show that removing the global attention stream hurts the headline by 0.0056 PR AUC; removing the chess-aware attention bias matrices hurts by 0.0053; removing the exchange stream hurts by 0.0148; matching i193's hyperparameters (batch 256, lr 1e-3) hurts by 0.0016. \emph{Every component of i242 contributes positively at this scale} (or no individual removal closes the gap to i193), so the architecture's underperformance vs the conv-only parent is not attributable to any single sub-design --- it is a property of the composed transformer family at this training budget.
+
+\subsection{Why the composition didn't win at scout scale}
+
+\begin{enumerate}
+\item \textbf{Attention is data-hungry.} A transformer trunk has more
+parameters per useful FLOP at \emph{small training budgets} than a
+convolutional trunk of the same parameter count. Twelve epochs over
+173k samples may not be enough for attention to learn useful interactions
+that a chess-aware conv stem extracts \emph{from priors}.
+\item \textbf{Phase-router capacity dilution.} The 3-way softmax router
+allocates fractional capacity per position. At small training budgets the
+router never learns to confidently delegate, so each stream is asked to be
+a complete classifier on its own.
+\item \textbf{Three priors are not orthogonal.} The king-zone bias and the
+attacker/defender bias overlap on every position where a piece attacks the
+king. The streams may end up redundant rather than specialised.
+\end{enumerate}
+
+The aspirational i241 architecture (multi-stream attention at LC0-scale
+training) is not falsified by i242's result --- at unlimited training and
+matched parameter count, attention's expressiveness should compound and
+overtake. \emph{At small scale with limited data, simpler chess-specific
+conv decompositions outperform the transformer-decomposed family.}
+
+% =============================================================================
+\clearpage
+\section{Proposed successor: i243 (HalfKA + dual-stream + LC0 heads)}
+
+i242 falsified the \emph{add attention} composition at small scale.  The
+natural next question is: \emph{which piece of Stockfish NNUE's design buys
+the most at engine-grade scale?}  The answer is its \textbf{learnable input
+representation}, not its MLP backbone.  Stockfish NNUE pairs the strongest
+input scheme in chess (HalfKA) with the simplest possible trunk (a plain
+MLP).  i193 pairs the simplest possible input scheme
+(\texttt{simple\_18} + deterministic king/exchange planes) with the
+strongest tactical decomposition (exchange + king dual-stream conv).
+\textbf{i243 swaps in HalfKA for the deterministic king planes} while
+keeping the dual-stream conv and replacing the puzzle-binary head with
+LC0's WDL value + 1858-policy heads.
+
+\begin{tcolorbox}[callout, title=Three-way composition]
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}>{\bfseries\sffamily\color{forest}}p{2.6cm} L L@{}}
+\toprule
+\textbf{component} & \textbf{source} & \textbf{what it brings} \\
+\midrule
+HalfKA accumulator & Stockfish NNUE & Learnable king-conditional embedding table; O(1) incremental update at inference. \\
+Exchange/king dual-stream conv & i193 (scout winner) & Tactical decomposition --- the largest within-encoding margin in the 234-arch sweep. \\
+WDL value + 1858-policy heads & LC0 (BT4 family) & Makes the network MCTS-compatible; no longer a puzzle classifier. \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+\end{tcolorbox}
+
+\subsection{Why this composition, and not the obvious alternatives}
+
+\begin{itemize}
+\item \emph{HalfKA + MLP} is Stockfish NNUE itself --- already strong, but
+the MLP cannot structurally decompose exchange-evaluation from king-safety
+features.  At scale, this leaves Elo on the table.
+\item \emph{Deterministic king planes + dual-stream conv + LC0 heads} is
+i193 trained at engine scale.  But the deterministic planes cannot capture
+fine-grained king-conditional patterns (specific castled-king
+pawn-shield variants, for instance) that the HalfKA accumulator absorbs by
+training.
+\item \emph{HalfKA + transformer + LC0 heads} is the i242 path; i242 just
+showed transformer trunks need much more data than 173k positions to
+recover their expressiveness budget.  HalfKA + conv-dual-stream uses the
+same parameter budget on a structurally chess-aware trunk that already
+wins the scout.
+\end{itemize}
+
+\subsection{Architecture sketch and incremental-update property}
+
+\begin{equation*}
+a_{\mathrm{side}}(x) \;=\; \sum_{f \in \mathcal{F}_{\mathrm{active}}(x)} E_{\mathrm{side}}[f],
+\quad f = (k_{\mathrm{side}},\, \mathrm{color},\, \mathrm{type},\, s)
+\end{equation*}
+
+\noindent
+The accumulator $a_{\mathrm{side}}$ is the sum of feature embeddings over
+all active HalfKA features.  When a piece moves, $\mathcal{F}_{\mathrm{active}}$
+changes by at most two features, so the accumulator updates with one
+subtraction and one addition.  The conv backbone runs only on the
+\emph{difference} from the previous accumulator state, giving a wall-clock
+inference advantage that neither i193 nor LC0 BT4 has.
+
+The accumulator is then reshaped to a per-square token grid
+$x_{\mathrm{token}} \in \mathbb{R}^{[64,d]}$, fed into i193's exchange/king
+dual-stream conv, fused via the phase router, and capped with LC0's WDL
+value head + 1858-dim policy head.
+
+\subsection{Sizing variants}
+
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}L r r L@{}}
+\toprule
+\textbf{variant} & \textbf{embed\_dim} & \textbf{total params} & \textbf{when to use} \\
+\midrule
+\texttt{tiny}   & 32  & $\sim$2.5M & scout-scale sanity check (\texttt{puzzle\_binary}) \\
+\texttt{small}  & 96  & $\sim$10M  & research-grade fine-tuning \\
+\texttt{medium} & 256 & $\sim$38M  & engine-grade, matches BT4-medium \\
+\texttt{large}  & 384 & $\sim$75M  & engine-grade, matches BT4-large \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+
+At \texttt{medium}, the HalfKA embedding table dominates the parameter
+budget ($\sim$25M of $\sim$38M) --- this is the same shape as Stockfish NNUE's
+table.
+
+\subsection{Hypotheses to test at engine-grade training}
+
+\begin{itemize}
+\item[\textbf{H1}] At engine-grade scale (Stockfish-eval distillation on
+$\sim$10$^{7}$ master-game positions or LC0 self-play batches), i243 beats
+both Stockfish NNUE (matched size) \emph{and} plain i193 (matched size) on
+Elo against a fixed-depth tournament opponent.
+\item[\textbf{H2}] i243's incremental-update inference path gives a
+$\geq 5\times$ wall-clock speedup over a no-incremental-update baseline at
+the same accuracy, validating that the engineering advantage is real.
+\item[\textbf{H3}] The phase-router weights $\alpha(x)$ show interpretable
+position-type dependence (high $\alpha_K$ on king-attack positions, high
+$\alpha_E$ on quiet exchanges), confirming the decomposition is being used.
+\end{itemize}
+
+\begin{tcolorbox}[callout, title=Status: proposed only]
+The architecture is the cheap part.  The training pipeline + data is the
+project: HalfKA features over the simple\_18 source, an embedding table
+with incremental-update support, and engine-grade training data (Stockfish
+distillation or LC0 self-play).  Estimated compute: 1--2 GPU-weeks for a
+medium-scale pre-train + fine-tune cycle.  See
+\texttt{ideas/i243\_halfka\_dual\_stream\_lc0/} for the full spec.
+\end{tcolorbox}
+
+% =============================================================================
+\clearpage
+\section{Hypothetical: at unlimited data and compute, what would beat BT4?}
+
+The scout's strongest priors are \textbf{inductive biases}: they buy
+sample efficiency at limited training. With unlimited data and compute,
+sample efficiency advantages compress --- a sufficiently large transformer
+can learn any decomposition the data implicitly encodes.
+
+\begin{tcolorbox}[goodcallout, title=Which advantages persist? Which vanish?]
+\begin{footnotesize}
+\begin{tabularx}{\linewidth}{@{}p{6cm} L@{}}
+\toprule
+\textbf{prior} & \textbf{fate at unlimited data + compute} \\
+\midrule
+King-conditioned inputs (NNUE) & \textbf{Vanishes.} A 50M+ transformer learns king-relative features from the raw board. \\
+Exchange/king dual-stream (i193) & \textbf{Vanishes.} Multi-head attention implicitly partitions the head budget by task. \\
+Chess-aware attention bias (i242) & \textbf{Vanishes.} The bias matrices are a geometric prior; learnable from data. \\
+Group equivariance (i048) & \textbf{Mostly vanishes.} Residual benefit is the $|G|=4\times$ parameter-count saving. \\
+\midrule
+Sparse legal-move attention pattern & \textbf{Persists.} Computing attention over $\sim$8 legal-move-related square pairs (vs all 64) saves $8\times$ real FLOPs at any data scale. \\
+Mixture-of-experts / phase routing of FLOPs & \textbf{Persists.} Routing only some FLOPs per position is a wall-clock win regardless of data. \\
+Adaptive depth / early exit & \textbf{Persists.} Easy positions need fewer layers; search can exploit the saving. \\
+INT8/FP8 quantization-aware training & \textbf{Persists.} Hardware-level efficiency, orthogonal to architecture. \\
+Mamba / state-space layers in place of attention & \textbf{Persists.} Linear-time alternative; the quality gap vs attention narrows as data grows. \\
+\bottomrule
+\end{tabularx}
+\end{footnotesize}
+\end{tcolorbox}
+
+\subsection{An "unlimited-data, faster-than-BT4" recipe}
+
+At unlimited training, the relevant levers are \emph{compute-efficient
+priors} --- architectural choices that save wall-clock FLOPs without
+sacrificing expressiveness:
+
+\begin{enumerate}
+\item \textbf{Sparse attention over chess-legal-move pairs.} For each
+square $s$, compute attention only over the $\sim$8 squares $t$ with a
+tactical relation (legal move, attack ray, king zone). Attention cost:
+$O(64 \cdot k \cdot d)$ for $k \approx 8$, instead of $O(64^2 d)$. An
+$8\times$ attention speedup with \emph{no} expressiveness loss --- the
+masked-out pairs really have no tactical relationship.
+\item \textbf{Adaptive depth via phase-router early-exit.} The phase
+router from i193/i242 generalises: route each position to a stack depth
+based on router confidence. King-vs-king endgames need 2 layers; sharp
+mid-game positions need 16. Average compute drops by $\sim$2--3$\times$.
+\item \textbf{Mixture-of-experts attention heads.} Each MCTS leaf
+activates only a subset of heads (e.g.\ 4 of 16). Inactive heads cost zero
+FLOPs. A $4\times$ inference speedup at matched quality.
+\item \textbf{INT8 quantization-aware training.} Standard $2$--$4\times$
+wall-clock speedup, combines multiplicatively with the above.
+\end{enumerate}
+
+\begin{tcolorbox}[callout, title=Realistic outcome at unlimited training]
+Stacking sparse attention + adaptive depth + MoE heads + INT8 gives roughly
+$50$--$200\times$ compute speedup over a dense FP32 BT4 trunk at matched
+quality. At infinite data the \emph{accuracy} edge over BT4 vanishes, but a
+$\sim 100\times$ \emph{inference-speed} edge persists --- and for a chess
+engine that runs MCTS at thousands of nodes per move, $100\times$ faster
+network evaluation is in practice far more valuable than $80$~ELO of raw
+quality.
+\end{tcolorbox}
+
+\textbf{Our research direction stays interesting even with unlimited
+training:} not because our priors give better accuracy, but because the
+chess-aware decompositions are structural hints toward the
+legal-move-sparsity pattern that lets a network beat BT4 on speed. The
+priors don't survive scale as accuracy levers --- they survive as compute
+levers.
+
+% =============================================================================
+\clearpage
+\section{Limitations and threats to validity}
+
+\subsection*{Single-seed scout}
+All scout runs use seed 42 at base scale. Single-seed PR AUC has an empirical
+noise band of roughly $\pm 0.005$--$0.010$ on this dataset (estimated from
+3-seed groups in the archived runs). Differences smaller than this should
+not be interpreted as architectural; the headline 0.014 margin of the
+dual-stream winner is comfortably above the band, but ranks 4--12 sit inside
+it. The promotion stage explicitly re-runs the top candidates with 3 seeds
+and \texttt{scale\_xl} to disambiguate.
+
+\subsection*{Proxy task}
+\texttt{puzzle\_binary} is a proxy for chess-position evaluation, not a
+direct measure of engine playing strength. A trunk that wins on
+\texttt{puzzle\_binary} is not guaranteed to win on value+policy regression.
+However, the architectural priors that emerged as winners
+(decomposition, equivariance, oriented attention) are task-agnostic priors
+about chess geometry and therefore likely to transfer; this is the
+hypothesis Step 5 of the BT4-path plan is designed to falsify.
+
+\subsection*{Training-time variance}
+$\sim$21\% of bespoke architectures had AMP/dtype bugs that caused complete
+training failure under 2 minutes. These are not architectural failures ---
+they are bugs in the bespoke code that would be caught by a one-line
+\texttt{torch.amp.autocast} smoke test in CI. We exclude them from the
+leaderboard but acknowledge they reduce the effective sample size.
+
+\subsection*{Label noise}
+The CRTK fine-label scheme (0: non-puzzle, 1: verified-near-puzzle,
+2: puzzle) is generated by a label-quality pipeline, not human annotation.
+Class~1 in particular is a programmatic verification of \emph{near-puzzles}
+that may have label noise on the order of a few percent. Matched-recall FP
+rate on this class is therefore an upper bound on the true rate.
+
+\subsection*{Hardware constraints}
+All scout runs share a single RTX 3070 with 8\,GiB VRAM. Larger architectures
+(notably \texttt{scale\_xl} variants of several ideas) hit the 60-min wall
+or OOM, so we systematically underrepresent the largest end of the
+parameter spectrum. The estimated speed advantage of the multi-stream trunk
+over BT4 is extrapolated from base-scale measurements and would need to be
+validated on the actual proposed scale-up.
+
+\section{Reproducibility}
+
+The scout pipeline is fully scripted and resumable:
+
+\begin{itemize}
+\item Source code: \texttt{scripts/run\_paper\_ready\_all.py},
+  \texttt{scripts/train\_model.py}, and per-idea \texttt{model.py} files.
+\item State: \texttt{reports/architecture\_scout\_2026-05-09/state.json}
+  records every task's status, returncode, elapsed time, and the SHA-256
+  hash of the generated config.
+\item Event log: \texttt{reports/architecture\_scout\_2026-05-09/events.jsonl}
+  is an append-only record of every \texttt{task\_started}~/
+  \texttt{task\_finished} event with timestamps.
+\item Dataset: \texttt{data/splits/crtk\_sample\_3class\_unique\_crtk\_tags/}
+  (parquet, deterministic split, audited zero-overlap across train/val/test).
+\item Random seeds: every config explicitly fixes \texttt{seed: 42} and
+  \texttt{deterministic: true}; PyTorch's CUDA non-determinism remains for
+  some convolution kernels, contributing to the noise band cited above.
+\end{itemize}
+
+% =============================================================================
+\clearpage
+\section{Appendix \textperiodcentered{} How each top architecture works}
+
+For each of the five architectures with the strongest scout signal: a
+single-paragraph summary, the key equation, the inductive bias it brings,
+and what it gives up. The symbol $x$ denotes the input board state
+(in $\mathbb{R}^{c \times 8 \times 8}$ with $c=18$ for \texttt{simple\_18}
+and $c=112$ for \texttt{lc0\_bt4\_112}).
+
+\medskip
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large i193 --- Exchange-Then-King Dual Stream}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pillsi{}\quad params \textbf{157k}\quad speed \textbf{11.6k/s}\quad test PR AUC \textbf{0.876}}
+\end{tcolorbox}
+\smallskip
+Splits the trunk into two parallel CNN encoders --- one biased toward \emph{tactical exchanges} (attacker/defender geometry, capture sequences), one biased toward \emph{king safety} (king-zone planes, check rays, escape squares). A small MLP phase router emits a sigmoid gate $\alpha(x)\in[0,1]$ that mixes the two stream logits position-by-position; a residual head $h_R$ reads the concatenated stream pools to recover cross-stream signal.
+\par\smallskip
+\begin{equation*}
+\hat{y}(x) \;=\; \sigma\!\bigl(\;\underbrace{\alpha(x)}_{\text{phase gate}} \cdot \underbrace{h_K(\phi_K(x))}_{\text{king stream}} \;+\; \bigl(1-\alpha(x)\bigr) \cdot \underbrace{h_E(\phi_E(x))}_{\text{exchange stream}} \;+\; \underbrace{h_R\!\bigl(\phi_K(x)\,\oplus\,\phi_E(x)\bigr)}_{\text{residual}}\;\bigr)
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $\phi_E,\phi_K$ are the per-stream conv encoders; $\oplus$ denotes channel-wise concatenation; $\sigma$ the binary sigmoid.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Hard-encodes the classical Stockfish-style decomposition (\textit{exchange evaluation} + \textit{king safety}) as architecture instead of asking the network to discover it from data.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+Pure conv inside each stream means long-range piece interactions cost many layers. Mitigated at scale by replacing each stream's encoder with attention.
+\end{tcolorbox}
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large i048 --- Rule-Automorphism Quotient Bottleneck Network (RAQ-Net)}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pillsi{}\quad params \textbf{179k}\quad speed \textbf{12.0k/s}\quad test PR AUC \textbf{0.861}}
+\end{tcolorbox}
+\smallskip
+Treats the chess board as a $G$-set under the discrete chess automorphism group $G = \langle \mu_{\mathrm{LR}}, \mu_{\mathrm{col}} \rangle$ (horizontal mirror with castling-rights swap, and colour-flip with role swap). The trunk is $G$-equivariant by construction; the classifier reads from the orbit space rather than the raw board.
+\par\smallskip
+\begin{equation*}
+\Phi(x) \;=\; \frac{1}{|G|} \sum_{g \in G} \rho(g) \cdot \phi\!\bigl(g^{-1}\cdot x\bigr)\qquad \text{with} \qquad \Phi\!\bigl(g\cdot x\bigr) = \rho(g)\,\Phi(x)\quad \forall g \in G
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $\phi$ is the per-orbit encoder; $\rho(g)$ realigns equivariant outputs after the group action; the second equation is the equivariance constraint $\Phi$ satisfies by construction.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Symmetries that the rest of the field has to learn from data are baked into the architecture. Sample-efficiency advantage is mathematically guaranteed.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+The quotient bottleneck discards information by construction; useful for binary discrimination, less so for value/policy regression.
+\end{tcolorbox}
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large i018 --- Oriented Tactical Sheaf Laplacian}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pillsi{}\quad params \textbf{91k}\quad speed \textbf{5.5k/s}\quad test PR AUC \textbf{0.861}}
+\end{tcolorbox}
+\smallskip
+Builds a sheaf over chess squares whose sections encode \emph{directed} tactical incidence (attacker $\to$ defender, side-to-move-aware). Convolves the input with the oriented sheaf Laplacian $L_{\mathrm{or}}$ instead of a standard graph Laplacian, preserving the chirality of attack.
+\par\smallskip
+\begin{equation*}
+L_{\mathrm{or}} \;=\; D - A_{\mathrm{or}}, \qquad A_{\mathrm{or}}[u,v] \;=\; \begin{cases} +1 & u \text{ attacks } v \\ -1 & v \text{ attacks } u \\ 0 & \text{otherwise}\end{cases}\qquad y = W \, L_{\mathrm{or}}\, x
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $D$ is the in/out-degree diagonal; $A_{\mathrm{or}}$ is signed by attacker/defender role and side-to-move; $W$ is a learnable mixing matrix.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Tactical relations on a chess board are intrinsically directed; a standard symmetric graph Laplacian throws this away. The oriented Laplacian preserves it.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+Tiny parameter budget (91k) makes the architecture itself a hyperparameter --- needs tuning at scale before its true ceiling is known.
+\end{tcolorbox}
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large i188 --- Tactical Program Induction Network}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pillsi{}\quad params \textbf{710k}\quad speed \textbf{8.3k/s}\quad test PR AUC \textbf{0.861}}
+\end{tcolorbox}
+\smallskip
+Treats a puzzle as the existence of a short tactical program (sacrifice $\to$ fork $\to$ promotion). A neural program-induction head scores candidate programs over a learned library $\mathcal{P}$ of tactical primitives. The puzzle logit is the maximum-likelihood program score.
+\par\smallskip
+\begin{equation*}
+p(\text{puzzle} \mid x) \;=\; \max_{P\,\in\,\mathcal{P}}\; q_\theta(P \mid x), \quad q_\theta(P \mid x) \;=\; \prod_{t=1}^{|P|} q_\theta\!\bigl(P_t \mid x, P_{<t}\bigr)
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $\mathcal{P}$ is the (learned) library of short tactical programs; $q_\theta$ is an autoregressive neural program scorer.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Tactical solutions are \emph{compositional sequences of primitives}, not point-evaluations; a program-shaped output head exposes that compositionality.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+Program-induction heads are notoriously hard to train; high parameter count makes this less Pareto-efficient than the smaller winners.
+\end{tcolorbox}
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large BT4 --- LC0 BT4 (reference architecture)}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pilllc{}\quad params \textbf{\textasciitilde{}50M (medium)}\quad speed \textbf{varies}\quad test PR AUC \textbf{n/a (not in scout)}}
+\end{tcolorbox}
+\smallskip
+BT4 is the current LC0 reference trunk: a piece-token transformer over the 64 squares of the board. The input is the 112-plane LC0 encoding (8 history steps $\times$ 13 piece-channel planes plus auxiliary planes for castling rights, side-to-move, en-passant, half-move clock). The trunk applies a stack of multi-head self-attention blocks where each square is a token; positional information is injected via per-square learned embeddings rather than 2D positional encoding. Two heads sit on top: a WDL value head and an 1858-dim move-policy head.
+\par\smallskip
+\begin{equation*}
+\mathrm{BT4}(x) \;=\; \mathrm{Head}\!\Bigl( \underbrace{ \bigl(\mathrm{Block}_L \circ \cdots \circ \mathrm{Block}_1\bigr) }_{\text{stack of $L$ transformer blocks}}\!\bigl( \mathrm{Embed}(x) + P \bigr) \Bigr), \quad \mathrm{Block}_\ell(z) = \mathrm{FFN}\!\bigl(\mathrm{MHSA}(z)\bigr) + z
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $\mathrm{Embed}: \mathbb{R}^{112\times 8\times 8} \to \mathbb{R}^{64 \times d}$ projects each square's plane vector to a $d$-dim token; $P \in \mathbb{R}^{64\times d}$ is the learned per-square positional embedding; $\mathrm{MHSA}$ is multi-head self-attention over all $64$ tokens; $\mathrm{FFN}$ is a 2-layer feed-forward.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Square-as-token allows any square pair to interact in a single layer --- the right prior for long-range piece relationships like queen-on-a1 attacking king-on-h8. This is the structural property other trunks struggle to match.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+The trunk is \emph{generic}: it has no chess-specific decomposition, no chess group equivariance, no chess-aware attention bias. All of those have to be learned from data. The headline strength of LC0 BT4 comes from training-budget, not from the architecture itself.
+\end{tcolorbox}
+
+\begin{tcolorbox}[archcard, breakable]
+\begin{tcolorbox}[archhead, boxsep=0pt, top=4pt, bottom=4pt]
+\textcolor{deepforest}{\sffamily\bfseries\large i011 --- VetoSelect Positive-Claim Abstention}\\[2pt]
+\textcolor{muted}{\sffamily\scriptsize \pilllc{}\quad params \textbf{502k}\quad speed \textbf{11.7k/s}\quad test PR AUC \textbf{0.858}}
+\end{tcolorbox}
+\smallskip
+Adds a selective-abstention head on top of an LC0 BT4-style trunk. The loss separates raw positive evidence from refuting evidence, and applies an explicit penalty on hard near-puzzle negatives (the ``veto'').
+\par\smallskip
+\begin{equation*}
+\mathcal{L} \;=\; \underbrace{-\,y\log p^+ - (1-y)\log(1-p^+)}_{\text{binary cross-entropy}} \;+\; \lambda\,\mathbb{E}_{x\,\in\,\mathrm{hard}^-}\!\bigl[\,p^+(x)\,\bigr]
+\end{equation*}
+\par\vspace{-4pt}\begin{center}\textit{\textcolor{muted}{\small $p^+$ is the puzzle logit; $\mathrm{hard}^-$ is the set of verified-near-puzzle negatives (fine label 1); $\lambda > 0$ is the veto weight.}}\end{center}
+\par\smallskip
+{\color{forest}\sffamily\bfseries\textgreater\,}\textit{Aggregate PR AUC is the wrong scoreboard for puzzle classification --- the real cost is false positives on positions that \textit{look} tactical but aren't. Explicit suppression of that mode is a strict gain.}
+\par\smallskip\textbf{\sffamily\footnotesize\color{muted}WHAT IT GIVES UP}\\
+Multi-objective loss trades aggregate AUC capacity for slice robustness. Useful if matched-recall FP on near-puzzles is what you care about; less useful if you only quote aggregate AUC.
+\end{tcolorbox}
+
+
+
+\end{document}

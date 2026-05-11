@@ -1,0 +1,153 @@
+{
+  "analysis": {
+    "build_paper_report": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/reports/build_paper_report.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_ablation",
+        "--state-path",
+        "reports/architecture_scout_2026-05-11_i242_ablation/state.json",
+        "--generated-config-dir",
+        "reports/architecture_scout_2026-05-11_i242_ablation/generated_configs",
+        "--training-report-dir",
+        "reports/architecture_scout_2026-05-11_i242_ablation/training",
+        "--output",
+        "reports/architecture_scout_2026-05-11_i242_ablation/paper_report.pdf"
+      ],
+      "finished_at": "2026-05-11T15:13:33Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_ablation/logs/analysis_build_paper_report.log",
+      "returncode": 0
+    },
+    "compare_results": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/compare_results.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_ablation"
+      ],
+      "finished_at": "2026-05-11T15:13:15Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_ablation/logs/analysis_compare_results.log",
+      "returncode": 0
+    },
+    "plot_training_results": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/reports/plot_training_results.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_ablation",
+        "--output-dir",
+        "reports/architecture_scout_2026-05-11_i242_ablation/training",
+        "--max-runs",
+        "1000000"
+      ],
+      "finished_at": "2026-05-11T15:13:17Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_ablation/logs/analysis_plot_training_results.log",
+      "returncode": 0
+    }
+  },
+  "created_at": "2026-05-11T15:05:01Z",
+  "last_started_at": "2026-05-11T15:05:01Z",
+  "paper_ready_defaults": {
+    "batch_size_caps": "base:256,scale_up:192,scale_xl:128",
+    "epochs": 12,
+    "min_epochs": 6,
+    "patience": 3,
+    "scale_variants": "base:1",
+    "seeds": [
+      42
+    ]
+  },
+  "schema_version": 1,
+  "tasks": {
+    "benchmark_i242_ablation_noglobal_seed42": {
+      "architecture_scale": {
+        "multiplier": 1.0,
+        "scaled_fields": {},
+        "variant": "base"
+      },
+      "artifact_validation": [],
+      "attempts": 1,
+      "base_run_name": "i242_ablation_noglobal_seed42",
+      "batch_size": 128,
+      "batch_size_cap": null,
+      "best_epoch": 12,
+      "best_score": 0.8790900823637426,
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/architecture_scout_2026-05-11_i242_ablation/generated_configs/benchmark_i242_ablation_noglobal_seed42.yaml"
+      ],
+      "config_hash": "bd0ebe9589c41526",
+      "config_validation": [],
+      "cuda_visible_devices": "0",
+      "elapsed_seconds": 490.04118910152465,
+      "finished_at": "2026-05-11T15:13:12Z",
+      "generated_config": "reports/architecture_scout_2026-05-11_i242_ablation/generated_configs/benchmark_i242_ablation_noglobal_seed42.yaml",
+      "kind": "benchmark",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_ablation/logs/benchmark_i242_ablation_noglobal_seed42_attempt1.log",
+      "messages": [],
+      "model_name": "chess_decomposed_attention",
+      "num_params": 203847,
+      "progress_index": 1,
+      "progress_total": 1,
+      "returncode": 0,
+      "run_dir": "results/architecture_scout_2026-05-11_i242_ablation/benchmark_i242_ablation_noglobal_seed42",
+      "scale_multiplier": 1.0,
+      "scale_variant": "base",
+      "seed": 42,
+      "source_config": "/tmp/i242_ablation_noglobal.yaml",
+      "speed_summary": {
+        "batch_size": 128,
+        "device": "cuda",
+        "final_eval": {
+          "test": {
+            "batch_count": 168,
+            "batches_per_second": 63.07189324686209,
+            "elapsed_seconds": 2.663627034984529,
+            "sample_count": 21501,
+            "samples_per_second": 8072.076051790367
+          },
+          "train": {
+            "batch_count": 1352,
+            "batches_per_second": 74.82289334957807,
+            "elapsed_seconds": 18.069335994310677,
+            "sample_count": 173029,
+            "samples_per_second": 9575.836104574071
+          },
+          "val": {
+            "batch_count": 167,
+            "batches_per_second": 61.955678954942485,
+            "elapsed_seconds": 2.6954752625897527,
+            "sample_count": 21305,
+            "samples_per_second": 7903.986467874548
+          }
+        },
+        "fit_elapsed_seconds": 318.6845627166331,
+        "mixed_precision": true,
+        "num_workers": 8,
+        "train": {
+          "batch_count": 16224,
+          "batches_per_second": 61.818860980282295,
+          "elapsed_seconds": 262.4441754948348,
+          "sample_count": 2076348,
+          "samples_per_second": 7911.579657216912
+        },
+        "train_samples_per_second": 7911.579657216912,
+        "val_samples_per_second": 10551.372549406538,
+        "validation_epochs": {
+          "batch_count": 2004,
+          "batches_per_second": 82.70730888293319,
+          "elapsed_seconds": 24.230023042298853,
+          "sample_count": 255660,
+          "samples_per_second": 10551.372549406538
+        }
+      },
+      "started_at": "2026-05-11T15:05:01Z",
+      "status": "completed",
+      "task_id": "benchmark_i242_ablation_noglobal_seed42",
+      "timeout_minutes": 30.0
+    }
+  }
+}

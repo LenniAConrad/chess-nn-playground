@@ -12,220 +12,220 @@ These tags are metadata for benchmarking and error analysis only. They must not 
 
 | field | value |
 | --- | --- |
-| rows | 360000 |
-| tagged_rows | 360000 |
-| rows_with_tactic_motif | 288849 |
+| rows | 173029 |
+| tagged_rows | 173029 |
+| rows_with_tactic_motif | 138193 |
 
 ### Difficulty
 
 | value | count |
 | --- | --- |
-| very_hard | 98187 |
-| medium | 89426 |
-| hard | 72929 |
-| easy | 51870 |
-| very_easy | 47588 |
+| very_hard | 46997 |
+| medium | 43210 |
+| hard | 34738 |
+| easy | 25094 |
+| very_easy | 22990 |
 
 ### Phase
 
 | value | count |
 | --- | --- |
-| middlegame | 199018 |
-| opening | 88986 |
-| endgame | 71996 |
+| middlegame | 95929 |
+| opening | 42190 |
+| endgame | 34910 |
 
 ### Eval Bucket
 
 | value | count |
 | --- | --- |
-| clear_black | 77601 |
-| clear_white | 75549 |
-| equal | 59600 |
-| slight_black | 58461 |
-| slight_white | 56836 |
-| winning_black | 9655 |
-| winning_white | 9079 |
-| crushing_black | 6739 |
-| crushing_white | 6480 |
+| clear_black | 37805 |
+| clear_white | 36528 |
+| equal | 28128 |
+| slight_black | 27952 |
+| slight_white | 27103 |
+| winning_black | 4618 |
+| winning_white | 4509 |
+| crushing_black | 3232 |
+| crushing_white | 3154 |
 
 ### Tactical Motifs
 
 | value | count |
 | --- | --- |
-| hanging | 193300 |
-| fork | 126155 |
-| pin | 87940 |
-| skewer | 73045 |
-| (none) | 71151 |
-| overload | 30394 |
-| discovered_attack | 27593 |
-| mate_in_1 | 17166 |
-| promotion | 9959 |
-| underpromotion | 9959 |
+| hanging | 92407 |
+| fork | 60072 |
+| pin | 41946 |
+| skewer | 34998 |
+| (none) | 34836 |
+| overload | 14393 |
+| discovered_attack | 13269 |
+| mate_in_1 | 8235 |
+| promotion | 4887 |
+| underpromotion | 4887 |
 
 ### Tag Families
 
 | value | count |
 | --- | --- |
-| DEVELOPMENT | 360000 |
-| FACT | 360000 |
-| INITIATIVE | 360000 |
-| KING | 360000 |
-| MATERIAL | 360000 |
-| META | 360000 |
-| MOBILITY | 360000 |
-| PAWN | 360000 |
-| PIECE | 360000 |
-| SPACE | 360000 |
-| TACTIC | 288849 |
-| ENDGAME | 114186 |
-| OUTPOST | 64858 |
-| THREAT | 9959 |
+| DEVELOPMENT | 173029 |
+| FACT | 173029 |
+| INITIATIVE | 173029 |
+| KING | 173029 |
+| MATERIAL | 173029 |
+| META | 173029 |
+| MOBILITY | 173029 |
+| PAWN | 173029 |
+| PIECE | 173029 |
+| SPACE | 173029 |
+| TACTIC | 138193 |
+| ENDGAME | 54817 |
+| OUTPOST | 31060 |
+| THREAT | 4887 |
 
 ## val
 
 | field | value |
 | --- | --- |
-| rows | 45000 |
-| tagged_rows | 45000 |
-| rows_with_tactic_motif | 36025 |
+| rows | 21305 |
+| tagged_rows | 21305 |
+| rows_with_tactic_motif | 16997 |
 
 ### Difficulty
 
 | value | count |
 | --- | --- |
-| very_hard | 12283 |
-| medium | 11338 |
-| hard | 9170 |
-| easy | 6266 |
-| very_easy | 5943 |
+| very_hard | 5667 |
+| medium | 5478 |
+| hard | 4256 |
+| easy | 3039 |
+| very_easy | 2865 |
 
 ### Phase
 
 | value | count |
 | --- | --- |
-| middlegame | 24868 |
-| opening | 11020 |
-| endgame | 9112 |
+| middlegame | 11854 |
+| opening | 5208 |
+| endgame | 4243 |
 
 ### Eval Bucket
 
 | value | count |
 | --- | --- |
-| clear_black | 9644 |
-| clear_white | 9321 |
-| slight_black | 7494 |
-| equal | 7420 |
-| slight_white | 7166 |
-| winning_black | 1175 |
-| winning_white | 1158 |
-| crushing_black | 829 |
-| crushing_white | 793 |
+| clear_black | 4615 |
+| clear_white | 4366 |
+| equal | 3482 |
+| slight_white | 3449 |
+| slight_black | 3441 |
+| winning_black | 576 |
+| winning_white | 568 |
+| crushing_white | 412 |
+| crushing_black | 396 |
 
 ### Tactical Motifs
 
 | value | count |
 | --- | --- |
-| hanging | 24143 |
-| fork | 15809 |
-| pin | 10784 |
-| skewer | 9112 |
-| (none) | 8975 |
-| overload | 3743 |
-| discovered_attack | 3402 |
-| mate_in_1 | 1997 |
-| promotion | 1234 |
-| underpromotion | 1234 |
+| hanging | 11278 |
+| fork | 7317 |
+| pin | 5179 |
+| (none) | 4308 |
+| skewer | 4272 |
+| overload | 1792 |
+| discovered_attack | 1533 |
+| mate_in_1 | 966 |
+| promotion | 578 |
+| underpromotion | 578 |
 
 ### Tag Families
 
 | value | count |
 | --- | --- |
-| DEVELOPMENT | 45000 |
-| FACT | 45000 |
-| INITIATIVE | 45000 |
-| KING | 45000 |
-| MATERIAL | 45000 |
-| META | 45000 |
-| MOBILITY | 45000 |
-| PAWN | 45000 |
-| PIECE | 45000 |
-| SPACE | 45000 |
-| TACTIC | 36025 |
-| ENDGAME | 14442 |
-| OUTPOST | 8168 |
-| THREAT | 1234 |
+| DEVELOPMENT | 21305 |
+| FACT | 21305 |
+| INITIATIVE | 21305 |
+| KING | 21305 |
+| MATERIAL | 21305 |
+| META | 21305 |
+| MOBILITY | 21305 |
+| PAWN | 21305 |
+| PIECE | 21305 |
+| SPACE | 21305 |
+| TACTIC | 16997 |
+| ENDGAME | 6747 |
+| OUTPOST | 3794 |
+| THREAT | 578 |
 
 ## test
 
 | field | value |
 | --- | --- |
-| rows | 45000 |
-| tagged_rows | 45000 |
-| rows_with_tactic_motif | 36043 |
+| rows | 21501 |
+| tagged_rows | 21501 |
+| rows_with_tactic_motif | 17279 |
 
 ### Difficulty
 
 | value | count |
 | --- | --- |
-| very_hard | 12151 |
-| medium | 11516 |
-| hard | 9053 |
-| easy | 6448 |
-| very_easy | 5832 |
+| very_hard | 5860 |
+| medium | 5482 |
+| hard | 4181 |
+| easy | 3190 |
+| very_easy | 2788 |
 
 ### Phase
 
 | value | count |
 | --- | --- |
-| middlegame | 24918 |
-| opening | 11050 |
-| endgame | 9032 |
+| middlegame | 11835 |
+| opening | 5328 |
+| endgame | 4338 |
 
 ### Eval Bucket
 
 | value | count |
 | --- | --- |
-| clear_black | 9774 |
-| clear_white | 9418 |
-| slight_black | 7378 |
-| equal | 7376 |
-| slight_white | 7085 |
-| winning_black | 1178 |
-| winning_white | 1136 |
-| crushing_black | 890 |
-| crushing_white | 765 |
+| clear_black | 4757 |
+| clear_white | 4497 |
+| slight_black | 3488 |
+| equal | 3485 |
+| slight_white | 3406 |
+| winning_white | 557 |
+| winning_black | 552 |
+| crushing_black | 404 |
+| crushing_white | 355 |
 
 ### Tactical Motifs
 
 | value | count |
 | --- | --- |
-| hanging | 24190 |
-| fork | 15648 |
-| pin | 10830 |
-| skewer | 9054 |
-| (none) | 8957 |
-| overload | 3790 |
-| discovered_attack | 3439 |
-| mate_in_1 | 2077 |
-| promotion | 1211 |
-| underpromotion | 1211 |
+| hanging | 11597 |
+| fork | 7490 |
+| pin | 5177 |
+| skewer | 4277 |
+| (none) | 4222 |
+| overload | 1858 |
+| discovered_attack | 1651 |
+| mate_in_1 | 1050 |
+| promotion | 632 |
+| underpromotion | 632 |
 
 ### Tag Families
 
 | value | count |
 | --- | --- |
-| DEVELOPMENT | 45000 |
-| FACT | 45000 |
-| INITIATIVE | 45000 |
-| KING | 45000 |
-| MATERIAL | 45000 |
-| META | 45000 |
-| MOBILITY | 45000 |
-| PAWN | 45000 |
-| PIECE | 45000 |
-| SPACE | 45000 |
-| TACTIC | 36043 |
-| ENDGAME | 14363 |
-| OUTPOST | 8179 |
-| THREAT | 1211 |
+| DEVELOPMENT | 21501 |
+| FACT | 21501 |
+| INITIATIVE | 21501 |
+| KING | 21501 |
+| MATERIAL | 21501 |
+| META | 21501 |
+| MOBILITY | 21501 |
+| PAWN | 21501 |
+| PIECE | 21501 |
+| SPACE | 21501 |
+| TACTIC | 17279 |
+| ENDGAME | 6807 |
+| OUTPOST | 3753 |
+| THREAT | 632 |

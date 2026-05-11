@@ -1,0 +1,2 @@
+run_name,run_label,model_name,mode,seed,best_epoch,run_score,run_dir
+benchmark_A4_i193_hp_seed42,benchmark_A4_i193_hp_seed42 seed=42,chess_decomposed_attention,puzzle_binary,42,11,0.8115790163075512,results/architecture_scout_2026-05-11_i242_A4_i193_hp/benchmark_A4_i193_hp_seed42

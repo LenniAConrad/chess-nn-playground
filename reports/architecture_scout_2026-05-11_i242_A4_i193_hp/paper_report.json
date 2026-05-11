@@ -1,0 +1,19 @@
+{
+  "architecture_pages": 247,
+  "completed_runs": 1,
+  "generated_at": "2026-05-11T15:33:43Z",
+  "idea_implementation_kinds": {
+    "bespoke_model": 234,
+    "shared_probe_variant": 6
+  },
+  "idea_validation": {
+    "scaffold_only": 6,
+    "trainable": 234
+  },
+  "idea_validation_failures": [],
+  "output_path": "reports/architecture_scout_2026-05-11_i242_A4_i193_hp/paper_report.pdf",
+  "planned_tasks": 1,
+  "results_dirs": [
+    "results/architecture_scout_2026-05-11_i242_A4_i193_hp"
+  ]
+}

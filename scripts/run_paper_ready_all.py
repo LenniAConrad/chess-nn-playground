@@ -487,6 +487,8 @@ def apply_paper_ready_overrides(
     scale_variant: str = "base",
     scale_multiplier: float = 1.0,
     batch_size_caps: dict[str, int] | None = None,
+    shorten_training: bool = False,
+    monitor: str | None = None,
 ) -> dict[str, Any]:
     config, scale_metadata = apply_architecture_scale(
         base_config,
@@ -501,11 +503,21 @@ def apply_paper_ready_overrides(
     run_cfg["run_dir"] = str(run_dir)
 
     training = config.setdefault("training", {})
-    training["epochs"] = max(int(training.get("epochs", 0) or 0), int(epochs))
-    training["min_epochs"] = max(int(training.get("min_epochs", 0) or 0), int(min_epochs))
-    training["min_active_epochs"] = max(int(training.get("min_active_epochs", 0) or 0), int(min_epochs))
-    training["early_stopping_patience"] = max(int(training.get("early_stopping_patience", 0) or 0), int(patience))
-    training["reliability_tier"] = "paper_grade"
+    if shorten_training:
+        # Scout mode: use CLI values exactly, even if YAML asked for more.
+        training["epochs"] = int(epochs)
+        training["min_epochs"] = int(min_epochs)
+        training["min_active_epochs"] = int(min_epochs)
+        training["early_stopping_patience"] = int(patience)
+        training["reliability_tier"] = "scout"
+    else:
+        training["epochs"] = max(int(training.get("epochs", 0) or 0), int(epochs))
+        training["min_epochs"] = max(int(training.get("min_epochs", 0) or 0), int(min_epochs))
+        training["min_active_epochs"] = max(int(training.get("min_active_epochs", 0) or 0), int(min_epochs))
+        training["early_stopping_patience"] = max(int(training.get("early_stopping_patience", 0) or 0), int(patience))
+        training["reliability_tier"] = "paper_grade"
+    if monitor:
+        training["monitor"] = str(monitor)
     caps = batch_size_caps or {}
     batch_cap = caps.get(scale_variant)
     if batch_cap is not None:
@@ -631,6 +643,8 @@ def build_tasks(args: argparse.Namespace, state: dict[str, Any]) -> list[dict[st
                     scale_variant=scale_variant,
                     scale_multiplier=scale_multiplier,
                     batch_size_caps=args.batch_size_caps,
+                    shorten_training=getattr(args, "shorten_training", False),
+                    monitor=getattr(args, "monitor", None),
                 )
                 cfg_hash = config_fingerprint(config)
                 row = state_tasks.get(task_id, {})
@@ -667,6 +681,17 @@ def build_tasks(args: argparse.Namespace, state: dict[str, Any]) -> list[dict[st
                 row.setdefault("messages", [])
                 state_tasks[task_id] = row
                 tasks.append({"state": row, "config": config, "source_path": source_path})
+
+    # Order: base scale first (cheapest, fits in VRAM), then scale_up, then scale_xl
+    # last (largest models — these are the ones likely to need slow CPU fallback).
+    _scale_priority = {"base": 0, "scale_up": 1, "scale_xl": 2}
+    tasks.sort(
+        key=lambda t: (
+            _scale_priority.get(t["state"].get("scale_variant"), 99),
+            t["source_path"].as_posix(),
+            t["state"].get("seed", 0),
+        )
+    )
     return tasks
 
 
@@ -889,6 +914,7 @@ def run_pending_tasks(
         else:
             row.pop("resume_checkpoint", None)
         env = os.environ.copy()
+        env.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
         if gpu_ids:
             assigned_gpu = gpu_ids[next_gpu % len(gpu_ids)]
             next_gpu += 1
@@ -1350,6 +1376,10 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=30)
     parser.add_argument("--min-epochs", type=int, default=15)
     parser.add_argument("--patience", type=int, default=8)
+    parser.add_argument("--shorten-training", action="store_true",
+                        help="Use --epochs / --min-epochs / --patience exactly (overriding YAML if larger). For scout runs.")
+    parser.add_argument("--monitor", default=None,
+                        help="Set training.monitor in every generated config (e.g. pr_auc).")
     parser.add_argument("--jobs", type=int, default=None)
     parser.add_argument("--gpu-ids", default=None)
     parser.add_argument("--timeout-minutes", type=float, default=None)

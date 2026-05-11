@@ -1,19 +1,19 @@
 {
   "available_by_split_class": {
     "test": {
-      "0": 3385170,
-      "1": 932460,
-      "2": 184937
+      "0": 9820372,
+      "1": 2881147,
+      "2": 553175
     },
     "train": {
-      "0": 27115853,
-      "1": 7424621,
-      "2": 1459631
+      "0": 78655103,
+      "1": 22996061,
+      "2": 4416274
     },
     "val": {
-      "0": 3386563,
-      "1": 930767,
-      "2": 182735
+      "0": 9823830,
+      "1": 2874995,
+      "2": 555907
     }
   },
   "batch_size": 200000,
@@ -24,10 +24,10 @@
   ],
   "complete": true,
   "compression": "snappy",
-  "created_at": "2026-04-28T14:14:32Z",
+  "created_at": "2026-05-06T04:11:40Z",
   "dedupe_normalized_fen": true,
-  "elapsed_seconds": 74.60049817799882,
-  "input": "data/processed/crtk_training_20260419_180229_fast.parquet",
+  "elapsed_seconds": 188.89533348940313,
+  "input": "data/processed/crtk_usb_training_fast.parquet",
   "label_column": "fine_label",
   "max_per_class": 150000,
   "mode": "fine_3class",
@@ -54,37 +54,47 @@
       "val": 15000
     }
   },
-  "rows_seen": 37400000,
-  "rows_written": 450000,
-  "skipped_duplicate_fens": 4671,
+  "rows_seen": 132576864,
+  "rows_written": 215835,
+  "skipped_duplicate_fens": 280416,
   "thresholds": {
-    "test:0": 5539,
-    "test:1": 20109,
-    "test:2": 101386,
-    "train:0": 5532,
-    "train:1": 20204,
-    "train:2": 102766,
-    "val:0": 5537,
-    "val:1": 20145,
-    "val:2": 102608
+    "test:0": 1681,
+    "test:1": 5727,
+    "test:2": 29828,
+    "train:0": 1679,
+    "train:1": 5741,
+    "train:2": 29890,
+    "val:0": 1680,
+    "val:1": 5740,
+    "val:2": 29682
   },
-  "unique_normalized_fens_written": 450000,
-  "warnings": [],
+  "unique_normalized_fens_written": 215835,
+  "warnings": [
+    "Only wrote 57,971/120,000 rows for split=train, class=0. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 57,519/120,000 rows for split=train, class=1. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 57,539/120,000 rows for split=train, class=2. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,189/15,000 rows for split=val, class=0. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,012/15,000 rows for split=val, class=1. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,104/15,000 rows for split=val, class=2. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,206/15,000 rows for split=test, class=0. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,240/15,000 rows for split=test, class=1. Increase --sample-multiplier or lower --max-per-class.",
+    "Only wrote 7,055/15,000 rows for split=test, class=2. Increase --sample-multiplier or lower --max-per-class."
+  ],
   "written_by_split_class": {
     "test": {
-      "0": 15000,
-      "1": 15000,
-      "2": 15000
+      "0": 7206,
+      "1": 7240,
+      "2": 7055
     },
     "train": {
-      "0": 120000,
-      "1": 120000,
-      "2": 120000
+      "0": 57971,
+      "1": 57519,
+      "2": 57539
     },
     "val": {
-      "0": 15000,
-      "1": 15000,
-      "2": 15000
+      "0": 7189,
+      "1": 7012,
+      "2": 7104
     }
   }
 }

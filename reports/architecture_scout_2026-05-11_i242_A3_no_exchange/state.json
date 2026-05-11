@@ -1,0 +1,153 @@
+{
+  "analysis": {
+    "build_paper_report": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/reports/build_paper_report.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_A3_no_exchange",
+        "--state-path",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/state.json",
+        "--generated-config-dir",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/generated_configs",
+        "--training-report-dir",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/training",
+        "--output",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/paper_report.pdf"
+      ],
+      "finished_at": "2026-05-11T15:26:25Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/logs/analysis_build_paper_report.log",
+      "returncode": 0
+    },
+    "compare_results": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/compare_results.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_A3_no_exchange"
+      ],
+      "finished_at": "2026-05-11T15:26:09Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/logs/analysis_compare_results.log",
+      "returncode": 0
+    },
+    "plot_training_results": {
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/reports/plot_training_results.py",
+        "--results-dir",
+        "results/architecture_scout_2026-05-11_i242_A3_no_exchange",
+        "--output-dir",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/training",
+        "--max-runs",
+        "1000000"
+      ],
+      "finished_at": "2026-05-11T15:26:11Z",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/logs/analysis_plot_training_results.log",
+      "returncode": 0
+    }
+  },
+  "created_at": "2026-05-11T15:18:27Z",
+  "last_started_at": "2026-05-11T15:18:27Z",
+  "paper_ready_defaults": {
+    "batch_size_caps": "base:256,scale_up:192,scale_xl:128",
+    "epochs": 12,
+    "min_epochs": 6,
+    "patience": 3,
+    "scale_variants": "base:1",
+    "seeds": [
+      42
+    ]
+  },
+  "schema_version": 1,
+  "tasks": {
+    "benchmark_A3_no_exchange_seed42": {
+      "architecture_scale": {
+        "multiplier": 1.0,
+        "scaled_fields": {},
+        "variant": "base"
+      },
+      "artifact_validation": [],
+      "attempts": 1,
+      "base_run_name": "i242_ablation_A3_noexchange_seed42",
+      "batch_size": 128,
+      "batch_size_cap": null,
+      "best_epoch": 12,
+      "best_score": 0.8633635711656318,
+      "command": [
+        "/home/lennart/Documents/chess-rtk/chess-nn-playground/.venv/bin/python",
+        "scripts/train_model.py",
+        "--config",
+        "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/generated_configs/benchmark_A3_no_exchange_seed42.yaml"
+      ],
+      "config_hash": "ed8985d5f9d7b188",
+      "config_validation": [],
+      "cuda_visible_devices": "0",
+      "elapsed_seconds": 459.0434247404337,
+      "finished_at": "2026-05-11T15:26:06Z",
+      "generated_config": "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/generated_configs/benchmark_A3_no_exchange_seed42.yaml",
+      "kind": "benchmark",
+      "log_path": "reports/architecture_scout_2026-05-11_i242_A3_no_exchange/logs/benchmark_A3_no_exchange_seed42_attempt1.log",
+      "messages": [],
+      "model_name": "chess_decomposed_attention",
+      "num_params": 203847,
+      "progress_index": 1,
+      "progress_total": 1,
+      "returncode": 0,
+      "run_dir": "results/architecture_scout_2026-05-11_i242_A3_no_exchange/benchmark_A3_no_exchange_seed42",
+      "scale_multiplier": 1.0,
+      "scale_variant": "base",
+      "seed": 42,
+      "source_config": "/tmp/i242_ablations/A3_no_exchange.yaml",
+      "speed_summary": {
+        "batch_size": 128,
+        "device": "cuda",
+        "final_eval": {
+          "test": {
+            "batch_count": 168,
+            "batches_per_second": 82.52889493256465,
+            "elapsed_seconds": 2.0356506668031216,
+            "sample_count": 21501,
+            "samples_per_second": 10562.224821101623
+          },
+          "train": {
+            "batch_count": 1352,
+            "batches_per_second": 106.29607252672594,
+            "elapsed_seconds": 12.719190538860857,
+            "sample_count": 173029,
+            "samples_per_second": 13603.774506824602
+          },
+          "val": {
+            "batch_count": 167,
+            "batches_per_second": 88.4113378967928,
+            "elapsed_seconds": 1.8888980075716972,
+            "sample_count": 21305,
+            "samples_per_second": 11279.063196953117
+          }
+        },
+        "fit_elapsed_seconds": 303.76873028837144,
+        "mixed_precision": true,
+        "num_workers": 8,
+        "train": {
+          "batch_count": 16224,
+          "batches_per_second": 63.31084402507431,
+          "elapsed_seconds": 256.25941732153296,
+          "sample_count": 2076348,
+          "samples_per_second": 8102.523691430904
+        },
+        "train_samples_per_second": 8102.523691430904,
+        "val_samples_per_second": 11135.060822550617,
+        "validation_epochs": {
+          "batch_count": 2004,
+          "batches_per_second": 87.28257016502947,
+          "elapsed_seconds": 22.959910509176552,
+          "sample_count": 255660,
+          "samples_per_second": 11135.060822550617
+        }
+      },
+      "started_at": "2026-05-11T15:18:27Z",
+      "status": "completed",
+      "task_id": "benchmark_A3_no_exchange_seed42",
+      "timeout_minutes": 30.0
+    }
+  }
+}

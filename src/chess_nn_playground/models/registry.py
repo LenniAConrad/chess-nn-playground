@@ -241,6 +241,9 @@ from chess_nn_playground.models.counterfactual_defender_dropout import (
 from chess_nn_playground.models.exchange_then_king_dual_stream import (
     build_exchange_then_king_dual_stream_from_config,
 )
+from chess_nn_playground.models.chess_decomposed_attention import (
+    build_chess_decomposed_attention_from_config,
+)
 from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
     build_source_invariant_puzzle_bottleneck_from_config,
 )
@@ -844,6 +847,7 @@ MODEL_BUILDERS = {
     "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
     "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
     "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
+    "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
     "reply_set_contrastive_transformer": build_reply_set_contrastive_transformer_from_config,

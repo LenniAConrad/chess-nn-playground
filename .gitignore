@@ -69,3 +69,20 @@ reports/training/*.csv
 tmp/
 temp/
 *.tmp
+
+# Local working directories — large run artifacts; not for github.
+_archive/
+_combined_view/
+_scout_combined_view/
+session/
+reports/tmux_logs/
+
+# Allow paper report artifacts (overrides the broad reports/**/*.pdf ignore)
+!reports/audits/paper_report.pdf
+!reports/audits/paper_report_zh.pdf
+!reports/audits/paper_report.tex
+!reports/audits/paper_report_zh.tex
+!reports/audits/puzzle_class_examples.pdf
+!reports/audits/puzzle_class_examples.png
+!reports/audits/scout_heatmap_pretty.png
+!reports/audits/scout_heatmap_pretty.pdf

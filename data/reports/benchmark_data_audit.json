@@ -1,0 +1,551 @@
+{
+  "cross_split": {
+    "label_conflicting_fens": 0,
+    "normalized_fen_overlap": {
+      "test__train": 0,
+      "test__val": 0,
+      "train__val": 0
+    },
+    "sample_id_overlap": {
+      "test__train": 0,
+      "test__val": 0,
+      "train__val": 0
+    },
+    "split_group_id_overlap": {
+      "test__train": 0,
+      "test__val": 0,
+      "train__val": 0
+    }
+  },
+  "issues": [
+    "train: fine_label counts {1: 57519, 0: 57971, 2: 57539} do not match expected {0: 120000, 1: 120000, 2: 120000}",
+    "val: fine_label counts {1: 7012, 2: 7104, 0: 7189} do not match expected {0: 15000, 1: 15000, 2: 15000}",
+    "test: fine_label counts {1: 7240, 2: 7055, 0: 7206} do not match expected {0: 15000, 1: 15000, 2: 15000}"
+  ],
+  "split_dir": "data/splits/crtk_sample_3class_unique_crtk_tags",
+  "splits": {
+    "test": {
+      "coarse_label_counts": {
+        "0": 7206,
+        "1": 14295
+      },
+      "columns": 55,
+      "difficulty_counts": {
+        "easy": 3190,
+        "hard": 4181,
+        "medium": 5482,
+        "very_easy": 2788,
+        "very_hard": 5860
+      },
+      "duplicate_normalized_fens": 0,
+      "duplicate_sample_ids": 0,
+      "fine_label_counts": {
+        "0": 7206,
+        "1": 7240,
+        "2": 7055
+      },
+      "invalid_fen_count": 0,
+      "invalid_fen_examples": [],
+      "load_checks": {
+        "coarse_binary": {
+          "mode": "coarse_binary",
+          "rows": 21501,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "fine_3class": {
+          "mode": "fine_3class",
+          "rows": 21501,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "puzzle_binary": {
+          "mode": "puzzle_binary",
+          "rows": 21501,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        }
+      },
+      "missing_crtk": {
+        "crtk_difficulty": 0,
+        "crtk_eval_bucket": 0,
+        "crtk_eval_cp": 0,
+        "crtk_phase": 0,
+        "crtk_source": 0,
+        "crtk_tactic_motif_count": 0,
+        "crtk_tactic_motifs": 0,
+        "crtk_tag_count": 0,
+        "crtk_tag_families": 0,
+        "crtk_tag_family_count": 0,
+        "crtk_tags_json": 0,
+        "crtk_to_move": 0,
+        "crtk_wdl": 0
+      },
+      "missing_required": {
+        "coarse_label": 0,
+        "fen": 0,
+        "fine_label": 0,
+        "label_status": 0,
+        "normalized_fen": 0,
+        "sample_id": 0,
+        "split": 0,
+        "split_group_id": 0
+      },
+      "path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet",
+      "phase_counts": {
+        "endgame": 4338,
+        "middlegame": 11835,
+        "opening": 5328
+      },
+      "rows": 21501
+    },
+    "train": {
+      "coarse_label_counts": {
+        "0": 57971,
+        "1": 115058
+      },
+      "columns": 55,
+      "difficulty_counts": {
+        "easy": 25094,
+        "hard": 34738,
+        "medium": 43210,
+        "very_easy": 22990,
+        "very_hard": 46997
+      },
+      "duplicate_normalized_fens": 0,
+      "duplicate_sample_ids": 0,
+      "fine_label_counts": {
+        "0": 57971,
+        "1": 57519,
+        "2": 57539
+      },
+      "invalid_fen_count": 0,
+      "invalid_fen_examples": [],
+      "load_checks": {
+        "coarse_binary": {
+          "mode": "coarse_binary",
+          "rows": 173029,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "fine_3class": {
+          "mode": "fine_3class",
+          "rows": 173029,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "puzzle_binary": {
+          "mode": "puzzle_binary",
+          "rows": 173029,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        }
+      },
+      "missing_crtk": {
+        "crtk_difficulty": 0,
+        "crtk_eval_bucket": 0,
+        "crtk_eval_cp": 0,
+        "crtk_phase": 0,
+        "crtk_source": 0,
+        "crtk_tactic_motif_count": 0,
+        "crtk_tactic_motifs": 0,
+        "crtk_tag_count": 0,
+        "crtk_tag_families": 0,
+        "crtk_tag_family_count": 0,
+        "crtk_tags_json": 0,
+        "crtk_to_move": 0,
+        "crtk_wdl": 0
+      },
+      "missing_required": {
+        "coarse_label": 0,
+        "fen": 0,
+        "fine_label": 0,
+        "label_status": 0,
+        "normalized_fen": 0,
+        "sample_id": 0,
+        "split": 0,
+        "split_group_id": 0
+      },
+      "path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet",
+      "phase_counts": {
+        "endgame": 34910,
+        "middlegame": 95929,
+        "opening": 42190
+      },
+      "rows": 173029
+    },
+    "val": {
+      "coarse_label_counts": {
+        "0": 7189,
+        "1": 14116
+      },
+      "columns": 55,
+      "difficulty_counts": {
+        "easy": 3039,
+        "hard": 4256,
+        "medium": 5478,
+        "very_easy": 2865,
+        "very_hard": 5667
+      },
+      "duplicate_normalized_fens": 0,
+      "duplicate_sample_ids": 0,
+      "fine_label_counts": {
+        "0": 7189,
+        "1": 7012,
+        "2": 7104
+      },
+      "invalid_fen_count": 0,
+      "invalid_fen_examples": [],
+      "load_checks": {
+        "coarse_binary": {
+          "mode": "coarse_binary",
+          "rows": 21305,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "fine_3class": {
+          "mode": "fine_3class",
+          "rows": 21305,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        },
+        "puzzle_binary": {
+          "mode": "puzzle_binary",
+          "rows": 21305,
+          "sample_feature_shapes": [
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ],
+            [
+              18,
+              8,
+              8
+            ]
+          ],
+          "sample_metadata_keys": [
+            "crtk_difficulty",
+            "crtk_eval_bucket",
+            "crtk_eval_cp",
+            "crtk_phase",
+            "crtk_source",
+            "crtk_tactic_motif_count",
+            "crtk_tactic_motifs",
+            "crtk_tag_count",
+            "crtk_tag_families",
+            "crtk_tag_family_count",
+            "crtk_to_move",
+            "crtk_wdl",
+            "sister_group_id",
+            "source_file",
+            "source_group_id",
+            "split_group_id"
+          ]
+        }
+      },
+      "missing_crtk": {
+        "crtk_difficulty": 0,
+        "crtk_eval_bucket": 0,
+        "crtk_eval_cp": 0,
+        "crtk_phase": 0,
+        "crtk_source": 0,
+        "crtk_tactic_motif_count": 0,
+        "crtk_tactic_motifs": 0,
+        "crtk_tag_count": 0,
+        "crtk_tag_families": 0,
+        "crtk_tag_family_count": 0,
+        "crtk_tags_json": 0,
+        "crtk_to_move": 0,
+        "crtk_wdl": 0
+      },
+      "missing_required": {
+        "coarse_label": 0,
+        "fen": 0,
+        "fine_label": 0,
+        "label_status": 0,
+        "normalized_fen": 0,
+        "sample_id": 0,
+        "split": 0,
+        "split_group_id": 0
+      },
+      "path": "data/splits/crtk_sample_3class_unique_crtk_tags/split_val.parquet",
+      "phase_counts": {
+        "endgame": 4243,
+        "middlegame": 11854,
+        "opening": 5208
+      },
+      "rows": 21305
+    }
+  },
+  "status": "blocked"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "label": 0,
+    "title": "Class 0 \u2014 random_position (non-puzzle)",
+    "fen": "8/2r3pk/7p/4n3/8/4K2P/1R4P1/8 b - - 1 47",
+    "best_uci": "e5c4",
+    "caption": "Quiet endgame, Black to move.  Best move \\texttt{Nc4+} wins material but the position came from random midgame sampling rather than a curated puzzle source."
+  },
+  {
+    "label": 1,
+    "title": "Class 1 \u2014 verified-near-puzzle (hard negative)",
+    "fen": "r1qr2k1/p1pn1ppp/1pQ5/2p3B1/8/P1n2N2/2PN1PPP/R3R1K1 w - - 4 18",
+    "best_uci": "g5d8",
+    "caption": "Looks like a puzzle (queen \\& bishop coordinated against the king), but Stockfish verifies \\textbf{pv\\_gap = 27 cp}: the second-best move scores almost identically, so there is no unique winning idea.  This is the hard-negative class that the scout was built to distinguish."
+  },
+  {
+    "label": 2,
+    "title": "Class 2 \u2014 puzzle\\_filter\\_matched (true puzzle)",
+    "fen": "r5k1/1pQ1n2p/p3Prp1/5p2/5q2/P4P2/2P3P1/RN2RK2 b - - 0 25",
+    "best_uci": "f4c7",
+    "caption": "Black to move.  \\texttt{Qxc7} is the unique winning move (\\textbf{pv\\_gap = 838 cp}); all other moves either lose material or fail to convert.  Tactical motif, single-solution: this is what the binary head must recognise."
+  }
+]

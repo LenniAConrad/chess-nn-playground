@@ -1,0 +1,2 @@
+run_name,run_label,model_name,mode,seed,best_epoch,run_score,run_dir
+idea_i242_chess_decomposed_attention_seed42,idea_i242_chess_decomposed_attention_seed42 seed=42,chess_decomposed_attention,puzzle_binary,42,11,0.8179401993355482,results/architecture_scout_2026-05-11_i242/idea_i242_chess_decomposed_attention_seed42

@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import gc
 import json
 import math
 import os
 import hashlib
 import re
+import resource
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -241,6 +244,14 @@ class Trainer:
             patience=int(training_cfg.get("early_stopping_patience", 10)),
             mode="max",
         )
+        # Checkpoint-selection metric. Default to PR AUC for binary modes (the
+        # paper-grade primary metric); fall back to macro_f1 for fine_3class.
+        # Override via `training.monitor` in the YAML.
+        configured_monitor = training_cfg.get("monitor")
+        if configured_monitor is None:
+            self.monitor_metric = "pr_auc" if self.mode in BINARY_MODES else "macro_f1"
+        else:
+            self.monitor_metric = str(configured_monitor).strip().lower()
 
         model_cfg = dict(config.get("model", {}))
         model_name = model_cfg.pop("name", "simple_cnn")
@@ -666,10 +677,14 @@ class Trainer:
         return metrics, pd.DataFrame(rows)
 
     def _score_metric(self, metrics: dict[str, Any]) -> float:
-        if self.mode in BINARY_MODES:
-            value = metrics.get("f1")
-        else:
-            value = metrics.get("macro_f1")
+        value = metrics.get(self.monitor_metric)
+        if value is None:
+            # Backwards-compatible fallbacks: try the historical default for the
+            # mode, then accuracy, then negative loss.
+            if self.mode in BINARY_MODES:
+                value = metrics.get("f1")
+            else:
+                value = metrics.get("macro_f1")
         if value is None:
             value = metrics.get("accuracy")
         if value is None:
@@ -731,6 +746,7 @@ class Trainer:
                 "allow_tf32": self.allow_tf32,
                 "matmul_precision": self.matmul_precision,
                 "early_stopping_patience": self.early_stopping.patience,
+                "monitor": self.monitor_metric,
                 "learning_rate": self.learning_rate,
                 "weight_decay": self.weight_decay,
                 "gradient_clip_norm": self.gradient_clip_norm,
@@ -1086,5 +1102,128 @@ class Trainer:
         return self.run_dir
 
 
+def _is_cuda_oom(exc: BaseException) -> bool:
+    if isinstance(exc, torch.cuda.OutOfMemoryError):
+        return True
+    if isinstance(exc, RuntimeError) and "out of memory" in str(exc).lower():
+        return True
+    return False
+
+
+def _release_cuda_memory() -> None:
+    gc.collect()
+    if torch.cuda.is_available():
+        try:
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
+        except Exception:
+            pass
+
+
+def _force_cpu_config(config: dict[str, Any]) -> dict[str, Any]:
+    cpu_config = dict(config)
+    cpu_config["device"] = "cpu"
+    training = dict(cpu_config.get("training", {}))
+    training["mixed_precision"] = False
+    training["pin_memory"] = False
+    training["allow_tf32"] = False
+    # Push DataLoader workers up so the CPU trainer isn't bottlenecked on the
+    # main process for batch fetching. ~1/4 of logical cores leaves the rest
+    # for the model forward/backward.
+    cpu_count = os.cpu_count() or 4
+    training["num_workers"] = max(2, min(8, cpu_count // 4))
+    training["persistent_workers"] = True
+    cpu_config["training"] = training
+    return cpu_config
+
+
+def _maximize_cpu_threads() -> None:
+    """Lift PyTorch's intra-op thread count to use hyperthreads during CPU fallback.
+
+    PyTorch defaults to physical-core count; on an 8c/16t box that leaves half
+    the logical CPUs idle. Override (still respects user override via env).
+    """
+    if os.environ.get("OMP_NUM_THREADS") or os.environ.get("MKL_NUM_THREADS"):
+        return
+    cpu_count = os.cpu_count() or 1
+    try:
+        torch.set_num_threads(cpu_count)
+    except Exception as exc:
+        print(f"[oom-fallback] could not set torch num_threads={cpu_count}: {exc}", file=sys.stderr)
+        return
+    try:
+        torch.set_num_interop_threads(max(2, cpu_count // 4))
+    except Exception:
+        pass
+    print(f"[oom-fallback] torch CPU threads set to {cpu_count} (logical cores)", file=sys.stderr)
+
+
+def _total_system_ram_bytes() -> int | None:
+    try:
+        page_size = os.sysconf("SC_PAGE_SIZE")
+        total_pages = os.sysconf("SC_PHYS_PAGES")
+    except (ValueError, OSError):
+        return None
+    return int(page_size) * int(total_pages)
+
+
+def _apply_cpu_fallback_heap_cap() -> None:
+    """Best-effort guard so CPU fallback can't eat the whole desktop's RAM.
+
+    Cap is sized off TOTAL physical RAM (not free RAM at fallback time, which
+    is artificially low because CUDA still holds memory). Uses RLIMIT_DATA so
+    any lingering CUDA VA reservations don't trip the cap. Floor of 16 GiB so
+    we never starve the rebuild more than CUDA already did.
+    """
+    cap_env = os.environ.get("CHESS_NN_CPU_FALLBACK_RAM_BYTES", "").strip()
+    if cap_env:
+        try:
+            cap_bytes = int(cap_env)
+        except ValueError:
+            return
+    else:
+        total = _total_system_ram_bytes()
+        if total is None or total <= 0:
+            return
+        cap_bytes = max(int(total * 0.6), 16 * 1024 * 1024 * 1024)
+    if cap_bytes <= 0:
+        return
+    try:
+        soft, hard = resource.getrlimit(resource.RLIMIT_DATA)
+    except (ValueError, OSError):
+        return
+    new_hard = hard if hard != resource.RLIM_INFINITY and hard < cap_bytes else cap_bytes
+    try:
+        resource.setrlimit(resource.RLIMIT_DATA, (cap_bytes, new_hard))
+    except (ValueError, OSError) as exc:
+        print(f"[oom-fallback] could not set RLIMIT_DATA={cap_bytes}: {exc}", file=sys.stderr)
+        return
+    gib = cap_bytes / (1024 ** 3)
+    print(f"[oom-fallback] RLIMIT_DATA capped at {cap_bytes} bytes ({gib:.1f} GiB) for CPU fallback", file=sys.stderr)
+
+
 def train_from_config(config: dict[str, Any]) -> Path:
-    return Trainer(config).fit()
+    requested_device = str(config.get("device", "auto")).strip().lower()
+    cpu_only = requested_device == "cpu"
+    fallback_disabled = bool(os.environ.get("CHESS_NN_DISABLE_CPU_FALLBACK", "").strip())
+    try:
+        return Trainer(config).fit()
+    except BaseException as exc:
+        if cpu_only or fallback_disabled or not _is_cuda_oom(exc):
+            if fallback_disabled and _is_cuda_oom(exc):
+                print(
+                    f"[oom-fallback] CUDA OOM and CHESS_NN_DISABLE_CPU_FALLBACK set; failing task.",
+                    file=sys.stderr,
+                    flush=True,
+                )
+            raise
+        print(
+            f"[oom-fallback] CUDA out of memory: {exc}. Retrying on CPU.",
+            file=sys.stderr,
+            flush=True,
+        )
+        _release_cuda_memory()
+    _apply_cpu_fallback_heap_cap()
+    _maximize_cpu_threads()
+    cpu_config = _force_cpu_config(config)
+    return Trainer(cpu_config).fit()
