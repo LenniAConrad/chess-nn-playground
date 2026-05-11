@@ -51,18 +51,19 @@ EXAMPLES = [
 
 def crtk_render(fen: str, best_uci: str, out_path: Path, size: int = 480,
                 accent: str = ACCENT):
-    """Invoke `crtk fen render` to produce a green-tinted PNG with an arrow.
+    """Invoke `crtk fen render` to produce a green-tinted PNG.
 
-    The crtk launcher cd's into its own repo root, so we pass an absolute
-    output path.
+    The best move is intentionally NOT drawn as an arrow on the board ---
+    it is reported in algebraic notation under the figure caption instead,
+    so the reader sees the bare position.
     """
+    del best_uci  # kept in EXAMPLES for the JSON sidecar; not rendered
     out_path.parent.mkdir(parents=True, exist_ok=True)
     cmd = [
         "crtk", "fen", "render",
         "--fen", fen,
         "--output", str(out_path.resolve()),
         "--format", "png",
-        "--arrow", best_uci,
         "--accent", accent,
         "--size", str(size),
     ]
