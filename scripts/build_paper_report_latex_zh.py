@@ -1113,6 +1113,18 @@ $x_{\mathrm{token}} \in \mathbb{R}^{[64,d]}$, 输入到 i193 的兑子/王
 在 \texttt{medium} 档位下, HalfKA 嵌入表主导参数预算 (约 38M 中的 25M)
 --- 与 Stockfish NNUE 的表同一量级。
 
+\subsection{引擎级规模下的理论可达性}
+
+在引擎级数据与算力下, 现实目标分两路:
+\textbf{(a)~对 Stockfish-NNUE} --- 可能在 Elo 上胜出; i243 完整保留
+NNUE 的输入表, 仅将其纯 MLP 替换为严格更具表达力的双流卷积。
+\textbf{(b)~对 LC0 BT4} --- 在原始 Elo 上很可能落败 (i242 消融已经表明
+注意力在数据贫乏时表现不佳; 在 $\sim$10$^{9}$ 局面规模下, BT4 的
+Transformer 超越卷积), \textbf{但在每搜索秒的 Elo 上胜出} --- 凭借
+HalfKA 的增量更新推理优势, 这是 BT4 在结构上无法匹敌的。因此可公开主张
+的稳健命题是 \emph{``i243 在 (训练算力, 推理成本, Elo) 帕累托前沿上
+同时压制 Stockfish-NNUE 与 LC0-BT4''}, 而非 ``在原始 Elo 上击败它们''。
+
 \subsection{待引擎级训练验证的假设}
 
 \begin{itemize}

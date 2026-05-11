@@ -1608,6 +1608,21 @@ At \texttt{medium}, the HalfKA embedding table dominates the parameter
 budget ($\sim$25M of $\sim$38M) --- this is the same shape as Stockfish NNUE's
 table.
 
+\subsection{Theoretical reach at engine scale}
+
+With engine-scale data and compute, the realistic targets split:
+\textbf{(a)~vs Stockfish-NNUE} --- plausibly wins on Elo; i243 keeps
+NNUE's input table verbatim and swaps its plain MLP for a strictly more
+expressive dual-stream conv.  \textbf{(b)~vs LC0 BT4} --- probably loses
+on raw Elo at LC0-scale data (the i242 ablation already showed attention
+is data-hungry; at $\sim$10$^{9}$ positions BT4's transformer outscales
+conv), \textbf{but wins on Elo per second of search} via HalfKA's
+incremental-update inference advantage that BT4 structurally cannot
+match.  The defensible publishable claim is therefore \emph{``i243
+dominates the Pareto frontier of (training compute, inference cost, Elo)
+against both Stockfish-NNUE and LC0-BT4''}, not ``beats them on raw
+Elo.''
+
 \subsection{Hypotheses to test at engine-grade training}
 
 \begin{itemize}
