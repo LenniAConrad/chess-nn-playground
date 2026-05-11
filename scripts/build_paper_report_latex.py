@@ -1047,24 +1047,24 @@ def main() -> int:
 % TITLE PAGE (page 1)
 % =============================================================================
 \thispagestyle{empty}
-\vspace*{1.2cm}
+\vspace*{0.3cm}
 \noindent{\sffamily\color{muted}\bfseries\small RESEARCH REPORT \quad$\cdot$\quad CHESS-NN-PLAYGROUND}
 
-\vspace{0.5cm}
-\noindent{\fontfamily{lmr}\fontsize{36pt}{42pt}\selectfont\bfseries\color{deepforest} Architecture Scout}
+\vspace{0.18cm}
+\noindent{\fontfamily{lmr}\fontsize{28pt}{32pt}\selectfont\bfseries\color{deepforest} Architecture Scout}
+
+\vspace{0.10cm}
+\noindent{\fontfamily{lmr}\itshape\small\color{muted} A 234-model survey of bespoke chess-evaluation architectures, with apples-to-apples comparisons across difficulty, phase, eval bucket, and tactic motif.}
 
 \vspace{0.25cm}
-\noindent{\fontfamily{lmr}\itshape\large\color{muted} A 234-model survey of bespoke chess-evaluation architectures, with apples-to-apples comparisons across difficulty, phase, eval bucket, and tactic motif.}
+\noindent{\color{rule}\rule{\linewidth}{1.0pt}}
 
-\vspace{0.6cm}
-\noindent{\color{rule}\rule{\linewidth}{1.4pt}}
-
-\vspace{0.7cm}
+\vspace{0.25cm}
 \noindent
-\begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{20pt}}>{\sffamily\small\color{muted}}p{0.74\linewidth}}
+{\setlength{\extrarowheight}{0pt}\begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{18pt}}>{\sffamily\footnotesize\color{muted}}p{0.74\linewidth}}
 AUTHOR & Lennart Axel Conrad \quad (Student ID: 2025080264) \\
 AFFILIATION & Zijing College, Tsinghua University \\
-SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\[6pt]
+SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\[3pt]
 SCOUT DATE & 2026-05-09 to 2026-05-10 \\
 TASK & puzzle\_binary (single positive logit, BCE loss) \\
 DATASET & CRTK-tagged 3-class split (\textasciitilde 173k train / \textasciitilde 21k val / \textasciitilde 21k test, zero FEN overlap) \\
@@ -1072,51 +1072,34 @@ HARDWARE & RTX 3070 (8 GiB) --- single GPU, single seed (42), base scale \\
 BUDGET & 12 epochs max, patience 3, 60-min wall per task, CUDA only \\
 GENERATED & """ + today + r""" \\
 REPOSITORY & \href{https://github.com/LenniAConrad/chess-nn-playground}{github.com/LenniAConrad/chess-nn-playground} \\
-\end{tabular}
+\end{tabular}}
 
-\vspace{1.0cm}
+\vspace{0.25cm}
 
-\begin{tcolorbox}[callout, title=What this work is]
+{\begin{tcolorbox}[callout, title=What this work is, fontupper=\footnotesize, top=2pt, bottom=2pt]
 We compare bespoke chess-evaluation architectures on a single small-scale
-binary task (\emph{puzzle vs non-puzzle}) to identify \textbf{which
-structural priors a chess engine should actually use}.  ``Best'' is
-judged on two axes simultaneously:
-\begin{itemize}
-\item \textbf{Sample efficiency} --- test PR AUC at a fixed training
-  budget.  Drives Elo per training position.
-\item \textbf{Inference speed} --- network evaluations per second on a
-  fixed GPU.  Drives Elo per second of search.  For an MCTS engine
-  running thousands of nodes per move, a 2$\times$ speed edge is
-  typically worth more than a 30-Elo accuracy edge.
-\end{itemize}
-\noindent
-The scout (this report) uses puzzle\_binary as a small-scale proxy; the
-engine-relevant outcome is the i243 proposal (\S\ref{sec:i243}) that
-composes the surviving priors for engine-grade training.
-\end{tcolorbox}
+binary task (\emph{puzzle vs non-puzzle}) to identify \textbf{which structural
+priors a chess engine should actually use}.  ``Best'' is judged on two axes:
+\textbf{sample efficiency} (test PR AUC per training position, drives Elo per
+sample) and \textbf{inference speed} (evals/s, drives Elo per second of
+search --- for MCTS engines running thousands of nodes per move, a 2$\times$
+speed edge typically beats a 30-Elo accuracy edge).  The engine-relevant
+outcome is the i243 proposal (\S\ref{sec:i243}).
+\end{tcolorbox}}
 
-\vspace{6pt}
+\vspace{4pt}
 
 \section*{\color{forest} Executive summary}
-\vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{8pt}
+\vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{6pt}
 
-\begin{lead}
-234 bespoke chess architectures were trained once each at small scale on a
-puzzle-detection task. \textbf{""" + str(state_summary["completed"]) + r"""} produced usable
-results; """ + str(state_summary["failed"]) + r""" crashed on code bugs (""" + f"{failed_pct:.0f}" + r"""\%);
-""" + str(state_summary["timeout"]) + r""" hit the 60-minute training wall (""" + f"{timeout_pct:.0f}" + r"""\%).
-\end{lead}
+{\footnotesize\itshape\color{muted}234 bespoke chess architectures were trained once each at small scale on a puzzle-detection task. \textbf{""" + str(state_summary["completed"]) + r"""} produced usable results; """ + str(state_summary["failed"]) + r""" crashed on code bugs (""" + f"{failed_pct:.0f}" + r"""\%); """ + str(state_summary["timeout"]) + r""" hit the 60-minute training wall (""" + f"{timeout_pct:.0f}" + r"""\%).\par}
 
+\vspace{4pt}
 """ + stats_block + r"""
 
-\begin{tcolorbox}[goodcallout, title=Headline finding]
-\texttt{""" + winner_short + r"""} wins by a clear margin
-(\textbf{""" + f"{winner['test_pr_auc']:.4f}" + r"""} test PR AUC,
-$+""" + f"{margin:.3f}" + r"""$ over \#2 at the same parameter budget). Its dual-stream
-architecture --- one branch for tactical exchanges, one for king safety --- is
-the largest within-encoding architectural margin in the entire scout pool, and
-the only architecture that empirically moves the leaderboard above the natural
-$\sim$0.86 ceiling shared by all generic backbones.
+\vspace{-2pt}
+\begin{tcolorbox}[goodcallout, title=Headline finding, fontupper=\footnotesize, top=2pt, bottom=2pt]
+\texttt{""" + winner_short + r"""} wins by a clear margin (\textbf{""" + f"{winner['test_pr_auc']:.4f}" + r"""} test PR AUC, $+""" + f"{margin:.3f}" + r"""$ over \#2 at the same parameter budget).  Its dual-stream architecture --- one branch for tactical exchanges, one for king safety --- is the largest within-encoding architectural margin in the entire scout pool, and the only architecture that empirically moves the leaderboard above the natural $\sim$0.86 ceiling shared by all generic backbones.
 \end{tcolorbox}
 
 \clearpage

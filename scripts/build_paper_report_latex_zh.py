@@ -712,24 +712,24 @@ def main() -> int:
 \begin{document}
 
 \thispagestyle{empty}
-\vspace*{1.2cm}
+\vspace*{0.3cm}
 \noindent{\sffamily\color{muted}\bfseries\small 研究报告 \quad$\cdot$\quad chess-nn-playground}
 
-\vspace{0.5cm}
-\noindent{\fontfamily{lmr}\fontsize{36pt}{42pt}\selectfont\bfseries\color{deepforest} 架构侦察}
+\vspace{0.18cm}
+\noindent{\fontfamily{lmr}\fontsize{28pt}{32pt}\selectfont\bfseries\color{deepforest} 架构侦察}
+
+\vspace{0.10cm}
+\noindent{\fontfamily{lmr}\itshape\small\color{muted} 234 个国际象棋评估架构的扫描研究, 横跨难度、阶段、评估桶与战术主题的同任务对比。}
 
 \vspace{0.25cm}
-\noindent{\fontfamily{lmr}\itshape\large\color{muted} 234 个国际象棋评估架构的扫描研究, 横跨难度、阶段、评估桶与战术主题的同任务对比。}
+\noindent{\color{rule}\rule{\linewidth}{1.0pt}}
 
-\vspace{0.6cm}
-\noindent{\color{rule}\rule{\linewidth}{1.4pt}}
-
-\vspace{0.7cm}
+\vspace{0.25cm}
 \noindent
-\begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{20pt}}>{\sffamily\small\color{muted}}p{0.74\linewidth}}
+{\setlength{\extrarowheight}{0pt}\begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{18pt}}>{\sffamily\footnotesize\color{muted}}p{0.74\linewidth}}
 作者 & Lennart Axel Conrad \quad (学号: 2025080264) \\
 所属单位 & 清华大学紫荆书院 \\
-指导教师 & 韩军功教授 \quad (清华大学自动化系) \\[6pt]
+指导教师 & 韩军功教授 \quad (清华大学自动化系) \\[3pt]
 侦察日期 & 2026-05-09 至 2026-05-10 \\
 任务 & puzzle\_binary (单正 logit, BCE 损失) \\
 数据集 & CRTK 标注的 3 类切分 (约 173k 训练 / 21k 验证 / 21k 测试, FEN 零重叠) \\
@@ -737,39 +737,32 @@ def main() -> int:
 预算 & 最多 12 epoch, patience 3, 每任务 60 分钟墙时, 仅 CUDA \\
 生成日期 & """ + today + r""" \\
 代码仓库 & \href{https://github.com/LenniAConrad/chess-nn-playground}{github.com/LenniAConrad/chess-nn-playground} \\
-\end{tabular}
+\end{tabular}}
 
-\vspace{1.0cm}
+\vspace{0.25cm}
 
-\begin{tcolorbox}[callout, title=本工作要做什么]
+{\begin{tcolorbox}[callout, title=本工作要做什么, fontupper=\footnotesize, top=2pt, bottom=2pt]
 我们在一个小规模二分类任务 (\emph{谜题 vs 非谜题}) 上比较一系列国际象棋
 评估架构, 用以识别\textbf{国际象棋引擎实际上应该采用哪些结构性先验}。
-``最佳''由两条维度同时衡量:
-\begin{itemize}
-\item \textbf{样本效率} --- 在固定训练预算下的测试 PR AUC, 决定每训练
-  样本能换到多少 Elo。
-\item \textbf{推理速度} --- 在固定 GPU 上每秒的网络评估次数, 决定每搜索
-  秒能换到多少 Elo。对于在每步走子上跑数千节点的 MCTS 引擎, 2$\times$
-  的速度优势通常比 30 Elo 的准确率优势更值得。
-\end{itemize}
-\noindent
-本侦察 (本报告) 使用 puzzle\_binary 作为小规模代理任务; 与引擎相关的最终
-产出是 i243 提案 (\S\ref{sec:i243}), 它将存活下来的先验组合成可在引擎级
-规模下训练的架构。
-\end{tcolorbox}
+``最佳''由两条维度衡量: \textbf{样本效率} (固定训练预算下的测试 PR AUC,
+决定每训练样本可换的 Elo) 与 \textbf{推理速度} (每秒评估次数, 决定每搜索秒
+可换的 Elo --- 对于在每步走子上跑数千节点的 MCTS 引擎, 2$\times$ 的速度
+优势通常胜过 30 Elo 的准确率优势)。与引擎相关的最终产出是
+i243 提案 (\S\ref{sec:i243})。
+\end{tcolorbox}}
 
-\vspace{6pt}
+\vspace{4pt}
 
 \section*{\color{forest} 摘要}
-\vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{8pt}
+\vspace{-6pt}{\color{linecolor}\hrule height 0.6pt}\vspace{6pt}
 
-\begin{lead}
-234 个国际象棋评估架构各自被训练一次, 规模较小, 用于谜题检测任务。\textbf{""" + str(state_summary["completed"]) + r"""} 个产出可用结果; """ + str(state_summary["failed"]) + r""" 个因代码错误崩溃 (""" + f"{failed_pct:.0f}" + r"""\%); """ + str(state_summary["timeout"]) + r""" 个超过 60 分钟训练时限 (""" + f"{timeout_pct:.0f}" + r"""\%)。
-\end{lead}
+{\footnotesize\itshape\color{muted}234 个国际象棋评估架构各自被训练一次, 规模较小, 用于谜题检测任务。\textbf{""" + str(state_summary["completed"]) + r"""} 个产出可用结果; """ + str(state_summary["failed"]) + r""" 个因代码错误崩溃 (""" + f"{failed_pct:.0f}" + r"""\%); """ + str(state_summary["timeout"]) + r""" 个超过 60 分钟训练时限 (""" + f"{timeout_pct:.0f}" + r"""\%)。\par}
 
+\vspace{4pt}
 """ + stats_block + r"""
 
-\begin{tcolorbox}[goodcallout, title=核心发现]
+\vspace{-2pt}
+\begin{tcolorbox}[goodcallout, title=核心发现, fontupper=\footnotesize, top=2pt, bottom=2pt]
 \texttt{""" + winner_short + r"""} 以明显优势领先 (\textbf{""" + f"{winner['test_pr_auc']:.4f}" + r"""} 测试 PR AUC, 比第二名高出 $+""" + f"{margin:.3f}" + r"""$, 且参数预算相同)。其双流架构 --- 一条用于战术兑子, 一条用于王安全 --- 是整个侦察池中编码相同条件下最大的架构差距, 也是唯一能在经验上将排行榜推高到所有通用主干自然 $\sim$0.86 上限之上的架构。
 \end{tcolorbox}
 
