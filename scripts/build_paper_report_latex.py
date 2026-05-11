@@ -1145,28 +1145,31 @@ per-slice heatmap (next section) cuts the leaderboard along.
 \begin{minipage}[t]{0.32\linewidth}\centering
 \includegraphics[width=\linewidth]{reports/audits/puzzle_class_0.png}\\[2pt]
 {\sffamily\bfseries\small\color{forest}Class 0 --- random\_position}\\
-{\scriptsize\color{muted}\texttt{8/2r3pk/...K2P/1R4P1/8 b}}\\
-{\scriptsize\color{muted}arrow: Nc4+ (random midgame sample, no curated puzzle)}
+{\scriptsize\color{muted}\texttt{6k1/p1p1Rpp1/...PP/2K5 w}}\\
+{\scriptsize\color{muted}arrow: Bxd3 (random midgame sample, no unique puzzle)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.32\linewidth}\centering
 \includegraphics[width=\linewidth]{reports/audits/puzzle_class_1.png}\\[2pt]
 {\sffamily\bfseries\small\color{forest}Class 1 --- near-puzzle}\\
-{\scriptsize\color{muted}\texttt{rq2kb1r/...P3BPPP/R2QK2R b}}\\
-{\scriptsize\color{muted}arrow: exf4 (pv\_gap = 124 cp; not unique-solution)}
+{\scriptsize\color{muted}\texttt{5rk1/6p1/2Qbp2p/.../3R2K1 w}}\\
+{\scriptsize\color{muted}arrow: fxe3 (pv\_gap = 115 cp; not unique)}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.32\linewidth}\centering
 \includegraphics[width=\linewidth]{reports/audits/puzzle_class_2.png}\\[2pt]
 {\sffamily\bfseries\small\color{forest}Class 2 --- puzzle}\\
-{\scriptsize\color{muted}\texttt{rq2kb1r/...P3BPPP/R1Q1K2R b}}\\
-{\scriptsize\color{muted}arrow: Nxe5 (pv\_gap = 1036 cp; unique winning move)}
+{\scriptsize\color{muted}\texttt{5rk1/6p1/2Qbp2p/.../3R2K1 w}}\\
+{\scriptsize\color{muted}arrow: dxe5 (pv\_gap = 1179 cp; unique winner)}
 \end{minipage}
 \caption{One representative example per class, rendered with
-\texttt{crtk fen render}.  \textbf{The class~1 and class~2 boards share
-the same CRTK sister parent} (\texttt{crtk\_parent\_-1001373292417858425}):
-the only structural difference is whether \texttt{Bxe5} has been played.
-This makes the discriminator that distinguishes near-puzzle from puzzle
-as small as the data allows --- a near-perfect ablation of the
-``unique-solution'' property.}
+\texttt{crtk fen render} and recolored to the report palette.  All three
+positions are \textbf{White to move}.  \textbf{The class~1 and class~2
+boards share the same CRTK sister parent}
+(\texttt{crtk\_parent\_-1001554678727017229}): the only structural
+difference is that in class~2 Black has captured into e5, turning the
+position into a unique tactical win for White (\texttt{dxe5}~$\to$ wins
+the queen).  This pairs the near-puzzle and the puzzle as tightly as the
+data allows --- the same continuation up to one move, with the
+binary label flipping on the uniqueness of the response.}
 \end{figure}
 
 \begin{tcolorbox}[callout, title=Why this three-way structure matters]
