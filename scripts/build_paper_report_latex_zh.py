@@ -729,8 +729,7 @@ def main() -> int:
 \begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{20pt}}>{\sffamily\small\color{muted}}p{0.74\linewidth}}
 作者 & Lennart Axel Conrad \quad (学号: 2025080264) \\
 所属单位 & 清华大学紫荆书院 \\
-指导教师 & 韩军功教授 \quad (清华大学自动化系) \\
-\hline\rule{0pt}{2.6ex}
+指导教师 & 韩军功教授 \quad (清华大学自动化系) \\[6pt]
 侦察日期 & 2026-05-09 至 2026-05-10 \\
 任务 & puzzle\_binary (单正 logit, BCE 损失) \\
 数据集 & CRTK 标注的 3 类切分 (约 173k 训练 / 21k 验证 / 21k 测试, FEN 零重叠) \\

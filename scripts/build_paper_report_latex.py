@@ -1064,8 +1064,7 @@ def main() -> int:
 \begin{tabular}{>{\sffamily\bfseries\scriptsize\color{ink}}l@{\hspace{20pt}}>{\sffamily\small\color{muted}}p{0.74\linewidth}}
 AUTHOR & Lennart Axel Conrad \quad (Student ID: 2025080264) \\
 AFFILIATION & Zijing College, Tsinghua University \\
-SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\
-\hline\rule{0pt}{2.6ex}
+SUPERVISOR & Prof.\ Jungong Han \quad (Department of Automation, Tsinghua University) \\[6pt]
 SCOUT DATE & 2026-05-09 to 2026-05-10 \\
 TASK & puzzle\_binary (single positive logit, BCE loss) \\
 DATASET & CRTK-tagged 3-class split (\textasciitilde 173k train / \textasciitilde 21k val / \textasciitilde 21k test, zero FEN overlap) \\
