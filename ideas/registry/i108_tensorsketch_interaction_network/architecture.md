@@ -51,7 +51,7 @@ source packet (`degree1_only`, `degree2_only`, sign reshuffles).
 ## Implementation Binding
 
 - Registered model name: `tensorsketch_interaction_network`.
-- Source implementation file: `src/chess_nn_playground/models/tensorsketch_interaction_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tensorsketch_interaction_network.py`.
 - Idea-local wrapper: `ideas/registry/i108_tensorsketch_interaction_network/model.py` (a
   thin `build_model_from_config` over
   `build_tensorsketch_interaction_network_from_config`; no

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.counterfactual_move_delta_spectrum import (
+from chess_nn_playground.models.trunk.counterfactual_move_delta_spectrum import (
     MoveDeltaSpectrumNet,
     build_counterfactual_move_delta_spectrum_network_from_config,
 )

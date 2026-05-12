@@ -16,7 +16,7 @@ The model is board-only: CRTK, engine, verification, and source metadata are rep
 ## Implementation Binding
 
 - Registered model name: `king_anchored_material_null_transport_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/king_anchored_material_null_transport.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/king_anchored_material_null_transport.py`
 - Idea-local wrapper: `ideas/registry/i032_king_anchored_material_null_transport_bottleneck/model.py`
 
 The wrapper calls `build_king_anchored_material_null_transport_bottleneck_from_config` with the idea's `model:` config block. The registry key `king_anchored_material_null_transport_bottleneck` resolves to the same builder, so `build_model(name, model_cfg)` and the idea wrapper produce equivalent modules.

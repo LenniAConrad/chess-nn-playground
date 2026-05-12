@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/hall_defect_obligation_matroid.py`.
+- Central code: `src/chess_nn_playground/models/trunk/hall_defect_obligation_matroid.py`.
 - Registry key: `hall_defect_obligation_matroid_network`.
 - Idea wrapper: `ideas/registry/i053_hall_defect_obligation_matroid_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0813_tuesday_los_angeles_hall_defect.md`.

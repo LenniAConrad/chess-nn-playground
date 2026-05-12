@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.king_anchored_material_null_transport import (
+from chess_nn_playground.models.trunk.king_anchored_material_null_transport import (
     KingAnchoredMaterialNullTransportBottleneck,
     build_king_anchored_material_null_transport_bottleneck_from_config,
 )

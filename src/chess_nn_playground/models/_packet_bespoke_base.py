@@ -12,7 +12,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-from chess_nn_playground.models.idea_blocks import (
+from chess_nn_playground.models.trunk.idea_blocks import (
     BoardConvStem,
     BoardTensorSpec,
     require_board_tensor,

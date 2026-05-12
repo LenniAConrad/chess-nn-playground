@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/forcing_response_front_door_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/forcing_response_front_door_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i081_forcing_response_front_door_bottleneck/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_forcing_response_front_door_bottleneck_from_config`.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.boundary_condition_disagreement_cnn import (
+from chess_nn_playground.models.trunk.boundary_condition_disagreement_cnn import (
     BoundaryConditionDisagreementCNN,
     build_boundary_condition_disagreement_cnn_from_config,
 )

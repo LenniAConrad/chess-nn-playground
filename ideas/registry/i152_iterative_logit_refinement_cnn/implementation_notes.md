@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Bespoke implementation:
-  `src/chess_nn_playground/models/iterative_logit_refinement_cnn.py`
+  `src/chess_nn_playground/models/trunk/iterative_logit_refinement_cnn.py`
   (`IterativeLogitRefinementCNN`,
   `build_iterative_logit_refinement_cnn_from_config`).
 - Registry key: `iterative_logit_refinement_cnn`

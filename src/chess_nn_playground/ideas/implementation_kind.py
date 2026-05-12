@@ -51,11 +51,11 @@ OTHER_SHARED_SCAFFOLD_MODEL_NAMES = {
 }
 
 OTHER_SHARED_SCAFFOLD_MODULES = {
-    "chess_nn_playground.models.cnn",
-    "chess_nn_playground.models.lc0_bt4",
-    "chess_nn_playground.models.mlp",
-    "chess_nn_playground.models.nnue",
-    "chess_nn_playground.models.residual_cnn",
+    "chess_nn_playground.models.trunk.cnn",
+    "chess_nn_playground.models.trunk.lc0_bt4",
+    "chess_nn_playground.models.trunk.mlp",
+    "chess_nn_playground.models.trunk.nnue",
+    "chess_nn_playground.models.trunk.residual_cnn",
 }
 
 SCAFFOLD_ONLY_NOTICE_HEADING = "## Scaffold-Only Implementation Notice"

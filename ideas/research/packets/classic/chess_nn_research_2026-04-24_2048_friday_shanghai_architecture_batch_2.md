@@ -118,7 +118,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/parity_syndrome.py`
+- Model file: `src/chess_nn_playground/models/trunk/parity_syndrome.py`
 - Registry name: `parity_syndrome_bottleneck`
 - Main config: `configs/bench_parity_syndrome_simple18.yaml`
 - Central ablation config: `configs/bench_parity_syndrome_sum_checks.yaml`
@@ -245,7 +245,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/convex_feasibility.py`
+- Model file: `src/chess_nn_playground/models/trunk/convex_feasibility.py`
 - Registry name: `convex_feasibility_residual`
 - Main config: `configs/bench_convex_feasibility_simple18.yaml`
 - Central ablation config: `configs/bench_convex_feasibility_no_projection.yaml`
@@ -304,7 +304,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/rank_quantile.py`
+- Model file: `src/chess_nn_playground/models/trunk/rank_quantile.py`
 - Registry name: `rank_quantile_evidence`
 - Main config: `configs/bench_rank_quantile_simple18.yaml`
 - Keep the first implementation simple: exact sort over 64 values is deterministic and cheap.
@@ -369,7 +369,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/oriented_matroid_covector.py`
+- Model file: `src/chess_nn_playground/models/trunk/oriented_matroid_covector.py`
 - Registry name: `oriented_matroid_covector`
 - Main config: `configs/bench_oriented_matroid_covector_simple18.yaml`
 - This is higher risk than parity or wavelet; implement after at least one cheaper idea.

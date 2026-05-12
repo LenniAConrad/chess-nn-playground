@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke architecture: `src/chess_nn_playground/models/tempo_odd_bottleneck.py` (`TempoOddBottleneckNet`).
+- Bespoke architecture: `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py` (`TempoOddBottleneckNet`).
 - Idea-local wrapper: `ideas/registry/i049_tempo_odd_bottleneck_network/model.py` calling `build_tempo_odd_bottleneck_from_config`.
 - Registry key: `tempo_odd_bottleneck_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0755_tuesday_los_angeles_tempo_odd_bottleneck.md`.

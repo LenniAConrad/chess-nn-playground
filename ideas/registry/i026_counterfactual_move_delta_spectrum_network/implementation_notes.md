@@ -1,11 +1,11 @@
 # Implementation Notes
 
 - Registered model name: `counterfactual_move_delta_spectrum_network`.
-- Source: `src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py`.
+- Source: `src/chess_nn_playground/models/trunk/counterfactual_move_delta_spectrum.py`.
 - Idea-local wrapper: `ideas/registry/i026_counterfactual_move_delta_spectrum_network/model.py`.
 - Reused primitives:
   - `Simple18BoardAdapter` and `PseudoLegalDeltaEnumerator` from
-    `src/chess_nn_playground/models/move_landscape_net.py`. They provide the
+    `src/chess_nn_playground/models/trunk/move_landscape_net.py`. They provide the
     rule-only `simple_18` parser and the deterministic pseudo-legal delta
     enumerator used by both i025 and i026. Their semantics are validated by
     the i025 tests; this idea reuses them rather than re-implementing chess

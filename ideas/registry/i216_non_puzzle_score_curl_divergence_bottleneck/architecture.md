@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `non_puzzle_score_curl_divergence_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/non_puzzle_score_curl_divergence.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/non_puzzle_score_curl_divergence.py`
 - Idea-local wrapper: `ideas/registry/i216_non_puzzle_score_curl_divergence_bottleneck/model.py`

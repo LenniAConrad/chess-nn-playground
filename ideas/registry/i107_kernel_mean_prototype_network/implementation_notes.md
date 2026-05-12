@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/kernel_mean_prototype_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/kernel_mean_prototype_network.py`.
 - Idea-local wrapper: `ideas/registry/i107_kernel_mean_prototype_network/model.py`.
 - Registry key: `kernel_mean_prototype_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`.

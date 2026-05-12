@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.orthogonal_board_moment_network import (
+from chess_nn_playground.models.trunk.orthogonal_board_moment_network import (
     OrthogonalBoardMomentNetwork,
     build_orthogonal_board_moment_network_from_config,
 )

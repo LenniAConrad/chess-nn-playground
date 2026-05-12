@@ -171,5 +171,5 @@ The packet's required ablations are exposed via `model.ablation`:
 ## Implementation Binding
 
 - Registered model name: `causal_piece_derivative_network`
-- Source implementation file: `src/chess_nn_playground/models/causal_piece_derivative_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/causal_piece_derivative_network.py`
 - Idea-local wrapper: `ideas/registry/i179_causal_piece_derivative_network/model.py`

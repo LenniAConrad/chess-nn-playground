@@ -57,7 +57,7 @@ model.
 ## Implementation status
 
 The architecture above is implemented as a bespoke PyTorch model in
-`src/chess_nn_playground/models/ring_shell_recurrent_boardnet.py`,
+`src/chess_nn_playground/models/trunk/ring_shell_recurrent_boardnet.py`,
 registered under the model name `ring_shell_recurrent_boardnet` and
 wrapped by `ideas/registry/i168_ring_shell_recurrent_boardnet/model.py`. It is no
 longer a `ResearchPacketProbe` scaffold.

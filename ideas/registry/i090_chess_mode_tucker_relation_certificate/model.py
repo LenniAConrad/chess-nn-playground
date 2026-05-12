@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.chess_mode_tucker_relation_certificate import (
+from chess_nn_playground.models.trunk.chess_mode_tucker_relation_certificate import (
     ChessModeTuckerRelationCertificate,
     build_chess_mode_tucker_relation_certificate_from_config,
 )

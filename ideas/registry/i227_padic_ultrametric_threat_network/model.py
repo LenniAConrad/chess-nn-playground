@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.padic_ultrametric_threat import (
+from chess_nn_playground.models.trunk.padic_ultrametric_threat import (
     build_padic_ultrametric_threat_network_from_config,
 )
 

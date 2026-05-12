@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/sparse_expert_board_router.py` (`SparseExpertBoardRouter`).
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/sparse_expert_board_router.py` (`SparseExpertBoardRouter`).
 - Idea-local wrapper: `ideas/registry/i123_sparse_expert_board_router/model.py` calls `build_sparse_expert_board_router_from_config`.
 - Registry key: `sparse_expert_board_router` (registered in `chess_nn_playground.models.registry.MODEL_BUILDERS` and removed from `RESEARCH_PACKET_MODEL_NAMES`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.

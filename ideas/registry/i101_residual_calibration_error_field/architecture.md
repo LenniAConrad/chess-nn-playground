@@ -54,5 +54,5 @@ repository's BCE puzzle-binary trainer.
 ## Implementation Binding
 
 - Registered model name: `residual_calibration_error_field`
-- Source implementation file: `src/chess_nn_playground/models/residual_calibration.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/residual_calibration.py`
 - Idea-local wrapper: `ideas/registry/i101_residual_calibration_error_field/model.py`

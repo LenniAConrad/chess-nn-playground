@@ -12,7 +12,7 @@ embedding.
 ## Implementation Binding
 
 - Registered model name: `vector_quantized_motif_codebook_net`
-- Source implementation file: `src/chess_nn_playground/models/vector_quantized_motif_codebook_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/vector_quantized_motif_codebook_net.py`
 - Idea-local wrapper: `ideas/registry/i159_vector_quantized_motif_codebook_net/model.py`
 
 ## Modules

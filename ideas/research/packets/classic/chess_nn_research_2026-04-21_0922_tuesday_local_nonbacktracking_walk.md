@@ -113,8 +113,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already present; it tests generic local convolution, not a new tactical dependency operator. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already present; more residual depth would be routine architecture scaling. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already present; it tests generic local convolution, not a new tactical dependency operator. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; more residual depth would be routine architecture scaling. |
 | LC0-style CNN or residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already represented; copying LC0-style planes or residual blocks is not a research mechanism. |
 | Ordinary ViT over 64 squares | Common square-token Transformer | Too generic, data-hungry, and explicitly disallowed as a core idea. |
 | Plain GNN on 64 board squares | Generic graph neural net over king/rook/bishop/knight neighborhoods | Too close to “put a GNN on the board”; without the non-backtracking edge-state falsifier it is not distinct. |

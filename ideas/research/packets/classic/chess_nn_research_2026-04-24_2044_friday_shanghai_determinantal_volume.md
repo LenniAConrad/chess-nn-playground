@@ -77,8 +77,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and tests learned local texture, not determinant volume collapse. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Extra residual capacity is ordinary scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests learned local texture, not determinant volume collapse. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Extra residual capacity is ordinary scaling. |
 | LC0-style CNN/residual CNN | Existing `lc0_bt4_112` configs | Too close to copied engine-network input conventions and baseline towers. |
 | Vanilla ViT over 64 squares | Common square-token Transformer | Too generic and likely to become attention capacity rather than a falsifiable chess mechanism. |
 | Plain GNN on board adjacency | Generic grid graph network | Too close to ordinary local message passing. |
@@ -255,7 +255,7 @@ Scale if:
 | `ideas/20260424_determinantal_volume/math_thesis.md` | Create | Section 6 thesis. |
 | `ideas/20260424_determinantal_volume/architecture.md` | Create | Section 7 architecture. |
 | `ideas/20260424_determinantal_volume/ablations.md` | Create | Section 9 ablations. |
-| `src/chess_nn_playground/models/determinantal_volume.py` | Create | Token extractor, logdet bottleneck, builder function. |
+| `src/chess_nn_playground/models/trunk/determinantal_volume.py` | Create | Token extractor, logdet bottleneck, builder function. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `determinantal_tactical_volume`. |
 | `configs/bench_determinantal_volume_simple18.yaml` | Create | Main training config. |
 | `configs/bench_determinantal_volume_trace_ablation.yaml` | Create | Central ablation config. |
@@ -292,7 +292,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/bench_determinantal_volume_simple18.yaml
-  model_path: src/chess_nn_playground/models/determinantal_volume.py
+  model_path: src/chess_nn_playground/models/trunk/determinantal_volume.py
   latest_result_path: null
   notes: First experiment should include diagonal-only and material-only controls.
 ```
@@ -336,7 +336,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: determinantal_tactical_volume
-  file_path: src/chess_nn_playground/models/determinantal_volume.py
+  file_path: src/chess_nn_playground/models/trunk/determinantal_volume.py
   builder_function: build_determinantal_tactical_volume_from_config
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

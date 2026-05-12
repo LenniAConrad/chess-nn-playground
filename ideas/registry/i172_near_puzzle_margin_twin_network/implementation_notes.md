@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/near_puzzle_margin_twin_network.py`
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/near_puzzle_margin_twin_network.py`
   (`NearPuzzleMarginTwinNetwork`).
 - Idea-local wrapper: `ideas/registry/i172_near_puzzle_margin_twin_network/model.py`
   delegates to `build_near_puzzle_margin_twin_network_from_config`.

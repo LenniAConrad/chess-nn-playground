@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.attention_disagreement_residual_network import (
+from chess_nn_playground.models.trunk.attention_disagreement_residual_network import (
     AttentionDisagreementResidualNetwork,
     build_attention_disagreement_residual_network_from_config,
 )

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.attack_hodge_sheaf import AttackHodgeSheafNet
-from chess_nn_playground.models.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
+from chess_nn_playground.models.trunk.attack_hodge_sheaf import AttackHodgeSheafNet
+from chess_nn_playground.models.trunk.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> AttackHodgeSheafNet:

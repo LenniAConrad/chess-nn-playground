@@ -25,7 +25,7 @@ trainer_entrypoint: ideas/registry/i023_attack_hodge_sheaf_tension_network/train
 config_path: ideas/registry/i023_attack_hodge_sheaf_tension_network/config.yaml
 model_path: ideas/registry/i023_attack_hodge_sheaf_tension_network/model.py
 latest_result_path: null
-notes: Implemented as the bespoke `attack_hodge_sheaf_tension_network` model in `src/chess_nn_playground/models/attack_hodge_sheaf.py`
+notes: Implemented as the bespoke `attack_hodge_sheaf_tension_network` model in `src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py`
   with an idea-local wrapper. The implementation follows the repo's one-logit
   puzzle_binary contract and uses board tensors only.
 implementation_kind: bespoke_model

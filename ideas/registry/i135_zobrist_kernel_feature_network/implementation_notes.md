@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/zobrist_kernel_feature_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/zobrist_kernel_feature_network.py`.
 - Idea-local wrapper: `ideas/registry/i135_zobrist_kernel_feature_network/model.py`.
 - Registry key: `zobrist_kernel_feature_network` (registered in
   `src/chess_nn_playground/models/registry.py`).

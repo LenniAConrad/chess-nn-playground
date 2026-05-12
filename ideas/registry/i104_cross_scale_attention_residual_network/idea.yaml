@@ -32,7 +32,7 @@ model_path: ideas/registry/i104_cross_scale_attention_residual_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`.
   Bespoke cross-scale attention residual model; idea-local model.py wraps
-  `src/chess_nn_playground/models/cross_scale_attention_residual_network.py`.
+  `src/chess_nn_playground/models/trunk/cross_scale_attention_residual_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md
 source_packet_candidate: Cross-Scale Attention Residual Network
 source_packet_rank: 3

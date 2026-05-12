@@ -58,5 +58,5 @@ Forward returns `logits` plus diagnostics used for ablation and reporting:
 ## Implementation Binding
 
 - Registered model name: `attention_disagreement_residual_network`.
-- Source implementation file: `src/chess_nn_playground/models/attention_disagreement_residual_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/attention_disagreement_residual_network.py`.
 - Idea-local wrapper: `ideas/registry/i103_attention_disagreement_residual_network/model.py`.

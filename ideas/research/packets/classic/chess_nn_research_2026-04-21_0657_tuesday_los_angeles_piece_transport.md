@@ -90,8 +90,8 @@ Candidate search trace before selecting PT-ETB:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Existing simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already implemented; more of it would only test local convolutional capacity. |
-| Existing residual CNN variants | `src/chess_nn_playground/models/residual_cnn.py` | Already implemented; deeper residual stacks are not a new research hypothesis. |
+| Existing simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already implemented; more of it would only test local convolutional capacity. |
+| Existing residual CNN variants | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already implemented; deeper residual stacks are not a new research hypothesis. |
 | LC0-style CNN or residual CNN on `lc0_static_112`/`lc0_bt4_112` | LC0 BT4-style CNN/residual variants | Already in the baseline family; copying LC0-style encoders is explicitly not enough. |
 | Ordinary ViT over 64 square tokens | Vanilla Transformer over board squares | Too generic and explicitly disallowed as the core idea. |
 | Plain GNN on square adjacency | Standard message-passing GNN | Too close to generic graph learning, and if attack edges are added it drifts toward the imported attack/sheaf family. |
@@ -231,7 +231,7 @@ The strongest objection is that optimal transport may learn a polished material/
 
 ### Module names
 
-Implement the model in `src/chess_nn_playground/models/piece_target_transport.py` with these modules:
+Implement the model in `src/chess_nn_playground/models/trunk/piece_target_transport.py` with these modules:
 
 - `PiecePlaneAdapter`
 - `RelativeBoardCanonicalizer`
@@ -551,7 +551,7 @@ Scale the idea only if:
 | `ideas/20260421_0657_piece_transport/config.yaml` | Create | Full experiment config for `simple_18`, model name `piece_target_transport_bottleneck`, transport heads/iterations, and default benchmark split. |
 | `ideas/20260421_0657_piece_transport/report_template.md` | Create | Report skeleton requiring main metrics, `3x2` fine-label matrix, near-puzzle matched-FPR diagnostic, and ablation comparison. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported research memory after implementation, including outcome and anti-duplicate guidance. Preserve all hard leakage/label/falsification constraints. |
-| `src/chess_nn_playground/models/piece_target_transport.py` | Create | Implement `PiecePlaneAdapter`, `RelativeBoardCanonicalizer`, `TypeAwareTransportCost`, `LogSinkhornTransport`, `TransportSummaryProjector`, and `PieceTargetEntropicTransportBottleneck`. |
+| `src/chess_nn_playground/models/trunk/piece_target_transport.py` | Create | Implement `PiecePlaneAdapter`, `RelativeBoardCanonicalizer`, `TypeAwareTransportCost`, `LogSinkhornTransport`, `TransportSummaryProjector`, and `PieceTargetEntropicTransportBottleneck`. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `piece_target_transport_bottleneck` and builder function. |
 | `configs/piece_target_transport_simple18.yaml` | Create | Benchmark config using `simple_18`, current split paths, balanced coarse binary mode, and model defaults. |
 | `tests/test_piece_target_transport.py` | Create | Shape tests: `(B,C,8,8)->(B,2)`, finite logits, deterministic forward with fixed seed, and ablation mode shape compatibility. |
@@ -589,7 +589,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/piece_target_transport_simple18.yaml
-  model_path: src/chess_nn_playground/models/piece_target_transport.py
+  model_path: src/chess_nn_playground/models/trunk/piece_target_transport.py
   latest_result_path: null
   notes: Mandatory diagnostic is fine-label 0/1/2 by predicted binary 0/1 for main and central ablations.
 ```
@@ -627,7 +627,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: piece_target_transport_bottleneck
-  file_path: src/chess_nn_playground/models/piece_target_transport.py
+  file_path: src/chess_nn_playground/models/trunk/piece_target_transport.py
   builder_function: build_piece_target_transport_bottleneck
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

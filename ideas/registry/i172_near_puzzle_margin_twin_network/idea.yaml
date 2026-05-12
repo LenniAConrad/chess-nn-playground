@@ -34,7 +34,7 @@ config_path: ideas/registry/i172_near_puzzle_margin_twin_network/config.yaml
 model_path: ideas/registry/i172_near_puzzle_margin_twin_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/near_puzzle_margin_twin_network.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/near_puzzle_margin_twin_network.py`
   (`NearPuzzleMarginTwinNetwork`); the idea-local `model.py` is a thin wrapper around
   the registered builder. The model never reads group metadata at inference; pairwise
   margin terms are an optional trainer-side objective that consumes the exposed twin

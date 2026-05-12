@@ -74,5 +74,5 @@ puzzle).
 ## Implementation Binding
 
 - Registered model name: `orthogonal_board_moment_network`.
-- Source implementation: `src/chess_nn_playground/models/orthogonal_board_moment_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/orthogonal_board_moment_network.py`.
 - Idea-local wrapper: `ideas/registry/i133_orthogonal_board_moment_network/model.py`.

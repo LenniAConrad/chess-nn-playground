@@ -27,7 +27,7 @@ config_path: ideas/registry/i031_tactical_transport_imbalance_network/config.yam
 model_path: ideas/registry/i031_tactical_transport_imbalance_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0512_tuesday_local_transport_imbalance.md`.
-  Bespoke implementation in `src/chess_nn_playground/models/tactical_transport_imbalance.py`
+  Bespoke implementation in `src/chess_nn_playground/models/trunk/tactical_transport_imbalance.py`
   realises the markdown architecture (side-to-move canonicalised local CNN trunk +
   entropic Sinkhorn transport with a chess-geometry cost basis); the idea-local
   `model.py` is a thin wrapper around the registered builder.

@@ -82,5 +82,5 @@ Supported `model.ablation` values are `counts_only_mlp`,
 ## Implementation Binding
 
 - Registered model name: `tiny_chess_micronet`.
-- Source implementation file: `src/chess_nn_playground/models/tiny_chess_micronet.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tiny_chess_micronet.py`.
 - Idea-local wrapper: `ideas/registry/i073_tiny_chess_micronet/model.py`.

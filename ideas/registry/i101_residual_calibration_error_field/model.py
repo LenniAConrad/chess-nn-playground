@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.residual_calibration import ResidualCalibrationErrorField
-from chess_nn_playground.models.residual_calibration import build_residual_calibration_error_field_from_config
+from chess_nn_playground.models.trunk.residual_calibration import ResidualCalibrationErrorField
+from chess_nn_playground.models.trunk.residual_calibration import build_residual_calibration_error_field_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> ResidualCalibrationErrorField:

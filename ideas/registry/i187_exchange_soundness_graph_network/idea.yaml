@@ -39,7 +39,7 @@ model_path: ideas/registry/i187_exchange_soundness_graph_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
   Bespoke exchange-soundness graph network; the idea-local wrapper builds
-  `chess_nn_playground.models.exchange_soundness_graph_network.ExchangeSoundnessGraphNetwork`.
+  `chess_nn_playground.models.trunk.exchange_soundness_graph_network.ExchangeSoundnessGraphNetwork`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Exchange-Soundness Graph Network
 source_packet_rank: 2

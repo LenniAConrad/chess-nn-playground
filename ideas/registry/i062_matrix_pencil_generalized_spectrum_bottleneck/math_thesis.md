@@ -67,7 +67,7 @@ result can be attributed to the matrix pencil.
 ## Implementation Status
 
 This idea is implemented as a bespoke architecture in
-`src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py`,
+`src/chess_nn_playground/models/trunk/matrix_pencil_generalized_spectrum_bottleneck.py`,
 registered as `matrix_pencil_generalized_spectrum_bottleneck`, and
 wrapped by `ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py`.
 It is no longer a `ResearchPacketProbe` scaffold.

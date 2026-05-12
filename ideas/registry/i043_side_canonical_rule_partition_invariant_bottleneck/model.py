@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.rule_partition_invariant_bottleneck import (
+from chess_nn_playground.models.trunk.rule_partition_invariant_bottleneck import (
     build_side_canonical_rule_partition_invariant_bottleneck_from_config,
 )
 

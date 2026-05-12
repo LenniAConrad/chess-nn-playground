@@ -62,5 +62,5 @@ are finite by construction.
 ## Implementation Binding
 
 - Registered model name: `tempo_odd_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/tempo_odd_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i049_tempo_odd_bottleneck_network/model.py`

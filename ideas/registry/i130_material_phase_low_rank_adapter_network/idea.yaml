@@ -29,7 +29,7 @@ model_path: ideas/registry/i130_material_phase_low_rank_adapter_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.
   Bespoke implementation registered as `material_phase_low_rank_adapter_network`,
-  backed by `src/chess_nn_playground/models/material_phase_low_rank_adapter.py`.
+  backed by `src/chess_nn_playground/models/trunk/material_phase_low_rank_adapter.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md
 source_packet_candidate: Material-Phase Low-Rank Adapter Network
 source_packet_rank: 6

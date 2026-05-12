@@ -1,7 +1,7 @@
 # Architecture
 
 `Stable-Rank Multiscale Network` is a hand-coded `nn.Module` at
-`src/chess_nn_playground/models/stable_rank_multiscale.py`.
+`src/chess_nn_playground/models/trunk/stable_rank_multiscale.py`.
 
 - Mechanism family: `linear_algebra` (bespoke).
 - Module class: `StableRankMultiscaleNetwork`.
@@ -16,5 +16,5 @@ module file for the exact algebraic operator implementation.
 ## Implementation Binding
 
 - Registered model name: `stable_rank_multiscale_network`.
-- Source implementation: `src/chess_nn_playground/models/stable_rank_multiscale.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/stable_rank_multiscale.py`.
 - Idea-local wrapper: `ideas/registry/i238_stable_rank_multiscale_network/model.py`.

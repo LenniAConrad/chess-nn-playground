@@ -137,7 +137,7 @@ model:
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/fixed_point_residual.py`
+- Model file: `src/chess_nn_playground/models/trunk/fixed_point_residual.py`
 - Registry name: `fixed_point_residual_defect`
 - Main config: `configs/bench_fixed_point_residual_simple18.yaml`
 - Central ablation config: `configs/bench_fixed_point_residual_final_only.yaml`
@@ -367,7 +367,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/independence_residual.py`
+- Model file: `src/chess_nn_playground/models/trunk/independence_residual.py`
 - Registry name: `independence_residual_interaction`
 - Main config: `configs/bench_independence_residual_simple18.yaml`
 - Central ablation config: `configs/bench_independence_residual_marginals_only.yaml`
@@ -438,7 +438,7 @@ logits:       (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/residual_calibration.py`
+- Model file: `src/chess_nn_playground/models/trunk/residual_calibration.py`
 - Registry name: `residual_calibration_field`
 - Main config: `configs/bench_residual_calibration_simple18.yaml`
 - Central ablation config: `configs/bench_residual_calibration_global_temp.yaml`

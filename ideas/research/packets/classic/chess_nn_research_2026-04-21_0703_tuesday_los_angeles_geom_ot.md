@@ -100,8 +100,8 @@ Candidate search trace. I considered the following mechanisms before selecting E
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and tests generic local spatial filters without the proposed transport variational operator. |
-| Residual CNN small/medium/deep | `src/chess_nn_playground/models/residual_cnn.py` | Already exists and mainly changes optimization depth, not the inductive bias. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests generic local spatial filters without the proposed transport variational operator. |
+| Residual CNN small/medium/deep | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists and mainly changes optimization depth, not the inductive bias. |
 | LC0-style CNN or residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Too close to copying a known board-game architecture and already covered by the baseline suite. |
 | Ordinary ViT over 64 square tokens | Common square-token Transformer | Too generic, parameter-hungry for the current split, and explicitly disallowed as a core idea. |
 | Plain GNN on square adjacency | Common graph neural network over 8-neighbor or chessboard graph | It is a standard message-passing reformulation of the board and not a falsifiable new puzzle-likeness operator. |
@@ -507,7 +507,7 @@ What result would justify scaling:
 | `ideas/20260421_geom_ot/config.yaml` | Create | Idea-local copy of the main config for reproducibility. |
 | `ideas/20260421_geom_ot/report_template.md` | Create | Required report sections: metrics, `3x2` matrix, near-puzzle diagnostic, ablation comparison, leakage checklist. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this idea to imported memory after Codex consumes it; add anti-duplicate notes for material-target entropic OT if it fails or succeeds. |
-| `src/chess_nn_playground/models/chess_geometry_transport.py` | Create | `ChessGeometryTransportNet` and helper modules listed in Section 7. |
+| `src/chess_nn_playground/models/trunk/chess_geometry_transport.py` | Create | `ChessGeometryTransportNet` and helper modules listed in Section 7. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register model name `chess_geometry_transport`; ensure unknown names still fail clearly. |
 | `configs/chess_geometry_transport_simple18.yaml` | Create | Main runnable benchmark config using `simple_18`, coarse binary mode, balanced class weighting, and deterministic seed. |
 | `configs/chess_geometry_transport_simple18_random_cost.yaml` | Create | Central randomized-cost ablation config. |
@@ -556,7 +556,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/chess_geometry_transport_simple18.yaml
-  model_path: src/chess_nn_playground/models/chess_geometry_transport.py
+  model_path: src/chess_nn_playground/models/trunk/chess_geometry_transport.py
   latest_result_path: null
   notes: Run randomized-cost, uniform-cost, count-only, and zero-OT same-parameter ablations before claiming any geometry gain.
 ```
@@ -594,7 +594,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: chess_geometry_transport
-  file_path: src/chess_nn_playground/models/chess_geometry_transport.py
+  file_path: src/chess_nn_playground/models/trunk/chess_geometry_transport.py
   builder_function: build_chess_geometry_transport_net
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

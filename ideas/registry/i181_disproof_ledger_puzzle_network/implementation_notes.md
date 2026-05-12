@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/disproof_ledger_puzzle_network.py` (`DisproofLedgerPuzzleNetwork`).
+- Central code: `src/chess_nn_playground/models/trunk/disproof_ledger_puzzle_network.py` (`DisproofLedgerPuzzleNetwork`).
 - Idea-local wrapper: `ideas/registry/i181_disproof_ledger_puzzle_network/model.py` calls `build_disproof_ledger_puzzle_network_from_config`.
 - Registry key: `disproof_ledger_puzzle_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.

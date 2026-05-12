@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/neural_decision_forest_boardnet.py`.
+- Central code: `src/chess_nn_playground/models/trunk/neural_decision_forest_boardnet.py`.
 - Idea-local wrapper: `ideas/registry/i158_neural_decision_forest_boardnet/model.py`.
 - Registry key: `neural_decision_forest_boardnet`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.

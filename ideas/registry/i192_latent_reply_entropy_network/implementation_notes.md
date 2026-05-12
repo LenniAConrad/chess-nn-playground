@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/latent_reply_entropy.py`.
+- Central code: `src/chess_nn_playground/models/trunk/latent_reply_entropy.py`.
 - Registry key: `latent_reply_entropy_network`.
 - Idea-local wrapper: `ideas/registry/i192_latent_reply_entropy_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.

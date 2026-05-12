@@ -35,7 +35,7 @@ model_path: ideas/registry/i136_low_rank_signed_cut_query_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.
   Bespoke implementation registered as `low_rank_signed_cut_query_network`, backed
-  by `src/chess_nn_playground/models/low_rank_signed_cut_query_network.py`; wrapper
+  by `src/chess_nn_playground/models/trunk/low_rank_signed_cut_query_network.py`; wrapper
   delegates through `ideas/registry/i136_low_rank_signed_cut_query_network/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
 source_packet_candidate: Low-Rank Signed Cut Query Network

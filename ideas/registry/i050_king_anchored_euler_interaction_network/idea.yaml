@@ -27,7 +27,7 @@ config_path: ideas/registry/i050_king_anchored_euler_interaction_network/config.
 model_path: ideas/registry/i050_king_anchored_euler_interaction_network/model.py
 latest_result_path: null
 notes: Bespoke implementation of King-Anchored Euler Interaction Network. The idea
-  folder wraps `src/chess_nn_playground/models/king_anchored_euler_interaction_network.py`
+  folder wraps `src/chess_nn_playground/models/trunk/king_anchored_euler_interaction_network.py`
   via `build_king_anchored_euler_interaction_network_from_config` and is registered
   as `king_anchored_euler_interaction_network` in the model registry.
 implementation_kind: bespoke_model

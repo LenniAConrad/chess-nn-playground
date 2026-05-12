@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+from chess_nn_playground.models.trunk.source_invariant_puzzle_bottleneck import (
     SourceInvariantPuzzleBottleneck,
     build_source_invariant_puzzle_bottleneck_from_config,
 )

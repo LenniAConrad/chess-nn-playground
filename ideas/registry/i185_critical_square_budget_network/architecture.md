@@ -90,5 +90,5 @@ repository `puzzle_binary` BCE-with-logits trainer (or
 ## Implementation Binding
 
 - Registered model name: `critical_square_budget_network`
-- Source implementation file: `src/chess_nn_playground/models/critical_square_budget_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/critical_square_budget_network.py`
 - Idea-local wrapper: `ideas/registry/i185_critical_square_budget_network/model.py`

@@ -33,5 +33,5 @@ plus a fingerprint of sub-Pfaffians on chess-natural square subsets.
 ## Implementation Binding
 
 - Registered model name: `pfaffian_skew_threat_network`
-- Source implementation file: `src/chess_nn_playground/models/pfaffian_skew_threat.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/pfaffian_skew_threat.py`
 - Idea-local wrapper: `ideas/registry/i226_pfaffian_skew_threat_network/model.py`

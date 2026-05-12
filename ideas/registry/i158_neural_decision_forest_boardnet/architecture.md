@@ -9,7 +9,7 @@ oblique forest with learned leaf logits returns the puzzle logit.
 ## Implementation Binding
 
 - Registered model name: `neural_decision_forest_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/neural_decision_forest_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/neural_decision_forest_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i158_neural_decision_forest_boardnet/model.py`
 
 ## Modules

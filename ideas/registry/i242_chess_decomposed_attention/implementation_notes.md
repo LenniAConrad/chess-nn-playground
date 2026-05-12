@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Registered model: `chess_decomposed_attention`.
-- Source implementation: `src/chess_nn_playground/models/chess_decomposed_attention.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/chess_decomposed_attention.py`.
 - Idea wrapper: `ideas/registry/i242_chess_decomposed_attention/model.py`.
 - Config: `ideas/registry/i242_chess_decomposed_attention/config.yaml`.
 

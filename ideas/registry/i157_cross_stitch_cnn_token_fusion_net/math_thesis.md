@@ -53,5 +53,5 @@ the diagnostics directly read out as branch-mixing coefficients.
 ## Bespoke Implementation
 
 This folder is a bespoke `CrossStitchCNNTokenFusionNet` model in
-`src/chess_nn_playground/models/cross_stitch_cnn_token_fusion_net.py`.
+`src/chess_nn_playground/models/trunk/cross_stitch_cnn_token_fusion_net.py`.
 It is not a `ResearchPacketProbe` scaffold.

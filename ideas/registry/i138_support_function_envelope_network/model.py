@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.support_function_envelope_network import (
+from chess_nn_playground.models.trunk.support_function_envelope_network import (
     SupportFunctionEnvelopeNetwork,
     build_support_function_envelope_network_from_config,
 )

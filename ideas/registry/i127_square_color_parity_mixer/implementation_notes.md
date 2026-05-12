@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/square_color_parity_mixer.py`.
+- Central code: `src/chess_nn_playground/models/trunk/square_color_parity_mixer.py`.
 - Registry key: `square_color_parity_mixer`.
 - Idea wrapper: `ideas/registry/i127_square_color_parity_mixer/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.

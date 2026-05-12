@@ -27,6 +27,6 @@ config_path: ideas/registry/i053_hall_defect_obligation_matroid_network/config.y
 model_path: ideas/registry/i053_hall_defect_obligation_matroid_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0813_tuesday_los_angeles_hall_defect.md`.
-  Implemented as a bespoke simple_18 Hall-defect obligation matroid network in `src/chess_nn_playground/models/hall_defect_obligation_matroid.py`.
+  Implemented as a bespoke simple_18 Hall-defect obligation matroid network in `src/chess_nn_playground/models/trunk/hall_defect_obligation_matroid.py`.
 mechanism_family: logic
 implementation_kind: bespoke_model

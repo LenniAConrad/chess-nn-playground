@@ -124,5 +124,5 @@ The packet's required ablations are exposed via `ablation`:
 ## Implementation Binding
 
 - Registered model name: `prototype_margin_puzzle_network`
-- Source implementation file: `src/chess_nn_playground/models/prototype_margin_puzzle_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/prototype_margin_puzzle_network.py`
 - Idea-local wrapper: `ideas/registry/i175_prototype_margin_puzzle_network/model.py`

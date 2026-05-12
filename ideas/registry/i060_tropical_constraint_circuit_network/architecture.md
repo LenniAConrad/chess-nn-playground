@@ -99,7 +99,7 @@ unchanged.
 ## Implementation Binding
 
 - Registered model name: `tropical_constraint_circuit_network`
-- Source implementation: `src/chess_nn_playground/models/tropical_constraint_circuit_network.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/tropical_constraint_circuit_network.py`
 - Idea-local wrapper: `ideas/registry/i060_tropical_constraint_circuit_network/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_tropical_constraint_circuit_network_from_config`.

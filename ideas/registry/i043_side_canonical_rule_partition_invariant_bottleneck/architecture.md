@@ -71,5 +71,5 @@ while the heads minimize it.
 ## Implementation Binding
 
 - Registered model name: `side_canonical_rule_partition_invariant_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i043_side_canonical_rule_partition_invariant_bottleneck/model.py`

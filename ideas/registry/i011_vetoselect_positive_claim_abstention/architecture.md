@@ -14,5 +14,5 @@ The model does not consume engine columns, best moves, source labels, verificati
 ## Implementation Binding
 
 - Registered model name: `vetoselect_positive_claim_abstention`.
-- Source implementation: `src/chess_nn_playground/models/vetoselect.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/vetoselect.py`.
 - Idea-local wrapper: `ideas/registry/i011_vetoselect_positive_claim_abstention/model.py`.

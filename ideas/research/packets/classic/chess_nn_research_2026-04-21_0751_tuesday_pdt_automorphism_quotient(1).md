@@ -94,8 +94,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Plain simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and tests generic local convolution, not the quotient hypothesis. |
-| Plain residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already present and would only change capacity/depth, not the causal symmetry shortcut question. |
+| Plain simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests generic local convolution, not the quotient hypothesis. |
+| Plain residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present and would only change capacity/depth, not the causal symmetry shortcut question. |
 | LC0-style CNN or residual CNN | Existing LC0 BT4-style CNN/residual variants | Already represented; copying LC0-style planes or residual blocks is not a new research mechanism. |
 | Ordinary vanilla ViT over 64 squares | Standard square-token Transformer | Too generic, compute-heavier than needed, and explicitly excluded as a core idea. |
 | Plain GNN on squares | Basic square-neighbor or piece-neighbor graph network | Too ordinary and easily drifts into static attack-defense graph variants already researched. |
@@ -544,7 +544,7 @@ Use idea id `20260421_0751_automorphism_quotient`.
 | `ideas/20260421_0751_automorphism_quotient/config.yaml` | Create | First-run simple_18 config with `rule_automorphism_quotient_net`, batch size 512, 3 epochs, balanced weighting. |
 | `ideas/20260421_0751_automorphism_quotient/report_template.md` | Create | Report shell requiring main metrics, `3x2` matrix, matched-FPR near-puzzle diagnostics, and ablation comparison. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported memory after implementation; add anti-duplicate rule for finite chess automorphism quotient bottlenecks if it fails. Preserve hard leakage and label constraints. |
-| `src/chess_nn_playground/models/rule_automorphism_quotient.py` | Create | `RuleAutomorphismQuotientNet`, orbit adapters, masked pool, and builder function. Default forward returns logits. |
+| `src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py` | Create | `RuleAutomorphismQuotientNet`, orbit adapters, masked pool, and builder function. Default forward returns logits. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register `rule_automorphism_quotient_net`. Keep old model names intact. |
 | `configs/rule_automorphism_quotient_simple18.yaml` | Create | Repo-level config for standard trainer compatibility and idea train script. |
 | `tests/test_rule_automorphism_quotient.py` | Create | Focused tests: output shape, transform involution for `C`, piece-count preservation, file mirror disabled with castling rights, no silent LC0 use without channel spec, default forward returns tensor logits. |
@@ -583,7 +583,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/rule_automorphism_quotient_simple18.yaml
-  model_path: src/chess_nn_playground/models/rule_automorphism_quotient.py
+  model_path: src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py
   latest_result_path: null
   notes: Default forward must return logits only; idea train.py may request auxiliary tensors with return_aux=True.
 ```
@@ -621,7 +621,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: rule_automorphism_quotient_net
-  file_path: src/chess_nn_playground/models/rule_automorphism_quotient.py
+  file_path: src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py
   builder_function: build_rule_automorphism_quotient_net
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

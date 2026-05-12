@@ -29,5 +29,5 @@ invariance.
 ## Implementation Binding
 
 - Registered model name: `orbit_disagreement_residual_network`
-- Source implementation file: `src/chess_nn_playground/models/orbit_disagreement.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/orbit_disagreement.py`
 - Idea-local wrapper: `ideas/registry/i218_orbit_disagreement_residual_network/model.py`

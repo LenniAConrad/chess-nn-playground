@@ -96,5 +96,5 @@ rather than capacity or augmentation.
 ## Implementation Binding
 
 - Registered model name: `color_flip_orbit_evidence_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/color_flip_orbit_evidence.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py`
 - Idea-local wrapper: `ideas/registry/i047_color_flip_orbit_evidence_bottleneck/model.py`

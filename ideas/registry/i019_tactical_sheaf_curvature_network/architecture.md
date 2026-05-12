@@ -7,7 +7,7 @@ model for the repo's `puzzle_binary` task.
 ## Implementation Binding
 
 - Registered model name: `tactical_sheaf_curvature_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_sheaf_curvature.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_sheaf_curvature.py`
 - Idea-local wrapper: `ideas/registry/i019_tactical_sheaf_curvature_network/model.py`
 
 ## Modules

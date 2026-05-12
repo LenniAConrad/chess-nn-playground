@@ -76,5 +76,5 @@ analysis.
 ## Implementation Binding
 
 - Registered model name: `zobrist_kernel_feature_network`.
-- Source implementation: `src/chess_nn_playground/models/zobrist_kernel_feature_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/zobrist_kernel_feature_network.py`.
 - Idea-local wrapper: `ideas/registry/i135_zobrist_kernel_feature_network/model.py`.

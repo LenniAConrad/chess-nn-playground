@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.tactical_radius_filtration import (
+from chess_nn_playground.models.trunk.tactical_radius_filtration import (
     build_tactical_radius_filtration_from_config,
 )
 

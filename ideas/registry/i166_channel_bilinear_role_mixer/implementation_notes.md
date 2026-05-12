@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/channel_bilinear_role_mixer.py`.
+- Central code: `src/chess_nn_playground/models/trunk/channel_bilinear_role_mixer.py`.
 - Idea-local wrapper: `ideas/registry/i166_channel_bilinear_role_mixer/model.py`.
 - Registry key: `channel_bilinear_role_mixer`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`.

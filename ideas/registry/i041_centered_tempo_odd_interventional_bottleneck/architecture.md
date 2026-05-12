@@ -53,5 +53,5 @@ by construction.
 ## Implementation Binding
 
 - Registered model name: `centered_tempo_odd_interventional_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/centered_tempo_odd_interventional_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/centered_tempo_odd_interventional_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i041_centered_tempo_odd_interventional_bottleneck/model.py`

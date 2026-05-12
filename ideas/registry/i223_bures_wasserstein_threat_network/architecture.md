@@ -34,5 +34,5 @@ log-Euclidean geometry.
 ## Implementation Binding
 
 - Registered model name: `bures_wasserstein_threat_network`
-- Source implementation file: `src/chess_nn_playground/models/bures_wasserstein_threat.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/bures_wasserstein_threat.py`
 - Idea-local wrapper: `ideas/registry/i223_bures_wasserstein_threat_network/model.py`

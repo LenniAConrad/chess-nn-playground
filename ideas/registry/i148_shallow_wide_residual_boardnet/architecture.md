@@ -80,7 +80,7 @@ head are all active:
 - Registered model name: `shallow_wide_residual_boardnet`
   (registered in `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/shallow_wide_residual_boardnet.py`
+  `src/chess_nn_playground/models/trunk/shallow_wide_residual_boardnet.py`
   (`ShallowWideResidualBoardNet` and
   `build_shallow_wide_residual_boardnet_from_config`).
 - Idea-local wrapper:

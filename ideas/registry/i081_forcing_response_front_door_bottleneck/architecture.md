@@ -109,5 +109,5 @@ metadata remain reporting-only.
 ## Implementation Binding
 
 - Registered model name: `forcing_response_front_door_bottleneck`.
-- Source implementation file: `src/chess_nn_playground/models/forcing_response_front_door_bottleneck.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/forcing_response_front_door_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i081_forcing_response_front_door_bottleneck/model.py`.

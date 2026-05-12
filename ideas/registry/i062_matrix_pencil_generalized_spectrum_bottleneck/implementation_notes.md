@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/matrix_pencil_generalized_spectrum_bottleneck.py`.
 - Registry key: `matrix_pencil_generalized_spectrum_bottleneck`.
 - Idea-local wrapper: `ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py`
   exposes `build_model_from_config(config)` and forwards to

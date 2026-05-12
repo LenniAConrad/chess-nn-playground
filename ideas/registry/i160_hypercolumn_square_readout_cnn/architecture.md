@@ -48,5 +48,5 @@ available through the `ablation` config key: `last_layer_only`, `no_square_logit
 ## Implementation Binding
 
 - Registered model name: `hypercolumn_square_readout_cnn`
-- Source implementation file: `src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/hypercolumn_square_readout_cnn.py`
 - Idea-local wrapper: `ideas/registry/i160_hypercolumn_square_readout_cnn/model.py`

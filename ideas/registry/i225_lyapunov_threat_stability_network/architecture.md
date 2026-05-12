@@ -32,5 +32,5 @@ continuous Lyapunov equation `A^T P + P A = -Q` via the vec form.
 ## Implementation Binding
 
 - Registered model name: `lyapunov_threat_stability_network`
-- Source implementation file: `src/chess_nn_playground/models/lyapunov_threat_stability.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/lyapunov_threat_stability.py`
 - Idea-local wrapper: `ideas/registry/i225_lyapunov_threat_stability_network/model.py`

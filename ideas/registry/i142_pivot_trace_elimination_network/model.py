@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.pivot_trace_elimination_network import (
+from chess_nn_playground.models.trunk.pivot_trace_elimination_network import (
     PivotTraceEliminationNetwork,
     build_pivot_trace_elimination_network_from_config,
 )

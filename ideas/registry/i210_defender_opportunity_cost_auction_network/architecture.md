@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `defender_opportunity_cost_auction_network`
-- Source implementation file: `src/chess_nn_playground/models/defender_opportunity_cost_auction.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/defender_opportunity_cost_auction.py`
 - Idea-local wrapper: `ideas/registry/i210_defender_opportunity_cost_auction_network/model.py`

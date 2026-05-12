@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.early_exit_cascade_boardnet import (
+from chess_nn_playground.models.trunk.early_exit_cascade_boardnet import (
     EarlyExitCascadeBoardNet,
     build_early_exit_cascade_boardnet_from_config,
 )

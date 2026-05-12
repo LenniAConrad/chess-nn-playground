@@ -26,7 +26,7 @@ config_path: ideas/registry/i229_williamson_symplectic_threat_network/config.yam
 model_path: ideas/registry/i229_williamson_symplectic_threat_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-05-05_1540_tuesday_local_williamson_symplectic_threat.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/williamson_symplectic_threat_network.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

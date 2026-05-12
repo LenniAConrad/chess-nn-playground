@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/tiny_chess_micronet.py`.
+- Central code: `src/chess_nn_playground/models/trunk/tiny_chess_micronet.py`.
 - Registry key: `tiny_chess_micronet`.
 - Idea wrapper: `ideas/registry/i073_tiny_chess_micronet/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2200_friday_shanghai_tiny_chess_micronet.md`.

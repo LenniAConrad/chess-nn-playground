@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.rank_quantile import (
+from chess_nn_playground.models.trunk.rank_quantile import (
     RankQuantileEvidenceFieldNetwork,
     build_rank_quantile_evidence_field_network_from_config,
 )

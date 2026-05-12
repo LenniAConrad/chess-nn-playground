@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `tactical_threat_sheaf_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_threat_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_threat_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i022_tactical_threat_sheaf_network/model.py`
 
 ## Modules

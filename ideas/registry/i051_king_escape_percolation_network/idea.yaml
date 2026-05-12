@@ -27,6 +27,6 @@ config_path: ideas/registry/i051_king_escape_percolation_network/config.yaml
 model_path: ideas/registry/i051_king_escape_percolation_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0811_tuesday_pacific_king_escape_percolation.md`.
-  Implemented as a bespoke simple_18 king escape percolation model in `src/chess_nn_playground/models/king_escape_percolation.py`.
+  Implemented as a bespoke simple_18 king escape percolation model in `src/chess_nn_playground/models/trunk/king_escape_percolation.py`.
 mechanism_family: topology
 implementation_kind: bespoke_model

@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `ray_grammar_edit_distance_network`
-- Source implementation file: `src/chess_nn_playground/models/ray_grammar_edit_distance.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/ray_grammar_edit_distance.py`
 - Idea-local wrapper: `ideas/registry/i217_ray_grammar_edit_distance_network/model.py`

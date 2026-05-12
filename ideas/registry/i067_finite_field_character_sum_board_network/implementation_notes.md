@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model implementation: `src/chess_nn_playground/models/finite_field_character_sum.py`.
+- Bespoke model implementation: `src/chess_nn_playground/models/trunk/finite_field_character_sum.py`.
 - Idea-local wrapper: `ideas/registry/i067_finite_field_character_sum_board_network/model.py` delegates to `build_finite_field_character_sum_board_network_from_config`.
 - Registry key: `finite_field_character_sum_board_network` (registered in `src/chess_nn_playground/models/registry.py`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md`.

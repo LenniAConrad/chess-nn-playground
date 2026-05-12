@@ -11,7 +11,7 @@ to the identity.
 ## Implementation Binding
 
 - Registered model name: `cross_stitch_cnn_token_fusion_net`
-- Source implementation file: `src/chess_nn_playground/models/cross_stitch_cnn_token_fusion_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/cross_stitch_cnn_token_fusion_net.py`
 - Idea-local wrapper: `ideas/registry/i157_cross_stitch_cnn_token_fusion_net/model.py`
 
 ## Modules

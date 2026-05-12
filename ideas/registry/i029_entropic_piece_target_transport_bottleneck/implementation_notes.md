@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/entropic_piece_target_transport_bottleneck.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/entropic_piece_target_transport_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i029_entropic_piece_target_transport_bottleneck/model.py` (thin `build_model_from_config(config)` that delegates to the bespoke builder).
 - Registry key: `entropic_piece_target_transport_bottleneck` (registered in `src/chess_nn_playground/models/registry.py` and excluded from `RESEARCH_PACKET_MODEL_NAMES`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0507_tuesday_los_angeles_transport_bottleneck.md`.

@@ -30,5 +30,5 @@ block (top-`a` squares by an attacker score head) and a defender block of size
 ## Implementation Binding
 
 - Registered model name: `schur_complement_defender_network`
-- Source implementation file: `src/chess_nn_playground/models/schur_complement_defender.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/schur_complement_defender.py`
 - Idea-local wrapper: `ideas/registry/i222_schur_complement_defender_network/model.py`

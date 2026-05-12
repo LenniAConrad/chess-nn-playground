@@ -138,5 +138,5 @@ through:
 ## Implementation Binding
 
 - Registered model name: `forcing_certificate_transformer`
-- Source implementation file: `src/chess_nn_playground/models/forcing_certificate_transformer.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/forcing_certificate_transformer.py`
 - Idea-local wrapper: `ideas/registry/i177_forcing_certificate_transformer/model.py`

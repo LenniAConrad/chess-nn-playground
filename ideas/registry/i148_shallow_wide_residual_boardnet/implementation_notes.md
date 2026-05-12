@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/shallow_wide_residual_boardnet.py`
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/shallow_wide_residual_boardnet.py`
   (`ShallowWideResidualBoardNet`,
   `build_shallow_wide_residual_boardnet_from_config`).
 - Idea-local wrapper: `ideas/registry/i148_shallow_wide_residual_boardnet/model.py`

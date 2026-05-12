@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.low_displacement_rank_board_operator import (
+from chess_nn_playground.models.trunk.low_displacement_rank_board_operator import (
     build_low_displacement_rank_board_operator_from_config,
 )
 

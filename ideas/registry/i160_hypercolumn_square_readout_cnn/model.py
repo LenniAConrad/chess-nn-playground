@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.hypercolumn_square_readout_cnn import (
+from chess_nn_playground.models.trunk.hypercolumn_square_readout_cnn import (
     build_hypercolumn_square_readout_cnn_from_config,
 )
 

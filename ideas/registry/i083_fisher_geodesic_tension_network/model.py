@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.fisher_geodesic_tension import (
+from chess_nn_playground.models.trunk.fisher_geodesic_tension import (
     FisherGeodesicTensionNet,
     build_fisher_geodesic_tension_network_from_config,
 )

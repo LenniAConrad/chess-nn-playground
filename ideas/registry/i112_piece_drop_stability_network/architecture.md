@@ -64,7 +64,7 @@ logits:          (B,)
 ## Implementation Binding
 
 - Registered model name: `piece_drop_stability_network`
-- Source implementation file: `src/chess_nn_playground/models/piece_drop_stability_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/piece_drop_stability_network.py`
 - Idea-local wrapper: `ideas/registry/i112_piece_drop_stability_network/model.py`
 
 The wrapper is a thin adapter over

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`
+- Central code: `src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`
   (`NegativeClassDisentangledPuzzleHead`,
   `build_negative_class_disentangled_puzzle_head_from_config`).
 - Idea-local wrapper: `ideas/registry/i170_negative_class_disentangled_puzzle_head/model.py`.

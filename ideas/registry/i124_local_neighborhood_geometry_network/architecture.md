@@ -52,7 +52,7 @@ applied to a quiet position.
 - Registered model name: `local_neighborhood_geometry_network` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/local_neighborhood_geometry_network.py`
+  `src/chess_nn_playground/models/trunk/local_neighborhood_geometry_network.py`
   (`LocalNeighborhoodGeometryNetwork` and
   `build_local_neighborhood_geometry_network_from_config`).
 - Idea-local wrapper:

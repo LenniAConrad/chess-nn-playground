@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/toda_isospectral_flow.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/toda_isospectral_flow.py`.
 - Registered model name: `toda_isospectral_flow_network`.
 - Idea-local wrapper: `ideas/registry/i235_toda_isospectral_flow_network/model.py` (calls
   `build_toda_isospectral_flow_network_from_config`).

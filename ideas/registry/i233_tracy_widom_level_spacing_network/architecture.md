@@ -39,7 +39,7 @@ random-matrix-theory bulk invariants of the level-spacing distribution.
 - Registered model name: `tracy_widom_level_spacing_network` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/tracy_widom_level_spacing_network.py`
+  `src/chess_nn_playground/models/trunk/tracy_widom_level_spacing_network.py`
   (`TracyWidomLevelSpacingNetwork` and
   `build_tracy_widom_level_spacing_network_from_config`).
 - Idea-local wrapper:

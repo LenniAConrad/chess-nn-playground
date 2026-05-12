@@ -42,7 +42,7 @@ between soft-selected source and target squares. By the LGV lemma,
 - Registered model name: `lindstrom_gessel_viennot_path_network` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/lindstrom_gessel_viennot_path_network.py`
+  `src/chess_nn_playground/models/trunk/lindstrom_gessel_viennot_path_network.py`
   (`LindstromGesselViennotPathNetwork` and
   `build_lindstrom_gessel_viennot_path_network_from_config`).
 - Idea-local wrapper:

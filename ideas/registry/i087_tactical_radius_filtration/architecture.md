@@ -79,5 +79,5 @@ The math thesis falsifiers are exposed as constructor flags:
 
 - Registered model name: `tactical_radius_filtration`.
 - Source implementation file:
-  `src/chess_nn_playground/models/tactical_radius_filtration.py`.
+  `src/chess_nn_playground/models/trunk/tactical_radius_filtration.py`.
 - Idea-local wrapper: `ideas/registry/i087_tactical_radius_filtration/model.py`.

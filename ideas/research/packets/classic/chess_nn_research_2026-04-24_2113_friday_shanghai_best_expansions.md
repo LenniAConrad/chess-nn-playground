@@ -88,7 +88,7 @@ Implementation details:
 
 | Path | Action |
 |---|---|
-| `src/chess_nn_playground/models/piece_token_cnn_hybrid.py` | Create model and builder. |
+| `src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py` | Create model and builder. |
 | `configs/bench_piece_token_cnn_hybrid_simple18.yaml` | Main config. |
 | `configs/bench_piece_token_cnn_hybrid_cnn_only.yaml` | Remove token branch; match params. |
 | `configs/bench_piece_token_cnn_hybrid_token_only.yaml` | Remove CNN branch. |
@@ -151,7 +151,7 @@ attended = attention @ values
 
 | Path | Action |
 |---|---|
-| `src/chess_nn_playground/models/set_query_attention.py` | Create model and builder. |
+| `src/chess_nn_playground/models/trunk/set_query_attention.py` | Create model and builder. |
 | `configs/bench_set_query_attention_simple18.yaml` | Main config. |
 | `configs/bench_set_query_attention_uniform.yaml` | Uniform attention ablation. |
 | `configs/bench_set_query_attention_random_queries.yaml` | Frozen random query ablation. |
@@ -218,7 +218,7 @@ Implementation details:
 
 | Path | Action |
 |---|---|
-| `src/chess_nn_playground/models/fixed_point_residual.py` | Create model and builder. |
+| `src/chess_nn_playground/models/trunk/fixed_point_residual.py` | Create model and builder. |
 | `configs/bench_fixed_point_residual_simple18.yaml` | Main config. |
 | `configs/bench_fixed_point_residual_final_only.yaml` | Final latent only ablation. |
 | `configs/bench_fixed_point_residual_untied.yaml` | Ordinary untied residual block control. |

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.support_polar_zonotope import (
+from chess_nn_playground.models.trunk.support_polar_zonotope import (
     SupportPolarZonotopeClassifier,
     build_support_polar_zonotope_certificate_network_from_config,
 )

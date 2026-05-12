@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/tactical_bisimulation_puzzle_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/tactical_bisimulation_puzzle_network.py`.
 - Idea-local wrapper: `ideas/registry/i075_tactical_bisimulation_puzzle_network/model.py`.
 - Registry key: `tactical_bisimulation_puzzle_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md`.

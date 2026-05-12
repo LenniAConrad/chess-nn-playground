@@ -106,7 +106,7 @@ single invariant representation.
 
 - Registered model name: `symmetric_difference_twin_encoder`
 - Source implementation file:
-  `src/chess_nn_playground/models/symmetric_difference_twin_encoder.py`
+  `src/chess_nn_playground/models/trunk/symmetric_difference_twin_encoder.py`
 - Idea-local wrapper:
   `ideas/registry/i116_symmetric_difference_twin_encoder/model.py`
 

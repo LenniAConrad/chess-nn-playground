@@ -60,5 +60,5 @@ Diagnostics returned alongside the logit:
 ## Implementation Binding
 
 - Registered model name: `spatial_film_coordinate_net`
-- Source implementation file: `src/chess_nn_playground/models/spatial_film_coordinate_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/spatial_film_coordinate_net.py`
 - Idea-local wrapper: `ideas/registry/i165_spatial_film_coordinate_net/model.py`

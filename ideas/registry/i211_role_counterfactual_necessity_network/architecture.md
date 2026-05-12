@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `role_counterfactual_necessity_network`
-- Source implementation file: `src/chess_nn_playground/models/role_counterfactual_necessity.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/role_counterfactual_necessity.py`
 - Idea-local wrapper: `ideas/registry/i211_role_counterfactual_necessity_network/model.py`

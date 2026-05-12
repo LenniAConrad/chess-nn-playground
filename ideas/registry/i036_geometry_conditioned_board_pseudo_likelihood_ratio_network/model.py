@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.geometry_pseudolikelihood_ratio import GeometryPseudoLikelihoodRatioNet
-from chess_nn_playground.models.geometry_pseudolikelihood_ratio import (
+from chess_nn_playground.models.trunk.geometry_pseudolikelihood_ratio import GeometryPseudoLikelihoodRatioNet
+from chess_nn_playground.models.trunk.geometry_pseudolikelihood_ratio import (
     build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
 )
 

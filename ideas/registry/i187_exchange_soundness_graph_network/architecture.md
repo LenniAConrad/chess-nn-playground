@@ -126,5 +126,5 @@ repository `puzzle_binary` BCE-with-logits trainer (or
 ## Implementation Binding
 
 - Registered model name: `exchange_soundness_graph_network`
-- Source implementation file: `src/chess_nn_playground/models/exchange_soundness_graph_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/exchange_soundness_graph_network.py`
 - Idea-local wrapper: `ideas/registry/i187_exchange_soundness_graph_network/model.py`

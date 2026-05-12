@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/attention_disagreement_residual_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/attention_disagreement_residual_network.py`.
 - Idea-local wrapper: `ideas/registry/i103_attention_disagreement_residual_network/model.py`.
 - Registry key: `attention_disagreement_residual_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`.

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/king_zone_evidence_ledger.py`
+- Central code: `src/chess_nn_playground/models/trunk/king_zone_evidence_ledger.py`
   (`KingZoneEvidenceLedger`, `EvidenceLedger`, `BoardTrunk`).
 - Idea-local wrapper: `ideas/registry/i174_king_zone_evidence_ledger/model.py`.
 - Registry key: `king_zone_evidence_ledger`.

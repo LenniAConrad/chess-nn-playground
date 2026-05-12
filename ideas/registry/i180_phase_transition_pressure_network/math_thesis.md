@@ -33,7 +33,7 @@ sharp first differences across thresholds; a stably high or stably
 low pressure profile will have a flat curve.
 
 Implementation binding. The bespoke implementation lives at
-`src/chess_nn_playground/models/phase_transition_pressure_network.py`
+`src/chess_nn_playground/models/trunk/phase_transition_pressure_network.py`
 and is registered as the model named
 `phase_transition_pressure_network`. The idea-local
 `ideas/registry/i180_phase_transition_pressure_network/model.py` is a thin

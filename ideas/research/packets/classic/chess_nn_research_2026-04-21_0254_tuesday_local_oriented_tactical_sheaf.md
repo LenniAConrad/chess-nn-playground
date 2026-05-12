@@ -345,7 +345,7 @@ OrientedTacticalSheafNet
 Suggested file:
 
 ```text
-src/chess_nn_playground/models/oriented_tactical_sheaf.py
+src/chess_nn_playground/models/trunk/oriented_tactical_sheaf.py
 ```
 
 ### Submodules
@@ -642,7 +642,7 @@ Scaling condition:
 |---|---|---|
 | `ideas/20260421_oriented_tactical_sheaf/README.md` | Create | Human-readable summary of this handoff, experiment intent, leakage rules, and benchmark command examples. |
 | `ideas/20260421_oriented_tactical_sheaf/handoff.md` | Create | Copy this Markdown packet verbatim or link to the downloaded artifact for traceability. |
-| `src/chess_nn_playground/models/oriented_tactical_sheaf.py` | Create | `BoardStateAdapter`, `TacticalIncidenceBuilder`, `SquareTokenEncoder`, `SheafDiffusionBlock`, `TriadDefectPool`, `TacticalReadout`, and `OrientedTacticalSheafNet`. |
+| `src/chess_nn_playground/models/trunk/oriented_tactical_sheaf.py` | Create | `BoardStateAdapter`, `TacticalIncidenceBuilder`, `SquareTokenEncoder`, `SheafDiffusionBlock`, `TriadDefectPool`, `TacticalReadout`, and `OrientedTacticalSheafNet`. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register model name `oriented_tactical_sheaf` or `otsl`. Preserve existing model registrations. |
 | `configs/oriented_tactical_sheaf_simple18.yaml` | Create | Minimal `simple_18` config with `d_model=64`, `stalk_dim=8`, `num_sheaf_layers=4`, `use_triads=true`, and leakage-safe adapter settings. |
 | `configs/oriented_tactical_sheaf_lc0_static_112.yaml` | Create after smoke test | LC0 static config using the same model, with encoding-specific adapter metadata. |
@@ -768,7 +768,7 @@ config_yaml:
 ```yaml
 model_spec:
   class_name: OrientedTacticalSheafNet
-  module_path: chess_nn_playground.models.oriented_tactical_sheaf
+  module_path: chess_nn_playground.models.trunk.oriented_tactical_sheaf
   input:
     tensor: x
     shape: [batch, channels, 8, 8]

@@ -625,7 +625,7 @@ Treat the idea as falsified if:
 ### New Files
 
 ```text
-src/chess_nn_playground/models/relational_query_algebra.py
+src/chess_nn_playground/models/trunk/relational_query_algebra.py
 tests/test_relational_query_algebra.py
 configs/model/relational_query_algebra.yaml
 ```

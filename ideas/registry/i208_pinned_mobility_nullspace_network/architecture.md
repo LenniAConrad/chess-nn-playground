@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `pinned_mobility_nullspace_network`
-- Source implementation file: `src/chess_nn_playground/models/pinned_mobility_nullspace.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/pinned_mobility_nullspace.py`
 - Idea-local wrapper: `ideas/registry/i208_pinned_mobility_nullspace_network/model.py`

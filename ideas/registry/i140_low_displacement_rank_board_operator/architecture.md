@@ -87,7 +87,7 @@ prediction artifacts.
 - Registered model name: `low_displacement_rank_board_operator`
   (registered in `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/low_displacement_rank_board_operator.py`
+  `src/chess_nn_playground/models/trunk/low_displacement_rank_board_operator.py`
   (`LowDisplacementRankBoardOperator` and
   `build_low_displacement_rank_board_operator_from_config`).
 - Idea-local wrapper:

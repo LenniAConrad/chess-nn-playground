@@ -35,7 +35,7 @@ where:
   heads predict them.
 
 The architecture lives in
-`src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py`
+`src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py`
 and is registered as `side_canonical_rule_partition_invariant_bottleneck`.
 The full deterministic forward pipeline (canonicalizer, partitioner,
 compact convolutional trunk, VIB, label head, gradient-reversed

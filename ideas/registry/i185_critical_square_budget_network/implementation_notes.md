@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/critical_square_budget_network.py`
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/critical_square_budget_network.py`
   (`CriticalSquareBudgetNetwork`,
   `build_critical_square_budget_network_from_config`).
 - Idea-local wrapper: `ideas/registry/i185_critical_square_budget_network/model.py`

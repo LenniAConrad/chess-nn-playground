@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/non_puzzle_score_field_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/non_puzzle_score_field_bottleneck.py`.
 - Registry key: `non_puzzle_score_field_bottleneck_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0922_tuesday_local_nonpuzzle_score_field.md`.
 - Idea-local wrapper: `ideas/registry/i056_non_puzzle_score_field_bottleneck_network/model.py` calls

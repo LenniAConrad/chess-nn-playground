@@ -148,5 +148,5 @@ The packet's required ablations are exposed via `model.ablation`:
 ## Implementation Binding
 
 - Registered model name: `phase_transition_pressure_network`
-- Source implementation file: `src/chess_nn_playground/models/phase_transition_pressure_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/phase_transition_pressure_network.py`
 - Idea-local wrapper: `ideas/registry/i180_phase_transition_pressure_network/model.py`

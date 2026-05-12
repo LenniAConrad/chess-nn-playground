@@ -31,7 +31,7 @@ config_path: ideas/registry/i126_pawn_skeleton_barrier_network/config.yaml
 model_path: ideas/registry/i126_pawn_skeleton_barrier_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.
-  Bespoke implementation in `src/chess_nn_playground/models/pawn_skeleton_barrier.py`;
+  Bespoke implementation in `src/chess_nn_playground/models/trunk/pawn_skeleton_barrier.py`;
   wrapper delegates through `ideas/registry/i126_pawn_skeleton_barrier_network/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md
 source_packet_candidate: Pawn Skeleton Barrier Network

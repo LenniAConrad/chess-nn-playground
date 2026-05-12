@@ -61,7 +61,7 @@ to the classifier.
 ## Implementation Binding
 
 - Registered model name: `sinkhorn_role_assignment_network`.
-- Source implementation file: `src/chess_nn_playground/models/sinkhorn_role_assignment_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/sinkhorn_role_assignment_network.py`.
 - Idea-local wrapper: `ideas/registry/i120_sinkhorn_role_assignment_network/model.py`.
 
 The wrapper imports ``SinkhornRoleAssignmentNetwork`` and

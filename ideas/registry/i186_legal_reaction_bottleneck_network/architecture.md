@@ -112,5 +112,5 @@ repository `puzzle_binary` BCE-with-logits trainer (or
 ## Implementation Binding
 
 - Registered model name: `legal_reaction_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/legal_reaction_bottleneck_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/legal_reaction_bottleneck_network.py`
 - Idea-local wrapper: `ideas/registry/i186_legal_reaction_bottleneck_network/model.py`

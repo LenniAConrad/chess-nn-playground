@@ -53,7 +53,7 @@ the LayerNorm/MLP head learns. Diagnostic outputs include `role_curve_energy`,
 ## Implementation Binding
 
 - Registered model name: `king_anchored_euler_interaction_network`
-- Source implementation file: `src/chess_nn_playground/models/king_anchored_euler_interaction_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/king_anchored_euler_interaction_network.py`
 - Idea-local wrapper: `ideas/registry/i050_king_anchored_euler_interaction_network/model.py`
   (calls `build_king_anchored_euler_interaction_network_from_config`).
 - Encoding adapter: `simple_18` only. The adapter fails closed if the channel

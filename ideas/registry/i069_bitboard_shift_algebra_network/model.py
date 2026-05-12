@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.bitboard_shift_algebra import (
+from chess_nn_playground.models.trunk.bitboard_shift_algebra import (
     BitboardShiftAlgebraNetwork,
     build_bitboard_shift_algebra_network_from_config,
 )

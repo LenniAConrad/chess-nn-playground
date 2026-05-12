@@ -438,7 +438,7 @@ Scaling condition:
 | `ideas/2026_04_21_attack_hodge_sheaf/handoff.md` | Create | Copy this Markdown handoff packet for traceability. |
 | `ideas/2026_04_21_attack_hodge_sheaf/README.md` | Create | One-page summary, exact commands run, and final benchmark table. |
 | `ideas/2026_04_21_attack_hodge_sheaf/ablation_results.json` | Create after experiments | Metrics for full model and ablations, including seed list and split paths. |
-| `src/chess_nn_playground/models/attack_hodge_sheaf.py` | Create | `EncodingAdapter`, `AttackComplexBuilder`, `SheafRestrictionMLP`, `HodgeTensionBlock`, `MaskedCochainPool`, and `AttackHodgeSheafNet`. |
+| `src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py` | Create | `EncodingAdapter`, `AttackComplexBuilder`, `SheafRestrictionMLP`, `HodgeTensionBlock`, `MaskedCochainPool`, and `AttackHodgeSheafNet`. |
 | `src/chess_nn_playground/models/registry.py` | Edit | Register `attack_hodge_sheaf` with the same model factory interface as existing models. |
 | `configs/attack_hodge_sheaf_simple18.yaml` | Create | Minimal experiment config using `simple_18`, `d_model=48 or 64`, `n_layers=2`, `max_edges=1024`, `max_faces=1024`, binary CE. |
 | `configs/attack_hodge_sheaf_lc0_static112.yaml` | Create only after simple_18 passes adapter tests | Same architecture with `lc0_static_112`; square stem reads all channels, builder uses current board slice only. |
@@ -544,7 +544,7 @@ config_yaml:
 ```yaml
 model_spec:
   class_name: "AttackHodgeSheafNet"
-  module_path: "src/chess_nn_playground/models/attack_hodge_sheaf.py"
+  module_path: "src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py"
   input_shape: ["batch", "C", 8, 8]
   output_shape: ["batch", 2]
   components:

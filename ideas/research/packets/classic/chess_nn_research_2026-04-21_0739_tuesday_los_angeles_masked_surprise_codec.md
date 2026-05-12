@@ -97,8 +97,8 @@ Serious candidates not selected:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and tests ordinary local convolution without a new mathematical observable. |
-| Residual CNN variants | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; deeper residual capacity would be routine architecture scaling. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests ordinary local convolution without a new mathematical observable. |
+| Residual CNN variants | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; deeper residual capacity would be routine architecture scaling. |
 | LC0-style CNN/residual CNN | LC0 BT4-style CNN and residual variants | Already exists; copying LC0-like channel processing is not a fresh puzzle-likeness hypothesis. |
 | Ordinary ViT over 64 squares | None or future Transformer baseline | Too generic; the prompt explicitly excludes vanilla square Transformers as the core idea. |
 | Plain GNN on 64 squares | Common square-grid GNN baseline | Usually becomes a slower CNN or a generic message-passing model without a chess-specific falsifier. |
@@ -288,7 +288,7 @@ The strongest objection is that chess tactics are about legal continuations, not
 Implement the main model in:
 
 ```text
-src/chess_nn_playground/models/masked_surprise_codec.py
+src/chess_nn_playground/models/trunk/masked_surprise_codec.py
 ```
 
 Recommended classes/functions:
@@ -701,7 +701,7 @@ Scale only after the minimal `simple_18` run passes the success threshold. Then 
 | `ideas/20260421_masked_surprise_codec/config.yaml` | Create | Concrete minimal config from Section 12 `config_yaml` plus model-specific fields. |
 | `ideas/20260421_masked_surprise_codec/report_template.md` | Create | Template with metrics, `3x2` diagnostics, near-puzzle matched-FPR table, ablation comparisons, and failure/success decision. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported research memory after consumption; add anti-duplicate guidance for masked conditional code-length surprise models if this fails. Preserve all hard leakage and label rules. |
-| `src/chess_nn_playground/models/masked_surprise_codec.py` | Create | `Simple18PieceTokenizer`, `MaskedBoardCodec`, `CodeLengthFieldBuilder`, `SurpriseResidualClassifier`, `MaskedBoardCodeLengthSurpriseNet`, and builder function. |
+| `src/chess_nn_playground/models/trunk/masked_surprise_codec.py` | Create | `Simple18PieceTokenizer`, `MaskedBoardCodec`, `CodeLengthFieldBuilder`, `SurpriseResidualClassifier`, `MaskedBoardCodeLengthSurpriseNet`, and builder function. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register `masked_board_code_length_surprise_net` and optionally `masked_surprise_codec_classifier_only` for ablations. |
 | `configs/masked_surprise_codec_simple18.yaml` | Create | Minimal benchmark config using `simple_18`, `input_channels=18`, batch size 512, 3 classifier epochs, balanced class weighting. |
 | `tests/models/test_masked_surprise_codec.py` | Create | Focused tests for tokenizer, mask coverage, forward shape `(B,2)`, deterministic outputs in eval mode, fail-closed LC0 unknown schema, and no label argument in codec pretrain. |
@@ -738,7 +738,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/masked_surprise_codec_simple18.yaml
-  model_path: src/chess_nn_playground/models/masked_surprise_codec.py
+  model_path: src/chess_nn_playground/models/trunk/masked_surprise_codec.py
   latest_result_path: null
   notes: Pretrain codec on train split with labels ignored, freeze it, then train classifier and required ablations on the standard split.
 ```
@@ -802,7 +802,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: masked_board_code_length_surprise_net
-  file_path: src/chess_nn_playground/models/masked_surprise_codec.py
+  file_path: src/chess_nn_playground/models/trunk/masked_surprise_codec.py
   builder_function: build_masked_board_code_length_surprise_net
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

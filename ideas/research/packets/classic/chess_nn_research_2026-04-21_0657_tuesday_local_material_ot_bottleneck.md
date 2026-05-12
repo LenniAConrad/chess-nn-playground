@@ -93,8 +93,8 @@ The broader internal search also considered chess-equivariant convolutions, squa
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN over `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and tests local texture without the proposed global piece-target transport bottleneck. |
-| Residual CNN over `simple_18` | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; more residual depth would be routine architecture scaling, not a new research mechanism. |
+| Simple CNN over `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests local texture without the proposed global piece-target transport bottleneck. |
+| Residual CNN over `simple_18` | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; more residual depth would be routine architecture scaling, not a new research mechanism. |
 | LC0-style CNN/residual CNN over 112 planes | Existing LC0 BT4-style CNN and residual variants | Already covered by the baseline suite and too close to copying a stronger chess-engine input format. |
 | Ordinary ViT over 64 square tokens | Standard square-token Transformer | Too generic; self-attention could learn anything or nothing, and the hypothesis would be weaker than the transport-residual hypothesis. |
 | Plain GNN on 64 board squares | Common graph neural network baseline | Too ordinary and too close to “make a graph from the board” without a falsifiable chess-specific operator. |

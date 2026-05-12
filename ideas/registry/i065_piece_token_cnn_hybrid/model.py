@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.piece_token_cnn_hybrid import (
+from chess_nn_playground.models.trunk.piece_token_cnn_hybrid import (
     PieceTokenCNNHybrid,
     build_piece_token_cnn_hybrid_from_config,
 )

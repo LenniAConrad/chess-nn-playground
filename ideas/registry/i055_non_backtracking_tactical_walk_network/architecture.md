@@ -7,7 +7,7 @@ typed messages along its non-backtracking edge-line transitions.
 ## Implementation Binding
 
 - Registered model name: `non_backtracking_tactical_walk_network`
-- Source implementation: `src/chess_nn_playground/models/non_backtracking_tactical_walk.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/non_backtracking_tactical_walk.py`
 - Idea-local wrapper: `ideas/registry/i055_non_backtracking_tactical_walk_network/model.py`
 
 ## Modules

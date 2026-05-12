@@ -26,5 +26,5 @@ config_path: ideas/registry/i073_tiny_chess_micronet/config.yaml
 model_path: ideas/registry/i073_tiny_chess_micronet/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2200_friday_shanghai_tiny_chess_micronet.md`.
-  Implemented as a board-only tiny chess sketch network in `src/chess_nn_playground/models/tiny_chess_micronet.py`.
+  Implemented as a board-only tiny chess sketch network in `src/chess_nn_playground/models/trunk/tiny_chess_micronet.py`.
 implementation_kind: bespoke_model

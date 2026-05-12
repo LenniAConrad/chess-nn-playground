@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `hall_defect_obligation_matroid_network`
-- Source implementation file: `src/chess_nn_playground/models/hall_defect_obligation_matroid.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/hall_defect_obligation_matroid.py`
 - Idea-local wrapper: `ideas/registry/i053_hall_defect_obligation_matroid_network/model.py`
 
 ## Input Contract

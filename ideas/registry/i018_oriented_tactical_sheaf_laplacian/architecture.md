@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `oriented_tactical_sheaf_laplacian`
-- Source implementation file: `src/chess_nn_playground/models/oriented_tactical_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/oriented_tactical_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i018_oriented_tactical_sheaf_laplacian/model.py`
 
 ## Modules

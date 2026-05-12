@@ -63,5 +63,5 @@ tensors are finite per batch and are appended to prediction artifacts.
 ## Implementation Binding
 
 - Registered model name: `schur_ray_line_algebra_network`
-- Source implementation file: `src/chess_nn_playground/models/schur_ray_line_algebra.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/schur_ray_line_algebra.py`
 - Idea-local wrapper: `ideas/registry/i068_schur_ray_line_algebra_network/model.py`

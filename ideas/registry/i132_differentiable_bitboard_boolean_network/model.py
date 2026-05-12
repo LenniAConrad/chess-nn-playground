@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.differentiable_bitboard_boolean_network import (
+from chess_nn_playground.models.trunk.differentiable_bitboard_boolean_network import (
     DifferentiableBitboardBooleanNetwork,
     build_differentiable_bitboard_boolean_network_from_config,
 )

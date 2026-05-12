@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `tactical_effective_resistance_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_effective_resistance.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_effective_resistance.py`
 - Idea-local wrapper: `ideas/registry/i209_tactical_effective_resistance_network/model.py`

@@ -104,8 +104,8 @@ All citations above were checked at packet generation time. This packet borrows 
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN over `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already present and too likely to learn static material or source artifacts without testing counterfactual structure. |
-| Residual CNN over `simple_18` | `src/chess_nn_playground/models/residual_cnn.py` | Already present; adding residual depth is ordinary capacity scaling, not a new inductive bias. |
+| Simple CNN over `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and too likely to learn static material or source artifacts without testing counterfactual structure. |
+| Residual CNN over `simple_18` | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; adding residual depth is ordinary capacity scaling, not a new inductive bias. |
 | LC0-style CNN or residual CNN over `lc0_static_112` / `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already covered by the baseline suite and too close to “copy LC0 but smaller.” |
 | Ordinary ViT over 64 squares | Common square-token transformer | Rejected because it is a vanilla transformer over board squares and has no chess-specific falsifiable operator. |
 | Plain GNN on squares or pieces | Generic graph neural network over 64 nodes or piece nodes | Too ordinary unless the edge semantics are new; static attack/defense graph variants are already covered by imported sheaf packets. |
@@ -301,7 +301,7 @@ while remaining invariant to generated move ordering.
 Implement the model in:
 
 ```text
-src/chess_nn_playground/models/counterfactual_delta_bottleneck.py
+src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py
 ```
 
 Recommended classes/functions:
@@ -676,7 +676,7 @@ Use idea id:
 | `ideas/20260421_0436_move_delta_bottleneck/config.yaml` | Create | Idea-local config mirroring `configs/counterfactual_delta_bottleneck_simple18.yaml`. |
 | `ideas/20260421_0436_move_delta_bottleneck/report_template.md` | Create | Report skeleton requiring main metrics, `3x2` matrix, matched-FPR near-puzzle diagnostic, and ablation table. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to researched families after implementation, with anti-duplicate guidance for move-delta bottleneck variants if it fails or succeeds. Preserve all leakage and label rules. |
-| `src/chess_nn_playground/models/counterfactual_delta_bottleneck.py` | Create | Model classes listed in Section 7; no engine calls; deterministic pseudo-legal generator; output logits `[batch, 2]`. |
+| `src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py` | Create | Model classes listed in Section 7; no engine calls; deterministic pseudo-legal generator; output logits `[batch, 2]`. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register `counterfactual_delta_bottleneck` and builder function. |
 | `configs/counterfactual_delta_bottleneck_simple18.yaml` | Create | Main benchmark config using `simple_18`, coarse binary mode, seed `42`, balanced class weighting, and model fields from this packet. |
 | `configs/counterfactual_delta_bottleneck_shuffle_ablation.yaml` | Create | Same config with degree-preserving cross-position move-delta shuffle enabled. |
@@ -725,7 +725,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/counterfactual_delta_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/counterfactual_delta_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py
   latest_result_path: null
   notes: Do not use full legal filtering, check/mate/stalemate oracles, engine metadata, source labels, or proposed labels as inputs; report central shuffle and count-only probes.
 ```
@@ -763,7 +763,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: counterfactual_delta_bottleneck
-  file_path: src/chess_nn_playground/models/counterfactual_delta_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py
   builder_function: build_counterfactual_delta_bottleneck
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

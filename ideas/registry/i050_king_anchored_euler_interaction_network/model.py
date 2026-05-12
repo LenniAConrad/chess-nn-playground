@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+from chess_nn_playground.models.trunk.king_anchored_euler_interaction_network import (
     build_king_anchored_euler_interaction_network_from_config,
 )
 

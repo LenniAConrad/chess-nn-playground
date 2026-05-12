@@ -9,7 +9,7 @@ import yaml
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
-from chess_nn_playground.models.ordinal_evidence_ladder import OrdinalEvidenceLadderNet
+from chess_nn_playground.models.trunk.ordinal_evidence_ladder import OrdinalEvidenceLadderNet
 from chess_nn_playground.models.registry import build_model
 
 

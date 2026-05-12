@@ -1,6 +1,6 @@
 # Implementation Notes
 
-Reusable code lives in `src/chess_nn_playground/models/dykstra_lcp.py`.
+Reusable code lives in `src/chess_nn_playground/models/trunk/dykstra_lcp.py`.
 
 Training support adds `DykstraLCPLoss` in `src/chess_nn_playground/training/losses.py` and a small trainer branch for `training.loss: dykstra_lcp`.
 

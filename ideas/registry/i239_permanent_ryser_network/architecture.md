@@ -1,7 +1,7 @@
 # Architecture
 
 `Permanent Ryser Coupling Network` is a hand-coded `nn.Module` at
-`src/chess_nn_playground/models/permanent_ryser.py`.
+`src/chess_nn_playground/models/trunk/permanent_ryser.py`.
 
 - Mechanism family: `linear_algebra` (bespoke).
 - Module class: `PermanentRyserNetwork`.
@@ -16,5 +16,5 @@ module file for the exact algebraic operator implementation.
 ## Implementation Binding
 
 - Registered model name: `permanent_ryser_network`.
-- Source implementation: `src/chess_nn_playground/models/permanent_ryser.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/permanent_ryser.py`.
 - Idea-local wrapper: `ideas/registry/i239_permanent_ryser_network/model.py`.

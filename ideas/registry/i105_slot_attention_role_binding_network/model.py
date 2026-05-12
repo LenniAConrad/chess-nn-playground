@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.slot_attention_role_binding_network import (
+from chess_nn_playground.models.trunk.slot_attention_role_binding_network import (
     SlotAttentionRoleBindingNetwork,
     build_slot_attention_role_binding_network_from_config,
 )

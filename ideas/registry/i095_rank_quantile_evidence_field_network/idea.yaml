@@ -32,7 +32,7 @@ model_path: ideas/registry/i095_rank_quantile_evidence_field_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
   Bespoke rank-quantile evidence field network registered as `rank_quantile_evidence_field_network`
-  in `src/chess_nn_playground/models/rank_quantile.py`. Supports ablation modes
+  in `src/chess_nn_playground/models/trunk/rank_quantile.py`. Supports ablation modes
   `quantile`, `mean_pool_only`, `topk_only`, `random_field_encoder`, and `square_shuffle`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md
 source_packet_candidate: Rank-Quantile Evidence Field Network

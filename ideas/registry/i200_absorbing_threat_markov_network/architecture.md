@@ -160,7 +160,7 @@ falsification table requires.
 
 - Registered model name: `absorbing_threat_markov_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/absorbing_threat_markov_network.py`
+  `src/chess_nn_playground/models/trunk/absorbing_threat_markov_network.py`
 - Idea-local wrapper:
   `ideas/registry/i200_absorbing_threat_markov_network/model.py`
 

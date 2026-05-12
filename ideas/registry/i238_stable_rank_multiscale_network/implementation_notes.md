@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- **Bespoke module**: `src/chess_nn_playground/models/stable_rank_multiscale.py`.
+- **Bespoke module**: `src/chess_nn_playground/models/trunk/stable_rank_multiscale.py`.
 - **Class**: `StableRankMultiscaleNetwork`.
 - **Builder**: `build_stable_rank_multiscale_from_config` (registered in `registry.py`).
 - **Registry key**: `stable_rank_multiscale_network`.

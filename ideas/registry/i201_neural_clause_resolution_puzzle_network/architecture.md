@@ -169,7 +169,7 @@ This architecture is materially distinct from:
 
 - Registered model name: `neural_clause_resolution_puzzle_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/neural_clause_resolution_puzzle_network.py`
+  `src/chess_nn_playground/models/trunk/neural_clause_resolution_puzzle_network.py`
 - Idea-local wrapper:
   `ideas/registry/i201_neural_clause_resolution_puzzle_network/model.py`
 

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.channel_bilinear_role_mixer import (
+from chess_nn_playground.models.trunk.channel_bilinear_role_mixer import (
     build_channel_bilinear_role_mixer_from_config,
 )
 

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/parity_syndrome.py`.
+- Central code: `src/chess_nn_playground/models/trunk/parity_syndrome.py`.
 - Idea-local wrapper: `ideas/registry/i092_parity_syndrome_puzzle_bottleneck/model.py`.
 - Registry key: `parity_syndrome_puzzle_bottleneck`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.

@@ -39,7 +39,7 @@ config_path: ideas/registry/i183_tempo_alignment_gate_network/config.yaml
 model_path: ideas/registry/i183_tempo_alignment_gate_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/tempo_alignment_gate_network.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/tempo_alignment_gate_network.py`
   (`TempoAlignmentGateNetwork`); the idea-local `model.py` is a thin wrapper around
   the registered builder. The gated pressure is the multiplicative conjunction
   `g(s) = tempo_gate * alignment(s) * relu(danger(s))`, pooled into own/opp/gap/gated

@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `forced_target_funnel_network`
-- Source implementation file: `src/chess_nn_playground/models/forced_target_funnel.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/forced_target_funnel.py`
 - Idea-local wrapper: `ideas/registry/i213_forced_target_funnel_network/model.py`

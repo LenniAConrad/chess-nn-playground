@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.legal_reaction_bottleneck_network import (
+from chess_nn_playground.models.trunk.legal_reaction_bottleneck_network import (
     LegalReactionBottleneckNetwork,
     build_legal_reaction_bottleneck_network_from_config,
 )

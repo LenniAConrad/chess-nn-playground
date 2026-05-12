@@ -17,7 +17,7 @@ except RuntimeError:
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
-from chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck import (
+from chess_nn_playground.models.trunk.nuisance_orthogonal_puzzle_bottleneck import (
     BatchRidgeOrthogonalProjector,
     DeterministicNuisanceExtractor,
     FixedNuisanceFeatureMap,

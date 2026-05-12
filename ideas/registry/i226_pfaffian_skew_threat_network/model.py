@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.pfaffian_skew_threat import (
+from chess_nn_playground.models.trunk.pfaffian_skew_threat import (
     build_pfaffian_skew_threat_network_from_config,
 )
 

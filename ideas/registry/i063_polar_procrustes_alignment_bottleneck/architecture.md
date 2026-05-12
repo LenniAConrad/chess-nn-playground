@@ -155,7 +155,7 @@ to polar-Procrustes alignment must beat all four falsifiers.
 ## Implementation Binding
 
 - Registered model name: `polar_procrustes_alignment_bottleneck`
-- Source implementation: `src/chess_nn_playground/models/polar_procrustes_alignment_bottleneck.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/polar_procrustes_alignment_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i063_polar_procrustes_alignment_bottleneck/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_polar_procrustes_alignment_bottleneck_from_config`.

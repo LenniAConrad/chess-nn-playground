@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.line_piece_crossbar_network import (
+from chess_nn_playground.models.trunk.line_piece_crossbar_network import (
     LinePieceCrossbarNetwork,
     build_line_piece_crossbar_network_from_config,
 )

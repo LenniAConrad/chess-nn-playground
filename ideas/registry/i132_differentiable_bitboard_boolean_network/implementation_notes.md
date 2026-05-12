@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/differentiable_bitboard_boolean_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/differentiable_bitboard_boolean_network.py`.
 - Idea-local wrapper: `ideas/registry/i132_differentiable_bitboard_boolean_network/model.py`.
 - Registry key: `differentiable_bitboard_boolean_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.

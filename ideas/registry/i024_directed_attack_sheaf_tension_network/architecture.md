@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `directed_attack_sheaf_tension_network`
-- Source implementation file: `src/chess_nn_playground/models/directed_attack_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/directed_attack_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i024_directed_attack_sheaf_tension_network/model.py`
 
 ## Components

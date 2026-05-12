@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `rank_quantile_evidence_field_network`
-- Source implementation file: `src/chess_nn_playground/models/rank_quantile.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/rank_quantile.py`
 - Idea-local wrapper: `ideas/registry/i095_rank_quantile_evidence_field_network/model.py`
 
 ## Modules

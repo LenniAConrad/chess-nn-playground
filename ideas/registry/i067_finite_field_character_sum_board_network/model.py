@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.finite_field_character_sum import (
+from chess_nn_playground.models.trunk.finite_field_character_sum import (
     build_finite_field_character_sum_board_network_from_config,
 )
 

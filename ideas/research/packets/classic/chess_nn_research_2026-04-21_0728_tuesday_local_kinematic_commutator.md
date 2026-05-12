@@ -84,8 +84,8 @@ Candidate search trace:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and mainly tests ordinary local pattern recognition, not a new tactical observable. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists and would make the research loop a depth/optimization comparison. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and mainly tests ordinary local pattern recognition, not a new tactical observable. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists and would make the research loop a depth/optimization comparison. |
 | LC0-style CNN / residual CNN | Existing LC0 BT4-style CNN and residual CNN variants | Already covered by current baselines and too close to copying LC0-style plane processing. |
 | Ordinary ViT over 64 square tokens | None or any future vanilla Transformer baseline | It is explicitly disallowed as a core idea and has no chess-specific falsifier. |
 | Plain GNN on squares or pieces | Generic graph neural network baseline | It would likely reduce to ordinary message passing over adjacency, attack, or occupancy graphs already explored by sheaf/graph families. |

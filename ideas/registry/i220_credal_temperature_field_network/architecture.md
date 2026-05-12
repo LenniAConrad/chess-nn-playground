@@ -24,5 +24,5 @@ but adds a sample-wise calibration branch that predicts a positive temperature
 ## Implementation Binding
 
 - Registered model name: `credal_temperature_field_network`
-- Source implementation file: `src/chess_nn_playground/models/credal_temperature.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/credal_temperature.py`
 - Idea-local wrapper: `ideas/registry/i220_credal_temperature_field_network/model.py`

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/threat_topology_betti.py`.
+- Central code: `src/chess_nn_playground/models/trunk/threat_topology_betti.py`.
 - Registry key: `threat_topology_betti_bottleneck_network`.
 - Idea wrapper: `ideas/registry/i054_threat_topology_betti_bottleneck_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0814_tuesday_los_angeles_threat_topology.md`.

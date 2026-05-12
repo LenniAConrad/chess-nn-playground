@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.convex_feasibility import (
+from chess_nn_playground.models.trunk.convex_feasibility import (
     ConvexFeasibilityResidualNetwork,
     build_convex_feasibility_residual_network_from_config,
 )

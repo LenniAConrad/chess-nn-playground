@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/prototype_margin_puzzle_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/prototype_margin_puzzle_network.py`.
 - Registered model name: `prototype_margin_puzzle_network`.
 - Idea-local wrapper: `ideas/registry/i175_prototype_margin_puzzle_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.

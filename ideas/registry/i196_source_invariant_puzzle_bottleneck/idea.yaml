@@ -39,7 +39,7 @@ model_path: ideas/registry/i196_source_invariant_puzzle_bottleneck/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
   Bespoke source-invariant puzzle bottleneck; the idea-local wrapper builds
-  `chess_nn_playground.models.source_invariant_puzzle_bottleneck.SourceInvariantPuzzleBottleneck`.
+  `chess_nn_playground.models.trunk.source_invariant_puzzle_bottleneck.SourceInvariantPuzzleBottleneck`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Source-Invariant Puzzle Bottleneck
 source_packet_rank: 11

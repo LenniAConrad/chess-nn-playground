@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/chess_hypercut_polynomial.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/chess_hypercut_polynomial.py`.
 - Idea-local wrapper: `ideas/registry/i082_chess_hypercut_polynomial_network/model.py` calls
   `build_chess_hypercut_polynomial_network_from_config(config["model"])`.
 - Registry key: `chess_hypercut_polynomial_network`

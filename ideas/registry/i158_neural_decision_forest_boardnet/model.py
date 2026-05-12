@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.neural_decision_forest_boardnet import (
+from chess_nn_playground.models.trunk.neural_decision_forest_boardnet import (
     NeuralDecisionForestBoardNet,
     build_neural_decision_forest_boardnet_from_config,
 )

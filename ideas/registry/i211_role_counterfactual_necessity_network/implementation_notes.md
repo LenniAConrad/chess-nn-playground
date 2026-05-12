@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/role_counterfactual_necessity.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/role_counterfactual_necessity.py`.
 - Idea-local wrapper: `ideas/registry/i211_role_counterfactual_necessity_network/model.py` calls the registered builder.
 - Registry key: `role_counterfactual_necessity_network`.
 - Input contract: simple_18 board tensor only; CRTK metadata remains reporting-only.

@@ -25,7 +25,7 @@ config_path: ideas/registry/i221_sylvester_tactical_coupling_network/config.yaml
 model_path: ideas/registry/i221_sylvester_tactical_coupling_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-05-05_1500_tuesday_local_sylvester_tactical_coupling.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/sylvester_coupling.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/sylvester_coupling.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

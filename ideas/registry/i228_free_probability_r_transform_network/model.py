@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.free_probability_r_transform import (
+from chess_nn_playground.models.trunk.free_probability_r_transform import (
     build_free_probability_r_transform_network_from_config,
 )
 

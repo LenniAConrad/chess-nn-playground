@@ -47,5 +47,5 @@ All diagnostic tensors are finite by construction.
 ## Implementation Binding
 
 - Registered model name: `ray_language_automaton_network`
-- Source implementation file: `src/chess_nn_playground/models/ray_language_automaton_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/ray_language_automaton_network.py`
 - Idea-local wrapper: `ideas/registry/i039_ray_language_automaton_network/model.py`

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/file_mirror_tension_sheaf.py` (`FileMirrorTensionSheafNet`).
+- Central code: `src/chess_nn_playground/models/trunk/file_mirror_tension_sheaf.py` (`FileMirrorTensionSheafNet`).
 - Idea-local wrapper: `ideas/registry/i028_file_mirror_tension_sheaf/model.py` (`build_model_from_config`).
 - Registry key: `file_mirror_tension_sheaf`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0437_tuesday_los_angeles_mirror_tension_sheaf.md`.

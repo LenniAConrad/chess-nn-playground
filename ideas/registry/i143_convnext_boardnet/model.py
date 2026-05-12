@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.convnext_boardnet import (
+from chess_nn_playground.models.trunk.convnext_boardnet import (
     build_convnext_boardnet_from_config,
 )
 

@@ -64,5 +64,5 @@ repository's BCE puzzle-binary trainer. The model also returns `attention`,
 ## Implementation Binding
 
 - Registered model name: `set_query_attention_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/set_query_attention.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/set_query_attention.py`
 - Idea-local wrapper: `ideas/registry/i102_set_query_attention_bottleneck/model.py`

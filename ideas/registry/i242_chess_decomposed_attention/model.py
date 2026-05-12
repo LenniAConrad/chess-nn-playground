@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.chess_decomposed_attention import (
+from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     ChessDecomposedAttentionNetwork,
     build_chess_decomposed_attention_from_config,
 )

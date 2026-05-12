@@ -17,7 +17,7 @@ except RuntimeError:
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
-from chess_nn_playground.models.file_mirror_tension_sheaf import (
+from chess_nn_playground.models.trunk.file_mirror_tension_sheaf import (
     FileMirrorTensionSheafNet,
     Simple18Mirror,
     build_file_mirror_tension_sheaf_from_config,

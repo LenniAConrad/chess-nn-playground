@@ -52,5 +52,5 @@ The output dictionary includes `logits` plus segment diagnostics such as `empty_
 ## Implementation Binding
 
 - Registered model name: `occupancy_run_length_segment_encoder`.
-- Source implementation: `src/chess_nn_playground/models/occupancy_run_length_segment.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/occupancy_run_length_segment.py`.
 - Idea-local wrapper: `ideas/registry/i128_occupancy_run_length_segment_encoder/model.py`.

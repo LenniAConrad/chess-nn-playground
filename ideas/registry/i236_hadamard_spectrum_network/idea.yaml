@@ -8,7 +8,7 @@ short_thesis: Applies the 64x64 Walsh-Hadamard transform (Sylvester construction
   to per-channel pooled square signals; classifies puzzle-likeness from top-k Walsh
   coefficient energies. Uses the boolean Fourier basis on Z_2^6 -- distinct from DCT,
   wavelets, and spectral-Laplacian features.
-novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/hadamard_spectrum.py`;
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/trunk/hadamard_spectrum.py`;
   routed via the standard registry (not the generic ResearchPacketProbe).
 expected_advantage: Hand-coded mechanism implements the algebra exactly per the source
   packet -- no profile-routing approximation.

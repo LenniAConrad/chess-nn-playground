@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.material_phase_low_rank_adapter import (
+from chess_nn_playground.models.trunk.material_phase_low_rank_adapter import (
     MaterialPhaseLowRankAdapterNetwork,
     build_material_phase_low_rank_adapter_network_from_config,
 )

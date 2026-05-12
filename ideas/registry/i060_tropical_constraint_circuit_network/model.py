@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tropical_constraint_circuit_network import (
+from chess_nn_playground.models.trunk.tropical_constraint_circuit_network import (
     TropicalConstraintCircuitNet,
     build_tropical_constraint_circuit_network_from_config,
 )

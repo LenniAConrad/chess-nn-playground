@@ -29,7 +29,7 @@ model_path: ideas/registry/i093_wavelet_scattering_board_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
   Bespoke fixed-Haar wavelet scattering board network registered as `wavelet_scattering_board_network`
-  in `src/chess_nn_playground/models/wavelet_scattering_board_network.py`. Supports
+  in `src/chess_nn_playground/models/trunk/wavelet_scattering_board_network.py`. Supports
   ablation modes `haar`, `random_fixed_filters`, `lowpass_only`, and `channel_shuffle`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md
 source_packet_candidate: Wavelet Scattering Board Network

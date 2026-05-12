@@ -60,5 +60,5 @@ The configured ablation mode supports:
 ## Implementation Binding
 
 - Registered model name: `latent_reply_entropy_network`.
-- Source implementation file: `src/chess_nn_playground/models/latent_reply_entropy.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/latent_reply_entropy.py`.
 - Idea-local wrapper: `ideas/registry/i192_latent_reply_entropy_network/model.py`.

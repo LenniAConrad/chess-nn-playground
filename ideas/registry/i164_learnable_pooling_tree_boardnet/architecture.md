@@ -59,5 +59,5 @@ statistics, and a constant `tree_levels` marker.
 ## Implementation Binding
 
 - Registered model name: `learnable_pooling_tree_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/learnable_pooling_tree_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/learnable_pooling_tree_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i164_learnable_pooling_tree_boardnet/model.py`

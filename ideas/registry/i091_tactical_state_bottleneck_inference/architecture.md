@@ -7,7 +7,7 @@ repository's `puzzle_binary` task.
 ## Implementation Binding
 
 - Registered model name: `tactical_state_bottleneck_inference`
-- Source implementation file: `src/chess_nn_playground/models/tactical_state_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_state_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i091_tactical_state_bottleneck_inference/model.py`
 
 ## Modules

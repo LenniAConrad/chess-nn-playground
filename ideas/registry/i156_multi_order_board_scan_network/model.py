@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.multi_order_board_scan_network import (
+from chess_nn_playground.models.trunk.multi_order_board_scan_network import (
     MultiOrderBoardScanNetwork,
     build_multi_order_board_scan_network_from_config,
 )

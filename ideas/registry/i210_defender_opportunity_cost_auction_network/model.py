@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.defender_opportunity_cost_auction import build_defender_opportunity_cost_auction_network_from_config
+from chess_nn_playground.models.trunk.defender_opportunity_cost_auction import build_defender_opportunity_cost_auction_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

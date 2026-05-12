@@ -119,8 +119,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and tests generic local visual patterns without addressing near-puzzle ambiguity. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; adding residual depth is not a research idea here. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests generic local visual patterns without addressing near-puzzle ambiguity. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; adding residual depth is not a research idea here. |
 | LC0-style CNN or residual CNN on BT4 planes | Existing LC0 BT4-style CNN/residual variants | Already covered as an encoding/backbone family and risks becoming “copy LC0 but smaller.” |
 | Ordinary ViT over 64 squares | Standard square-token transformer | Too generic, compute-heavier, and explicitly disallowed as a core idea. |
 | Plain GNN-on-squares | Generic graph neural network over board adjacency | Usually becomes a square-neighborhood CNN in disguise unless it uses rule geometry, which would drift toward imported graph/sheaf families. |

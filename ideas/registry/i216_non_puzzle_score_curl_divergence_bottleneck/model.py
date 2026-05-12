@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.non_puzzle_score_curl_divergence import build_non_puzzle_score_curl_divergence_bottleneck_from_config
+from chess_nn_playground.models.trunk.non_puzzle_score_curl_divergence import build_non_puzzle_score_curl_divergence_bottleneck_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

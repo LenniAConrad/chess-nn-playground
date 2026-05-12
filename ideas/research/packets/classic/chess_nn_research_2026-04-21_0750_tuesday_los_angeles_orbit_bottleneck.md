@@ -131,8 +131,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and tests generic local board features without the rule-exact orbit hypothesis. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; adding residual depth is an ordinary architecture change, not a new research mechanism. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests generic local board features without the rule-exact orbit hypothesis. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; adding residual depth is an ordinary architecture change, not a new research mechanism. |
 | LC0-style CNN/residual CNN | Existing LC0 BT4-style CNN and residual variants | Already represented; copying LC0-style channel processing does not test a new invariance claim. |
 | Bigger/deeper/wider CNN | Small/medium/deep baseline variants | Prohibited as a core idea and unlikely to reveal whether puzzle-likeness is color-perspective invariant. |
 | Ordinary ViT over 64 squares | No exact existing baseline, but a common obvious import | A vanilla Transformer over squares is explicitly disallowed and has no chess-specific falsifier. |
@@ -296,7 +296,7 @@ The strongest objection is that `kappa` is an obvious chess symmetry and current
 Proposed model file:
 
 ```text
-src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py
+src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py
 ```
 
 Main classes/modules:
@@ -675,7 +675,7 @@ Repo changes:
 | `ideas/20260421_rule_exact_orbit_bottleneck/config.yaml` | Create | Minimal `simple_18` config from `config_yaml` block. |
 | `ideas/20260421_rule_exact_orbit_bottleneck/report_template.md` | Create | Template requiring main metrics, orbit consistency, and `3x2` fine-label matrices for main and ablations. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported memory after implementation; include anti-duplicate notes below. |
-| `src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py` | Create | `Simple18ColorFlipAdapter`, `TinyBoardStem`, `RuleExactOrbitBottleneckNet`, and builder. |
+| `src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py` | Create | `Simple18ColorFlipAdapter`, `TinyBoardStem`, `RuleExactOrbitBottleneckNet`, and builder. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `rule_exact_orbit_bottleneck`. |
 | `configs/rule_exact_orbit_bottleneck_simple18.yaml` | Create | Standard benchmark config pointing at current split, `encoding: simple_18`, `model.name: rule_exact_orbit_bottleneck`. |
 | `configs/rule_exact_orbit_bottleneck_no_orbit_simple18.yaml` | Create | Same stem with `orbit_group: identity`. |
@@ -725,7 +725,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/rule_exact_orbit_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py
   latest_result_path: null
   notes: First run CE-only probability Reynolds pooling, then optional orbit JSD. Do not guess LC0 channel maps.
 ```
@@ -775,7 +775,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: rule_exact_orbit_bottleneck
-  file_path: src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py
   builder_function: build_rule_exact_orbit_bottleneck
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.soft_formal_concept_closure import (
+from chess_nn_playground.models.trunk.soft_formal_concept_closure import (
     SoftFormalConceptClosureNet,
     build_soft_formal_concept_closure_network_from_config,
 )

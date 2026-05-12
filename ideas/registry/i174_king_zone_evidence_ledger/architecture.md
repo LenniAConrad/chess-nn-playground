@@ -169,5 +169,5 @@ The packet's required ablations are exposed via `ablation`:
 ## Implementation Binding
 
 - Registered model name: `king_zone_evidence_ledger`
-- Source implementation file: `src/chess_nn_playground/models/king_zone_evidence_ledger.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/king_zone_evidence_ledger.py`
 - Idea-local wrapper: `ideas/registry/i174_king_zone_evidence_ledger/model.py`

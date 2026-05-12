@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.tracy_widom_level_spacing_network import (
+from chess_nn_playground.models.trunk.tracy_widom_level_spacing_network import (
     build_tracy_widom_level_spacing_network_from_config,
 )
 

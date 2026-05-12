@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/vector_quantized_motif_codebook_net.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/vector_quantized_motif_codebook_net.py`.
 - Idea-local wrapper: `ideas/registry/i159_vector_quantized_motif_codebook_net/model.py`.
 - Registry key: `vector_quantized_motif_codebook_net`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.

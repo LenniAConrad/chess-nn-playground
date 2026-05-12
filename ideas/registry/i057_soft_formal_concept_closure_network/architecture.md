@@ -64,7 +64,7 @@ over a per-board formal context built from the simple_18 board tensor.
 ## Implementation Binding
 
 - Registered model name: `soft_formal_concept_closure_network`
-- Source implementation: `src/chess_nn_playground/models/soft_formal_concept_closure.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/soft_formal_concept_closure.py`
 - Idea-local wrapper: `ideas/registry/i057_soft_formal_concept_closure_network/model.py`
   delegates to `build_soft_formal_concept_closure_network_from_config`.
 - The idea-local wrapper does not import or call the shared

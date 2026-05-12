@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Source implementation: `src/chess_nn_playground/models/attack_hodge_sheaf.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py`.
 - Idea wrapper: `ideas/registry/i023_attack_hodge_sheaf_tension_network/model.py`.
 - Registry key: `attack_hodge_sheaf_tension_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0256_tuesday_local_attack_hodge_sheaf.md`.

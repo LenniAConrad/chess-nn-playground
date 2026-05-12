@@ -25,5 +25,5 @@ Returned diagnostics include the two class pseudo-NLL scores, the description-le
 ## Implementation Binding
 
 - Registered model name: `geometry_conditioned_board_pseudo_likelihood_ratio_network`
-- Source implementation file: `src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py`
 - Idea-local wrapper: `ideas/registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`

@@ -32,5 +32,5 @@ where `C` is a board-derived obligation matrix.
 ## Implementation Binding
 
 - Registered model name: `sylvester_tactical_coupling_network`
-- Source implementation file: `src/chess_nn_playground/models/sylvester_coupling.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/sylvester_coupling.py`
 - Idea-local wrapper: `ideas/registry/i221_sylvester_tactical_coupling_network/model.py`

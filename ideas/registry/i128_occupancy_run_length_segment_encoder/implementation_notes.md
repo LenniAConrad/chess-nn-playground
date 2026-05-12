@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/occupancy_run_length_segment.py`.
+- Central code: `src/chess_nn_playground/models/trunk/occupancy_run_length_segment.py`.
 - Registry key: `occupancy_run_length_segment_encoder`.
 - Idea wrapper: `ideas/registry/i128_occupancy_run_length_segment_encoder/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.

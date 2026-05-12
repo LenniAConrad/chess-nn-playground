@@ -99,8 +99,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and tests local learned filters, not subspace angles. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Extra residual capacity is ordinary scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests local learned filters, not subspace angles. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Extra residual capacity is ordinary scaling. |
 | LC0-style CNN/residual CNN | Existing 112-plane configs | Too close to engine-network conventions. |
 | Vanilla ViT over 64 squares | Common Transformer baseline | Attention capacity is too broad and does not isolate Grassmannian geometry. |
 | Plain GNN over square adjacency | Generic graph network | Too close to ordinary message passing and imported graph families. |

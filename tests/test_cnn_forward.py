@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import torch
 
-from chess_nn_playground.models.cnn import SimpleChessCNN
+from chess_nn_playground.models.trunk.cnn import SimpleChessCNN
 from chess_nn_playground.models.registry import available_models, build_model
 
 

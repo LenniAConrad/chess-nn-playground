@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/low_displacement_rank_board_operator.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/low_displacement_rank_board_operator.py`.
 - Registry key: `low_displacement_rank_board_operator` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Idea-local wrapper:

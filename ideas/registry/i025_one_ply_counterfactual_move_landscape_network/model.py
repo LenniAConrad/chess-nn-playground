@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.move_landscape_net import MoveLandscapeNet
-from chess_nn_playground.models.move_landscape_net import build_move_landscape_net_from_config
+from chess_nn_playground.models.trunk.move_landscape_net import MoveLandscapeNet
+from chess_nn_playground.models.trunk.move_landscape_net import build_move_landscape_net_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> MoveLandscapeNet:

@@ -10,7 +10,7 @@ bidirectional GRU; the order-pooled summaries drive the puzzle logit.
 ## Implementation Binding
 
 - Registered model name: `multi_order_board_scan_network`
-- Source implementation file: `src/chess_nn_playground/models/multi_order_board_scan_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/multi_order_board_scan_network.py`
 - Idea-local wrapper: `ideas/registry/i156_multi_order_board_scan_network/model.py`
 
 ## Modules

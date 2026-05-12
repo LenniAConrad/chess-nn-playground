@@ -89,5 +89,5 @@ alongside diagnostics including `residual_total_norm`,
 ## Implementation Binding
 
 - Registered model name: `legal_constraint_projection_residual_network`.
-- Source implementation: `src/chess_nn_playground/models/legal_constraint_projection_residual_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/legal_constraint_projection_residual_network.py`.
 - Idea-local wrapper: `ideas/registry/i134_legal_constraint_projection_residual_network/model.py`.

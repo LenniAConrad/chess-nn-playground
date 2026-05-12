@@ -16,7 +16,7 @@ except RuntimeError:
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
-from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
+from chess_nn_playground.models.trunk.entropic_piece_target_transport_bottleneck import (
     DEFAULT_PAIRS,
     EntropicPieceTargetTransportBottleneck,
     NUM_PAIRS,
@@ -136,7 +136,7 @@ def test_transport_plans_are_couplings_of_their_marginals():
     module = _load_idea_model_module()
     model = module.build_model_from_config(config).eval()
     x = _board_with_pieces()
-    from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
+    from chess_nn_playground.models.trunk.entropic_piece_target_transport_bottleneck import (
         LogSinkhorn,
         _build_source_masks,
         _build_target_anchors,

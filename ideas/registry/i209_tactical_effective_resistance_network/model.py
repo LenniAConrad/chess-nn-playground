@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.tactical_effective_resistance import build_tactical_effective_resistance_network_from_config
+from chess_nn_playground.models.trunk.tactical_effective_resistance import build_tactical_effective_resistance_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

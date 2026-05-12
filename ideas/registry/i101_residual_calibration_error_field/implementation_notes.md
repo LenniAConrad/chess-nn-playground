@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/residual_calibration.py`.
+- Central code: `src/chess_nn_playground/models/trunk/residual_calibration.py`.
 - Registry key: `residual_calibration_error_field`.
 - Idea wrapper: `ideas/registry/i101_residual_calibration_error_field/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.

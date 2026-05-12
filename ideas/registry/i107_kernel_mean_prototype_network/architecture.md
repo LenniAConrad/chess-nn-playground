@@ -72,5 +72,5 @@ Forward returns `logits` plus `kernel_mean`, `kernel_features`,
 ## Implementation Binding
 
 - Registered model name: `kernel_mean_prototype_network`.
-- Source implementation file: `src/chess_nn_playground/models/kernel_mean_prototype_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/kernel_mean_prototype_network.py`.
 - Idea-local wrapper: `ideas/registry/i107_kernel_mean_prototype_network/model.py`.

@@ -113,5 +113,5 @@ The forward pass returns a dict with `B = batch`, `D = depth`,
 ## Implementation Binding
 
 - Registered model name: `line_piece_crossbar_network`
-- Source implementation file: `src/chess_nn_playground/models/line_piece_crossbar_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/line_piece_crossbar_network.py`
 - Idea-local wrapper: `ideas/registry/i171_line_piece_crossbar_network/model.py`

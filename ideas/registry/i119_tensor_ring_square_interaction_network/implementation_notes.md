@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/tensor_ring_square_interaction_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/tensor_ring_square_interaction_network.py`.
 - Idea-local wrapper: `ideas/registry/i119_tensor_ring_square_interaction_network/model.py` (delegates to
   `build_tensor_ring_square_interaction_network_from_config`).
 - Registry key: `tensor_ring_square_interaction_network`.

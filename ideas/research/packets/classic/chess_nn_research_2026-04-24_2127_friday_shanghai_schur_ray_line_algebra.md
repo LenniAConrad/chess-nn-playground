@@ -580,7 +580,7 @@ Treat the idea as falsified if:
 ### New Files
 
 ```text
-src/chess_nn_playground/models/schur_ray_line_algebra.py
+src/chess_nn_playground/models/trunk/schur_ray_line_algebra.py
 tests/test_schur_ray_line_algebra.py
 configs/model/schur_ray_line_algebra.yaml
 ```

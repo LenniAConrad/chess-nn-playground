@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/schur_ray_line_algebra.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/schur_ray_line_algebra.py`.
 - Registry key: `schur_ray_line_algebra_network`.
 - Idea-local wrapper: `ideas/registry/i068_schur_ray_line_algebra_network/model.py` (thin `build_model_from_config`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`.

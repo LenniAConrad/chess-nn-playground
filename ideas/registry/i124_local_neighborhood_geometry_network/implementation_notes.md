@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Source implementation: `src/chess_nn_playground/models/local_neighborhood_geometry_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/local_neighborhood_geometry_network.py`.
 - Idea-local wrapper: `ideas/registry/i124_local_neighborhood_geometry_network/model.py`.
 - Registry key: `local_neighborhood_geometry_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.

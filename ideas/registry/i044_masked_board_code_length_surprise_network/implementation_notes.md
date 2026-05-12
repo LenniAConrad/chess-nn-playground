@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/masked_surprise_codec.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/masked_surprise_codec.py`.
 - Idea-local builder: `ideas/registry/i044_masked_board_code_length_surprise_network/model.py`
   is a thin `build_model_from_config` wrapper around
   `build_masked_board_code_length_surprise_network_from_config`.

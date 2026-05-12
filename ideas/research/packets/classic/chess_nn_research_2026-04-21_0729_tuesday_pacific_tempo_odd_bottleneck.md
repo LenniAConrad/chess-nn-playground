@@ -85,8 +85,8 @@ The broader internal screen covered at least twelve mechanisms: masked compressi
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and mainly tests local pattern recognition, not a new puzzle-likeness mechanism. |
-| Residual CNN on `simple_18` | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; more residual capacity would be routine architecture scaling. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and mainly tests local pattern recognition, not a new puzzle-likeness mechanism. |
+| Residual CNN on `simple_18` | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; more residual capacity would be routine architecture scaling. |
 | LC0-style CNN on `lc0_static_112` or `lc0_bt4_112` | Existing LC0 BT4-style CNN variants | Too close to copying LC0 input conventions and baseline towers without a new falsifiable operator. |
 | LC0-style residual CNN | Existing LC0 BT4-style residual CNN variants | Already covered by the baseline suite; changing block counts or widths is not research novelty. |
 | Ordinary ViT over 64 square tokens | Vanilla Transformer over board squares | Explicitly disallowed as a core idea and likely data-hungry for the current sample split. |
@@ -311,7 +311,7 @@ The minimal experiment is still worth running because the ablation is unusually 
 
 Implementation target file:
 
-- `src/chess_nn_playground/models/tempo_odd_bottleneck.py`
+- `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py`
 
 Registry name:
 
@@ -654,7 +654,7 @@ Use idea id `20260421_0729`.
 | `ideas/20260421_0729_tempo_odd_bottleneck/config.yaml` | Create | Minimal `simple_18` config using `centered_tempo_odd_bottleneck`. |
 | `ideas/20260421_0729_tempo_odd_bottleneck/report_template.md` | Create | Report skeleton with metrics, `3x2` matrices, ablation comparison, and decision outcome. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet's fingerprint to imported research memory after implementation; add anti-duplicate rule for side-to-move odd/even/null-centered turn-intervention bottlenecks if it fails. |
-| `src/chess_nn_playground/models/tempo_odd_bottleneck.py` | Create | `Simple18TurnAdapter`, `TempoNullBuilder`, `SharedBoardEncoder`, and `CenteredTempoOddBottleneckNet`. |
+| `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py` | Create | `Simple18TurnAdapter`, `TempoNullBuilder`, `SharedBoardEncoder`, and `CenteredTempoOddBottleneckNet`. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register builder function `centered_tempo_odd_bottleneck`. |
 | `configs/tempo_odd_bottleneck_simple18.yaml` | Create | Shared benchmark config pointing at the current train/val/test split. |
 | `tests/test_tempo_odd_bottleneck.py` | Create | Focused tests: forward shape, `tau(tau(x)) == x`, non-turn channels unchanged by toggle, null builder zeros only non-turn channels, centered odd anti-invariance, unsupported LC0 layout fails closed. |
@@ -693,7 +693,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/tempo_odd_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/tempo_odd_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py
   latest_result_path: null
   notes: Fail closed for lc0_static_112 and lc0_bt4_112 unless explicit channel maps validate side-to-move and current-board semantics.
 ```
@@ -739,7 +739,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: centered_tempo_odd_bottleneck
-  file_path: src/chess_nn_playground/models/tempo_odd_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py
   builder_function: build_centered_tempo_odd_bottleneck
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

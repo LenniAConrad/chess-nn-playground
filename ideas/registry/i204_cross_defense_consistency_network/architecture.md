@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `cross_defense_consistency_network`
-- Source implementation file: `src/chess_nn_playground/models/cross_defense_consistency.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/cross_defense_consistency.py`
 - Idea-local wrapper: `ideas/registry/i204_cross_defense_consistency_network/model.py`

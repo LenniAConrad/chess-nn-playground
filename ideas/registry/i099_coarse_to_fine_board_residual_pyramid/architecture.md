@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `coarse_to_fine_board_residual_pyramid`
-- Source implementation file: `src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/coarse_to_fine_residual_pyramid.py`
 - Idea-local wrapper: `ideas/registry/i099_coarse_to_fine_board_residual_pyramid/model.py`
 
 ## Modules

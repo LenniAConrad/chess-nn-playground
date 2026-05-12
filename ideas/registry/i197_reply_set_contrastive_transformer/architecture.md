@@ -89,5 +89,5 @@ The constructor accepts the following ablations:
 ## Implementation Binding
 
 - Registered model name: `reply_set_contrastive_transformer`
-- Source implementation file: `src/chess_nn_playground/models/reply_set_contrastive_transformer.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/reply_set_contrastive_transformer.py`
 - Idea-local wrapper: `ideas/registry/i197_reply_set_contrastive_transformer/model.py`

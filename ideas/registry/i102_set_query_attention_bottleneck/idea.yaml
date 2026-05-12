@@ -26,7 +26,7 @@ trainer_entrypoint: ideas/registry/i102_set_query_attention_bottleneck/train.py
 config_path: ideas/registry/i102_set_query_attention_bottleneck/config.yaml
 model_path: ideas/registry/i102_set_query_attention_bottleneck/model.py
 latest_result_path: null
-notes: Bespoke implementation in `src/chess_nn_playground/models/set_query_attention.py`
+notes: Bespoke implementation in `src/chess_nn_playground/models/trunk/set_query_attention.py`
   with idea-local wrapper `ideas/registry/i102_set_query_attention_bottleneck/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md
 source_packet_candidate: Set-Query Attention Bottleneck

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.set_query_attention import SetQueryAttentionBottleneck
-from chess_nn_playground.models.set_query_attention import build_set_query_attention_bottleneck_from_config
+from chess_nn_playground.models.trunk.set_query_attention import SetQueryAttentionBottleneck
+from chess_nn_playground.models.trunk.set_query_attention import build_set_query_attention_bottleneck_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> SetQueryAttentionBottleneck:

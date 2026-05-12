@@ -1,7 +1,7 @@
 # Architecture
 
 `Cayley-Hamilton Coefficient Network` is a hand-coded `nn.Module` at
-`src/chess_nn_playground/models/cayley_hamilton_coeffs.py`.
+`src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`.
 
 - Mechanism family: `linear_algebra` (bespoke).
 - Module class: `CayleyHamiltonCoefficientNetwork`.
@@ -16,5 +16,5 @@ module file for the exact algebraic operator implementation.
 ## Implementation Binding
 
 - Registered model name: `cayley_hamilton_coeffs_network`.
-- Source implementation: `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`.
 - Idea-local wrapper: `ideas/registry/i240_cayley_hamilton_coeffs_network/model.py`.

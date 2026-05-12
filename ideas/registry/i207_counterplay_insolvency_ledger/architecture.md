@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `counterplay_insolvency_ledger`
-- Source implementation file: `src/chess_nn_playground/models/counterplay_insolvency_ledger.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/counterplay_insolvency_ledger.py`
 - Idea-local wrapper: `ideas/registry/i207_counterplay_insolvency_ledger/model.py`

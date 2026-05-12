@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 import torch
 
-from chess_nn_playground.models.idea_blocks import BoardConvStem, BoardTensorSpec, GlobalPoolClassifier, require_board_tensor
+from chess_nn_playground.models.trunk.idea_blocks import BoardConvStem, BoardTensorSpec, GlobalPoolClassifier, require_board_tensor
 
 
 def test_idea_blocks_preserve_expected_classifier_shape():

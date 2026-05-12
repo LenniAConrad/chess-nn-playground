@@ -9,7 +9,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from chess_nn_playground.models.idea_blocks import BoardTensorSpec, require_board_tensor
+from chess_nn_playground.models.trunk.idea_blocks import BoardTensorSpec, require_board_tensor
 
 
 FAMILY_NAMES = [

@@ -82,7 +82,7 @@ The forward pass returns a dictionary that includes:
 ## Implementation Binding
 
 - Registered model name: `piece_target_entropic_transport_bottleneck`.
-- Source implementation: `src/chess_nn_playground/models/piece_target_transport.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/piece_target_transport.py`.
 - Idea-local wrapper: `ideas/registry/i033_piece_target_entropic_transport_bottleneck/model.py`,
   which exposes `build_model_from_config(config)` and delegates to
   `build_piece_target_entropic_transport_bottleneck_from_config`.

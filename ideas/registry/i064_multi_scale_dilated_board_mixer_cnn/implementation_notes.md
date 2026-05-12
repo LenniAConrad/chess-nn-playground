@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py`.
+- Central code: `src/chess_nn_playground/models/trunk/multi_scale_dilated_board_mixer_cnn.py`.
 - Idea-local wrapper: `ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/model.py`
   re-exports `build_model_from_config`, which calls
   `build_multi_scale_dilated_board_mixer_cnn_from_config` after defaulting

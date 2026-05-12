@@ -26,7 +26,7 @@ config_path: ideas/registry/i026_counterfactual_move_delta_spectrum_network/conf
 model_path: ideas/registry/i026_counterfactual_move_delta_spectrum_network/model.py
 latest_result_path: null
 notes: Bespoke implementation of the markdown architecture. The idea-local model
-  wrapper delegates to `src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py`.
+  wrapper delegates to `src/chess_nn_playground/models/trunk/counterfactual_move_delta_spectrum.py`.
   Reuses the rule-only simple_18 adapter and pseudo-legal delta enumerator from i025
   but adds a bespoke covariance/eigen-spectrum pool and head.
 implementation_kind: bespoke_model

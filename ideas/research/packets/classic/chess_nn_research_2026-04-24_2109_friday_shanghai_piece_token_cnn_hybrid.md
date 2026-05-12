@@ -204,7 +204,7 @@ Abandon if:
 | `ideas/20260424_piece_token_cnn_hybrid/idea.yaml` | Create | Idea metadata. |
 | `ideas/20260424_piece_token_cnn_hybrid/architecture.md` | Create | Architecture details from this packet. |
 | `ideas/20260424_piece_token_cnn_hybrid/ablations.md` | Create | Ablation table. |
-| `src/chess_nn_playground/models/piece_token_cnn_hybrid.py` | Create | Token extractor, CNN trunk, token mixer, fusion head, builder. |
+| `src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py` | Create | Token extractor, CNN trunk, token mixer, fusion head, builder. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `piece_token_cnn_hybrid`. |
 | `configs/bench_piece_token_cnn_hybrid_simple18.yaml` | Create | Main config. |
 | `configs/bench_piece_token_cnn_hybrid_cnn_only.yaml` | Create | Central ablation config. |
@@ -241,7 +241,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/bench_piece_token_cnn_hybrid_simple18.yaml
-  model_path: src/chess_nn_playground/models/piece_token_cnn_hybrid.py
+  model_path: src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py
   latest_result_path: null
   notes: Treat as a regular token-aware baseline candidate.
 ```
@@ -288,7 +288,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: piece_token_cnn_hybrid
-  file_path: src/chess_nn_playground/models/piece_token_cnn_hybrid.py
+  file_path: src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py
   builder_function: build_piece_token_cnn_hybrid_from_config
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

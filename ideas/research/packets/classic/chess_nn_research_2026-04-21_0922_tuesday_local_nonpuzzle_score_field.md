@@ -125,8 +125,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already present; it tests generic local texture and piece-pattern learning without the new non-puzzle score-field operator. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already present; more residual blocks would be routine architecture tuning. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already present; it tests generic local texture and piece-pattern learning without the new non-puzzle score-field operator. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; more residual blocks would be routine architecture tuning. |
 | LC0-style CNN or residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already present and currently history planes are zero-filled; copying LC0 does not test a new puzzle-likeness hypothesis. |
 | Ordinary ViT over 64 squares | Common vanilla Transformer baseline | Too generic and explicitly disallowed as a core idea; it would mostly test token attention capacity. |
 | Plain GNN on board squares | Generic graph neural network over 8x8 adjacency | Too ordinary and likely weaker than CNNs unless augmented with relation edges, which would drift toward imported attack-defense graph families. |

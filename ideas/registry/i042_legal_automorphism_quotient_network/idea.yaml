@@ -31,7 +31,7 @@ config_path: ideas/registry/i042_legal_automorphism_quotient_network/config.yaml
 model_path: ideas/registry/i042_legal_automorphism_quotient_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0731_tuesday_los_angeles_orbit_quotient.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/legal_automorphism_quotient_network.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/legal_automorphism_quotient_network.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: symmetry
 implementation_kind: bespoke_model

@@ -77,8 +77,8 @@ Candidate search trace, including serious mechanisms not selected:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and mostly tests local spatial filters, not explicit sparse high-order constellations. |
-| Residual CNN small/medium/deep | `src/chess_nn_playground/models/residual_cnn.py` | Already exists and scaling residual depth would be routine architecture tuning. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and mostly tests local spatial filters, not explicit sparse high-order constellations. |
+| Residual CNN small/medium/deep | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists and scaling residual depth would be routine architecture tuning. |
 | LC0-style CNN on `lc0_static_112` or `lc0_bt4_112` | Existing LC0-style CNN variants | Already covered as an encoding/backbone family and too close to “copy LC0” if made central. |
 | LC0-style residual CNN | Existing LC0 BT4-style residual variants | Repeating residual blocks over LC0 planes is a baseline extension, not a new falsifiable operator. |
 | Ordinary ViT over 64 square tokens | Common transformer baseline | Too generic, attention-heavy, and explicitly disallowed as a core idea. |
@@ -452,7 +452,7 @@ What result would justify scaling:
 | `ideas/20260421_mobius_constellation/config.yaml` | Create | Copy of the `config_yaml` block below, with model-specific fields added under `model`. |
 | `ideas/20260421_mobius_constellation/report_template.md` | Create | Template requiring main metrics, `3x2` confusion, near-puzzle matched-FPR diagnostic, and ablation comparisons. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add anti-duplicate guidance for polynomial/ANOVA/factorization-machine piece-constellation networks after this packet is consumed. Preserve all hard leakage and label rules. |
-| `src/chess_nn_playground/models/mobius_piece_constellation.py` | Create | `SafeBoardStateAdapter`, `PieceSquareTokenizer`, `ElementarySymmetricInteractionBlock`, `DegreeGate`, `ConstellationClassifierHead`, and `MobiusPieceConstellationNet`. |
+| `src/chess_nn_playground/models/trunk/mobius_piece_constellation.py` | Create | `SafeBoardStateAdapter`, `PieceSquareTokenizer`, `ElementarySymmetricInteractionBlock`, `DegreeGate`, `ConstellationClassifierHead`, and `MobiusPieceConstellationNet`. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register builder name `mobius_piece_constellation`. Ensure `forward(x)` returns `(B,2)` logits. |
 | `configs/mobius_piece_constellation_simple18.yaml` | Create | Shared-trainer compatible config for the minimal experiment. |
 | `configs/mobius_piece_constellation_simple18_degree1.yaml` | Create | Central degree-1-only ablation config. |
@@ -494,7 +494,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/mobius_piece_constellation_simple18.yaml
-  model_path: src/chess_nn_playground/models/mobius_piece_constellation.py
+  model_path: src/chess_nn_playground/models/trunk/mobius_piece_constellation.py
   latest_result_path: null
   notes: "Fail closed for lc0_static_112 and lc0_bt4_112 unless explicit current-board piece-plane channel maps are implemented and tested."
 ```
@@ -541,7 +541,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: mobius_piece_constellation
-  file_path: src/chess_nn_playground/models/mobius_piece_constellation.py
+  file_path: src/chess_nn_playground/models/trunk/mobius_piece_constellation.py
   builder_function: build_mobius_piece_constellation
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

@@ -95,6 +95,6 @@ predicts.
 | `slot_count_sweep` | A no-op flag for runs that sweep `num_slots`. Detects bottleneck vs capacity. |
 
 The bespoke implementation lives in
-`src/chess_nn_playground/models/king_zone_evidence_ledger.py`
+`src/chess_nn_playground/models/trunk/king_zone_evidence_ledger.py`
 (`KingZoneEvidenceLedger`); the idea-local `model.py` wraps the
 registered builder.

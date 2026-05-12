@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.neural_board_cellular_automaton import (
+from chess_nn_playground.models.trunk.neural_board_cellular_automaton import (
     NeuralBoardCellularAutomaton,
     build_neural_board_cellular_automaton_from_config,
 )

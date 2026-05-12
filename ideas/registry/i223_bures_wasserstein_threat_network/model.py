@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.bures_wasserstein_threat import (
+from chess_nn_playground.models.trunk.bures_wasserstein_threat import (
     build_bures_wasserstein_threat_network_from_config,
 )
 

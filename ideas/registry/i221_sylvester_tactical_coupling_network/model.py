@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.sylvester_coupling import (
+from chess_nn_playground.models.trunk.sylvester_coupling import (
     build_sylvester_tactical_coupling_network_from_config,
 )
 

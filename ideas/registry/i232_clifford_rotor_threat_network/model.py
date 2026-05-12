@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.clifford_rotor_threat_network import (
+from chess_nn_playground.models.trunk.clifford_rotor_threat_network import (
     build_clifford_rotor_threat_network_from_config,
 )
 

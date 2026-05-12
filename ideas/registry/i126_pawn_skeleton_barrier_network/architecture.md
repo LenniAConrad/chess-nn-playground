@@ -49,5 +49,5 @@ The model returns one puzzle logit for the `puzzle_binary` task (fine labels 0 a
 ## Implementation Binding
 
 - Registered model name: `pawn_skeleton_barrier_network`.
-- Source implementation: `src/chess_nn_playground/models/pawn_skeleton_barrier.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/pawn_skeleton_barrier.py`.
 - Idea-local wrapper: `ideas/registry/i126_pawn_skeleton_barrier_network/model.py`.

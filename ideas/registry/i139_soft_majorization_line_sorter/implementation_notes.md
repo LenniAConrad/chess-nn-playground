@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/soft_majorization_line_sorter.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/soft_majorization_line_sorter.py`.
 - Builder: `build_soft_majorization_line_sorter_from_config` (called from `ideas/registry/i139_soft_majorization_line_sorter/model.py`).
 - Registry key: `soft_majorization_line_sorter` (registered in `src/chess_nn_playground/models/registry.py`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.

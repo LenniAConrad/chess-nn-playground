@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `file_mirror_tension_sheaf`
-- Source implementation file: `src/chess_nn_playground/models/file_mirror_tension_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/file_mirror_tension_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i028_file_mirror_tension_sheaf/model.py`
 
 ## Components

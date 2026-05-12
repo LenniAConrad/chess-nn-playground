@@ -94,8 +94,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and tests generic local pattern learning without a new chess-specific operator. |
-| Residual CNN depth/width variants | `src/chess_nn_playground/models/residual_cnn.py` | Already represented; changing depth or channels is ordinary capacity tuning, not a research idea. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests generic local pattern learning without a new chess-specific operator. |
+| Residual CNN depth/width variants | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already represented; changing depth or channels is ordinary capacity tuning, not a research idea. |
 | LC0-style CNN on `lc0_static_112` or `lc0_bt4_112` | Existing LC0 BT4-style CNN variants | Too close to imported/baseline LC0 encoders and does not introduce a falsifiable mechanism. |
 | LC0-style residual CNN | Existing LC0 residual CNN variants | A stronger residual tower could help but would not explain what structural signal distinguishes puzzle-like positions. |
 | Ordinary ViT over 64 square tokens | Generic vanilla Transformer | Explicitly disallowed and likely data-hungry; attention weights alone are not a board operator. |
@@ -240,7 +240,7 @@ The strongest objection is that the operator may rediscover simple shortcuts: at
 Implement the main model in:
 
 ```text
-src/chess_nn_playground/models/king_escape_percolation.py
+src/chess_nn_playground/models/trunk/king_escape_percolation.py
 ```
 
 Suggested classes/functions:
@@ -466,7 +466,7 @@ Result that would justify scaling:
 | `ideas/20260421_kep_king_escape_percolation/config.yaml` | Create | Minimal `simple_18` experiment config from Section 12. |
 | `ideas/20260421_kep_king_escape_percolation/report_template.md` | Create | Template with metrics, `3x2` matrices, near-puzzle matched-FPR diagnostic, and percolation histograms. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported memory and add anti-duplicate notes for king escape percolation if it fails. Preserve all hard leakage and falsification rules. |
-| `src/chess_nn_playground/models/king_escape_percolation.py` | Create | `torch.nn.Module` implementation of adapters, pseudo-legal attack maps, cost field, softmin DP, fusion, and logits return. |
+| `src/chess_nn_playground/models/trunk/king_escape_percolation.py` | Create | `torch.nn.Module` implementation of adapters, pseudo-legal attack maps, cost field, softmin DP, fusion, and logits return. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `king_escape_percolation` builder without disturbing existing models. |
 | `configs/king_escape_percolation_simple18.yaml` | Create | Main benchmark config pointing at current `crtk_sample_3class` split and `simple_18`. |
 | `configs/king_escape_percolation_simple18_shuffle_ablation.yaml` | Create | Same config with `model.ablation_mode: ring_bin_cost_shuffle`. |
@@ -505,7 +505,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/king_escape_percolation_simple18.yaml
-  model_path: src/chess_nn_playground/models/king_escape_percolation.py
+  model_path: src/chess_nn_playground/models/trunk/king_escape_percolation.py
   latest_result_path: null
   notes: Export main and ablation 3x2 fine-label confusion matrices plus class-1 recall at matched fine-label-0 false-positive rate.
 ```
@@ -556,7 +556,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: king_escape_percolation
-  file_path: src/chess_nn_playground/models/king_escape_percolation.py
+  file_path: src/chess_nn_playground/models/trunk/king_escape_percolation.py
   builder_function: build_king_escape_percolation
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

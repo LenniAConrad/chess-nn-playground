@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.phase_specialist_calibration_mixture import build_phase_specialist_calibration_mixture_from_config
+from chess_nn_playground.models.trunk.phase_specialist_calibration_mixture import build_phase_specialist_calibration_mixture_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

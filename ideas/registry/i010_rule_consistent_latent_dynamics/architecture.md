@@ -95,5 +95,5 @@ No full move tree is required.
 ## Implementation Binding
 
 - Registered model name: `rule_consistent_latent_dynamics`.
-- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i010_rule_consistent_latent_dynamics/model.py`.

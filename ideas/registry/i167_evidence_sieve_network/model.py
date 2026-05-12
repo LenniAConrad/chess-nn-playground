@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.evidence_sieve_network import (
+from chess_nn_playground.models.trunk.evidence_sieve_network import (
     EvidenceSieveNetwork,
     build_evidence_sieve_network_from_config,
 )

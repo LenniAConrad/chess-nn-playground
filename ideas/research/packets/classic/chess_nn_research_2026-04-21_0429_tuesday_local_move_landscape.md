@@ -85,8 +85,8 @@ Boundary between safe rule-derived features and leakage-prone features:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Make the existing simple CNN wider or deeper | `src/chess_nn_playground/models/cnn.py` | This is ordinary capacity scaling and does not test a new inductive bias about puzzle structure. |
-| Add more residual blocks to the residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | This is already covered by the residual baseline family and would mainly test depth/width tuning. |
+| Make the existing simple CNN wider or deeper | `src/chess_nn_playground/models/trunk/cnn.py` | This is ordinary capacity scaling and does not test a new inductive bias about puzzle structure. |
+| Add more residual blocks to the residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | This is already covered by the residual baseline family and would mainly test depth/width tuning. |
 | Train another LC0-style CNN/residual CNN | Existing LC0 BT4-style CNN/residual variants | This is too close to the current LC0-style baseline suite and would not use unavailable history in a principled new way. |
 | Vanilla ViT over 64 squares | Common square-token Transformer | This is explicitly disallowed and would be a generic architecture swap rather than a chess-specific operator. |
 | Plain GNN on squares with adjacency/attack edges | Common graph neural network over board squares | This is too ordinary and too close to static attack/defense graph approaches already researched. |
@@ -313,7 +313,7 @@ The free-energy formula is the standard entropy-regularized maximum identity. Di
 Implement the main model in:
 
 ```text
-src/chess_nn_playground/models/move_landscape_net.py
+src/chess_nn_playground/models/trunk/move_landscape_net.py
 ```
 
 Recommended classes/functions:
@@ -653,8 +653,8 @@ Every central ablation must produce the same report artifacts as the main model,
 
 Baselines to compare against:
 
-- Existing `simple_18` simple CNN under `src/chess_nn_playground/models/cnn.py`.
-- Existing `simple_18` residual CNN under `src/chess_nn_playground/models/residual_cnn.py`.
+- Existing `simple_18` simple CNN under `src/chess_nn_playground/models/trunk/cnn.py`.
+- Existing `simple_18` residual CNN under `src/chess_nn_playground/models/trunk/residual_cnn.py`.
 - Existing small/medium/deep variants if already in the leaderboard.
 - Existing LC0 BT4-style CNN/residual CNN variants only after the `simple_18` experiment is complete and reported.
 
@@ -720,7 +720,7 @@ What result would justify scaling:
 | `ideas/20260421_0429_move_landscape/config.yaml` | Create | Idea-local copy of the benchmark config for `simple_18`, model name `move_landscape_net`, 3 epochs, batch size 512, balanced class weighting. |
 | `ideas/20260421_0429_move_landscape/report_template.md` | Create | Template requiring baseline comparison, metrics, `3x2` fine-label matrix, near-puzzle matched-FPR diagnostic, ablation results, and final decision. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Preserve hard constraints and add this packet to imported research memory after implementation; include anti-duplicate rules for one-ply pseudo-legal counterfactual move-landscape models if this fails. |
-| `src/chess_nn_playground/models/move_landscape_net.py` | Create | PyTorch implementation of `MoveLandscapeNet`, adapters, pseudo-legal delta enumerator, move record encoder, landscape pooling, and builder function. |
+| `src/chess_nn_playground/models/trunk/move_landscape_net.py` | Create | PyTorch implementation of `MoveLandscapeNet`, adapters, pseudo-legal delta enumerator, move record encoder, landscape pooling, and builder function. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `move_landscape_net` and builder function without breaking existing model names. |
 | `configs/move_landscape_simple18.yaml` | Create | Main benchmark config using current split paths, `simple_18`, `input_channels: 18`, `num_classes: 2`, and model-specific fields. |
 | `configs/move_landscape_simple18_dest_shuffle.yaml` | Create | Central destination-shuffle ablation config if the trainer supports model ablation flags; otherwise document the command-line override. |
@@ -763,7 +763,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/move_landscape_simple18.yaml
-  model_path: src/chess_nn_playground/models/move_landscape_net.py
+  model_path: src/chess_nn_playground/models/trunk/move_landscape_net.py
   latest_result_path: null
   notes: Main model uses pseudo-legal moves only, no full legal filtering, no engine features, no move tree, no source/proposed labels.
 ```
@@ -812,7 +812,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: move_landscape_net
-  file_path: src/chess_nn_playground/models/move_landscape_net.py
+  file_path: src/chess_nn_playground/models/trunk/move_landscape_net.py
   builder_function: build_move_landscape_net
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

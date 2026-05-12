@@ -31,5 +31,5 @@ real symmetric block matrix at each angle.
 ## Implementation Binding
 
 - Registered model name: `numerical_range_boundary_network`
-- Source implementation file: `src/chess_nn_playground/models/numerical_range_boundary.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/numerical_range_boundary.py`
 - Idea-local wrapper: `ideas/registry/i224_numerical_range_boundary_network/model.py`

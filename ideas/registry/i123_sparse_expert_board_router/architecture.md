@@ -49,7 +49,7 @@ The forward pass returns:
 ## Implementation Binding
 
 - Registered model name: `sparse_expert_board_router`
-- Source implementation file: `src/chess_nn_playground/models/sparse_expert_board_router.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/sparse_expert_board_router.py`
 - Idea-local wrapper: `ideas/registry/i123_sparse_expert_board_router/model.py`
 
 The wrapper imports `SparseExpertBoardRouter` and `build_sparse_expert_board_router_from_config` and delegates `build_model_from_config` to that builder. The shared `ResearchPacketProbe` scaffold is no longer used.

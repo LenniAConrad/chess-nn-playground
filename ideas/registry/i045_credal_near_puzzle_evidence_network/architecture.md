@@ -67,5 +67,5 @@ ablations live alongside the trainer.
 ## Implementation Binding
 
 - Registered model name: `credal_near_puzzle_evidence_network`
-- Source implementation file: `src/chess_nn_playground/models/credal_near_puzzle_evidence.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/credal_near_puzzle_evidence.py`
 - Idea-local wrapper: `ideas/registry/i045_credal_near_puzzle_evidence_network/model.py`

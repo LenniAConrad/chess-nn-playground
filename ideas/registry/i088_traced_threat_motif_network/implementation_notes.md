@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model: `src/chess_nn_playground/models/traced_threat_motif.py`.
+- Bespoke model: `src/chess_nn_playground/models/trunk/traced_threat_motif.py`.
 - Idea-local wrapper: `ideas/registry/i088_traced_threat_motif_network/model.py`.
 - Registry key: `traced_threat_motif_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0857_tuesday_new_york_trace_motif.md`.

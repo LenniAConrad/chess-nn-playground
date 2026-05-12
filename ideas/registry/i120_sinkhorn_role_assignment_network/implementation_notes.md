@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/sinkhorn_role_assignment_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/sinkhorn_role_assignment_network.py`.
 - Idea-local wrapper: `ideas/registry/i120_sinkhorn_role_assignment_network/model.py`.
 - Registry key: `sinkhorn_role_assignment_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.credal_near_puzzle_evidence import (
+from chess_nn_playground.models.trunk.credal_near_puzzle_evidence import (
     build_credal_near_puzzle_evidence_network_from_config,
 )
 

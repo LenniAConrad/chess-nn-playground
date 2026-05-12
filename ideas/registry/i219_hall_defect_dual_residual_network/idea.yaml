@@ -24,7 +24,7 @@ config_path: ideas/registry/i219_hall_defect_dual_residual_network/config.yaml
 model_path: ideas/registry/i219_hall_defect_dual_residual_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/hall_dual_residual.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/hall_dual_residual.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2051_friday_shanghai_researched_family_variants.md
 source_packet_candidate: Hall-Defect Dual-Residual Network

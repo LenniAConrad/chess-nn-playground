@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.kinematic_commutator_bottleneck import (
+from chess_nn_playground.models.trunk.kinematic_commutator_bottleneck import (
     build_kinematic_commutator_bottleneck_network_from_config,
 )
 

@@ -68,5 +68,5 @@ mass `residual_per_source_l1`.
 ## Implementation Binding
 
 - Registered model name: `cross_scale_attention_residual_network`.
-- Source implementation file: `src/chess_nn_playground/models/cross_scale_attention_residual_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/cross_scale_attention_residual_network.py`.
 - Idea-local wrapper: `ideas/registry/i104_cross_scale_attention_residual_network/model.py`.

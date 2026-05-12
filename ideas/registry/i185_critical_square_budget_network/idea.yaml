@@ -31,7 +31,7 @@ model_path: ideas/registry/i185_critical_square_budget_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
   Bespoke critical-square budget network; the idea-local wrapper builds
-  `chess_nn_playground.models.critical_square_budget_network.CriticalSquareBudgetNetwork`.
+  `chess_nn_playground.models.trunk.critical_square_budget_network.CriticalSquareBudgetNetwork`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
 source_packet_candidate: Critical-Square Budget Network
 source_packet_rank: 9

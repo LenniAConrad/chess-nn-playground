@@ -26,7 +26,7 @@ config_path: ideas/registry/i145_piece_plane_gated_cnn/config.yaml
 model_path: ideas/registry/i145_piece_plane_gated_cnn/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/piece_plane_gated_cnn.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/piece_plane_gated_cnn.py`;
   the idea wrapper delegates to the registered `piece_plane_gated_cnn` builder.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md
 source_packet_candidate: Piece-Plane Gated CNN

@@ -27,5 +27,5 @@ config_path: ideas/registry/i052_soft_king_cage_path_bottleneck_network/config.y
 model_path: ideas/registry/i052_soft_king_cage_path_bottleneck_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0812_tuesday_los_angeles_king_cage_dp.md`.
-  Implemented as a bespoke simple_18 soft king-cage path bottleneck in `src/chess_nn_playground/models/soft_king_cage_path.py`.
+  Implemented as a bespoke simple_18 soft king-cage path bottleneck in `src/chess_nn_playground/models/trunk/soft_king_cage_path.py`.
 implementation_kind: bespoke_model

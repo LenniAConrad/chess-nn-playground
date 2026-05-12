@@ -65,7 +65,7 @@ rank_file_imbalance:        (B,)
 ## Implementation Binding
 
 - Registered model name: `row_file_factor_mixer`
-- Source implementation file: `src/chess_nn_playground/models/row_file_factor_mixer.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/row_file_factor_mixer.py`
 - Idea-local wrapper: `ideas/registry/i113_row_file_factor_mixer/model.py`
 
 The wrapper is a thin adapter over

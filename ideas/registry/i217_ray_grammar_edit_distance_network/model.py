@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.ray_grammar_edit_distance import build_ray_grammar_edit_distance_network_from_config
+from chess_nn_playground.models.trunk.ray_grammar_edit_distance import build_ray_grammar_edit_distance_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

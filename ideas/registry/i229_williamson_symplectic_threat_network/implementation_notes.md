@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/williamson_symplectic_threat_network.py`.
 - Idea-local wrapper: `ideas/registry/i229_williamson_symplectic_threat_network/model.py`
   delegates to `build_williamson_symplectic_threat_network_from_config`.
 - Registered model name: `williamson_symplectic_threat_network`.

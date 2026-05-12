@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/riccati_optimal_defense_network.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/riccati_optimal_defense_network.py`.
 - Registry key: `riccati_optimal_defense_network` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Idea-local wrapper: `ideas/registry/i231_riccati_optimal_defense_network/model.py`

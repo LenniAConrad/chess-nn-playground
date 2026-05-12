@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.shallow_wide_residual_boardnet import (
+from chess_nn_playground.models.trunk.shallow_wide_residual_boardnet import (
     build_shallow_wide_residual_boardnet_from_config,
 )
 

@@ -101,8 +101,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and tests local filters, not matrix-pencil spectra. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | More residual depth is ordinary scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests local filters, not matrix-pencil spectra. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | More residual depth is ordinary scaling. |
 | LC0-style CNN/residual CNN | Existing 112-plane configs | Too close to engine-network conventions. |
 | Vanilla ViT over 64 squares | Common square-token Transformer | Too broad and does not isolate generalized eigenvalue geometry. |
 | Plain GNN over board squares | Generic graph network | Ordinary message passing and too near imported graph families. |

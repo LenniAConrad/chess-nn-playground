@@ -105,5 +105,5 @@ The model implements three commitments the markdown packet makes:
 ## Bespoke Implementation
 
 This folder is a bespoke `NeuralDecisionForestBoardNet` model in
-`src/chess_nn_playground/models/neural_decision_forest_boardnet.py`.
+`src/chess_nn_playground/models/trunk/neural_decision_forest_boardnet.py`.
 It is not a `ResearchPacketProbe` scaffold.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.krylov_tactical_subspace_network import (
+from chess_nn_playground.models.trunk.krylov_tactical_subspace_network import (
     KrylovTacticalSubspaceNetwork,
     build_krylov_tactical_subspace_network_from_config,
 )

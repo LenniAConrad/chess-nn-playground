@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `oriented_matroid_covector_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/oriented_matroid_covector.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/oriented_matroid_covector.py`
 - Idea-local wrapper: `ideas/registry/i096_oriented_matroid_covector_bottleneck/model.py`
 
 ## Modules

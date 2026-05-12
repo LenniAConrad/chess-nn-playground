@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+from chess_nn_playground.models.trunk.puzzle_binary_benchmark_challengers import (
     NegativeClassDisentangledPuzzleHead,
     build_negative_class_disentangled_puzzle_head_from_config,
 )

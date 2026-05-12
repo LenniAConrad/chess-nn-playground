@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.adapter_sandwich_residual_cnn import (
+from chess_nn_playground.models.trunk.adapter_sandwich_residual_cnn import (
     AdapterSandwichResidualCNN,
     build_adapter_sandwich_residual_cnn_from_config,
 )

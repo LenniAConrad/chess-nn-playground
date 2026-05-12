@@ -59,5 +59,5 @@ to the supervised loss as the `R_char` energy.
 ## Implementation Binding
 
 - Registered model name: `legal_automorphism_quotient_network`
-- Source implementation file: `src/chess_nn_playground/models/legal_automorphism_quotient_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/legal_automorphism_quotient_network.py`
 - Idea-local wrapper: `ideas/registry/i042_legal_automorphism_quotient_network/model.py`

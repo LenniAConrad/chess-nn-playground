@@ -26,7 +26,7 @@ config_path: ideas/registry/i068_schur_ray_line_algebra_network/config.yaml
 model_path: ideas/registry/i068_schur_ray_line_algebra_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/schur_ray_line_algebra.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/schur_ray_line_algebra.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: grammar
 implementation_kind: bespoke_model

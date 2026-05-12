@@ -97,8 +97,8 @@ No citation above is a chess-puzzle paper. The chess-specific claim is new and m
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN over `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already present and tests generic local pattern learning rather than a new mathematical operator. |
-| Residual CNN over `simple_18` | `src/chess_nn_playground/models/residual_cnn.py` | Already present; more residual blocks would be ordinary depth/width scaling. |
+| Simple CNN over `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests generic local pattern learning rather than a new mathematical operator. |
+| Residual CNN over `simple_18` | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; more residual blocks would be ordinary depth/width scaling. |
 | LC0-style CNN or residual CNN over `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Too close to the current suite and partially mimics an engine input style without a new falsifiable mechanism. |
 | Ordinary ViT over 64 square tokens | Common vanilla Transformer baseline | Explicitly disallowed as a core idea and likely to learn unconstrained square correlations rather than rule-safe chess geometry. |
 | Plain GNN on squares or pieces | Generic graph neural network baseline | Too generic, and a piece/square graph with learned messages risks becoming another static relation model without a distinct operator. |
@@ -594,8 +594,8 @@ Codex should benchmark the main model and central ablations using the existing s
 
 Baselines to compare against:
 
-- existing `simple_18` simple CNN under `src/chess_nn_playground/models/cnn.py`, using the same split and training budget,
-- existing `simple_18` residual CNN under `src/chess_nn_playground/models/residual_cnn.py`, using the same split and training budget,
+- existing `simple_18` simple CNN under `src/chess_nn_playground/models/trunk/cnn.py`, using the same split and training budget,
+- existing `simple_18` residual CNN under `src/chess_nn_playground/models/trunk/residual_cnn.py`, using the same split and training budget,
 - if already configured in the repo, small/medium variants that are normally part of the leaderboard,
 - do not compare the first `simple_18` experiment against `lc0_bt4_112` results as the primary success claim; report them separately if available.
 

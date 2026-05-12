@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- **Bespoke module**: `src/chess_nn_playground/models/permanent_ryser.py`.
+- **Bespoke module**: `src/chess_nn_playground/models/trunk/permanent_ryser.py`.
 - **Class**: `PermanentRyserNetwork`.
 - **Builder**: `build_permanent_ryser_from_config` (registered in `registry.py`).
 - **Registry key**: `permanent_ryser_network`.

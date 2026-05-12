@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.nuisance_orthogonal_puzzle_bottleneck import (
+from chess_nn_playground.models.trunk.nuisance_orthogonal_puzzle_bottleneck import (
     NuisanceOrthogonalPuzzleNet,
     build_nuisance_orthogonal_puzzle_bottleneck_from_config,
 )

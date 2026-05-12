@@ -126,8 +126,8 @@ Candidate search trace:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and lacks a new inductive bias beyond local convolution. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; making it wider or deeper is ordinary architecture scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and lacks a new inductive bias beyond local convolution. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; making it wider or deeper is ordinary architecture scaling. |
 | LC0-style CNN / residual CNN | LC0 BT4-style CNN and residual CNN variants | Already covered by the baseline suite and mostly changes input layout/backbone style. |
 | Ordinary ViT over 64 squares | No exact baseline, but common square-token model | Explicitly disallowed as a core idea and not chess-specific enough. |
 | Plain GNN on 64 square nodes | Common graph baseline | Too ordinary; without a novel operator it is just message passing over board adjacency. |

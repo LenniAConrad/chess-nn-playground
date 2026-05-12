@@ -66,5 +66,5 @@ tensor of shape `(B,)`. Diagnostics include `residual_l1`, `residual_l2`,
 ## Implementation Binding
 
 - Registered model name: `independence_residual_interaction_network`
-- Source implementation file: `src/chess_nn_playground/models/independence_residual.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/independence_residual.py`
 - Idea-local wrapper: `ideas/registry/i100_independence_residual_interaction_network/model.py`

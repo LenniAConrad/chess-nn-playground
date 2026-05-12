@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.learnable_pooling_tree_boardnet import (
+from chess_nn_playground.models.trunk.learnable_pooling_tree_boardnet import (
     build_learnable_pooling_tree_boardnet_from_config,
 )
 

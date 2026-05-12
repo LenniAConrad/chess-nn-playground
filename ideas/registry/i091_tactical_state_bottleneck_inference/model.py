@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tactical_state_bottleneck import (
+from chess_nn_playground.models.trunk.tactical_state_bottleneck import (
     TacticalStateBottleneckModel,
     build_tactical_state_bottleneck_from_config,
 )

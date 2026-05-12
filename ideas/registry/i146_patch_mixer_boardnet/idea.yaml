@@ -25,7 +25,7 @@ config_path: ideas/registry/i146_patch_mixer_boardnet/config.yaml
 model_path: ideas/registry/i146_patch_mixer_boardnet/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/patch_mixer_boardnet.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/patch_mixer_boardnet.py`;
   the idea wrapper delegates to the registered `patch_mixer_boardnet` builder.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md
 source_packet_candidate: Patch Mixer BoardNet

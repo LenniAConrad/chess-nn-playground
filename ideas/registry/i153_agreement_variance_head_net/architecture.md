@@ -15,7 +15,7 @@ models.
 ## Implementation Binding
 
 - Registered model name: `agreement_variance_head_net`
-- Source implementation file: `src/chess_nn_playground/models/agreement_variance_head_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/agreement_variance_head_net.py`
 - Idea-local wrapper: `ideas/registry/i153_agreement_variance_head_net/model.py`
 
 ## Modules

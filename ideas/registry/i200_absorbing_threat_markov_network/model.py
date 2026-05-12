@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.absorbing_threat_markov_network import (
+from chess_nn_playground.models.trunk.absorbing_threat_markov_network import (
     AbsorbingThreatMarkovNetwork,
     build_absorbing_threat_markov_network_from_config,
 )

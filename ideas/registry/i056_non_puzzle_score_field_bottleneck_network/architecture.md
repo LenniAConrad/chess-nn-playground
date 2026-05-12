@@ -10,7 +10,7 @@ classification.
 ## Implementation Binding
 
 - Registered model name: `non_puzzle_score_field_bottleneck_network`
-- Source implementation: `src/chess_nn_playground/models/non_puzzle_score_field_bottleneck.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/non_puzzle_score_field_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i056_non_puzzle_score_field_bottleneck_network/model.py`
 
 ## Modules

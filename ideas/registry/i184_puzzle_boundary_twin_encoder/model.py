@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+from chess_nn_playground.models.trunk.puzzle_boundary_twin_encoder import (
     PuzzleBoundaryTwinEncoder,
     build_puzzle_boundary_twin_encoder_from_config,
 )

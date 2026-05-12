@@ -26,5 +26,5 @@ config_path: ideas/registry/i072_tensor_core_square_pair_field_network/config.ya
 model_path: ideas/registry/i072_tensor_core_square_pair_field_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2148_friday_shanghai_tensorcore_pairfield.md`.
-  Implemented as a board-only dense square-pair field model in `src/chess_nn_playground/models/tensor_core_square_pair_field.py`.
+  Implemented as a board-only dense square-pair field model in `src/chess_nn_playground/models/trunk/tensor_core_square_pair_field.py`.
 implementation_kind: bespoke_model

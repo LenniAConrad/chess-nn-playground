@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/safe_reply_certificate.py`.
+- Central code: `src/chess_nn_playground/models/trunk/safe_reply_certificate.py`.
 - Registry key: `safe_reply_certificate_verifier`.
 - Idea-local wrapper: `ideas/registry/i191_safe_reply_certificate_verifier/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.

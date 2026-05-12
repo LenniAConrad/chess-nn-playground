@@ -82,7 +82,7 @@ Your job is not to produce a pile of vague ideas. Your job is to help develop a 
 - Do not use Stockfish scores, PVs, node counts, verification metadata, or source labels as neural-network input features.
 - Keep raw, exported, processed, split, result, and report artifacts separate.
 - Use the clean tagged benchmark split for training and reporting unless a run explicitly documents otherwise: `data/splits/crtk_sample_3class_unique_crtk_tags/`.
-- The current baseline is the simple CNN under `src/chess_nn_playground/models/cnn.py`; it is not a novel idea.
+- The current baseline is the simple CNN under `src/chess_nn_playground/models/trunk/cnn.py`; it is not a novel idea.
 - Do not implement a new architecture until the idea has a written thesis, novelty check, ablation plan, and falsification criteria.
 - Treat `implementation_kind` as an honesty label. A `shared_probe_variant` is not a distinct bespoke architecture just because it has its own idea folder or registry key.
 

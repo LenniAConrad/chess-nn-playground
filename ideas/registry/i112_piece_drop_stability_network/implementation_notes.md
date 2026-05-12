@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model file: `src/chess_nn_playground/models/piece_drop_stability_network.py`
+- Bespoke model file: `src/chess_nn_playground/models/trunk/piece_drop_stability_network.py`
 - Bespoke model class: `PieceDropStabilityNetwork`
 - Builder: `build_piece_drop_stability_network_from_config`
 - Registry key: `piece_drop_stability_network`

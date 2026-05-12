@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.occupancy_run_length_segment import (
+from chess_nn_playground.models.trunk.occupancy_run_length_segment import (
     OccupancyRunLengthSegmentEncoder,
     build_occupancy_run_length_segment_encoder_from_config,
 )

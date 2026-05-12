@@ -36,7 +36,7 @@ corridors are first-class computations rather than implicit CNN side-effects.
 ## Implementation Binding
 
 - Registered model name: `morphological_threat_field_network`.
-- Source implementation file: `src/chess_nn_playground/models/morphological_threat_field_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/morphological_threat_field_network.py`.
 - Idea-local wrapper: `ideas/registry/i121_morphological_threat_field_network/model.py`
   (a thin `build_model_from_config(config)` wrapper around
   `build_morphological_threat_field_network_from_config`).

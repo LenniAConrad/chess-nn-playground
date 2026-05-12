@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/ray_language_automaton_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/ray_language_automaton_network.py`.
 - Idea-local wrapper: `ideas/registry/i039_ray_language_automaton_network/model.py`.
 - Registry key: `ray_language_automaton_network` (registered in
   `src/chess_nn_playground/models/registry.py`; intentionally removed

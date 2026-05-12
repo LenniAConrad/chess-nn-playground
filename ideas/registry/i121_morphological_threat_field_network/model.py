@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.morphological_threat_field_network import (
+from chess_nn_playground.models.trunk.morphological_threat_field_network import (
     MorphologicalThreatFieldNetwork,
     build_morphological_threat_field_network_from_config,
 )

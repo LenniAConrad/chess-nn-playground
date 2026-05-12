@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Registry key: `directed_attack_sheaf_tension_network`.
-- Source implementation: `src/chess_nn_playground/models/directed_attack_sheaf.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/directed_attack_sheaf.py`.
 - Idea wrapper: `ideas/registry/i024_directed_attack_sheaf_tension_network/model.py`.
 - The wrapper forwards the idea config to `build_directed_attack_sheaf_from_config` and fills the board encoding from `data.encoding`.
 - The implementation is board-only and does not consume engine, verification, source, CRTK metadata, or labels as model inputs.

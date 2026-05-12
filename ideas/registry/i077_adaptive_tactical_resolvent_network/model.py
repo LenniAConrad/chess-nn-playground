@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.adaptive_tactical_resolvent_network import (
+from chess_nn_playground.models.trunk.adaptive_tactical_resolvent_network import (
     AdaptiveTacticalResolventNetwork,
     build_adaptive_tactical_resolvent_network_from_config,
 )

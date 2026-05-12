@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/grassmannian_principal_angle_bottleneck.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/grassmannian_principal_angle_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i061_grassmannian_principal_angle_bottleneck/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_grassmannian_principal_angle_bottleneck_from_config`.

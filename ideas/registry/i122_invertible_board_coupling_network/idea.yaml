@@ -33,7 +33,7 @@ latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
   Bespoke reversible board encoder wired to the registered
   `invertible_board_coupling_network` model in
-  `src/chess_nn_playground/models/invertible_board_coupling_network.py`.
+  `src/chess_nn_playground/models/trunk/invertible_board_coupling_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
 source_packet_candidate: Invertible Board Coupling Network
 source_packet_rank: 4

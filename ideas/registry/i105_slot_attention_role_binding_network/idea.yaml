@@ -33,7 +33,7 @@ model_path: ideas/registry/i105_slot_attention_role_binding_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`.
   Bespoke slot-attention role binding model; idea-local model.py wraps
-  `src/chess_nn_playground/models/slot_attention_role_binding_network.py`.
+  `src/chess_nn_playground/models/trunk/slot_attention_role_binding_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md
 source_packet_candidate: Slot Attention Role Binding Network
 source_packet_rank: 4

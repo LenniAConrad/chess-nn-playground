@@ -7,7 +7,7 @@ logit per position together with three explicit evidence channels and
 disentanglement diagnostics. There is no shared `ResearchPacketProbe`
 in the implementation; the bespoke model is registered under the model
 name `negative_class_disentangled_puzzle_head` and lives at
-`src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`.
+`src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`.
 
 ## Mechanism
 
@@ -76,5 +76,5 @@ not look at fine labels).
 ## Implementation Binding
 
 - Registered model name: `negative_class_disentangled_puzzle_head`.
-- Source implementation file: `src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`.
 - Idea-local wrapper: `ideas/registry/i170_negative_class_disentangled_puzzle_head/model.py`.

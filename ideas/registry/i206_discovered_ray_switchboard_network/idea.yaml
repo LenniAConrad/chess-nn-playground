@@ -26,7 +26,7 @@ config_path: ideas/registry/i206_discovered_ray_switchboard_network/config.yaml
 model_path: ideas/registry/i206_discovered_ray_switchboard_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/discovered_ray_switchboard.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/discovered_ray_switchboard.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md
 source_packet_candidate: Discovered-Ray Switchboard Network

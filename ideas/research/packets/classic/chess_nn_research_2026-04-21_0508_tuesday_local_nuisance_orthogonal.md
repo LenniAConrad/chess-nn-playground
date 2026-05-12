@@ -92,8 +92,8 @@ The new contribution here is not another attack graph, sheaf, Hodge, curvature, 
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN over `simple_18` | Existing simple CNN in `src/chess_nn_playground/models/cnn.py` | Too ordinary; it can learn material/source shortcuts but gives no direct test of whether puzzle signal survives nuisance removal. |
-| Residual CNN over `simple_18` | Existing residual CNN in `src/chess_nn_playground/models/residual_cnn.py` | Already covered; more residual blocks change capacity, not the inductive bias. |
+| Simple CNN over `simple_18` | Existing simple CNN in `src/chess_nn_playground/models/trunk/cnn.py` | Too ordinary; it can learn material/source shortcuts but gives no direct test of whether puzzle signal survives nuisance removal. |
+| Residual CNN over `simple_18` | Existing residual CNN in `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already covered; more residual blocks change capacity, not the inductive bias. |
 | LC0-style CNN or residual CNN over 112 planes | Existing LC0 BT4-style CNN/residual variants | Already covered by the baseline suite and risks becoming an encoding-capacity test rather than a new mathematical mechanism. |
 | Ordinary ViT over 64 squares | Generic square-token Transformer | Too common and data-hungry; vanilla square attention does not specifically target puzzle-likeness or nuisance separation. |
 | Plain GNN on board squares | Standard graph neural network on 8-neighbor or line-of-sight edges | Either too generic if it uses square adjacency, or too close to imported attack-defense graph families if it uses chess attacks. |

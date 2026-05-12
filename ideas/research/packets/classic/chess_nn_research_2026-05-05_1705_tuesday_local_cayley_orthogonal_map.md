@@ -5,7 +5,7 @@
 - Filename: `chess_nn_research_2026-05-05_1705_tuesday_local_cayley_orthogonal_map.md`
 - Generated at: 2026-05-05 17:05
 - Author: Claude (Opus 4.7, 1M context)
-- Status: bespoke implementation already in `src/chess_nn_playground/models/cayley_orthogonal.py`
+- Status: bespoke implementation already in `src/chess_nn_playground/models/trunk/cayley_orthogonal.py`
 
 ## Thesis
 
@@ -29,7 +29,7 @@ the Cayley pole and keeps `Q` numerically well-conditioned.
 
 ## Architecture
 
-`CayleyOrthogonalNetwork` in `src/chess_nn_playground/models/cayley_orthogonal.py`:
+`CayleyOrthogonalNetwork` in `src/chess_nn_playground/models/trunk/cayley_orthogonal.py`:
 
 ```text
 input (B, 18, 8, 8)

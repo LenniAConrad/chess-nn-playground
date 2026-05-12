@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.symmetric_difference_twin_encoder import (
+from chess_nn_playground.models.trunk.symmetric_difference_twin_encoder import (
     SymmetricDifferenceTwinEncoder,
     build_symmetric_difference_twin_encoder_from_config,
 )

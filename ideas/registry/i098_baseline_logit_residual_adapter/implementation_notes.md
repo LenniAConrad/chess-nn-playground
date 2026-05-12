@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/baseline_logit_residual_adapter.py`.
+- Central code: `src/chess_nn_playground/models/trunk/baseline_logit_residual_adapter.py`.
 - Idea-local wrapper: `ideas/registry/i098_baseline_logit_residual_adapter/model.py`.
 - Registry key: `baseline_logit_residual_adapter` (registered directly in `MODEL_BUILDERS`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.

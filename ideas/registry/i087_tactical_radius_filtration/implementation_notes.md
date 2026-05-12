@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model: `src/chess_nn_playground/models/tactical_radius_filtration.py`
+- Bespoke model: `src/chess_nn_playground/models/trunk/tactical_radius_filtration.py`
   (`TacticalRadiusFiltrationClassifier`,
   `TacticalRadiusGraphBuilder`,
   `build_tactical_radius_filtration_from_config`).

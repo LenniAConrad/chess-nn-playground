@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/piece_target_transport.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/piece_target_transport.py`.
 - Idea-local wrapper: `ideas/registry/i033_piece_target_entropic_transport_bottleneck/model.py`
   (exports `build_model_from_config(config)`).
 - Registered model name: `piece_target_entropic_transport_bottleneck`.

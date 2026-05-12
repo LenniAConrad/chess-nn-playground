@@ -11,7 +11,7 @@ from typing import Any
 import torch
 from torch import nn
 
-from chess_nn_playground.models.idea_blocks import BoardConvStem, GlobalPoolClassifier
+from chess_nn_playground.models.trunk.idea_blocks import BoardConvStem, GlobalPoolClassifier
 
 
 class TemplateIdeaModel(nn.Module):

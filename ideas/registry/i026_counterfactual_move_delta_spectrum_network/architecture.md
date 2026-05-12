@@ -66,13 +66,13 @@ than a covariance/eigen-spectrum.
 ## Implementation Binding
 
 - Registered model name: `counterfactual_move_delta_spectrum_network`.
-- Source implementation file: `src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/counterfactual_move_delta_spectrum.py`.
 - Idea-local wrapper: `ideas/registry/i026_counterfactual_move_delta_spectrum_network/model.py`
   — exposes `build_model_from_config(config)` that delegates to
   `build_counterfactual_move_delta_spectrum_network_from_config`.
 - Reused primitives: the `Simple18BoardAdapter` and
   `PseudoLegalDeltaEnumerator` from
-  `src/chess_nn_playground/models/move_landscape_net.py` provide the rule-only
+  `src/chess_nn_playground/models/trunk/move_landscape_net.py` provide the rule-only
   current-board parser and the deterministic pseudo-legal delta enumerator.
   The covariance/eigen-spectrum pool, move-response encoder, and classifier
   head are bespoke to this idea.

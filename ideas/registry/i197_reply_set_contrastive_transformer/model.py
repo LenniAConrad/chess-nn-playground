@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.reply_set_contrastive_transformer import (
+from chess_nn_playground.models.trunk.reply_set_contrastive_transformer import (
     ReplySetContrastiveTransformer,
     build_reply_set_contrastive_transformer_from_config,
 )

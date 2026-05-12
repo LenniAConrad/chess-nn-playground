@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Registry key: `one_ply_counterfactual_move_landscape_network`.
-- Source implementation: `src/chess_nn_playground/models/move_landscape_net.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/move_landscape_net.py`.
 - Idea wrapper: `ideas/registry/i025_one_ply_counterfactual_move_landscape_network/model.py`.
 - The wrapper forwards the idea config to `build_move_landscape_net_from_config` and fills the encoding from `data.encoding`.
 - The deterministic enumerator consumes only current-board `simple_18` piece planes, side-to-move plane, castling planes, and en-passant plane.

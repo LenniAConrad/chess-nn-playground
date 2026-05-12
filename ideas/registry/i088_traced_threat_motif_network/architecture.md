@@ -10,7 +10,7 @@ returns one BCE logit plus motif and contest diagnostics.
 ## Implementation Binding
 
 - Registered model name: `traced_threat_motif_network`
-- Source implementation file: `src/chess_nn_playground/models/traced_threat_motif.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/traced_threat_motif.py`
 - Idea-local wrapper: `ideas/registry/i088_traced_threat_motif_network/model.py`
 
 ## Modules

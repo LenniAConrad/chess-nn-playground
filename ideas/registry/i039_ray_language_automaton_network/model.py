@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.ray_language_automaton_network import (
+from chess_nn_playground.models.trunk.ray_language_automaton_network import (
     build_ray_language_automaton_network_from_config,
 )
 

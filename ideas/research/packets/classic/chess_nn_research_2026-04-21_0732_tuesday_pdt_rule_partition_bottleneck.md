@@ -116,8 +116,8 @@ Internal sweep note: additional discarded directions included plain token Transf
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Existing simple CNN | `src/chess_nn_playground/models/cnn.py` | Already implemented; it tests generic local pattern recognition, not a new causal-invariance hypothesis. |
-| Existing residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already implemented; adding residual blocks would be ordinary capacity scaling. |
+| Existing simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already implemented; it tests generic local pattern recognition, not a new causal-invariance hypothesis. |
+| Existing residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already implemented; adding residual blocks would be ordinary capacity scaling. |
 | LC0-style CNN / residual CNN | Existing LC0 BT4-style variants | Too close to copying LC0-like inductive bias; the project already has this baseline family. |
 | Ordinary ViT over 64 squares | No exact baseline, but common square-token Transformer | Too generic and likely data-hungry; it lacks a chess-specific falsifiable operator. |
 | Plain GNN on square adjacency | Common graph baseline | Too ordinary and weakly aligned with chess tactics unless attack/move edges are added, which would move toward already imported attack-graph/sheaf families. |
@@ -309,7 +309,7 @@ The strongest objection is that material phase and material advantage are not me
 
 ### Module names
 
-Implement in `src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py`:
+Implement in `src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py`:
 
 - `Simple18SideCanonicalizer`
 - `Simple18RulePartitioner`
@@ -614,7 +614,7 @@ Use idea id `20260421_0732_rule_partition_bottleneck`.
 | `ideas/20260421_0732_rule_partition_bottleneck/config.yaml` | Create | Filled config based on the `config_yaml` block plus extra model/loss fields from Section 7. |
 | `ideas/20260421_0732_rule_partition_bottleneck/report_template.md` | Create | Report skeleton requiring metrics, `3x2` fine-label matrices, near-puzzle threshold diagnostics, group metrics, and ablation comparison. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported research memory after implementation; add anti-duplicate guidance for side-canonical rule-partition invariant bottlenecks if it fails. Preserve all hard leakage and anti-duplicate rules. |
-| `src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py` | Create | Implement modules listed in Section 7. Keep model independent of trainer-specific labels except `forward_with_aux`. |
+| `src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py` | Create | Implement modules listed in Section 7. Keep model independent of trainer-specific labels except `forward_with_aux`. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register `rule_partition_invariant_bottleneck` and builder function. |
 | `configs/rule_partition_invariant_bottleneck_simple18.yaml` | Create | Main benchmark config for `simple_18`, binary mode, seed 42, batch size 512, 3 epochs, balanced class weighting. |
 | `configs/rule_partition_invariant_bottleneck_simple18_random_partitions.yaml` | Create | Central falsification config with random partition ablation enabled. |
@@ -661,7 +661,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/rule_partition_invariant_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py
   latest_result_path: null
   notes: Use idea-specific train.py for auxiliary losses, but keep model.forward(x) returning logits for shared reports and inference.
 ```
@@ -699,7 +699,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: rule_partition_invariant_bottleneck
-  file_path: src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py
   builder_function: build_rule_partition_invariant_bottleneck
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

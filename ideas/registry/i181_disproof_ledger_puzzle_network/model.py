@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.disproof_ledger_puzzle_network import (
+from chess_nn_playground.models.trunk.disproof_ledger_puzzle_network import (
     DisproofLedgerPuzzleNetwork,
     build_disproof_ledger_puzzle_network_from_config,
 )

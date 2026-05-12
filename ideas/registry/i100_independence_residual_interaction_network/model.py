@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.independence_residual import IndependenceResidualInteractionNetwork
-from chess_nn_playground.models.independence_residual import (
+from chess_nn_playground.models.trunk.independence_residual import IndependenceResidualInteractionNetwork
+from chess_nn_playground.models.trunk.independence_residual import (
     build_independence_residual_interaction_network_from_config,
 )
 

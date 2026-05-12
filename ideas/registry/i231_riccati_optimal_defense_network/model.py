@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.riccati_optimal_defense_network import (
+from chess_nn_playground.models.trunk.riccati_optimal_defense_network import (
     build_riccati_optimal_defense_network_from_config,
 )
 

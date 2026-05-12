@@ -75,5 +75,5 @@ Forward returns `logits` plus `slots`, `assignments`, `slot_updates`,
 ## Implementation Binding
 
 - Registered model name: `slot_attention_role_binding_network`.
-- Source implementation file: `src/chess_nn_playground/models/slot_attention_role_binding_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/slot_attention_role_binding_network.py`.
 - Idea-local wrapper: `ideas/registry/i105_slot_attention_role_binding_network/model.py`.

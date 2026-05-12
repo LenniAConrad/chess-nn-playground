@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/chess_mode_tucker_relation_certificate.py`.
 - Idea-local wrapper: `ideas/registry/i090_chess_mode_tucker_relation_certificate/model.py`.
 - Registry key: `chess_mode_tucker_relation_certificate`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0900_tuesday_new_york_relation_tucker.md`.

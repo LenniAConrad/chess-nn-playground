@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tensor_ring_square_interaction_network import (
+from chess_nn_playground.models.trunk.tensor_ring_square_interaction_network import (
     TensorRingSquareInteractionNetwork,
     build_tensor_ring_square_interaction_network_from_config,
 )

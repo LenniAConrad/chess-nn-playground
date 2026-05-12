@@ -34,7 +34,7 @@ config_path: ideas/registry/i049_tempo_odd_bottleneck_network/config.yaml
 model_path: ideas/registry/i049_tempo_odd_bottleneck_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0755_tuesday_los_angeles_tempo_odd_bottleneck.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/tempo_odd_bottleneck.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: tempo
 implementation_kind: bespoke_model

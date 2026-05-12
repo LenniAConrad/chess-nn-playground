@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.toda_isospectral_flow import (
+from chess_nn_playground.models.trunk.toda_isospectral_flow import (
     TodaIsospectralFlowNetwork,
     build_toda_isospectral_flow_network_from_config,
 )

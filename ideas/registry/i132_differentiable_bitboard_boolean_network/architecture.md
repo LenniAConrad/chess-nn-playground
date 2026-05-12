@@ -84,5 +84,5 @@ The literal bank is fed into a single-layer DNF reasoner with two stages:
 ## Implementation Binding
 
 - Registered model name: `differentiable_bitboard_boolean_network`.
-- Source implementation: `src/chess_nn_playground/models/differentiable_bitboard_boolean_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/differentiable_bitboard_boolean_network.py`.
 - Idea-local wrapper: `ideas/registry/i132_differentiable_bitboard_boolean_network/model.py`.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.entropic_piece_target_transport_bottleneck import (
+from chess_nn_playground.models.trunk.entropic_piece_target_transport_bottleneck import (
     EntropicPieceTargetTransportBottleneck,
     build_entropic_piece_target_transport_bottleneck_from_config,
 )

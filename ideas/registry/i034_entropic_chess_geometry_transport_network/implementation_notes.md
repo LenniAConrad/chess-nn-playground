@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/chess_geometry_transport.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/chess_geometry_transport.py`.
 - Idea-local wrapper:
   `ideas/registry/i034_entropic_chess_geometry_transport_network/model.py`
   (exports `build_model_from_config(config)`).

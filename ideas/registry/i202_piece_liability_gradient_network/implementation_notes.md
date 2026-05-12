@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model code: `src/chess_nn_playground/models/piece_liability_gradient_network.py`.
+- Bespoke model code: `src/chess_nn_playground/models/trunk/piece_liability_gradient_network.py`.
 - Idea-local wrapper: `ideas/registry/i202_piece_liability_gradient_network/model.py`.
 - Registry key: `piece_liability_gradient_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md`.

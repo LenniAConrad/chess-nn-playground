@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/tracy_widom_level_spacing_network.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/tracy_widom_level_spacing_network.py`.
 - Builder: `build_tracy_widom_level_spacing_network_from_config`.
 - Registry key: `tracy_widom_level_spacing_network`.
 - Idea-local wrapper: `ideas/registry/i233_tracy_widom_level_spacing_network/model.py`.

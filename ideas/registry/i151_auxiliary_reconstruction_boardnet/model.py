@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
+from chess_nn_playground.models.trunk.auxiliary_reconstruction_boardnet import (
     AuxiliaryReconstructionBoardNet,
     build_auxiliary_reconstruction_boardnet_from_config,
 )

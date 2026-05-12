@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.masked_surprise_codec import (
+from chess_nn_playground.models.trunk.masked_surprise_codec import (
     build_masked_board_code_length_surprise_network_from_config,
 )
 

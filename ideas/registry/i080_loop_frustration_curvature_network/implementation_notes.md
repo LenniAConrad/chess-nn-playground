@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/loop_frustration_curvature_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/loop_frustration_curvature_network.py`.
 - Idea-local wrapper: `ideas/registry/i080_loop_frustration_curvature_network/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_loop_frustration_curvature_network_from_config`.

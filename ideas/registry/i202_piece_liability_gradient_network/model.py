@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.piece_liability_gradient_network import (
+from chess_nn_playground.models.trunk.piece_liability_gradient_network import (
     PieceLiabilityGradientNetwork,
     build_piece_liability_gradient_network_from_config,
 )

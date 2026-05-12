@@ -137,7 +137,7 @@ central ablations switch off.
 
 - Registered model name: `barrier_cut_puzzle_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/barrier_cut_puzzle_network.py`
+  `src/chess_nn_playground/models/trunk/barrier_cut_puzzle_network.py`
 - Idea-local wrapper:
   `ideas/registry/i198_barrier_cut_puzzle_network/model.py`
 

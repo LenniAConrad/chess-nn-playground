@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.orbit_disagreement import (
+from chess_nn_playground.models.trunk.orbit_disagreement import (
     build_orbit_disagreement_residual_network_from_config,
 )
 

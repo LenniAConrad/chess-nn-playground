@@ -283,7 +283,7 @@ AttackDefenseSheafNet
 Recommended file:
 
 ```text
-src/chess_nn_playground/models/attack_defense_sheaf.py
+src/chess_nn_playground/models/trunk/attack_defense_sheaf.py
 ```
 
 Top-level constructor fields:
@@ -591,7 +591,7 @@ Scaling condition:
 |---|---|---|
 | `ideas/2026_04_21_attack_defense_sheaf/README.md` | Create | Copy this handoff packet or a concise implementation summary with the same leakage constraints. |
 | `ideas/2026_04_21_attack_defense_sheaf/ablation_plan.md` | Create | Tables from sections 9 and 10 plus exact commands once repo command style is known. |
-| `src/chess_nn_playground/models/attack_defense_sheaf.py` | Create | `AttackDefenseSheafNet`, incidence-buffer builder, `SquareAdapter`, `SheafDiffusionBlock`, `TensionReadout`. |
+| `src/chess_nn_playground/models/trunk/attack_defense_sheaf.py` | Create | `AttackDefenseSheafNet`, incidence-buffer builder, `SquareAdapter`, `SheafDiffusionBlock`, `TensionReadout`. |
 | `src/chess_nn_playground/models/registry.py` | Edit | Register model key `attack_defense_sheaf`. |
 | `configs/attack_defense_sheaf_simple18.yaml` | Create | Minimal experiment config for `simple_18`, default model fields, existing split paths. |
 | `configs/attack_defense_sheaf_lc0_static112.yaml` | Create | Secondary config changing only `encoding` and `input_channels`. |
@@ -738,7 +738,7 @@ config_yaml:
 ```yaml
 model_spec:
   class_name: "AttackDefenseSheafNet"
-  module_path: "src/chess_nn_playground/models/attack_defense_sheaf.py"
+  module_path: "src/chess_nn_playground/models/trunk/attack_defense_sheaf.py"
   forward:
     input: "x: FloatTensor[batch, C, 8, 8]"
     output: "logits: FloatTensor[batch, num_classes]"

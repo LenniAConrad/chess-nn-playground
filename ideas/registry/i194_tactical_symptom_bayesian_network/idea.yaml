@@ -34,7 +34,7 @@ model_path: ideas/registry/i194_tactical_symptom_bayesian_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
   Bespoke noisy-AND/noisy-OR symptom Bayesian network; the idea-local wrapper builds
-  `chess_nn_playground.models.tactical_symptom_bayesian_network.TacticalSymptomBayesianNetwork`.
+  `chess_nn_playground.models.trunk.tactical_symptom_bayesian_network.TacticalSymptomBayesianNetwork`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Tactical Symptom Bayesian Network
 source_packet_rank: 9

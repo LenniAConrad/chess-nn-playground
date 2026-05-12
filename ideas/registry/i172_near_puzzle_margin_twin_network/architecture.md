@@ -91,5 +91,5 @@ finite per batch:
 ## Implementation Binding
 
 - Registered model name: `near_puzzle_margin_twin_network`
-- Source implementation file: `src/chess_nn_playground/models/near_puzzle_margin_twin_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/near_puzzle_margin_twin_network.py`
 - Idea-local wrapper: `ideas/registry/i172_near_puzzle_margin_twin_network/model.py`

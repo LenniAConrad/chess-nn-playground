@@ -109,8 +109,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Increase depth or width of the simple CNN | `src/chess_nn_playground/models/cnn.py` | Ordinary capacity scaling is already represented and does not create a new falsifiable chess operator. |
-| Another residual CNN variant | `src/chess_nn_playground/models/residual_cnn.py` | A standard residual stack is covered by current baselines and would mostly test optimization/capacity. |
+| Increase depth or width of the simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Ordinary capacity scaling is already represented and does not create a new falsifiable chess operator. |
+| Another residual CNN variant | `src/chess_nn_playground/models/trunk/residual_cnn.py` | A standard residual stack is covered by current baselines and would mostly test optimization/capacity. |
 | LC0-style CNN or residual CNN with more filters | Existing LC0 BT4-style CNN/residual variants | Too close to imported LC0-style baselines and not a new research idea. |
 | Vanilla ViT over 64 squares | Generic square Transformer | Explicitly disallowed as a core idea; it has weak chess-specific structure and no sharp falsifier. |
 | Plain GNN on squares or pieces | Static attack-defense graph ideas | Static graph/message-passing is over-represented and risks becoming another attack-defense graph packet. |

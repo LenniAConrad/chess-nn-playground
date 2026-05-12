@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.sparse_witness_bottleneck import SparseWitnessBottleneckNet
-from chess_nn_playground.models.sparse_witness_bottleneck import (
+from chess_nn_playground.models.trunk.sparse_witness_bottleneck import SparseWitnessBottleneckNet
+from chess_nn_playground.models.trunk.sparse_witness_bottleneck import (
     build_sparse_witness_piece_bottleneck_network_from_config,
 )
 

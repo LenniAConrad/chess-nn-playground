@@ -106,5 +106,5 @@ Most cost is in the board trunk and candidate encoders.
 ## Implementation Binding
 
 - Registered model name: `tactical_equilibrium_network`.
-- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i009_tactical_equilibrium_network/model.py`.

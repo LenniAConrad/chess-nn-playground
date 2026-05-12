@@ -99,5 +99,5 @@ and shuffled-pair stability checks on the same forward pass.
 ## Implementation Binding
 
 - Registered model name: `support_polar_zonotope_certificate_network`.
-- Source implementation file: `src/chess_nn_playground/models/support_polar_zonotope.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/support_polar_zonotope.py`.
 - Idea-local wrapper: `ideas/registry/i079_support_polar_zonotope_certificate_network/model.py`.

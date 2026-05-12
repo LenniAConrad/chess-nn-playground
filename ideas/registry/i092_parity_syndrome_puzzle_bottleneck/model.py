@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.parity_syndrome import (
+from chess_nn_playground.models.trunk.parity_syndrome import (
     ParitySyndromePuzzleBottleneck,
     build_parity_syndrome_puzzle_bottleneck_from_config,
 )

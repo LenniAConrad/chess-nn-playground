@@ -25,5 +25,5 @@ Returned diagnostics include degree norms, occupied count, mean occupancy, degre
 ## Implementation Binding
 
 - Registered model name: `mobius_piece_constellation_network`
-- Source implementation file: `src/chess_nn_playground/models/mobius_piece_constellation.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/mobius_piece_constellation.py`
 - Idea-local wrapper: `ideas/registry/i037_mobius_piece_constellation_network/model.py`

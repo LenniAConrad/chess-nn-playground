@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/legal_reaction_bottleneck_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/legal_reaction_bottleneck_network.py`.
 - Registry key: `legal_reaction_bottleneck_network`.
 - Idea-local wrapper: `ideas/registry/i186_legal_reaction_bottleneck_network/model.py` (thin `build_model_from_config` that delegates to `build_legal_reaction_bottleneck_network_from_config`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.

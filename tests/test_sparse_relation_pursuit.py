@@ -3,7 +3,7 @@ from __future__ import annotations
 import torch
 
 from chess_nn_playground.models.registry import build_model
-from chess_nn_playground.models.sparse_relation_pursuit import (
+from chess_nn_playground.models.trunk.sparse_relation_pursuit import (
     GroupSparsePursuit,
     SparseRelationPursuitClassifier,
     _ordered_relation_edges,

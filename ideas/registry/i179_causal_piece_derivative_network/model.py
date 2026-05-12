@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.causal_piece_derivative_network import (
+from chess_nn_playground.models.trunk.causal_piece_derivative_network import (
     CausalPieceDerivativeNetwork,
     build_causal_piece_derivative_network_from_config,
 )

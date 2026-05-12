@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.row_file_factor_mixer import (
+from chess_nn_playground.models.trunk.row_file_factor_mixer import (
     RowFileFactorMixerNetwork,
     build_row_file_factor_mixer_from_config,
 )

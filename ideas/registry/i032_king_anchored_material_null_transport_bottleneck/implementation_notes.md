@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/king_anchored_material_null_transport.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/king_anchored_material_null_transport.py`.
 - Builder: `build_king_anchored_material_null_transport_bottleneck_from_config`.
 - Idea-local wrapper: `ideas/registry/i032_king_anchored_material_null_transport_bottleneck/model.py` (calls the builder).
 - Registry key: `king_anchored_material_null_transport_bottleneck`.

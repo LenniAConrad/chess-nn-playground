@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.agreement_variance_head_net import (
+from chess_nn_playground.models.trunk.agreement_variance_head_net import (
     AgreementVarianceHeadNet,
     build_agreement_variance_head_net_from_config,
 )

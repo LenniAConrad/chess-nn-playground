@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `convex_feasibility_residual_network`
-- Source implementation file: `src/chess_nn_playground/models/convex_feasibility.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/convex_feasibility.py`
 - Idea-local wrapper: `ideas/registry/i094_convex_feasibility_residual_network/model.py`
 
 ## Modules

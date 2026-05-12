@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.spline_board_surface_network import (
+from chess_nn_playground.models.trunk.spline_board_surface_network import (
     SplineBoardSurfaceNetwork,
     build_spline_board_surface_network_from_config,
 )

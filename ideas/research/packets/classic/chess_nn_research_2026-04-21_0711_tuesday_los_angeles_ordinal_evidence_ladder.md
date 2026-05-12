@@ -92,8 +92,8 @@ Candidate search trace, including serious candidates not selected:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN with binary cross-entropy | `src/chess_nn_playground/models/cnn.py` | Already present and collapses fine labels `1` and `2` into one positive class. |
-| Residual CNN with binary cross-entropy | `src/chess_nn_playground/models/residual_cnn.py` | Already present; depth changes do not test a new hypothesis about near-puzzle ambiguity. |
+| Simple CNN with binary cross-entropy | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and collapses fine labels `1` and `2` into one positive class. |
+| Residual CNN with binary cross-entropy | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; depth changes do not test a new hypothesis about near-puzzle ambiguity. |
 | LC0-style CNN or residual CNN | Existing LC0 BT4-style CNN/residual variants | Already covered as an encoding/backbone family; copying LC0 does not explain the `0/1/2` diagnostic structure. |
 | Ordinary ViT over 64 squares | No exact baseline, but common square-token model | Too generic and excluded by the prompt; it changes capacity and tokenization, not the target structure. |
 | Plain GNN on square adjacency | Would resemble a generic board graph model | Too ordinary and not clearly different from a CNN over the 8x8 grid unless it introduces a distinct operator. |
@@ -273,7 +273,7 @@ The strongest objection is that this may be “just a better loss head” on top
 
 ### Module names
 
-- Model file: `src/chess_nn_playground/models/ordinal_evidence_ladder.py`
+- Model file: `src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py`
 - Main module: `OrdinalEvidenceLadderNet`
 - Submodules:
   - `EncodingSafeStem`
@@ -600,7 +600,7 @@ Scale to `lc0_bt4_112` and longer training only if the `simple_18` experiment sh
 | `ideas/20260421_ordinal_evidence_ladder/config.yaml` | Create | Config from the `config_yaml` block below. |
 | `ideas/20260421_ordinal_evidence_ladder/report_template.md` | Create | Template requiring binary metrics, `3x2` fine-label confusion, matched-FPR class-`1` diagnostics, ablation comparison, and abandon/scale decision. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Preserve hard constraints and add an anti-duplicate note for scalar ordinal/evidential ladder heads after this packet is consumed. Also clarify whether future packets may use existing fine labels as auxiliary targets. |
-| `src/chess_nn_playground/models/ordinal_evidence_ladder.py` | Create | Implement `OrdinalEvidenceLadderNet`, `EncodingSafeStem`, `TinyBoardBackbone`, `OrdinalLadderHead`; default `forward(x)` returns `[B,2]`; optional `return_aux=True` returns auxiliary dictionary. |
+| `src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py` | Create | Implement `OrdinalEvidenceLadderNet`, `EncodingSafeStem`, `TinyBoardBackbone`, `OrdinalLadderHead`; default `forward(x)` returns `[B,2]`; optional `return_aux=True` returns auxiliary dictionary. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register builder function `build_ordinal_evidence_ladder` or equivalent model name `ordinal_evidence_ladder`. |
 | `configs/ordinal_evidence_ladder_simple18.yaml` | Create | Shared-trainer-compatible config with `encoding: simple_18`, `input_channels: 18`, model name, seed, batch size, and benchmark paths. |
 | `tests/test_ordinal_evidence_ladder.py` | Create | Focused tests: output shape `[B,2]`, `q_ge2 <= q_ge1`, fine probabilities nonnegative and sum to 1, thresholds ordered, default forward compatible with trainer, adapter rejects mismatched channel count. |
@@ -637,7 +637,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/ordinal_evidence_ladder_simple18.yaml
-  model_path: src/chess_nn_playground/models/ordinal_evidence_ladder.py
+  model_path: src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py
   latest_result_path: null
   notes: Must report fine-label 3x2 confusion and matched-FPR class-1 diagnostics for main model and central ablations.
 ```
@@ -686,7 +686,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: ordinal_evidence_ladder
-  file_path: src/chess_nn_playground/models/ordinal_evidence_ladder.py
+  file_path: src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py
   builder_function: build_ordinal_evidence_ladder
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

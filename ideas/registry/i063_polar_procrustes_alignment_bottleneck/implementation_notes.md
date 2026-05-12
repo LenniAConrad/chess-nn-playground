@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/polar_procrustes_alignment_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/polar_procrustes_alignment_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i063_polar_procrustes_alignment_bottleneck/model.py` (delegates to `build_polar_procrustes_alignment_bottleneck_from_config`).
 - Registry key: `polar_procrustes_alignment_bottleneck`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2104_friday_shanghai_polar_procrustes.md`.

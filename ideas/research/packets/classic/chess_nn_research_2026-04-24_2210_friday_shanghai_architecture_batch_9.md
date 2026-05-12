@@ -306,7 +306,7 @@ Can shallow exits handle obvious non-puzzles while deeper stages improve ambiguo
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/early_exit_cascade_boardnet.py
+src/chess_nn_playground/models/trunk/early_exit_cascade_boardnet.py
 tests/test_early_exit_cascade_boardnet.py
 configs/bench_early_exit_cascade_boardnet_simple18.yaml
 configs/bench_early_exit_cascade_boardnet_final_only.yaml
@@ -407,7 +407,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py
+src/chess_nn_playground/models/trunk/auxiliary_reconstruction_boardnet.py
 tests/test_auxiliary_reconstruction_boardnet.py
 configs/bench_auxiliary_reconstruction_boardnet_simple18.yaml
 configs/bench_auxiliary_reconstruction_boardnet_classifier_only.yaml
@@ -522,7 +522,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/iterative_logit_refinement_cnn.py
+src/chess_nn_playground/models/trunk/iterative_logit_refinement_cnn.py
 tests/test_iterative_logit_refinement_cnn.py
 configs/bench_iterative_logit_refinement_cnn_simple18.yaml
 configs/bench_iterative_logit_refinement_cnn_single_head.yaml
@@ -633,7 +633,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/agreement_variance_head_net.py
+src/chess_nn_playground/models/trunk/agreement_variance_head_net.py
 tests/test_agreement_variance_head_net.py
 configs/bench_agreement_variance_head_net_simple18.yaml
 configs/bench_agreement_variance_head_net_single_head.yaml
@@ -731,7 +731,7 @@ This is a practical parameter-efficiency baseline. If adapters improve a normal 
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py
+src/chess_nn_playground/models/trunk/adapter_sandwich_residual_cnn.py
 tests/test_adapter_sandwich_residual_cnn.py
 configs/bench_adapter_sandwich_residual_cnn_simple18.yaml
 configs/bench_adapter_sandwich_residual_cnn_no_adapters.yaml

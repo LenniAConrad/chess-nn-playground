@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `phase_specialist_calibration_mixture`
-- Source implementation file: `src/chess_nn_playground/models/phase_specialist_calibration_mixture.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/phase_specialist_calibration_mixture.py`
 - Idea-local wrapper: `ideas/registry/i212_phase_specialist_calibration_mixture/model.py`

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/neural_board_cellular_automaton.py`.
+- Central code: `src/chess_nn_playground/models/trunk/neural_board_cellular_automaton.py`.
 - Idea-local wrapper: `ideas/registry/i115_neural_board_cellular_automaton/model.py` (`build_model_from_config`).
 - Registry key: `neural_board_cellular_automaton`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`.

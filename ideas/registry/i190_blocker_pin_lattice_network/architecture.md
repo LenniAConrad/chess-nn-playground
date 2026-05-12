@@ -48,5 +48,5 @@ The `ablation` config switch supports the packet falsifiers:
 ## Implementation Binding
 
 - Registered model name: `blocker_pin_lattice_network`.
-- Source implementation file: `src/chess_nn_playground/models/blocker_pin_lattice.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/blocker_pin_lattice.py`.
 - Idea-local wrapper: `ideas/registry/i190_blocker_pin_lattice_network/model.py`.

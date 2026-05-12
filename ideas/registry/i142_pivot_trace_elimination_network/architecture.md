@@ -43,7 +43,7 @@ puzzle logit from the resulting pivot trace.
 ## Implementation Binding
 
 - Registered model name: `pivot_trace_elimination_network`.
-- Source implementation: `src/chess_nn_playground/models/pivot_trace_elimination_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/pivot_trace_elimination_network.py`.
 - Idea-local wrapper: `ideas/registry/i142_pivot_trace_elimination_network/model.py`.
 
 The wrapper calls

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.chess_hypercut_polynomial import (
+from chess_nn_playground.models.trunk.chess_hypercut_polynomial import (
     ChessHypercutPolynomialNet,
     build_chess_hypercut_polynomial_network_from_config,
 )

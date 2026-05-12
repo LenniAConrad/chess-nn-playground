@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/auxiliary_reconstruction_boardnet.py`.
 - Idea-local wrapper: `ideas/registry/i151_auxiliary_reconstruction_boardnet/model.py`.
 - Registry key: `auxiliary_reconstruction_boardnet`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.coarse_to_fine_residual_pyramid import (
+from chess_nn_playground.models.trunk.coarse_to_fine_residual_pyramid import (
     CoarseToFineBoardResidualPyramid,
     build_coarse_to_fine_board_residual_pyramid_from_config,
 )

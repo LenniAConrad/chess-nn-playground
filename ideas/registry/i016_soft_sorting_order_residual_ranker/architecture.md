@@ -5,5 +5,5 @@ The model is intentionally plain. Novelty is the loss: BCE plus soft odd-even so
 ## Implementation Binding
 
 - Registered model name: `soft_sorting_order_residual_ranker`.
-- Source implementation: `src/chess_nn_playground/models/gpt_research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/gpt_research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i016_soft_sorting_order_residual_ranker/model.py`.

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/fisher_geodesic_tension.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/fisher_geodesic_tension.py`.
 - Idea-local wrapper: `ideas/registry/i083_fisher_geodesic_tension_network/model.py` calls
   `build_fisher_geodesic_tension_network_from_config(config["model"])`.
 - Registry key: `fisher_geodesic_tension_network`

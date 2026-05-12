@@ -97,8 +97,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already implemented and too ordinary; it does not isolate a new chess-specific operator. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already implemented; adding residual depth would be routine width/depth tuning. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already implemented and too ordinary; it does not isolate a new chess-specific operator. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already implemented; adding residual depth would be routine width/depth tuning. |
 | LC0-style CNN/residual CNN | Existing LC0 BT4-style CNN and residual variants | Already represented; copying LC0-style channels or blocks is not a new research mechanism. |
 | Ordinary ViT over 64 squares | Generic Transformer baseline | Too generic, parameter-hungry for the current sample, and explicitly disallowed as a core idea. |
 | Plain GNN on square adjacency | Generic board graph model | Too close to a standard graph baseline unless it has a sharper chess operator and falsifier. |
@@ -482,7 +482,7 @@ What result would justify scaling:
 | `ideas/20260421_0812_king_cage_dp/config.yaml` | Create | Runnable minimal config copied from `config_yaml`, plus model-specific fields. |
 | `ideas/20260421_0812_king_cage_dp/report_template.md` | Create | Required benchmark, confusion, near-puzzle diagnostic, ablation comparison, and abandonment/scaling decision template. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add prompt maintenance notes from Section 13 after consuming this packet; preserve all hard leakage, label, falsification, and anti-duplicate rules. |
-| `src/chess_nn_playground/models/soft_king_cage_path.py` | Create | PyTorch implementation of `SoftKingCagePathNet`, `EncodingSemanticsAdapter`, `RuleGeometryBuilder`, `MonotoneBarrierField`, and `SoftKingEscapeDP`. |
+| `src/chess_nn_playground/models/trunk/soft_king_cage_path.py` | Create | PyTorch implementation of `SoftKingCagePathNet`, `EncodingSemanticsAdapter`, `RuleGeometryBuilder`, `MonotoneBarrierField`, and `SoftKingEscapeDP`. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register `soft_king_cage_path_net` builder. |
 | `configs/soft_king_cage_path_simple18.yaml` | Create | Minimal 3-epoch `simple_18` experiment config. |
 | `configs/soft_king_cage_path_simple18_random_grid_ablation.yaml` | Create | Same as main config with `ablation_mode: random_grid_degree_preserving`. |
@@ -522,7 +522,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/soft_king_cage_path_simple18.yaml
-  model_path: src/chess_nn_playground/models/soft_king_cage_path.py
+  model_path: src/chess_nn_playground/models/trunk/soft_king_cage_path.py
   latest_result_path: null
   notes: Do not use engine scores, legal move counts, mate/stalemate oracles, source labels, proposed labels, or dataset provenance.
 ```
@@ -571,7 +571,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: soft_king_cage_path_net
-  file_path: src/chess_nn_playground/models/soft_king_cage_path.py
+  file_path: src/chess_nn_playground/models/trunk/soft_king_cage_path.py
   builder_function: build_soft_king_cage_path_net
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/capsule_motif_boardnet.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/capsule_motif_boardnet.py`.
 - Idea-local wrapper: `ideas/registry/i155_capsule_motif_boardnet/model.py`.
 - Registry key: `capsule_motif_boardnet`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.

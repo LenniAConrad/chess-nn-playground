@@ -102,5 +102,5 @@ Supported `model.ablation` values are `cnn_only_matched`, `no_pair_update`,
 ## Implementation Binding
 
 - Registered model name: `tensor_core_square_pair_field_network`.
-- Source implementation file: `src/chess_nn_playground/models/tensor_core_square_pair_field.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tensor_core_square_pair_field.py`.
 - Idea-local wrapper: `ideas/registry/i072_tensor_core_square_pair_field_network/model.py`.

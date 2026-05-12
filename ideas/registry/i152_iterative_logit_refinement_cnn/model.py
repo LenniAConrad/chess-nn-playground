@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.iterative_logit_refinement_cnn import (
+from chess_nn_playground.models.trunk.iterative_logit_refinement_cnn import (
     build_iterative_logit_refinement_cnn_from_config,
 )
 

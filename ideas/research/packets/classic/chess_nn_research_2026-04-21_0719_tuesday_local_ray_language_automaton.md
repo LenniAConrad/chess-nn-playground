@@ -133,8 +133,8 @@ Why the selected idea survived: chess rays are primitive current-board geometry,
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple 2D CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and does not test a new chess-structural hypothesis. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; deeper residual local filters are not a new research idea. |
+| Simple 2D CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and does not test a new chess-structural hypothesis. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; deeper residual local filters are not a new research idea. |
 | LC0-style CNN or residual CNN over `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already covered by current baseline family and risks becoming “copy LC0 but smaller.” |
 | Ordinary ViT over 64 squares | No exact baseline, but common Transformer baseline | Too generic; square attention alone does not encode the ray-language thesis and is explicitly disfavored. |
 | Plain GNN on squares | Common square graph baseline | Too ordinary; unless edges encode attacks it is just a board-neighborhood model, and attack edges would overlap imported sheaf/attack families. |

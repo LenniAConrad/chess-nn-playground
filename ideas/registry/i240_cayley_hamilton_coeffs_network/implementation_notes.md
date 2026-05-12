@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- **Bespoke module**: `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`.
+- **Bespoke module**: `src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`.
 - **Class**: `CayleyHamiltonCoefficientNetwork`.
 - **Builder**: `build_cayley_hamilton_coeffs_from_config` (registered in `registry.py`).
 - **Registry key**: `cayley_hamilton_coeffs_network`.

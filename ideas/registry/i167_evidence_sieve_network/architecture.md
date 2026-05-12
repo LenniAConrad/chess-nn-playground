@@ -81,5 +81,5 @@ The forward pass returns a dict with the following keys (`B = batch`,
 ## Implementation Binding
 
 - Registered model name: `evidence_sieve_network`
-- Source implementation file: `src/chess_nn_playground/models/evidence_sieve_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/evidence_sieve_network.py`
 - Idea-local wrapper: `ideas/registry/i167_evidence_sieve_network/model.py`

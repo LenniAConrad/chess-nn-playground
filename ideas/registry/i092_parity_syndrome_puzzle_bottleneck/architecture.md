@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `parity_syndrome_puzzle_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/parity_syndrome.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/parity_syndrome.py`
 - Idea-local wrapper: `ideas/registry/i092_parity_syndrome_puzzle_bottleneck/model.py`
 
 ## Modules

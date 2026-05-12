@@ -88,7 +88,7 @@ attention.
 ## Implementation pointer
 
 The bespoke implementation of this thesis lives in
-`src/chess_nn_playground/models/soft_majorization_line_sorter.py`
+`src/chess_nn_playground/models/trunk/soft_majorization_line_sorter.py`
 (`SoftMajorizationLineSorter`); the idea-local wrapper at
 `ideas/registry/i139_soft_majorization_line_sorter/model.py` delegates to its
 builder. The shared `ResearchPacketProbe` scaffold is no longer used by

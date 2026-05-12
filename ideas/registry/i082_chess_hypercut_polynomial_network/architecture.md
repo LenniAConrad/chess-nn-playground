@@ -89,5 +89,5 @@ metadata is reporting-only.
 ## Implementation Binding
 
 - Registered model name: `chess_hypercut_polynomial_network`.
-- Source implementation file: `src/chess_nn_playground/models/chess_hypercut_polynomial.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/chess_hypercut_polynomial.py`.
 - Idea-local wrapper: `ideas/registry/i082_chess_hypercut_polynomial_network/model.py`.

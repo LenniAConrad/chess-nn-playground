@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `baseline_logit_residual_adapter`
-- Source implementation file: `src/chess_nn_playground/models/baseline_logit_residual_adapter.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/baseline_logit_residual_adapter.py`
 - Idea-local wrapper: `ideas/registry/i098_baseline_logit_residual_adapter/model.py`
 
 ## Modules

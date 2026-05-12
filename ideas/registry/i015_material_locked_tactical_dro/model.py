@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.gpt_research_architectures import (
+from chess_nn_playground.models.trunk.gpt_research_architectures import (
     MaterialLockedTacticalDROClassifier,
     build_material_locked_tactical_dro_from_config,
 )

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.defender_exhaustion_cascade_network import (
+from chess_nn_playground.models.trunk.defender_exhaustion_cascade_network import (
     build_defender_exhaustion_cascade_network_from_config,
 )
 

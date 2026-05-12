@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
+from chess_nn_playground.models.trunk.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

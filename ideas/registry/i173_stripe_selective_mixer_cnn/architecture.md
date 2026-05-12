@@ -127,5 +127,5 @@ The packet's required ablations are exposed via `ablation`:
 ## Implementation Binding
 
 - Registered model name: `stripe_selective_mixer_cnn`
-- Source implementation file: `src/chess_nn_playground/models/stripe_selective_mixer_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/stripe_selective_mixer_cnn.py`
 - Idea-local wrapper: `ideas/registry/i173_stripe_selective_mixer_cnn/model.py`

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.hall_defect_zeta import HallDefectZetaConvLite
-from chess_nn_playground.models.hall_defect_zeta import build_hall_defect_zeta_operator_from_config
+from chess_nn_playground.models.trunk.hall_defect_zeta import HallDefectZetaConvLite
+from chess_nn_playground.models.trunk.hall_defect_zeta import build_hall_defect_zeta_operator_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> HallDefectZetaConvLite:

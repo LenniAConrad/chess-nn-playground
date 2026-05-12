@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/tactical_controllability_gramian_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/tactical_controllability_gramian_network.py`.
 - Idea-local wrapper: `ideas/registry/i078_tactical_controllability_gramian_network/model.py`
   (calls `build_tactical_controllability_gramian_network_from_config`).
 - Registry key: `tactical_controllability_gramian_network`.

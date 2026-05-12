@@ -83,5 +83,5 @@ The forward pass returns a dict with the following keys (`B = batch`):
 ## Implementation Binding
 
 - Registered model name: `channel_bilinear_role_mixer`
-- Source implementation file: `src/chess_nn_playground/models/channel_bilinear_role_mixer.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/channel_bilinear_role_mixer.py`
 - Idea-local wrapper: `ideas/registry/i166_channel_bilinear_role_mixer/model.py`

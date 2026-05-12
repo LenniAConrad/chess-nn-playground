@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.counterfactual_defender_dropout import (
+from chess_nn_playground.models.trunk.counterfactual_defender_dropout import (
     CounterfactualDefenderDropoutNetwork,
     build_counterfactual_defender_dropout_network_from_config,
 )

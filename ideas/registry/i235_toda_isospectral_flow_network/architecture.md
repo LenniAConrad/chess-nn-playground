@@ -33,11 +33,11 @@ power sums.
 ## Implementation Binding
 
 - Registered model name: `toda_isospectral_flow_network`
-- Source implementation file: `src/chess_nn_playground/models/toda_isospectral_flow.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/toda_isospectral_flow.py`
 - Idea-local wrapper: `ideas/registry/i235_toda_isospectral_flow_network/model.py`
 
 The wrapper builds the bespoke
-`chess_nn_playground.models.toda_isospectral_flow.TodaIsospectralFlowNetwork`
+`chess_nn_playground.models.trunk.toda_isospectral_flow.TodaIsospectralFlowNetwork`
 through `build_toda_isospectral_flow_network_from_config(config["model"])`; it
 no longer delegates to `ResearchPacketProbe` or
 `build_research_packet_probe_from_config`.

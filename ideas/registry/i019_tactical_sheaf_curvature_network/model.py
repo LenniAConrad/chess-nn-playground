@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tactical_sheaf_curvature import TacticalSheafCurvatureNet
-from chess_nn_playground.models.tactical_sheaf_curvature import build_tactical_sheaf_curvature_from_config
+from chess_nn_playground.models.trunk.tactical_sheaf_curvature import TacticalSheafCurvatureNet
+from chess_nn_playground.models.trunk.tactical_sheaf_curvature import build_tactical_sheaf_curvature_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> TacticalSheafCurvatureNet:

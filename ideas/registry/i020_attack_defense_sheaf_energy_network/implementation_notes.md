@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/attack_defense_sheaf.py`.
+- Central code: `src/chess_nn_playground/models/trunk/attack_defense_sheaf.py`.
 - Idea-local wrapper: `ideas/registry/i020_attack_defense_sheaf_energy_network/model.py`.
 - Registry key: `attack_defense_sheaf_energy_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0255_tuesday_local_attack_defense_sheaf.md`.

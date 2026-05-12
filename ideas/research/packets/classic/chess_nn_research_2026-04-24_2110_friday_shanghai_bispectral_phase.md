@@ -96,8 +96,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and tests local learned filters, not spectral phase coupling. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | More residual capacity is regular scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and tests local learned filters, not spectral phase coupling. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | More residual capacity is regular scaling. |
 | LC0-style CNN/residual CNN | Existing 112-plane configs | Too close to engine-network conventions. |
 | Vanilla ViT over 64 squares | Common square-token Transformer | Too broad and does not isolate phase coupling. |
 | Wavelet scattering | Local 2026-04-24 batch candidate | Fixed multiscale wavelets are local-band features; this packet tests Fourier phase and bispectrum. |

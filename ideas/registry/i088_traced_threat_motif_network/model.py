@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.traced_threat_motif import (
+from chess_nn_playground.models.trunk.traced_threat_motif import (
     TracedThreatMotifNet,
     build_traced_threat_motif_network_from_config,
 )

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.file_mirror_tension_sheaf import FileMirrorTensionSheafNet
-from chess_nn_playground.models.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
+from chess_nn_playground.models.trunk.file_mirror_tension_sheaf import FileMirrorTensionSheafNet
+from chess_nn_playground.models.trunk.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> FileMirrorTensionSheafNet:

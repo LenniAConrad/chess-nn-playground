@@ -93,6 +93,6 @@ At base scout scale (`embed_dim=64, num_heads=4, 2 blocks per stream`) the model
 ## Implementation Binding
 
 - Registered model name: `chess_decomposed_attention`.
-- Source implementation: `src/chess_nn_playground/models/chess_decomposed_attention.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/chess_decomposed_attention.py`.
 - Idea-local wrapper: `ideas/registry/i242_chess_decomposed_attention/model.py`.
 - Training config: `ideas/registry/i242_chess_decomposed_attention/config.yaml`.

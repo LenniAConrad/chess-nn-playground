@@ -3,7 +3,7 @@ from __future__ import annotations
 import torch
 
 from chess_nn_playground.data.tactical_texture import tactical_texture_score
-from chess_nn_playground.models.vetoselect import VetoSelectPuzzleNet
+from chess_nn_playground.models.trunk.vetoselect import VetoSelectPuzzleNet
 from chess_nn_playground.training.losses import VetoSelectLoss
 
 

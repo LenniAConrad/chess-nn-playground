@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `discovered_ray_switchboard_network`
-- Source implementation file: `src/chess_nn_playground/models/discovered_ray_switchboard.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/discovered_ray_switchboard.py`
 - Idea-local wrapper: `ideas/registry/i206_discovered_ray_switchboard_network/model.py`

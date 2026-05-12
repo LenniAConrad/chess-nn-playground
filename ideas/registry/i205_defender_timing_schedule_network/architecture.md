@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `defender_timing_schedule_network`
-- Source implementation file: `src/chess_nn_playground/models/defender_timing_schedule.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/defender_timing_schedule.py`
 - Idea-local wrapper: `ideas/registry/i205_defender_timing_schedule_network/model.py`

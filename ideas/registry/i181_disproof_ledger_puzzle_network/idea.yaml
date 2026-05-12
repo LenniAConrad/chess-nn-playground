@@ -36,7 +36,7 @@ config_path: ideas/registry/i181_disproof_ledger_puzzle_network/config.yaml
 model_path: ideas/registry/i181_disproof_ledger_puzzle_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/disproof_ledger_puzzle_network.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/disproof_ledger_puzzle_network.py`
   (`DisproofLedgerPuzzleNetwork`); the idea-local `model.py` is a thin wrapper around
   the registered builder. The disproof ledger is a typed `(B, D, 8, 8)` field that
   collapses to non-negative `softplus(disproof_entries)` strengths, summed and

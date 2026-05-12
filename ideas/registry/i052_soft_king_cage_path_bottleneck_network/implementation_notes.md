@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/soft_king_cage_path.py`.
+- Central code: `src/chess_nn_playground/models/trunk/soft_king_cage_path.py`.
 - Registry key: `soft_king_cage_path_bottleneck_network`.
 - Idea wrapper: `ideas/registry/i052_soft_king_cage_path_bottleneck_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0812_tuesday_los_angeles_king_cage_dp.md`.

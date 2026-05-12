@@ -103,5 +103,5 @@ the orbit to identity-only for the single-view augmentation control.
 ## Implementation Binding
 
 - Registered model name: `rule_automorphism_quotient_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/rule_automorphism_quotient.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py`
 - Idea-local wrapper: `ideas/registry/i048_rule_automorphism_quotient_bottleneck_network/model.py`

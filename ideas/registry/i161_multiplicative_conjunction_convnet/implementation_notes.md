@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/multiplicative_conjunction_convnet.py`.
+- Central code: `src/chess_nn_playground/models/trunk/multiplicative_conjunction_convnet.py`.
 - Registry key: `multiplicative_conjunction_convnet`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
 - Batch candidate: `Multiplicative Conjunction ConvNet`.

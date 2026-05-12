@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Source code: `src/chess_nn_playground/models/variational_board_action.py`.
+- Source code: `src/chess_nn_playground/models/trunk/variational_board_action.py`.
 - Registry key: `variational_board_action_network`.
 - Idea wrapper: `ideas/registry/i071_variational_board_action_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2146_friday_shanghai_variational_board_action.md`.

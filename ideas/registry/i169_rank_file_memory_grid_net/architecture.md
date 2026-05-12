@@ -83,5 +83,5 @@ The forward pass returns a dict with `B = batch`, `D = depth`,
 ## Implementation Binding
 
 - Registered model name: `rank_file_memory_grid_net`
-- Source implementation file: `src/chess_nn_playground/models/rank_file_memory_grid_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/rank_file_memory_grid_net.py`
 - Idea-local wrapper: `ideas/registry/i169_rank_file_memory_grid_net/model.py`

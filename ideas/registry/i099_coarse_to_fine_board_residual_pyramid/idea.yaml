@@ -33,7 +33,7 @@ model_path: ideas/registry/i099_coarse_to_fine_board_residual_pyramid/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.
   Bespoke two-level coarse-to-fine residual pyramid registered as `coarse_to_fine_board_residual_pyramid`
-  in `src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py`. The coarse
+  in `src/chess_nn_playground/models/trunk/coarse_to_fine_residual_pyramid.py`. The coarse
   stream uses a deterministic 18-D simple_18 board summary plus pooled features at
   the coarsest 2x2 scale; the residual stream uses pooled per-scale residuals plus
   ten residual-energy diagnostics so the residual head only carries detail unexplained

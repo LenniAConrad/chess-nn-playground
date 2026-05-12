@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.latent_reply_entropy import build_latent_reply_entropy_network_from_config
+from chess_nn_playground.models.trunk.latent_reply_entropy import build_latent_reply_entropy_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

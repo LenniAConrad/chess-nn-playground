@@ -27,7 +27,7 @@ config_path: ideas/registry/i032_king_anchored_material_null_transport_bottlenec
 model_path: ideas/registry/i032_king_anchored_material_null_transport_bottleneck/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0657_tuesday_local_material_ot_bottleneck.md`.
-  Bespoke implementation in `src/chess_nn_playground/models/king_anchored_material_null_transport.py`
+  Bespoke implementation in `src/chess_nn_playground/models/trunk/king_anchored_material_null_transport.py`
   realises the markdown architecture (simple_18 piece adapter + piece/king-zone candidate
   builder + king-anchored material-null sampler + chess-geometry cost + masked log-domain
   Sinkhorn + transport descriptor pool + residual MLP head); the idea-local `model.py`

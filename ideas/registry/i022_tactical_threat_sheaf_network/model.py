@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tactical_threat_sheaf import TacticalThreatSheafNet
-from chess_nn_playground.models.tactical_threat_sheaf import build_tactical_threat_sheaf_from_config
+from chess_nn_playground.models.trunk.tactical_threat_sheaf import TacticalThreatSheafNet
+from chess_nn_playground.models.trunk.tactical_threat_sheaf import build_tactical_threat_sheaf_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> TacticalThreatSheafNet:

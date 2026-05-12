@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/replicator_payoff_piece_dynamics.py`.
+- Central code: `src/chess_nn_playground/models/trunk/replicator_payoff_piece_dynamics.py`.
 - Idea-local wrapper: `ideas/registry/i131_replicator_payoff_piece_dynamics/model.py`.
 - Registry key: `replicator_payoff_piece_dynamics`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.

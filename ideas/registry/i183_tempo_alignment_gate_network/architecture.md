@@ -139,5 +139,5 @@ The packet's required ablations are exposed through the model:
 ## Implementation Binding
 
 - Registered model name: `tempo_alignment_gate_network`
-- Source implementation file: `src/chess_nn_playground/models/tempo_alignment_gate_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tempo_alignment_gate_network.py`
 - Idea-local wrapper: `ideas/registry/i183_tempo_alignment_gate_network/model.py`

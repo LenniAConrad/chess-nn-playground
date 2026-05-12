@@ -30,7 +30,7 @@ config_path: ideas/registry/i235_toda_isospectral_flow_network/config.yaml
 model_path: ideas/registry/i235_toda_isospectral_flow_network/model.py
 latest_result_path: null
 notes: Bespoke implementation of the Toda Lax flow operator network; idea folder
-  wrapper delegates to `chess_nn_playground.models.toda_isospectral_flow` and the
+  wrapper delegates to `chess_nn_playground.models.trunk.toda_isospectral_flow` and the
   registered `toda_isospectral_flow_network` model.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

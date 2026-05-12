@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.credal_temperature import (
+from chess_nn_playground.models.trunk.credal_temperature import (
     build_credal_temperature_field_network_from_config,
 )
 

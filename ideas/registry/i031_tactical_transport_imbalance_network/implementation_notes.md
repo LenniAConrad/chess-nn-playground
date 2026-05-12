@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/tactical_transport_imbalance.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/tactical_transport_imbalance.py`.
 - Builder: `build_tactical_transport_imbalance_network_from_config`.
 - Idea-local wrapper: `ideas/registry/i031_tactical_transport_imbalance_network/model.py` (calls the builder).
 - Registry key: `tactical_transport_imbalance_network`.

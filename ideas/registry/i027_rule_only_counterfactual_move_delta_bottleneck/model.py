@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.counterfactual_delta_bottleneck import (
+from chess_nn_playground.models.trunk.counterfactual_delta_bottleneck import (
     CounterfactualDeltaBottleneckNet,
     build_counterfactual_delta_bottleneck_from_config,
 )

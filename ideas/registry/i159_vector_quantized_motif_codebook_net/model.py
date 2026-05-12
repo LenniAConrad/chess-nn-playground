@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+from chess_nn_playground.models.trunk.vector_quantized_motif_codebook_net import (
     VectorQuantizedMotifCodebookNet,
     build_vector_quantized_motif_codebook_net_from_config,
 )

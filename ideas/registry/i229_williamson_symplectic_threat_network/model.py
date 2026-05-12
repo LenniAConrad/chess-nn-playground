@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.williamson_symplectic_threat_network import (
+from chess_nn_playground.models.trunk.williamson_symplectic_threat_network import (
     build_williamson_symplectic_threat_network_from_config,
 )
 

@@ -64,5 +64,5 @@ aggregate diagnostics (`consistency_energy`, `mean_defect_l1`,
 ## Implementation Binding
 
 - Registered model name: `commutative_view_consistency_network`.
-- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i137_commutative_view_consistency_network/model.py`.

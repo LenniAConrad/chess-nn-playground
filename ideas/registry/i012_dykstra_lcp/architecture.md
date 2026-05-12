@@ -26,5 +26,5 @@ Projector v2 keeps the same tensor contract but tightens the linear-algebra cons
 ## Implementation Binding
 
 - Registered model name: `dykstra_lcp`.
-- Source implementation: `src/chess_nn_playground/models/dykstra_lcp.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/dykstra_lcp.py`.
 - Idea-local wrapper: `ideas/registry/i012_dykstra_lcp/model.py`.

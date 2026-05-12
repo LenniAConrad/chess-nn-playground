@@ -1,6 +1,6 @@
 # Implementation Notes
 
-The reusable implementation lives in `src/chess_nn_playground/models/vetoselect.py`.
+The reusable implementation lives in `src/chess_nn_playground/models/trunk/vetoselect.py`.
 
 Training support is implemented through `training.losses.VetoSelectLoss` and small trainer changes that understand model output dictionaries. Metrics and predictions use `selective_puzzle_logit` as the selected score while saving raw VetoSelect diagnostics in prediction artifacts.
 

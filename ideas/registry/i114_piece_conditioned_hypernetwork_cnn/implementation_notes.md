@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/piece_conditioned_hypernetwork_cnn.py`.
+- Central code: `src/chess_nn_playground/models/trunk/piece_conditioned_hypernetwork_cnn.py`.
 - Registry key: `piece_conditioned_hypernetwork_cnn`.
 - Idea-local wrapper: `ideas/registry/i114_piece_conditioned_hypernetwork_cnn/model.py` calls
   `build_piece_conditioned_hypernetwork_cnn_from_config`.

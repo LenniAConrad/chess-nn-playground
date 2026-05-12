@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py`.
+- Central code: `src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py`.
 - Registry key: `geometry_conditioned_board_pseudo_likelihood_ratio_network`.
 - Idea wrapper: `ideas/registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0713_tuesday_local_geom_plr.md`.

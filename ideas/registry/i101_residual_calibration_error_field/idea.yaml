@@ -26,7 +26,7 @@ trainer_entrypoint: ideas/registry/i101_residual_calibration_error_field/train.p
 config_path: ideas/registry/i101_residual_calibration_error_field/config.yaml
 model_path: ideas/registry/i101_residual_calibration_error_field/model.py
 latest_result_path: null
-notes: Bespoke implementation in `src/chess_nn_playground/models/residual_calibration.py`
+notes: Bespoke implementation in `src/chess_nn_playground/models/trunk/residual_calibration.py`
   with idea-local wrapper `ideas/registry/i101_residual_calibration_error_field/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md
 source_packet_candidate: Residual Calibration Error Field

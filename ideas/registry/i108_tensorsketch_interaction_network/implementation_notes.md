@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/tensorsketch_interaction_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/tensorsketch_interaction_network.py`.
 - Idea-local wrapper: `ideas/registry/i108_tensorsketch_interaction_network/model.py` (calls
   `build_tensorsketch_interaction_network_from_config` directly; no `ResearchPacketProbe`).
 - Registry key: `tensorsketch_interaction_network`.

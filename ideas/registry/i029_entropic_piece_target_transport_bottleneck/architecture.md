@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `entropic_piece_target_transport_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/entropic_piece_target_transport_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/entropic_piece_target_transport_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i029_entropic_piece_target_transport_bottleneck/model.py`
 
 ## Components

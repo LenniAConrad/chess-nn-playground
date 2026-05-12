@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `fixed_point_residual_defect_network`
-- Source implementation file: `src/chess_nn_playground/models/fixed_point_residual.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/fixed_point_residual.py`
 - Idea-local wrapper: `ideas/registry/i097_fixed_point_residual_defect_network/model.py`
 
 ## Modules

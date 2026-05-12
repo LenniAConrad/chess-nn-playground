@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/adapter_sandwich_residual_cnn.py`.
 - Idea-local wrapper: `ideas/registry/i154_adapter_sandwich_residual_cnn/model.py`.
 - Registry key: `adapter_sandwich_residual_cnn`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.

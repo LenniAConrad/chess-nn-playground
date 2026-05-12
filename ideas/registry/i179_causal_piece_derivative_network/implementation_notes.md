@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/causal_piece_derivative_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/causal_piece_derivative_network.py`.
 - Idea-local wrapper: `ideas/registry/i179_causal_piece_derivative_network/model.py`.
 - Registry key: `causal_piece_derivative_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.

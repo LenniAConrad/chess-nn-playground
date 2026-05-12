@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/symmetric_difference_twin_encoder.py`.
+- Central code: `src/chess_nn_playground/models/trunk/symmetric_difference_twin_encoder.py`.
 - Idea-local wrapper: `ideas/registry/i116_symmetric_difference_twin_encoder/model.py` (`build_model_from_config`).
 - Registry key: `symmetric_difference_twin_encoder`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`.

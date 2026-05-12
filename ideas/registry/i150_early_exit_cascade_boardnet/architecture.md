@@ -9,7 +9,7 @@ single BCE-with-logits loss trains every exit.
 ## Implementation Binding
 
 - Registered model name: `early_exit_cascade_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/early_exit_cascade_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/early_exit_cascade_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i150_early_exit_cascade_boardnet/model.py`
 
 ## Modules

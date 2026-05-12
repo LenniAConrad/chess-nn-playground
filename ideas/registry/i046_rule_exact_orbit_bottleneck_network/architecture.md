@@ -88,5 +88,5 @@ isolates the orbit operator rather than capacity or augmentation.
 ## Implementation Binding
 
 - Registered model name: `rule_exact_orbit_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i046_rule_exact_orbit_bottleneck_network/model.py`

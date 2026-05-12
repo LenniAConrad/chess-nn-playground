@@ -72,7 +72,7 @@ trunk.
 - Registered model name: `convnext_boardnet` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/convnext_boardnet.py`
+  `src/chess_nn_playground/models/trunk/convnext_boardnet.py`
   (`ConvNeXtBoardNet` and
   `build_convnext_boardnet_from_config`).
 - Idea-local wrapper:

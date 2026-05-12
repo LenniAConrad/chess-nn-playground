@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/support_polar_zonotope.py`.
+- Central code: `src/chess_nn_playground/models/trunk/support_polar_zonotope.py`.
 - Idea-local wrapper: `ideas/registry/i079_support_polar_zonotope_certificate_network/model.py`.
 - Registry key: `support_polar_zonotope_certificate_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0718_tuesday_new_york_support_polar_zonotope.md`.

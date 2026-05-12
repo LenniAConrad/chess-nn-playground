@@ -26,7 +26,7 @@ trainer_entrypoint: ideas/registry/i131_replicator_payoff_piece_dynamics/train.p
 config_path: ideas/registry/i131_replicator_payoff_piece_dynamics/config.yaml
 model_path: ideas/registry/i131_replicator_payoff_piece_dynamics/model.py
 latest_result_path: null
-notes: Research-packet promotion. Bespoke implementation in src/chess_nn_playground/models/replicator_payoff_piece_dynamics.py;
+notes: Research-packet promotion. Bespoke implementation in src/chess_nn_playground/models/trunk/replicator_payoff_piece_dynamics.py;
   wrapper delegates through ideas/registry/i131_replicator_payoff_piece_dynamics/model.py.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
 source_packet_candidate: Replicator Payoff Piece Dynamics

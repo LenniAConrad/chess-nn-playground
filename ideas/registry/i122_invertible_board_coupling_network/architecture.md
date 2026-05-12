@@ -46,7 +46,7 @@ statistics together with explicit per-block coupling-scale diagnostics.
 
 - Registered model name: `invertible_board_coupling_network`.
 - Source implementation file:
-  `src/chess_nn_playground/models/invertible_board_coupling_network.py`.
+  `src/chess_nn_playground/models/trunk/invertible_board_coupling_network.py`.
 - Idea-local wrapper: `ideas/registry/i122_invertible_board_coupling_network/model.py`
   (a thin `build_model_from_config(config)` wrapper around
   `build_invertible_board_coupling_network_from_config`).

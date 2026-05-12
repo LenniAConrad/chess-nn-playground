@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.numerical_range_boundary import (
+from chess_nn_playground.models.trunk.numerical_range_boundary import (
     build_numerical_range_boundary_network_from_config,
 )
 

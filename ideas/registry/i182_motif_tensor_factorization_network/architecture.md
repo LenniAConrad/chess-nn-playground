@@ -117,5 +117,5 @@ The packet's required ablations are exposed through the model:
 ## Implementation Binding
 
 - Registered model name: `motif_tensor_factorization_network`
-- Source implementation file: `src/chess_nn_playground/models/motif_tensor_factorization_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/motif_tensor_factorization_network.py`
 - Idea-local wrapper: `ideas/registry/i182_motif_tensor_factorization_network/model.py`

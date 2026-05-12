@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `threat_topology_betti_bottleneck_network`
-- Source implementation: `src/chess_nn_playground/models/threat_topology_betti.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/threat_topology_betti.py`
 - Idea-local wrapper: `ideas/registry/i054_threat_topology_betti_bottleneck_network/model.py`
 
 ## Modules

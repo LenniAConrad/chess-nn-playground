@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/bitboard_shift_algebra.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/bitboard_shift_algebra.py`.
 - Registry key: `bitboard_shift_algebra_network`.
 - Idea-local wrapper: `ideas/registry/i069_bitboard_shift_algebra_network/model.py` (thin `build_model_from_config`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2131_friday_shanghai_bitboard_shift_algebra.md`.

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/legal_automorphism_quotient_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/legal_automorphism_quotient_network.py`.
 - Registry key: `legal_automorphism_quotient_network`.
 - Idea-local wrapper: `ideas/registry/i042_legal_automorphism_quotient_network/model.py` (thin
   delegate around `build_legal_automorphism_quotient_network_from_config`).

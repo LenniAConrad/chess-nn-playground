@@ -74,7 +74,7 @@ L = L_pred                                             (posterior-path BCE)
 ```
 
 The implementation in
-`src/chess_nn_playground/models/tactical_state_bottleneck.py` exposes the
+`src/chess_nn_playground/models/trunk/tactical_state_bottleneck.py` exposes the
 full bundle through `forward_train` and `tactical_state_loss_components`.
 The shared puzzle_binary trainer in this repository wires only the
 `L_prior_pred` term, which the packet labels mandatory because it closes

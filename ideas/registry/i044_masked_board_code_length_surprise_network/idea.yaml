@@ -32,7 +32,7 @@ config_path: ideas/registry/i044_masked_board_code_length_surprise_network/confi
 model_path: ideas/registry/i044_masked_board_code_length_surprise_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0739_tuesday_los_angeles_masked_surprise_codec.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/masked_surprise_codec.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/masked_surprise_codec.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: information
 implementation_kind: bespoke_model

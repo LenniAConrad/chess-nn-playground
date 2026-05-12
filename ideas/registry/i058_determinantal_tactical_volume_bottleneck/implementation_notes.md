@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/determinantal_volume.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/determinantal_volume.py`.
 - Builder: `build_determinantal_tactical_volume_bottleneck_from_config`.
 - Registry key: `determinantal_tactical_volume_bottleneck`.
 - Idea-local wrapper: `ideas/registry/i058_determinantal_tactical_volume_bottleneck/model.py`

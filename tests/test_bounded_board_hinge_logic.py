@@ -9,7 +9,7 @@ import yaml
 
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
-from chess_nn_playground.models.bounded_board_hinge_logic import BoundedBoardHingeLogicNet
+from chess_nn_playground.models.trunk.bounded_board_hinge_logic import BoundedBoardHingeLogicNet
 from chess_nn_playground.models.registry import build_model
 
 

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/counterfactual_defender_dropout.py`.
+- Central code: `src/chess_nn_playground/models/trunk/counterfactual_defender_dropout.py`.
 - Idea-local wrapper: `ideas/registry/i189_counterfactual_defender_dropout_network/model.py`.
 - Registry key: `counterfactual_defender_dropout_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.

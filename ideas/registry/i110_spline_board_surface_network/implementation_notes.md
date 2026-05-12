@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/spline_board_surface_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/spline_board_surface_network.py`.
 - Registry key: `spline_board_surface_network`.
 - Idea-local wrapper: `ideas/registry/i110_spline_board_surface_network/model.py`
   (a thin `build_model_from_config` over

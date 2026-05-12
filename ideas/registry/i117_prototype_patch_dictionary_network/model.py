@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.prototype_patch_dictionary_network import (
+from chess_nn_playground.models.trunk.prototype_patch_dictionary_network import (
     PrototypePatchDictionaryNetwork,
     build_prototype_patch_dictionary_network_from_config,
 )

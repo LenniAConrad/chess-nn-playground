@@ -36,7 +36,7 @@ config_path: ideas/registry/i173_stripe_selective_mixer_cnn/config.yaml
 model_path: ideas/registry/i173_stripe_selective_mixer_cnn/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/stripe_selective_mixer_cnn.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/stripe_selective_mixer_cnn.py`
   (`StripeSelectiveMixerCNN`); the idea-local `model.py` is a thin wrapper around
   the registered builder. Stripe scans are 1-D sequence convolutions implemented as
   `Conv2d` layers with fixed directional masks, so there is no recurrent machinery.

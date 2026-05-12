@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.non_backtracking_tactical_walk import NonBacktrackingTacticalWalkNet
-from chess_nn_playground.models.non_backtracking_tactical_walk import (
+from chess_nn_playground.models.trunk.non_backtracking_tactical_walk import NonBacktrackingTacticalWalkNet
+from chess_nn_playground.models.trunk.non_backtracking_tactical_walk import (
     build_non_backtracking_tactical_walk_network_from_config,
 )
 

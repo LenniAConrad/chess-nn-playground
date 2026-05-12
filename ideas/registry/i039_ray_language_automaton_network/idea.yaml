@@ -29,6 +29,6 @@ config_path: ideas/registry/i039_ray_language_automaton_network/config.yaml
 model_path: ideas/registry/i039_ray_language_automaton_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0719_tuesday_local_ray_language_automaton.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/ray_language_automaton_network.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/ray_language_automaton_network.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 implementation_kind: bespoke_model

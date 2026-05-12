@@ -31,7 +31,7 @@ latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
   Bespoke differentiable mathematical-morphology architecture wired to the registered
   `morphological_threat_field_network` model in
-  `src/chess_nn_playground/models/morphological_threat_field_network.py`.
+  `src/chess_nn_playground/models/trunk/morphological_threat_field_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
 source_packet_candidate: Morphological Threat Field Network
 source_packet_rank: 3

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/soft_formal_concept_closure.py`.
+- Central code: `src/chess_nn_playground/models/trunk/soft_formal_concept_closure.py`.
 - Idea-local wrapper: `ideas/registry/i057_soft_formal_concept_closure_network/model.py`.
 - Registry key: `soft_formal_concept_closure_network` (registered in
   `src/chess_nn_playground/models/registry.py`).

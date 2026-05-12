@@ -25,7 +25,7 @@ config_path: ideas/registry/i223_bures_wasserstein_threat_network/config.yaml
 model_path: ideas/registry/i223_bures_wasserstein_threat_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-05-05_1510_tuesday_local_bures_wasserstein_threat.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/bures_wasserstein_threat.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/bures_wasserstein_threat.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

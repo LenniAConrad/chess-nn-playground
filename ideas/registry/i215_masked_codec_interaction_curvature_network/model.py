@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.masked_codec_interaction_curvature import build_masked_codec_interaction_curvature_network_from_config
+from chess_nn_playground.models.trunk.masked_codec_interaction_curvature import build_masked_codec_interaction_curvature_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> nn.Module:

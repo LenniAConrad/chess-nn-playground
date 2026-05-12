@@ -31,7 +31,7 @@ model_path: ideas/registry/i119_tensor_ring_square_interaction_network/model.py
 latest_result_path: null
 notes: Bespoke tensor-ring square-interaction network bound to the
   `tensor_ring_square_interaction_network` registry entry implemented in
-  `src/chess_nn_playground/models/tensor_ring_square_interaction_network.py`. Promoted
+  `src/chess_nn_playground/models/trunk/tensor_ring_square_interaction_network.py`. Promoted
   from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
 source_packet_candidate: Tensor-Ring Square Interaction Network

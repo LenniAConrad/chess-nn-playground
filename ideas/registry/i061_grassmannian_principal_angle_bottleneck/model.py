@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.grassmannian_principal_angle_bottleneck import (
+from chess_nn_playground.models.trunk.grassmannian_principal_angle_bottleneck import (
     GrassmannianPrincipalAngleNet,
     build_grassmannian_principal_angle_bottleneck_from_config,
 )

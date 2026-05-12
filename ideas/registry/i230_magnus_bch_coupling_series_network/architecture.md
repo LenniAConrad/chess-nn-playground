@@ -57,5 +57,5 @@ the BCH log itself ignores but which is still chess-meaningful.
 ## Implementation Binding
 
 - Registered model name: `magnus_bch_coupling_series_network`
-- Source implementation file: `src/chess_nn_playground/models/magnus_bch_coupling_series_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/magnus_bch_coupling_series_network.py`
 - Idea-local wrapper: `ideas/registry/i230_magnus_bch_coupling_series_network/model.py`

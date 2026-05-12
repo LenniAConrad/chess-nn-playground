@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+from chess_nn_playground.models.trunk.cross_stitch_cnn_token_fusion_net import (
     CrossStitchCNNTokenFusionNet,
     build_cross_stitch_cnn_token_fusion_net_from_config,
 )

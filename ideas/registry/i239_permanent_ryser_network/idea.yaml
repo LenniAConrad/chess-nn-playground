@@ -8,7 +8,7 @@ short_thesis: Builds top-k attacker x top-k defender bilinear interaction matrix
   (k=6); computes its permanent via Ryser's formula -- the unsigned count of perfect
   attacker-to-defender matchings. Distinct from DPP (signed determinant, i058) and
   Pfaffian (signed matchings of skew-graphs, i226).
-novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/permanent_ryser.py`;
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/trunk/permanent_ryser.py`;
   routed via the standard registry (not the generic ResearchPacketProbe).
 expected_advantage: Hand-coded mechanism implements the algebra exactly per the source
   packet -- no profile-routing approximation.

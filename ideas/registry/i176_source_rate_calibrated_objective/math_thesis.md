@@ -59,6 +59,6 @@ To carry the thesis into the model itself rather than only the loss:
   re-implementing the soft rates downstream.
 
 The bespoke implementation of this thesis lives in
-`src/chess_nn_playground/models/source_rate_calibrated_objective.py`; the
+`src/chess_nn_playground/models/trunk/source_rate_calibrated_objective.py`; the
 idea-local wrapper at `ideas/registry/i176_source_rate_calibrated_objective/model.py`
 delegates to that source.

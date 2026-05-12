@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/sparse_witness_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py`.
 - Registry key: `sparse_witness_piece_bottleneck_network`.
 - Idea-local wrapper: `ideas/registry/i038_sparse_witness_piece_bottleneck_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0713_tuesday_los_angeles_sparse_witness_bottleneck.md`.

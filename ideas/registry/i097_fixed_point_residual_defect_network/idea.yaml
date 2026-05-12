@@ -33,7 +33,7 @@ model_path: ideas/registry/i097_fixed_point_residual_defect_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.
   Bespoke fixed-point residual defect network registered as `fixed_point_residual_defect_network`
-  in `src/chess_nn_playground/models/fixed_point_residual.py`. Supports ablation modes
+  in `src/chess_nn_playground/models/trunk/fixed_point_residual.py`. Supports ablation modes
   `fixed_point`, `final_latent_only`, `defect_norm_only`, `single_step`, `untied_residual_blocks`,
   and `random_update_operator`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md

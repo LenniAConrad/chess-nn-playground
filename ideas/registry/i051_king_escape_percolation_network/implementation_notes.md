@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/king_escape_percolation.py`.
+- Central code: `src/chess_nn_playground/models/trunk/king_escape_percolation.py`.
 - Registry key: `king_escape_percolation_network`.
 - Idea wrapper: `ideas/registry/i051_king_escape_percolation_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0811_tuesday_pacific_king_escape_percolation.md`.

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model code: `src/chess_nn_playground/models/differentiable_chess_fact_lattice.py`.
+- Bespoke model code: `src/chess_nn_playground/models/trunk/differentiable_chess_fact_lattice.py`.
 - Idea-local wrapper: `ideas/registry/i086_differentiable_chess_fact_lattice/model.py` exposes
   `build_model_from_config(config)` and delegates to
   `build_differentiable_chess_fact_lattice_from_config`.

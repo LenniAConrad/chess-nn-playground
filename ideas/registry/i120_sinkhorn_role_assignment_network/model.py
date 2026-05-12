@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.sinkhorn_role_assignment_network import (
+from chess_nn_playground.models.trunk.sinkhorn_role_assignment_network import (
     SinkhornRoleAssignmentNetwork,
     build_sinkhorn_role_assignment_network_from_config,
 )

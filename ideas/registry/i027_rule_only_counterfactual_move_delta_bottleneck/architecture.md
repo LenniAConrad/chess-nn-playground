@@ -31,6 +31,6 @@ The central operator is a deterministic chess intervention (`T_m x - x`) plus a 
 ## Implementation Binding
 
 - Registered model name: `rule_only_counterfactual_move_delta_bottleneck`.
-- Source implementation file: `src/chess_nn_playground/models/counterfactual_delta_bottleneck.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck/model.py` — exposes `build_model_from_config(config)` that delegates to `build_counterfactual_delta_bottleneck_from_config`.
-- Reused primitives: the `Simple18BoardAdapter` and `PseudoLegalDeltaEnumerator` from `src/chess_nn_playground/models/move_landscape_net.py` provide the rule-only current-board parser and the deterministic pseudo-legal move enumerator. The board context encoder, slider-path mean, move-delta tuple encoder, masked sparsemax/entmax-1.5, move-cone bottleneck and classifier head are bespoke to this idea.
+- Reused primitives: the `Simple18BoardAdapter` and `PseudoLegalDeltaEnumerator` from `src/chess_nn_playground/models/trunk/move_landscape_net.py` provide the rule-only current-board parser and the deterministic pseudo-legal move enumerator. The board context encoder, slider-path mean, move-delta tuple encoder, masked sparsemax/entmax-1.5, move-cone bottleneck and classifier head are bespoke to this idea.

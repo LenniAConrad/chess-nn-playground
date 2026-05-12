@@ -31,7 +31,7 @@ model_path: ideas/registry/i134_legal_constraint_projection_residual_network/mod
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.
   Bespoke implementation registered as `legal_constraint_projection_residual_network`,
-  backed by `src/chess_nn_playground/models/legal_constraint_projection_residual_network.py`;
+  backed by `src/chess_nn_playground/models/trunk/legal_constraint_projection_residual_network.py`;
   wrapper delegates through `ideas/registry/i134_legal_constraint_projection_residual_network/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
 source_packet_candidate: Legal-Constraint Projection Residual Network

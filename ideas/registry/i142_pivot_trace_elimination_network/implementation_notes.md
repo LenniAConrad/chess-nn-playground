@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/pivot_trace_elimination_network.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/pivot_trace_elimination_network.py`.
 - Idea-local wrapper: `ideas/registry/i142_pivot_trace_elimination_network/model.py`
   (calls `build_pivot_trace_elimination_network_from_config`).
 - Registry key: `pivot_trace_elimination_network`.

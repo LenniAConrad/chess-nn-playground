@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/oriented_matroid_covector.py`.
+- Central code: `src/chess_nn_playground/models/trunk/oriented_matroid_covector.py`.
 - Idea-local wrapper: `ideas/registry/i096_oriented_matroid_covector_bottleneck/model.py`.
 - Registry key: `oriented_matroid_covector_bottleneck`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.

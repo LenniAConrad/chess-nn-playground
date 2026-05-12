@@ -73,7 +73,7 @@ boundary mode) are well-defined operations on this code path.
 
 - Registered model name: `boundary_condition_disagreement_cnn`.
 - Source implementation file:
-  `src/chess_nn_playground/models/boundary_condition_disagreement_cnn.py`.
+  `src/chess_nn_playground/models/trunk/boundary_condition_disagreement_cnn.py`.
 - Idea-local wrapper:
   `ideas/registry/i111_boundary_condition_disagreement_cnn/model.py` (a thin
   `build_model_from_config` over

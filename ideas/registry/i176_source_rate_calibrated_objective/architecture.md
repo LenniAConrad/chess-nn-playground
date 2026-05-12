@@ -65,7 +65,7 @@ and constructs the puzzle logit from explicitly named evidence channels.
 - Registered model name: `source_rate_calibrated_objective` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/source_rate_calibrated_objective.py`
+  `src/chess_nn_playground/models/trunk/source_rate_calibrated_objective.py`
   (`SourceRateCalibratedObjectiveNetwork` and
   `build_source_rate_calibrated_objective_from_config`).
 - Idea-local wrapper:

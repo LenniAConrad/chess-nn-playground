@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py` (`RuleExactOrbitBottleneckNet`, builder `build_rule_exact_orbit_bottleneck_from_config`).
+- Bespoke source: `src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py` (`RuleExactOrbitBottleneckNet`, builder `build_rule_exact_orbit_bottleneck_from_config`).
 - Idea-local wrapper: `ideas/registry/i046_rule_exact_orbit_bottleneck_network/model.py`.
 - Registry key: `rule_exact_orbit_bottleneck_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0750_tuesday_los_angeles_orbit_bottleneck.md`.

@@ -30,7 +30,7 @@ model_path: ideas/registry/i103_attention_disagreement_residual_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`.
   Bespoke multi-family attention disagreement model; idea-local model.py wraps
-  `src/chess_nn_playground/models/attention_disagreement_residual_network.py`.
+  `src/chess_nn_playground/models/trunk/attention_disagreement_residual_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md
 source_packet_candidate: Attention Disagreement Residual Network
 source_packet_rank: 2

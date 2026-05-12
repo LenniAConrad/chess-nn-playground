@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model: `src/chess_nn_playground/models/bounded_board_hinge_logic.py`.
+- Bespoke model: `src/chess_nn_playground/models/trunk/bounded_board_hinge_logic.py`.
 - Idea-local wrapper: `ideas/registry/i089_bounded_board_hinge_logic/model.py`.
 - Registry key: `bounded_board_hinge_logic`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0859_tuesday_new_york_bounded_hinge.md`.

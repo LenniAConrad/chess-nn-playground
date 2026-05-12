@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.oriented_matroid_covector import (
+from chess_nn_playground.models.trunk.oriented_matroid_covector import (
     OrientedMatroidCovectorBottleneck,
     build_oriented_matroid_covector_bottleneck_from_config,
 )

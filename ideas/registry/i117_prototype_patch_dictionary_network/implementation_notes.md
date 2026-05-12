@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Bespoke model file:
-  `src/chess_nn_playground/models/prototype_patch_dictionary_network.py`.
+  `src/chess_nn_playground/models/trunk/prototype_patch_dictionary_network.py`.
 - Registry key: `prototype_patch_dictionary_network`.
 - Idea-local wrapper:
   `ideas/registry/i117_prototype_patch_dictionary_network/model.py` is a thin

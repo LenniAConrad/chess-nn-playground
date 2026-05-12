@@ -29,7 +29,7 @@ from chess_nn_playground.evaluation.plots import (
 )
 from chess_nn_playground.evaluation.reports import build_run_report
 from chess_nn_playground.evaluation.slices import write_slice_artifacts
-from chess_nn_playground.models.cnn import count_parameters, model_summary_text
+from chess_nn_playground.models.trunk.cnn import count_parameters, model_summary_text
 from chess_nn_playground.models.complexity import estimate_model_complexity
 from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.training.callbacks import EarlyStopping

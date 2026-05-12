@@ -52,5 +52,5 @@ board feature energy, and scratchpad step/slot counts.
 ## Implementation Binding
 
 - Registered model name: `global_scratchpad_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/global_scratchpad_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/global_scratchpad_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i163_global_scratchpad_boardnet/model.py`

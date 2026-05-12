@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/color_flip_orbit_evidence.py`.
+- Central code: `src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py`.
 - Registered builder: `build_color_flip_orbit_evidence_bottleneck_from_config` in
   `src/chess_nn_playground/models/registry.py`.
 - Registry key (config `model.name`): `color_flip_orbit_evidence_bottleneck`.

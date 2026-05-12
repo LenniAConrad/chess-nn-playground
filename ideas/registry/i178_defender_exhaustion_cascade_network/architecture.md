@@ -73,7 +73,7 @@ baseline.
 - Registered model name: `defender_exhaustion_cascade_network`
   (registered in `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/defender_exhaustion_cascade_network.py`
+  `src/chess_nn_playground/models/trunk/defender_exhaustion_cascade_network.py`
   (`DefenderExhaustionCascadeNetwork` and
   `build_defender_exhaustion_cascade_network_from_config`).
 - Idea-local wrapper:

@@ -26,7 +26,7 @@ trainer_entrypoint: ideas/registry/i019_tactical_sheaf_curvature_network/train.p
 config_path: ideas/registry/i019_tactical_sheaf_curvature_network/config.yaml
 model_path: ideas/registry/i019_tactical_sheaf_curvature_network/model.py
 latest_result_path: null
-notes: Implemented as the bespoke `tactical_sheaf_curvature_network` model in `src/chess_nn_playground/models/tactical_sheaf_curvature.py`
+notes: Implemented as the bespoke `tactical_sheaf_curvature_network` model in `src/chess_nn_playground/models/trunk/tactical_sheaf_curvature.py`
   with an idea-local wrapper. The implementation consumes board tensors only and
   follows the repo's one-logit puzzle_binary contract.
 implementation_kind: bespoke_model

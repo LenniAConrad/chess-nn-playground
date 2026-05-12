@@ -28,7 +28,7 @@ trainer_entrypoint: ideas/registry/i115_neural_board_cellular_automaton/train.py
 config_path: ideas/registry/i115_neural_board_cellular_automaton/config.yaml
 model_path: ideas/registry/i115_neural_board_cellular_automaton/model.py
 latest_result_path: null
-notes: Bespoke implementation registered as neural_board_cellular_automaton in src/chess_nn_playground/models/neural_board_cellular_automaton.py.
+notes: Bespoke implementation registered as neural_board_cellular_automaton in src/chess_nn_playground/models/trunk/neural_board_cellular_automaton.py.
   The idea-local model.py is a thin wrapper around build_neural_board_cellular_automaton_from_config;
   the previous ResearchPacketProbe scaffold has been removed.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md

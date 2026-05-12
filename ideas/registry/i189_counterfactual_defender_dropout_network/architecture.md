@@ -142,5 +142,5 @@ When called with `return_aux=True`, the dict additionally exposes
 ## Implementation Binding
 
 - Registered model name: `counterfactual_defender_dropout_network`
-- Source implementation file: `src/chess_nn_playground/models/counterfactual_defender_dropout.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/counterfactual_defender_dropout.py`
 - Idea-local wrapper: `ideas/registry/i189_counterfactual_defender_dropout_network/model.py`

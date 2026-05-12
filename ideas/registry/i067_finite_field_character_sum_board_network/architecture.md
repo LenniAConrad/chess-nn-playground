@@ -55,5 +55,5 @@ prediction artifacts.
 ## Implementation Binding
 
 - Registered model name: `finite_field_character_sum_board_network`
-- Source implementation file: `src/chess_nn_playground/models/finite_field_character_sum.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/finite_field_character_sum.py`
 - Idea-local wrapper: `ideas/registry/i067_finite_field_character_sum_board_network/model.py`

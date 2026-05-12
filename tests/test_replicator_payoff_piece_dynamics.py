@@ -13,7 +13,7 @@ from chess_nn_playground.ideas.implementation import validate_idea_for_training
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
 from chess_nn_playground.models.registry import build_model
-from chess_nn_playground.models.replicator_payoff_piece_dynamics import (
+from chess_nn_playground.models.trunk.replicator_payoff_piece_dynamics import (
     OccupiedPieceTokenizer,
     ReplicatorPayoffPieceDynamicsNetwork,
 )

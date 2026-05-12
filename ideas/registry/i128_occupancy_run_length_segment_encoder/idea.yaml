@@ -27,7 +27,7 @@ config_path: ideas/registry/i128_occupancy_run_length_segment_encoder/config.yam
 model_path: ideas/registry/i128_occupancy_run_length_segment_encoder/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.
-  Bespoke implementation in `src/chess_nn_playground/models/occupancy_run_length_segment.py`;
+  Bespoke implementation in `src/chess_nn_playground/models/trunk/occupancy_run_length_segment.py`;
   wrapper delegates through `ideas/registry/i128_occupancy_run_length_segment_encoder/model.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md
 source_packet_candidate: Occupancy Run-Length Segment Encoder

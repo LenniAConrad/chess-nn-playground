@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.exchange_then_king_dual_stream import (
+from chess_nn_playground.models.trunk.exchange_then_king_dual_stream import (
     ExchangeThenKingDualStreamNetwork,
     build_exchange_then_king_dual_stream_from_config,
 )

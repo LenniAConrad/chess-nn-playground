@@ -29,7 +29,7 @@ config_path: ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck/
 model_path: ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck/model.py
 latest_result_path: null
 notes: Bespoke implementation of the markdown architecture. The idea-local model wrapper
-  delegates to `src/chess_nn_playground/models/counterfactual_delta_bottleneck.py`.
+  delegates to `src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py`.
   Reuses the rule-only simple_18 adapter and pseudo-legal delta enumerator from i025
   but replaces the energy-based pool with a sparsemax/entmax-1.5 move-cone bottleneck
   plus mean/second-moment/kappa statistics.

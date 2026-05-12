@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.attention_perturbation_sensitivity_network import (
+from chess_nn_playground.models.trunk.attention_perturbation_sensitivity_network import (
     AttentionPerturbationSensitivityNetwork,
     build_attention_perturbation_sensitivity_network_from_config,
 )

@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/hall_defect_zeta.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/hall_defect_zeta.py`.
 - Idea-local wrapper: `ideas/registry/i085_hall_defect_zeta_operator/model.py` (`build_model_from_config`).
 - Registry key: `hall_defect_zeta_operator` in `src/chess_nn_playground/models/registry.py::MODEL_BUILDERS`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0802_tuesday_new_york_hall_defect_zeta.md`.

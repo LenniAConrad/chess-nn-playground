@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/motif_tensor_factorization_network.py`
+- Bespoke source: `src/chess_nn_playground/models/trunk/motif_tensor_factorization_network.py`
   (`MotifTensorFactorizationNetwork`).
 - Registry key: `motif_tensor_factorization_network`.
 - Idea-local wrapper: `ideas/registry/i182_motif_tensor_factorization_network/model.py`.

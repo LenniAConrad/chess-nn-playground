@@ -131,7 +131,7 @@ off.
 
 - Registered model name: `tactical_hessian_spectrum_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/tactical_hessian_spectrum_network.py`
+  `src/chess_nn_playground/models/trunk/tactical_hessian_spectrum_network.py`
 - Idea-local wrapper:
   `ideas/registry/i199_tactical_hessian_spectrum_network/model.py`
 

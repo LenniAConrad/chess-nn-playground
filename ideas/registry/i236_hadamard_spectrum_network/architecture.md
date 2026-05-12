@@ -1,7 +1,7 @@
 # Architecture
 
 `Hadamard Walsh-Spectrum Network` is a hand-coded `nn.Module` at
-`src/chess_nn_playground/models/hadamard_spectrum.py`.
+`src/chess_nn_playground/models/trunk/hadamard_spectrum.py`.
 
 - Mechanism family: `linear_algebra` (bespoke).
 - Module class: `HadamardSpectrumNetwork`.
@@ -16,5 +16,5 @@ module file for the exact algebraic operator implementation.
 ## Implementation Binding
 
 - Registered model name: `hadamard_spectrum_network`.
-- Source implementation: `src/chess_nn_playground/models/hadamard_spectrum.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/hadamard_spectrum.py`.
 - Idea-local wrapper: `ideas/registry/i236_hadamard_spectrum_network/model.py`.

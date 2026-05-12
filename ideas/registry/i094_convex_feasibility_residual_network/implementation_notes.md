@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/convex_feasibility.py` (`ConvexFeasibilityResidualNetwork` and `build_convex_feasibility_residual_network_from_config`).
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/convex_feasibility.py` (`ConvexFeasibilityResidualNetwork` and `build_convex_feasibility_residual_network_from_config`).
 - Idea-local wrapper: `ideas/registry/i094_convex_feasibility_residual_network/model.py` calls the bespoke builder; it does not depend on the shared `ResearchPacketProbe` scaffold.
 - Registry key: `convex_feasibility_residual_network` (registered in `src/chess_nn_playground/models/registry.py`; removed from `RESEARCH_PACKET_MODEL_NAMES`).
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.

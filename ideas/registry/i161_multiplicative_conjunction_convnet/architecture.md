@@ -39,5 +39,5 @@ and aggregate feature energy.
 ## Implementation Binding
 
 - Registered model name: `multiplicative_conjunction_convnet`
-- Source implementation file: `src/chess_nn_playground/models/multiplicative_conjunction_convnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/multiplicative_conjunction_convnet.py`
 - Idea-local wrapper: `ideas/registry/i161_multiplicative_conjunction_convnet/model.py`

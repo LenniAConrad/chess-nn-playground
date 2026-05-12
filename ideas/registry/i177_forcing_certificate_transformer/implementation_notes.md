@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/forcing_certificate_transformer.py`.
+- Central code: `src/chess_nn_playground/models/trunk/forcing_certificate_transformer.py`.
 - Idea-local wrapper: `ideas/registry/i177_forcing_certificate_transformer/model.py`.
 - Registry key: `forcing_certificate_transformer`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.

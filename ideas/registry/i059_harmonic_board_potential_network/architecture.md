@@ -86,7 +86,7 @@ the head MLP; the spatial reasoning operator itself is not learned.
 ## Implementation Binding
 
 - Registered model name: `harmonic_board_potential_network`
-- Source implementation: `src/chess_nn_playground/models/harmonic_board_potential_network.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/harmonic_board_potential_network.py`
 - Idea-local wrapper: `ideas/registry/i059_harmonic_board_potential_network/model.py`
   delegates to `build_harmonic_board_potential_network_from_config`.
 - The idea-local wrapper does not import or call the shared

@@ -12,7 +12,7 @@ network re-route channel mixing locally.
 ## Implementation Binding
 
 - Registered model name: `adapter_sandwich_residual_cnn`
-- Source implementation file: `src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/adapter_sandwich_residual_cnn.py`
 - Idea-local wrapper: `ideas/registry/i154_adapter_sandwich_residual_cnn/model.py`
 
 ## Modules

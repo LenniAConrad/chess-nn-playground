@@ -27,7 +27,7 @@ config_path: ideas/registry/i067_finite_field_character_sum_board_network/config
 model_path: ideas/registry/i067_finite_field_character_sum_board_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2115_friday_shanghai_character_sums.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/finite_field_character_sum.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/finite_field_character_sum.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

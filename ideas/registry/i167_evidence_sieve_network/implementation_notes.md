@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/evidence_sieve_network.py`.
+- Central code: `src/chess_nn_playground/models/trunk/evidence_sieve_network.py`.
 - Idea-local wrapper: `ideas/registry/i167_evidence_sieve_network/model.py` (calls
   `build_evidence_sieve_network_from_config`).
 - Registry key: `evidence_sieve_network`.

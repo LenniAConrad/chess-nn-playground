@@ -76,5 +76,5 @@ The model exposes the falsifiers from the math thesis as constructor flags:
 
 - Registered model name: `differentiable_chess_fact_lattice`.
 - Source implementation file:
-  `src/chess_nn_playground/models/differentiable_chess_fact_lattice.py`.
+  `src/chess_nn_playground/models/trunk/differentiable_chess_fact_lattice.py`.
 - Idea-local wrapper: `ideas/registry/i086_differentiable_chess_fact_lattice/model.py`.

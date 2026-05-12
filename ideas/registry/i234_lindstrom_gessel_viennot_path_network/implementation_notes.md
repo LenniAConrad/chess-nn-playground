@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Central code:
-  `src/chess_nn_playground/models/lindstrom_gessel_viennot_path_network.py`.
+  `src/chess_nn_playground/models/trunk/lindstrom_gessel_viennot_path_network.py`.
 - Registry key: `lindstrom_gessel_viennot_path_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-05-05_1615_tuesday_local_lindstrom_gessel_viennot_path.md`.
 - Board-only architecture; engine, verification, source, and CRTK

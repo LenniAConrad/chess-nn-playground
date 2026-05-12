@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.legal_automorphism_quotient_network import (
+from chess_nn_playground.models.trunk.legal_automorphism_quotient_network import (
     build_legal_automorphism_quotient_network_from_config,
 )
 

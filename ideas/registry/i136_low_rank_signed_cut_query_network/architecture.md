@@ -82,5 +82,5 @@ alongside diagnostics including ``cut_signed_mean``, ``cut_abs_mean``,
 ## Implementation Binding
 
 - Registered model name: `low_rank_signed_cut_query_network`.
-- Source implementation: `src/chess_nn_playground/models/low_rank_signed_cut_query_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/low_rank_signed_cut_query_network.py`.
 - Idea-local wrapper: `ideas/registry/i136_low_rank_signed_cut_query_network/model.py`.

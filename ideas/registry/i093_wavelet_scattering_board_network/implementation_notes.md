@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/wavelet_scattering_board_network.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/wavelet_scattering_board_network.py`.
 - Idea-local wrapper: `ideas/registry/i093_wavelet_scattering_board_network/model.py`.
 - Registry key: `wavelet_scattering_board_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.

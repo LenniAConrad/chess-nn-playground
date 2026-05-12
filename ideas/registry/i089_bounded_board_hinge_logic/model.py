@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.bounded_board_hinge_logic import (
+from chess_nn_playground.models.trunk.bounded_board_hinge_logic import (
     BoundedBoardHingeLogicNet,
     build_bounded_board_hinge_logic_from_config,
 )

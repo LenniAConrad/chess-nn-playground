@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/invertible_board_coupling_network.py`
+- Central code: `src/chess_nn_playground/models/trunk/invertible_board_coupling_network.py`
   (class `InvertibleBoardCouplingNetwork`, builder
   `build_invertible_board_coupling_network_from_config`).
 - Idea-local wrapper: `ideas/registry/i122_invertible_board_coupling_network/model.py`

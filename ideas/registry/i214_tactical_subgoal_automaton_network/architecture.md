@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `tactical_subgoal_automaton_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_subgoal_automaton.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_subgoal_automaton.py`
 - Idea-local wrapper: `ideas/registry/i214_tactical_subgoal_automaton_network/model.py`

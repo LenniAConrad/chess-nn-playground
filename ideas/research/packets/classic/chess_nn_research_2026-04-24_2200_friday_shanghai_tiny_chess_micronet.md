@@ -735,7 +735,7 @@ This does not prove causality, but it helps detect degenerate solutions:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/tiny_chess_micronet.py
+src/chess_nn_playground/models/trunk/tiny_chess_micronet.py
 tests/test_tiny_chess_micronet.py
 configs/tiny_chess_micronet_nano2k.yaml
 configs/tiny_chess_micronet_micro8k.yaml

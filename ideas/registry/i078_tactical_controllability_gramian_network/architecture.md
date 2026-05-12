@@ -96,5 +96,5 @@ itself only marks the `ablation_cnn_same_params` output flag.
 ## Implementation Binding
 
 - Registered model name: `tactical_controllability_gramian_network`.
-- Source implementation file: `src/chess_nn_playground/models/tactical_controllability_gramian_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_controllability_gramian_network.py`.
 - Idea-local wrapper: `ideas/registry/i078_tactical_controllability_gramian_network/model.py`.

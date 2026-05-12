@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/morphological_threat_field_network.py`
+- Central code: `src/chess_nn_playground/models/trunk/morphological_threat_field_network.py`
   (class `MorphologicalThreatFieldNetwork`, builder
   `build_morphological_threat_field_network_from_config`).
 - Idea-local wrapper: `ideas/registry/i121_morphological_threat_field_network/model.py`

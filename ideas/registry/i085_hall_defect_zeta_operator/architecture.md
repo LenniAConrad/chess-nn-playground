@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `hall_defect_zeta_operator`
-- Source implementation file: `src/chess_nn_playground/models/hall_defect_zeta.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/hall_defect_zeta.py`
 - Idea-local wrapper: `ideas/registry/i085_hall_defect_zeta_operator/model.py`
 
 ## Input Contract

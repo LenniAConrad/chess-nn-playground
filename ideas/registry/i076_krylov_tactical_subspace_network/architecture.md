@@ -96,5 +96,5 @@ flag.
 ## Implementation Binding
 
 - Registered model name: `krylov_tactical_subspace_network`.
-- Source implementation file: `src/chess_nn_playground/models/krylov_tactical_subspace_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/krylov_tactical_subspace_network.py`.
 - Idea-local wrapper: `ideas/registry/i076_krylov_tactical_subspace_network/model.py`.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.capsule_motif_boardnet import (
+from chess_nn_playground.models.trunk.capsule_motif_boardnet import (
     CapsuleMotifBoardNet,
     build_capsule_motif_boardnet_from_config,
 )

@@ -45,5 +45,5 @@ The implementation exposes the packet's intended mechanism tests through config:
 ## Implementation Binding
 
 - Registered model name: `relational_query_algebra_network`.
-- Source implementation file: `src/chess_nn_playground/models/relational_query_algebra.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/relational_query_algebra.py`.
 - Idea-local wrapper: `ideas/registry/i070_relational_query_algebra_network/model.py`.

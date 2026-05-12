@@ -11,7 +11,7 @@ the puzzle logit.
 ## Implementation Binding
 
 - Registered model name: `capsule_motif_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/capsule_motif_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/capsule_motif_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i155_capsule_motif_boardnet/model.py`
 
 ## Modules

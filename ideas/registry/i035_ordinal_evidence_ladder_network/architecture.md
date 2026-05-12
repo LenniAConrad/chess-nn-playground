@@ -73,7 +73,7 @@ CRTK / source / verification metadata is never consumed as input.
 
 - Registered model name: `ordinal_evidence_ladder_network`.
 - Source implementation:
-  `src/chess_nn_playground/models/ordinal_evidence_ladder.py`.
+  `src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py`.
 - Idea-local wrapper:
   `ideas/registry/i035_ordinal_evidence_ladder_network/model.py`,
   which exposes `build_model_from_config(config)` and delegates to

@@ -75,5 +75,5 @@ and the Hamiltonian's near-imaginary mode count.
 ## Implementation Binding
 
 - Registered model name: `riccati_optimal_defense_network`
-- Source implementation file: `src/chess_nn_playground/models/riccati_optimal_defense_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/riccati_optimal_defense_network.py`
 - Idea-local wrapper: `ideas/registry/i231_riccati_optimal_defense_network/model.py`

@@ -15,7 +15,7 @@
       "slug": "chess_operator_basis_classifier",
       "source_files": [
         "ideas/registry/i001_chess_operator_basis_classifier/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -35,7 +35,7 @@
       "slug": "response_minimax_classifier",
       "source_files": [
         "ideas/registry/i002_response_minimax_classifier/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -55,7 +55,7 @@
       "slug": "factor_agreement_classifier",
       "source_files": [
         "ideas/registry/i003_factor_agreement_classifier/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -75,7 +75,7 @@
       "slug": "puzzle_obligation_flow_network",
       "source_files": [
         "ideas/registry/i004_puzzle_obligation_flow_network/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -95,7 +95,7 @@
       "slug": "null_move_contrast_puzzle_network",
       "source_files": [
         "ideas/registry/i005_null_move_contrast_puzzle_network/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -115,7 +115,7 @@
       "slug": "proof_core_set_verifier",
       "source_files": [
         "ideas/registry/i006_proof_core_set_verifier/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -135,7 +135,7 @@
       "slug": "neural_proof_number_search",
       "source_files": [
         "ideas/registry/i007_neural_proof_number_search/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -155,7 +155,7 @@
       "slug": "boundary_edit_lagrangian_network",
       "source_files": [
         "ideas/registry/i008_boundary_edit_lagrangian_network/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -175,7 +175,7 @@
       "slug": "tactical_equilibrium_network",
       "source_files": [
         "ideas/registry/i009_tactical_equilibrium_network/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -195,7 +195,7 @@
       "slug": "rule_consistent_latent_dynamics",
       "source_files": [
         "ideas/registry/i010_rule_consistent_latent_dynamics/model.py",
-        "src/chess_nn_playground/models/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -215,7 +215,7 @@
       "slug": "vetoselect_positive_claim_abstention",
       "source_files": [
         "ideas/registry/i011_vetoselect_positive_claim_abstention/model.py",
-        "src/chess_nn_playground/models/vetoselect.py"
+        "src/chess_nn_playground/models/trunk/vetoselect.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -235,7 +235,7 @@
       "slug": "dykstra_lcp",
       "source_files": [
         "ideas/registry/i012_dykstra_lcp/model.py",
-        "src/chess_nn_playground/models/dykstra_lcp.py"
+        "src/chess_nn_playground/models/trunk/dykstra_lcp.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -255,7 +255,7 @@
       "slug": "sparse_relation_pursuit_asymmetry",
       "source_files": [
         "ideas/registry/i013_sparse_relation_pursuit_asymmetry/model.py",
-        "src/chess_nn_playground/models/sparse_relation_pursuit.py"
+        "src/chess_nn_playground/models/trunk/sparse_relation_pursuit.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -275,7 +275,7 @@
       "slug": "contamination_dro_huber_tail_rejection",
       "source_files": [
         "ideas/registry/i014_contamination_dro_huber_tail_rejection/model.py",
-        "src/chess_nn_playground/models/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -295,7 +295,7 @@
       "slug": "material_locked_tactical_dro",
       "source_files": [
         "ideas/registry/i015_material_locked_tactical_dro/model.py",
-        "src/chess_nn_playground/models/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -315,7 +315,7 @@
       "slug": "soft_sorting_order_residual_ranker",
       "source_files": [
         "ideas/registry/i016_soft_sorting_order_residual_ranker/model.py",
-        "src/chess_nn_playground/models/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -335,7 +335,7 @@
       "slug": "conditional_surprisal_gate",
       "source_files": [
         "ideas/registry/i017_conditional_surprisal_gate/model.py",
-        "src/chess_nn_playground/models/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -355,7 +355,7 @@
       "slug": "oriented_tactical_sheaf_laplacian",
       "source_files": [
         "ideas/registry/i018_oriented_tactical_sheaf_laplacian/model.py",
-        "src/chess_nn_playground/models/oriented_tactical_sheaf.py"
+        "src/chess_nn_playground/models/trunk/oriented_tactical_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -375,7 +375,7 @@
       "slug": "tactical_sheaf_curvature_network",
       "source_files": [
         "ideas/registry/i019_tactical_sheaf_curvature_network/model.py",
-        "src/chess_nn_playground/models/tactical_sheaf_curvature.py"
+        "src/chess_nn_playground/models/trunk/tactical_sheaf_curvature.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -395,7 +395,7 @@
       "slug": "attack_defense_sheaf_energy_network",
       "source_files": [
         "ideas/registry/i020_attack_defense_sheaf_energy_network/model.py",
-        "src/chess_nn_playground/models/attack_defense_sheaf.py"
+        "src/chess_nn_playground/models/trunk/attack_defense_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -415,7 +415,7 @@
       "slug": "tactical_sheaf_tension_network",
       "source_files": [
         "ideas/registry/i021_tactical_sheaf_tension_network/model.py",
-        "src/chess_nn_playground/models/tactical_sheaf_tension.py"
+        "src/chess_nn_playground/models/trunk/tactical_sheaf_tension.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -435,7 +435,7 @@
       "slug": "tactical_threat_sheaf_network",
       "source_files": [
         "ideas/registry/i022_tactical_threat_sheaf_network/model.py",
-        "src/chess_nn_playground/models/tactical_threat_sheaf.py"
+        "src/chess_nn_playground/models/trunk/tactical_threat_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -455,7 +455,7 @@
       "slug": "attack_hodge_sheaf_tension_network",
       "source_files": [
         "ideas/registry/i023_attack_hodge_sheaf_tension_network/model.py",
-        "src/chess_nn_playground/models/attack_hodge_sheaf.py"
+        "src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -475,7 +475,7 @@
       "slug": "directed_attack_sheaf_tension_network",
       "source_files": [
         "ideas/registry/i024_directed_attack_sheaf_tension_network/model.py",
-        "src/chess_nn_playground/models/directed_attack_sheaf.py"
+        "src/chess_nn_playground/models/trunk/directed_attack_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -495,7 +495,7 @@
       "slug": "one_ply_counterfactual_move_landscape_network",
       "source_files": [
         "ideas/registry/i025_one_ply_counterfactual_move_landscape_network/model.py",
-        "src/chess_nn_playground/models/move_landscape_net.py"
+        "src/chess_nn_playground/models/trunk/move_landscape_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -515,7 +515,7 @@
       "slug": "counterfactual_move_delta_spectrum_network",
       "source_files": [
         "ideas/registry/i026_counterfactual_move_delta_spectrum_network/model.py",
-        "src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py"
+        "src/chess_nn_playground/models/trunk/counterfactual_move_delta_spectrum.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -535,7 +535,7 @@
       "slug": "rule_only_counterfactual_move_delta_bottleneck",
       "source_files": [
         "ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck/model.py",
-        "src/chess_nn_playground/models/counterfactual_delta_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/counterfactual_delta_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -555,7 +555,7 @@
       "slug": "file_mirror_tension_sheaf",
       "source_files": [
         "ideas/registry/i028_file_mirror_tension_sheaf/model.py",
-        "src/chess_nn_playground/models/file_mirror_tension_sheaf.py"
+        "src/chess_nn_playground/models/trunk/file_mirror_tension_sheaf.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -575,7 +575,7 @@
       "slug": "entropic_piece_target_transport_bottleneck",
       "source_files": [
         "ideas/registry/i029_entropic_piece_target_transport_bottleneck/model.py",
-        "src/chess_nn_playground/models/entropic_piece_target_transport_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/entropic_piece_target_transport_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -595,7 +595,7 @@
       "slug": "nuisance_orthogonal_puzzle_bottleneck",
       "source_files": [
         "ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/model.py",
-        "src/chess_nn_playground/models/nuisance_orthogonal_puzzle_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/nuisance_orthogonal_puzzle_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -615,7 +615,7 @@
       "slug": "tactical_transport_imbalance_network",
       "source_files": [
         "ideas/registry/i031_tactical_transport_imbalance_network/model.py",
-        "src/chess_nn_playground/models/tactical_transport_imbalance.py"
+        "src/chess_nn_playground/models/trunk/tactical_transport_imbalance.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -635,7 +635,7 @@
       "slug": "king_anchored_material_null_transport_bottleneck",
       "source_files": [
         "ideas/registry/i032_king_anchored_material_null_transport_bottleneck/model.py",
-        "src/chess_nn_playground/models/king_anchored_material_null_transport.py"
+        "src/chess_nn_playground/models/trunk/king_anchored_material_null_transport.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -655,7 +655,7 @@
       "slug": "piece_target_entropic_transport_bottleneck",
       "source_files": [
         "ideas/registry/i033_piece_target_entropic_transport_bottleneck/model.py",
-        "src/chess_nn_playground/models/piece_target_transport.py"
+        "src/chess_nn_playground/models/trunk/piece_target_transport.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -675,7 +675,7 @@
       "slug": "entropic_chess_geometry_transport_network",
       "source_files": [
         "ideas/registry/i034_entropic_chess_geometry_transport_network/model.py",
-        "src/chess_nn_playground/models/chess_geometry_transport.py"
+        "src/chess_nn_playground/models/trunk/chess_geometry_transport.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -695,7 +695,7 @@
       "slug": "ordinal_evidence_ladder_network",
       "source_files": [
         "ideas/registry/i035_ordinal_evidence_ladder_network/model.py",
-        "src/chess_nn_playground/models/ordinal_evidence_ladder.py"
+        "src/chess_nn_playground/models/trunk/ordinal_evidence_ladder.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -715,7 +715,7 @@
       "slug": "geometry_conditioned_board_pseudo_likelihood_ratio_network",
       "source_files": [
         "ideas/registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network/model.py",
-        "src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py"
+        "src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -735,7 +735,7 @@
       "slug": "mobius_piece_constellation_network",
       "source_files": [
         "ideas/registry/i037_mobius_piece_constellation_network/model.py",
-        "src/chess_nn_playground/models/mobius_piece_constellation.py"
+        "src/chess_nn_playground/models/trunk/mobius_piece_constellation.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -755,7 +755,7 @@
       "slug": "sparse_witness_piece_bottleneck_network",
       "source_files": [
         "ideas/registry/i038_sparse_witness_piece_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/sparse_witness_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -775,7 +775,7 @@
       "slug": "ray_language_automaton_network",
       "source_files": [
         "ideas/registry/i039_ray_language_automaton_network/model.py",
-        "src/chess_nn_playground/models/ray_language_automaton_network.py"
+        "src/chess_nn_playground/models/trunk/ray_language_automaton_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -795,7 +795,7 @@
       "slug": "kinematic_commutator_bottleneck_network",
       "source_files": [
         "ideas/registry/i040_kinematic_commutator_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/kinematic_commutator_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/kinematic_commutator_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -815,7 +815,7 @@
       "slug": "centered_tempo_odd_interventional_bottleneck",
       "source_files": [
         "ideas/registry/i041_centered_tempo_odd_interventional_bottleneck/model.py",
-        "src/chess_nn_playground/models/centered_tempo_odd_interventional_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/centered_tempo_odd_interventional_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -835,7 +835,7 @@
       "slug": "legal_automorphism_quotient_network",
       "source_files": [
         "ideas/registry/i042_legal_automorphism_quotient_network/model.py",
-        "src/chess_nn_playground/models/legal_automorphism_quotient_network.py"
+        "src/chess_nn_playground/models/trunk/legal_automorphism_quotient_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -855,7 +855,7 @@
       "slug": "side_canonical_rule_partition_invariant_bottleneck",
       "source_files": [
         "ideas/registry/i043_side_canonical_rule_partition_invariant_bottleneck/model.py",
-        "src/chess_nn_playground/models/rule_partition_invariant_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/rule_partition_invariant_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -875,7 +875,7 @@
       "slug": "masked_board_code_length_surprise_network",
       "source_files": [
         "ideas/registry/i044_masked_board_code_length_surprise_network/model.py",
-        "src/chess_nn_playground/models/masked_surprise_codec.py"
+        "src/chess_nn_playground/models/trunk/masked_surprise_codec.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -895,7 +895,7 @@
       "slug": "credal_near_puzzle_evidence_network",
       "source_files": [
         "ideas/registry/i045_credal_near_puzzle_evidence_network/model.py",
-        "src/chess_nn_playground/models/credal_near_puzzle_evidence.py"
+        "src/chess_nn_playground/models/trunk/credal_near_puzzle_evidence.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -915,7 +915,7 @@
       "slug": "rule_exact_orbit_bottleneck_network",
       "source_files": [
         "ideas/registry/i046_rule_exact_orbit_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/rule_exact_orbit_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/rule_exact_orbit_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -935,7 +935,7 @@
       "slug": "color_flip_orbit_evidence_bottleneck",
       "source_files": [
         "ideas/registry/i047_color_flip_orbit_evidence_bottleneck/model.py",
-        "src/chess_nn_playground/models/color_flip_orbit_evidence.py"
+        "src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -955,7 +955,7 @@
       "slug": "rule_automorphism_quotient_bottleneck_network",
       "source_files": [
         "ideas/registry/i048_rule_automorphism_quotient_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/rule_automorphism_quotient.py"
+        "src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -975,7 +975,7 @@
       "slug": "tempo_odd_bottleneck_network",
       "source_files": [
         "ideas/registry/i049_tempo_odd_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/tempo_odd_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -995,7 +995,7 @@
       "slug": "king_anchored_euler_interaction_network",
       "source_files": [
         "ideas/registry/i050_king_anchored_euler_interaction_network/model.py",
-        "src/chess_nn_playground/models/king_anchored_euler_interaction_network.py"
+        "src/chess_nn_playground/models/trunk/king_anchored_euler_interaction_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1015,7 +1015,7 @@
       "slug": "king_escape_percolation_network",
       "source_files": [
         "ideas/registry/i051_king_escape_percolation_network/model.py",
-        "src/chess_nn_playground/models/king_escape_percolation.py"
+        "src/chess_nn_playground/models/trunk/king_escape_percolation.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1035,7 +1035,7 @@
       "slug": "soft_king_cage_path_bottleneck_network",
       "source_files": [
         "ideas/registry/i052_soft_king_cage_path_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/soft_king_cage_path.py"
+        "src/chess_nn_playground/models/trunk/soft_king_cage_path.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1055,7 +1055,7 @@
       "slug": "hall_defect_obligation_matroid_network",
       "source_files": [
         "ideas/registry/i053_hall_defect_obligation_matroid_network/model.py",
-        "src/chess_nn_playground/models/hall_defect_obligation_matroid.py"
+        "src/chess_nn_playground/models/trunk/hall_defect_obligation_matroid.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1075,7 +1075,7 @@
       "slug": "threat_topology_betti_bottleneck_network",
       "source_files": [
         "ideas/registry/i054_threat_topology_betti_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/threat_topology_betti.py"
+        "src/chess_nn_playground/models/trunk/threat_topology_betti.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1095,7 +1095,7 @@
       "slug": "non_backtracking_tactical_walk_network",
       "source_files": [
         "ideas/registry/i055_non_backtracking_tactical_walk_network/model.py",
-        "src/chess_nn_playground/models/non_backtracking_tactical_walk.py"
+        "src/chess_nn_playground/models/trunk/non_backtracking_tactical_walk.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1115,7 +1115,7 @@
       "slug": "non_puzzle_score_field_bottleneck_network",
       "source_files": [
         "ideas/registry/i056_non_puzzle_score_field_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/non_puzzle_score_field_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/non_puzzle_score_field_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1135,7 +1135,7 @@
       "slug": "soft_formal_concept_closure_network",
       "source_files": [
         "ideas/registry/i057_soft_formal_concept_closure_network/model.py",
-        "src/chess_nn_playground/models/soft_formal_concept_closure.py"
+        "src/chess_nn_playground/models/trunk/soft_formal_concept_closure.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1155,7 +1155,7 @@
       "slug": "determinantal_tactical_volume_bottleneck",
       "source_files": [
         "ideas/registry/i058_determinantal_tactical_volume_bottleneck/model.py",
-        "src/chess_nn_playground/models/determinantal_volume.py"
+        "src/chess_nn_playground/models/trunk/determinantal_volume.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1175,7 +1175,7 @@
       "slug": "harmonic_board_potential_network",
       "source_files": [
         "ideas/registry/i059_harmonic_board_potential_network/model.py",
-        "src/chess_nn_playground/models/harmonic_board_potential_network.py"
+        "src/chess_nn_playground/models/trunk/harmonic_board_potential_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1195,7 +1195,7 @@
       "slug": "tropical_constraint_circuit_network",
       "source_files": [
         "ideas/registry/i060_tropical_constraint_circuit_network/model.py",
-        "src/chess_nn_playground/models/tropical_constraint_circuit_network.py"
+        "src/chess_nn_playground/models/trunk/tropical_constraint_circuit_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1215,7 +1215,7 @@
       "slug": "grassmannian_principal_angle_bottleneck",
       "source_files": [
         "ideas/registry/i061_grassmannian_principal_angle_bottleneck/model.py",
-        "src/chess_nn_playground/models/grassmannian_principal_angle_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/grassmannian_principal_angle_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1235,7 +1235,7 @@
       "slug": "matrix_pencil_generalized_spectrum_bottleneck",
       "source_files": [
         "ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py",
-        "src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/matrix_pencil_generalized_spectrum_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1255,7 +1255,7 @@
       "slug": "polar_procrustes_alignment_bottleneck",
       "source_files": [
         "ideas/registry/i063_polar_procrustes_alignment_bottleneck/model.py",
-        "src/chess_nn_playground/models/polar_procrustes_alignment_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/polar_procrustes_alignment_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1275,7 +1275,7 @@
       "slug": "multi_scale_dilated_board_mixer_cnn",
       "source_files": [
         "ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/model.py",
-        "src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py"
+        "src/chess_nn_playground/models/trunk/multi_scale_dilated_board_mixer_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1295,7 +1295,7 @@
       "slug": "piece_token_cnn_hybrid",
       "source_files": [
         "ideas/registry/i065_piece_token_cnn_hybrid/model.py",
-        "src/chess_nn_playground/models/piece_token_cnn_hybrid.py"
+        "src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1315,7 +1315,7 @@
       "slug": "finite_field_character_sum_board_network",
       "source_files": [
         "ideas/registry/i067_finite_field_character_sum_board_network/model.py",
-        "src/chess_nn_playground/models/finite_field_character_sum.py"
+        "src/chess_nn_playground/models/trunk/finite_field_character_sum.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1335,7 +1335,7 @@
       "slug": "schur_ray_line_algebra_network",
       "source_files": [
         "ideas/registry/i068_schur_ray_line_algebra_network/model.py",
-        "src/chess_nn_playground/models/schur_ray_line_algebra.py"
+        "src/chess_nn_playground/models/trunk/schur_ray_line_algebra.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1355,7 +1355,7 @@
       "slug": "bitboard_shift_algebra_network",
       "source_files": [
         "ideas/registry/i069_bitboard_shift_algebra_network/model.py",
-        "src/chess_nn_playground/models/bitboard_shift_algebra.py"
+        "src/chess_nn_playground/models/trunk/bitboard_shift_algebra.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1375,7 +1375,7 @@
       "slug": "relational_query_algebra_network",
       "source_files": [
         "ideas/registry/i070_relational_query_algebra_network/model.py",
-        "src/chess_nn_playground/models/relational_query_algebra.py"
+        "src/chess_nn_playground/models/trunk/relational_query_algebra.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1395,7 +1395,7 @@
       "slug": "variational_board_action_network",
       "source_files": [
         "ideas/registry/i071_variational_board_action_network/model.py",
-        "src/chess_nn_playground/models/variational_board_action.py"
+        "src/chess_nn_playground/models/trunk/variational_board_action.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1415,7 +1415,7 @@
       "slug": "tensor_core_square_pair_field_network",
       "source_files": [
         "ideas/registry/i072_tensor_core_square_pair_field_network/model.py",
-        "src/chess_nn_playground/models/tensor_core_square_pair_field.py"
+        "src/chess_nn_playground/models/trunk/tensor_core_square_pair_field.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1435,7 +1435,7 @@
       "slug": "tiny_chess_micronet",
       "source_files": [
         "ideas/registry/i073_tiny_chess_micronet/model.py",
-        "src/chess_nn_playground/models/tiny_chess_micronet.py"
+        "src/chess_nn_playground/models/trunk/tiny_chess_micronet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1455,7 +1455,7 @@
       "slug": "puzzle_binary_benchmark_challengers",
       "source_files": [
         "ideas/registry/i074_puzzle_binary_benchmark_challengers/model.py",
-        "src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py"
+        "src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1475,7 +1475,7 @@
       "slug": "tactical_bisimulation_puzzle_network",
       "source_files": [
         "ideas/registry/i075_tactical_bisimulation_puzzle_network/model.py",
-        "src/chess_nn_playground/models/tactical_bisimulation_puzzle_network.py"
+        "src/chess_nn_playground/models/trunk/tactical_bisimulation_puzzle_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1495,7 +1495,7 @@
       "slug": "krylov_tactical_subspace_network",
       "source_files": [
         "ideas/registry/i076_krylov_tactical_subspace_network/model.py",
-        "src/chess_nn_playground/models/krylov_tactical_subspace_network.py"
+        "src/chess_nn_playground/models/trunk/krylov_tactical_subspace_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1515,7 +1515,7 @@
       "slug": "adaptive_tactical_resolvent_network",
       "source_files": [
         "ideas/registry/i077_adaptive_tactical_resolvent_network/model.py",
-        "src/chess_nn_playground/models/adaptive_tactical_resolvent_network.py"
+        "src/chess_nn_playground/models/trunk/adaptive_tactical_resolvent_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1535,7 +1535,7 @@
       "slug": "tactical_controllability_gramian_network",
       "source_files": [
         "ideas/registry/i078_tactical_controllability_gramian_network/model.py",
-        "src/chess_nn_playground/models/tactical_controllability_gramian_network.py"
+        "src/chess_nn_playground/models/trunk/tactical_controllability_gramian_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1555,7 +1555,7 @@
       "slug": "support_polar_zonotope_certificate_network",
       "source_files": [
         "ideas/registry/i079_support_polar_zonotope_certificate_network/model.py",
-        "src/chess_nn_playground/models/support_polar_zonotope.py"
+        "src/chess_nn_playground/models/trunk/support_polar_zonotope.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1575,7 +1575,7 @@
       "slug": "loop_frustration_curvature_network",
       "source_files": [
         "ideas/registry/i080_loop_frustration_curvature_network/model.py",
-        "src/chess_nn_playground/models/loop_frustration_curvature_network.py"
+        "src/chess_nn_playground/models/trunk/loop_frustration_curvature_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1595,7 +1595,7 @@
       "slug": "forcing_response_front_door_bottleneck",
       "source_files": [
         "ideas/registry/i081_forcing_response_front_door_bottleneck/model.py",
-        "src/chess_nn_playground/models/forcing_response_front_door_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/forcing_response_front_door_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1615,7 +1615,7 @@
       "slug": "chess_hypercut_polynomial_network",
       "source_files": [
         "ideas/registry/i082_chess_hypercut_polynomial_network/model.py",
-        "src/chess_nn_playground/models/chess_hypercut_polynomial.py"
+        "src/chess_nn_playground/models/trunk/chess_hypercut_polynomial.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1635,7 +1635,7 @@
       "slug": "fisher_geodesic_tension_network",
       "source_files": [
         "ideas/registry/i083_fisher_geodesic_tension_network/model.py",
-        "src/chess_nn_playground/models/fisher_geodesic_tension.py"
+        "src/chess_nn_playground/models/trunk/fisher_geodesic_tension.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1655,7 +1655,7 @@
       "slug": "typed_hypergraph_motif_grammar",
       "source_files": [
         "ideas/registry/i084_typed_hypergraph_motif_grammar/model.py",
-        "src/chess_nn_playground/models/typed_hypergraph_motif_grammar.py"
+        "src/chess_nn_playground/models/trunk/typed_hypergraph_motif_grammar.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1675,7 +1675,7 @@
       "slug": "hall_defect_zeta_operator",
       "source_files": [
         "ideas/registry/i085_hall_defect_zeta_operator/model.py",
-        "src/chess_nn_playground/models/hall_defect_zeta.py"
+        "src/chess_nn_playground/models/trunk/hall_defect_zeta.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1695,7 +1695,7 @@
       "slug": "differentiable_chess_fact_lattice",
       "source_files": [
         "ideas/registry/i086_differentiable_chess_fact_lattice/model.py",
-        "src/chess_nn_playground/models/differentiable_chess_fact_lattice.py"
+        "src/chess_nn_playground/models/trunk/differentiable_chess_fact_lattice.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1715,7 +1715,7 @@
       "slug": "tactical_radius_filtration",
       "source_files": [
         "ideas/registry/i087_tactical_radius_filtration/model.py",
-        "src/chess_nn_playground/models/tactical_radius_filtration.py"
+        "src/chess_nn_playground/models/trunk/tactical_radius_filtration.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1735,7 +1735,7 @@
       "slug": "traced_threat_motif_network",
       "source_files": [
         "ideas/registry/i088_traced_threat_motif_network/model.py",
-        "src/chess_nn_playground/models/traced_threat_motif.py"
+        "src/chess_nn_playground/models/trunk/traced_threat_motif.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1755,7 +1755,7 @@
       "slug": "bounded_board_hinge_logic",
       "source_files": [
         "ideas/registry/i089_bounded_board_hinge_logic/model.py",
-        "src/chess_nn_playground/models/bounded_board_hinge_logic.py"
+        "src/chess_nn_playground/models/trunk/bounded_board_hinge_logic.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1775,7 +1775,7 @@
       "slug": "chess_mode_tucker_relation_certificate",
       "source_files": [
         "ideas/registry/i090_chess_mode_tucker_relation_certificate/model.py",
-        "src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py"
+        "src/chess_nn_playground/models/trunk/chess_mode_tucker_relation_certificate.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1795,7 +1795,7 @@
       "slug": "tactical_state_bottleneck_inference",
       "source_files": [
         "ideas/registry/i091_tactical_state_bottleneck_inference/model.py",
-        "src/chess_nn_playground/models/tactical_state_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/tactical_state_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1815,7 +1815,7 @@
       "slug": "parity_syndrome_puzzle_bottleneck",
       "source_files": [
         "ideas/registry/i092_parity_syndrome_puzzle_bottleneck/model.py",
-        "src/chess_nn_playground/models/parity_syndrome.py"
+        "src/chess_nn_playground/models/trunk/parity_syndrome.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1835,7 +1835,7 @@
       "slug": "wavelet_scattering_board_network",
       "source_files": [
         "ideas/registry/i093_wavelet_scattering_board_network/model.py",
-        "src/chess_nn_playground/models/wavelet_scattering_board_network.py"
+        "src/chess_nn_playground/models/trunk/wavelet_scattering_board_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1855,7 +1855,7 @@
       "slug": "convex_feasibility_residual_network",
       "source_files": [
         "ideas/registry/i094_convex_feasibility_residual_network/model.py",
-        "src/chess_nn_playground/models/convex_feasibility.py"
+        "src/chess_nn_playground/models/trunk/convex_feasibility.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1875,7 +1875,7 @@
       "slug": "rank_quantile_evidence_field_network",
       "source_files": [
         "ideas/registry/i095_rank_quantile_evidence_field_network/model.py",
-        "src/chess_nn_playground/models/rank_quantile.py"
+        "src/chess_nn_playground/models/trunk/rank_quantile.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1895,7 +1895,7 @@
       "slug": "oriented_matroid_covector_bottleneck",
       "source_files": [
         "ideas/registry/i096_oriented_matroid_covector_bottleneck/model.py",
-        "src/chess_nn_playground/models/oriented_matroid_covector.py"
+        "src/chess_nn_playground/models/trunk/oriented_matroid_covector.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1915,7 +1915,7 @@
       "slug": "fixed_point_residual_defect_network",
       "source_files": [
         "ideas/registry/i097_fixed_point_residual_defect_network/model.py",
-        "src/chess_nn_playground/models/fixed_point_residual.py"
+        "src/chess_nn_playground/models/trunk/fixed_point_residual.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1935,7 +1935,7 @@
       "slug": "baseline_logit_residual_adapter",
       "source_files": [
         "ideas/registry/i098_baseline_logit_residual_adapter/model.py",
-        "src/chess_nn_playground/models/baseline_logit_residual_adapter.py"
+        "src/chess_nn_playground/models/trunk/baseline_logit_residual_adapter.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1955,7 +1955,7 @@
       "slug": "coarse_to_fine_board_residual_pyramid",
       "source_files": [
         "ideas/registry/i099_coarse_to_fine_board_residual_pyramid/model.py",
-        "src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py"
+        "src/chess_nn_playground/models/trunk/coarse_to_fine_residual_pyramid.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1975,7 +1975,7 @@
       "slug": "independence_residual_interaction_network",
       "source_files": [
         "ideas/registry/i100_independence_residual_interaction_network/model.py",
-        "src/chess_nn_playground/models/independence_residual.py"
+        "src/chess_nn_playground/models/trunk/independence_residual.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -1995,7 +1995,7 @@
       "slug": "residual_calibration_error_field",
       "source_files": [
         "ideas/registry/i101_residual_calibration_error_field/model.py",
-        "src/chess_nn_playground/models/residual_calibration.py"
+        "src/chess_nn_playground/models/trunk/residual_calibration.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2015,7 +2015,7 @@
       "slug": "set_query_attention_bottleneck",
       "source_files": [
         "ideas/registry/i102_set_query_attention_bottleneck/model.py",
-        "src/chess_nn_playground/models/set_query_attention.py"
+        "src/chess_nn_playground/models/trunk/set_query_attention.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2035,7 +2035,7 @@
       "slug": "attention_disagreement_residual_network",
       "source_files": [
         "ideas/registry/i103_attention_disagreement_residual_network/model.py",
-        "src/chess_nn_playground/models/attention_disagreement_residual_network.py"
+        "src/chess_nn_playground/models/trunk/attention_disagreement_residual_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2055,7 +2055,7 @@
       "slug": "cross_scale_attention_residual_network",
       "source_files": [
         "ideas/registry/i104_cross_scale_attention_residual_network/model.py",
-        "src/chess_nn_playground/models/cross_scale_attention_residual_network.py"
+        "src/chess_nn_playground/models/trunk/cross_scale_attention_residual_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2075,7 +2075,7 @@
       "slug": "slot_attention_role_binding_network",
       "source_files": [
         "ideas/registry/i105_slot_attention_role_binding_network/model.py",
-        "src/chess_nn_playground/models/slot_attention_role_binding_network.py"
+        "src/chess_nn_playground/models/trunk/slot_attention_role_binding_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2095,7 +2095,7 @@
       "slug": "attention_perturbation_sensitivity_network",
       "source_files": [
         "ideas/registry/i106_attention_perturbation_sensitivity_network/model.py",
-        "src/chess_nn_playground/models/attention_perturbation_sensitivity_network.py"
+        "src/chess_nn_playground/models/trunk/attention_perturbation_sensitivity_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2115,7 +2115,7 @@
       "slug": "kernel_mean_prototype_network",
       "source_files": [
         "ideas/registry/i107_kernel_mean_prototype_network/model.py",
-        "src/chess_nn_playground/models/kernel_mean_prototype_network.py"
+        "src/chess_nn_playground/models/trunk/kernel_mean_prototype_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2135,7 +2135,7 @@
       "slug": "tensorsketch_interaction_network",
       "source_files": [
         "ideas/registry/i108_tensorsketch_interaction_network/model.py",
-        "src/chess_nn_playground/models/tensorsketch_interaction_network.py"
+        "src/chess_nn_playground/models/trunk/tensorsketch_interaction_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2155,7 +2155,7 @@
       "slug": "maxout_region_signature_network",
       "source_files": [
         "ideas/registry/i109_maxout_region_signature_network/model.py",
-        "src/chess_nn_playground/models/maxout_region_signature_network.py"
+        "src/chess_nn_playground/models/trunk/maxout_region_signature_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2175,7 +2175,7 @@
       "slug": "spline_board_surface_network",
       "source_files": [
         "ideas/registry/i110_spline_board_surface_network/model.py",
-        "src/chess_nn_playground/models/spline_board_surface_network.py"
+        "src/chess_nn_playground/models/trunk/spline_board_surface_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2195,7 +2195,7 @@
       "slug": "boundary_condition_disagreement_cnn",
       "source_files": [
         "ideas/registry/i111_boundary_condition_disagreement_cnn/model.py",
-        "src/chess_nn_playground/models/boundary_condition_disagreement_cnn.py"
+        "src/chess_nn_playground/models/trunk/boundary_condition_disagreement_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2215,7 +2215,7 @@
       "slug": "piece_drop_stability_network",
       "source_files": [
         "ideas/registry/i112_piece_drop_stability_network/model.py",
-        "src/chess_nn_playground/models/piece_drop_stability_network.py"
+        "src/chess_nn_playground/models/trunk/piece_drop_stability_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2235,7 +2235,7 @@
       "slug": "row_file_factor_mixer",
       "source_files": [
         "ideas/registry/i113_row_file_factor_mixer/model.py",
-        "src/chess_nn_playground/models/row_file_factor_mixer.py"
+        "src/chess_nn_playground/models/trunk/row_file_factor_mixer.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2255,7 +2255,7 @@
       "slug": "piece_conditioned_hypernetwork_cnn",
       "source_files": [
         "ideas/registry/i114_piece_conditioned_hypernetwork_cnn/model.py",
-        "src/chess_nn_playground/models/piece_conditioned_hypernetwork_cnn.py"
+        "src/chess_nn_playground/models/trunk/piece_conditioned_hypernetwork_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2275,7 +2275,7 @@
       "slug": "neural_board_cellular_automaton",
       "source_files": [
         "ideas/registry/i115_neural_board_cellular_automaton/model.py",
-        "src/chess_nn_playground/models/neural_board_cellular_automaton.py"
+        "src/chess_nn_playground/models/trunk/neural_board_cellular_automaton.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2295,7 +2295,7 @@
       "slug": "symmetric_difference_twin_encoder",
       "source_files": [
         "ideas/registry/i116_symmetric_difference_twin_encoder/model.py",
-        "src/chess_nn_playground/models/symmetric_difference_twin_encoder.py"
+        "src/chess_nn_playground/models/trunk/symmetric_difference_twin_encoder.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2315,7 +2315,7 @@
       "slug": "prototype_patch_dictionary_network",
       "source_files": [
         "ideas/registry/i117_prototype_patch_dictionary_network/model.py",
-        "src/chess_nn_playground/models/prototype_patch_dictionary_network.py"
+        "src/chess_nn_playground/models/trunk/prototype_patch_dictionary_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2335,7 +2335,7 @@
       "slug": "tensor_ring_square_interaction_network",
       "source_files": [
         "ideas/registry/i119_tensor_ring_square_interaction_network/model.py",
-        "src/chess_nn_playground/models/tensor_ring_square_interaction_network.py"
+        "src/chess_nn_playground/models/trunk/tensor_ring_square_interaction_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2355,7 +2355,7 @@
       "slug": "sinkhorn_role_assignment_network",
       "source_files": [
         "ideas/registry/i120_sinkhorn_role_assignment_network/model.py",
-        "src/chess_nn_playground/models/sinkhorn_role_assignment_network.py"
+        "src/chess_nn_playground/models/trunk/sinkhorn_role_assignment_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2375,7 +2375,7 @@
       "slug": "morphological_threat_field_network",
       "source_files": [
         "ideas/registry/i121_morphological_threat_field_network/model.py",
-        "src/chess_nn_playground/models/morphological_threat_field_network.py"
+        "src/chess_nn_playground/models/trunk/morphological_threat_field_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2395,7 +2395,7 @@
       "slug": "invertible_board_coupling_network",
       "source_files": [
         "ideas/registry/i122_invertible_board_coupling_network/model.py",
-        "src/chess_nn_playground/models/invertible_board_coupling_network.py"
+        "src/chess_nn_playground/models/trunk/invertible_board_coupling_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2415,7 +2415,7 @@
       "slug": "sparse_expert_board_router",
       "source_files": [
         "ideas/registry/i123_sparse_expert_board_router/model.py",
-        "src/chess_nn_playground/models/sparse_expert_board_router.py"
+        "src/chess_nn_playground/models/trunk/sparse_expert_board_router.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2435,7 +2435,7 @@
       "slug": "local_neighborhood_geometry_network",
       "source_files": [
         "ideas/registry/i124_local_neighborhood_geometry_network/model.py",
-        "src/chess_nn_playground/models/local_neighborhood_geometry_network.py"
+        "src/chess_nn_playground/models/trunk/local_neighborhood_geometry_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2455,7 +2455,7 @@
       "slug": "ray_state_space_scan_network",
       "source_files": [
         "ideas/registry/i125_ray_state_space_scan_network/model.py",
-        "src/chess_nn_playground/models/ray_state_space_scan.py"
+        "src/chess_nn_playground/models/trunk/ray_state_space_scan.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2475,7 +2475,7 @@
       "slug": "pawn_skeleton_barrier_network",
       "source_files": [
         "ideas/registry/i126_pawn_skeleton_barrier_network/model.py",
-        "src/chess_nn_playground/models/pawn_skeleton_barrier.py"
+        "src/chess_nn_playground/models/trunk/pawn_skeleton_barrier.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2495,7 +2495,7 @@
       "slug": "square_color_parity_mixer",
       "source_files": [
         "ideas/registry/i127_square_color_parity_mixer/model.py",
-        "src/chess_nn_playground/models/square_color_parity_mixer.py"
+        "src/chess_nn_playground/models/trunk/square_color_parity_mixer.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2515,7 +2515,7 @@
       "slug": "occupancy_run_length_segment_encoder",
       "source_files": [
         "ideas/registry/i128_occupancy_run_length_segment_encoder/model.py",
-        "src/chess_nn_playground/models/occupancy_run_length_segment.py"
+        "src/chess_nn_playground/models/trunk/occupancy_run_length_segment.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2535,7 +2535,7 @@
       "slug": "king_shelter_microkernel_network",
       "source_files": [
         "ideas/registry/i129_king_shelter_microkernel_network/model.py",
-        "src/chess_nn_playground/models/king_shelter_microkernel.py"
+        "src/chess_nn_playground/models/trunk/king_shelter_microkernel.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2555,7 +2555,7 @@
       "slug": "material_phase_low_rank_adapter_network",
       "source_files": [
         "ideas/registry/i130_material_phase_low_rank_adapter_network/model.py",
-        "src/chess_nn_playground/models/material_phase_low_rank_adapter.py"
+        "src/chess_nn_playground/models/trunk/material_phase_low_rank_adapter.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2575,7 +2575,7 @@
       "slug": "replicator_payoff_piece_dynamics",
       "source_files": [
         "ideas/registry/i131_replicator_payoff_piece_dynamics/model.py",
-        "src/chess_nn_playground/models/replicator_payoff_piece_dynamics.py"
+        "src/chess_nn_playground/models/trunk/replicator_payoff_piece_dynamics.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2595,7 +2595,7 @@
       "slug": "differentiable_bitboard_boolean_network",
       "source_files": [
         "ideas/registry/i132_differentiable_bitboard_boolean_network/model.py",
-        "src/chess_nn_playground/models/differentiable_bitboard_boolean_network.py"
+        "src/chess_nn_playground/models/trunk/differentiable_bitboard_boolean_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2615,7 +2615,7 @@
       "slug": "orthogonal_board_moment_network",
       "source_files": [
         "ideas/registry/i133_orthogonal_board_moment_network/model.py",
-        "src/chess_nn_playground/models/orthogonal_board_moment_network.py"
+        "src/chess_nn_playground/models/trunk/orthogonal_board_moment_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2635,7 +2635,7 @@
       "slug": "legal_constraint_projection_residual_network",
       "source_files": [
         "ideas/registry/i134_legal_constraint_projection_residual_network/model.py",
-        "src/chess_nn_playground/models/legal_constraint_projection_residual_network.py"
+        "src/chess_nn_playground/models/trunk/legal_constraint_projection_residual_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2655,7 +2655,7 @@
       "slug": "zobrist_kernel_feature_network",
       "source_files": [
         "ideas/registry/i135_zobrist_kernel_feature_network/model.py",
-        "src/chess_nn_playground/models/zobrist_kernel_feature_network.py"
+        "src/chess_nn_playground/models/trunk/zobrist_kernel_feature_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2675,7 +2675,7 @@
       "slug": "low_rank_signed_cut_query_network",
       "source_files": [
         "ideas/registry/i136_low_rank_signed_cut_query_network/model.py",
-        "src/chess_nn_playground/models/low_rank_signed_cut_query_network.py"
+        "src/chess_nn_playground/models/trunk/low_rank_signed_cut_query_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2695,7 +2695,7 @@
       "slug": "support_function_envelope_network",
       "source_files": [
         "ideas/registry/i138_support_function_envelope_network/model.py",
-        "src/chess_nn_playground/models/support_function_envelope_network.py"
+        "src/chess_nn_playground/models/trunk/support_function_envelope_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2715,7 +2715,7 @@
       "slug": "soft_majorization_line_sorter",
       "source_files": [
         "ideas/registry/i139_soft_majorization_line_sorter/model.py",
-        "src/chess_nn_playground/models/soft_majorization_line_sorter.py"
+        "src/chess_nn_playground/models/trunk/soft_majorization_line_sorter.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2735,7 +2735,7 @@
       "slug": "low_displacement_rank_board_operator",
       "source_files": [
         "ideas/registry/i140_low_displacement_rank_board_operator/model.py",
-        "src/chess_nn_playground/models/low_displacement_rank_board_operator.py"
+        "src/chess_nn_playground/models/trunk/low_displacement_rank_board_operator.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2755,7 +2755,7 @@
       "slug": "pivot_trace_elimination_network",
       "source_files": [
         "ideas/registry/i142_pivot_trace_elimination_network/model.py",
-        "src/chess_nn_playground/models/pivot_trace_elimination_network.py"
+        "src/chess_nn_playground/models/trunk/pivot_trace_elimination_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2775,7 +2775,7 @@
       "slug": "convnext_boardnet",
       "source_files": [
         "ideas/registry/i143_convnext_boardnet/model.py",
-        "src/chess_nn_playground/models/convnext_boardnet.py"
+        "src/chess_nn_playground/models/trunk/convnext_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2795,7 +2795,7 @@
       "slug": "piece_plane_gated_cnn",
       "source_files": [
         "ideas/registry/i145_piece_plane_gated_cnn/model.py",
-        "src/chess_nn_playground/models/piece_plane_gated_cnn.py"
+        "src/chess_nn_playground/models/trunk/piece_plane_gated_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2815,7 +2815,7 @@
       "slug": "patch_mixer_boardnet",
       "source_files": [
         "ideas/registry/i146_patch_mixer_boardnet/model.py",
-        "src/chess_nn_playground/models/patch_mixer_boardnet.py"
+        "src/chess_nn_playground/models/trunk/patch_mixer_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2835,7 +2835,7 @@
       "slug": "specialist_head_cnn",
       "source_files": [
         "ideas/registry/i147_specialist_head_cnn/model.py",
-        "src/chess_nn_playground/models/specialist_head_cnn.py"
+        "src/chess_nn_playground/models/trunk/specialist_head_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2855,7 +2855,7 @@
       "slug": "shallow_wide_residual_boardnet",
       "source_files": [
         "ideas/registry/i148_shallow_wide_residual_boardnet/model.py",
-        "src/chess_nn_playground/models/shallow_wide_residual_boardnet.py"
+        "src/chess_nn_playground/models/trunk/shallow_wide_residual_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2875,7 +2875,7 @@
       "slug": "early_exit_cascade_boardnet",
       "source_files": [
         "ideas/registry/i150_early_exit_cascade_boardnet/model.py",
-        "src/chess_nn_playground/models/early_exit_cascade_boardnet.py"
+        "src/chess_nn_playground/models/trunk/early_exit_cascade_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2895,7 +2895,7 @@
       "slug": "auxiliary_reconstruction_boardnet",
       "source_files": [
         "ideas/registry/i151_auxiliary_reconstruction_boardnet/model.py",
-        "src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py"
+        "src/chess_nn_playground/models/trunk/auxiliary_reconstruction_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2915,7 +2915,7 @@
       "slug": "iterative_logit_refinement_cnn",
       "source_files": [
         "ideas/registry/i152_iterative_logit_refinement_cnn/model.py",
-        "src/chess_nn_playground/models/iterative_logit_refinement_cnn.py"
+        "src/chess_nn_playground/models/trunk/iterative_logit_refinement_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2935,7 +2935,7 @@
       "slug": "agreement_variance_head_net",
       "source_files": [
         "ideas/registry/i153_agreement_variance_head_net/model.py",
-        "src/chess_nn_playground/models/agreement_variance_head_net.py"
+        "src/chess_nn_playground/models/trunk/agreement_variance_head_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2955,7 +2955,7 @@
       "slug": "adapter_sandwich_residual_cnn",
       "source_files": [
         "ideas/registry/i154_adapter_sandwich_residual_cnn/model.py",
-        "src/chess_nn_playground/models/adapter_sandwich_residual_cnn.py"
+        "src/chess_nn_playground/models/trunk/adapter_sandwich_residual_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2975,7 +2975,7 @@
       "slug": "capsule_motif_boardnet",
       "source_files": [
         "ideas/registry/i155_capsule_motif_boardnet/model.py",
-        "src/chess_nn_playground/models/capsule_motif_boardnet.py"
+        "src/chess_nn_playground/models/trunk/capsule_motif_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -2995,7 +2995,7 @@
       "slug": "multi_order_board_scan_network",
       "source_files": [
         "ideas/registry/i156_multi_order_board_scan_network/model.py",
-        "src/chess_nn_playground/models/multi_order_board_scan_network.py"
+        "src/chess_nn_playground/models/trunk/multi_order_board_scan_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3015,7 +3015,7 @@
       "slug": "cross_stitch_cnn_token_fusion_net",
       "source_files": [
         "ideas/registry/i157_cross_stitch_cnn_token_fusion_net/model.py",
-        "src/chess_nn_playground/models/cross_stitch_cnn_token_fusion_net.py"
+        "src/chess_nn_playground/models/trunk/cross_stitch_cnn_token_fusion_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3035,7 +3035,7 @@
       "slug": "neural_decision_forest_boardnet",
       "source_files": [
         "ideas/registry/i158_neural_decision_forest_boardnet/model.py",
-        "src/chess_nn_playground/models/neural_decision_forest_boardnet.py"
+        "src/chess_nn_playground/models/trunk/neural_decision_forest_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3055,7 +3055,7 @@
       "slug": "vector_quantized_motif_codebook_net",
       "source_files": [
         "ideas/registry/i159_vector_quantized_motif_codebook_net/model.py",
-        "src/chess_nn_playground/models/vector_quantized_motif_codebook_net.py"
+        "src/chess_nn_playground/models/trunk/vector_quantized_motif_codebook_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3075,7 +3075,7 @@
       "slug": "hypercolumn_square_readout_cnn",
       "source_files": [
         "ideas/registry/i160_hypercolumn_square_readout_cnn/model.py",
-        "src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py"
+        "src/chess_nn_playground/models/trunk/hypercolumn_square_readout_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3095,7 +3095,7 @@
       "slug": "multiplicative_conjunction_convnet",
       "source_files": [
         "ideas/registry/i161_multiplicative_conjunction_convnet/model.py",
-        "src/chess_nn_playground/models/multiplicative_conjunction_convnet.py"
+        "src/chess_nn_playground/models/trunk/multiplicative_conjunction_convnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3115,7 +3115,7 @@
       "slug": "empty_square_opportunity_network",
       "source_files": [
         "ideas/registry/i162_empty_square_opportunity_network/model.py",
-        "src/chess_nn_playground/models/empty_square_opportunity_network.py"
+        "src/chess_nn_playground/models/trunk/empty_square_opportunity_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3135,7 +3135,7 @@
       "slug": "global_scratchpad_boardnet",
       "source_files": [
         "ideas/registry/i163_global_scratchpad_boardnet/model.py",
-        "src/chess_nn_playground/models/global_scratchpad_boardnet.py"
+        "src/chess_nn_playground/models/trunk/global_scratchpad_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3155,7 +3155,7 @@
       "slug": "learnable_pooling_tree_boardnet",
       "source_files": [
         "ideas/registry/i164_learnable_pooling_tree_boardnet/model.py",
-        "src/chess_nn_playground/models/learnable_pooling_tree_boardnet.py"
+        "src/chess_nn_playground/models/trunk/learnable_pooling_tree_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3175,7 +3175,7 @@
       "slug": "spatial_film_coordinate_net",
       "source_files": [
         "ideas/registry/i165_spatial_film_coordinate_net/model.py",
-        "src/chess_nn_playground/models/spatial_film_coordinate_net.py"
+        "src/chess_nn_playground/models/trunk/spatial_film_coordinate_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3195,7 +3195,7 @@
       "slug": "channel_bilinear_role_mixer",
       "source_files": [
         "ideas/registry/i166_channel_bilinear_role_mixer/model.py",
-        "src/chess_nn_playground/models/channel_bilinear_role_mixer.py"
+        "src/chess_nn_playground/models/trunk/channel_bilinear_role_mixer.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3215,7 +3215,7 @@
       "slug": "evidence_sieve_network",
       "source_files": [
         "ideas/registry/i167_evidence_sieve_network/model.py",
-        "src/chess_nn_playground/models/evidence_sieve_network.py"
+        "src/chess_nn_playground/models/trunk/evidence_sieve_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3235,7 +3235,7 @@
       "slug": "ring_shell_recurrent_boardnet",
       "source_files": [
         "ideas/registry/i168_ring_shell_recurrent_boardnet/model.py",
-        "src/chess_nn_playground/models/ring_shell_recurrent_boardnet.py"
+        "src/chess_nn_playground/models/trunk/ring_shell_recurrent_boardnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3255,7 +3255,7 @@
       "slug": "rank_file_memory_grid_net",
       "source_files": [
         "ideas/registry/i169_rank_file_memory_grid_net/model.py",
-        "src/chess_nn_playground/models/rank_file_memory_grid_net.py"
+        "src/chess_nn_playground/models/trunk/rank_file_memory_grid_net.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3275,7 +3275,7 @@
       "slug": "negative_class_disentangled_puzzle_head",
       "source_files": [
         "ideas/registry/i170_negative_class_disentangled_puzzle_head/model.py",
-        "src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py"
+        "src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3295,7 +3295,7 @@
       "slug": "line_piece_crossbar_network",
       "source_files": [
         "ideas/registry/i171_line_piece_crossbar_network/model.py",
-        "src/chess_nn_playground/models/line_piece_crossbar_network.py"
+        "src/chess_nn_playground/models/trunk/line_piece_crossbar_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3315,7 +3315,7 @@
       "slug": "near_puzzle_margin_twin_network",
       "source_files": [
         "ideas/registry/i172_near_puzzle_margin_twin_network/model.py",
-        "src/chess_nn_playground/models/near_puzzle_margin_twin_network.py"
+        "src/chess_nn_playground/models/trunk/near_puzzle_margin_twin_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3335,7 +3335,7 @@
       "slug": "stripe_selective_mixer_cnn",
       "source_files": [
         "ideas/registry/i173_stripe_selective_mixer_cnn/model.py",
-        "src/chess_nn_playground/models/stripe_selective_mixer_cnn.py"
+        "src/chess_nn_playground/models/trunk/stripe_selective_mixer_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3355,7 +3355,7 @@
       "slug": "king_zone_evidence_ledger",
       "source_files": [
         "ideas/registry/i174_king_zone_evidence_ledger/model.py",
-        "src/chess_nn_playground/models/king_zone_evidence_ledger.py"
+        "src/chess_nn_playground/models/trunk/king_zone_evidence_ledger.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3375,7 +3375,7 @@
       "slug": "prototype_margin_puzzle_network",
       "source_files": [
         "ideas/registry/i175_prototype_margin_puzzle_network/model.py",
-        "src/chess_nn_playground/models/prototype_margin_puzzle_network.py"
+        "src/chess_nn_playground/models/trunk/prototype_margin_puzzle_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3395,7 +3395,7 @@
       "slug": "source_rate_calibrated_objective",
       "source_files": [
         "ideas/registry/i176_source_rate_calibrated_objective/model.py",
-        "src/chess_nn_playground/models/source_rate_calibrated_objective.py"
+        "src/chess_nn_playground/models/trunk/source_rate_calibrated_objective.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3415,7 +3415,7 @@
       "slug": "forcing_certificate_transformer",
       "source_files": [
         "ideas/registry/i177_forcing_certificate_transformer/model.py",
-        "src/chess_nn_playground/models/forcing_certificate_transformer.py"
+        "src/chess_nn_playground/models/trunk/forcing_certificate_transformer.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3435,7 +3435,7 @@
       "slug": "defender_exhaustion_cascade_network",
       "source_files": [
         "ideas/registry/i178_defender_exhaustion_cascade_network/model.py",
-        "src/chess_nn_playground/models/defender_exhaustion_cascade_network.py"
+        "src/chess_nn_playground/models/trunk/defender_exhaustion_cascade_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3455,7 +3455,7 @@
       "slug": "causal_piece_derivative_network",
       "source_files": [
         "ideas/registry/i179_causal_piece_derivative_network/model.py",
-        "src/chess_nn_playground/models/causal_piece_derivative_network.py"
+        "src/chess_nn_playground/models/trunk/causal_piece_derivative_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3475,7 +3475,7 @@
       "slug": "phase_transition_pressure_network",
       "source_files": [
         "ideas/registry/i180_phase_transition_pressure_network/model.py",
-        "src/chess_nn_playground/models/phase_transition_pressure_network.py"
+        "src/chess_nn_playground/models/trunk/phase_transition_pressure_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3495,7 +3495,7 @@
       "slug": "disproof_ledger_puzzle_network",
       "source_files": [
         "ideas/registry/i181_disproof_ledger_puzzle_network/model.py",
-        "src/chess_nn_playground/models/disproof_ledger_puzzle_network.py"
+        "src/chess_nn_playground/models/trunk/disproof_ledger_puzzle_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3515,7 +3515,7 @@
       "slug": "motif_tensor_factorization_network",
       "source_files": [
         "ideas/registry/i182_motif_tensor_factorization_network/model.py",
-        "src/chess_nn_playground/models/motif_tensor_factorization_network.py"
+        "src/chess_nn_playground/models/trunk/motif_tensor_factorization_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3535,7 +3535,7 @@
       "slug": "tempo_alignment_gate_network",
       "source_files": [
         "ideas/registry/i183_tempo_alignment_gate_network/model.py",
-        "src/chess_nn_playground/models/tempo_alignment_gate_network.py"
+        "src/chess_nn_playground/models/trunk/tempo_alignment_gate_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3555,7 +3555,7 @@
       "slug": "puzzle_boundary_twin_encoder",
       "source_files": [
         "ideas/registry/i184_puzzle_boundary_twin_encoder/model.py",
-        "src/chess_nn_playground/models/puzzle_boundary_twin_encoder.py"
+        "src/chess_nn_playground/models/trunk/puzzle_boundary_twin_encoder.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3575,7 +3575,7 @@
       "slug": "critical_square_budget_network",
       "source_files": [
         "ideas/registry/i185_critical_square_budget_network/model.py",
-        "src/chess_nn_playground/models/critical_square_budget_network.py"
+        "src/chess_nn_playground/models/trunk/critical_square_budget_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3595,7 +3595,7 @@
       "slug": "legal_reaction_bottleneck_network",
       "source_files": [
         "ideas/registry/i186_legal_reaction_bottleneck_network/model.py",
-        "src/chess_nn_playground/models/legal_reaction_bottleneck_network.py"
+        "src/chess_nn_playground/models/trunk/legal_reaction_bottleneck_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3615,7 +3615,7 @@
       "slug": "exchange_soundness_graph_network",
       "source_files": [
         "ideas/registry/i187_exchange_soundness_graph_network/model.py",
-        "src/chess_nn_playground/models/exchange_soundness_graph_network.py"
+        "src/chess_nn_playground/models/trunk/exchange_soundness_graph_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3635,7 +3635,7 @@
       "slug": "tactical_program_induction_network",
       "source_files": [
         "ideas/registry/i188_tactical_program_induction_network/model.py",
-        "src/chess_nn_playground/models/tactical_program_induction.py"
+        "src/chess_nn_playground/models/trunk/tactical_program_induction.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3655,7 +3655,7 @@
       "slug": "counterfactual_defender_dropout_network",
       "source_files": [
         "ideas/registry/i189_counterfactual_defender_dropout_network/model.py",
-        "src/chess_nn_playground/models/counterfactual_defender_dropout.py"
+        "src/chess_nn_playground/models/trunk/counterfactual_defender_dropout.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3675,7 +3675,7 @@
       "slug": "blocker_pin_lattice_network",
       "source_files": [
         "ideas/registry/i190_blocker_pin_lattice_network/model.py",
-        "src/chess_nn_playground/models/blocker_pin_lattice.py"
+        "src/chess_nn_playground/models/trunk/blocker_pin_lattice.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3695,7 +3695,7 @@
       "slug": "safe_reply_certificate_verifier",
       "source_files": [
         "ideas/registry/i191_safe_reply_certificate_verifier/model.py",
-        "src/chess_nn_playground/models/safe_reply_certificate.py"
+        "src/chess_nn_playground/models/trunk/safe_reply_certificate.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3715,7 +3715,7 @@
       "slug": "latent_reply_entropy_network",
       "source_files": [
         "ideas/registry/i192_latent_reply_entropy_network/model.py",
-        "src/chess_nn_playground/models/latent_reply_entropy.py"
+        "src/chess_nn_playground/models/trunk/latent_reply_entropy.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3735,7 +3735,7 @@
       "slug": "exchange_then_king_dual_stream",
       "source_files": [
         "ideas/registry/i193_exchange_then_king_dual_stream/model.py",
-        "src/chess_nn_playground/models/exchange_then_king_dual_stream.py"
+        "src/chess_nn_playground/models/trunk/exchange_then_king_dual_stream.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3755,7 +3755,7 @@
       "slug": "tactical_symptom_bayesian_network",
       "source_files": [
         "ideas/registry/i194_tactical_symptom_bayesian_network/model.py",
-        "src/chess_nn_playground/models/tactical_symptom_bayesian_network.py"
+        "src/chess_nn_playground/models/trunk/tactical_symptom_bayesian_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3775,7 +3775,7 @@
       "slug": "minimal_edit_puzzle_distance_network",
       "source_files": [
         "ideas/registry/i195_minimal_edit_puzzle_distance_network/model.py",
-        "src/chess_nn_playground/models/minimal_edit_puzzle_distance_network.py"
+        "src/chess_nn_playground/models/trunk/minimal_edit_puzzle_distance_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3795,7 +3795,7 @@
       "slug": "source_invariant_puzzle_bottleneck",
       "source_files": [
         "ideas/registry/i196_source_invariant_puzzle_bottleneck/model.py",
-        "src/chess_nn_playground/models/source_invariant_puzzle_bottleneck.py"
+        "src/chess_nn_playground/models/trunk/source_invariant_puzzle_bottleneck.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3815,7 +3815,7 @@
       "slug": "reply_set_contrastive_transformer",
       "source_files": [
         "ideas/registry/i197_reply_set_contrastive_transformer/model.py",
-        "src/chess_nn_playground/models/reply_set_contrastive_transformer.py"
+        "src/chess_nn_playground/models/trunk/reply_set_contrastive_transformer.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3835,7 +3835,7 @@
       "slug": "barrier_cut_puzzle_network",
       "source_files": [
         "ideas/registry/i198_barrier_cut_puzzle_network/model.py",
-        "src/chess_nn_playground/models/barrier_cut_puzzle_network.py"
+        "src/chess_nn_playground/models/trunk/barrier_cut_puzzle_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3855,7 +3855,7 @@
       "slug": "tactical_hessian_spectrum_network",
       "source_files": [
         "ideas/registry/i199_tactical_hessian_spectrum_network/model.py",
-        "src/chess_nn_playground/models/tactical_hessian_spectrum_network.py"
+        "src/chess_nn_playground/models/trunk/tactical_hessian_spectrum_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3875,7 +3875,7 @@
       "slug": "absorbing_threat_markov_network",
       "source_files": [
         "ideas/registry/i200_absorbing_threat_markov_network/model.py",
-        "src/chess_nn_playground/models/absorbing_threat_markov_network.py"
+        "src/chess_nn_playground/models/trunk/absorbing_threat_markov_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3895,7 +3895,7 @@
       "slug": "neural_clause_resolution_puzzle_network",
       "source_files": [
         "ideas/registry/i201_neural_clause_resolution_puzzle_network/model.py",
-        "src/chess_nn_playground/models/neural_clause_resolution_puzzle_network.py"
+        "src/chess_nn_playground/models/trunk/neural_clause_resolution_puzzle_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3915,7 +3915,7 @@
       "slug": "piece_liability_gradient_network",
       "source_files": [
         "ideas/registry/i202_piece_liability_gradient_network/model.py",
-        "src/chess_nn_playground/models/piece_liability_gradient_network.py"
+        "src/chess_nn_playground/models/trunk/piece_liability_gradient_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3935,7 +3935,7 @@
       "slug": "hierarchical_tactical_option_network",
       "source_files": [
         "ideas/registry/i203_hierarchical_tactical_option_network/model.py",
-        "src/chess_nn_playground/models/hierarchical_tactical_option.py"
+        "src/chess_nn_playground/models/trunk/hierarchical_tactical_option.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3955,7 +3955,7 @@
       "slug": "cross_defense_consistency_network",
       "source_files": [
         "ideas/registry/i204_cross_defense_consistency_network/model.py",
-        "src/chess_nn_playground/models/cross_defense_consistency.py"
+        "src/chess_nn_playground/models/trunk/cross_defense_consistency.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3975,7 +3975,7 @@
       "slug": "defender_timing_schedule_network",
       "source_files": [
         "ideas/registry/i205_defender_timing_schedule_network/model.py",
-        "src/chess_nn_playground/models/defender_timing_schedule.py"
+        "src/chess_nn_playground/models/trunk/defender_timing_schedule.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3995,7 +3995,7 @@
       "slug": "discovered_ray_switchboard_network",
       "source_files": [
         "ideas/registry/i206_discovered_ray_switchboard_network/model.py",
-        "src/chess_nn_playground/models/discovered_ray_switchboard.py"
+        "src/chess_nn_playground/models/trunk/discovered_ray_switchboard.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4015,7 +4015,7 @@
       "slug": "counterplay_insolvency_ledger",
       "source_files": [
         "ideas/registry/i207_counterplay_insolvency_ledger/model.py",
-        "src/chess_nn_playground/models/counterplay_insolvency_ledger.py"
+        "src/chess_nn_playground/models/trunk/counterplay_insolvency_ledger.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4035,7 +4035,7 @@
       "slug": "pinned_mobility_nullspace_network",
       "source_files": [
         "ideas/registry/i208_pinned_mobility_nullspace_network/model.py",
-        "src/chess_nn_playground/models/pinned_mobility_nullspace.py"
+        "src/chess_nn_playground/models/trunk/pinned_mobility_nullspace.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4055,7 +4055,7 @@
       "slug": "tactical_effective_resistance_network",
       "source_files": [
         "ideas/registry/i209_tactical_effective_resistance_network/model.py",
-        "src/chess_nn_playground/models/tactical_effective_resistance.py"
+        "src/chess_nn_playground/models/trunk/tactical_effective_resistance.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4075,7 +4075,7 @@
       "slug": "defender_opportunity_cost_auction_network",
       "source_files": [
         "ideas/registry/i210_defender_opportunity_cost_auction_network/model.py",
-        "src/chess_nn_playground/models/defender_opportunity_cost_auction.py"
+        "src/chess_nn_playground/models/trunk/defender_opportunity_cost_auction.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4095,7 +4095,7 @@
       "slug": "role_counterfactual_necessity_network",
       "source_files": [
         "ideas/registry/i211_role_counterfactual_necessity_network/model.py",
-        "src/chess_nn_playground/models/role_counterfactual_necessity.py"
+        "src/chess_nn_playground/models/trunk/role_counterfactual_necessity.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4115,7 +4115,7 @@
       "slug": "phase_specialist_calibration_mixture",
       "source_files": [
         "ideas/registry/i212_phase_specialist_calibration_mixture/model.py",
-        "src/chess_nn_playground/models/phase_specialist_calibration_mixture.py"
+        "src/chess_nn_playground/models/trunk/phase_specialist_calibration_mixture.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4135,7 +4135,7 @@
       "slug": "forced_target_funnel_network",
       "source_files": [
         "ideas/registry/i213_forced_target_funnel_network/model.py",
-        "src/chess_nn_playground/models/forced_target_funnel.py"
+        "src/chess_nn_playground/models/trunk/forced_target_funnel.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4155,7 +4155,7 @@
       "slug": "tactical_subgoal_automaton_network",
       "source_files": [
         "ideas/registry/i214_tactical_subgoal_automaton_network/model.py",
-        "src/chess_nn_playground/models/tactical_subgoal_automaton.py"
+        "src/chess_nn_playground/models/trunk/tactical_subgoal_automaton.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4175,7 +4175,7 @@
       "slug": "masked_codec_interaction_curvature_network",
       "source_files": [
         "ideas/registry/i215_masked_codec_interaction_curvature_network/model.py",
-        "src/chess_nn_playground/models/masked_codec_interaction_curvature.py"
+        "src/chess_nn_playground/models/trunk/masked_codec_interaction_curvature.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4195,7 +4195,7 @@
       "slug": "non_puzzle_score_curl_divergence_bottleneck",
       "source_files": [
         "ideas/registry/i216_non_puzzle_score_curl_divergence_bottleneck/model.py",
-        "src/chess_nn_playground/models/non_puzzle_score_curl_divergence.py"
+        "src/chess_nn_playground/models/trunk/non_puzzle_score_curl_divergence.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4215,7 +4215,7 @@
       "slug": "ray_grammar_edit_distance_network",
       "source_files": [
         "ideas/registry/i217_ray_grammar_edit_distance_network/model.py",
-        "src/chess_nn_playground/models/ray_grammar_edit_distance.py"
+        "src/chess_nn_playground/models/trunk/ray_grammar_edit_distance.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4235,7 +4235,7 @@
       "slug": "orbit_disagreement_residual_network",
       "source_files": [
         "ideas/registry/i218_orbit_disagreement_residual_network/model.py",
-        "src/chess_nn_playground/models/orbit_disagreement.py"
+        "src/chess_nn_playground/models/trunk/orbit_disagreement.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4255,7 +4255,7 @@
       "slug": "hall_defect_dual_residual_network",
       "source_files": [
         "ideas/registry/i219_hall_defect_dual_residual_network/model.py",
-        "src/chess_nn_playground/models/hall_dual_residual.py"
+        "src/chess_nn_playground/models/trunk/hall_dual_residual.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4275,7 +4275,7 @@
       "slug": "credal_temperature_field_network",
       "source_files": [
         "ideas/registry/i220_credal_temperature_field_network/model.py",
-        "src/chess_nn_playground/models/credal_temperature.py"
+        "src/chess_nn_playground/models/trunk/credal_temperature.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4295,7 +4295,7 @@
       "slug": "sylvester_tactical_coupling_network",
       "source_files": [
         "ideas/registry/i221_sylvester_tactical_coupling_network/model.py",
-        "src/chess_nn_playground/models/sylvester_coupling.py"
+        "src/chess_nn_playground/models/trunk/sylvester_coupling.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4315,7 +4315,7 @@
       "slug": "schur_complement_defender_network",
       "source_files": [
         "ideas/registry/i222_schur_complement_defender_network/model.py",
-        "src/chess_nn_playground/models/schur_complement_defender.py"
+        "src/chess_nn_playground/models/trunk/schur_complement_defender.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4335,7 +4335,7 @@
       "slug": "bures_wasserstein_threat_network",
       "source_files": [
         "ideas/registry/i223_bures_wasserstein_threat_network/model.py",
-        "src/chess_nn_playground/models/bures_wasserstein_threat.py"
+        "src/chess_nn_playground/models/trunk/bures_wasserstein_threat.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4355,7 +4355,7 @@
       "slug": "numerical_range_boundary_network",
       "source_files": [
         "ideas/registry/i224_numerical_range_boundary_network/model.py",
-        "src/chess_nn_playground/models/numerical_range_boundary.py"
+        "src/chess_nn_playground/models/trunk/numerical_range_boundary.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4375,7 +4375,7 @@
       "slug": "lyapunov_threat_stability_network",
       "source_files": [
         "ideas/registry/i225_lyapunov_threat_stability_network/model.py",
-        "src/chess_nn_playground/models/lyapunov_threat_stability.py"
+        "src/chess_nn_playground/models/trunk/lyapunov_threat_stability.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4395,7 +4395,7 @@
       "slug": "pfaffian_skew_threat_network",
       "source_files": [
         "ideas/registry/i226_pfaffian_skew_threat_network/model.py",
-        "src/chess_nn_playground/models/pfaffian_skew_threat.py"
+        "src/chess_nn_playground/models/trunk/pfaffian_skew_threat.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4415,7 +4415,7 @@
       "slug": "padic_ultrametric_threat_network",
       "source_files": [
         "ideas/registry/i227_padic_ultrametric_threat_network/model.py",
-        "src/chess_nn_playground/models/padic_ultrametric_threat.py"
+        "src/chess_nn_playground/models/trunk/padic_ultrametric_threat.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4435,7 +4435,7 @@
       "slug": "free_probability_r_transform_network",
       "source_files": [
         "ideas/registry/i228_free_probability_r_transform_network/model.py",
-        "src/chess_nn_playground/models/free_probability_r_transform.py"
+        "src/chess_nn_playground/models/trunk/free_probability_r_transform.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4455,7 +4455,7 @@
       "slug": "williamson_symplectic_threat_network",
       "source_files": [
         "ideas/registry/i229_williamson_symplectic_threat_network/model.py",
-        "src/chess_nn_playground/models/williamson_symplectic_threat_network.py"
+        "src/chess_nn_playground/models/trunk/williamson_symplectic_threat_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4475,7 +4475,7 @@
       "slug": "magnus_bch_coupling_series_network",
       "source_files": [
         "ideas/registry/i230_magnus_bch_coupling_series_network/model.py",
-        "src/chess_nn_playground/models/magnus_bch_coupling_series_network.py"
+        "src/chess_nn_playground/models/trunk/magnus_bch_coupling_series_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4495,7 +4495,7 @@
       "slug": "riccati_optimal_defense_network",
       "source_files": [
         "ideas/registry/i231_riccati_optimal_defense_network/model.py",
-        "src/chess_nn_playground/models/riccati_optimal_defense_network.py"
+        "src/chess_nn_playground/models/trunk/riccati_optimal_defense_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4515,7 +4515,7 @@
       "slug": "clifford_rotor_threat_network",
       "source_files": [
         "ideas/registry/i232_clifford_rotor_threat_network/model.py",
-        "src/chess_nn_playground/models/clifford_rotor_threat_network.py"
+        "src/chess_nn_playground/models/trunk/clifford_rotor_threat_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4535,7 +4535,7 @@
       "slug": "tracy_widom_level_spacing_network",
       "source_files": [
         "ideas/registry/i233_tracy_widom_level_spacing_network/model.py",
-        "src/chess_nn_playground/models/tracy_widom_level_spacing_network.py"
+        "src/chess_nn_playground/models/trunk/tracy_widom_level_spacing_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4555,7 +4555,7 @@
       "slug": "lindstrom_gessel_viennot_path_network",
       "source_files": [
         "ideas/registry/i234_lindstrom_gessel_viennot_path_network/model.py",
-        "src/chess_nn_playground/models/lindstrom_gessel_viennot_path_network.py"
+        "src/chess_nn_playground/models/trunk/lindstrom_gessel_viennot_path_network.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4575,7 +4575,7 @@
       "slug": "toda_isospectral_flow_network",
       "source_files": [
         "ideas/registry/i235_toda_isospectral_flow_network/model.py",
-        "src/chess_nn_playground/models/toda_isospectral_flow.py"
+        "src/chess_nn_playground/models/trunk/toda_isospectral_flow.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4595,7 +4595,7 @@
       "slug": "hadamard_spectrum_network",
       "source_files": [
         "ideas/registry/i236_hadamard_spectrum_network/model.py",
-        "src/chess_nn_playground/models/hadamard_spectrum.py"
+        "src/chess_nn_playground/models/trunk/hadamard_spectrum.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4615,7 +4615,7 @@
       "slug": "cayley_orthogonal_network",
       "source_files": [
         "ideas/registry/i237_cayley_orthogonal_network/model.py",
-        "src/chess_nn_playground/models/cayley_orthogonal.py"
+        "src/chess_nn_playground/models/trunk/cayley_orthogonal.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4635,7 +4635,7 @@
       "slug": "stable_rank_multiscale_network",
       "source_files": [
         "ideas/registry/i238_stable_rank_multiscale_network/model.py",
-        "src/chess_nn_playground/models/stable_rank_multiscale.py"
+        "src/chess_nn_playground/models/trunk/stable_rank_multiscale.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4655,7 +4655,7 @@
       "slug": "permanent_ryser_network",
       "source_files": [
         "ideas/registry/i239_permanent_ryser_network/model.py",
-        "src/chess_nn_playground/models/permanent_ryser.py"
+        "src/chess_nn_playground/models/trunk/permanent_ryser.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4675,7 +4675,7 @@
       "slug": "cayley_hamilton_coeffs_network",
       "source_files": [
         "ideas/registry/i240_cayley_hamilton_coeffs_network/model.py",
-        "src/chess_nn_playground/models/cayley_hamilton_coeffs.py"
+        "src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4695,7 +4695,7 @@
       "slug": "chess_decomposed_attention",
       "source_files": [
         "ideas/registry/i242_chess_decomposed_attention/model.py",
-        "src/chess_nn_playground/models/chess_decomposed_attention.py"
+        "src/chess_nn_playground/models/trunk/chess_decomposed_attention.py"
       ],
       "source_markers": [],
       "status": "implemented"

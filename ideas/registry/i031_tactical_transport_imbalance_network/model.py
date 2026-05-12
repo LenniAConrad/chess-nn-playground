@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tactical_transport_imbalance import (
+from chess_nn_playground.models.trunk.tactical_transport_imbalance import (
     TacticalTransportImbalanceNetwork,
     build_tactical_transport_imbalance_network_from_config,
 )

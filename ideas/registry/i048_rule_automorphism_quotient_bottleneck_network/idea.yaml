@@ -39,7 +39,7 @@ config_path: ideas/registry/i048_rule_automorphism_quotient_bottleneck_network/c
 model_path: ideas/registry/i048_rule_automorphism_quotient_bottleneck_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0751_tuesday_pdt_automorphism_quotient.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/rule_automorphism_quotient.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/rule_automorphism_quotient.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: symmetry
 implementation_kind: bespoke_model

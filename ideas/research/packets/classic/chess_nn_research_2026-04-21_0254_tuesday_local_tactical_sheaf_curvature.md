@@ -500,7 +500,7 @@ Scaling condition:
 |---|---|---|
 | `ideas/20260421_tactical_sheaf_curvature/README.md` | Create | Copy this handoff packet or a concise implementation-facing version of it. |
 | `ideas/20260421_tactical_sheaf_curvature/results.md` | Create after experiments | Per-seed metrics, tables, plots references, success/failure decision, and notes for next research cycle. |
-| `src/chess_nn_playground/models/tactical_sheaf_curvature.py` | Create | `TacticalSheafCurvatureNet` and internal modules: adapter, relation complex builder, restriction generator, gate, sheaf layer, stats pool, classifier head. |
+| `src/chess_nn_playground/models/trunk/tactical_sheaf_curvature.py` | Create | `TacticalSheafCurvatureNet` and internal modules: adapter, relation complex builder, restriction generator, gate, sheaf layer, stats pool, classifier head. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register model name `tactical_sheaf_curvature` without breaking existing models. |
 | `configs/tactical_sheaf_curvature_simple18.yaml` | Create | Minimal experiment config using `simple_18`, current split paths, and the recommended first hyperparameters. |
 | `configs/tactical_sheaf_curvature_lc0_static_112.yaml` | Create only if harness supports it easily | Same model with `input_channels: 112`; do not tune architecture first. |
@@ -612,7 +612,7 @@ config_yaml:
 ```yaml
 model_spec:
   class_name: "TacticalSheafCurvatureNet"
-  file: "src/chess_nn_playground/models/tactical_sheaf_curvature.py"
+  file: "src/chess_nn_playground/models/trunk/tactical_sheaf_curvature.py"
   input_shape: ["B", "C", 8, 8]
   output_shape: ["B", "num_classes"]
   buffers:

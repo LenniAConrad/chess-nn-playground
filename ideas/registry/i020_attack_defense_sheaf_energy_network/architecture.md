@@ -8,7 +8,7 @@ and residual-energy readout as a bespoke PyTorch model for the repo's
 ## Implementation Binding
 
 - Registered model name: `attack_defense_sheaf_energy_network`
-- Source implementation file: `src/chess_nn_playground/models/attack_defense_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/attack_defense_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i020_attack_defense_sheaf_energy_network/model.py`
 
 ## Modules

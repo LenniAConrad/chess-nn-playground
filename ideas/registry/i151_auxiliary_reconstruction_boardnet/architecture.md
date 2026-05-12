@@ -12,7 +12,7 @@ or engine information.
 ## Implementation Binding
 
 - Registered model name: `auxiliary_reconstruction_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/auxiliary_reconstruction_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/auxiliary_reconstruction_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i151_auxiliary_reconstruction_boardnet/model.py`
 
 ## Modules

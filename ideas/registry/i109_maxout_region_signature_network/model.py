@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.maxout_region_signature_network import (
+from chess_nn_playground.models.trunk.maxout_region_signature_network import (
     MaxoutRegionSignatureNetwork,
     build_maxout_region_signature_network_from_config,
 )

@@ -30,7 +30,7 @@ model_path: ideas/registry/i094_convex_feasibility_residual_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
   Bespoke convex feasibility residual network registered as `convex_feasibility_residual_network`
-  in `src/chess_nn_playground/models/convex_feasibility.py`. Supports ablation modes
+  in `src/chess_nn_playground/models/trunk/convex_feasibility.py`. Supports ablation modes
   `projection`, `no_projection`, `random_constraints`, `linear_head_same_params`,
   and `material_only_encoder`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md

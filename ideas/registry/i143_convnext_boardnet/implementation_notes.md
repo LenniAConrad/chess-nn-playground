@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/convnext_boardnet.py`.
+- Central code: `src/chess_nn_playground/models/trunk/convnext_boardnet.py`.
 - Idea-local wrapper: `ideas/registry/i143_convnext_boardnet/model.py` calls
   `build_convnext_boardnet_from_config`.
 - Registry key: `convnext_boardnet` (registered in

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.rule_automorphism_quotient import (
+from chess_nn_playground.models.trunk.rule_automorphism_quotient import (
     build_rule_automorphism_quotient_bottleneck_from_config,
 )
 

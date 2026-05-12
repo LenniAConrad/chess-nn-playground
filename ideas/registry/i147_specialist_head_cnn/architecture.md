@@ -66,5 +66,5 @@ and total piece count.
 ## Implementation Binding
 
 - Registered model name: `specialist_head_cnn`
-- Source implementation file: `src/chess_nn_playground/models/specialist_head_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/specialist_head_cnn.py`
 - Idea-local wrapper: `ideas/registry/i147_specialist_head_cnn/model.py`

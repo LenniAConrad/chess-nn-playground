@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `soft_king_cage_path_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/soft_king_cage_path.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/soft_king_cage_path.py`
 - Idea-local wrapper: `ideas/registry/i052_soft_king_cage_path_bottleneck_network/model.py`
 
 ## Input Contract

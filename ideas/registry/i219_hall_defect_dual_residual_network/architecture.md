@@ -32,5 +32,5 @@ linear program.
 ## Implementation Binding
 
 - Registered model name: `hall_defect_dual_residual_network`
-- Source implementation file: `src/chess_nn_playground/models/hall_dual_residual.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/hall_dual_residual.py`
 - Idea-local wrapper: `ideas/registry/i219_hall_defect_dual_residual_network/model.py`

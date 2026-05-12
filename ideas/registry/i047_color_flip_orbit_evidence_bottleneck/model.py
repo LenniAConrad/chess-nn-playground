@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.color_flip_orbit_evidence import (
+from chess_nn_playground.models.trunk.color_flip_orbit_evidence import (
     build_color_flip_orbit_evidence_bottleneck_from_config,
 )
 

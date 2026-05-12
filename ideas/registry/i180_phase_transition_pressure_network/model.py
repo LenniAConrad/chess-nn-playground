@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.phase_transition_pressure_network import (
+from chess_nn_playground.models.trunk.phase_transition_pressure_network import (
     PhaseTransitionPressureNetwork,
     build_phase_transition_pressure_network_from_config,
 )

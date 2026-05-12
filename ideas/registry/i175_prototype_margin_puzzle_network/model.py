@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.prototype_margin_puzzle_network import (
+from chess_nn_playground.models.trunk.prototype_margin_puzzle_network import (
     PrototypeMarginPuzzleNetwork,
     build_prototype_margin_puzzle_network_from_config,
 )

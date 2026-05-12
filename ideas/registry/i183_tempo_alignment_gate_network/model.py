@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tempo_alignment_gate_network import (
+from chess_nn_playground.models.trunk.tempo_alignment_gate_network import (
     TempoAlignmentGateNetwork,
     build_tempo_alignment_gate_network_from_config,
 )

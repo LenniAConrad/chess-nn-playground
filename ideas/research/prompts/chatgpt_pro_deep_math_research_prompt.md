@@ -65,8 +65,8 @@ Current available encodings:
 
 Current baselines already exist:
 
-- simple CNN under `src/chess_nn_playground/models/cnn.py`
-- residual CNN under `src/chess_nn_playground/models/residual_cnn.py`
+- simple CNN under `src/chess_nn_playground/models/trunk/cnn.py`
+- residual CNN under `src/chess_nn_playground/models/trunk/residual_cnn.py`
 - small/medium/deep variants
 - LC0 BT4-style CNN and residual CNN variants
 

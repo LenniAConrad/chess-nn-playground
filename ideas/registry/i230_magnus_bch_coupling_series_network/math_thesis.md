@@ -43,6 +43,6 @@ spectral_clip_per_op` (default `0.5`, so the radius of convergence ~ `log 2`
 applies with safety margin).
 
 The bespoke implementation lives in
-`src/chess_nn_playground/models/magnus_bch_coupling_series_network.py` and is
+`src/chess_nn_playground/models/trunk/magnus_bch_coupling_series_network.py` and is
 wired through the registered builder
 `build_magnus_bch_coupling_series_network_from_config`.

@@ -120,5 +120,5 @@ This is heavier than a plain CNN but cheaper than full move/reply board re-encod
 ## Implementation Binding
 
 - Registered model name: `puzzle_obligation_flow_network`.
-- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i004_puzzle_obligation_flow_network/model.py`.

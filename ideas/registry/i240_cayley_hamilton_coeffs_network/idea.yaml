@@ -9,7 +9,7 @@ short_thesis: Extracts characteristic polynomial coefficients (c_1, ..., c_r) of
   c_k = (-1)^k e_k(spec) are signed elementary symmetric polynomials of eigenvalues
   -- combinatorially distinct from raw eigvals and gradient-stable near degenerate
   spectra.
-novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`;
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`;
   routed via the standard registry (not the generic ResearchPacketProbe).
 expected_advantage: Hand-coded mechanism implements the algebra exactly per the source
   packet -- no profile-routing approximation.

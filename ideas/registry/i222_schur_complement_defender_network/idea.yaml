@@ -25,7 +25,7 @@ config_path: ideas/registry/i222_schur_complement_defender_network/config.yaml
 model_path: ideas/registry/i222_schur_complement_defender_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-05-05_1505_tuesday_local_schur_complement_defender.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/schur_complement_defender.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/schur_complement_defender.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

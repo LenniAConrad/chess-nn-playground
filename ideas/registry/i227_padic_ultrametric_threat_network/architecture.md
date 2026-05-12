@@ -35,5 +35,5 @@ log-magnitude (Newton-polygon style) slopes of the eigenvalues.
 ## Implementation Binding
 
 - Registered model name: `padic_ultrametric_threat_network`
-- Source implementation file: `src/chess_nn_playground/models/padic_ultrametric_threat.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/padic_ultrametric_threat.py`
 - Idea-local wrapper: `ideas/registry/i227_padic_ultrametric_threat_network/model.py`

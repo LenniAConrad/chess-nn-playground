@@ -26,7 +26,7 @@ config_path: ideas/registry/i230_magnus_bch_coupling_series_network/config.yaml
 model_path: ideas/registry/i230_magnus_bch_coupling_series_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-05-05_1545_tuesday_local_magnus_bch_coupling_series.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/magnus_bch_coupling_series_network.py`;
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/magnus_bch_coupling_series_network.py`;
   the idea-local `model.py` is a thin wrapper around the registered builder.
 mechanism_family: linear_algebra
 implementation_kind: bespoke_model

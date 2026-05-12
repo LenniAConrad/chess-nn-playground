@@ -134,5 +134,5 @@ reporting-only.
 ## Implementation Binding
 
 - Registered model name: `typed_hypergraph_motif_grammar`.
-- Source implementation file: `src/chess_nn_playground/models/typed_hypergraph_motif_grammar.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/typed_hypergraph_motif_grammar.py`.
 - Idea-local wrapper: `ideas/registry/i084_typed_hypergraph_motif_grammar/model.py`.

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.schur_complement_defender import (
+from chess_nn_playground.models.trunk.schur_complement_defender import (
     build_schur_complement_defender_network_from_config,
 )
 

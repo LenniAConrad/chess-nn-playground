@@ -21,8 +21,8 @@ from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
 from chess_nn_playground.models.registry import MODEL_BUILDERS
 from chess_nn_playground.models.registry import available_models, build_model
-from chess_nn_playground.models.hall_defect_obligation_matroid import HallZetaDefectLayer
-from chess_nn_playground.models.hall_defect_obligation_matroid import ObligationBatch
+from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import HallZetaDefectLayer
+from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import ObligationBatch
 from chess_nn_playground.models.research_packet_probe import ResearchPacketProbe
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
@@ -1458,7 +1458,7 @@ def test_i053_hall_defect_obligation_matroid_is_bespoke_and_conformant():
 
 
 def test_i085_hall_defect_zeta_operator_is_bespoke_and_conformant():
-    from chess_nn_playground.models.hall_defect_zeta import HallDefectZetaConvLite
+    from chess_nn_playground.models.trunk.hall_defect_zeta import HallDefectZetaConvLite
 
     folder = Path("ideas/registry/i085_hall_defect_zeta_operator")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
@@ -5647,7 +5647,7 @@ def test_i042_legal_automorphism_quotient_network_is_bespoke_and_conformant():
 
     # The invariant latent and logits are exactly invariant under the
     # four legal automorphisms.
-    from chess_nn_playground.models.legal_automorphism_quotient_network import (
+    from chess_nn_playground.models.trunk.legal_automorphism_quotient_network import (
         LegalAutomorphismTransform,
     )
 
@@ -5770,7 +5770,7 @@ def test_i043_side_canonical_rule_partition_invariant_bottleneck_is_bespoke_and_
     # (with the absolute side-to-move plane removed). Under black-to-move
     # the canonicalizer must vertically flip the white-piece planes onto
     # the enemy slot.
-    from chess_nn_playground.models.rule_partition_invariant_bottleneck import (
+    from chess_nn_playground.models.trunk.rule_partition_invariant_bottleneck import (
         Simple18SideCanonicalizer,
     )
 
@@ -5872,7 +5872,7 @@ def test_i044_masked_board_code_length_surprise_network_is_bespoke_and_conforman
     assert (output["code_length_field"] >= 0.0).all()
 
     # Tokenizer round-trip on a clean board.
-    from chess_nn_playground.models.masked_surprise_codec import (
+    from chess_nn_playground.models.trunk.masked_surprise_codec import (
         MaskBank2x2Residues,
         Simple18PieceTokenizer,
     )
@@ -5983,7 +5983,7 @@ def test_i045_credal_near_puzzle_evidence_network_is_bespoke_and_conformant():
     assert torch.allclose(output["uncertainty"], 2.0 / s, atol=1e-5)
 
     # Fail-closed adapter rejects unknown channel counts.
-    from chess_nn_playground.models.credal_near_puzzle_evidence import (
+    from chess_nn_playground.models.trunk.credal_near_puzzle_evidence import (
         CredalEvidencePuzzleNet,
         FailClosedBoardAdapter,
     )
@@ -6099,7 +6099,7 @@ def test_i046_rule_exact_orbit_bottleneck_network_is_bespoke_and_conformant():
     )
 
     # Color-flip invariance: the pooled binary logit for kappa(x) must match the logit for x.
-    from chess_nn_playground.models.rule_exact_orbit_bottleneck import (
+    from chess_nn_playground.models.trunk.rule_exact_orbit_bottleneck import (
         RuleExactOrbitBottleneckNet,
         Simple18ColorFlipAdapter,
     )
@@ -6239,7 +6239,7 @@ def test_i047_color_flip_orbit_evidence_bottleneck_is_bespoke_and_conformant():
             assert torch.isfinite(value).all(), key
 
     # Color-flip invariance: the binary logit for tau(x) must match the logit for x.
-    from chess_nn_playground.models.color_flip_orbit_evidence import (
+    from chess_nn_playground.models.trunk.color_flip_orbit_evidence import (
         ColorFlipOrbitAdapter,
         ColorFlipOrbitEvidenceNet,
     )
@@ -6397,7 +6397,7 @@ def test_i048_rule_automorphism_quotient_bottleneck_network_is_bespoke_and_confo
 
     # Color/turn reversal must be a valid orbit member, so the binary logit
     # must be exactly invariant under T_C on every sample.
-    from chess_nn_playground.models.rule_automorphism_quotient import (
+    from chess_nn_playground.models.trunk.rule_automorphism_quotient import (
         RuleAutomorphismQuotientNet,
         Simple18AutomorphismOrbit,
     )
@@ -6611,7 +6611,7 @@ def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant(
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+    from chess_nn_playground.models.trunk.king_anchored_euler_interaction_network import (
         KingAnchoredEulerInteractionNet,
         _cubical_chi,
     )
@@ -6701,7 +6701,7 @@ def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant(
     role_curves = aux["role_curves"]  # (1, R, A, U, T)
     interaction_curves = aux["interaction_curves"]  # (1, P, A, U, T)
 
-    from chess_nn_playground.models.king_anchored_euler_interaction_network import (
+    from chess_nn_playground.models.trunk.king_anchored_euler_interaction_network import (
         DEFAULT_INTERACTION_PAIRS,
         ROLE_OPP_HEAVY,
         ROLE_OWN_KING,
@@ -6763,7 +6763,7 @@ def test_i056_non_puzzle_score_field_bottleneck_network_is_bespoke_and_conforman
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.non_puzzle_score_field_bottleneck import (
+    from chess_nn_playground.models.trunk.non_puzzle_score_field_bottleneck import (
         NonPuzzleScoreFieldBottleneckNetwork,
     )
 
@@ -6879,7 +6879,7 @@ def test_i057_soft_formal_concept_closure_network_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.soft_formal_concept_closure import (
+    from chess_nn_playground.models.trunk.soft_formal_concept_closure import (
         SoftFormalConceptClosureNet,
         Simple18BoardAdapter,
         RuleAttributeBuilder,
@@ -7000,7 +7000,7 @@ def test_i058_determinantal_tactical_volume_bottleneck_is_bespoke_and_conformant
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.determinantal_volume import (
+    from chess_nn_playground.models.trunk.determinantal_volume import (
         DeterminantalTacticalVolumeNet,
         Simple18OccupiedTokenExtractor,
         PieceSquareTokenEncoder,
@@ -7127,7 +7127,7 @@ def test_i059_harmonic_board_potential_network_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.harmonic_board_potential_network import (
+    from chess_nn_playground.models.trunk.harmonic_board_potential_network import (
         HarmonicBoardPotentialNet,
         Simple18ChargeEncoder,
         FixedBoardPoissonSolver,
@@ -7274,7 +7274,7 @@ def test_i060_tropical_constraint_circuit_network_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.tropical_constraint_circuit_network import (
+    from chess_nn_playground.models.trunk.tropical_constraint_circuit_network import (
         TropicalConstraintCircuitNet,
         Simple18LiteralCostEncoder,
         TropicalClauseLayer,
@@ -7449,7 +7449,7 @@ def test_i061_grassmannian_principal_angle_bottleneck_is_bespoke_and_conformant(
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.grassmannian_principal_angle_bottleneck import (
+    from chess_nn_playground.models.trunk.grassmannian_principal_angle_bottleneck import (
         GrassmannianPrincipalAngleNet,
         Simple18OccupiedTokenExtractor,
         PieceSquareTokenEncoder,
@@ -7628,7 +7628,7 @@ def test_i062_matrix_pencil_generalized_spectrum_bottleneck_is_bespoke_and_confo
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
+    from chess_nn_playground.models.trunk.matrix_pencil_generalized_spectrum_bottleneck import (
         MatrixPencilGeneralizedSpectrumNet,
         Simple18OccupiedTokenExtractor,
         PieceSquareTokenEncoder,
@@ -7811,7 +7811,7 @@ def test_i063_polar_procrustes_alignment_bottleneck_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.polar_procrustes_alignment_bottleneck import (
+    from chess_nn_playground.models.trunk.polar_procrustes_alignment_bottleneck import (
         PolarProcrustesAlignmentNet,
         Simple18OwnOpponentTokenExtractor,
         PieceSquareTokenEncoder,
@@ -8006,7 +8006,7 @@ def test_i064_multi_scale_dilated_board_mixer_cnn_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.multi_scale_dilated_board_mixer_cnn import (
+    from chess_nn_playground.models.trunk.multi_scale_dilated_board_mixer_cnn import (
         BoardCoordinatePlanes,
         GlobalContextGate,
         MultiScaleBoardMixerCNN,
@@ -8170,7 +8170,7 @@ def test_i065_piece_token_cnn_hybrid_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.piece_token_cnn_hybrid import (
+    from chess_nn_playground.models.trunk.piece_token_cnn_hybrid import (
         BoardCNNTrunk,
         CNNTokenFusionHead,
         PieceTokenCNNHybrid,
@@ -8312,7 +8312,7 @@ def test_i067_finite_field_character_sum_board_network_is_bespoke_and_conformant
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.finite_field_character_sum import (
+    from chess_nn_playground.models.trunk.finite_field_character_sum import (
         CharacterProbeTable,
         CharacterSumHead,
         FiniteFieldCharacterFeatures,
@@ -8420,7 +8420,7 @@ def test_i068_schur_ray_line_algebra_network_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.schur_ray_line_algebra import (
+    from chess_nn_playground.models.trunk.schur_ray_line_algebra import (
         BoardConditionedLineModes,
         CoordinateBoardStem,
         SchurRayLineAlgebraNetwork,
@@ -8517,7 +8517,7 @@ def test_i069_bitboard_shift_algebra_network_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.bitboard_shift_algebra import (
+    from chess_nn_playground.models.trunk.bitboard_shift_algebra import (
         BitboardShiftAlgebraNetwork,
         BitboardStem,
         CoefficientEmitter,
@@ -8618,7 +8618,7 @@ def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+    from chess_nn_playground.models.trunk.puzzle_binary_benchmark_challengers import (
         NegativeClassDisentangledPuzzleHead,
         VALID_ABLATIONS,
         build_negative_class_disentangled_puzzle_head_from_config,
@@ -8759,7 +8759,7 @@ def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
 
 
 def test_i170_negative_class_disentangled_puzzle_head_is_bespoke_and_conformant():
-    from chess_nn_playground.models.puzzle_binary_benchmark_challengers import (
+    from chess_nn_playground.models.trunk.puzzle_binary_benchmark_challengers import (
         NegativeClassDisentangledPuzzleHead,
         build_negative_class_disentangled_puzzle_head_from_config,
     )
@@ -8857,7 +8857,7 @@ def test_i170_negative_class_disentangled_puzzle_head_is_bespoke_and_conformant(
 
 
 def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_bisimulation_puzzle_network import (
+    from chess_nn_playground.models.trunk.tactical_bisimulation_puzzle_network import (
         TacticalBisimulationPuzzleNetwork,
         VALID_ABLATIONS,
         build_tactical_bisimulation_puzzle_network_from_config,
@@ -8994,7 +8994,7 @@ def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
 
 
 def test_i076_krylov_tactical_subspace_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.krylov_tactical_subspace_network import (
+    from chess_nn_playground.models.trunk.krylov_tactical_subspace_network import (
         KrylovTacticalSubspaceNetwork,
         VALID_ABLATIONS,
         build_krylov_tactical_subspace_network_from_config,
@@ -9133,7 +9133,7 @@ def test_i076_krylov_tactical_subspace_network_is_bespoke_and_conformant():
 
 
 def test_i077_adaptive_tactical_resolvent_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.adaptive_tactical_resolvent_network import (
+    from chess_nn_playground.models.trunk.adaptive_tactical_resolvent_network import (
         AdaptiveTacticalResolventNetwork,
         VALID_ABLATIONS,
         build_adaptive_tactical_resolvent_network_from_config,
@@ -9277,7 +9277,7 @@ def test_i077_adaptive_tactical_resolvent_network_is_bespoke_and_conformant():
 
 
 def test_i078_tactical_controllability_gramian_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_controllability_gramian_network import (
+    from chess_nn_playground.models.trunk.tactical_controllability_gramian_network import (
         TacticalControllabilityGramianNetwork,
         VALID_ABLATIONS,
         build_tactical_controllability_gramian_network_from_config,
@@ -9431,7 +9431,7 @@ def test_i078_tactical_controllability_gramian_network_is_bespoke_and_conformant
 
 
 def test_i079_support_polar_zonotope_certificate_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.support_polar_zonotope import (
+    from chess_nn_playground.models.trunk.support_polar_zonotope import (
         SupportPolarZonotopeClassifier,
         VALID_ABLATIONS,
         build_support_polar_zonotope_certificate_network_from_config,
@@ -9609,7 +9609,7 @@ def test_i079_support_polar_zonotope_certificate_network_is_bespoke_and_conforma
 
 
 def test_i080_loop_frustration_curvature_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.loop_frustration_curvature_network import (
+    from chess_nn_playground.models.trunk.loop_frustration_curvature_network import (
         LoopFrustrationCurvatureClassifier,
         VALID_ABLATIONS,
         build_loop_bank,
@@ -9783,7 +9783,7 @@ def test_i080_loop_frustration_curvature_network_is_bespoke_and_conformant():
 
 
 def test_i081_forcing_response_front_door_bottleneck_is_bespoke_and_conformant():
-    from chess_nn_playground.models.forcing_response_front_door_bottleneck import (
+    from chess_nn_playground.models.trunk.forcing_response_front_door_bottleneck import (
         ForcingResponseFrontDoorBottleneck,
         build_forcing_response_front_door_bottleneck_from_config,
     )
@@ -9895,7 +9895,7 @@ def test_i081_forcing_response_front_door_bottleneck_is_bespoke_and_conformant()
 
 
 def test_i082_chess_hypercut_polynomial_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.chess_hypercut_polynomial import (
+    from chess_nn_playground.models.trunk.chess_hypercut_polynomial import (
         ChessHypercutPolynomialNet,
         build_chess_hypercut_polynomial_network_from_config,
     )
@@ -9995,7 +9995,7 @@ def test_i082_chess_hypercut_polynomial_network_is_bespoke_and_conformant():
 
 
 def test_i083_fisher_geodesic_tension_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.fisher_geodesic_tension import (
+    from chess_nn_playground.models.trunk.fisher_geodesic_tension import (
         FisherGeodesicTensionNet,
         build_fisher_geodesic_tension_network_from_config,
         fisher_geodesic_excess,
@@ -10141,7 +10141,7 @@ def test_i083_fisher_geodesic_tension_network_is_bespoke_and_conformant():
 
 
 def test_i084_typed_hypergraph_motif_grammar_is_bespoke_and_conformant():
-    from chess_nn_playground.models.typed_hypergraph_motif_grammar import (
+    from chess_nn_playground.models.trunk.typed_hypergraph_motif_grammar import (
         TypedHypergraphMotifGrammarNet,
         build_typed_hypergraph_motif_grammar_from_config,
     )
@@ -10283,7 +10283,7 @@ def test_i084_typed_hypergraph_motif_grammar_is_bespoke_and_conformant():
 
 
 def test_i086_differentiable_chess_fact_lattice_is_bespoke_and_conformant():
-    from chess_nn_playground.models.differentiable_chess_fact_lattice import (
+    from chess_nn_playground.models.trunk.differentiable_chess_fact_lattice import (
         DifferentiableChessFactLatticeNet,
         DifferentiableFactInterpreter,
         build_differentiable_chess_fact_lattice_from_config,
@@ -10405,7 +10405,7 @@ def test_i086_differentiable_chess_fact_lattice_is_bespoke_and_conformant():
 
 
 def test_i087_tactical_radius_filtration_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_radius_filtration import (
+    from chess_nn_playground.models.trunk.tactical_radius_filtration import (
         TacticalRadiusFiltrationClassifier,
         TacticalRadiusGraphBuilder,
         build_tactical_radius_filtration_from_config,
@@ -10532,7 +10532,7 @@ def test_i090_chess_mode_tucker_relation_certificate_is_bespoke_and_conformant()
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
 
-    from chess_nn_playground.models.chess_mode_tucker_relation_certificate import (
+    from chess_nn_playground.models.trunk.chess_mode_tucker_relation_certificate import (
         ChessModeTuckerRelationCertificate,
         FlatProjectedMLPControl,
         count_trainable_parameters,
@@ -10638,7 +10638,7 @@ def test_i090_chess_mode_tucker_relation_certificate_is_bespoke_and_conformant()
 
 
 def test_i091_tactical_state_bottleneck_inference_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_state_bottleneck import (
+    from chess_nn_playground.models.trunk.tactical_state_bottleneck import (
         LATENT_SIZES,
         NoLatentMatchedBaseline,
         TacticalStateBottleneckModel,
@@ -10802,7 +10802,7 @@ def test_i091_tactical_state_bottleneck_inference_is_bespoke_and_conformant():
 
 
 def test_i150_early_exit_cascade_boardnet_is_bespoke_and_conformant():
-    from chess_nn_playground.models.early_exit_cascade_boardnet import (
+    from chess_nn_playground.models.trunk.early_exit_cascade_boardnet import (
         EarlyExitCascadeBoardNet,
         build_early_exit_cascade_boardnet_from_config,
         cascade_multi_exit_loss,
@@ -10944,7 +10944,7 @@ def test_i150_early_exit_cascade_boardnet_is_bespoke_and_conformant():
 
 
 def test_i151_auxiliary_reconstruction_boardnet_is_bespoke_and_conformant():
-    from chess_nn_playground.models.auxiliary_reconstruction_boardnet import (
+    from chess_nn_playground.models.trunk.auxiliary_reconstruction_boardnet import (
         AuxiliaryReconstructionBoardNet,
         auxiliary_reconstruction_loss,
         build_auxiliary_reconstruction_boardnet_from_config,
@@ -11083,7 +11083,7 @@ def test_i151_auxiliary_reconstruction_boardnet_is_bespoke_and_conformant():
 
 
 def test_i153_agreement_variance_head_net_is_bespoke_and_conformant():
-    from chess_nn_playground.models.agreement_variance_head_net import (
+    from chess_nn_playground.models.trunk.agreement_variance_head_net import (
         AgreementVarianceHeadNet,
         build_agreement_variance_head_net_from_config,
     )
@@ -11213,7 +11213,7 @@ def test_i153_agreement_variance_head_net_is_bespoke_and_conformant():
 
 
 def test_i154_adapter_sandwich_residual_cnn_is_bespoke_and_conformant():
-    from chess_nn_playground.models.adapter_sandwich_residual_cnn import (
+    from chess_nn_playground.models.trunk.adapter_sandwich_residual_cnn import (
         AdapterSandwichResidualCNN,
         build_adapter_sandwich_residual_cnn_from_config,
     )
@@ -11352,7 +11352,7 @@ def test_i154_adapter_sandwich_residual_cnn_is_bespoke_and_conformant():
 
 
 def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
-    from chess_nn_playground.models.capsule_motif_boardnet import (
+    from chess_nn_playground.models.trunk.capsule_motif_boardnet import (
         CapsuleMotifBoardNet,
         build_capsule_motif_boardnet_from_config,
     )
@@ -11495,7 +11495,7 @@ def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
 
 
 def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.multi_order_board_scan_network import (
+    from chess_nn_playground.models.trunk.multi_order_board_scan_network import (
         MultiOrderBoardScanNetwork,
         SCAN_ORDER_NAMES,
         build_multi_order_board_scan_network_from_config,
@@ -11653,7 +11653,7 @@ def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
 
 
 def test_i157_cross_stitch_cnn_token_fusion_net_is_bespoke_and_conformant():
-    from chess_nn_playground.models.cross_stitch_cnn_token_fusion_net import (
+    from chess_nn_playground.models.trunk.cross_stitch_cnn_token_fusion_net import (
         CrossStitchCNNTokenFusionNet,
         CrossStitchUnit,
         build_cross_stitch_cnn_token_fusion_net_from_config,
@@ -11847,7 +11847,7 @@ def test_i157_cross_stitch_cnn_token_fusion_net_is_bespoke_and_conformant():
 
 
 def test_i158_neural_decision_forest_boardnet_is_bespoke_and_conformant():
-    from chess_nn_playground.models.neural_decision_forest_boardnet import (
+    from chess_nn_playground.models.trunk.neural_decision_forest_boardnet import (
         DifferentiableObliqueForest,
         NeuralDecisionForestBoardNet,
         build_neural_decision_forest_boardnet_from_config,
@@ -12003,7 +12003,7 @@ def test_i158_neural_decision_forest_boardnet_is_bespoke_and_conformant():
 
 
 def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
-    from chess_nn_playground.models.vector_quantized_motif_codebook_net import (
+    from chess_nn_playground.models.trunk.vector_quantized_motif_codebook_net import (
         MotifCodebookQuantizer,
         VectorQuantizedMotifCodebookNet,
         build_vector_quantized_motif_codebook_net_from_config,
@@ -12161,7 +12161,7 @@ def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
 
 
 def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.line_piece_crossbar_network import (
+    from chess_nn_playground.models.trunk.line_piece_crossbar_network import (
         LinePieceCrossbarNetwork,
         NUM_LINES,
         NUM_PIECES,
@@ -12282,7 +12282,7 @@ def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
 
 
 def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.near_puzzle_margin_twin_network import (
+    from chess_nn_playground.models.trunk.near_puzzle_margin_twin_network import (
         NearPuzzleMarginTwinNetwork,
         build_near_puzzle_margin_twin_network_from_config,
     )
@@ -12396,7 +12396,7 @@ def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
 
 
 def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
-    from chess_nn_playground.models.stripe_selective_mixer_cnn import (
+    from chess_nn_playground.models.trunk.stripe_selective_mixer_cnn import (
         DirectionalStripeConv,
         StripeSelectiveMixerBlock,
         StripeSelectiveMixerCNN,
@@ -12567,7 +12567,7 @@ def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
 
 
 def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
-    from chess_nn_playground.models.king_zone_evidence_ledger import (
+    from chess_nn_playground.models.trunk.king_zone_evidence_ledger import (
         EvidenceLedger,
         KingZoneEvidenceLedger,
         build_king_zone_evidence_ledger_from_config,
@@ -12771,7 +12771,7 @@ def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
 
 
 def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.prototype_margin_puzzle_network import (
+    from chess_nn_playground.models.trunk.prototype_margin_puzzle_network import (
         PrototypeBank,
         PrototypeMarginPuzzleNetwork,
         build_prototype_margin_puzzle_network_from_config,
@@ -12955,7 +12955,7 @@ def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
 
 
 def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
-    from chess_nn_playground.models.forcing_certificate_transformer import (
+    from chess_nn_playground.models.trunk.forcing_certificate_transformer import (
         CertificateSlotAttention,
         ForcingCertificateTransformer,
         build_forcing_certificate_transformer_from_config,
@@ -13130,7 +13130,7 @@ def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
 
 
 def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.causal_piece_derivative_network import (
+    from chess_nn_playground.models.trunk.causal_piece_derivative_network import (
         CausalPieceDerivativeNetwork,
         build_causal_piece_derivative_network_from_config,
     )
@@ -13293,7 +13293,7 @@ def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
 
 
 def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.phase_transition_pressure_network import (
+    from chess_nn_playground.models.trunk.phase_transition_pressure_network import (
         PhaseTransitionPressureNetwork,
         build_phase_transition_pressure_network_from_config,
     )
@@ -13451,7 +13451,7 @@ def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
 
 
 def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.disproof_ledger_puzzle_network import (
+    from chess_nn_playground.models.trunk.disproof_ledger_puzzle_network import (
         DisproofLedgerPuzzleNetwork,
         build_disproof_ledger_puzzle_network_from_config,
     )
@@ -13613,7 +13613,7 @@ def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
 
 
 def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.motif_tensor_factorization_network import (
+    from chess_nn_playground.models.trunk.motif_tensor_factorization_network import (
         MotifTensorFactorizationNetwork,
         build_motif_tensor_factorization_network_from_config,
     )
@@ -13752,7 +13752,7 @@ def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
 
 
 def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tempo_alignment_gate_network import (
+    from chess_nn_playground.models.trunk.tempo_alignment_gate_network import (
         TempoAlignmentGateNetwork,
         build_tempo_alignment_gate_network_from_config,
     )
@@ -13911,7 +13911,7 @@ def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
 
 
 def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
-    from chess_nn_playground.models.puzzle_boundary_twin_encoder import (
+    from chess_nn_playground.models.trunk.puzzle_boundary_twin_encoder import (
         PuzzleBoundaryTwinEncoder,
         build_puzzle_boundary_twin_encoder_from_config,
     )
@@ -14040,7 +14040,7 @@ def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
 
 
 def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.critical_square_budget_network import (
+    from chess_nn_playground.models.trunk.critical_square_budget_network import (
         CriticalSquareBudgetNetwork,
         build_critical_square_budget_network_from_config,
     )
@@ -14175,7 +14175,7 @@ def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
 
 
 def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.legal_reaction_bottleneck_network import (
+    from chess_nn_playground.models.trunk.legal_reaction_bottleneck_network import (
         LegalReactionBottleneckNetwork,
         build_legal_reaction_bottleneck_network_from_config,
     )
@@ -14338,7 +14338,7 @@ def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
 
 
 def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.exchange_soundness_graph_network import (
+    from chess_nn_playground.models.trunk.exchange_soundness_graph_network import (
         ExchangeSoundnessGraphNetwork,
         build_exchange_soundness_graph_network_from_config,
     )
@@ -14526,7 +14526,7 @@ def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
 
 
 def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_program_induction import (
+    from chess_nn_playground.models.trunk.tactical_program_induction import (
         OP_COUNT,
         OP_NAMES,
         TacticalProgramInductionNetwork,
@@ -14710,7 +14710,7 @@ def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
 
 
 def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.counterfactual_defender_dropout import (
+    from chess_nn_playground.models.trunk.counterfactual_defender_dropout import (
         MASK_KINDS,
         MASK_KIND_COUNT,
         CounterfactualDefenderDropoutNetwork,
@@ -14888,7 +14888,7 @@ def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant(
 
 
 def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
-    from chess_nn_playground.models.exchange_then_king_dual_stream import (
+    from chess_nn_playground.models.trunk.exchange_then_king_dual_stream import (
         DualStreamFeatureBuilder,
         ExchangeThenKingDualStreamNetwork,
         build_exchange_then_king_dual_stream_from_config,
@@ -15077,7 +15077,7 @@ def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
 
 
 def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_symptom_bayesian_network import (
+    from chess_nn_playground.models.trunk.tactical_symptom_bayesian_network import (
         NoisyAndOrAggregator,
         NoisyOrCauseLayer,
         SymptomHeads,
@@ -15272,7 +15272,7 @@ def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
 
 
 def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
-    from chess_nn_playground.models.source_invariant_puzzle_bottleneck import (
+    from chess_nn_playground.models.trunk.source_invariant_puzzle_bottleneck import (
         BoardFeatureTrunk,
         InvariantBottleneck,
         SourceInvariantPuzzleBottleneck,
@@ -15472,7 +15472,7 @@ def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i197_reply_set_contrastive_transformer_is_bespoke_and_conformant():
-    from chess_nn_playground.models.reply_set_contrastive_transformer import (
+    from chess_nn_playground.models.trunk.reply_set_contrastive_transformer import (
         BoardFeatureTrunk,
         ContrastiveAggregator,
         DefenderReplyPool,
@@ -15694,7 +15694,7 @@ def test_i197_reply_set_contrastive_transformer_is_bespoke_and_conformant():
 
 
 def test_i088_traced_threat_motif_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.traced_threat_motif import (
+    from chess_nn_playground.models.trunk.traced_threat_motif import (
         MOTIF_WORDS,
         TracedThreatMotifNet,
         build_traced_threat_motif_network_from_config,
@@ -15833,7 +15833,7 @@ def test_i088_traced_threat_motif_network_is_bespoke_and_conformant():
 
 
 def test_i092_parity_syndrome_puzzle_bottleneck_is_bespoke_and_conformant():
-    from chess_nn_playground.models.parity_syndrome import (
+    from chess_nn_playground.models.trunk.parity_syndrome import (
         LiteralEncoder,
         ParityCheckBank,
         ParitySyndromePuzzleBottleneck,
@@ -15975,7 +15975,7 @@ def test_i092_parity_syndrome_puzzle_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i093_wavelet_scattering_board_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.wavelet_scattering_board_network import (
+    from chess_nn_playground.models.trunk.wavelet_scattering_board_network import (
         FixedWaveletBank,
         WaveletScatteringBoardNetwork,
         WaveletScatteringFeatures,
@@ -16122,7 +16122,7 @@ def test_i093_wavelet_scattering_board_network_is_bespoke_and_conformant():
 
 
 def test_i094_convex_feasibility_residual_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.convex_feasibility import (
+    from chess_nn_playground.models.trunk.convex_feasibility import (
         BoardFeasibilityEncoder,
         ConvexFeasibilityResidualNetwork,
         LearnedConvexConstraints,
@@ -16276,7 +16276,7 @@ def test_i094_convex_feasibility_residual_network_is_bespoke_and_conformant():
 
 
 def test_i095_rank_quantile_evidence_field_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.rank_quantile import (
+    from chess_nn_playground.models.trunk.rank_quantile import (
         EvidenceFieldEncoder,
         RankQuantileEvidenceFieldNetwork,
         RankQuantilePooler,
@@ -16426,7 +16426,7 @@ def test_i095_rank_quantile_evidence_field_network_is_bespoke_and_conformant():
 
 
 def test_i096_oriented_matroid_covector_bottleneck_is_bespoke_and_conformant():
-    from chess_nn_playground.models.oriented_matroid_covector import (
+    from chess_nn_playground.models.trunk.oriented_matroid_covector import (
         CovectorStats,
         HyperplaneArrangement,
         OccupiedPieceTokenizer,
@@ -16593,7 +16593,7 @@ def test_i096_oriented_matroid_covector_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i097_fixed_point_residual_defect_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.fixed_point_residual import (
+    from chess_nn_playground.models.trunk.fixed_point_residual import (
         BoardFixedPointEncoder,
         DefectTrajectoryStats,
         FixedPointResidualDefectNetwork,
@@ -16763,7 +16763,7 @@ def test_i097_fixed_point_residual_defect_network_is_bespoke_and_conformant():
 
 
 def test_i098_baseline_logit_residual_adapter_is_bespoke_and_conformant():
-    from chess_nn_playground.models.baseline_logit_residual_adapter import (
+    from chess_nn_playground.models.trunk.baseline_logit_residual_adapter import (
         BaselineLogitBranch,
         BaselineLogitResidualAdapter,
         FiLMResidualAdapter,
@@ -16922,7 +16922,7 @@ def test_i098_baseline_logit_residual_adapter_is_bespoke_and_conformant():
 
 
 def test_i099_coarse_to_fine_board_residual_pyramid_is_bespoke_and_conformant():
-    from chess_nn_playground.models.coarse_to_fine_residual_pyramid import (
+    from chess_nn_playground.models.trunk.coarse_to_fine_residual_pyramid import (
         BoardSummary,
         CoarseToFineBoardResidualPyramid,
         PyramidResidualBlock,
@@ -20315,7 +20315,7 @@ def test_i136_low_rank_signed_cut_query_network_is_bespoke_and_conformant():
 
 
 def test_i195_minimal_edit_puzzle_distance_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.minimal_edit_puzzle_distance_network import (
+    from chess_nn_playground.models.trunk.minimal_edit_puzzle_distance_network import (
         MinimalEditPuzzleDistanceNetwork,
         build_minimal_edit_puzzle_distance_network_from_config,
     )
@@ -20471,7 +20471,7 @@ def test_i195_minimal_edit_puzzle_distance_network_is_bespoke_and_conformant():
 
 
 def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.barrier_cut_puzzle_network import (
+    from chess_nn_playground.models.trunk.barrier_cut_puzzle_network import (
         BarrierCutPuzzleNetwork,
         build_barrier_cut_puzzle_network_from_config,
     )
@@ -20610,7 +20610,7 @@ def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
 
 
 def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.tactical_hessian_spectrum_network import (
+    from chess_nn_playground.models.trunk.tactical_hessian_spectrum_network import (
         TacticalHessianSpectrumNetwork,
         build_tactical_hessian_spectrum_network_from_config,
     )
@@ -20755,7 +20755,7 @@ def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
 
 
 def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.absorbing_threat_markov_network import (
+    from chess_nn_playground.models.trunk.absorbing_threat_markov_network import (
         AbsorbingThreatMarkovNetwork,
         STATE_TOKEN_NAMES,
         build_absorbing_threat_markov_network_from_config,
@@ -20931,7 +20931,7 @@ def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
 
 
 def test_i201_neural_clause_resolution_puzzle_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.neural_clause_resolution_puzzle_network import (
+    from chess_nn_playground.models.trunk.neural_clause_resolution_puzzle_network import (
         NeuralClauseResolutionPuzzleNetwork,
         PREDICATE_TOKEN_NAMES,
         GLOBAL_PREDICATE_TOKEN_NAMES,
@@ -21126,7 +21126,7 @@ def test_i201_neural_clause_resolution_puzzle_network_is_bespoke_and_conformant(
 
 
 def test_i202_piece_liability_gradient_network_is_bespoke_and_conformant():
-    from chess_nn_playground.models.piece_liability_gradient_network import (
+    from chess_nn_playground.models.trunk.piece_liability_gradient_network import (
         AFFORDANCE_TOKEN_NAMES,
         PieceLiabilityGradientNetwork,
         build_piece_liability_gradient_network_from_config,

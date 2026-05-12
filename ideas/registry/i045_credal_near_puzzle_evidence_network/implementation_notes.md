@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model: `src/chess_nn_playground/models/credal_near_puzzle_evidence.py`.
+- Bespoke model: `src/chess_nn_playground/models/trunk/credal_near_puzzle_evidence.py`.
 - Registry key: `credal_near_puzzle_evidence_network`.
 - Idea-local wrapper: `ideas/registry/i045_credal_near_puzzle_evidence_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0750_tuesday_los_angeles_credal_evidence.md`.

@@ -126,7 +126,7 @@ and is exactly what the central ablations switch off.
 
 - Registered model name: `minimal_edit_puzzle_distance_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/minimal_edit_puzzle_distance_network.py`
+  `src/chess_nn_playground/models/trunk/minimal_edit_puzzle_distance_network.py`
 - Idea-local wrapper:
   `ideas/registry/i195_minimal_edit_puzzle_distance_network/model.py`
 

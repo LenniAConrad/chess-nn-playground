@@ -41,5 +41,5 @@ the puzzle-binary task.
 ## Implementation Binding
 
 - Registered model name: `piece_plane_gated_cnn`
-- Source implementation file: `src/chess_nn_playground/models/piece_plane_gated_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/piece_plane_gated_cnn.py`
 - Idea-local wrapper: `ideas/registry/i145_piece_plane_gated_cnn/model.py`

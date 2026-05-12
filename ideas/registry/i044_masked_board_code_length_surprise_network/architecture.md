@@ -83,5 +83,5 @@ loaded from `codec_checkpoint` by external scripts using
 ## Implementation Binding
 
 - Registered model name: `masked_board_code_length_surprise_network`
-- Source implementation file: `src/chess_nn_playground/models/masked_surprise_codec.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/masked_surprise_codec.py`
 - Idea-local wrapper: `ideas/registry/i044_masked_board_code_length_surprise_network/model.py`

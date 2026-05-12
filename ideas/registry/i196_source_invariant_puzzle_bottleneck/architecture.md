@@ -80,5 +80,5 @@ The constructor accepts the following ablations:
 ## Implementation Binding
 
 - Registered model name: `source_invariant_puzzle_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/source_invariant_puzzle_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/source_invariant_puzzle_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i196_source_invariant_puzzle_bottleneck/model.py`

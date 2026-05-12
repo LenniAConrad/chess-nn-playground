@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.lyapunov_threat_stability import (
+from chess_nn_playground.models.trunk.lyapunov_threat_stability import (
     build_lyapunov_threat_stability_network_from_config,
 )
 

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.soft_majorization_line_sorter import (
+from chess_nn_playground.models.trunk.soft_majorization_line_sorter import (
     build_soft_majorization_line_sorter_from_config,
 )
 

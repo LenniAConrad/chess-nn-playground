@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/harmonic_board_potential_network.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/harmonic_board_potential_network.py`.
 - Idea-local wrapper: `ideas/registry/i059_harmonic_board_potential_network/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_harmonic_board_potential_network_from_config`.

@@ -448,7 +448,7 @@ Treat this as falsified if:
 ### Files
 
 ```text
-src/chess_nn_playground/models/variational_board_action.py
+src/chess_nn_playground/models/trunk/variational_board_action.py
 tests/test_variational_board_action.py
 configs/model/variational_board_action.yaml
 ```

@@ -39,5 +39,5 @@ free-convolution prediction together with the free-cumulant mismatch
 ## Implementation Binding
 
 - Registered model name: `free_probability_r_transform_network`
-- Source implementation file: `src/chess_nn_playground/models/free_probability_r_transform.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/free_probability_r_transform.py`
 - Idea-local wrapper: `ideas/registry/i228_free_probability_r_transform_network/model.py`

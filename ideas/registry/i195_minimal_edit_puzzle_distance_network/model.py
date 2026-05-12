@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.minimal_edit_puzzle_distance_network import (
+from chess_nn_playground.models.trunk.minimal_edit_puzzle_distance_network import (
     MinimalEditPuzzleDistanceNetwork,
     build_minimal_edit_puzzle_distance_network_from_config,
 )

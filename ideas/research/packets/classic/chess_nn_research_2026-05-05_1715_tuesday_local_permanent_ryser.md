@@ -5,7 +5,7 @@
 - Filename: `chess_nn_research_2026-05-05_1715_tuesday_local_permanent_ryser.md`
 - Generated at: 2026-05-05 17:15
 - Author: Claude (Opus 4.7, 1M context)
-- Status: bespoke implementation already in `src/chess_nn_playground/models/permanent_ryser.py`
+- Status: bespoke implementation already in `src/chess_nn_playground/models/trunk/permanent_ryser.py`
 
 ## Thesis
 
@@ -33,7 +33,7 @@ quantitative. Distinct from i058 DPP (signed determinant), i226 Pfaffian
 
 ## Architecture
 
-`PermanentRyserNetwork` in `src/chess_nn_playground/models/permanent_ryser.py`:
+`PermanentRyserNetwork` in `src/chess_nn_playground/models/trunk/permanent_ryser.py`:
 
 ```text
 input (B, 18, 8, 8)

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.source_rate_calibrated_objective import (
+from chess_nn_playground.models.trunk.source_rate_calibrated_objective import (
     build_source_rate_calibrated_objective_from_config,
 )
 

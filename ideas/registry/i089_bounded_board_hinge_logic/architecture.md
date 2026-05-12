@@ -10,7 +10,7 @@ soft-logic energy-gap head.
 ## Implementation Binding
 
 - Registered model name: `bounded_board_hinge_logic`
-- Source implementation file: `src/chess_nn_playground/models/bounded_board_hinge_logic.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/bounded_board_hinge_logic.py`
 - Idea-local wrapper: `ideas/registry/i089_bounded_board_hinge_logic/model.py`
 
 ## Modules

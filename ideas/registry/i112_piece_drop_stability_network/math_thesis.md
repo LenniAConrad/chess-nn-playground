@@ -44,7 +44,7 @@ Only the 12 piece planes are zeroed; planes 12..17 (side-to-move and any auxilia
 ## Implementation
 
 The bespoke implementation lives in
-`src/chess_nn_playground/models/piece_drop_stability_network.py` and is
+`src/chess_nn_playground/models/trunk/piece_drop_stability_network.py` and is
 registered as `piece_drop_stability_network`. The idea-local wrapper at
 `ideas/registry/i112_piece_drop_stability_network/model.py` calls
 `build_piece_drop_stability_network_from_config` directly. The previous

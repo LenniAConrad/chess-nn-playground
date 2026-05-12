@@ -87,5 +87,5 @@ itself only marks the `ablation_cnn_same_params` output flag.
 ## Implementation Binding
 
 - Registered model name: `adaptive_tactical_resolvent_network`.
-- Source implementation file: `src/chess_nn_playground/models/adaptive_tactical_resolvent_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/adaptive_tactical_resolvent_network.py`.
 - Idea-local wrapper: `ideas/registry/i077_adaptive_tactical_resolvent_network/model.py`.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.baseline_logit_residual_adapter import (
+from chess_nn_playground.models.trunk.baseline_logit_residual_adapter import (
     BaselineLogitResidualAdapter,
     build_baseline_logit_residual_adapter_from_config,
 )

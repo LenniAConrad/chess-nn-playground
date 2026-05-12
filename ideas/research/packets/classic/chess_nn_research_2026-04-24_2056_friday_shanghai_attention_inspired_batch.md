@@ -148,7 +148,7 @@ model:
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/set_query_attention.py`
+- Model file: `src/chess_nn_playground/models/trunk/set_query_attention.py`
 - Registry name: `set_query_attention_bottleneck`
 - Main config: `configs/bench_set_query_attention_simple18.yaml`
 - Central ablation config: `configs/bench_set_query_attention_uniform.yaml`

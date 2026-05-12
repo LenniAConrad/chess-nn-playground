@@ -116,8 +116,8 @@ Serious candidates not selected:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already present and mainly tests local learned filters, not a new mathematical board observable. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already present; extra residual depth is ordinary capacity scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and mainly tests local learned filters, not a new mathematical board observable. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; extra residual depth is ordinary capacity scaling. |
 | LC0-style CNN / residual CNN | Existing LC0 BT4-style CNN and residual variants | Too close to copied engine-network priors, and BT4 history is currently zero-filled from single FEN export. |
 | Ordinary ViT over 64 squares | Generic square-token Transformer | Disallowed as a core idea and likely data-hungry without a chess-specific falsifiable operator. |
 | Plain GNN on 64 square adjacency | Generic grid/square graph network | Too ordinary; message passing on neighboring squares is essentially another learned local architecture unless the graph semantics are new. |
@@ -688,7 +688,7 @@ Scale only if the main model beats count/topology-destroying ablations and impro
 | `ideas/20260421_0809_kaein_euler_interaction/config.yaml` | Create | Minimal `simple_18` training config. |
 | `ideas/20260421_0809_kaein_euler_interaction/report_template.md` | Create | Report template requiring main/ablation metrics and `3x2` diagnostics. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported memory after implementation, including success/failure result and anti-duplicate lesson. Preserve all hard leakage and novelty constraints. |
-| `src/chess_nn_playground/models/king_anchored_euler_interaction.py` | Create | `Simple18RoleAdapter`, `CubicalEulerCurveLayer`, `EulerInteractionFeatureBuilder`, `KingAnchoredEulerInteractionNet`. |
+| `src/chess_nn_playground/models/trunk/king_anchored_euler_interaction.py` | Create | `Simple18RoleAdapter`, `CubicalEulerCurveLayer`, `EulerInteractionFeatureBuilder`, `KingAnchoredEulerInteractionNet`. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register builder name `king_anchored_euler_interaction`. |
 | `configs/king_anchored_euler_interaction_simple18.yaml` | Create | Shared-trainer config for the main model. |
 | `configs/king_anchored_euler_interaction_no_interaction.yaml` | Create | Central falsification ablation. |
@@ -740,7 +740,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/king_anchored_euler_interaction_simple18.yaml
-  model_path: src/chess_nn_playground/models/king_anchored_euler_interaction.py
+  model_path: src/chess_nn_playground/models/trunk/king_anchored_euler_interaction.py
   latest_result_path: null
   notes: First experiment should use simple_18 only; LC0 adapters must fail closed unless current-board piece-plane semantics are explicit.
 ```
@@ -793,7 +793,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: king_anchored_euler_interaction
-  file_path: src/chess_nn_playground/models/king_anchored_euler_interaction.py
+  file_path: src/chess_nn_playground/models/trunk/king_anchored_euler_interaction.py
   builder_function: build_king_anchored_euler_interaction
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

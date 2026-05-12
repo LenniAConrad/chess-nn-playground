@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.piece_plane_gated_cnn import PiecePlaneGatedCNN
-from chess_nn_playground.models.piece_plane_gated_cnn import build_piece_plane_gated_cnn_from_config
+from chess_nn_playground.models.trunk.piece_plane_gated_cnn import PiecePlaneGatedCNN
+from chess_nn_playground.models.trunk.piece_plane_gated_cnn import build_piece_plane_gated_cnn_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> PiecePlaneGatedCNN:

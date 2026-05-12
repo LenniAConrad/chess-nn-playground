@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.forcing_certificate_transformer import (
+from chess_nn_playground.models.trunk.forcing_certificate_transformer import (
     ForcingCertificateTransformer,
     build_forcing_certificate_transformer_from_config,
 )

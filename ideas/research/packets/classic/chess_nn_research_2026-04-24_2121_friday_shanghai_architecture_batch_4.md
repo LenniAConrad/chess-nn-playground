@@ -122,7 +122,7 @@ logits:         (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/row_file_factor_mixer.py`
+- Model file: `src/chess_nn_playground/models/trunk/row_file_factor_mixer.py`
 - Registry name: `row_file_factor_mixer`
 - Main config: `configs/bench_row_file_factor_mixer_simple18.yaml`
 - Central ablation config: `configs/bench_row_file_factor_mixer_channel_only.yaml`

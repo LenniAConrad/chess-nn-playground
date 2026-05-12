@@ -31,7 +31,7 @@ def fmt_M(n: int) -> str:
 
 
 def build_lc0_bt4(channels: int, num_blocks: int) -> nn.Module:
-    from chess_nn_playground.models.lc0_bt4 import LC0BT4Classifier
+    from chess_nn_playground.models.trunk.lc0_bt4 import LC0BT4Classifier
     return LC0BT4Classifier(
         input_channels=112,
         num_classes=1,
@@ -46,7 +46,7 @@ def build_lc0_bt4(channels: int, num_blocks: int) -> nn.Module:
 
 
 def build_i193_dual_stream(channels: int, hidden_dim: int, depth: int) -> nn.Module:
-    from chess_nn_playground.models.exchange_then_king_dual_stream import (
+    from chess_nn_playground.models.trunk.exchange_then_king_dual_stream import (
         ExchangeThenKingDualStreamNetwork,
     )
     return ExchangeThenKingDualStreamNetwork(

@@ -83,7 +83,7 @@ The forward pass returns a dictionary that includes:
 
 - Registered model name: `entropic_chess_geometry_transport_network`.
 - Source implementation:
-  `src/chess_nn_playground/models/chess_geometry_transport.py`.
+  `src/chess_nn_playground/models/trunk/chess_geometry_transport.py`.
 - Idea-local wrapper:
   `ideas/registry/i034_entropic_chess_geometry_transport_network/model.py`,
   which exposes `build_model_from_config(config)` and delegates to

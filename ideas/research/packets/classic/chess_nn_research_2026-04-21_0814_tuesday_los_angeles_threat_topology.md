@@ -114,8 +114,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Plain simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and does not test a new structural hypothesis. |
-| Plain residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; extra residual depth is ordinary capacity scaling. |
+| Plain simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and does not test a new structural hypothesis. |
+| Plain residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; extra residual depth is ordinary capacity scaling. |
 | LC0-style CNN or residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already represented and too close to copying LC0-style spatial processing. |
 | Ordinary ViT over 64 square tokens | Generic Transformer baseline | Too generic; attention over squares alone gives no chess-specific falsifiable operator. |
 | Plain GNN on square adjacency | Common graph neural network | Too standard and likely inferior to a CNN on an 8x8 grid unless given richer, already-imported chess graph structure. |

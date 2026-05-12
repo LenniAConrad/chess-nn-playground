@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/puzzle_boundary_twin_encoder.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/puzzle_boundary_twin_encoder.py`.
 - Idea-local wrapper: `ideas/registry/i184_puzzle_boundary_twin_encoder/model.py`.
 - Registry key: `puzzle_boundary_twin_encoder`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.

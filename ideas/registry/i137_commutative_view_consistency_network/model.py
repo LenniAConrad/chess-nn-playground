@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.research_architectures import (
+from chess_nn_playground.models.trunk.research_architectures import (
     CommutativeViewConsistencyNetwork,
     build_commutative_view_consistency_network_from_config,
 )

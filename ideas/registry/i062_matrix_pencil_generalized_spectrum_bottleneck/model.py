@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.matrix_pencil_generalized_spectrum_bottleneck import (
+from chess_nn_playground.models.trunk.matrix_pencil_generalized_spectrum_bottleneck import (
     MatrixPencilGeneralizedSpectrumNet,
     build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
 )

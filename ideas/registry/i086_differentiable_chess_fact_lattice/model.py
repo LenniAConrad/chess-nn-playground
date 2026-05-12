@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.differentiable_chess_fact_lattice import (
+from chess_nn_playground.models.trunk.differentiable_chess_fact_lattice import (
     build_differentiable_chess_fact_lattice_from_config,
 )
 

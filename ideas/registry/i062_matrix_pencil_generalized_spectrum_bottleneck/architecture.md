@@ -142,7 +142,7 @@ geometry must beat all three falsifiers.
 ## Implementation Binding
 
 - Registered model name: `matrix_pencil_generalized_spectrum_bottleneck`
-- Source implementation: `src/chess_nn_playground/models/matrix_pencil_generalized_spectrum_bottleneck.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/matrix_pencil_generalized_spectrum_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_matrix_pencil_generalized_spectrum_bottleneck_from_config`.

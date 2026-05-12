@@ -8,7 +8,7 @@ control, and x-ray relations as a bespoke PyTorch model for the repo's
 ## Implementation Binding
 
 - Registered model name: `tactical_sheaf_tension_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_sheaf_tension.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_sheaf_tension.py`
 - Idea-local wrapper: `ideas/registry/i021_tactical_sheaf_tension_network/model.py`
 
 ## Modules

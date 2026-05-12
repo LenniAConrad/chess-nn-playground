@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.exchange_soundness_graph_network import (
+from chess_nn_playground.models.trunk.exchange_soundness_graph_network import (
     ExchangeSoundnessGraphNetwork,
     build_exchange_soundness_graph_network_from_config,
 )

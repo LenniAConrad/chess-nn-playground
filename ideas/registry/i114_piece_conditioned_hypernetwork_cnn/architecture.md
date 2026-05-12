@@ -76,7 +76,7 @@ material_delta:              (B,)
 ## Implementation Binding
 
 - Registered model name: `piece_conditioned_hypernetwork_cnn`
-- Source implementation file: `src/chess_nn_playground/models/piece_conditioned_hypernetwork_cnn.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/piece_conditioned_hypernetwork_cnn.py`
 - Idea-local wrapper: `ideas/registry/i114_piece_conditioned_hypernetwork_cnn/model.py`
 
 The wrapper is a thin adapter over

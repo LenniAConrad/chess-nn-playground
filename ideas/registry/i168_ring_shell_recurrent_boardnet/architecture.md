@@ -116,5 +116,5 @@ The forward pass returns a dict with `B = batch`, `A = num_anchors = 7`,
 ## Implementation Binding
 
 - Registered model name: `ring_shell_recurrent_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/ring_shell_recurrent_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/ring_shell_recurrent_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i168_ring_shell_recurrent_boardnet/model.py`

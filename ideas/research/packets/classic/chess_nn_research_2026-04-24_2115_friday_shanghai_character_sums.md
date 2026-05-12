@@ -100,8 +100,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Tests local filters, not arithmetic character sums. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | More depth is regular scaling. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Tests local filters, not arithmetic character sums. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | More depth is regular scaling. |
 | Vanilla ViT | Common square-token Transformer | Too broad and does not isolate arithmetic structure. |
 | Real FFT bispectrum | Local bispectral phase packet | Uses Euclidean Fourier phase; this packet uses finite-field characters and Legendre signs. |
 | Ray automata | Imported ray-language packet | Uses ordered ray strings; no finite-field polynomial probes. |

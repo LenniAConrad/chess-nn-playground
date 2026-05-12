@@ -7,7 +7,7 @@ chess nuisance design matrix using a closed-form batchwise ridge projection.
 ## Implementation Binding
 
 - Registered model name: `nuisance_orthogonal_puzzle_bottleneck`
-- Source implementation file: `src/chess_nn_playground/models/nuisance_orthogonal_puzzle_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/nuisance_orthogonal_puzzle_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/model.py`
 
 ## Components

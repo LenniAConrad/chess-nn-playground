@@ -79,5 +79,5 @@ board summary and read out as a single ``puzzle_binary`` logit.
 ## Implementation Binding
 
 - Registered model name: `replicator_payoff_piece_dynamics`.
-- Source implementation: `src/chess_nn_playground/models/replicator_payoff_piece_dynamics.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/replicator_payoff_piece_dynamics.py`.
 - Idea-local wrapper: `ideas/registry/i131_replicator_payoff_piece_dynamics/model.py`.

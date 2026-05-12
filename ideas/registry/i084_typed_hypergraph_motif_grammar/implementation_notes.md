@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/typed_hypergraph_motif_grammar.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/typed_hypergraph_motif_grammar.py`.
   Defines `TypedHypergraphMotifGrammarNet`,
   `CurrentBoardRelationExtractor`, `MotifRelations`, `GrammarConvBlock`,
   and `build_typed_hypergraph_motif_grammar_from_config`.

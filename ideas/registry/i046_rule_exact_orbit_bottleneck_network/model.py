@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.rule_exact_orbit_bottleneck import (
+from chess_nn_playground.models.trunk.rule_exact_orbit_bottleneck import (
     build_rule_exact_orbit_bottleneck_from_config,
 )
 

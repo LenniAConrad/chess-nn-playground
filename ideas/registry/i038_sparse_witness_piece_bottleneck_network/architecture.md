@@ -39,5 +39,5 @@ With `num_classes: 1`, the repo puzzle-binary trainer receives one logit of shap
 ## Implementation Binding
 
 - Registered model name: `sparse_witness_piece_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/sparse_witness_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i038_sparse_witness_piece_bottleneck_network/model.py`

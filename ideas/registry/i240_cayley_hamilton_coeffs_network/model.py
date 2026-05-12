@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.cayley_hamilton_coeffs import CayleyHamiltonCoefficientNetwork
-from chess_nn_playground.models.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
+from chess_nn_playground.models.trunk.cayley_hamilton_coeffs import CayleyHamiltonCoefficientNetwork
+from chess_nn_playground.models.trunk.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> CayleyHamiltonCoefficientNetwork:

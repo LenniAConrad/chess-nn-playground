@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source module: `src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`.
+- Bespoke source module: `src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`.
 - Bespoke class: `NegativeClassDisentangledPuzzleHead`
   (alias `PuzzleBinaryBenchmarkChallengersNetwork`).
 - Registry key: `puzzle_binary_benchmark_challengers`.

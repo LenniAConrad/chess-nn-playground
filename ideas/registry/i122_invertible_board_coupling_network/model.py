@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.invertible_board_coupling_network import (
+from chess_nn_playground.models.trunk.invertible_board_coupling_network import (
     InvertibleBoardCouplingNetwork,
     build_invertible_board_coupling_network_from_config,
 )

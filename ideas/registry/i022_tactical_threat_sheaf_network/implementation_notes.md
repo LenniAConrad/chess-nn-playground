@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Source implementation: `src/chess_nn_playground/models/tactical_threat_sheaf.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/tactical_threat_sheaf.py`.
 - Idea wrapper: `ideas/registry/i022_tactical_threat_sheaf_network/model.py`.
 - Registry key: `tactical_threat_sheaf_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0255_tuesday_local_threat_sheaf.md`.

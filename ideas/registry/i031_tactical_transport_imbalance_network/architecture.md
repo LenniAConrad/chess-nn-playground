@@ -15,7 +15,7 @@ The model is board-only: CRTK, engine, and source metadata are reporting-only an
 ## Implementation Binding
 
 - Registered model name: `tactical_transport_imbalance_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_transport_imbalance.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_transport_imbalance.py`
 - Idea-local wrapper: `ideas/registry/i031_tactical_transport_imbalance_network/model.py`
 
 The wrapper calls `build_tactical_transport_imbalance_network_from_config` with the idea's `model:` config block. The registry key `tactical_transport_imbalance_network` resolves to the same builder, so `build_model(name, model_cfg)` and the idea wrapper produce equivalent modules.

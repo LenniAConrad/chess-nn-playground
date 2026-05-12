@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.wavelet_scattering_board_network import (
+from chess_nn_playground.models.trunk.wavelet_scattering_board_network import (
     WaveletScatteringBoardNetwork,
     build_wavelet_scattering_board_network_from_config,
 )

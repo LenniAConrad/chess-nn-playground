@@ -80,7 +80,7 @@ drop the margin stats) are well-defined operations on this code path.
 
 - Registered model name: `maxout_region_signature_network`.
 - Source implementation file:
-  `src/chess_nn_playground/models/maxout_region_signature_network.py`.
+  `src/chess_nn_playground/models/trunk/maxout_region_signature_network.py`.
 - Idea-local wrapper:
   `ideas/registry/i109_maxout_region_signature_network/model.py` (a thin
   `build_model_from_config` over

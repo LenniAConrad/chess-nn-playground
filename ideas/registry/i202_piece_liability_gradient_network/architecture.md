@@ -154,7 +154,7 @@ This architecture is materially distinct from:
 
 - Registered model name: `piece_liability_gradient_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/piece_liability_gradient_network.py`
+  `src/chess_nn_playground/models/trunk/piece_liability_gradient_network.py`
 - Idea-local wrapper:
   `ideas/registry/i202_piece_liability_gradient_network/model.py`
 

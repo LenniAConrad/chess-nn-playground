@@ -7,7 +7,7 @@ from typing import Any
 import torch
 from torch import nn
 
-from chess_nn_playground.models.cnn import count_parameters
+from chess_nn_playground.models.trunk.cnn import count_parameters
 from chess_nn_playground.models.registry import build_model
 
 

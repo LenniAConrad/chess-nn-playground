@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/stripe_selective_mixer_cnn.py` (`StripeSelectiveMixerCNN`, `StripeSelectiveMixerBlock`, `DirectionalStripeConv`).
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/stripe_selective_mixer_cnn.py` (`StripeSelectiveMixerCNN`, `StripeSelectiveMixerBlock`, `DirectionalStripeConv`).
 - Idea-local wrapper: `ideas/registry/i173_stripe_selective_mixer_cnn/model.py` exposes `build_model_from_config(config)` that calls `build_stripe_selective_mixer_cnn_from_config`.
 - Registry key: `stripe_selective_mixer_cnn`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.

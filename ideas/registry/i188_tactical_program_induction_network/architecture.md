@@ -165,5 +165,5 @@ the `puzzle_binary` BCE-with-logits trainer
 ## Implementation Binding
 
 - Registered model name: `tactical_program_induction_network`
-- Source implementation file: `src/chess_nn_playground/models/tactical_program_induction.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_program_induction.py`
 - Idea-local wrapper: `ideas/registry/i188_tactical_program_induction_network/model.py`

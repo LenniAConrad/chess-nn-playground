@@ -27,7 +27,7 @@ config_path: ideas/registry/i113_row_file_factor_mixer/config.yaml
 model_path: ideas/registry/i113_row_file_factor_mixer/model.py
 latest_result_path: null
 notes: Bespoke implementation registered as row_file_factor_mixer in
-  src/chess_nn_playground/models/row_file_factor_mixer.py. The idea-local
+  src/chess_nn_playground/models/trunk/row_file_factor_mixer.py. The idea-local
   model.py is a thin wrapper around build_row_file_factor_mixer_from_config;
   the previous ResearchPacketProbe scaffold has been removed.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.hall_dual_residual import (
+from chess_nn_playground.models.trunk.hall_dual_residual import (
     build_hall_defect_dual_residual_network_from_config,
 )
 

@@ -7,7 +7,7 @@ bespoke PyTorch model for the repo's `puzzle_binary` task.
 ## Implementation Binding
 
 - Registered model name: `chess_mode_tucker_relation_certificate`
-- Source implementation file: `src/chess_nn_playground/models/chess_mode_tucker_relation_certificate.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/chess_mode_tucker_relation_certificate.py`
 - Idea-local wrapper: `ideas/registry/i090_chess_mode_tucker_relation_certificate/model.py`
 
 ## Modules

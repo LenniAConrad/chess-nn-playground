@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.barrier_cut_puzzle_network import (
+from chess_nn_playground.models.trunk.barrier_cut_puzzle_network import (
     BarrierCutPuzzleNetwork,
     build_barrier_cut_puzzle_network_from_config,
 )

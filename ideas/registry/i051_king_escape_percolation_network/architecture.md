@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `king_escape_percolation_network`
-- Source implementation file: `src/chess_nn_playground/models/king_escape_percolation.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/king_escape_percolation.py`
 - Idea-local wrapper: `ideas/registry/i051_king_escape_percolation_network/model.py`
 
 ## Input Contract

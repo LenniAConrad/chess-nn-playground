@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `attack_hodge_sheaf_tension_network`
-- Source implementation file: `src/chess_nn_playground/models/attack_hodge_sheaf.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/attack_hodge_sheaf.py`
 - Idea-local wrapper: `ideas/registry/i023_attack_hodge_sheaf_tension_network/model.py`
 
 ## Encoding Adapter

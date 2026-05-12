@@ -440,7 +440,7 @@ Do not include legal occupancy stop rules in the first version. That would move 
 ## Possible File Targets
 
 ```text
-src/chess_nn_playground/models/bitboard_shift_algebra.py
+src/chess_nn_playground/models/trunk/bitboard_shift_algebra.py
 tests/test_bitboard_shift_algebra.py
 configs/model/bitboard_shift_algebra.yaml
 ```

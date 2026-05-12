@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/agreement_variance_head_net.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/agreement_variance_head_net.py`.
 - Idea-local wrapper: `ideas/registry/i153_agreement_variance_head_net/model.py`.
 - Registry key: `agreement_variance_head_net`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.

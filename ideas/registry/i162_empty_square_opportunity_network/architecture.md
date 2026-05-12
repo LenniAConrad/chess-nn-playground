@@ -58,5 +58,5 @@ count, and named opportunity-channel means.
 ## Implementation Binding
 
 - Registered model name: `empty_square_opportunity_network`
-- Source implementation file: `src/chess_nn_playground/models/empty_square_opportunity_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/empty_square_opportunity_network.py`
 - Idea-local wrapper: `ideas/registry/i162_empty_square_opportunity_network/model.py`

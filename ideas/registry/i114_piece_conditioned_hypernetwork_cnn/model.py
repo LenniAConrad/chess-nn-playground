@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.piece_conditioned_hypernetwork_cnn import (
+from chess_nn_playground.models.trunk.piece_conditioned_hypernetwork_cnn import (
     PieceConditionedHypernetworkCNN,
     build_piece_conditioned_hypernetwork_cnn_from_config,
 )

@@ -91,5 +91,5 @@ identity) are never passed to the model. CRTK metadata is reporting-only.
 ## Implementation Binding
 
 - Registered model name: `fisher_geodesic_tension_network`.
-- Source implementation file: `src/chess_nn_playground/models/fisher_geodesic_tension.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/fisher_geodesic_tension.py`.
 - Idea-local wrapper: `ideas/registry/i083_fisher_geodesic_tension_network/model.py`.

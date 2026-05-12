@@ -56,5 +56,5 @@ are finite by construction.
 ## Implementation Binding
 
 - Registered model name: `kinematic_commutator_bottleneck_network`
-- Source implementation file: `src/chess_nn_playground/models/kinematic_commutator_bottleneck.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/kinematic_commutator_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i040_kinematic_commutator_bottleneck_network/model.py`

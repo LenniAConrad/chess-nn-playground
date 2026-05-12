@@ -48,7 +48,7 @@ contributions are gated by learned per-square role masks.
 ## Implementation Binding
 
 - Registered model name: `tensor_ring_square_interaction_network`.
-- Source implementation file: `src/chess_nn_playground/models/tensor_ring_square_interaction_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tensor_ring_square_interaction_network.py`.
 - Idea-local wrapper: `ideas/registry/i119_tensor_ring_square_interaction_network/model.py`.
 
 The wrapper imports

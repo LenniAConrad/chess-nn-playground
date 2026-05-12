@@ -33,7 +33,7 @@ model_path: ideas/registry/i098_baseline_logit_residual_adapter/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.
   Bespoke baseline-plus-residual-adapter network registered as `baseline_logit_residual_adapter`
-  in `src/chess_nn_playground/models/baseline_logit_residual_adapter.py`. Baseline
+  in `src/chess_nn_playground/models/trunk/baseline_logit_residual_adapter.py`. Baseline
   branch is a `simple_cnn`-shaped predictor; the residual head is a depthwise-separable
   FiLM-conditioned adapter with a sigmoid gate, conditioned on the (detached) baseline
   latent, baseline logit, and a deterministic 26-D board summary.

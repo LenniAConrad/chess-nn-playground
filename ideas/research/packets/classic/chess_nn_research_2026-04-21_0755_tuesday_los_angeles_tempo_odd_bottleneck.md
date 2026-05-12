@@ -101,8 +101,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN | `src/chess_nn_playground/models/cnn.py` | Already exists and does not test a new chess-specific hypothesis. |
-| Residual CNN | `src/chess_nn_playground/models/residual_cnn.py` | Already exists; adding residual depth is ordinary capacity tuning. |
+| Simple CNN | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and does not test a new chess-specific hypothesis. |
+| Residual CNN | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists; adding residual depth is ordinary capacity tuning. |
 | LC0-style CNN or residual CNN | LC0 BT4-style CNN/residual variants | Already represented; copying LC0-style static processing does not isolate a new cause of puzzle-likeness. |
 | Bigger CNN/deeper trunk | small/medium/deep existing variants | Violates the “not just depth/width tuning” constraint. |
 | Ordinary ViT over 64 squares | vanilla Transformer-style baseline | Too generic and explicitly disallowed as the core idea. |
@@ -458,7 +458,7 @@ What result would justify scaling:
 | `ideas/20260421_tempo_odd_bottleneck/config.yaml` | Create | Minimal experiment config using `simple_18`, batch size 512, 3 epochs, balanced class weighting. |
 | `ideas/20260421_tempo_odd_bottleneck/report_template.md` | Create | Template requiring baseline comparison, central ablation comparison, and `3x2` fine-label matrices. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this idea to imported memory after implementation; add anti-duplicate notes for side-to-move-toggle Walsh bottlenecks if it fails. |
-| `src/chess_nn_playground/models/tempo_odd_bottleneck.py` | Create | Implement `TempoOddBottleneckNet`, adapters, Walsh bottleneck, and optional odd variance loss hook if the trainer supports model auxiliary losses. |
+| `src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py` | Create | Implement `TempoOddBottleneckNet`, adapters, Walsh bottleneck, and optional odd variance loss hook if the trainer supports model auxiliary losses. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register builder function, for example `build_tempo_odd_bottleneck`. |
 | `configs/tempo_odd_bottleneck_simple18.yaml` | Create | Top-level shared-trainer config for the main run. |
 | `configs/tempo_odd_bottleneck_identity_ablation.yaml` | Create | Same as main but `tau_mode: identity`. |
@@ -499,7 +499,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/tempo_odd_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/tempo_odd_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py
   latest_result_path: null
   notes: Do not supervise tau(x) with the original label; tau is a representation probe only.
 ```
@@ -537,7 +537,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: tempo_odd_bottleneck
-  file_path: src/chess_nn_playground/models/tempo_odd_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/tempo_odd_bottleneck.py
   builder_function: build_tempo_odd_bottleneck
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

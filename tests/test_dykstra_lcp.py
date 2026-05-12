@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import torch
 
-from chess_nn_playground.models.dykstra_lcp import DykstraLCP, SoftDykstraProjector, _simplex_projection
-from chess_nn_playground.models.dykstra_vetoselect import DykstraVetoSelect
+from chess_nn_playground.models.trunk.dykstra_lcp import DykstraLCP, SoftDykstraProjector, _simplex_projection
+from chess_nn_playground.models.trunk.dykstra_vetoselect import DykstraVetoSelect
 from chess_nn_playground.training.losses import DykstraLCPLoss, DykstraVetoSelectLoss
 
 

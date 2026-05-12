@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.motif_tensor_factorization_network import (
+from chess_nn_playground.models.trunk.motif_tensor_factorization_network import (
     MotifTensorFactorizationNetwork,
     build_motif_tensor_factorization_network_from_config,
 )

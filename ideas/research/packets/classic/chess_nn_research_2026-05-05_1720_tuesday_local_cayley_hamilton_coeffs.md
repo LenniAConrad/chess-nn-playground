@@ -5,7 +5,7 @@
 - Filename: `chess_nn_research_2026-05-05_1720_tuesday_local_cayley_hamilton_coeffs.md`
 - Generated at: 2026-05-05 17:20
 - Author: Claude (Opus 4.7, 1M context)
-- Status: bespoke implementation already in `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`
+- Status: bespoke implementation already in `src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`
 
 ## Thesis
 
@@ -43,7 +43,7 @@ as a sanity feature and auxiliary loss target.
 
 ## Architecture
 
-`CayleyHamiltonCoefficientNetwork` in `src/chess_nn_playground/models/cayley_hamilton_coeffs.py`:
+`CayleyHamiltonCoefficientNetwork` in `src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py`:
 
 ```text
 input (B, 18, 8, 8)

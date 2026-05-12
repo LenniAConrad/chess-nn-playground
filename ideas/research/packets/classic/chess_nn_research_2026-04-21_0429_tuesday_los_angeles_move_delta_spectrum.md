@@ -105,8 +105,8 @@ This packet’s first experiment should use `simple_18`, because its current-boa
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN over `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already exists and tests ordinary local pattern recognition without a new chess-specific operator. |
-| Residual CNN over `simple_18` | `src/chess_nn_playground/models/residual_cnn.py` | Already exists and mostly adds depth/optimization capacity rather than a new falsifiable inductive bias. |
+| Simple CNN over `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already exists and tests ordinary local pattern recognition without a new chess-specific operator. |
+| Residual CNN over `simple_18` | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already exists and mostly adds depth/optimization capacity rather than a new falsifiable inductive bias. |
 | LC0-style CNN or residual CNN over `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Too close to the current LC0-inspired baseline family and does not test a new mechanism. |
 | Ordinary ViT over 64 board squares | Common square-token Transformer | Too ordinary, too parameter-hungry for the current benchmark, and specifically disallowed as a core idea. |
 | Plain GNN on 64 squares with adjacency edges | Standard board graph neural network | Mostly renames spatial message passing and is too close to generic graph modeling without a tactical operator. |

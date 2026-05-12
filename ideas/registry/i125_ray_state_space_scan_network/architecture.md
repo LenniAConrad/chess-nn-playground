@@ -43,7 +43,7 @@ These join the global board mean+max pool and are fed to a small two-layer GELU 
 ## Implementation Binding
 
 - Registered model name: `ray_state_space_scan_network`
-- Source implementation file: `src/chess_nn_playground/models/ray_state_space_scan.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/ray_state_space_scan.py`
 - Idea-local wrapper: `ideas/registry/i125_ray_state_space_scan_network/model.py`
 
 The wrapper imports `RayStateSpaceScanNetwork` and `build_ray_state_space_scan_network_from_config` and delegates `build_model_from_config` to that builder. The shared `ResearchPacketProbe` scaffold is no longer used.

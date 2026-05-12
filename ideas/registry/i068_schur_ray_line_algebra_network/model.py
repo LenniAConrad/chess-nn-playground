@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.schur_ray_line_algebra import (
+from chess_nn_playground.models.trunk.schur_ray_line_algebra import (
     SchurRayLineAlgebraNetwork,
     build_schur_ray_line_algebra_network_from_config,
 )

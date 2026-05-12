@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/absorbing_threat_markov_network.py`.
+- Bespoke source: `src/chess_nn_playground/models/trunk/absorbing_threat_markov_network.py`.
 - Idea-local wrapper: `ideas/registry/i200_absorbing_threat_markov_network/model.py`
   (a thin adapter over `build_absorbing_threat_markov_network_from_config`).
 - Registry key: `absorbing_threat_markov_network`. The shared

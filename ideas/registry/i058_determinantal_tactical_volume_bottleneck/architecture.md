@@ -68,7 +68,7 @@ verification, source, and CRTK metadata are never used as input.
 ## Implementation Binding
 
 - Registered model name: `determinantal_tactical_volume_bottleneck`
-- Source implementation: `src/chess_nn_playground/models/determinantal_volume.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/determinantal_volume.py`
 - Idea-local wrapper: `ideas/registry/i058_determinantal_tactical_volume_bottleneck/model.py`
   delegates to `build_determinantal_tactical_volume_bottleneck_from_config`.
 - The idea-local wrapper does not import or call the shared

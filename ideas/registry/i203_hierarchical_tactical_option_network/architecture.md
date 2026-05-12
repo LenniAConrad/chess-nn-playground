@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `hierarchical_tactical_option_network`
-- Source implementation file: `src/chess_nn_playground/models/hierarchical_tactical_option.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/hierarchical_tactical_option.py`
 - Idea-local wrapper: `ideas/registry/i203_hierarchical_tactical_option_network/model.py`

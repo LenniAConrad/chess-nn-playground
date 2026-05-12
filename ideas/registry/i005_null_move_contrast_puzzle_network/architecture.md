@@ -80,5 +80,5 @@ The first version should be cheaper than response-minimax and obligation-flow mo
 ## Implementation Binding
 
 - Registered model name: `null_move_contrast_puzzle_network`.
-- Source implementation: `src/chess_nn_playground/models/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
 - Idea-local wrapper: `ideas/registry/i005_null_move_contrast_puzzle_network/model.py`.

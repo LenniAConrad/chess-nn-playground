@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/tactical_state_bottleneck.py`.
+- Central code: `src/chess_nn_playground/models/trunk/tactical_state_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i091_tactical_state_bottleneck_inference/model.py`.
 - Registry key: `tactical_state_bottleneck_inference`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-28_0901_tuesday_new_york_tactical_latent.md`.

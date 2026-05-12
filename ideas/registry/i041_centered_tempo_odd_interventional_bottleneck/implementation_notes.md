@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model code: `src/chess_nn_playground/models/centered_tempo_odd_interventional_bottleneck.py`.
+- Bespoke model code: `src/chess_nn_playground/models/trunk/centered_tempo_odd_interventional_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i041_centered_tempo_odd_interventional_bottleneck/model.py`.
 - Registered model name: `centered_tempo_odd_interventional_bottleneck`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0729_tuesday_pacific_tempo_odd_bottleneck.md`.

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.multiplicative_conjunction_convnet import (
+from chess_nn_playground.models.trunk.multiplicative_conjunction_convnet import (
     build_multiplicative_conjunction_convnet_from_config,
 )
 

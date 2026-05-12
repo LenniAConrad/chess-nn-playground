@@ -35,7 +35,7 @@ config_path: ideas/registry/i170_negative_class_disentangled_puzzle_head/config.
 model_path: ideas/registry/i170_negative_class_disentangled_puzzle_head/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`
   (`NegativeClassDisentangledPuzzleHead`); the idea-local `model.py` is a
   thin wrapper around the registered builder. Shares the bespoke class
   with idea i074.

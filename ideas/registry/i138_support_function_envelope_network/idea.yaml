@@ -29,7 +29,7 @@ model_path: ideas/registry/i138_support_function_envelope_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.
   Bespoke implementation of the markdown architecture in
-  `src/chess_nn_playground/models/support_function_envelope_network.py`.
+  `src/chess_nn_playground/models/trunk/support_function_envelope_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
 source_packet_candidate: Support-Function Envelope Network
 source_packet_rank: 2

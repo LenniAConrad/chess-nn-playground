@@ -82,5 +82,5 @@ only flips the `fine_label_pair_mining_active` flag in the output dict.
 ## Implementation Binding
 
 - Registered model name: `tactical_bisimulation_puzzle_network`.
-- Source implementation file: `src/chess_nn_playground/models/tactical_bisimulation_puzzle_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/tactical_bisimulation_puzzle_network.py`.
 - Idea-local wrapper: `ideas/registry/i075_tactical_bisimulation_puzzle_network/model.py`.

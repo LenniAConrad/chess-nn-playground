@@ -80,5 +80,5 @@ Forward returns `logits` plus `latent_base`, `latent_top`, `latent_low`,
 ## Implementation Binding
 
 - Registered model name: `attention_perturbation_sensitivity_network`.
-- Source implementation file: `src/chess_nn_playground/models/attention_perturbation_sensitivity_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/attention_perturbation_sensitivity_network.py`.
 - Idea-local wrapper: `ideas/registry/i106_attention_perturbation_sensitivity_network/model.py`.

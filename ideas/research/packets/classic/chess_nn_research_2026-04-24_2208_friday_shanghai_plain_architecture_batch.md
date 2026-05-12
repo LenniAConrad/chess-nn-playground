@@ -189,7 +189,7 @@ The existing simple CNN and residual CNN are conventional, but they may not be s
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/convnext_boardnet.py
+src/chess_nn_playground/models/trunk/convnext_boardnet.py
 tests/test_convnext_boardnet.py
 configs/bench_convnext_boardnet_simple18.yaml
 configs/bench_convnext_boardnet_kernel3.yaml
@@ -276,7 +276,7 @@ This is a normal CNN pyramid. It is useful because an `8 x 8` board has very lit
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/board_fpn_cnn.py
+src/chess_nn_playground/models/trunk/board_fpn_cnn.py
 tests/test_board_fpn_cnn.py
 configs/bench_board_fpn_cnn_simple18.yaml
 configs/bench_board_fpn_cnn_single_resolution.yaml
@@ -386,7 +386,7 @@ This is still just grouped convs plus gates. It gives a normal way to test wheth
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/piece_plane_gated_cnn.py
+src/chess_nn_playground/models/trunk/piece_plane_gated_cnn.py
 tests/test_piece_plane_gated_cnn.py
 configs/bench_piece_plane_gated_cnn_simple18.yaml
 configs/bench_piece_plane_gated_cnn_ungrouped.yaml
@@ -480,7 +480,7 @@ This is not attention and not a Transformer. It is a plain patch MLP architectur
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/patch_mixer_boardnet.py
+src/chess_nn_playground/models/trunk/patch_mixer_boardnet.py
 tests/test_patch_mixer_boardnet.py
 configs/bench_patch_mixer_boardnet_simple18.yaml
 configs/bench_patch_mixer_boardnet_no_token_mixing.yaml
@@ -572,7 +572,7 @@ This architecture uses ordinary modules, but it gives useful diagnostics: which 
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/specialist_head_cnn.py
+src/chess_nn_playground/models/trunk/specialist_head_cnn.py
 tests/test_specialist_head_cnn.py
 configs/bench_specialist_head_cnn_simple18.yaml
 configs/bench_specialist_head_cnn_single_global.yaml
@@ -674,7 +674,7 @@ Before inventing unusual modules, does a wider shallow residual CNN already capt
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/shallow_wide_residual_boardnet.py
+src/chess_nn_playground/models/trunk/shallow_wide_residual_boardnet.py
 tests/test_shallow_wide_residual_boardnet.py
 configs/bench_shallow_wide_residual_boardnet_simple18.yaml
 configs/bench_shallow_wide_residual_boardnet_deep_narrow.yaml

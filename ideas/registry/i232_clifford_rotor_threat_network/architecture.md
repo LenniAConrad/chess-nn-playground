@@ -40,7 +40,7 @@ rotational threat structure no real-arithmetic packet can express.
 - Registered model name: `clifford_rotor_threat_network` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/clifford_rotor_threat_network.py`
+  `src/chess_nn_playground/models/trunk/clifford_rotor_threat_network.py`
   (`CliffordRotorThreatNetwork` and
   `build_clifford_rotor_threat_network_from_config`).
 - Idea-local wrapper:

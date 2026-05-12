@@ -4,9 +4,9 @@ Date: 2026-04-29
 
 Scope:
 
-- `src/chess_nn_playground/models/dykstra_lcp.py`
-- `src/chess_nn_playground/models/dykstra_vetoselect.py`
-- `src/chess_nn_playground/models/vetoselect.py`
+- `src/chess_nn_playground/models/trunk/dykstra_lcp.py`
+- `src/chess_nn_playground/models/trunk/dykstra_vetoselect.py`
+- `src/chess_nn_playground/models/trunk/vetoselect.py`
 - `src/chess_nn_playground/training/losses.py`
 - `ideas/registry/i012_dykstra_lcp/config*.yaml`
 

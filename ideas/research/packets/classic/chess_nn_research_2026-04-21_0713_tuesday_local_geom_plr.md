@@ -106,8 +106,8 @@ Candidate search trace:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | `src/chess_nn_playground/models/cnn.py` | Already implemented; direct convolutional discrimination does not test a new structural hypothesis. |
-| Residual CNN small/medium/deep | `src/chess_nn_playground/models/residual_cnn.py` | Already implemented; increasing residual capacity is ordinary architecture scaling. |
+| Simple CNN on `simple_18` | `src/chess_nn_playground/models/trunk/cnn.py` | Already implemented; direct convolutional discrimination does not test a new structural hypothesis. |
+| Residual CNN small/medium/deep | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already implemented; increasing residual capacity is ordinary architecture scaling. |
 | LC0-style CNN or residual CNN on `lc0_static_112`/`lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already represented in the baseline suite; copying LC0-style channel processing is not a new puzzle-likeness mechanism. |
 | Ordinary ViT over 64 squares | Common vanilla square-token Transformer | Explicitly disallowed as a core idea and likely to become capacity tuning rather than a chess-specific hypothesis. |
 | Plain GNN on the 64-square board graph | Generic message-passing classifier | Too ordinary unless the graph operator itself produces a falsifiable nonstandard observable; `GeomPLR` uses static geometry only inside a class-conditional pseudo-likelihood score. |
@@ -293,7 +293,7 @@ The strongest objection is that a class-conditioned pseudo-likelihood model can 
 
 ### Module names
 
-Implement in `src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py`:
+Implement in `src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py`:
 
 - `GeometryPseudoLikelihoodRatioNet`
 - `Simple18TokenAdapter`
@@ -566,7 +566,7 @@ What result would justify scaling:
 | `ideas/20260421_geom_plr/config.yaml` | Create | Minimal training config for `simple_18`, `GeometryPseudoLikelihoodRatioNet`, `epochs=3`, `batch_size=512`, seed `42`. |
 | `ideas/20260421_geom_plr/report_template.md` | Create | Template requiring main metrics, `3x2` matrix, near-puzzle matched-FPR diagnostic, score histograms, and ablation comparison. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported research memory after implementation; add anti-duplicate notes for class-conditional board pseudo-likelihood/MDL density-ratio models if the experiment fails. |
-| `src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py` | Create | Implement `GeometryPseudoLikelihoodRatioNet`, token adapter, relation index, typed neighbor aggregator, class-conditioned decoder, and config-driven ablation switches. |
+| `src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py` | Create | Implement `GeometryPseudoLikelihoodRatioNet`, token adapter, relation index, typed neighbor aggregator, class-conditioned decoder, and config-driven ablation switches. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register `geometry_pseudolikelihood_ratio` builder. |
 | `configs/geom_plr_simple18.yaml` | Create | Project-level config pointing to existing split, `simple_18`, binary mode, balanced class weighting, deterministic seed. |
 | `configs/geom_plr_simple18_random_neighbors.yaml` | Create | Central randomized-neighborhood ablation config. |
@@ -613,7 +613,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/geom_plr_simple18.yaml
-  model_path: src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py
+  model_path: src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py
   latest_result_path: null
   notes: Use idea-local train.py only if auxiliary pseudo-likelihood loss cannot be represented in the shared trainer; forward must return logits only.
 ```
@@ -663,7 +663,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: geometry_pseudolikelihood_ratio
-  file_path: src/chess_nn_playground/models/geometry_pseudolikelihood_ratio.py
+  file_path: src/chess_nn_playground/models/trunk/geometry_pseudolikelihood_ratio.py
   builder_function: build_geometry_pseudolikelihood_ratio
   input_shape: [batch, 18, 8, 8]
   output_shape: [batch, num_classes]

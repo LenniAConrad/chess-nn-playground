@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/boundary_condition_disagreement_cnn.py`.
+- Central code: `src/chess_nn_playground/models/trunk/boundary_condition_disagreement_cnn.py`.
 - Registry key: `boundary_condition_disagreement_cnn`.
 - Idea-local wrapper: `ideas/registry/i111_boundary_condition_disagreement_cnn/model.py`
   (a thin `build_model_from_config` over

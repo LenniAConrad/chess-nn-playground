@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- **Bespoke module**: `src/chess_nn_playground/models/cayley_orthogonal.py`.
+- **Bespoke module**: `src/chess_nn_playground/models/trunk/cayley_orthogonal.py`.
 - **Class**: `CayleyOrthogonalNetwork`.
 - **Builder**: `build_cayley_orthogonal_from_config` (registered in `registry.py`).
 - **Registry key**: `cayley_orthogonal_network`.

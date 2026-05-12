@@ -208,7 +208,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/empty_square_opportunity_network.py
+src/chess_nn_playground/models/trunk/empty_square_opportunity_network.py
 tests/test_empty_square_opportunity_network.py
 configs/bench_empty_square_opportunity_network_simple18.yaml
 configs/bench_empty_square_opportunity_network_occupied_only.yaml
@@ -311,7 +311,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/global_scratchpad_boardnet.py
+src/chess_nn_playground/models/trunk/global_scratchpad_boardnet.py
 tests/test_global_scratchpad_boardnet.py
 configs/bench_global_scratchpad_boardnet_simple18.yaml
 configs/bench_global_scratchpad_boardnet_no_scratchpad.yaml
@@ -431,7 +431,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/learnable_pooling_tree_boardnet.py
+src/chess_nn_playground/models/trunk/learnable_pooling_tree_boardnet.py
 tests/test_learnable_pooling_tree_boardnet.py
 configs/bench_learnable_pooling_tree_boardnet_simple18.yaml
 configs/bench_learnable_pooling_tree_boardnet_global_pool.yaml
@@ -527,7 +527,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/spatial_film_coordinate_net.py
+src/chess_nn_playground/models/trunk/spatial_film_coordinate_net.py
 tests/test_spatial_film_coordinate_net.py
 configs/bench_spatial_film_coordinate_net_simple18.yaml
 configs/bench_spatial_film_coordinate_net_coord_planes_only.yaml
@@ -628,7 +628,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/channel_bilinear_role_mixer.py
+src/chess_nn_playground/models/trunk/channel_bilinear_role_mixer.py
 tests/test_channel_bilinear_role_mixer.py
 configs/bench_channel_bilinear_role_mixer_simple18.yaml
 configs/bench_channel_bilinear_role_mixer_concat_only.yaml
@@ -730,7 +730,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/evidence_sieve_network.py
+src/chess_nn_playground/models/trunk/evidence_sieve_network.py
 tests/test_evidence_sieve_network.py
 configs/bench_evidence_sieve_network_simple18.yaml
 configs/bench_evidence_sieve_network_no_sieves.yaml
@@ -830,7 +830,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/ring_shell_recurrent_boardnet.py
+src/chess_nn_playground/models/trunk/ring_shell_recurrent_boardnet.py
 tests/test_ring_shell_recurrent_boardnet.py
 configs/bench_ring_shell_recurrent_boardnet_simple18.yaml
 configs/bench_ring_shell_recurrent_boardnet_global_pool.yaml
@@ -938,7 +938,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/rank_file_memory_grid_net.py
+src/chess_nn_playground/models/trunk/rank_file_memory_grid_net.py
 tests/test_rank_file_memory_grid_net.py
 configs/bench_rank_file_memory_grid_net_simple18.yaml
 configs/bench_rank_file_memory_grid_net_no_memory.yaml

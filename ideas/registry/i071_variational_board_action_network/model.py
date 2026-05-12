@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.variational_board_action import VariationalBoardActionNetwork
-from chess_nn_playground.models.variational_board_action import build_variational_board_action_network_from_config
+from chess_nn_playground.models.trunk.variational_board_action import VariationalBoardActionNetwork
+from chess_nn_playground.models.trunk.variational_board_action import build_variational_board_action_network_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> VariationalBoardActionNetwork:

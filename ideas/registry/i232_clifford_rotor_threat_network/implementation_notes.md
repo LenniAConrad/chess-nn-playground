@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Bespoke implementation:
-  `src/chess_nn_playground/models/clifford_rotor_threat_network.py`
+  `src/chess_nn_playground/models/trunk/clifford_rotor_threat_network.py`
   (`CliffordRotorThreatNetwork` and
   `build_clifford_rotor_threat_network_from_config`).
 - Registry key: `clifford_rotor_threat_network`

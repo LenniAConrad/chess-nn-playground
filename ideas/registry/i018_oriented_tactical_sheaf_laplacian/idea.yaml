@@ -26,7 +26,7 @@ trainer_entrypoint: ideas/registry/i018_oriented_tactical_sheaf_laplacian/train.
 config_path: ideas/registry/i018_oriented_tactical_sheaf_laplacian/config.yaml
 model_path: ideas/registry/i018_oriented_tactical_sheaf_laplacian/model.py
 latest_result_path: null
-notes: Implemented as the bespoke `oriented_tactical_sheaf_laplacian` model in `src/chess_nn_playground/models/oriented_tactical_sheaf.py`
+notes: Implemented as the bespoke `oriented_tactical_sheaf_laplacian` model in `src/chess_nn_playground/models/trunk/oriented_tactical_sheaf.py`
   with an idea-local wrapper. The implementation consumes board tensors only and
   follows the repo's one-logit puzzle_binary contract.
 implementation_kind: bespoke_model

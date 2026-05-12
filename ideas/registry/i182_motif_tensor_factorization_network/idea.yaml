@@ -39,7 +39,7 @@ config_path: ideas/registry/i182_motif_tensor_factorization_network/config.yaml
 model_path: ideas/registry/i182_motif_tensor_factorization_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
-  Bespoke implementation lives in `src/chess_nn_playground/models/motif_tensor_factorization_network.py`
+  Bespoke implementation lives in `src/chess_nn_playground/models/trunk/motif_tensor_factorization_network.py`
   (`MotifTensorFactorizationNetwork`); the idea-local `model.py` is a thin wrapper
   around the registered builder. The motif tensor is the CP score
   `M[i,j,k] = sum_r A_r(i) * T_r(j) * D_r(k) * rel_r(i,j)`, pooled into top

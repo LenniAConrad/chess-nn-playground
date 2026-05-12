@@ -56,5 +56,5 @@ The forward output includes `logits`, `positive_puzzle_logit`, `best_disproof`, 
 ## Implementation Binding
 
 - Registered model name: `safe_reply_certificate_verifier`.
-- Source implementation file: `src/chess_nn_playground/models/safe_reply_certificate.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/safe_reply_certificate.py`.
 - Idea-local wrapper: `ideas/registry/i191_safe_reply_certificate_verifier/model.py`.

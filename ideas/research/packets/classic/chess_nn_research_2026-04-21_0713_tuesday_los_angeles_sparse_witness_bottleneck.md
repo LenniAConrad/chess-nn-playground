@@ -100,8 +100,8 @@ Candidate search trace: the internal pass considered more than twelve families, 
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on full `simple_18` board | `src/chess_nn_playground/models/cnn.py` | Already present and sees the full board, so it does not test sparse tactical sufficiency. |
-| Residual CNN on full board | `src/chess_nn_playground/models/residual_cnn.py` | Already present; adding residual capacity is not a new inductive bias. |
+| Simple CNN on full `simple_18` board | `src/chess_nn_playground/models/trunk/cnn.py` | Already present and sees the full board, so it does not test sparse tactical sufficiency. |
+| Residual CNN on full board | `src/chess_nn_playground/models/trunk/residual_cnn.py` | Already present; adding residual capacity is not a new inductive bias. |
 | LC0-style CNN or residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN/residual variants | Already covered by the baseline suite and too close to copying engine-input architecture. |
 | Bigger/deeper/wider CNN | Small/medium/deep CNN variants | Ordinary capacity scaling is explicitly not a research idea here. |
 | Ordinary ViT over 64 squares | Vanilla Transformer-over-squares baseline | Too generic, data-hungry, and not specifically tied to puzzle-likeness. |
@@ -554,7 +554,7 @@ What result would justify scaling:
 | `ideas/20260421_0713_sparse_witness_bottleneck/config.yaml` | Create | Config equivalent to the `config_yaml` block below. |
 | `ideas/20260421_0713_sparse_witness_bottleneck/report_template.md` | Create | Required report fields: metrics, `3x2` fine confusion, ablation deltas, mask summaries, failure/success call. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Preserve hard constraints and add an anti-duplicate note for sparse occupied-piece top-k witness bottlenecks after this packet is consumed. |
-| `src/chess_nn_playground/models/sparse_witness_bottleneck.py` | Create | Implement `SparseWitnessBottleneckNet`, adapters, selector, and witness encoder. No engine/move/attack features. |
+| `src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py` | Create | Implement `SparseWitnessBottleneckNet`, adapters, selector, and witness encoder. No engine/move/attack features. |
 | `src/chess_nn_playground/models/registry.py` | Modify | Register builder name `sparse_witness_bottleneck`. |
 | `configs/sparse_witness_bottleneck_simple18.yaml` | Create | Main benchmark config using `simple_18`, `K=8`, width `48`, 3 epochs, balanced class weighting. |
 | `configs/sparse_witness_bottleneck_random_topk_simple18.yaml` | Create | Central falsification ablation config. |
@@ -593,7 +593,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/sparse_witness_bottleneck_simple18.yaml
-  model_path: src/chess_nn_playground/models/sparse_witness_bottleneck.py
+  model_path: src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py
   latest_result_path: null
   notes: Use hard binary masks downstream; do not pass continuous gate probabilities to classifier except in explicit leak-test ablation.
 ```
@@ -646,7 +646,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: sparse_witness_bottleneck
-  file_path: src/chess_nn_playground/models/sparse_witness_bottleneck.py
+  file_path: src/chess_nn_playground/models/trunk/sparse_witness_bottleneck.py
   builder_function: build_sparse_witness_bottleneck
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

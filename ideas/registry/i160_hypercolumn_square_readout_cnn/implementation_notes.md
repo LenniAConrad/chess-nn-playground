@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py`.
+- Central code: `src/chess_nn_playground/models/trunk/hypercolumn_square_readout_cnn.py`.
 - Registry key: `hypercolumn_square_readout_cnn`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
 - Batch candidate: `Hypercolumn Square Readout CNN`.

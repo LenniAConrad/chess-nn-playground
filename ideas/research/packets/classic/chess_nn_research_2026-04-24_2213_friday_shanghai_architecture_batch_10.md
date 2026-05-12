@@ -179,7 +179,7 @@ logits = MLP([motif_norms, pooled_board_features])
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/capsule_motif_boardnet.py
+src/chess_nn_playground/models/trunk/capsule_motif_boardnet.py
 tests/test_capsule_motif_boardnet.py
 configs/bench_capsule_motif_boardnet_simple18.yaml
 configs/bench_capsule_motif_boardnet_no_routing.yaml
@@ -509,7 +509,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/neural_decision_forest_boardnet.py
+src/chess_nn_playground/models/trunk/neural_decision_forest_boardnet.py
 tests/test_neural_decision_forest_boardnet.py
 configs/bench_neural_decision_forest_boardnet_simple18.yaml
 configs/bench_neural_decision_forest_boardnet_mlp_head.yaml
@@ -610,7 +610,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/vq_motif_codebook_net.py
+src/chess_nn_playground/models/trunk/vq_motif_codebook_net.py
 tests/test_vq_motif_codebook_net.py
 configs/bench_vq_motif_codebook_net_simple18.yaml
 configs/bench_vq_motif_codebook_net_no_quantization.yaml
@@ -713,7 +713,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/hypercolumn_square_readout_cnn.py
+src/chess_nn_playground/models/trunk/hypercolumn_square_readout_cnn.py
 tests/test_hypercolumn_square_readout_cnn.py
 configs/bench_hypercolumn_square_readout_cnn_simple18.yaml
 configs/bench_hypercolumn_square_readout_cnn_last_only.yaml
@@ -803,7 +803,7 @@ Expected parameter range:
 Suggested files:
 
 ```text
-src/chess_nn_playground/models/multiplicative_conjunction_convnet.py
+src/chess_nn_playground/models/trunk/multiplicative_conjunction_convnet.py
 tests/test_multiplicative_conjunction_convnet.py
 configs/bench_multiplicative_conjunction_convnet_simple18.yaml
 configs/bench_multiplicative_conjunction_convnet_additive_only.yaml

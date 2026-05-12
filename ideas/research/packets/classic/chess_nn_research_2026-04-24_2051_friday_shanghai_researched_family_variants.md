@@ -254,7 +254,7 @@ logits:         (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/orbit_disagreement.py`
+- Model file: `src/chess_nn_playground/models/trunk/orbit_disagreement.py`
 - Registry name: `orbit_disagreement_residual`
 - Main config: `configs/bench_orbit_disagreement_simple18.yaml`
 - Central ablation config: `configs/bench_orbit_disagreement_mean_only.yaml`
@@ -314,7 +314,7 @@ logits:       (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/hall_dual_residual.py`
+- Model file: `src/chess_nn_playground/models/trunk/hall_dual_residual.py`
 - Registry name: `hall_dual_residual`
 - Main config: `configs/bench_hall_dual_residual_simple18.yaml`
 - Central ablation config: `configs/bench_hall_dual_residual_final_only.yaml`
@@ -373,7 +373,7 @@ logits:      (B, 2)
 
 ### Implementation Hook
 
-- Model file: `src/chess_nn_playground/models/credal_temperature.py`
+- Model file: `src/chess_nn_playground/models/trunk/credal_temperature.py`
 - Registry name: `credal_temperature_field`
 - Main config: `configs/bench_credal_temperature_simple18.yaml`
 - Central ablation config: `configs/bench_credal_temperature_fixed.yaml`

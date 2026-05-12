@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke source: `src/chess_nn_playground/models/source_rate_calibrated_objective.py`
+- Bespoke source: `src/chess_nn_playground/models/trunk/source_rate_calibrated_objective.py`
   (`SourceRateCalibratedObjectiveNetwork`,
   `build_source_rate_calibrated_objective_from_config`).
 - Idea-local wrapper: `ideas/registry/i176_source_rate_calibrated_objective/model.py`

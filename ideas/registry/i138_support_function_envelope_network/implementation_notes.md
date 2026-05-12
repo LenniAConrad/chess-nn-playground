@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke model: `src/chess_nn_playground/models/support_function_envelope_network.py`.
+- Bespoke model: `src/chess_nn_playground/models/trunk/support_function_envelope_network.py`.
 - Idea-local wrapper: `ideas/registry/i138_support_function_envelope_network/model.py`.
 - Registry key: `support_function_envelope_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.

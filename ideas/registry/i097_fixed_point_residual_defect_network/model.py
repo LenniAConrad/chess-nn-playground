@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.fixed_point_residual import (
+from chess_nn_playground.models.trunk.fixed_point_residual import (
     FixedPointResidualDefectNetwork,
     build_fixed_point_residual_defect_network_from_config,
 )

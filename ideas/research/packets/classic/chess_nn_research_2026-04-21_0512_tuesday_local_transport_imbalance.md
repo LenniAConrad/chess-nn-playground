@@ -86,8 +86,8 @@ All citations above are stable research anchors verified by public paper pages. 
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN on `simple_18` | Existing `src/chess_nn_playground/models/cnn.py` simple CNN | Too ordinary and already implemented; it does not introduce a falsifiable nonlocal chess-specific operator. |
-| Residual CNN variants | Existing `src/chess_nn_playground/models/residual_cnn.py` | Scaling residual depth/width is a baseline-family extension, not a new research mechanism. |
+| Simple CNN on `simple_18` | Existing `src/chess_nn_playground/models/trunk/cnn.py` simple CNN | Too ordinary and already implemented; it does not introduce a falsifiable nonlocal chess-specific operator. |
+| Residual CNN variants | Existing `src/chess_nn_playground/models/trunk/residual_cnn.py` | Scaling residual depth/width is a baseline-family extension, not a new research mechanism. |
 | LC0-style CNN/residual CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN and residual variants | Too close to the current suite and would mainly test encoding capacity rather than a new hypothesis about puzzle-likeness. |
 | Ordinary ViT over 64 square tokens | Common square-token Transformer | Self-attention is a generic global mixer and would be hard to distinguish from “use a vanilla Transformer,” which is explicitly disallowed. |
 | Plain GNN on squares | Generic graph neural network over board adjacency or piece attacks | Without a new operator it is just message passing on a chess graph, and attack/defense graph variants are already saturated by imported sheaf packets. |

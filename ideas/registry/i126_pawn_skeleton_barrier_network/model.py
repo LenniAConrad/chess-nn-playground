@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.pawn_skeleton_barrier import PawnSkeletonBarrierNetwork
-from chess_nn_playground.models.pawn_skeleton_barrier import (
+from chess_nn_playground.models.trunk.pawn_skeleton_barrier import PawnSkeletonBarrierNetwork
+from chess_nn_playground.models.trunk.pawn_skeleton_barrier import (
     build_pawn_skeleton_barrier_network_from_config,
 )
 

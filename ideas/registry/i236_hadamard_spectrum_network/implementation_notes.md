@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- **Bespoke module**: `src/chess_nn_playground/models/hadamard_spectrum.py`.
+- **Bespoke module**: `src/chess_nn_playground/models/trunk/hadamard_spectrum.py`.
 - **Class**: `HadamardSpectrumNetwork`.
 - **Builder**: `build_hadamard_spectrum_from_config` (registered in `registry.py`).
 - **Registry key**: `hadamard_spectrum_network`.

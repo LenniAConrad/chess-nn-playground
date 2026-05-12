@@ -33,7 +33,7 @@ config_path: ideas/registry/i116_symmetric_difference_twin_encoder/config.yaml
 model_path: ideas/registry/i116_symmetric_difference_twin_encoder/model.py
 latest_result_path: null
 notes: Bespoke implementation registered as symmetric_difference_twin_encoder in
-  src/chess_nn_playground/models/symmetric_difference_twin_encoder.py. The
+  src/chess_nn_playground/models/trunk/symmetric_difference_twin_encoder.py. The
   idea-local model.py is a thin wrapper around
   build_symmetric_difference_twin_encoder_from_config; the previous
   ResearchPacketProbe scaffold has been removed.

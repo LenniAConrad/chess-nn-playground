@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.near_puzzle_margin_twin_network import (
+from chess_nn_playground.models.trunk.near_puzzle_margin_twin_network import (
     NearPuzzleMarginTwinNetwork,
     build_near_puzzle_margin_twin_network_from_config,
 )

@@ -48,5 +48,5 @@ summary.
 ## Implementation Binding
 
 - Registered model name: `williamson_symplectic_threat_network`
-- Source implementation file: `src/chess_nn_playground/models/williamson_symplectic_threat_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/williamson_symplectic_threat_network.py`
 - Idea-local wrapper: `ideas/registry/i229_williamson_symplectic_threat_network/model.py`

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.determinantal_volume import (
+from chess_nn_playground.models.trunk.determinantal_volume import (
     DeterminantalTacticalVolumeNet,
     build_determinantal_tactical_volume_bottleneck_from_config,
 )

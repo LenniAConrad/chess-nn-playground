@@ -113,5 +113,5 @@ The packet's required ablations are exposed via `model.ablation`:
 ## Implementation Binding
 
 - Registered model name: `disproof_ledger_puzzle_network`
-- Source implementation file: `src/chess_nn_playground/models/disproof_ledger_puzzle_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/disproof_ledger_puzzle_network.py`
 - Idea-local wrapper: `ideas/registry/i181_disproof_ledger_puzzle_network/model.py`

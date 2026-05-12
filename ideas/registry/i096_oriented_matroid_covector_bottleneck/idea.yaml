@@ -33,7 +33,7 @@ model_path: ideas/registry/i096_oriented_matroid_covector_bottleneck/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
   Bespoke oriented matroid covector bottleneck registered as `oriented_matroid_covector_bottleneck`
-  in `src/chess_nn_playground/models/oriented_matroid_covector.py`. Supports ablation
+  in `src/chess_nn_playground/models/trunk/oriented_matroid_covector.py`. Supports ablation
   modes `covector`, `magnitude_only`, `random_hyperplanes`, `material_role_hist_only`,
   and `coordinate_shuffle_by_piece`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md

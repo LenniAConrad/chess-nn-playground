@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.magnus_bch_coupling_series_network import (
+from chess_nn_playground.models.trunk.magnus_bch_coupling_series_network import (
     build_magnus_bch_coupling_series_network_from_config,
 )
 

@@ -105,5 +105,5 @@ the source packet plus the default:
 ## Implementation Binding
 
 - Registered model name: `exchange_then_king_dual_stream`
-- Source implementation file: `src/chess_nn_playground/models/exchange_then_king_dual_stream.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/exchange_then_king_dual_stream.py`
 - Idea-local wrapper: `ideas/registry/i193_exchange_then_king_dual_stream/model.py`

@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.spatial_film_coordinate_net import (
+from chess_nn_playground.models.trunk.spatial_film_coordinate_net import (
     build_spatial_film_coordinate_net_from_config,
 )
 

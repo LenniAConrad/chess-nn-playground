@@ -343,7 +343,7 @@ For registered research ideas under `ideas/registry/i###_*`, keep the shared `tr
 - `model.name` is registered before training.
 - `implementation_status` is `implemented` or `tested`.
 
-Start model files from `ideas/registry/template/model.py` or the reusable chunks in `chess_nn_playground.models.idea_blocks` so board input shapes and classifier output shapes stay consistent.
+Start model files from `ideas/registry/template/model.py` or the reusable chunks in `chess_nn_playground.models.trunk.idea_blocks` so board input shapes and classifier output shapes stay consistent.
 
 ## Scaling Rules
 

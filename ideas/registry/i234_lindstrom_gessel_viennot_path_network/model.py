@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.lindstrom_gessel_viennot_path_network import (
+from chess_nn_playground.models.trunk.lindstrom_gessel_viennot_path_network import (
     build_lindstrom_gessel_viennot_path_network_from_config,
 )
 

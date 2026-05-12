@@ -81,7 +81,7 @@ question the trainer answers.
 ## Implementation Note
 
 The bespoke implementation lives at
-`src/chess_nn_playground/models/nuisance_orthogonal_puzzle_bottleneck.py` and
+`src/chess_nn_playground/models/trunk/nuisance_orthogonal_puzzle_bottleneck.py` and
 is wired into the project model registry under the name
 `nuisance_orthogonal_puzzle_bottleneck`. The idea-local
 `ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/model.py` is a thin builder

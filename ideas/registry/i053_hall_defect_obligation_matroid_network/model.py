@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.hall_defect_obligation_matroid import HallDefectObligationMatroidNet
-from chess_nn_playground.models.hall_defect_obligation_matroid import (
+from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import HallDefectObligationMatroidNet
+from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import (
     build_hall_defect_obligation_matroid_network_from_config,
 )
 

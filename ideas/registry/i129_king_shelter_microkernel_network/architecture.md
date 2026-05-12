@@ -47,5 +47,5 @@ The output dictionary includes `logits` plus diagnostics such as `king_crop_bran
 ## Implementation Binding
 
 - Registered model name: `king_shelter_microkernel_network`.
-- Source implementation: `src/chess_nn_playground/models/king_shelter_microkernel.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/king_shelter_microkernel.py`.
 - Idea-local wrapper: `ideas/registry/i129_king_shelter_microkernel_network/model.py`.

@@ -67,5 +67,5 @@ Supported `model.ablation` values are `cnn_only_matched`, `action_only`,
 ## Implementation Binding
 
 - Registered model name: `variational_board_action_network`.
-- Source implementation file: `src/chess_nn_playground/models/variational_board_action.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/variational_board_action.py`.
 - Idea-local wrapper: `ideas/registry/i071_variational_board_action_network/model.py`.

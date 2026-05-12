@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.tensor_core_square_pair_field import TensorCoreSquarePairFieldNetwork
-from chess_nn_playground.models.tensor_core_square_pair_field import (
+from chess_nn_playground.models.trunk.tensor_core_square_pair_field import TensorCoreSquarePairFieldNetwork
+from chess_nn_playground.models.trunk.tensor_core_square_pair_field import (
     build_tensor_core_square_pair_field_network_from_config,
 )
 

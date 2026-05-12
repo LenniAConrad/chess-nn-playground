@@ -24,5 +24,5 @@ builder.
 ## Implementation Binding
 
 - Registered model name: `masked_codec_interaction_curvature_network`
-- Source implementation file: `src/chess_nn_playground/models/masked_codec_interaction_curvature.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/masked_codec_interaction_curvature.py`
 - Idea-local wrapper: `ideas/registry/i215_masked_codec_interaction_curvature_network/model.py`

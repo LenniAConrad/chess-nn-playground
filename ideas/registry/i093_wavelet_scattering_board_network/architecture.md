@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `wavelet_scattering_board_network`
-- Source implementation file: `src/chess_nn_playground/models/wavelet_scattering_board_network.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/wavelet_scattering_board_network.py`
 - Idea-local wrapper: `ideas/registry/i093_wavelet_scattering_board_network/model.py`
 
 ## Modules

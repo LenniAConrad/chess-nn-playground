@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/mobius_piece_constellation.py`.
+- Central code: `src/chess_nn_playground/models/trunk/mobius_piece_constellation.py`.
 - Registry key: `mobius_piece_constellation_network`.
 - Idea wrapper: `ideas/registry/i037_mobius_piece_constellation_network/model.py`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-21_0713_tuesday_los_angeles_mobius_constellation.md`.

@@ -90,5 +90,5 @@ finite per batch:
 ## Implementation Binding
 
 - Registered model name: `puzzle_boundary_twin_encoder`
-- Source implementation file: `src/chess_nn_playground/models/puzzle_boundary_twin_encoder.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/puzzle_boundary_twin_encoder.py`
 - Idea-local wrapper: `ideas/registry/i184_puzzle_boundary_twin_encoder/model.py`

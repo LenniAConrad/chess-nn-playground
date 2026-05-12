@@ -80,7 +80,7 @@ feature space.
 - Registered model name: `iterative_logit_refinement_cnn` (registered
   in `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/iterative_logit_refinement_cnn.py`
+  `src/chess_nn_playground/models/trunk/iterative_logit_refinement_cnn.py`
   (`IterativeLogitRefinementCNN`,
   `build_iterative_logit_refinement_cnn_from_config`).
 - Idea-local wrapper:

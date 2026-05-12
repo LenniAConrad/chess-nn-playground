@@ -63,5 +63,5 @@ ablations on the same forward pass.
 ## Implementation Binding
 
 - Registered model name: `loop_frustration_curvature_network`.
-- Source implementation file: `src/chess_nn_playground/models/loop_frustration_curvature_network.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/loop_frustration_curvature_network.py`.
 - Idea-local wrapper: `ideas/registry/i080_loop_frustration_curvature_network/model.py`.

@@ -73,7 +73,7 @@ token-routing attention map.
 - Registered model name: `soft_majorization_line_sorter` (registered in
   `src/chess_nn_playground/models/registry.py`).
 - Source implementation file:
-  `src/chess_nn_playground/models/soft_majorization_line_sorter.py`
+  `src/chess_nn_playground/models/trunk/soft_majorization_line_sorter.py`
   (`SoftMajorizationLineSorter` and
   `build_soft_majorization_line_sorter_from_config`).
 - Idea-local wrapper:

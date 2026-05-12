@@ -64,5 +64,5 @@ tensors are finite per batch and are appended to prediction artifacts.
 ## Implementation Binding
 
 - Registered model name: `bitboard_shift_algebra_network`
-- Source implementation file: `src/chess_nn_playground/models/bitboard_shift_algebra.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/bitboard_shift_algebra.py`
 - Idea-local wrapper: `ideas/registry/i069_bitboard_shift_algebra_network/model.py`

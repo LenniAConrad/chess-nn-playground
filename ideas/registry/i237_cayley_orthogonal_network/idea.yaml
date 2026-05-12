@@ -8,7 +8,7 @@ short_thesis: Builds skew-symmetric A in R^{r x r} from board features and forms
   Cayley map Q = (I-A)(I+A)^{-1} in SO(r); rotates a learned reference basis and uses
   identity-deviation features. Distinct from polar-Procrustes (i063) and QR -- Cayley
   is an algebraic identity, not a decomposition.
-novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/cayley_orthogonal.py`;
+novelty_claim: Bespoke `nn.Module` implementation in `src/chess_nn_playground/models/trunk/cayley_orthogonal.py`;
   routed via the standard registry (not the generic ResearchPacketProbe).
 expected_advantage: Hand-coded mechanism implements the algebra exactly per the source
   packet -- no profile-routing approximation.

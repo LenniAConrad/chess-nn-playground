@@ -1,7 +1,7 @@
 # Implementation Notes
 
 - Central code:
-  `src/chess_nn_playground/models/defender_exhaustion_cascade_network.py`.
+  `src/chess_nn_playground/models/trunk/defender_exhaustion_cascade_network.py`.
 - Registry key: `defender_exhaustion_cascade_network`.
 - Source packet: `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
 - Board-only architecture; engine, verification, source, and CRTK

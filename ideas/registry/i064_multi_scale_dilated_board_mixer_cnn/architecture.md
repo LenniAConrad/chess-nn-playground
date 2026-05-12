@@ -71,7 +71,7 @@ falsifier and every supporting falsifier:
 
 - Registered model name: ``multi_scale_dilated_board_mixer_cnn``.
 - Source implementation file:
-  ``src/chess_nn_playground/models/multi_scale_dilated_board_mixer_cnn.py``
+  ``src/chess_nn_playground/models/trunk/multi_scale_dilated_board_mixer_cnn.py``
   (defines ``BoardCoordinatePlanes``,
   ``MultiScaleDilatedMixerBlock``, ``GlobalContextGate``,
   ``MultiScaleHead``, ``ResidualCNNControl`` and

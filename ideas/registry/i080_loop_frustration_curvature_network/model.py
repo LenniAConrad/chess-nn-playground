@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.loop_frustration_curvature_network import (
+from chess_nn_playground.models.trunk.loop_frustration_curvature_network import (
     LoopFrustrationCurvatureClassifier,
     build_loop_frustration_curvature_network_from_config,
 )

@@ -120,8 +120,8 @@ Concept-to-operator mapping:
 
 | Approach | Closest existing baseline | Why rejected |
 |---|---|---|
-| Simple CNN with more filters | `src/chess_nn_playground/models/cnn.py` | It is ordinary capacity tuning and does not test a new tactical or causal inductive bias. |
-| Residual CNN with more blocks | `src/chess_nn_playground/models/residual_cnn.py` | It is a standard ResNet scaling move already represented in the baseline suite. |
+| Simple CNN with more filters | `src/chess_nn_playground/models/trunk/cnn.py` | It is ordinary capacity tuning and does not test a new tactical or causal inductive bias. |
+| Residual CNN with more blocks | `src/chess_nn_playground/models/trunk/residual_cnn.py` | It is a standard ResNet scaling move already represented in the baseline suite. |
 | LC0-style CNN on `lc0_bt4_112` | Existing LC0 BT4-style CNN variants | It copies the input style without adding a distinct falsifiable mechanism. |
 | LC0-style residual CNN | Existing LC0 BT4 residual variants | It is a stronger baseline, not a research idea. |
 | Ordinary ViT over 64 squares | Generic square-token Transformer | It is explicitly disallowed and would mainly test attention capacity. |
@@ -632,7 +632,7 @@ What result would justify scaling:
 | `ideas/20260421_color_flip_orbit/config.yaml` | Create | Main `simple_18` config for `color_flip_orbit_evidence`. |
 | `ideas/20260421_color_flip_orbit/report_template.md` | Create | Template requiring baseline table, central ablation table, 3x2 matrices, class-1 matched-FPR diagnostic, and adapter-test status. |
 | `ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Update | Add this packet to imported memory after results; preserve hard constraints; add anti-duplicate rule for color-flip orbit/evidence-intersection if it fails. |
-| `src/chess_nn_playground/models/color_flip_orbit_evidence.py` | Create | `EncodingSemanticSpec`, `ColorFlipOrbitAdapter`, `SharedBoardEncoder`, `OrbitEvidenceIntersectionHead`, `ColorFlipOrbitEvidenceNet`. |
+| `src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py` | Create | `EncodingSemanticSpec`, `ColorFlipOrbitAdapter`, `SharedBoardEncoder`, `OrbitEvidenceIntersectionHead`, `ColorFlipOrbitEvidenceNet`. |
 | `src/chess_nn_playground/models/registry.py` | Update | Register builder name `color_flip_orbit_evidence`. |
 | `configs/color_flip_orbit_simple18.yaml` | Create | Shared-trainer compatible config using `simple_18`, `input_channels: 18`, `num_classes: 2`. |
 | `configs/color_flip_orbit_bad_rank_simple18.yaml` | Create | Central bad-rank orbit ablation config. |
@@ -691,7 +691,7 @@ idea_yaml:
   implementation_status: not_implemented
   trainer_entrypoint: scripts/train_model.py
   config_path: configs/color_flip_orbit_simple18.yaml
-  model_path: src/chess_nn_playground/models/color_flip_orbit_evidence.py
+  model_path: src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py
   latest_result_path: null
   notes: Use fail-closed semantic adapter; first experiment should not depend on LC0 channel semantics.
 ```
@@ -729,7 +729,7 @@ config_yaml:
 ```yaml
 model_spec:
   model_name: color_flip_orbit_evidence
-  file_path: src/chess_nn_playground/models/color_flip_orbit_evidence.py
+  file_path: src/chess_nn_playground/models/trunk/color_flip_orbit_evidence.py
   builder_function: build_color_flip_orbit_evidence
   input_shape: [batch, C, 8, 8]
   output_shape: [batch, num_classes]

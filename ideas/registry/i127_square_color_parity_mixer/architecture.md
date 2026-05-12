@@ -46,5 +46,5 @@ The output dictionary includes `logits` plus parity diagnostics such as `within_
 ## Implementation Binding
 
 - Registered model name: `square_color_parity_mixer`.
-- Source implementation: `src/chess_nn_playground/models/square_color_parity_mixer.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/square_color_parity_mixer.py`.
 - Idea-local wrapper: `ideas/registry/i127_square_color_parity_mixer/model.py`.

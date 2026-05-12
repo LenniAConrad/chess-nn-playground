@@ -124,7 +124,7 @@ geometry must beat both falsifiers.
 ## Implementation Binding
 
 - Registered model name: `grassmannian_principal_angle_bottleneck`
-- Source implementation: `src/chess_nn_playground/models/grassmannian_principal_angle_bottleneck.py`
+- Source implementation: `src/chess_nn_playground/models/trunk/grassmannian_principal_angle_bottleneck.py`
 - Idea-local wrapper: `ideas/registry/i061_grassmannian_principal_angle_bottleneck/model.py`
   exposes `build_model_from_config(config)` and delegates to
   `build_grassmannian_principal_angle_bottleneck_from_config`.

@@ -93,7 +93,7 @@ The model exposes the markdown ablation table via `model.ablation`:
 
 - Registered model name: `piece_token_cnn_hybrid`.
 - Source implementation file:
-  `src/chess_nn_playground/models/piece_token_cnn_hybrid.py`
+  `src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py`
   (defines `Simple18PieceTokenExtractor`, `BoardCNNTrunk`,
   `TokenMixerLayer`, `PieceTokenMixer`, `CNNTokenFusionHead`,
   `PieceTokenCNNHybrid`, plus

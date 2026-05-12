@@ -50,5 +50,5 @@ energy, patch occupancy, active patch fraction, patch count, and patch size.
 ## Implementation Binding
 
 - Registered model name: `patch_mixer_boardnet`
-- Source implementation file: `src/chess_nn_playground/models/patch_mixer_boardnet.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/patch_mixer_boardnet.py`
 - Idea-local wrapper: `ideas/registry/i146_patch_mixer_boardnet/model.py`

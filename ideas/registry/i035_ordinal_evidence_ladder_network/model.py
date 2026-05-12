@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.ordinal_evidence_ladder import (
+from chess_nn_playground.models.trunk.ordinal_evidence_ladder import (
     OrdinalEvidenceLadderNet,
     build_ordinal_evidence_ladder_network_from_config,
 )

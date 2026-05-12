@@ -142,7 +142,7 @@ diagnostics the classifier reads.
 
 - Registered model name: `prototype_patch_dictionary_network`
 - Source implementation file:
-  `src/chess_nn_playground/models/prototype_patch_dictionary_network.py`
+  `src/chess_nn_playground/models/trunk/prototype_patch_dictionary_network.py`
 - Idea-local wrapper:
   `ideas/registry/i117_prototype_patch_dictionary_network/model.py`
 

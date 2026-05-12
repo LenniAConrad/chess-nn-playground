@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Bespoke implementation: `src/chess_nn_playground/models/kinematic_commutator_bottleneck.py`.
+- Bespoke implementation: `src/chess_nn_playground/models/trunk/kinematic_commutator_bottleneck.py`.
 - Idea-local wrapper: `ideas/registry/i040_kinematic_commutator_bottleneck_network/model.py`.
 - Registry key: `kinematic_commutator_bottleneck_network` (registered in
   `src/chess_nn_playground/models/registry.py`; intentionally removed

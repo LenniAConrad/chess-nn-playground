@@ -26,6 +26,6 @@ likeness without ever calling an eigendecomposition:
     proxy `gap ~= -min_i log(b_i(T) / b_i(0)) / T`.
 
 The bespoke implementation of this thesis lives in
-`src/chess_nn_playground/models/toda_isospectral_flow.py` and is registered as
+`src/chess_nn_playground/models/trunk/toda_isospectral_flow.py` and is registered as
 `toda_isospectral_flow_network`; the idea folder's `model.py` is a thin
 wrapper around `build_toda_isospectral_flow_network_from_config`.

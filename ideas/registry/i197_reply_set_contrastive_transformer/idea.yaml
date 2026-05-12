@@ -42,7 +42,7 @@ model_path: ideas/registry/i197_reply_set_contrastive_transformer/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
   Bespoke reply-set contrastive transformer; the idea-local wrapper builds
-  `chess_nn_playground.models.reply_set_contrastive_transformer.ReplySetContrastiveTransformer`.
+  `chess_nn_playground.models.trunk.reply_set_contrastive_transformer.ReplySetContrastiveTransformer`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Reply-Set Contrastive Transformer
 source_packet_rank: 12

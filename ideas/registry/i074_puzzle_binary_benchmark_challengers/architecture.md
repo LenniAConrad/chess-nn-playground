@@ -75,5 +75,5 @@ not look at fine labels).
 ## Implementation Binding
 
 - Registered model name: `puzzle_binary_benchmark_challengers`.
-- Source implementation file: `src/chess_nn_playground/models/puzzle_binary_benchmark_challengers.py`.
+- Source implementation file: `src/chess_nn_playground/models/trunk/puzzle_binary_benchmark_challengers.py`.
 - Idea-local wrapper: `ideas/registry/i074_puzzle_binary_benchmark_challengers/model.py`.

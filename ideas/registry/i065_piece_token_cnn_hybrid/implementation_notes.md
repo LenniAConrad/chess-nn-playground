@@ -1,6 +1,6 @@
 # Implementation Notes
 
-- Central code: `src/chess_nn_playground/models/piece_token_cnn_hybrid.py`
+- Central code: `src/chess_nn_playground/models/trunk/piece_token_cnn_hybrid.py`
   (defines `Simple18PieceTokenExtractor`, `BoardCNNTrunk`,
   `PieceTokenMixer`, `CNNTokenFusionHead`, `PieceTokenCNNHybrid`,
   and `build_piece_token_cnn_hybrid_from_config`).

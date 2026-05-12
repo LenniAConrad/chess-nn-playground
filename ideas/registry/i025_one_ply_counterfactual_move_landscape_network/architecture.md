@@ -5,7 +5,7 @@
 ## Implementation Binding
 
 - Registered model name: `one_ply_counterfactual_move_landscape_network`
-- Source implementation file: `src/chess_nn_playground/models/move_landscape_net.py`
+- Source implementation file: `src/chess_nn_playground/models/trunk/move_landscape_net.py`
 - Idea-local wrapper: `ideas/registry/i025_one_ply_counterfactual_move_landscape_network/model.py`
 
 ## Components

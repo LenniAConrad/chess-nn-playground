@@ -82,7 +82,7 @@ logits:                      (B,)
 
 - Registered model name: `neural_board_cellular_automaton`
 - Source implementation file:
-  `src/chess_nn_playground/models/neural_board_cellular_automaton.py`
+  `src/chess_nn_playground/models/trunk/neural_board_cellular_automaton.py`
 - Idea-local wrapper:
   `ideas/registry/i115_neural_board_cellular_automaton/model.py`
 

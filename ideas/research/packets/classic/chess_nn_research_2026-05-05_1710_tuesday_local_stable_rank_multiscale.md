@@ -5,7 +5,7 @@
 - Filename: `chess_nn_research_2026-05-05_1710_tuesday_local_stable_rank_multiscale.md`
 - Generated at: 2026-05-05 17:10
 - Author: Claude (Opus 4.7, 1M context)
-- Status: bespoke implementation already in `src/chess_nn_playground/models/stable_rank_multiscale.py`
+- Status: bespoke implementation already in `src/chess_nn_playground/models/trunk/stable_rank_multiscale.py`
 
 ## Thesis
 
@@ -35,7 +35,7 @@ spread" that no spectrum-or-norm packet directly exposes.
 
 ## Architecture
 
-`StableRankMultiscaleNetwork` in `src/chess_nn_playground/models/stable_rank_multiscale.py`:
+`StableRankMultiscaleNetwork` in `src/chess_nn_playground/models/trunk/stable_rank_multiscale.py`:
 
 ```text
 input (B, 18, 8, 8)

@@ -31,7 +31,7 @@ model_path: ideas/registry/i120_sinkhorn_role_assignment_network/model.py
 latest_result_path: null
 notes: Bespoke Sinkhorn role-assignment network bound to the
   `sinkhorn_role_assignment_network` registry entry implemented in
-  `src/chess_nn_playground/models/sinkhorn_role_assignment_network.py`. Promoted
+  `src/chess_nn_playground/models/trunk/sinkhorn_role_assignment_network.py`. Promoted
   from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
 source_packet_candidate: Sinkhorn Role Assignment Network

@@ -39,7 +39,7 @@ model_path: ideas/registry/i107_kernel_mean_prototype_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`.
   Bespoke kernel-mean / prototype model; idea-local model.py wraps
-  `src/chess_nn_playground/models/kernel_mean_prototype_network.py`.
+  `src/chess_nn_playground/models/trunk/kernel_mean_prototype_network.py`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md
 source_packet_candidate: Kernel Mean Prototype Network
 source_packet_rank: 1

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.research_architectures import (
+from chess_nn_playground.models.trunk.research_architectures import (
     ChessOperatorBasisClassifier,
     build_chess_operator_basis_from_config,
 )

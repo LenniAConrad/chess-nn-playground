@@ -33,7 +33,7 @@ model_path: ideas/registry/i193_exchange_then_king_dual_stream/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
   Bespoke exchange-then-king dual-stream network; the idea-local wrapper builds
-  `chess_nn_playground.models.exchange_then_king_dual_stream.ExchangeThenKingDualStreamNetwork`.
+  `chess_nn_playground.models.trunk.exchange_then_king_dual_stream.ExchangeThenKingDualStreamNetwork`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
 source_packet_candidate: Exchange-Then-King Dual Stream
 source_packet_rank: 8

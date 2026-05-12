@@ -4,7 +4,7 @@ from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.centered_tempo_odd_interventional_bottleneck import (
+from chess_nn_playground.models.trunk.centered_tempo_odd_interventional_bottleneck import (
     build_centered_tempo_odd_interventional_bottleneck_from_config,
 )
 

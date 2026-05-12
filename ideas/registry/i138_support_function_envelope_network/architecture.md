@@ -36,7 +36,7 @@ chess-relevant directions.
 ## Implementation Binding
 
 - Registered model name: `support_function_envelope_network`.
-- Source implementation: `src/chess_nn_playground/models/support_function_envelope_network.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/support_function_envelope_network.py`.
 - Idea-local wrapper: `ideas/registry/i138_support_function_envelope_network/model.py`.
 
 The wrapper calls
