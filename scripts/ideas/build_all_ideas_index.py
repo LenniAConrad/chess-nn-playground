@@ -148,24 +148,57 @@ def _parse_manifest_table(path: Path) -> list[dict[str, str]]:
     return rows
 
 
-def external_primitives() -> list[IdeaRow]:
-    manifest = BASE / "research" / "primitives" / "2026-05-12" / "external_imports" / "MANIFEST.md"
-    rows: list[IdeaRow] = []
+def _external_producer_map(manifest: Path) -> dict[str, tuple[str, str]]:
+    """Parse the External-primitive-imports table out of the consolidated manifest.
+
+    Returns {filename: (producer, exact_model)} for every external_*.md row.
+    """
+    mapping: dict[str, tuple[str, str]] = {}
     if not manifest.exists():
-        return rows
-    for item in _parse_manifest_table(manifest):
-        imported = item.get("imported name", "")
-        if not re.match(r"[0-9][0-9]_", imported):
+        return mapping
+    in_external_table = False
+    header: list[str] | None = None
+    for line in manifest.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("## External primitive imports"):
+            in_external_table = True
+            header = None
             continue
-        path = manifest.parent / imported
-        number = imported.split("_", 1)[0]
+        if stripped.startswith("## ") and in_external_table:
+            break
+        if not in_external_table or not stripped.startswith("|"):
+            continue
+        cells = [cell.strip().strip("`") for cell in stripped.strip("|").split("|")]
+        if header is None:
+            header = [cell.lower() for cell in cells]
+            continue
+        if all(set(cell) <= {"-", " "} for cell in cells):
+            continue
+        if len(cells) != len(header):
+            continue
+        row = dict(zip(header, cells))
+        link_text = row.get("file", "")
+        m = re.search(r"\((external_[0-9][0-9][^)]*)\)", link_text)
+        if not m:
+            continue
+        mapping[m.group(1)] = (row.get("producer", "Unknown"), row.get("exact model", "Unspecified"))
+    return mapping
+
+
+def external_primitives() -> list[IdeaRow]:
+    folder = BASE / "research" / "primitives"
+    producer_map = _external_producer_map(folder / "MANIFEST.md")
+    rows: list[IdeaRow] = []
+    for path in sorted(folder.glob("external_[0-9][0-9]_*.md")):
+        number = path.name.removeprefix("external_").split("_", 1)[0]
+        producer, model = producer_map.get(path.name, ("Unknown", "Unspecified"))
         rows.append(
             IdeaRow(
                 idea_id=f"primitive-external-{number}",
                 title=_first_heading(path),
                 kind="external primitive report",
-                source=item.get("producer", "Unknown"),
-                model=item.get("exact model", "Unspecified"),
+                source=producer,
+                model=model,
                 path=path,
             )
         )
@@ -173,10 +206,10 @@ def external_primitives() -> list[IdeaRow]:
 
 
 def claude_primitives() -> list[IdeaRow]:
-    folder = BASE / "research" / "primitives" / "2026-05-12" / "claude_opus_4_7_primitives"
+    folder = BASE / "research" / "primitives"
     rows: list[IdeaRow] = []
-    for path in sorted(folder.glob("[0-9][0-9]_*.md")):
-        number = path.name.split("_", 1)[0]
+    for path in sorted(folder.glob("claude_[0-9][0-9]_*.md")):
+        number = path.name.removeprefix("claude_").split("_", 1)[0]
         rows.append(
             IdeaRow(
                 idea_id=f"primitive-claude-{number}",
@@ -191,17 +224,17 @@ def claude_primitives() -> list[IdeaRow]:
 
 
 def codex_primitives() -> list[IdeaRow]:
-    folder = BASE / "research" / "primitives" / "2026-05-12" / "codex_candidate_reply_primitives"
+    folder = BASE / "research" / "primitives"
     rows: list[IdeaRow] = []
-    for path in sorted(folder.glob("[0-9][0-9]_*.md")):
-        number = path.name.split("_", 1)[0]
+    for path in sorted(folder.glob("codex_[0-9][0-9]_*.md")):
+        number = path.name.removeprefix("codex_").split("_", 1)[0]
         rows.append(
             IdeaRow(
                 idea_id=f"primitive-codex-{number}",
                 title=_first_heading(path),
                 kind="primitive proposal",
                 source="Codex",
-                model="Codex coding agent",
+                model="Codex GPT-5",
                 path=path,
             )
         )
@@ -209,7 +242,7 @@ def codex_primitives() -> list[IdeaRow]:
 
 
 def architecture_bridges() -> list[IdeaRow]:
-    folder = BASE / "research" / "primitives" / "2026-05-12" / "architecture_bridges"
+    folder = BASE / "research" / "architecture_bridges"
     rows: list[IdeaRow] = []
     for path in sorted(folder.glob("*.md")):
         text = path.read_text(encoding="utf-8")
@@ -258,7 +291,7 @@ def main() -> None:
         "",
         "- Registered idea rows prefer `source_packet_path` when present; otherwise they use the `author` field from `idea.yaml`.",
         "- Classic raw packet rows are labeled `GPT / ChatGPT Deep Research` and `GPT-5.5 Pro` according to the session provenance note; older packet files do not embed exact per-file model metadata.",
-        "- External primitive rows use `research/primitives/2026-05-12/external_imports/MANIFEST.md`.",
+        "- External primitive rows use the consolidated manifest at `research/primitives/MANIFEST.md`.",
         "- Google/Gemini primitive rows keep `Unspecified Gemini model` when the download metadata did not name the exact model.",
         "",
         f"Total rows: {len(rows)}",

@@ -8,7 +8,7 @@ This folder is the human navigation layer for the idea corpus. It keeps the rese
 |---|---|---|
 | Registered implementation candidates | `ideas/registry/i###_*` | Source of truth for ideas that can be implemented or benchmarked. Do not move these folders. |
 | Raw architecture research packets | `ideas/research/packets/classic/` | Imported and generated markdown packets. Paths are kept stable for citations from registered ideas. |
-| Primitive research session | `ideas/research/primitives/2026-05-12/` | Dedicated folder for primitive imports, Codex/Claude primitive proposals, prototypes, and bridge notes. |
+| Primitive research session | `ideas/research/primitives/` | Dedicated folder for primitive imports, Codex/Claude primitive proposals, prototypes, and bridge notes. |
 | Human collections | `ideas/research/collections/` | Curated indexes and grouping notes. These are navigation aids, not benchmark evidence. |
 
 ## Collections
@@ -21,7 +21,7 @@ This folder is the human navigation layer for the idea corpus. It keeps the rese
 
 Use this folder when deciding where something belongs:
 
-- New primitive research goes under `ideas/research/primitives/2026-05-12/` unless it becomes a promoted `i###_*` idea.
+- New primitive research goes under `ideas/research/primitives/` unless it becomes a promoted `i###_*` idea.
 - New non-primitive raw research packets go under `ideas/research/packets/classic/`, or a clearly named packet subfolder when a batch is large enough to need separation.
 - Implementable ideas are promoted into `ideas/registry/i###_*` and registered in `ideas/registry/registry.jsonl`.
 - Architecture bridge notes belong with the research family they connect, unless they are promoted into a registered architecture.
