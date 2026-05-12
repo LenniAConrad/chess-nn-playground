@@ -4,6 +4,14 @@ Chess NN Playground is an experiment harness for chess puzzle classification. It
 
 The project rule is simple: benchmark results should be comparable. Baselines, new architectures, registered research ideas, reports, plots, predictions, and leaderboards all use the same data contract and artifact contract.
 
+## What worked: read this first
+
+- **Paper-quality report (EN):** [reports/audits/paper_report.pdf](reports/audits/paper_report.pdf) — 234-architecture single-seed scout, per-class heatmap, confusion matrices, i242 ablations, i243 proposal.
+- **Paper-quality report (中文):** [reports/audits/paper_report_zh.pdf](reports/audits/paper_report_zh.pdf).
+- **All scout runs in one file:** [reports/audits/scout_all_runs.json](reports/audits/scout_all_runs.json) / [.csv](reports/audits/scout_all_runs.csv) — one row per run with params, FLOPs, test PR AUC, throughput, sorted by leaderboard rank.
+- **Per-class slice metrics:** [reports/audits/per_class_benchmark.json](reports/audits/per_class_benchmark.json) and matched-recall hard-negative FP at [reports/audits/matched_recall_fp_report.json](reports/audits/matched_recall_fp_report.json).
+- **Models:** every bespoke architecture lives in [src/chess_nn_playground/models/](src/chess_nn_playground/models/), with the idea registry and design notes under [ideas/](ideas/).
+
 ## Current Benchmark
 
 The main task is `puzzle_binary`:
