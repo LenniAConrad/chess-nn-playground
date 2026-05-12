@@ -1,6 +1,6 @@
 """Piece-Drop Stability Network for idea i112.
 
-Working thesis (from ``ideas/i112_piece_drop_stability_network``):
+Working thesis (from ``ideas/all_ideas/registry/i112_piece_drop_stability_network``):
 puzzle-like positions may be less stable under deterministic removal of
 specific safe current-board evidence groups. Instead of forcing a
 classifier to use sparse witnesses, measure how a small encoder's

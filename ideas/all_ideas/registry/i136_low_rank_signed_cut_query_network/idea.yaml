@@ -1,0 +1,45 @@
+idea_id: i136
+name: Low-Rank Signed Cut Query Network
+slug: low_rank_signed_cut_query_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Puzzle-like positions may separate the board into tense regions: attacking
+  mass versus defending mass, king-side versus center, blocked wing versus open wing.
+  A model can learn low-rank signed cut queries over board fields and classify from
+  imbalance statis...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`;
+  bespoke implementation projects the simple_18 board into C learned fields, learns
+  K rank-1 signed mask pairs a_k(s) = tanh(r_k) * tanh(f_k), and reads signed/abs/squared/normalised
+  cuts cut_{k,c} = sum_s a_k(s) F_c(s) - sum_s b_k(s) F_c(s) plus white-king and black-king
+  anchored variants, fused with a small CNN trunk into one puzzle_binary logit.
+expected_advantage: Test the packet's proposed board-region cut imbalance signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only. The 18 planes are projected
+  into C learned board fields; piece planes 5 and 11 are also read directly to anchor
+  the king-relative mask variants. CRTK/source metadata is reporting-only and never
+  used as model input.
+output_heads: One puzzle logit plus per-batch cut diagnostics (signed/abs/squared/normalised
+  cut means, max abs cut, field total energy, rank-file imbalance, king-anchored cut
+  means, white/black king cut energies) saved to prediction artifacts.
+compute_notes: Single 1x1 field projection, K rank-1 signed mask pairs as outer products
+  of two 8-vectors per pair, plus optional king-anchored variants implemented by indexing
+  into the 64 torch.roll shifts of each mask using the white/black king square argmax.
+  The CNN trunk is two 3x3 conv blocks; the head is a small GELU MLP.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i136_low_rank_signed_cut_query_network/train.py
+config_path: ideas/all_ideas/registry/i136_low_rank_signed_cut_query_network/config.yaml
+model_path: ideas/all_ideas/registry/i136_low_rank_signed_cut_query_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.
+  Bespoke implementation registered as `low_rank_signed_cut_query_network`, backed
+  by `src/chess_nn_playground/models/low_rank_signed_cut_query_network.py`; wrapper
+  delegates through `ideas/all_ideas/registry/i136_low_rank_signed_cut_query_network/model.py`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
+source_packet_candidate: Low-Rank Signed Cut Query Network
+source_packet_rank: 6
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

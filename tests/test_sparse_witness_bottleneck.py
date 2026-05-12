@@ -16,7 +16,7 @@ from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
-I038_FOLDER = Path("ideas/i038_sparse_witness_piece_bottleneck_network")
+I038_FOLDER = Path("ideas/all_ideas/registry/i038_sparse_witness_piece_bottleneck_network")
 
 
 def _load_idea_module():

@@ -1,0 +1,50 @@
+idea_id: i117
+name: Prototype Patch Dictionary Network
+slug: prototype_patch_dictionary_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Puzzle-like positions may contain local motifs, but a standard CNN may
+  hide them in distributed filters. A learned patch dictionary can expose motif assignments,
+  reconstruction residuals, and prototype activation histograms.
+novelty_claim: Bespoke patch-dictionary classifier that decomposes each board into
+  per-square patch embeddings, decodes them against a small learned dictionary of
+  motif prototypes via a cosine-softmax soft assignment, and reads the resulting motif
+  assignment map, reconstruction residual, and prototype activation histogram from
+  the puzzle head. The same prototype directions are used in both the assignment
+  softmax and the reconstruction sum, which is what makes the diagnostics
+  interpretable as motif use and reconstruction failure rather than an arbitrary
+  channel map. Materially distinct from the shared ResearchPacketProbe scaffold and
+  from a generic CNN that does not couple its channels to a reconstruction.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus the motif assignment map (`assignment_map`,
+  `soft_assignment`, `top1_motif_map`), the reconstruction map and residual map, the
+  prototype activation histogram, per-prototype residual mass, per-square residual
+  energy, prototype-usage entropy, the learned temperature, and pooled patch /
+  reconstruction / residual embeddings.
+compute_notes: A small `_PatchEncoder` produces per-square patch embeddings; a
+  learned dictionary of `num_prototypes` prototypes drives a cosine-softmax soft
+  assignment, the resulting convex combination reconstructs each patch, and the
+  puzzle head reads the histogram, the pooled residual, and the pooled patch /
+  reconstruction embeddings.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i117_prototype_patch_dictionary_network/train.py
+config_path: ideas/all_ideas/registry/i117_prototype_patch_dictionary_network/config.yaml
+model_path: ideas/all_ideas/registry/i117_prototype_patch_dictionary_network/model.py
+latest_result_path: null
+notes: Bespoke implementation registered as prototype_patch_dictionary_network in
+  src/chess_nn_playground/models/prototype_patch_dictionary_network.py. The
+  idea-local model.py is a thin wrapper around
+  build_prototype_patch_dictionary_network_from_config; the previous
+  ResearchPacketProbe scaffold has been removed.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md
+source_packet_candidate: Prototype Patch Dictionary Network
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: sparse
+implementation_kind: bespoke_model

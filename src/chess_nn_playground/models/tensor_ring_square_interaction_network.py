@@ -1,6 +1,6 @@
 """Tensor-Ring Square Interaction Network for idea i119.
 
-Working thesis (from ``ideas/i119_tensor_ring_square_interaction_network``):
+Working thesis (from ``ideas/all_ideas/registry/i119_tensor_ring_square_interaction_network``):
 chess cues depend on interactions among several squares at once -- king
 square, attacking piece, blocker, defender, escape square, promotion path.
 The full square-tuple interaction tensor over 64 squares is too large, but

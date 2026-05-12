@@ -1,0 +1,36 @@
+idea_id: i145
+name: Piece-Plane Gated CNN
+slug: piece_plane_gated_cnn
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: The `simple_18` channels are not arbitrary image channels. A plain CNN
+  can respect this by first processing semantically related channel groups, then using
+  learned gates to mix piece types and colors.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`;
+  implements semantic white-piece, black-piece, and state-plane stems with learned
+  gates before an ordinary residual CNN trunk.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus gate means, gate entropy, semantic grouping,
+  piece-count, state-signal, and trunk-energy diagnostics saved to prediction artifacts.
+compute_notes: Three group-specific convolutional stems, learned material/state gates,
+  a 1x1 fusion layer, residual CNN trunk, and mean/max pooled MLP head.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i145_piece_plane_gated_cnn/train.py
+config_path: ideas/all_ideas/registry/i145_piece_plane_gated_cnn/config.yaml
+model_path: ideas/all_ideas/registry/i145_piece_plane_gated_cnn/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/piece_plane_gated_cnn.py`;
+  the idea wrapper delegates to the registered `piece_plane_gated_cnn` builder.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md
+source_packet_candidate: Piece-Plane Gated CNN
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: generic
+implementation_kind: bespoke_model

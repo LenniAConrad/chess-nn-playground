@@ -1,7 +1,7 @@
 """Multi-Scale Dilated Board Mixer CNN model for idea i064.
 
 Implements the markdown thesis under
-``ideas/i064_multi_scale_dilated_board_mixer_cnn/``: a compact
+``ideas/all_ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/``: a compact
 chess-board CNN whose every block sees several chess-relevant spatial
 ranges at once via parallel 3x3 convolutions with dilation 1, 2 and 3
 plus a 1x1 channel branch, with deterministic coordinate planes and a

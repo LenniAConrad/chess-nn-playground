@@ -1,0 +1,54 @@
+idea_id: i063
+name: Polar-Procrustes Alignment Bottleneck
+slug: polar_procrustes_alignment_bottleneck
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Polar-Procrustes Alignment Bottleneck - High-level linear
+  algebra concept: polar decomposition, orthogonal Procrustes alignment, and matrix
+  strain spectra...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2104_friday_shanghai_polar_procrustes.md`;
+  central operator is batched SVD of the cross-covariance C(x) = X(x)^T Y(x) of learned
+  own/opponent role matrices, recovering the orthogonal Procrustes alignment
+  Q* = U V^T and the polar strain H = V Sigma V^T. Not a CNN/residual/attention/sheaf/transport/matrix-pencil/generalized-spectrum/principal-angle/move-delta
+  variant.
+expected_advantage: Test the packet's proposed polar-Procrustes alignment signal under
+  the same puzzle_binary benchmark contract as the other ideas, with the
+  separate_matrix_stats_only, identity_alignment_only, random_orthogonal_alignment,
+  batch_shuffled_opponent, material_only_matrices, role_pool_mean_only, and
+  singular_values_only falsifiers from section 9 exposed via `model.ablation`.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus polar-Procrustes diagnostics (cross_covariance,
+  orthogonal_alignment, singular_values, polar_strain_diagonal, procrustes_residual,
+  identity_residual, alignment_improvement, per_role_residual, nuclear_norm,
+  spectral_norm, stable_rank, x_norm, y_norm, x_singular_values, y_singular_values,
+  own_role_mass, opp_role_mass, active_token_count, mechanism_energy,
+  ablation_active).
+compute_notes: Per-batch cost is dominated by a single batched SVD of the M x M
+  cross-covariance (M = token_dim or role_count depending on matrix_space) plus
+  per-side svdvals on the R x D role matrices. With default token_dim = 48 and
+  role_count = 8 the whole pipeline is sub-millisecond per batch on GPU. A
+  cross_cov_eps * diag(1, 2, ..., M) / M tilt keeps SVD backward stable when
+  singular values would otherwise coincide.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i063_polar_procrustes_alignment_bottleneck/train.py
+config_path: ideas/all_ideas/registry/i063_polar_procrustes_alignment_bottleneck/config.yaml
+model_path: ideas/all_ideas/registry/i063_polar_procrustes_alignment_bottleneck/model.py
+latest_result_path: null
+notes: 'Bespoke PolarProcrustesAlignmentNet over the simple_18 board tensor with a
+  Simple18OwnOpponentTokenExtractor (32 occupied tokens, 22 features each, with
+  side-to-move-relative own/opp masks), a PieceSquareTokenEncoder MLP, a
+  RoleMatrixPooler that builds own/opp role matrices via masked-softmax learned
+  role queries, a PolarProcrustesLayer that solves the orthogonal Procrustes
+  problem via torch.linalg.svd of the cross-covariance and recovers the polar
+  strain H = V Sigma V^T, and a PolarProcrustesHead MLP. The
+  separate_matrix_stats_only, identity_alignment_only, random_orthogonal_alignment,
+  batch_shuffled_opponent, material_only_matrices, role_pool_mean_only, and
+  singular_values_only falsifiers from section 9 are exposed via the
+  model.ablation config flag. Engine, source, verification, and CRTK metadata are
+  never used as input.'
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

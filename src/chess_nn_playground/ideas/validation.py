@@ -17,16 +17,20 @@ from chess_nn_playground.ideas.schema import (
 
 def validate_idea_folder(path: str | Path, template_ok: bool = False) -> dict[str, Any]:
     path = Path(path)
-    missing_files = [name for name in REQUIRED_IDEA_FILES if not (path / name).exists()]
-    missing_dirs = [name for name in REQUIRED_IDEA_DIRS if not (path / name).is_dir()]
-    missing_fields: list[str] = []
-    bad_status: str | None = None
-    bad_implementation_kind: str | None = None
     idea_yaml = path / "idea.yaml"
     data: dict[str, Any] = {}
     if idea_yaml.exists():
         with idea_yaml.open("r", encoding="utf-8") as handle:
             data = yaml.safe_load(handle) or {}
+    is_proposal_only = data.get("status") == "proposed" or data.get("implementation_status") == "proposed"
+    required_files = ["idea.yaml", "architecture.md"] if is_proposal_only else REQUIRED_IDEA_FILES
+    required_dirs = [] if is_proposal_only else REQUIRED_IDEA_DIRS
+    missing_files = [name for name in required_files if not (path / name).exists()]
+    missing_dirs = [name for name in required_dirs if not (path / name).is_dir()]
+    missing_fields: list[str] = []
+    bad_status: str | None = None
+    bad_implementation_kind: str | None = None
+    if idea_yaml.exists():
         missing_fields = [field for field in REQUIRED_IDEA_FIELDS if field not in data]
         status = data.get("status")
         if status not in ALLOWED_IDEA_STATUS and not (template_ok and status == "template"):
@@ -38,7 +42,16 @@ def validate_idea_folder(path: str | Path, template_ok: bool = False) -> dict[st
             bad_implementation_kind = str(implementation_kind)
     else:
         missing_fields = REQUIRED_IDEA_FIELDS.copy()
-    scaffold_report = validate_idea_scaffold(path, template_ok=template_ok)
+    if is_proposal_only:
+        scaffold_report = {
+            "folder": str(path),
+            "valid": True,
+            "issues": [],
+            "idea": data,
+            "config": {},
+        }
+    else:
+        scaffold_report = validate_idea_scaffold(path, template_ok=template_ok)
     return {
         "path": str(path),
         "valid": (
@@ -74,7 +87,7 @@ def validate_registry(registry_path: str | Path, ideas_root: str | Path) -> dict
                 entries.append(json.loads(line))
             except Exception as exc:
                 problems.append(f"line {line_no}: {type(exc).__name__}: {exc}")
-    template_report = validate_idea_folder(ideas_root / "idea_template", template_ok=True)
+    template_report = validate_idea_folder(ideas_root / "template", template_ok=True)
     folder_reports = []
     for folder in sorted(ideas_root.glob("i[0-9][0-9][0-9]_*")):
         if folder.is_dir():

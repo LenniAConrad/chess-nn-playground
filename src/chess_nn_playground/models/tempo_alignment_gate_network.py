@@ -1,7 +1,7 @@
 """Tempo-Alignment Gate Network for idea i183.
 
 Faithful implementation of the markdown thesis under
-``ideas/i183_tempo_alignment_gate_network/``. The packet thesis is
+``ideas/all_ideas/registry/i183_tempo_alignment_gate_network/``. The packet thesis is
 that many near-puzzles look tactical for the wrong side or require a
 tempo that the side to move does not have. The model should
 explicitly *gate* static tactical danger by side-to-move tempo

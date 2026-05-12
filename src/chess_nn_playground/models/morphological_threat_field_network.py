@@ -1,7 +1,7 @@
 """Morphological Threat Field Network (idea i121).
 
 This bespoke model materialises the differentiable mathematical morphology
-thesis from `ideas/i121_morphological_threat_field_network/math_thesis.md`.
+thesis from `ideas/all_ideas/registry/i121_morphological_threat_field_network/math_thesis.md`.
 The architecture treats per-square scalar fields as threat surfaces and
 applies learned structuring elements through soft dilation, soft erosion,
 opening, closing, and morphological gradient. Soft min/max are realised

@@ -1,0 +1,47 @@
+idea_id: i061
+name: Grassmannian Principal-Angle Bottleneck
+slug: grassmannian_principal_angle_bottleneck
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Grassmannian Principal-Angle Bottleneck - High-level linear
+  algebra concept: Grassmannians, principal angles between subspaces, and canonical-correlation...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2058_friday_shanghai_grassmannian_angles.md`;
+  central operator is eigendecomposition of role-gated occupied-token covariance
+  plus SVD of role-pair Gram matrices, yielding principal-angle spectra between
+  learned subspaces of the Grassmannian Gr(K, D) rather than CNN convolution,
+  residual stacks, attention, sheaf, transport, or move-delta machinery.
+expected_advantage: Test the packet's proposed cross-subspace canonical-angle
+  signal under the same puzzle_binary benchmark contract as the other ideas, with
+  the no_cross_angles, batch_shuffled_angles, eigenvalues_only, pooled_token_head,
+  and no_orthonormalization falsifiers from section 9 exposed via `model.ablation`.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus principal-angle / eigenvalue / gate-mass
+  diagnostics (principal_angle_cosines, principal_angle_radians, pair_min_angle,
+  pair_max_angle, pair_mean_angle, pair_entropy, role_eigenvalues, role_gate_mass,
+  mean_pair_cosine, mean_pair_angle, pair_mean_angle_std, mechanism_energy,
+  eigen_mass).
+compute_notes: Per-batch cost is dominated by R = role_count batched eigendecompositions
+  on D x D covariance matrices and P = R*(R-1)/2 = 28 K x K SVDs, with default
+  D = 48 and K = 6. eigh is regularised by covariance_eps * I to remain well-
+  conditioned when fewer than K occupied tokens contribute to a role.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i061_grassmannian_principal_angle_bottleneck/train.py
+config_path: ideas/all_ideas/registry/i061_grassmannian_principal_angle_bottleneck/config.yaml
+model_path: ideas/all_ideas/registry/i061_grassmannian_principal_angle_bottleneck/model.py
+latest_result_path: null
+notes: 'Bespoke GrassmannianPrincipalAngleNet over the simple_18 board tensor with
+  a Simple18OccupiedTokenExtractor (32 occupied tokens, 22 features each), a
+  PieceSquareTokenEncoder MLP, a RoleGatedCovarianceSubspaces layer that builds
+  weighted role covariances and their top-K eigenbases via torch.linalg.eigh, a
+  PrincipalAngleSpectrum layer that computes per-pair singular values of Q_a^T Q_b
+  via torch.linalg.svdvals, and a GrassmannianAngleHead MLP. The no_cross_angles,
+  batch_shuffled_angles, eigenvalues_only, pooled_token_head, and
+  no_orthonormalization falsifiers from section 9 are exposed via the
+  model.ablation config flag. Engine, source, verification, and CRTK metadata are
+  never used as input.'
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

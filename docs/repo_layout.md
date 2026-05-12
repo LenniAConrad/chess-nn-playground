@@ -50,11 +50,11 @@ This repo is structured as an experiment harness. Keep source code, configs, gen
 
 ## Research Ideas
 
-- `ideas/i###_*/`: one registered idea per folder, with `idea.yaml`, math/architecture notes, `model.py`, `train.py`, `config.yaml`, report template, and run notes.
-- `ideas/research_packets/`: raw research packets kept for provenance and duplicate prevention.
-- `ideas/INDEX.md`: generated idea map.
-- `ideas/TODO.md`: generated idea backlog and benchmark queue.
-- `ideas/BENCHMARK_REPORTING.md`: required slice analysis for idea runs.
+- `ideas/all_ideas/registry/i###_*/`: one registered idea per folder, with `idea.yaml`, math/architecture notes, `model.py`, `train.py`, `config.yaml`, report template, and run notes.
+- `ideas/all_ideas/research/packets/classic/`: raw research packets kept for provenance and duplicate prevention.
+- `ideas/all_ideas/registry/INDEX.md`: generated idea map.
+- `ideas/all_ideas/registry/TODO.md`: generated idea backlog and benchmark queue.
+- `ideas/all_ideas/docs/BENCHMARK_REPORTING.md`: required slice analysis for idea runs.
 
 ## Path Stability Rules
 

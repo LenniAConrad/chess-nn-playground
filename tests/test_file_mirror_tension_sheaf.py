@@ -25,7 +25,7 @@ from chess_nn_playground.models.file_mirror_tension_sheaf import (
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i028_file_mirror_tension_sheaf")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i028_file_mirror_tension_sheaf")
 
 
 def _load_idea_config() -> dict:

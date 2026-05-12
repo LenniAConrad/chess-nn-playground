@@ -1,7 +1,7 @@
 """Entropic Piece-Target Transport Bottleneck (idea i029).
 
 Bespoke implementation of the architecture described in
-``ideas/i029_entropic_piece_target_transport_bottleneck/architecture.md`` and
+``ideas/all_ideas/registry/i029_entropic_piece_target_transport_bottleneck/architecture.md`` and
 ``math_thesis.md``. The model classifies puzzle-likeness by entropic optimal
 transport between side-to-move-canonical piece-source measures and
 deterministic king/value/promotion target anchors over a fixed bank of

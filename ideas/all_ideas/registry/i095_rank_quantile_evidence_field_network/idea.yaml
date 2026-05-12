@@ -1,0 +1,42 @@
+idea_id: i095
+name: Rank-Quantile Evidence Field Network
+slug: rank_quantile_evidence_field_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Puzzle-likeness may be driven by extreme sparse evidence fields rather
+  than average board evidence. Differentiable rank and quantile pooling can test this
+  while still allowing the classifier to see the full board, unlike a sparse witness
+  mask.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`;
+  bespoke differentiable rank-quantile pooling head over learned scalar evidence
+  fields with explicit tail-gap and soft tail-mass diagnostics, distinct from the
+  shared research-packet probe.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus rank-quantile diagnostics (per-field quantiles,
+  tail gaps, top-k/bottom-k means, rank entropy, robust range, soft tail mass, mode
+  code) saved to prediction artifacts.
+compute_notes: Compact convolutional encoder produces a bank of learned scalar evidence
+  fields; a differentiable rank-quantile pooler reads order statistics, tail gaps,
+  top-k/bottom-k means, rank entropy, and soft tail mass; a small MLP head returns
+  one logit. Runs on CPU/GPU; no extra dependencies.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i095_rank_quantile_evidence_field_network/train.py
+config_path: ideas/all_ideas/registry/i095_rank_quantile_evidence_field_network/config.yaml
+model_path: ideas/all_ideas/registry/i095_rank_quantile_evidence_field_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
+  Bespoke rank-quantile evidence field network registered as `rank_quantile_evidence_field_network`
+  in `src/chess_nn_playground/models/rank_quantile.py`. Supports ablation modes
+  `quantile`, `mean_pool_only`, `topk_only`, `random_field_encoder`, and `square_shuffle`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md
+source_packet_candidate: Rank-Quantile Evidence Field Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

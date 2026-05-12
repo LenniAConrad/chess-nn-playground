@@ -1,0 +1,38 @@
+idea_id: i171
+name: Line-Piece Crossbar Network
+slug: line_piece_crossbar_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Schur-Ray is mathematically powerful but more complex. A simpler line-aware
+  architecture can create line tokens and piece tokens, then pass messages only through
+  deterministic piece-line incidence.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`;
+  implements stacked crossbar layers that exchange messages between 64 piece tokens
+  and 46 line tokens (ranks, files, diagonals, anti-diagonals) through a deterministic
+  piece-line incidence matrix instead of generic CNN-only pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-layer piece/line token diagnostics (token
+  histories, message stacks, per-line-type energies, and rank/file and
+  diag/anti-diag energy contrasts) saved to prediction artifacts.
+compute_notes: Compact convolutional stem followed by stacked crossbar layers; every
+  layer routes piece -> line -> piece messages through a fixed 64x46 piece-line
+  incidence matrix.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i171_line_piece_crossbar_network/train.py
+config_path: ideas/all_ideas/registry/i171_line_piece_crossbar_network/config.yaml
+model_path: ideas/all_ideas/registry/i171_line_piece_crossbar_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
+  Implemented as a bespoke line-piece crossbar architecture registered under `line_piece_crossbar_network`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md
+source_packet_candidate: Line-Piece Crossbar Network
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: grammar
+implementation_kind: bespoke_model

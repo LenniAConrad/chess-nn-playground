@@ -1,7 +1,7 @@
 """Exchange-Soundness Graph Network for idea i187.
 
 Faithful implementation of the markdown thesis under
-``ideas/i187_exchange_soundness_graph_network/``. The packet's working
+``ideas/all_ideas/registry/i187_exchange_soundness_graph_network/``. The packet's working
 thesis is that many false puzzle signals come from attacks that look
 strong but lose material or fail tactically after exchanges. A puzzle
 detector should know whether an apparent tactic is *exchange-sound* on

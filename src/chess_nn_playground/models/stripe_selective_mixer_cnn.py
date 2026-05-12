@@ -1,7 +1,7 @@
 """Stripe-Selective Mixer CNN model for idea i173.
 
 Faithful implementation of the markdown thesis under
-``ideas/i173_stripe_selective_mixer_cnn/``: a compact line-aware CNN
+``ideas/all_ideas/registry/i173_stripe_selective_mixer_cnn/``: a compact line-aware CNN
 where every block mixes along the four chess stripe directions
 (ranks, files, diagonals, anti-diagonals) in addition to a local
 ``3x3`` convolution, with a per-channel sigmoid global-context gate

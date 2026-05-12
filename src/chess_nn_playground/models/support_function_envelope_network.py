@@ -1,7 +1,7 @@
 """Support-Function Envelope Network for idea i138.
 
 Implements the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md``
 (Candidate 2: Support-Function Envelope Network).
 
 For each nonnegative learned field ``rho_c(s)`` over board squares and a

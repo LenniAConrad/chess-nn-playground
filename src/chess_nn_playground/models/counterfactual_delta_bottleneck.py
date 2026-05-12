@@ -1,7 +1,7 @@
 """Rule-only counterfactual move-delta bottleneck network for idea i027.
 
 Implements the architecture described in
-``ideas/i027_rule_only_counterfactual_move_delta_bottleneck`` (CDBN). The model
+``ideas/all_ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck`` (CDBN). The model
 classifies puzzle-likeness purely from a current-board ``simple_18`` tensor by
 encoding the side-to-move pseudo-legal one-ply move-delta multiset and pooling
 it through a *sparse* move-cone bottleneck.
@@ -32,7 +32,7 @@ Pipeline (per board ``x``):
 
 Returns a dict including ``logits`` shaped ``(B,)`` for the
 ``num_classes == 1`` puzzle-binary contract, plus diagnostics named in
-``ideas/i027_rule_only_counterfactual_move_delta_bottleneck/architecture.md``.
+``ideas/all_ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck/architecture.md``.
 """
 
 from __future__ import annotations

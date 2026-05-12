@@ -30,13 +30,13 @@ def _read_idea_yaml(path: Path) -> dict[str, Any]:
         return yaml.safe_load(handle) or {}
 
 
-def discover_existing_ideas(ideas_root: str | Path = "ideas") -> list[dict[str, Any]]:
+def discover_existing_ideas(ideas_root: str | Path = "ideas/all_ideas/registry") -> list[dict[str, Any]]:
     root = Path(ideas_root)
     if not root.exists():
         return []
     ideas: list[dict[str, Any]] = []
     for child in sorted(root.iterdir()):
-        if not child.is_dir() or child.name == "idea_template":
+        if not child.is_dir() or child.name == "template":
             continue
         if not (child / "idea.yaml").exists():
             continue
@@ -59,8 +59,8 @@ def discover_existing_ideas(ideas_root: str | Path = "ideas") -> list[dict[str, 
 
 
 def build_idea_generation_prompt(
-    registry_path: str | Path = "ideas/registry.jsonl",
-    ideas_root: str | Path = "ideas",
+    registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl",
+    ideas_root: str | Path = "ideas/all_ideas/registry",
 ) -> str:
     registry_entries = _read_registry(registry_path)
     idea_folders = discover_existing_ideas(ideas_root)
@@ -170,7 +170,7 @@ Never present intuition as proof. If something is only a hypothesis, label it as
 
 If asked to create or register an idea, produce content matching:
 
-- `ideas/{{idea_id}}_{{idea_slug}}/idea.yaml`
+- `ideas/all_ideas/registry/{{idea_id}}_{{idea_slug}}/idea.yaml`
 - `math_thesis.md`
 - `architecture.md`
 - `implementation_notes.md`

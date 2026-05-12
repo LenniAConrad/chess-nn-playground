@@ -1,0 +1,27 @@
+idea_id: i015
+name: Material-Locked Tactical Mask DRO
+slug: material_locked_tactical_dro
+status: implemented
+created_at: '2026-04-30T00:00:00+08:00'
+author: Codex
+short_thesis: Train puzzle detection against bounded perturbations of deterministic
+  tactical masks while keeping material and board occupancy fixed.
+novelty_claim: The uncertainty set is over board-derived tactical support masks, not
+  raw piece planes, source groups, or engine annotations.
+expected_advantage: Better robustness to tactical-looking hard negatives without changing
+  inference inputs.
+target_task: puzzle_binary classification on the canonical CRTK split.
+input_representation: Current-board tensor only, default simple_18. Tactical masks
+  are deterministic functions of the board tensor.
+output_heads: Clean puzzle logit, adversarial-logit diagnostic, mask budget, tactical-mask
+  density, and material diagnostics.
+compute_notes: Compact board encoder plus deterministic tactical mask builder and
+  bounded mask-contamination branch.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i015_material_locked_tactical_dro/train.py
+config_path: ideas/all_ideas/registry/i015_material_locked_tactical_dro/config.yaml
+model_path: ideas/all_ideas/registry/i015_material_locked_tactical_dro/model.py
+latest_result_path: null
+notes: Promoted from the GPT/Codex near-term `material_mask_dro` packet; implemented
+  and smoke-testable, not benchmarked.
+implementation_kind: bespoke_model

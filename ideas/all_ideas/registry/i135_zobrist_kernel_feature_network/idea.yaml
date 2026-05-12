@@ -1,0 +1,43 @@
+idea_id: i135
+name: Zobrist Kernel Feature Network
+slug: zobrist_kernel_feature_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Zobrist hashing gives chess a compact random fingerprint of piece-square
+  occupancy. A neural model can use many fixed Zobrist-style random feature maps as
+  a cheap kernel approximation, then learn a small classifier over stable board fingerprints.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`;
+  bespoke implementation builds many fixed Rademacher Zobrist code banks Z_m over
+  the 12 piece planes and 64 squares, sums them into per-bank board fingerprints,
+  lifts each through a fixed random projection plus sin/cos to give a random Fourier
+  features approximation of an RBF kernel, and only a small classifier MLP over the
+  fixed kernel features is trainable.
+expected_advantage: Test the packet's proposed Zobrist-fingerprint kernel signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; only the 12 piece planes
+  are consumed by the Zobrist banks. CRTK/source metadata is reporting-only and never
+  used as model input.
+output_heads: One puzzle logit plus per-bank fingerprint norms, per-bank kernel feature
+  norms, occupancy count, and aggregate cosine/sine feature statistics saved to prediction
+  artifacts.
+compute_notes: 'M fixed Rademacher Zobrist code banks (12 piece planes x 64 squares
+  x feature_dim) and M fixed random projection matrices, so only the small classifier
+  MLP is trainable.'
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i135_zobrist_kernel_feature_network/train.py
+config_path: ideas/all_ideas/registry/i135_zobrist_kernel_feature_network/config.yaml
+model_path: ideas/all_ideas/registry/i135_zobrist_kernel_feature_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md`.
+  Bespoke implementation registered as `zobrist_kernel_feature_network`, backed by
+  `src/chess_nn_playground/models/zobrist_kernel_feature_network.py`; wrapper delegates
+  through `ideas/all_ideas/registry/i135_zobrist_kernel_feature_network/model.py`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md
+source_packet_candidate: Zobrist Kernel Feature Network
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: information
+implementation_kind: bespoke_model

@@ -1,7 +1,7 @@
 """Adaptive Tactical Resolvent Network for idea i077.
 
 Implements the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md``.
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_2002_saturday_shanghai_adaptive_tactical_resolvent.md``.
 
 For each board the model builds a chess-structured 64x64 linear operator
 

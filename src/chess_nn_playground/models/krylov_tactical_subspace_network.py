@@ -1,7 +1,7 @@
 """Krylov Tactical Subspace Network for idea i076.
 
 Implements the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-25_2000_saturday_shanghai_krylov_tactical_subspace.md``.
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_2000_saturday_shanghai_krylov_tactical_subspace.md``.
 
 For each board the model builds a chess-structured 64x64 linear operator
 ``A(X) = sum_g gate_g(X) * mask_g + low_rank_context_update`` whose

@@ -22,7 +22,7 @@ def main() -> None:
     )
     parser.add_argument("--results-dir", default="results")
     parser.add_argument("--leaderboard", default="results/leaderboard.md")
-    parser.add_argument("--registry", default="ideas/registry.jsonl")
+    parser.add_argument("--registry", default="ideas/all_ideas/registry/registry.jsonl")
     parser.add_argument("--output", default="reports/prompts/chatgpt_pro_run_prompt.md")
     parser.add_argument("--max-runs", type=int, default=25)
     parser.add_argument("--print", action="store_true", help="Also print the prompt to stdout")

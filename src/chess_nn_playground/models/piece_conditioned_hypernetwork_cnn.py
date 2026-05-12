@@ -1,6 +1,6 @@
 """Piece-Conditioned Hypernetwork CNN for idea i114.
 
-Working thesis (from ``ideas/i114_piece_conditioned_hypernetwork_cnn``):
+Working thesis (from ``ideas/all_ideas/registry/i114_piece_conditioned_hypernetwork_cnn``):
 the best local filters may depend on material and piece inventory. A
 lightweight hypernetwork can condition CNN channel gates *and*
 depthwise kernels on safe current-board summaries, adapting the

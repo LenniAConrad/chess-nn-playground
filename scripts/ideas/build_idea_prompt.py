@@ -20,9 +20,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Build a reusable ChatGPT prompt for disciplined research idea generation."
     )
-    parser.add_argument("--registry", default="ideas/registry.jsonl")
-    parser.add_argument("--ideas-root", default="ideas")
-    parser.add_argument("--output", default="ideas/idea_generation_prompt.md")
+    parser.add_argument("--registry", default="ideas/all_ideas/registry/registry.jsonl")
+    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
+    parser.add_argument("--output", default="ideas/all_ideas/research/prompts/idea_generation_prompt.md")
     parser.add_argument("--print", action="store_true", help="Also print the prompt to stdout")
     args = parser.parse_args()
 

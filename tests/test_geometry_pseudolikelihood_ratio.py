@@ -17,7 +17,7 @@ from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
-I036_FOLDER = Path("ideas/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network")
+I036_FOLDER = Path("ideas/all_ideas/registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network")
 
 
 def _load_idea_module():

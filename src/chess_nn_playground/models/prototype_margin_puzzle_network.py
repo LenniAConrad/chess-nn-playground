@@ -1,7 +1,7 @@
 """Prototype-Margin Puzzle Network for idea i175.
 
 Faithful implementation of the markdown thesis under
-``ideas/i175_prototype_margin_puzzle_network/``. The board is encoded
+``ideas/all_ideas/registry/i175_prototype_margin_puzzle_network/``. The board is encoded
 once and compared against three banks of learned prototypes — random
 non-puzzle, near-puzzle, and real puzzle — and the final puzzle logit
 is the margin between the puzzle similarity and the maximum

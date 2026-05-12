@@ -76,7 +76,7 @@ PYTHONDONTWRITEBYTECODE=1 pytest -q
 - [docs/crtk_export_contract.md](docs/crtk_export_contract.md): expected CRTK export format.
 - [docs/export_training_data_from_stacks.md](docs/export_training_data_from_stacks.md): short guide for exporting stack data with CRTK and rebuilding trainer-ready splits.
 - [ideas/README.md](ideas/README.md): idea workspace guide.
-- [ideas/TODO.md](ideas/TODO.md): generated implementation and benchmark backlog.
+- [ideas/all_ideas/registry/TODO.md](ideas/all_ideas/registry/TODO.md): generated implementation and benchmark backlog.
 - [configs/README.md](configs/README.md): config folders and suite entrypoints.
 - [scripts/README.md](scripts/README.md): command entrypoints and utility folders.
 
@@ -309,7 +309,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/validate_run_artifacts.py results/<run_
 1. Add reusable model code under `src/chess_nn_playground/models/`.
 2. Add a builder that accepts a config dictionary and returns a `torch.nn.Module`.
 3. Register the builder in `src/chess_nn_playground/models/registry.py`.
-4. Add a config under `configs/benchmarks/<task>/` or the relevant `ideas/i###_*/` folder.
+4. Add a config under `configs/benchmarks/<task>/` or the relevant `ideas/all_ideas/registry/i###_*/` folder.
 5. Validate the config before training.
 6. Add the config to a suite only after it is stable.
 
@@ -329,7 +329,7 @@ Keep new architectures compatible with the shared trainer unless there is a stro
 
 ## Idea Workflow
 
-Registered ideas live in `ideas/i###_*/`. Each folder should keep the standard scaffold:
+Registered ideas live in `ideas/all_ideas/registry/i###_*/`. Each folder should keep the standard scaffold:
 
 ```text
 idea.yaml

@@ -13,7 +13,7 @@ from chess_nn_playground.models.bounded_board_hinge_logic import BoundedBoardHin
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i089_bounded_board_hinge_logic")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i089_bounded_board_hinge_logic")
 
 
 def _load_wrapper():

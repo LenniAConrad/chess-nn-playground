@@ -1,0 +1,36 @@
+idea_id: i129
+name: King-Shelter Microkernel Network
+slug: king_shelter_microkernel_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Many puzzles are decided near the king. A specialized side-relative
+  microkernel branch can examine king neighborhoods, escape rings, near sliders, and
+  local blockers with high resolution while the main CNN handles global context.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`;
+  implements a bespoke side-relative king-crop branch with asymmetric shelter, escape,
+  diagonal-entry, and rank-backdoor microkernels fused with a compact global CNN.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus king-crop diagnostics for shelter, escape, local
+  pressure, residual king-zone contrast, and microkernel activation energy.
+compute_notes: Compact convolutional trunk plus fixed 5x5 and 7x7 side-relative king
+  crops processed by asymmetric microkernel branches and deterministic shelter scalars.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i129_king_shelter_microkernel_network/train.py
+config_path: ideas/all_ideas/registry/i129_king_shelter_microkernel_network/config.yaml
+model_path: ideas/all_ideas/registry/i129_king_shelter_microkernel_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md`.
+  Bespoke implementation in `src/chess_nn_playground/models/king_shelter_microkernel.py`;
+  wrapper delegates through `ideas/all_ideas/registry/i129_king_shelter_microkernel_network/model.py`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2133_friday_shanghai_architecture_batch_6.md
+source_packet_candidate: King-Shelter Microkernel Network
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: king_path
+implementation_kind: bespoke_model

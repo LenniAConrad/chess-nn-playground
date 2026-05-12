@@ -1,7 +1,7 @@
 """Critical-Square Budget Network for idea i185.
 
 Faithful implementation of the markdown thesis under
-``ideas/i185_critical_square_budget_network/``. The packet's working
+``ideas/all_ideas/registry/i185_critical_square_budget_network/``. The packet's working
 thesis is that puzzles often hinge on a *small number of critical
 squares*: king escape squares, line intersections, pinned-piece
 squares, promotion squares, or overloaded defender squares. The

@@ -1,0 +1,36 @@
+idea_id: i184
+name: Puzzle Boundary Twin Encoder
+slug: puzzle_boundary_twin_encoder
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: The hardest part is the boundary between verified puzzles and verified
+  near-puzzles. Learn that boundary directly with a twin encoder and margin objective.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`;
+  bespoke siamese board encoder with a linear boundary surface in a unit-norm embedding
+  space, exposing the raw signed margin so the trainer can attach the packet's in-batch
+  (puzzle, near, random) pair-margin objective.
+expected_advantage: Test the packet's proposed boundary-surface signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus boundary diagnostics (`boundary_score`,
+  `boundary_distance`, `boundary_embedding`, `embedding_norm`, `trunk_energy`).
+compute_notes: Compact convolutional trunk plus mean/max/std pooling and a linear
+  boundary surface over a unit-norm embedding.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i184_puzzle_boundary_twin_encoder/train.py
+config_path: ideas/all_ideas/registry/i184_puzzle_boundary_twin_encoder/config.yaml
+model_path: ideas/all_ideas/registry/i184_puzzle_boundary_twin_encoder/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
+  Bespoke siamese encoder plus linear boundary surface; the idea-local wrapper builds
+  `chess_nn_playground.models.puzzle_boundary_twin_encoder.PuzzleBoundaryTwinEncoder`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
+source_packet_candidate: Puzzle Boundary Twin Encoder
+source_packet_rank: 8
+source_packet_status: batch packet
+mechanism_family: convex
+implementation_kind: bespoke_model

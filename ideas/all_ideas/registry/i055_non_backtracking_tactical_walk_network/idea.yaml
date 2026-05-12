@@ -1,0 +1,36 @@
+idea_id: i055
+name: Non-Backtracking Tactical Walk Network
+slug: non_backtracking_tactical_walk_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Non-Backtracking Tactical Walk Network - One-sentence
+  thesis: Puzzle-like positions are disproportionately marked by short, directed chains
+  of current-boa...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-21_0922_tuesday_local_nonbacktracking_walk.md`;
+  uses a Hashimoto-style non-backtracking transition operator over deterministic
+  current-board attack/protection edges, distinct from sheaf, Hodge, transport,
+  topology, ordinal, and move-delta packet families.
+expected_advantage: Test the packet's proposed non-backtracking edge-walk signal under
+  the same puzzle_binary benchmark contract as the other ideas, with a
+  degree/type-preserving randomized-transition ablation as the central falsifier.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One BCE puzzle logit, internal two-class logits, and non-backtracking
+  walk diagnostics including edge counts, relation-pair distribution, walk energy,
+  and overflow counters.
+compute_notes: Per-board CPU edge graph builder over simple_18 with edge_max=192,
+  transition_max=1024, edge_dim=64, edge_layers=4, basis-decomposed typed scatter-add
+  propagation, and a small board-adapter CNN.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i055_non_backtracking_tactical_walk_network/train.py
+config_path: ideas/all_ideas/registry/i055_non_backtracking_tactical_walk_network/config.yaml
+model_path: ideas/all_ideas/registry/i055_non_backtracking_tactical_walk_network/model.py
+latest_result_path: null
+notes: Bespoke implementation of the non-backtracking tactical walk packet. The edge
+  builder is simple_18-only and fail-closed for unknown deterministic encodings;
+  LC0 current-piece decoding requires a future explicit channel map.
+mechanism_family: grammar
+implementation_kind: bespoke_model

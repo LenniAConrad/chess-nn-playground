@@ -1,0 +1,41 @@
+idea_id: i082
+name: Chess Hypercut Polynomial Network
+slug: chess_hypercut_polynomial_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: 'Select `CHPNet`: a current-board hypergraph model that builds deterministic
+  chess-rule hyperedges over the 64 board squares and applies a high-order cut polynomial
+  with exclusive-product derivative residuals scattered back to per-square states.'
+novelty_claim: Bespoke chess hypergraph model whose decisive non-linearity is a masked
+  high-order cut polynomial `1 - prod((1+s)/2) - prod((1-s)/2)` over deterministic
+  chess-rule hyperedges (sliding rays, knight/king/pawn stencils, occupied line windows,
+  king shells), with exclusive-product cut derivatives scattered back to square states
+  -- not a generic CNN, GNN, or proposal-probe pooling.
+expected_advantage: The high-order cut polynomial captures interactions that only fire
+  when several squares on a rule-defined hyperedge mix signs, which the puzzle_binary
+  contract should reward beyond pairwise convolutional features.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus hypergraph diagnostics (`hyperedge_count`, `hyperedge_size_mean`,
+  `hypercut_energy`, `hypercut_mean`, `hypercut_max`, `hypercut_std`, `higher_order_residual_energy`,
+  `mechanism_energy`, `proposal_profile_strength`, `proposal_keyword_count`) saved
+  to prediction artifacts.
+compute_notes: Compact `Conv2d` board stem to a `hidden_dim` square-token field, deterministic
+  chess-rule hyperedge builder (sliding rays, knight/king/pawn stencils, occupied
+  line windows, king shells) capped at `max_edges=1024`/`max_edge_size=9`, two `HypercutBlock`
+  layers running masked cut polynomials with exclusive-product derivatives, and a
+  `LayerNorm`/`Linear` head over pooled square states and per-block cut moments.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i082_chess_hypercut_polynomial_network/train.py
+config_path: ideas/all_ideas/registry/i082_chess_hypercut_polynomial_network/config.yaml
+model_path: ideas/all_ideas/registry/i082_chess_hypercut_polynomial_network/model.py
+latest_result_path: null
+notes: Bespoke implementation of the Chess Hypercut Polynomial Network thesis. Builds
+  deterministic chess-rule hyperedges over board squares, applies masked high-order
+  cut polynomials on learned square probes, and scatters exclusive-product cut derivatives
+  back to per-square states. CRTK metadata is reporting-only.
+mechanism_family: convex
+implementation_kind: bespoke_model

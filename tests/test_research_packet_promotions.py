@@ -58,7 +58,7 @@ def _profile_flag_map(profile: str, family: str) -> dict[str, bool]:
 
 
 def test_registry_has_no_duplicate_ids_slugs_or_folders():
-    rows = _load_jsonl("ideas/registry.jsonl")
+    rows = _load_jsonl("ideas/all_ideas/registry/registry.jsonl")
     for field in ("idea_id", "slug", "folder"):
         counts = Counter(str(row.get(field) or "") for row in rows)
         duplicates = sorted(value for value, count in counts.items() if count > 1)
@@ -66,8 +66,8 @@ def test_registry_has_no_duplicate_ids_slugs_or_folders():
 
 
 def test_all_single_research_packets_are_promoted_once_or_known_duplicates():
-    packets = _load_jsonl("ideas/research_packets/CATALOG.jsonl")
-    registry = _load_jsonl("ideas/registry.jsonl")
+    packets = _load_jsonl("ideas/all_ideas/research/packets/CATALOG.jsonl")
+    registry = _load_jsonl("ideas/all_ideas/registry/registry.jsonl")
     by_slug = {row["slug"]: row for row in registry}
 
     for packet in packets:
@@ -86,8 +86,8 @@ def test_all_single_research_packets_are_promoted_once_or_known_duplicates():
 
 
 def test_all_batch_packet_candidates_are_promoted_once():
-    packets = _load_jsonl("ideas/research_packets/CATALOG.jsonl")
-    registry = _load_jsonl("ideas/registry.jsonl")
+    packets = _load_jsonl("ideas/all_ideas/research/packets/CATALOG.jsonl")
+    registry = _load_jsonl("ideas/all_ideas/registry/registry.jsonl")
     by_slug = {row["slug"]: row for row in registry}
 
     candidate_count = 0
@@ -109,7 +109,7 @@ def test_all_batch_packet_candidates_are_promoted_once():
 
 
 def test_source_promoted_ideas_have_trainable_model_configs():
-    registry = _load_jsonl("ideas/registry.jsonl")
+    registry = _load_jsonl("ideas/all_ideas/registry/registry.jsonl")
     promoted = [row for row in registry if row.get("source_packet_path")]
     assert len(promoted) >= 200
 
@@ -127,7 +127,7 @@ def test_source_promoted_ideas_have_trainable_model_configs():
 
 def test_research_packet_conformance_audit_is_clean():
     audit = _load_conformance_audit_module()
-    registry = _load_jsonl("ideas/registry.jsonl")
+    registry = _load_jsonl("ideas/all_ideas/registry/registry.jsonl")
     promoted = [row for row in registry if row.get("source_packet_path")]
 
     rows = [audit.audit_one(Path(row["folder"]), fix=False) for row in promoted]

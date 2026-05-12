@@ -17,7 +17,7 @@ Use this directory for stable project protocols and reference material. Generate
 - [../configs/README.md](../configs/README.md): benchmark config and suite layout.
 - [../scripts/README.md](../scripts/README.md): command entrypoints.
 - [../ideas/README.md](../ideas/README.md): research idea workspace.
-- [../ideas/TODO.md](../ideas/TODO.md): generated idea and benchmark backlog.
+- [../ideas/all_ideas/registry/TODO.md](../ideas/all_ideas/registry/TODO.md): generated idea and benchmark backlog.
 
 ## Maintenance Rules
 

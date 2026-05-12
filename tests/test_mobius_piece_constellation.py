@@ -18,7 +18,7 @@ from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
-I037_FOLDER = Path("ideas/i037_mobius_piece_constellation_network")
+I037_FOLDER = Path("ideas/all_ideas/registry/i037_mobius_piece_constellation_network")
 
 
 def _load_idea_module():

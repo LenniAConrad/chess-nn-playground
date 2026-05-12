@@ -1,6 +1,6 @@
 """Grassmannian Principal-Angle Bottleneck model for idea i061.
 
-Implements the markdown thesis (`ideas/i061_grassmannian_principal_angle_bottleneck/`):
+Implements the markdown thesis (`ideas/all_ideas/registry/i061_grassmannian_principal_angle_bottleneck/`):
 puzzle-likeness is tested by measuring the **principal angles** between
 learned role-gated occupied-token subspaces. For each role ``r``, the
 weighted token covariance

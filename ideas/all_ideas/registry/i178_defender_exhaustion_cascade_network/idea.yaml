@@ -1,0 +1,39 @@
+idea_id: i178
+name: Defender-Exhaustion Cascade Network
+slug: defender_exhaustion_cascade_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Many puzzles exist because one side cannot satisfy all defensive obligations
+  at once:'
+novelty_claim: Bespoke recurrent obligation/resource allocation cascade where typed
+  defender resources are progressively exhausted across cascade steps; the puzzle
+  head reads the residual demand curve rather than a one-shot Hall / matching deficit.
+expected_advantage: Test the packet's proposed sequential exhaustion mechanism under
+  the same puzzle_binary benchmark contract as the other ideas; cascade depth and
+  resource capacity are the natural ablation knobs.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus exhaustion-cascade diagnostics (per-step sum-positive
+  residual, allocation entropy, max deficit; final per-obligation residual; final
+  per-resource allocation marginal; final demand / allocated / residual totals; per-resource
+  capacity).
+compute_notes: Compact convolutional trunk; typed obligation/resource tokens via per-type
+  spatial soft-pooling; shared GRUCell over per-obligation demand_state for `cascade_steps`
+  iterations; allocation softmax over resources damped by a running exhaustion pressure
+  accumulator.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i178_defender_exhaustion_cascade_network/train.py
+config_path: ideas/all_ideas/registry/i178_defender_exhaustion_cascade_network/config.yaml
+model_path: ideas/all_ideas/registry/i178_defender_exhaustion_cascade_network/model.py
+latest_result_path: null
+notes: Bespoke `DefenderExhaustionCascadeNetwork` registered as `defender_exhaustion_cascade_network`;
+  the prior shared `ResearchPacketProbe` scaffold has been removed.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
+source_packet_candidate: Defender-Exhaustion Cascade Network
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: graph
+implementation_kind: bespoke_model

@@ -1,6 +1,6 @@
 """Source-Rate Calibrated Objective network for idea i176.
 
-The markdown thesis (``ideas/i176_source_rate_calibrated_objective``) frames the
+The markdown thesis (``ideas/all_ideas/registry/i176_source_rate_calibrated_objective``) frames the
 puzzle_binary task as a *source-rate* problem: at a target puzzle recall on
 fine label 2, how many fine-label-1 near-puzzles are falsely called puzzles?
 The proposal adds a differentiable rate-calibrated penalty on top of the

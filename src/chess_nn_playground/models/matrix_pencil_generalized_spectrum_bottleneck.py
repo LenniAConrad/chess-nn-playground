@@ -1,7 +1,7 @@
 """Matrix-Pencil Generalized Spectrum Bottleneck model for idea i062.
 
 Implements the markdown thesis under
-``ideas/i062_matrix_pencil_generalized_spectrum_bottleneck/``: puzzle-likeness
+``ideas/all_ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck/``: puzzle-likeness
 is tested by the **generalized eigenvalue spectrum of a learned PSD matrix
 pair** ``(A(x), B(x))`` built from current-board occupied tokens.
 

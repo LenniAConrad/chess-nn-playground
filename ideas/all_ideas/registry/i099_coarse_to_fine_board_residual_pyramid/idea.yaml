@@ -1,0 +1,46 @@
+idea_id: i099
+name: Coarse-to-Fine Board Residual Pyramid
+slug: coarse_to_fine_board_residual_pyramid
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'A puzzle-like position may be present in details not explained by coarse
+  board summaries. Build a residual pyramid over the board: classify from what remains
+  after each scale''s coarse reconstruction explains the finer scale.'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`;
+  bespoke two-level residual pyramid that predicts each finer feature map from the
+  coarser scale, isolates the per-scale residuals, and feeds a coarse stream (board
+  summary plus coarsest pooled features) and a residual stream (pooled per-scale residuals
+  plus residual-energy diagnostics) into a joint puzzle-binary head.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus residual-pyramid diagnostics (coarse_l2, explained_l2,
+  residual4_l1, residual4_l2, residual4_max, residual8_l1, residual8_l2, residual8_max,
+  unexplained_ratio, residual_gain, detail_concentration, residual_alignment, and
+  pass-through summary scalars) saved to prediction artifacts.
+compute_notes: Compact convolutional stem with coordinate planes, two avg-pool downsamples
+  to 4x4 and 2x2, two bilinear-upsample decoders, two `PyramidResidualBlock` residual
+  refiners, and a joint coarse + residual head with deterministic 18-D board summary
+  features. Runs on CPU/GPU; no extra dependencies.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i099_coarse_to_fine_board_residual_pyramid/train.py
+config_path: ideas/all_ideas/registry/i099_coarse_to_fine_board_residual_pyramid/config.yaml
+model_path: ideas/all_ideas/registry/i099_coarse_to_fine_board_residual_pyramid/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.
+  Bespoke two-level coarse-to-fine residual pyramid registered as `coarse_to_fine_board_residual_pyramid`
+  in `src/chess_nn_playground/models/coarse_to_fine_residual_pyramid.py`. The coarse
+  stream uses a deterministic 18-D simple_18 board summary plus pooled features at
+  the coarsest 2x2 scale; the residual stream uses pooled per-scale residuals plus
+  ten residual-energy diagnostics so the residual head only carries detail unexplained
+  by the coarse reconstruction.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md
+source_packet_candidate: Coarse-to-Fine Board Residual Pyramid
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: generic
+implementation_kind: bespoke_model

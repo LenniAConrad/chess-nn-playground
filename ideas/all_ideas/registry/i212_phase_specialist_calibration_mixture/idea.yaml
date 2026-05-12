@@ -1,0 +1,37 @@
+idea_id: i212
+name: Phase-Specialist Calibration Mixture
+slug: phase_specialist_calibration_mixture
+status: implemented
+created_at: '2026-04-30T15:50:02+00:00'
+author: Codex
+short_thesis: The boundary between near-puzzle and true puzzle differs across opening
+  tactics, mating attacks, material tactics, promotion races, and simplified endings.
+  A single global head may overcall near-puzzles in one phase to preserve recall in
+  another.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`;
+  uses a information mechanism profile over board-only features rather than generic
+  CNN-only pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i212_phase_specialist_calibration_mixture/train.py
+config_path: ideas/all_ideas/registry/i212_phase_specialist_calibration_mixture/config.yaml
+model_path: ideas/all_ideas/registry/i212_phase_specialist_calibration_mixture/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/phase_specialist_calibration_mixture.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md
+source_packet_candidate: Phase-Specialist Calibration Mixture
+source_packet_rank: 8
+source_packet_status: batch packet
+mechanism_family: tempo
+implementation_kind: bespoke_model

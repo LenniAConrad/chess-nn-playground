@@ -15,7 +15,7 @@ from chess_nn_playground.models.king_anchored_material_null_transport import (
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i032_king_anchored_material_null_transport_bottleneck")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i032_king_anchored_material_null_transport_bottleneck")
 
 
 def _load_config() -> dict:

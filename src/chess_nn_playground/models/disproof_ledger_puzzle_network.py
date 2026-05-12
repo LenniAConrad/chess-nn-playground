@@ -1,7 +1,7 @@
 """Disproof-Ledger Puzzle Network for idea i181.
 
 Faithful implementation of the markdown thesis under
-``ideas/i181_disproof_ledger_puzzle_network/``. The model does not
+``ideas/all_ideas/registry/i181_disproof_ledger_puzzle_network/``. The model does not
 only collect evidence for "puzzle." It also collects explicit
 *disproof* evidence — typed reasons the position is sharp but not a
 puzzle:

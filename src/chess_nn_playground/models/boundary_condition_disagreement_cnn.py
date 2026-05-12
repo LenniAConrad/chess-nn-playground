@@ -1,6 +1,6 @@
 """Boundary-Condition Disagreement CNN for idea i111.
 
-Working thesis (from ``ideas/i111_boundary_condition_disagreement_cnn``):
+Working thesis (from ``ideas/all_ideas/registry/i111_boundary_condition_disagreement_cnn``):
 chess board edges matter -- pawns, rooks, kings, and tactics behave
 differently near boundaries.  A CNN's padding convention imposes a boundary
 assumption.  Run a *shared* CNN under multiple boundary conditions and

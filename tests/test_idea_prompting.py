@@ -17,4 +17,4 @@ def test_idea_generation_prompt_contains_core_rules():
     assert "Boundary-Edit Lagrangian Network" in prompt
     assert "Tactical Equilibrium Network" in prompt
     assert "Rule-Consistent Latent Dynamics Network" in prompt
-    assert '"folder": "ideas/research_packets"' not in prompt
+    assert '"folder": "ideas/all_ideas/research/packets"' not in prompt

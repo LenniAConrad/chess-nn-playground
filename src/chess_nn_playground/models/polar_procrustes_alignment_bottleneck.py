@@ -1,7 +1,7 @@
 """Polar-Procrustes Alignment Bottleneck model for idea i063.
 
 Implements the markdown thesis under
-``ideas/i063_polar_procrustes_alignment_bottleneck/``: puzzle-likeness
+``ideas/all_ideas/registry/i063_polar_procrustes_alignment_bottleneck/``: puzzle-likeness
 is tested by **the orthogonal Procrustes alignment between learned
 own/opponent role matrices and the polar-decomposition strain spectrum
 of their cross-covariance**.

@@ -1,7 +1,7 @@
 """Sparse Expert Board Router (idea i123).
 
 This bespoke model materialises the sparse mixture-of-experts thesis from
-`ideas/i123_sparse_expert_board_router/math_thesis.md`. A cheap routing
+`ideas/all_ideas/registry/i123_sparse_expert_board_router/math_thesis.md`. A cheap routing
 summary (material counts, king locations, side-to-move, coarse occupancy
 quadrants and a small CNN stem pool) drives a router that produces logits
 over ``E`` heterogeneous expert encoders. Top-``k`` experts are selected

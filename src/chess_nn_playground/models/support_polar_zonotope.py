@@ -1,7 +1,7 @@
 """Support-Polar Zonotope Certificate Network for idea i079.
 
 Implements the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-28_0718_tuesday_new_york_support_polar_zonotope.md``.
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-28_0718_tuesday_new_york_support_polar_zonotope.md``.
 
 The model maps the current board to a latent zonotope
 

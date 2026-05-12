@@ -66,9 +66,9 @@ def build_markdown_report(summary: dict[str, Any], rows: list[dict[str, Any]]) -
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit implemented idea architectures for shell/scaffold markers.")
-    parser.add_argument("--ideas-root", default="ideas")
-    parser.add_argument("--output-json", default="ideas/architecture_conformance_audit.json")
-    parser.add_argument("--output-md", default="ideas/architecture_conformance_audit.md")
+    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
+    parser.add_argument("--output-json", default="ideas/all_ideas/registry/audits/architecture_conformance_audit.json")
+    parser.add_argument("--output-md", default="ideas/all_ideas/registry/audits/architecture_conformance_audit.md")
     parser.add_argument("--check", action="store_true", help="Fail if any implemented architecture row has validation issues.")
     args = parser.parse_args()
 

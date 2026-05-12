@@ -1,0 +1,92 @@
+idea_id: i243
+name: HalfKA Dual-Stream LC0 Evaluator
+slug: halfka_dual_stream_lc0
+status: proposed
+created_at: '2026-05-11T17:50:00+00:00'
+author: Claude (post-scout / post-i242 synthesis)
+short_thesis: |
+  The strongest practical chess-evaluation architecture available today is
+  a three-way composition: Stockfish NNUE's HalfKA input features for rich
+  learnable king-conditioning and O(1) incremental update at engine
+  inference time, the scout winner i193's exchange/king dual-stream
+  decomposition as the conv backbone (replacing NNUE's plain MLP), and
+  LC0's value + policy heads for MCTS-compatible output.
+novelty_claim: |
+  Each component is independently validated by a strong production system:
+  HalfKA by Stockfish NNUE (highest CPU-engine ELO in the world), i193's
+  dual-stream by the scout (largest within-encoding architectural margin
+  in a 234-architecture sweep), LC0's heads by Leela Chess Zero (strongest
+  GPU MCTS engine). The composition has not been deployed --- HalfKA is
+  always paired with an MLP backbone, LC0 trunks use either pure conv
+  (legacy nets) or pure transformer (BT4), and i193 has only been trained
+  on hand-engineered deterministic features. The proposal is the simplest
+  meaningful three-way composition.
+expected_advantage: |
+  Three independent advantages stack:
+    (a) HalfKA's accumulator gives a learnable rich king-conditional
+        embedding that the hand-engineered king features in i193 cannot
+        capture (e.g. specific castled-king pawn-shield variants).
+    (b) i193's dual-stream conv decomposition extracts tactical
+        specialisation on top of the HalfKA accumulator, where Stockfish's
+        plain MLP cannot. This adds the *exchange* vs *king-safety*
+        decomposition that drives i193's scout-win margin.
+    (c) LC0's value + policy heads make the network usable in an MCTS
+        search loop, unlike pure puzzle-classifier outputs.
+  Quantitatively: at engine-grade training scale ($\gtrsim 10^{7}$
+  positions with engine eval labels), the expected ELO over a plain
+  Stockfish-NNUE-shaped or plain-i193-conv baseline is +30--80, with the
+  additional benefit of O(1) incremental update at inference (which neither
+  i193 nor LC0 BT4 has).
+target_task: |
+  Engine-strength chess evaluation: WDL value head + 1858-dim policy head.
+  The puzzle_binary head exists only as a sanity-check task; the real
+  training objective is distillation from Stockfish or self-play.
+input_representation: |
+  HalfKA features over the simple_18 or richer source --- each feature is
+  indexed by (king_square, piece_color, piece_type, piece_square), giving
+  roughly 40000--49000 binary features per side. The accumulator is the
+  sum of embeddings of active features (one per side, then concatenated).
+  Updates are incremental: a single piece move changes about 2 features.
+output_heads: |
+  - WDL value head: 3-way softmax over win/draw/loss.
+  - Policy head: 1858 logits over LC0's move-token space, masked at
+    inference time to legal moves.
+  - Aux head (training-time only, optional): per-stream exchange-outcome
+    and king-attack classifiers carrying small-weight aux losses.
+compute_notes: |
+  Two stages:
+    (1) HalfKA front-end --- one large embedding table (white side) +
+        another (black side, role-swapped). At embed_dim 256 the table is
+        about 12M params per side. The accumulator output is a flat
+        2*256-dim vector per position.
+    (2) Backbone --- the accumulator is reshaped to a per-square
+        representation by summing into 64 buckets indexed by piece_square,
+        producing a [B, 64, d_acc] token grid. i193's dual-stream conv
+        encoders run on this grid as if it were a simple_18 input replaced
+        by a learned 64-channel one. LC0 heads sit on top of the fused
+        pool. Total params: 25--40M at the scale matching BT4-medium.
+  Inference: in an engine setting, the HalfKA accumulator is updated
+  incrementally O(1) per piece move. Only the backbone runs at full cost
+  per evaluation. This is the key engineering property that makes the
+  architecture practical for an alpha-beta or shallow-MCTS engine.
+implementation_status: proposed
+implementation_kind: unknown
+trainer_entrypoint: null
+config_path: null
+model_path: null
+latest_result_path: null
+notes: |
+  Derived from post-scout, post-i242 architectural analysis (2026-05-11).
+  Compared to i241 (multi-stream attention) this proposal trades the
+  global-attention stream for HalfKA learnable king-conditioning. The
+  i242 scout result (full multi-stream attention loses to conv-only
+  i193 at small scale) suggests that at our training scale, learnable
+  king-conditioning is a better use of the parameter budget than global
+  square-token attention. Whether that finding extrapolates to engine
+  training scale is the central hypothesis i243 is designed to test.
+parent_results:
+  - results/architecture_scout_2026-05-09/idea_i193_exchange_then_king_dual_stream_seed42
+  - results/architecture_scout_2026-05-11_i242/idea_i242_chess_decomposed_attention_seed42
+parent_audit: docs/research_audit_2026-05-09.md
+mechanism_family: king_path
+packet_profile: halfka_dual_stream_lc0

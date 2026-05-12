@@ -1,0 +1,32 @@
+idea_id: i230
+name: Magnus-BCH Operator-Coupling Series Network
+slug: magnus_bch_coupling_series_network
+status: implemented
+created_at: '2026-05-05T15:50:00+00:00'
+author: Claude
+short_thesis: Computes BCH log Z = log(exp(A) exp(B)) as a truncated Magnus series
+  of nested commutators up to weight 4; weight-3 and weight-4 commutator norms capture
+  iterated tactical depth that single-commutator features (i040) cannot detect.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-05-05_1545_tuesday_local_magnus_bch_coupling_series.md`;
+  uses a linear_algebra mechanism profile over board-only features.
+expected_advantage: Test the packet's proposed coupling/spectral/manifold mechanism
+  under the same puzzle_binary benchmark contract as the other linear-algebra ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus a learned pair of low-rank operators
+  (A, B) whose Hall-basis nested commutators up to weight 4 and the truncated BCH
+  log feed the puzzle head.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i230_magnus_bch_coupling_series_network/train.py
+config_path: ideas/all_ideas/registry/i230_magnus_bch_coupling_series_network/config.yaml
+model_path: ideas/all_ideas/registry/i230_magnus_bch_coupling_series_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-05-05_1545_tuesday_local_magnus_bch_coupling_series.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/magnus_bch_coupling_series_network.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

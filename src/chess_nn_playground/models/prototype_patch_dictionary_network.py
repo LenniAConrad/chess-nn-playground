@@ -1,7 +1,7 @@
 """Prototype Patch Dictionary Network for idea i117.
 
 Working thesis (from
-``ideas/i117_prototype_patch_dictionary_network``): puzzle-like
+``ideas/all_ideas/registry/i117_prototype_patch_dictionary_network``): puzzle-like
 positions may contain local motifs, but a standard CNN may hide them in
 distributed filters. A learned patch dictionary can expose motif
 assignments, reconstruction residuals, and prototype activation

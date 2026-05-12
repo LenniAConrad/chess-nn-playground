@@ -1,0 +1,33 @@
+idea_id: i066
+name: Bispectral Phase-Coupling Board Network
+slug: bispectral_phase_coupling_board_network
+status: scaffolded
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Bispectral Phase-Coupling Board Network - One-sentence
+  thesis: Puzzle-like positions may have distinctive spatial phase-coupling patterns
+  between piece pl...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md`;
+  uses a generic mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: probe_scaffold_only
+trainer_entrypoint: ideas/all_ideas/registry/i066_bispectral_phase_coupling_board_network/train.py
+config_path: ideas/all_ideas/registry/i066_bispectral_phase_coupling_board_network/config.yaml
+model_path: ideas/all_ideas/registry/i066_bispectral_phase_coupling_board_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md`.
+  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
+  of the markdown architecture. Do not benchmark or describe this folder as an implemented
+  architecture until bespoke model code replaces the shared probe.
+mechanism_family: linear_algebra
+implementation_kind: shared_probe_variant

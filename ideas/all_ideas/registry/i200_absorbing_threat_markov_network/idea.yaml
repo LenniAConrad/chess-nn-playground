@@ -1,0 +1,44 @@
+idea_id: i200
+name: Absorbing Threat Markov Network
+slug: absorbing_threat_markov_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Puzzle detection can be treated as a probabilistic process over tactical
+  states:'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md`;
+  bespoke architecture builds a board-conditioned row-stochastic transition matrix
+  over named tactical state tokens (attack_pressure, defender_available, line_open,
+  king_constrained, target_hanging, counterplay, plus proof_absorb / disproof_absorb
+  absorbing states), iterates probability mass for `transition_steps` rounds, and
+  reads absorption probabilities (prob_proof, prob_disproof, expected_steps) into
+  the puzzle classifier.
+expected_advantage: Test the packet's proposed continuation-shaped inductive bias
+  on the puzzle_binary benchmark; near-puzzles should leak probability into the disproof
+  state while real puzzles should concentrate mass into the proof state.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus absorbing-Markov diagnostics (board context, state
+  embeddings, initial distribution, row-stochastic transition matrix, full state-distribution
+  trajectory, prob_proof, prob_disproof, expected_steps, transient initial distribution,
+  trunk energy).
+compute_notes: Compact convolutional trunk plus a per-square spatial-attention readout
+  for the initial state distribution; transition matrix is a board-modulated bilinear
+  form on the state-embedding table with absorbing rows forced to identity; power
+  iteration runs `transition_steps` matrix-vector products over a `(state_count,
+  state_count)` matrix.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i200_absorbing_threat_markov_network/train.py
+config_path: ideas/all_ideas/registry/i200_absorbing_threat_markov_network/config.yaml
+model_path: ideas/all_ideas/registry/i200_absorbing_threat_markov_network/model.py
+latest_result_path: null
+notes: Bespoke implementation of the absorbing-Markov-chain architecture; CRTK metadata
+  is reporting-only.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0109_saturday_shanghai_high_upside_puzzle_batch_4.md
+source_packet_candidate: Absorbing Threat Markov Network
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: graph
+implementation_kind: bespoke_model

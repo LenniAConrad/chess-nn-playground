@@ -204,9 +204,11 @@ def align_promoted_packet_names(
 
 def discover_research_packets(packets_root: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for path in sorted(packets_root.glob("*.md")):
-        if path.name in {"README.md", "CATALOG.md"}:
+    skip_names = {"README.md", "CATALOG.md", "CATALOG.jsonl", "MANIFEST.md"}
+    for path in sorted(packets_root.rglob("*.md")):
+        if path.name in skip_names:
             continue
+        rel_path = path.relative_to(packets_root).as_posix()
         text = _read_text(path)
         title = _first_heading(text)
         name = _packet_name(title, path)
@@ -221,7 +223,7 @@ def discover_research_packets(packets_root: Path) -> list[dict[str, Any]]:
         status = _packet_status(path, title, text)
         rows.append(
             {
-                "file": path.name,
+                "file": rel_path,
                 "path": path.as_posix(),
                 "date": date_match.group(1) if date_match else "",
                 "name": name,
@@ -237,6 +239,13 @@ def _md_link(path: str, label: str) -> str:
     if any(char in path for char in " ()"):
         return f"[{label}](<{path}>)"
     return f"[{label}]({path})"
+
+
+def _registry_relative_path(path: str) -> str:
+    prefix = "ideas/all_ideas/registry/"
+    if path.startswith(prefix):
+        return path.removeprefix(prefix)
+    return path.removeprefix("ideas/")
 
 
 def _format_idea_id_batches(rows: list[dict[str, Any]], batch_size: int = 24) -> list[str]:
@@ -272,14 +281,15 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
         "",
         "| Path | Role | Edit policy |",
         "|---|---|---|",
-        "| `ideas/i###_*` | Registered idea folders with documentation, metadata, and either bespoke implementation code or explicit scaffold-only status. | Update when promoting, implementing, benchmarking, or rejecting an idea. |",
-        "| `ideas/registry.jsonl` | Machine-readable list of registered ideas. | Append/update only for registered ideas, not raw packets. |",
-        "| `ideas/TODO.md` | Execution checklist with implementation state, performance state, and next action. | Regenerate after changing idea status or packet imports. |",
-        "| `ideas/research_packets/` | Raw imported or generated research handoff packets. | Keep packet files immutable except filename/metadata normalization; use catalogs for organization. |",
-        "| `ideas/idea_template/` | Scaffold for a future registered idea folder. | Keep as template only. |",
-        "| `ideas/BENCHMARK_REPORTING.md` | Required aggregate and slice-level reporting standard. | Update when benchmark metadata or report artifacts change. |",
-        "| `ideas/chatgpt_pro_deep_math_research_prompt.md` | Deep Research prompt with duplicate-memory rules. | Update after importing meaningful new packets. |",
-        "| `ideas/idea_generation_prompt.md` | Generated prompt from `scripts/ideas/build_idea_prompt.py`. | Do not hand-edit; regenerate. |",
+        "| `ideas/all_ideas/registry/i###_*` | Registered idea folders with documentation, metadata, and either bespoke implementation code or explicit scaffold-only status. | Update when promoting, implementing, benchmarking, or rejecting an idea. |",
+        "| `ideas/all_ideas/registry/registry.jsonl` | Machine-readable list of registered ideas. | Append/update only for registered ideas, not raw packets. |",
+        "| `ideas/all_ideas/registry/TODO.md` | Execution checklist with implementation state, performance state, and next action. | Regenerate after changing idea status or packet imports. |",
+        "| `ideas/all_ideas/research/packets/classic/` | Raw imported or generated architecture research handoff packets. | Keep packet files immutable except filename/metadata normalization; use catalogs for organization. |",
+        "| `ideas/all_ideas/research/primitives/` | Primitive research sessions, prototypes, and primitive stacking notes. | Promote only after primitive-level falsifiers pass. |",
+        "| `ideas/all_ideas/registry/template/` | Scaffold for a future registered idea folder. | Keep as template only. |",
+        "| `ideas/all_ideas/docs/BENCHMARK_REPORTING.md` | Required aggregate and slice-level reporting standard. | Update when benchmark metadata or report artifacts change. |",
+        "| `ideas/all_ideas/research/prompts/chatgpt_pro_deep_math_research_prompt.md` | Deep Research prompt with duplicate-memory rules. | Update after importing meaningful new packets. |",
+        "| `ideas/all_ideas/research/prompts/idea_generation_prompt.md` | Generated prompt from `scripts/ideas/build_idea_prompt.py`. | Do not hand-edit; regenerate. |",
         "",
         "## Current Counts",
         "",
@@ -296,8 +306,8 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
         f"| `other_shared_scaffold` | {implementation_kind_counts.get('other_shared_scaffold', 0)} | Thin wrapper around another shared scaffold/baseline builder. |",
         f"| `unknown` | {implementation_kind_counts.get('unknown', 0)} | Not classifiable from current wiring; should remain rare. |",
         "",
-        f"Full implementation-kind audit: {_md_link('implementation_audit.md', 'ideas/implementation_audit.md')} and {_md_link('implementation_audit.json', 'ideas/implementation_audit.json')}.",
-        f"Implemented-architecture conformance audit: {_md_link('architecture_conformance_audit.md', 'ideas/architecture_conformance_audit.md')} and {_md_link('architecture_conformance_audit.json', 'ideas/architecture_conformance_audit.json')}.",
+        f"Full implementation-kind audit: {_md_link('audits/implementation_audit.md', 'implementation_audit.md')} and {_md_link('audits/implementation_audit.json', 'implementation_audit.json')}.",
+        f"Implemented-architecture conformance audit: {_md_link('audits/architecture_conformance_audit.md', 'architecture_conformance_audit.md')} and {_md_link('audits/architecture_conformance_audit.json', 'architecture_conformance_audit.json')}.",
         "",
         "## Registered Ideas",
         "",
@@ -306,7 +316,7 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
     ]
     for row in registered:
         target = _one_line(str(row["target_task"]), 90)
-        folder_link = row["folder"].removeprefix("ideas/")
+        folder_link = _registry_relative_path(row["folder"])
         lines.append(
             f"| `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | `{row['status']}` | "
             f"`{row['implementation_status']}` | `{row.get('implementation_kind') or 'unknown'}` | {target} |"
@@ -317,9 +327,9 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
         "## Research Packet Map",
         "",
         f"- Execution TODO: {_md_link('TODO.md', 'TODO.md')}",
-        f"- Human catalog: {_md_link('research_packets/CATALOG.md', 'research_packets/CATALOG.md')}",
-            f"- Machine catalog: {_md_link('research_packets/CATALOG.jsonl', 'research_packets/CATALOG.jsonl')}",
-            f"- Import memory and family warnings: {_md_link('research_packets/README.md', 'research_packets/README.md')}",
+        f"- Human catalog: {_md_link('../research/packets/CATALOG.md', 'ideas/all_ideas/research/packets/CATALOG.md')}",
+            f"- Machine catalog: {_md_link('../research/packets/CATALOG.jsonl', 'ideas/all_ideas/research/packets/CATALOG.jsonl')}",
+            f"- Import memory and family warnings: {_md_link('../research/packets/README.md', 'ideas/all_ideas/research/packets/README.md')}",
             "",
             "Most frequent packet tags:",
             "",
@@ -335,13 +345,13 @@ def build_index_md(registered: list[dict[str, Any]], packets: list[dict[str, Any
             "## Recommended Work Loop",
             "",
             "1. Pick one research packet or registered idea and read only its packet plus this index.",
-            "2. If the source is a packet, promote it into the next `ideas/i###_*` folder using `ideas/idea_template/`.",
-            "3. Update `ideas/registry.jsonl` only after the promoted folder has the complete scaffold.",
+            "2. If the source is a packet, promote it into the next `ideas/all_ideas/registry/i###_*` folder using `ideas/all_ideas/registry/template/`.",
+            "3. Update `ideas/all_ideas/registry/registry.jsonl` only after the promoted folder has the complete scaffold.",
             "4. Implement reusable model code in `src/chess_nn_playground/models/`; idea-local `model.py` should be a thin registered-builder wrapper only after the bespoke model exists.",
             "5. Add a config under `configs/benchmarks/<task>/` or keep an idea-local `config.yaml`, then add a focused smoke test before training.",
             "6. Run the benchmark suite, then update the idea folder with result links and status.",
             "",
-            "For detailed steps, see `ideas/WORKFLOW.md`.",
+            "For detailed steps, see `ideas/all_ideas/docs/WORKFLOW.md`.",
             "",
             "Generated by `PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py`.",
         ]
@@ -356,7 +366,7 @@ def build_catalog_md(packets: list[dict[str, Any]]) -> str:
     lines: list[str] = [
         "# Research Packet Catalog",
         "",
-        "This generated catalog is the fast index for `ideas/research_packets/`. Raw packet files remain in place; this file gives future Codex sessions enough metadata to choose what to read next.",
+        "This generated catalog is the fast index for `ideas/all_ideas/research/packets/classic/`. Raw packet files remain in place; this file gives future Codex sessions enough metadata to choose what to read next.",
         "",
         "## Status Counts",
         "",
@@ -577,7 +587,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
             "",
             "Recommended immediate sequence:",
             "",
-            "1. Promote `VetoSelect Positive-Claim Abstention` into `ideas/i011_vetoselect_positive_claim_abstention/` and implement a small model/head.",
+            "1. Promote `VetoSelect Positive-Claim Abstention` into `ideas/all_ideas/registry/i011_vetoselect_positive_claim_abstention/` and implement a small model/head.",
             "2. If VetoSelect is too objective/head-specific, promote `Soft-Dykstra Latent Constraint Projector` as the high-novelty architecture candidate.",
             "3. Promote `Sparse Relation Pursuit Asymmetry` as the interpretable relation-token candidate.",
         ]
@@ -598,7 +608,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
         "",
         *recommendation_lines,
         "",
-        "Canonical benchmark split: `data/splits/crtk_sample_3class_unique_crtk_tags/`. Every new run must include the slice reporting required by `ideas/BENCHMARK_REPORTING.md`.",
+        "Canonical benchmark split: `data/splits/crtk_sample_3class_unique_crtk_tags/`. Every new run must include the slice reporting required by `ideas/all_ideas/docs/BENCHMARK_REPORTING.md`.",
         "",
         "Baseline to beat on `puzzle_binary`: rerun the LC0 BT4-style classifier on the canonical clean tagged split before making final comparisons. Older leaderboard numbers came from earlier split artifacts and are useful only as rough orientation.",
         "",
@@ -617,7 +627,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
         implemented = "yes" if row["implementation_status"] in TRAINABLE_IMPLEMENTATION_STATES else "no"
         performance = "not run" if not row.get("latest_result_path") else f"see `{row['latest_result_path']}`"
         done = "[ ]" if implemented == "no" else "[x]"
-        folder_link = row["folder"].removeprefix("ideas/")
+        folder_link = _registry_relative_path(row["folder"])
         lines.append(
             f"| {done} | `{row['idea_id']}` | {_md_link(folder_link, row['name'])} | {implemented} | "
             f"`{row.get('implementation_kind') or 'unknown'}` | {performance} | {_next_action_for_registered(row)} |"
@@ -634,7 +644,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
             "",
             "## Research Packet Backlog",
             "",
-            "Raw packets below are kept for provenance, synthesis context, or duplicate prevention. Source packets that have been promoted are marked accordingly; code lives under registered `ideas/i###_*` folders.",
+            "Raw packets below are kept for provenance, synthesis context, or duplicate prevention. Source packets that have been promoted are marked accordingly; code lives under registered `ideas/all_ideas/registry/i###_*` folders.",
             "",
         ]
     )
@@ -660,7 +670,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
         )
         for row in rows:
             lines.append(
-                f"| [ ] | {_md_link('research_packets/' + row['file'], row['name'])} | no | not run | {row['next_action']} |"
+                f"| [ ] | {_md_link('../research/packets/' + row['file'], row['name'])} | no | not run | {row['next_action']} |"
             )
         lines.append("")
 
@@ -688,12 +698,12 @@ def write_jsonl(rows: list[dict[str, Any]], path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build idea and research packet navigation catalogs.")
-    parser.add_argument("--ideas-root", default="ideas")
-    parser.add_argument("--packets-root", default="ideas/research_packets")
-    parser.add_argument("--index-output", default="ideas/INDEX.md")
-    parser.add_argument("--catalog-output", default="ideas/research_packets/CATALOG.md")
-    parser.add_argument("--jsonl-output", default="ideas/research_packets/CATALOG.jsonl")
-    parser.add_argument("--todo-output", default="ideas/TODO.md")
+    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
+    parser.add_argument("--packets-root", default="ideas/all_ideas/research/packets")
+    parser.add_argument("--index-output", default="ideas/all_ideas/registry/INDEX.md")
+    parser.add_argument("--catalog-output", default="ideas/all_ideas/research/packets/CATALOG.md")
+    parser.add_argument("--jsonl-output", default="ideas/all_ideas/research/packets/CATALOG.jsonl")
+    parser.add_argument("--todo-output", default="ideas/all_ideas/registry/TODO.md")
     args = parser.parse_args()
 
     ideas_root = Path(args.ideas_root)

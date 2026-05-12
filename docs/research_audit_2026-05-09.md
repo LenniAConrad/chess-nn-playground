@@ -85,7 +85,7 @@ No new training needed.
 
 **Why it matters.** If the multi-objective machinery is helping → the bespoke ideas have real value beyond the trunk. If it's hurting → simplifying back to BCE-only with the same trunk would already match or beat them, and the architectural research direction needs reframing.
 
-**Effort.** Small. Use the ablations already documented in `ideas/i011_vetoselect_positive_claim_abstention/ablations.md`:
+**Effort.** Small. Use the ablations already documented in `ideas/all_ideas/registry/i011_vetoselect_positive_claim_abstention/ablations.md`:
 - A1: disable decoys via `warmup_epochs`
 - A4: remove anchor via `lambda_anchor: 0.0`
 - Plus a plain-BCE LC0 control on the same split (just `bench_residual_small_lc0bt4` from issue #1).
@@ -322,7 +322,7 @@ true corrected test PR AUC, future runs must use `training.monitor: pr_auc`
 
 If the goal is "publish the robustness story":
 
-1. Run i011 ablations from `ideas/i011_vetoselect_positive_claim_abstention/ablations.md`
+1. Run i011 ablations from `ideas/all_ideas/registry/i011_vetoselect_positive_claim_abstention/ablations.md`
    (decoys disabled, `lambda_anchor: 0.0`) base-only — confirms the abstention
    machinery is what's driving the promotion/underpromotion improvement, not
    just trunk variance.

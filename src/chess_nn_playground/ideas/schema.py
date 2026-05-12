@@ -24,7 +24,7 @@ REQUIRED_IDEA_FIELDS = [
     "notes",
 ]
 
-ALLOWED_IDEA_STATUS = {"draft", "scaffolded", "implemented", "tested", "rejected", "archived"}
+ALLOWED_IDEA_STATUS = {"draft", "proposed", "scaffolded", "implemented", "tested", "rejected", "archived"}
 
 ALLOWED_IMPLEMENTATION_KINDS = {
     "bespoke_model",

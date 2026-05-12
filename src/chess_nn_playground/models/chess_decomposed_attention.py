@@ -336,7 +336,7 @@ class ChessDecomposedAttentionNetwork(nn.Module):
             + alpha_gl * gl_logit
             + residual_logit
         )
-        logits = puzzle_logit.unsqueeze(-1)  # [B, 1]
+        logits = puzzle_logit  # [B]
 
         # Diagnostics (mirrors i193's contract)
         eps = 1.0e-6

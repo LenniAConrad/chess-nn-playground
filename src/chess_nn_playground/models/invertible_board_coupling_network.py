@@ -1,7 +1,7 @@
 """Invertible Board Coupling Network (idea i122).
 
 This bespoke model materialises the reversible-encoder thesis from
-`ideas/i122_invertible_board_coupling_network/math_thesis.md`. Standard
+`ideas/all_ideas/registry/i122_invertible_board_coupling_network/math_thesis.md`. Standard
 encoders can discard information early, which makes it hard to know whether
 the model latched onto legitimate current-board structure or fragile
 shortcuts. This network preserves information by construction with a stack

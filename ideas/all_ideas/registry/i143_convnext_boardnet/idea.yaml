@@ -1,0 +1,39 @@
+idea_id: i143
+name: ConvNeXt BoardNet
+slug: convnext_boardnet
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Use a small ConvNeXt-style architecture adapted to `8 x 8` chess boards:
+  depthwise spatial mixing, inverted channel MLPs, residual scaling, coordinate planes,
+  and a strong global pooling head.'
+novelty_claim: Bespoke ConvNeXt-style classifier specialized to the 8x8 board, with
+  depthwise spatial mixing, inverted channel MLPs, learned LayerScale residual scaling,
+  deterministic coordinate planes (rank, file, center-distance, square color), and
+  a four-pool head (mean, max, std, learned attention pool) — distinct from generic
+  CNN baselines and from the proposal-conditioned ResearchPacketProbe scaffold.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus ConvNeXt-trunk diagnostics (convnext_feature_energy,
+  pool_attention_entropy, pool_attention_peak, spatial_contrast, feature_std,
+  coordinate_response, piece_density) saved to prediction artifacts.
+compute_notes: Compact ConvNeXt-style trunk (depthwise conv + inverted channel MLP
+  + LayerScale, no spatial downsampling) over the configured board planes followed
+  by a four-pool classifier head.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i143_convnext_boardnet/train.py
+config_path: ideas/all_ideas/registry/i143_convnext_boardnet/config.yaml
+model_path: ideas/all_ideas/registry/i143_convnext_boardnet/model.py
+latest_result_path: null
+notes: Bespoke ConvNeXt BoardNet implementation registered as `convnext_boardnet`;
+  the prior shared `ResearchPacketProbe` scaffold has been removed.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md
+source_packet_candidate: ConvNeXt BoardNet
+source_packet_rank: 1
+source_packet_status: batch packet
+mechanism_family: generic
+implementation_kind: bespoke_model

@@ -1,0 +1,36 @@
+idea_id: i101
+name: Residual Calibration Error Field
+slug: residual_calibration_error_field
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: If the existing CNN has good accuracy but poor reliability on near-puzzles,
+  a residual calibration architecture can predict where the baseline is likely overconfident.
+  The model learns a spatial "calibration error field" and uses it to adjust logits
+  or prod...
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`;
+  uses a information mechanism profile over board-only features rather than generic
+  CNN-only pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus raw-logit, calibration-temperature,
+  residual-correction, confidence-shift, and error-field diagnostics.
+compute_notes: Compact convolutional trunk with a spatial calibration error-field
+  branch that predicts sample-wise temperature and bounded residual logit correction.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i101_residual_calibration_error_field/train.py
+config_path: ideas/all_ideas/registry/i101_residual_calibration_error_field/config.yaml
+model_path: ideas/all_ideas/registry/i101_residual_calibration_error_field/model.py
+latest_result_path: null
+notes: Bespoke implementation in `src/chess_nn_playground/models/residual_calibration.py`
+  with idea-local wrapper `ideas/all_ideas/registry/i101_residual_calibration_error_field/model.py`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md
+source_packet_candidate: Residual Calibration Error Field
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: robustness
+implementation_kind: bespoke_model

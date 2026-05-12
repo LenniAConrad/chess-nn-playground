@@ -137,7 +137,7 @@ def _read_registry(registry_path: str | Path) -> list[dict[str, Any]]:
 def build_chatgpt_run_prompt(
     results_dir: str | Path = "results",
     leaderboard_path: str | Path = "results/leaderboard.md",
-    registry_path: str | Path = "ideas/registry.jsonl",
+    registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl",
     max_runs: int | None = 25,
 ) -> str:
     runs = discover_run_summaries(results_dir, max_runs=max_runs)

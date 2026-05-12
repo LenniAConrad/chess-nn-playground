@@ -1,7 +1,7 @@
 """Legal-Constraint Projection Residual Network (idea i134).
 
 Bespoke implementation of the projection-residual architecture promoted from
-``ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
 (candidate 4).
 
 A small CNN trunk turns the simple_18 board tensor into a soft latent belief map

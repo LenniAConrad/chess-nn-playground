@@ -336,14 +336,14 @@ training:
 PYTHONDONTWRITEBYTECODE=1 python scripts/train_model.py --config configs/benchmarks/puzzle_binary/my_model.yaml
 ```
 
-For registered research ideas under `ideas/i###_*`, keep the shared `train.py` wrapper. It calls the idea guard, which verifies:
+For registered research ideas under `ideas/all_ideas/registry/i###_*`, keep the shared `train.py` wrapper. It calls the idea guard, which verifies:
 
 - `idea.yaml` and `config.yaml` refer to the same idea id and slug.
 - `config.yaml` uses `device: nvidia`.
 - `model.name` is registered before training.
 - `implementation_status` is `implemented` or `tested`.
 
-Start model files from `ideas/idea_template/model.py` or the reusable chunks in `chess_nn_playground.models.idea_blocks` so board input shapes and classifier output shapes stay consistent.
+Start model files from `ideas/all_ideas/registry/template/model.py` or the reusable chunks in `chess_nn_playground.models.idea_blocks` so board input shapes and classifier output shapes stay consistent.
 
 ## Scaling Rules
 

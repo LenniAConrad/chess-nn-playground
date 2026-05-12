@@ -1,0 +1,39 @@
+idea_id: i030
+name: Nuisance-Orthogonal Puzzle Bottleneck
+slug: nuisance_orthogonal_puzzle_bottleneck
+status: implemented
+created_at: '2026-04-30T15:43:30+00:00'
+author: Codex
+short_thesis: '- Idea name: Nuisance-Orthogonal Puzzle Bottleneck, abbreviated `NOPB`.
+  - One-sentence thesis: A chess puzzle-like position should remain recognizable after
+  the model''...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-21_0508_tuesday_local_nuisance_orthogonal.md`;
+  uses a closed-form batchwise ridge orthogonal projection of a CNN latent against
+  a fixed deterministic chess nuisance design matrix instead of a generic CNN, an
+  attack/sheaf graph, or a one-ply move-delta set.
+expected_advantage: Test the packet's proposed nuisance-residualisation signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus projection diagnostics (residual covariance norm,
+  post-projection latent variance, nuisance rank estimate, and scalar nuisance summaries)
+  saved to prediction artifacts.
+compute_notes: Compact convolutional residual trunk plus deterministic 64-dimensional
+  nuisance vector and closed-form batchwise ridge residualisation `Z = H - gamma *
+  Q (Q^T Q + lambda I)^{-1} Q^T H`.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/train.py
+config_path: ideas/all_ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/config.yaml
+model_path: ideas/all_ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-21_0508_tuesday_local_nuisance_orthogonal.md`.
+  Implemented as a bespoke board-only nuisance-orthogonal puzzle bottleneck with a
+  deterministic 64-d chess nuisance vector, a fixed normalized nuisance feature map,
+  a compact residual CNN trunk, and a closed-form batchwise ridge residualisation
+  `Z = H - gamma * Q (Q^T Q + lambda I)^{-1} Q^T H`. The folder keeps the repository
+  i030 target contract with fine labels 0 and 1 as non-puzzle and fine label 2 as
+  puzzle.
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

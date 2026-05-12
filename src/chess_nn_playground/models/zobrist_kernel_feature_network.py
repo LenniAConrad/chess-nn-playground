@@ -1,7 +1,7 @@
 """Zobrist Kernel Feature Network (idea i135).
 
 Bespoke implementation of the kernel-feature architecture promoted from
-``ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
 (candidate 5).
 
 Classical Zobrist hashing assigns a random bitstring ``z(p, s)`` to every

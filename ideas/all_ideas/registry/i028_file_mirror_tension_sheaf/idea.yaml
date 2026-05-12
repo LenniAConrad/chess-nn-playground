@@ -1,0 +1,33 @@
+idea_id: i028
+name: File-Mirror Tension Sheaf
+slug: file_mirror_tension_sheaf
+status: implemented
+created_at: '2026-04-30T15:43:30+00:00'
+author: Codex
+short_thesis: '- Idea name: File-Mirror Tension Sheaf - One-sentence thesis: Puzzle-like
+  chess positions can be detected from board-only inputs by learning a small signed
+  directed sh...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-21_0437_tuesday_los_angeles_mirror_tension_sheaf.md`;
+  uses a sheaf mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Board-only typed signed directed sheaf with twelve edge types, gated
+  diffusion, energy readout, and a learnable file-mirror partial-equivariance gate.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i028_file_mirror_tension_sheaf/train.py
+config_path: ideas/all_ideas/registry/i028_file_mirror_tension_sheaf/config.yaml
+model_path: ideas/all_ideas/registry/i028_file_mirror_tension_sheaf/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-21_0437_tuesday_los_angeles_mirror_tension_sheaf.md`.
+  Implemented as a bespoke board-only file-mirror tension sheaf with learned typed
+  restriction maps, gated diffusion, energy-statistic readout, and a file-mirror
+  partial-equivariance gate. The folder keeps the repository i028 target contract
+  with fine labels 0 and 1 as non-puzzle and fine label 2 as puzzle.
+implementation_kind: bespoke_model

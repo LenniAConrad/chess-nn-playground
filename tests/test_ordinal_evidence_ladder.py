@@ -13,7 +13,7 @@ from chess_nn_playground.models.ordinal_evidence_ladder import OrdinalEvidenceLa
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i035_ordinal_evidence_ladder_network")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i035_ordinal_evidence_ladder_network")
 
 
 def _load_config() -> dict:

@@ -1,0 +1,39 @@
+idea_id: i150
+name: Early-Exit Cascade BoardNet
+slug: early_exit_cascade_boardnet
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Some positions may be easy and should not need a heavy model, while
+  ambiguous near-puzzles need deeper computation. Build a cascade with several classifier
+  exits and train it to produce useful early predictions plus a final refined prediction.
+novelty_claim: Bespoke cascade of stage-wise board classifiers fused by a learned
+  forward-halting expectation, so a single BCE-with-logits loss on the cascade
+  log-odds trains every exit and every halting gate jointly without trainer
+  modifications.
+expected_advantage: Test the packet's proposed cascade structure under the same
+  puzzle_binary benchmark contract as the other ideas, with `expected_exit_index`
+  exposing whether the gates actually halt early on easy positions.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One cascade puzzle logit plus per-exit logits, per-exit halting
+  probabilities, cascade weights, and the expected-exit-index diagnostic.
+compute_notes: Shared convolutional trunk of `num_exits` stages with `depth`
+  residual blocks each, exit heads at every stage, and a learned forward-halting
+  expectation fusing them.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i150_early_exit_cascade_boardnet/train.py
+config_path: ideas/all_ideas/registry/i150_early_exit_cascade_boardnet/config.yaml
+model_path: ideas/all_ideas/registry/i150_early_exit_cascade_boardnet/model.py
+latest_result_path: null
+notes: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
+  Bespoke `EarlyExitCascadeBoardNet` model with a learned forward-halting
+  expectation over per-stage classifier exits.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md
+source_packet_candidate: Early-Exit Cascade BoardNet
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: tempo
+implementation_kind: bespoke_model

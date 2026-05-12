@@ -1,7 +1,7 @@
 """Pivot Trace Elimination Network for idea i142.
 
 Implements the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md``
 (Candidate 6: Pivot Trace Elimination Network).
 
 The board is encoded into ``K`` group summaries ``g in R^{K x D}``

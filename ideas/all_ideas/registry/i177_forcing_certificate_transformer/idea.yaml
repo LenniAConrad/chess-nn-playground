@@ -1,0 +1,49 @@
+idea_id: i177
+name: Forcing-Certificate Transformer
+slug: forcing_certificate_transformer
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'A real puzzle should admit a compact tactical certificate (attacker,
+  target, defender, blocker, tempo). Near-puzzles often look tactical but fail because
+  the certificate has a hole, so a small bank of structured certificate slots should
+  classify the position instead of a single global embedding.'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`
+  (Idea 1, "Forcing-Certificate Transformer"); replaces a single puzzle head with
+  `num_slots` learnable certificate-slot queries that cross-attend to 64 square tokens
+  with fixed chess relation biases (same line, knight reach, king-zone, pawn attack),
+  and reads the puzzle logit as `logsumexp(slot_score_k) + global_residual_logit`.
+expected_advantage: Test the packet's certificate-slot signal under the same puzzle_binary
+  benchmark contract as the other ideas — slot competition with chess relation priors
+  gives the model a way to refuse near-puzzles whose certificate does not close.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (BCE-with-logits) plus per-slot scalar scores, the
+  log-sum-exp aggregate, the global residual logit, slot attention maps, slot
+  attention entropy / max / margin diagnostics, slot diversity, slot embeddings,
+  square-token features, the trunk feature map, and the relation bias the slots
+  saw.
+compute_notes: Compact convolutional trunk over `simple_18` plus a small slot-attention
+  Transformer. `num_slots` learnable queries cross-attend to 64 square tokens with
+  a per-slot mixture of fixed chess relation matrices, run for `slot_iters` iterations,
+  and feed a per-slot scalar head whose log-sum-exp is added to a mean-pooled
+  global residual logit.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i177_forcing_certificate_transformer/train.py
+config_path: ideas/all_ideas/registry/i177_forcing_certificate_transformer/config.yaml
+model_path: ideas/all_ideas/registry/i177_forcing_certificate_transformer/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/forcing_certificate_transformer.py`
+  (`ForcingCertificateTransformer`); the idea-local `model.py` is a thin wrapper around
+  the registered builder. `num_slots` learnable certificate-slot queries cross-attend
+  to 64 square tokens with chess relation biases (same line, knight reach, king-zone,
+  pawn attack), and the puzzle logit is `logsumexp(slot_scores) + global_residual_logit`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
+source_packet_candidate: Forcing-Certificate Transformer
+source_packet_rank: 1
+source_packet_status: batch packet
+mechanism_family: graph
+implementation_kind: bespoke_model

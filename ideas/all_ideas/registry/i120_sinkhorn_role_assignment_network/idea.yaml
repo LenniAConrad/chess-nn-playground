@@ -1,0 +1,41 @@
+idea_id: i120
+name: Sinkhorn Role Assignment Network
+slug: sinkhorn_role_assignment_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Puzzle-like positions often contain latent tactical roles: target king,
+  forcing piece, blocker, loose defender, escape square, overloaded piece, promotion
+  candidate. Instead of asking attention to discover these roles implicitly, assign
+  board objects to a f...'
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`;
+  uses a masked log-domain Sinkhorn-Knopp transport layer with learned role-prototype
+  costs and an explicit dustbin role rather than the proposal-conditioned probe scaffold.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus the Sinkhorn assignment matrix, role vectors,
+  role mass / share, dustbin share, per-piece transported mass, mean assignment entropy,
+  pair-interaction summary, and CNN summary saved to prediction artifacts.
+compute_notes: Piece-token encoder over occupied squares with coordinate and local-occupancy
+  features, log-domain masked Sinkhorn-Knopp iterations against learned role prototypes
+  with a dustbin slot, pairwise role-slot interaction MLP, and a light convolutional
+  board summary branch.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i120_sinkhorn_role_assignment_network/train.py
+config_path: ideas/all_ideas/registry/i120_sinkhorn_role_assignment_network/config.yaml
+model_path: ideas/all_ideas/registry/i120_sinkhorn_role_assignment_network/model.py
+latest_result_path: null
+notes: Bespoke Sinkhorn role-assignment network bound to the
+  `sinkhorn_role_assignment_network` registry entry implemented in
+  `src/chess_nn_playground/models/sinkhorn_role_assignment_network.py`. Promoted
+  from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
+source_packet_candidate: Sinkhorn Role Assignment Network
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: transport
+implementation_kind: bespoke_model

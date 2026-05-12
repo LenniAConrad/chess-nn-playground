@@ -26,7 +26,7 @@ from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
-IDEA_FOLDER = Path("ideas/i029_entropic_piece_target_transport_bottleneck")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i029_entropic_piece_target_transport_bottleneck")
 
 
 def _load_idea_config() -> dict:

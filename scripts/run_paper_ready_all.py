@@ -356,7 +356,7 @@ def discover_config_paths(
             paths.extend(_suite_configs(suite_path))
         paths.extend(sorted(Path("configs/benchmarks").rglob("bench_*.yaml")))
     if include_ideas:
-        for config_path in sorted(Path("ideas").glob("i[0-9][0-9][0-9]_*/config.yaml")):
+        for config_path in sorted(Path("ideas/all_ideas/registry").glob("i[0-9][0-9][0-9]_*/config.yaml")):
             idea_path = config_path.parent / "idea.yaml"
             idea = load_yaml(idea_path) if idea_path.exists() else {}
             if (

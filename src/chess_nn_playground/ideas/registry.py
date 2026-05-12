@@ -7,7 +7,7 @@ from typing import Any
 from chess_nn_playground.ideas.validation import validate_registry
 
 
-def list_ideas(registry_path: str | Path = "ideas/registry.jsonl") -> list[dict[str, Any]]:
+def list_ideas(registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl") -> list[dict[str, Any]]:
     path = Path(registry_path)
     if not path.exists():
         return []
@@ -18,12 +18,12 @@ def list_ideas(registry_path: str | Path = "ideas/registry.jsonl") -> list[dict[
     return entries
 
 
-def idea_statuses(registry_path: str | Path = "ideas/registry.jsonl") -> list[tuple[str, str]]:
+def idea_statuses(registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl") -> list[tuple[str, str]]:
     return [(entry.get("idea_id", ""), entry.get("status", "")) for entry in list_ideas(registry_path)]
 
 
 def validate_ideas(
-    registry_path: str | Path = "ideas/registry.jsonl",
-    ideas_root: str | Path = "ideas",
+    registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl",
+    ideas_root: str | Path = "ideas/all_ideas/registry",
 ) -> dict[str, Any]:
     return validate_registry(registry_path, ideas_root)

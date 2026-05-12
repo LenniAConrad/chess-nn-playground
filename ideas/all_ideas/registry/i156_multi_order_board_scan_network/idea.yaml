@@ -1,0 +1,43 @@
+idea_id: i156
+name: Multi-Order Board Scan Network
+slug: multi_order_board_scan_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'A chess board can be read as several short sequences. Different scan
+  orders expose different dependencies: rank-major, file-major, diagonal,
+  spiral-from-king, and center-out. A shared bidirectional sequence model over those
+  fixed board orders extracts dependencies that are useful from multiple scan directions
+  at once.'
+novelty_claim: Bespoke multi-order scan architecture for the puzzle_binary contract.
+  Per-square trunk features are re-ordered by five fixed scan orders -- four static
+  permutations plus a spiral-from-king lookup -- and consumed by a single shared
+  bidirectional GRU with per-scan, per-position embeddings; the order-pooled summaries
+  feed the readout.
+expected_advantage: Test the packet's "different scan orders expose different dependencies"
+  thesis under the same puzzle_binary benchmark contract as the other ideas. Sharing
+  the sequence model forces ordering-invariant signal extraction; per-scan position
+  embeddings make the orderings distinguishable.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-scan summary vectors and norms, scan
+  permutations, and the friendly king square saved to prediction artifacts.
+compute_notes: Compact convolutional trunk plus a single shared bidirectional GRU
+  applied across five scan-order permutations of the 64 board squares.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i156_multi_order_board_scan_network/train.py
+config_path: ideas/all_ideas/registry/i156_multi_order_board_scan_network/config.yaml
+model_path: ideas/all_ideas/registry/i156_multi_order_board_scan_network/model.py
+latest_result_path: null
+notes: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md`.
+  Bespoke `MultiOrderBoardScanNetwork` model. A convolutional trunk produces
+  per-square tokens which are re-ordered by five fixed scan orders and consumed by
+  a shared bidirectional GRU; the order-pooled summaries drive the puzzle logit.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2213_friday_shanghai_architecture_batch_10.md
+source_packet_candidate: Multi-Order Board Scan Network
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: grammar
+implementation_kind: bespoke_model

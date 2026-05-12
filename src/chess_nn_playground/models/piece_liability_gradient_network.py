@@ -1,7 +1,7 @@
 """Piece Liability Gradient Network for idea i202.
 
 Working thesis (from
-``ideas/i202_piece_liability_gradient_network/math_thesis.md``): in
+``ideas/all_ideas/registry/i202_piece_liability_gradient_network/math_thesis.md``): in
 many puzzles a piece is not merely attacked, it is *liable* -- it
 cannot move, defend, capture, or stay without losing something. Near
 puzzles may attack pieces but the liability does not propagate through

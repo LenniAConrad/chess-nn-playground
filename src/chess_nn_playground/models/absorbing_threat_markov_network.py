@@ -1,6 +1,6 @@
 """Absorbing Threat Markov Network for idea i200.
 
-Working thesis (from ``ideas/i200_absorbing_threat_markov_network/math_thesis.md``):
+Working thesis (from ``ideas/all_ideas/registry/i200_absorbing_threat_markov_network/math_thesis.md``):
 puzzle detection can be treated as a probabilistic process over tactical
 states::
 

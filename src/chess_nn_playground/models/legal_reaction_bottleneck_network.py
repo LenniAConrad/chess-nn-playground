@@ -1,7 +1,7 @@
 """Legal-Reaction Bottleneck Network for idea i186.
 
 Faithful implementation of the markdown thesis under
-``ideas/i186_legal_reaction_bottleneck_network/``. The packet's
+``ideas/all_ideas/registry/i186_legal_reaction_bottleneck_network/``. The packet's
 working thesis is that a real puzzle is not merely a position with a
 threat: it is a position where the *defender's normal-looking
 reactions either fail or are too few*. Near-puzzles often contain

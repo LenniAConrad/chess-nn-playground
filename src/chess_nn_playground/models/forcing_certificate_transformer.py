@@ -1,7 +1,7 @@
 """Forcing-Certificate Transformer for idea i177.
 
 Faithful implementation of the markdown thesis under
-``ideas/i177_forcing_certificate_transformer/``. The model classifies a
+``ideas/all_ideas/registry/i177_forcing_certificate_transformer/``. The model classifies a
 position by trying to assemble a small, slot-structured tactical
 certificate
 

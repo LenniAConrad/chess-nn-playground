@@ -1,0 +1,32 @@
+idea_id: i068
+name: Schur-Ray Line Algebra Network
+slug: schur_ray_line_algebra_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: Schur-Ray Line Algebra Network tests whether a generic board mechanism
+  improves puzzle-binary classification.
+novelty_claim: Promoted from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`;
+  uses a low-rank Woodbury/Schur line-equilibrium solve over the 46 rank/file/diagonal
+  ray incidence rather than generic CNN-only pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus Schur/Woodbury, line-correction, energy, and material
+  diagnostics saved to prediction artifacts.
+compute_notes: Coordinate-augmented convolutional stem, board-conditioned line modes
+  over fixed rank/file/diagonal incidence, and a low-rank Woodbury Schur solve in
+  the line subspace fused with CNN and material summaries.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i068_schur_ray_line_algebra_network/train.py
+config_path: ideas/all_ideas/registry/i068_schur_ray_line_algebra_network/config.yaml
+model_path: ideas/all_ideas/registry/i068_schur_ray_line_algebra_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2127_friday_shanghai_schur_ray_line_algebra.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/schur_ray_line_algebra.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+mechanism_family: grammar
+implementation_kind: bespoke_model

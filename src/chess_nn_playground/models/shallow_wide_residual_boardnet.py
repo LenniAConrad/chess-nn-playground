@@ -1,7 +1,7 @@
 """Shallow Wide Residual BoardNet for idea i148.
 
 Bespoke implementation of the markdown architecture from
-``ideas/research_packets/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2208_friday_shanghai_plain_architecture_batch.md``
 candidate 6.  The model is a deliberately shallow but wide residual CNN
 over the simple_18 board planes:
 

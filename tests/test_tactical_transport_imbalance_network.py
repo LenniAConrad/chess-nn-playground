@@ -12,7 +12,7 @@ from chess_nn_playground.ideas.implementation_kind import detect_idea_implementa
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i031_tactical_transport_imbalance_network")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i031_tactical_transport_imbalance_network")
 
 
 def _load_config() -> dict:

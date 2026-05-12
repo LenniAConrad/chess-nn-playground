@@ -1,7 +1,7 @@
 """Low-Rank Signed Cut Query Network (idea i136).
 
 Bespoke implementation of the architecture promoted from
-``ideas/research_packets/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
+``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``
 (candidate 6).
 
 Thesis: puzzle-like positions often separate the board into tense regions

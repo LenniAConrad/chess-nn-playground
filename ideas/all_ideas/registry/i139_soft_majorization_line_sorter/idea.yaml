@@ -1,0 +1,41 @@
+idea_id: i139
+name: Soft Majorization Line Sorter
+slug: soft_majorization_line_sorter
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: On a tactical line, the exact order and dominance of pieces often matters
+  more than a bag of line pieces. Instead of a ray automaton or line language model,
+  compute differentiable sorted salience profiles along ranks/files/diagonals and
+  classify from majori...
+novelty_claim: Bespoke per-line SoftSort majorization readout over learned salience
+  fields; classifies from sorted-profile descriptors (top values, adjacent gaps,
+  top-j concentration ratios, normalized entropy) pooled within rank/file/diagonal/anti-diagonal
+  buckets, rather than from bag-of-line statistics, ray automata, attention, or line
+  recurrences.
+expected_advantage: Test the packet's proposed sorted-line dominance signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-line soft-sort majorization diagnostics
+  (salience fields, line values, sorted scores, line and bucket descriptors,
+  per-line top-1, concentration, gap01, normalized entropy, mean concentration per
+  line type, most-active line type) saved to prediction artifacts.
+compute_notes: Compact convolutional salience trunk plus a closed-form per-line
+  SoftSort and majorization-descriptor readout pooled by line type.
+implementation_status: implemented
+trainer_entrypoint: ideas/all_ideas/registry/i139_soft_majorization_line_sorter/train.py
+config_path: ideas/all_ideas/registry/i139_soft_majorization_line_sorter/config.yaml
+model_path: ideas/all_ideas/registry/i139_soft_majorization_line_sorter/model.py
+latest_result_path: null
+notes: Bespoke soft-majorization-line-sorter implementation registered as
+  `soft_majorization_line_sorter`; the prior shared `ResearchPacketProbe`
+  scaffold has been removed.
+source_packet_path: ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
+source_packet_candidate: Soft Majorization Line Sorter
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: grammar
+implementation_kind: bespoke_model

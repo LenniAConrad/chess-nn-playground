@@ -13,7 +13,7 @@ from chess_nn_playground.models.piece_target_transport import PieceTargetEntropi
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/i033_piece_target_entropic_transport_bottleneck")
+IDEA_FOLDER = Path("ideas/all_ideas/registry/i033_piece_target_entropic_transport_bottleneck")
 
 
 def _load_config() -> dict:
