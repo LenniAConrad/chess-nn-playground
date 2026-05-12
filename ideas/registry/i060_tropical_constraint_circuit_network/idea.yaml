@@ -1,0 +1,45 @@
+idea_id: i060
+name: Tropical Constraint Circuit Network
+slug: tropical_constraint_circuit_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Tropical Constraint Circuit Network - One-sentence thesis:
+  Puzzle-like positions may be better modeled as the near-satisfaction of a small
+  number of laten...'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2046_friday_shanghai_tropical_circuit.md`;
+  central operator is a differentiable min-plus tropical clause circuit over learned
+  nonnegative current-board literal costs, not a CNN, residual stack, attention
+  block, sheaf, transport, or move-delta bottleneck.
+expected_advantage: Test the packet's proposed min-plus OR-of-AND constraint signal
+  under the same puzzle_binary benchmark contract as the other ideas, with
+  sum_product_clause, mean_literal_pool, literal_square_shuffle,
+  high_temperature_softmin, and material_only_literals falsifiers from section 9
+  exposed via `model.ablation`.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus tropical-circuit diagnostics
+  (clause_softmin_cost, clause_value, clause_margin, clause_entropy,
+  clause_mean_cost, effective_monomials_per_clause, mechanism_energy).
+compute_notes: Low-rank nonnegative clause weights cost O(K * M * R + R * L) per
+  forward, with K=24, M=12, R=8, L=2048 by default; literal costs are flattened
+  before the clause layer.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i060_tropical_constraint_circuit_network/train.py
+config_path: ideas/registry/i060_tropical_constraint_circuit_network/config.yaml
+model_path: ideas/registry/i060_tropical_constraint_circuit_network/model.py
+latest_result_path: null
+notes: 'Bespoke TropicalConstraintCircuitNet over the simple_18 board tensor with a
+  Simple18LiteralCostEncoder (1x1 conv plus four fixed coordinate planes and a
+  softplus to keep literal costs nonnegative), a TropicalClauseLayer with low-rank
+  nonnegative weights a = softplus(U V) and softplus biases, a TropicalMarginPool
+  emitting clause soft-min cost, best-second margin, softmin entropy, and mean
+  monomial cost per clause, and a TropicalConstraintHead. The sum_product_clause,
+  mean_literal_pool, literal_square_shuffle, high_temperature_softmin, and
+  material_only_literals falsifiers from section 9 are exposed via the
+  model.ablation config flag. Engine, source, verification, and CRTK metadata are
+  never used as input.'
+mechanism_family: logic
+implementation_kind: bespoke_model

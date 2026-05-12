@@ -1,0 +1,27 @@
+idea_id: i014
+name: Contamination-DRO Huber Tail Rejection
+slug: contamination_dro_huber_tail_rejection
+status: implemented
+created_at: '2026-04-30T00:00:00+08:00'
+author: Codex
+short_thesis: Reject near-puzzle false positives by adding a bounded-influence upper-tail
+  robust loss on near-puzzle logit-margin violations.
+novelty_claim: This keeps inference as a single board-only binary logit while training
+  with a contamination-DRO-style tail estimator focused on fine-label 1 negatives.
+expected_advantage: Lower near-puzzle false-positive rate without adding source metadata,
+  engine signals, ensembles, or threshold-only calibration.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board tensor only, default simple_18. Fine labels are
+  used only by the training loss and diagnostics.
+output_heads: One puzzle logit plus scalar diagnostics for material and positive-margin
+  residuals.
+compute_notes: Compact convolutional board encoder with BCE plus ContaminationDROHuberTailLoss.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i014_contamination_dro_huber_tail_rejection/train.py
+config_path: ideas/registry/i014_contamination_dro_huber_tail_rejection/config.yaml
+model_path: ideas/registry/i014_contamination_dro_huber_tail_rejection/model.py
+latest_result_path: null
+notes: Promoted from the GPT/Codex near-term research packet `dro_tail_rejection`;
+  implemented and smoke-testable, not benchmarked.
+implementation_kind: bespoke_model

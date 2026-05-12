@@ -1,0 +1,37 @@
+idea_id: i166
+name: Channel-Bilinear Role Mixer
+slug: channel_bilinear_role_mixer
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Ordinary heads pool channels additively. A low-rank bilinear head can
+  explicitly model pairwise interactions between role summaries, such as own-heavy-piece
+  features with opponent-king-zone features, without building square-pair tensors
+  or local product con...
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`;
+  implements an explicit low-rank bilinear head over learned role summaries instead
+  of the additive channel pooling that ordinary CNN heads use.
+expected_advantage: Test the packet's proposed pairwise role-interaction signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus role-pool, low-rank bilinear, and interaction-matrix
+  diagnostics saved to prediction artifacts.
+compute_notes: Compact CNN trunk plus K learned role summaries and a low-rank bilinear
+  head over all ordered role pairs; head cost is O(K*D*R + K*K).
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i166_channel_bilinear_role_mixer/train.py
+config_path: ideas/registry/i166_channel_bilinear_role_mixer/config.yaml
+model_path: ideas/registry/i166_channel_bilinear_role_mixer/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`.
+  Implemented as a bespoke low-rank bilinear role-pair classifier registered under
+  `channel_bilinear_role_mixer`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md
+source_packet_candidate: Channel-Bilinear Role Mixer
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

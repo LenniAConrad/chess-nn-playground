@@ -74,7 +74,7 @@ def test_paper_report_loads_nested_runs_and_writes_pdf_summary(tmp_path):
                 "idea_i001_seed42": {
                     "status": "completed",
                     "seed": 42,
-                    "source_config": "ideas/all_ideas/registry/i001_chess_operator_basis_classifier/config.yaml",
+                    "source_config": "ideas/registry/i001_chess_operator_basis_classifier/config.yaml",
                     "run_dir": str(run_dir),
                     "generated_config": str(generated_config),
                 }

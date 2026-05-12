@@ -1,0 +1,36 @@
+idea_id: i057
+name: Soft Formal-Concept Closure Network
+slug: soft_formal_concept_closure_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Soft Formal-Concept Closure Network - One-sentence thesis:
+  Chess puzzle-likeness is partly expressed by small closed sets of co-occurring rule-derived
+  boa...'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0922_tuesday_los_angeles_concept_closure.md`;
+  central operator is a differentiable Galois closure (intent -> extent -> closed
+  intent) over a per-board formal context, not a generic CNN, attention, sheaf, or
+  transport bottleneck.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus closure diagnostics (extent_mass, closure_mass,
+  closure_expansion_l1, closure_violation_l1, closure_energy, intent_density_mean).
+compute_notes: Soft FCA closure is dominated by two dense contractions of cost O(B*K*64*M);
+  default K=64, M=83 attributes, parameter count well below 300k.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i057_soft_formal_concept_closure_network/train.py
+config_path: ideas/registry/i057_soft_formal_concept_closure_network/config.yaml
+model_path: ideas/registry/i057_soft_formal_concept_closure_network/model.py
+latest_result_path: null
+notes: Bespoke Soft Formal-Concept Closure Network with a Simple18BoardAdapter, a
+  rule-only RuleAttributeBuilder (coordinate, occupancy, king-geometry, pseudo-legal
+  pressure, ray-geometry), a SoftConceptClosureLayer implementing the soft Galois
+  derivation operators, a ConceptClosureReadout, and a pooled classifier. Includes
+  a row/column-preserving rewire control and a marginal-only ablation. Engine, source,
+  and verification metadata are never used as input.
+mechanism_family: logic
+implementation_kind: bespoke_model

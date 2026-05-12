@@ -1,7 +1,7 @@
 """Nuisance-Orthogonal Puzzle Bottleneck (idea i030).
 
 Bespoke implementation of the architecture described in
-``ideas/all_ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/architecture.md`` and
+``ideas/registry/i030_nuisance_orthogonal_puzzle_bottleneck/architecture.md`` and
 ``math_thesis.md``. The model classifies puzzle-likeness from a current-board
 ``simple_18`` tensor by:
 

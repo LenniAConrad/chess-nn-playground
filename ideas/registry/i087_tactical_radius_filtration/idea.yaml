@@ -1,0 +1,38 @@
+idea_id: i087
+name: Tactical Radius Filtration
+slug: tactical_radius_filtration
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: Select **Tactical Radius Filtration**.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-28_0857_tuesday_new_york_tactical_radius.md`;
+  defines scale by exact tactical-radius shells over a deterministic chess-rule
+  contact graph (attacks, defenses, slider blockers, slider x-rays, king zones,
+  pawn lanes), not by spatial resolution, dilation, wavelet bands, residual
+  pyramids, hypercolumns, or general square-pair attention.
+expected_advantage: Multiscale lift from typed rule-graph distance (radius 2 and
+  radius 3 shells around kings, high-value pieces, blockers, and defended
+  attackers) under the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus tactical-radius-filtration diagnostics
+  (radius shell counts, topology pressure per radius, shell readout features)
+  saved to prediction artifacts.
+compute_notes: Square MLP lift, deterministic chess-rule graph construction,
+  Boolean shell filtration over up to four tactical radii, typed shell aggregation
+  with per-group projections, mask-conditioned readout to one logit.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i087_tactical_radius_filtration/train.py
+config_path: ideas/registry/i087_tactical_radius_filtration/config.yaml
+model_path: ideas/registry/i087_tactical_radius_filtration/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-28_0857_tuesday_new_york_tactical_radius.md`.
+  Implemented as a board-only chess-rule multiscale classifier whose scale is
+  defined by exact tactical-radius shells (closed-ball minus inner-ball) over
+  typed adjacencies (attack, defense, slider blocker, slider x-ray, king zone,
+  pawn lane), with per-radius typed shell aggregation and a mask-conditioned
+  rule-zone readout to one BCE puzzle logit.
+mechanism_family: topology
+implementation_kind: bespoke_model

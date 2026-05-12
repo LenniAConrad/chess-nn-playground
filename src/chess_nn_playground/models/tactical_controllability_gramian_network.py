@@ -1,7 +1,7 @@
 """Tactical Controllability Gramian Network for idea i078.
 
 Implements the markdown architecture from
-``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_2004_saturday_shanghai_tactical_controllability_gramian.md``.
+``ideas/research/packets/classic/chess_nn_research_2026-04-25_2004_saturday_shanghai_tactical_controllability_gramian.md``.
 
 The model treats a chess position as a small linear control system
 

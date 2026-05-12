@@ -1,0 +1,39 @@
+idea_id: i115
+name: Neural Board Cellular Automaton
+slug: neural_board_cellular_automaton
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Some board patterns may be recognized by repeated local relaxation.
+  A neural cellular automaton applies the same local update rule for several steps
+  and classifies from the evolving board state and update energy.
+novelty_claim: Bespoke recurrent local-update architecture with one 3x3 cellular-automaton
+  rule whose weights are tied across all steps; the puzzle classifier reads both
+  the relaxed cell state and the per-step update-energy trajectory. Materially distinct
+  from the shared ResearchPacketProbe scaffold and from stacked-residual CNN baselines
+  whose blocks have independent weights.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-step update-energy and state-energy trajectories,
+  the pooled and final cell states, and the realized step size as diagnostics.
+compute_notes: 1x1 cell-state lift, one shared 3x3 local update rule applied for `steps`
+  iterations with tied weights and a learnable sigmoid-bounded step size, then a
+  small MLP classifier over pooled state plus update-energy summary.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i115_neural_board_cellular_automaton/train.py
+config_path: ideas/registry/i115_neural_board_cellular_automaton/config.yaml
+model_path: ideas/registry/i115_neural_board_cellular_automaton/model.py
+latest_result_path: null
+notes: Bespoke implementation registered as neural_board_cellular_automaton in src/chess_nn_playground/models/neural_board_cellular_automaton.py.
+  The idea-local model.py is a thin wrapper around build_neural_board_cellular_automaton_from_config;
+  the previous ResearchPacketProbe scaffold has been removed.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md
+source_packet_candidate: Neural Board Cellular Automaton
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: grammar
+implementation_kind: bespoke_model

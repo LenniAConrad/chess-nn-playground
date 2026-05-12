@@ -30,7 +30,7 @@ def _read_idea_yaml(path: Path) -> dict[str, Any]:
         return yaml.safe_load(handle) or {}
 
 
-def discover_existing_ideas(ideas_root: str | Path = "ideas/all_ideas/registry") -> list[dict[str, Any]]:
+def discover_existing_ideas(ideas_root: str | Path = "ideas/registry") -> list[dict[str, Any]]:
     root = Path(ideas_root)
     if not root.exists():
         return []
@@ -59,8 +59,8 @@ def discover_existing_ideas(ideas_root: str | Path = "ideas/all_ideas/registry")
 
 
 def build_idea_generation_prompt(
-    registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl",
-    ideas_root: str | Path = "ideas/all_ideas/registry",
+    registry_path: str | Path = "ideas/registry/registry.jsonl",
+    ideas_root: str | Path = "ideas/registry",
 ) -> str:
     registry_entries = _read_registry(registry_path)
     idea_folders = discover_existing_ideas(ideas_root)
@@ -170,7 +170,7 @@ Never present intuition as proof. If something is only a hypothesis, label it as
 
 If asked to create or register an idea, produce content matching:
 
-- `ideas/all_ideas/registry/{{idea_id}}_{{idea_slug}}/idea.yaml`
+- `ideas/registry/{{idea_id}}_{{idea_slug}}/idea.yaml`
 - `math_thesis.md`
 - `architecture.md`
 - `implementation_notes.md`

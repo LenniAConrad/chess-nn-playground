@@ -2,7 +2,7 @@
 
 Bespoke implementation of the orthogonal-polynomial board-moment architecture
 described in
-``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``.
+``ideas/research/packets/classic/chess_nn_research_2026-04-24_2136_friday_shanghai_architecture_batch_7.md``.
 
 A small CNN trunk projects the simple_18 board tensor into ``num_fields``
 learned scalar fields. Fixed Legendre and Chebyshev polynomial bases over

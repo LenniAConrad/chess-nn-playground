@@ -1,7 +1,7 @@
 """Motif Tensor Factorization Network for idea i182.
 
 Faithful implementation of the markdown thesis under
-``ideas/all_ideas/registry/i182_motif_tensor_factorization_network/``. The packet thesis
+``ideas/registry/i182_motif_tensor_factorization_network/``. The packet thesis
 is that puzzle signal is a *multiplicative* relation among typed roles:
 
     attacker x target x defender x line-relation x tempo

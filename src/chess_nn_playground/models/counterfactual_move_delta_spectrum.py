@@ -1,7 +1,7 @@
 """Counterfactual move-delta spectrum network for idea i026.
 
 The model implements the rule-only one-ply counterfactual move-delta spectrum
-described in `ideas/all_ideas/registry/i026_counterfactual_move_delta_spectrum_network`.
+described in `ideas/registry/i026_counterfactual_move_delta_spectrum_network`.
 
 Pipeline (per board ``x``):
 
@@ -26,7 +26,7 @@ Pipeline (per board ``x``):
 
 Returns a dict including ``logits`` shaped ``(B,)`` for the
 ``num_classes == 1`` puzzle-binary contract, plus diagnostics named in
-``ideas/all_ideas/registry/i026_counterfactual_move_delta_spectrum_network/architecture.md``.
+``ideas/registry/i026_counterfactual_move_delta_spectrum_network/architecture.md``.
 """
 
 from __future__ import annotations

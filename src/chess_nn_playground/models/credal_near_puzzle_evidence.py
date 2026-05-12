@@ -1,7 +1,7 @@
 """Credal Near-Puzzle Evidence Network for idea i045.
 
 Bespoke implementation of the architecture in
-``ideas/all_ideas/registry/i045_credal_near_puzzle_evidence_network/architecture.md`` and
+``ideas/registry/i045_credal_near_puzzle_evidence_network/architecture.md`` and
 ``math_thesis.md`` (research packet
 ``chess_nn_research_2026-04-21_0750_tuesday_los_angeles_credal_evidence.md``).
 

@@ -115,10 +115,10 @@ def build_markdown_report(summary: dict[str, Any], rows: list[dict[str, Any]], s
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Audit and validate registered idea implementation kinds.")
-    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
-    parser.add_argument("--registry", default="ideas/all_ideas/registry/registry.jsonl")
-    parser.add_argument("--output-json", default="ideas/all_ideas/registry/audits/implementation_audit.json")
-    parser.add_argument("--output-md", default="ideas/all_ideas/registry/audits/implementation_audit.md")
+    parser.add_argument("--ideas-root", default="ideas/registry")
+    parser.add_argument("--registry", default="ideas/registry/registry.jsonl")
+    parser.add_argument("--output-json", default="ideas/registry/audits/implementation_audit.json")
+    parser.add_argument("--output-md", default="ideas/registry/audits/implementation_audit.md")
     parser.add_argument("--sync-metadata", action="store_true", help="Write detected implementation_kind to idea.yaml and registry.jsonl.")
     parser.add_argument("--check", action="store_true", help="Fail if metadata and detected implementation kind disagree.")
     args = parser.parse_args()

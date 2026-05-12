@@ -9,7 +9,7 @@ identity residual. The bulk of capacity stays in the conventional
 residual blocks; the adapters add a small amount of structured slack
 that lets the network re-route channel mixing locally.
 
-The thesis (per ``ideas/all_ideas/registry/i154_adapter_sandwich_residual_cnn``) is that
+The thesis (per ``ideas/registry/i154_adapter_sandwich_residual_cnn``) is that
 adapters, which are well known from transfer-learning literature, can
 also be used as a parameter-efficient capacity knob inside an
 otherwise conventional CNN family on the puzzle_binary contract.

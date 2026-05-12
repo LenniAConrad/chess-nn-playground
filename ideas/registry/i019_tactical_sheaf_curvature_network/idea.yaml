@@ -1,0 +1,32 @@
+idea_id: i019
+name: Tactical Sheaf Curvature Network
+slug: tactical_sheaf_curvature_network
+status: implemented
+created_at: '2026-04-30T15:43:30+00:00'
+author: Codex
+short_thesis: '- Idea name: Tactical Sheaf Curvature Network, abbreviated `TSCN`.
+  - One-sentence thesis: Chess puzzle-likeness is better detected as localized inconsistency
+  in a boar...'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md`;
+  uses a learned typed sheaf coboundary plus target-centered curvature readout over
+  board-only candidate relations rather than generic CNN-only pooling.
+expected_advantage: Test the packet's typed sheaf-frustration / curvature signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus sheaf-frustration, curvature, gate, relation-group
+  energy, and stalk diagnostics saved to prediction artifacts.
+compute_notes: Compact convolutional adapter, fixed typed directed relation complex,
+  learned diagonal sheaf restrictions, sparse sigmoid edge gates, bounded sheaf-Laplacian
+  heat steps, target-centered curvature pool, and an MLP classifier head.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i019_tactical_sheaf_curvature_network/train.py
+config_path: ideas/registry/i019_tactical_sheaf_curvature_network/config.yaml
+model_path: ideas/registry/i019_tactical_sheaf_curvature_network/model.py
+latest_result_path: null
+notes: Implemented as the bespoke `tactical_sheaf_curvature_network` model in `src/chess_nn_playground/models/tactical_sheaf_curvature.py`
+  with an idea-local wrapper. The implementation consumes board tensors only and
+  follows the repo's one-logit puzzle_binary contract.
+implementation_kind: bespoke_model

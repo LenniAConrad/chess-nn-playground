@@ -1,6 +1,6 @@
 """Row-File Factor Mixer model for idea i113.
 
-Working thesis (from ``ideas/all_ideas/registry/i113_row_file_factor_mixer``):
+Working thesis (from ``ideas/registry/i113_row_file_factor_mixer``):
 chess boards have two privileged axes -- ranks and files -- and a model
 can exploit this without a full Transformer by factorizing board
 processing into rank mixers, file mixers, and piece-channel mixers,

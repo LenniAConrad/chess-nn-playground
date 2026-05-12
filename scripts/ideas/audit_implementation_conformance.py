@@ -284,7 +284,7 @@ def active_profiles(slug: str, family: str) -> list[str]:
     return [name for name, enabled in zip(PROFILE_NAMES, flags) if float(enabled) > 0.0]
 
 
-def sync_registry(rows: list[dict[str, Any]], path: Path = Path("ideas/all_ideas/registry/registry.jsonl")) -> int:
+def sync_registry(rows: list[dict[str, Any]], path: Path = Path("ideas/registry/registry.jsonl")) -> int:
     if not path.exists():
         return 0
     by_id = {str(row["idea_id"]): row for row in rows if row["packet_probe"]}
@@ -387,7 +387,7 @@ def main() -> None:
     parser.add_argument("--markdown", default="reports/idea_conformance_audit.md")
     args = parser.parse_args()
 
-    rows = [audit_one(folder, fix=args.fix) for folder in sorted(Path("ideas/all_ideas/registry").glob("i[0-9][0-9][0-9]_*"))]
+    rows = [audit_one(folder, fix=args.fix) for folder in sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*"))]
     registry_rows_changed = sync_registry(rows) if args.fix else 0
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,45 @@
+idea_id: i116
+name: Symmetric Difference Twin Encoder
+slug: symmetric_difference_twin_encoder
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Safe deterministic board transforms should preserve some evidence and
+  change other evidence. Instead of enforcing invariance, compare the original and
+  transformed board latents by symmetric difference features.
+novelty_claim: Bespoke twin-encoder architecture with one shared convolutional trunk
+  applied to both the original board and a deterministic safe file-mirror transform;
+  the puzzle classifier reads explicit `preserved = (z + z_aligned) / 2` and
+  `changed = |z - z_aligned|` symmetric-difference features rather than enforcing
+  invariance. Materially distinct from the shared ResearchPacketProbe scaffold and
+  from one-shot CNN baselines whose head sees only a single forward pass.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus pooled preserved/changed/fused features, full
+  preserved and changed feature maps, the aligned twin latents, and scalar
+  diagnostics (`symmetric_difference_energy`, `preserved_energy`,
+  `latent_disagreement`, `symmetry_residual`).
+compute_notes: One shared convolutional trunk applied twice (to `x` and to the
+  file-mirrored `T(x)` concatenated along the batch dim), latent file-flip
+  alignment, then a small fusion conv over `[preserved, changed]` and a pooled MLP
+  head.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i116_symmetric_difference_twin_encoder/train.py
+config_path: ideas/registry/i116_symmetric_difference_twin_encoder/config.yaml
+model_path: ideas/registry/i116_symmetric_difference_twin_encoder/model.py
+latest_result_path: null
+notes: Bespoke implementation registered as symmetric_difference_twin_encoder in
+  src/chess_nn_playground/models/symmetric_difference_twin_encoder.py. The
+  idea-local model.py is a thin wrapper around
+  build_symmetric_difference_twin_encoder_from_config; the previous
+  ResearchPacketProbe scaffold has been removed.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md
+source_packet_candidate: Symmetric Difference Twin Encoder
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: symmetry
+implementation_kind: bespoke_model

@@ -1,0 +1,39 @@
+idea_id: i008
+name: Boundary-Edit Lagrangian Network
+slug: boundary_edit_lagrangian_network
+status: tested
+created_at: '2026-04-25T01:00:33+08:00'
+author: Codex
+short_thesis: A near-puzzle is often close to the puzzle boundary; learn puzzlehood
+  by estimating the minimum chess-legal edit energy needed to cross that boundary.
+novelty_claim: Unlike proof-number search, this does not search continuations; unlike
+  null-move contrast, it optimizes over a richer edit family; unlike proof-core selection,
+  it measures boundary distance instead of selecting a sufficient witness.
+expected_advantage: Potentially strong hard-negative discrimination because verified
+  near-puzzles should have low but nonzero puzzle-making edit energy, while true puzzles
+  should have low proof energy and high disproof edit energy.
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor plus deterministic rule-bounded edit operators
+  over side-to-move, blockers, defenders, line openings, target protection, and king
+  escape squares. No engine metadata, source labels, or generated labels as inference
+  inputs.
+output_heads: One puzzle logit plus diagnostic puzzle-making edit energy, disproof
+  edit energy, and selected edit operator weights.
+compute_notes: Unrolled differentiable edit solver with 3-5 iterations over a small
+  edit basis. More expensive than a CNN, cheaper than bounded proof-number search.
+implementation_status: tested
+trainer_entrypoint: ideas/registry/i008_boundary_edit_lagrangian_network/train.py
+config_path: ideas/registry/i008_boundary_edit_lagrangian_network/config.yaml
+model_path: ideas/registry/i008_boundary_edit_lagrangian_network/model.py
+latest_result_path: results/20260429_030542_idea_i008_boundary_edit_lagrangian_simple18
+notes: Benchmarked on the canonical CRTK puzzle_binary split with simple_18 inputs,
+  CUDA mixed precision, TF32, and the full 20-epoch paper-grade config. Best validation
+  epoch was 20; test metrics were accuracy 0.8369, F1 0.7769, PR AUC 0.8375, ROC AUC
+  0.9182, precision 0.7142, and recall 0.8515. The architecture is trainable and GPU-fast,
+  but this single-seed result underperforms i005/i007/i009/i013 on aggregate test
+  metrics and is especially weak on equal-eval, hard/very-hard near-puzzle rejection,
+  mate-in-1 near-puzzle false positives, and promotion/underpromotion false negatives.
+  Treat as a falsification-leaning benchmark unless ablations or threshold calibration
+  materially improve it.
+implementation_kind: bespoke_model

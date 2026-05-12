@@ -1,0 +1,39 @@
+idea_id: i009
+name: Tactical Equilibrium Network
+slug: tactical_equilibrium_network
+status: tested
+created_at: '2026-04-25T01:03:44+08:00'
+author: Codex
+short_thesis: 'A true puzzle should have a favorable attacker/defender tactical equilibrium:
+  the attacker has forcing threats whose value survives the defender''s best mixed
+  response.'
+novelty_claim: Unlike response-minimax or proof-number search, this does not build
+  a move tree; unlike obligation flow, it does not allocate resources to obligations.
+  It solves a small entropy-regularized attacker/defender matrix game over current-board
+  tactical candidates.
+expected_advantage: 'High practical upside: it directly targets near-puzzle false
+  positives by checking whether apparent threats survive best defensive counterplay,
+  while being cheaper than multi-ply proof search.'
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor plus deterministic attacker candidate tokens,
+  defender candidate tokens, and rule-derived compatibility/payoff features. No engine
+  metadata, source labels, verification metadata, or best moves as inputs.
+output_heads: One puzzle logit plus diagnostic equilibrium value, attacker entropy,
+  defender entropy, exploitability, and top threat/defense candidates.
+compute_notes: Unrolled entropy-regularized zero-sum game solver over roughly 16 attacker
+  candidates and 24 defender candidates. Expected cost is moderate and much cheaper
+  than proof-number search.
+implementation_status: tested
+trainer_entrypoint: ideas/registry/i009_tactical_equilibrium_network/train.py
+config_path: ideas/registry/i009_tactical_equilibrium_network/config.yaml
+model_path: ideas/registry/i009_tactical_equilibrium_network/model.py
+latest_result_path: results/20260428_180243_idea_i009_tactical_equilibrium_simple18
+notes: 'Paper-grade single-seed benchmark completed on the canonical CRTK tagged split
+  using CUDA mixed precision. Test metrics: accuracy 0.8456, F1 0.7854, PR AUC 0.8469,
+  ROC AUC 0.9233, recall 0.8479, precision 0.7315. Strong on clearly winning/crushing
+  eval buckets; weakest on equal-eval, hard/very-hard, endgame, mate-in-1, and promotion/underpromotion
+  slices. Artifacts validate and slice reports were generated for val/test. Needs
+  multi-seed repeat and comparison against LC0 BT4, VetoSelect, and Dykstra before
+  publication claims.'
+implementation_kind: bespoke_model

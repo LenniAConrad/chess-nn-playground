@@ -1,0 +1,36 @@
+idea_id: i091
+name: Tactical State Bottleneck Inference
+slug: tactical_state_bottleneck_inference
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: Select **Tactical State Bottleneck Inference**.
+novelty_claim: Bespoke discrete-latent tactical-state bottleneck with a typed
+  six-group categorical inference network (motif / anchor / target / relation
+  / vulnerability / tempo), prior + posterior heads, capped direct-path logit,
+  and a parameter-matched no-latent control.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-group categorical entropies, batch-mean
+  usage, anchor/target null-slot rates, and the standard packet diagnostic
+  scalars saved to prediction artifacts.
+compute_notes: Residual board trunk plus six categorical latent groups
+  (motif=10, anchor=65, target=65, relation=8, vulnerability=8, tempo=4)
+  with Gumbel-softmax sampling, free-bits KL, batch-usage and entropy-floor
+  collapse controls, and a capped direct-path logit.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i091_tactical_state_bottleneck_inference/train.py
+config_path: ideas/registry/i091_tactical_state_bottleneck_inference/config.yaml
+model_path: ideas/registry/i091_tactical_state_bottleneck_inference/model.py
+latest_result_path: null
+notes: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-28_0901_tuesday_new_york_tactical_latent.md`.
+  Bespoke `TacticalStateBottleneckModel` with prior + posterior heads,
+  free-bits KL, batch-usage and entropy-floor collapse controls, capped
+  direct-path logit, and a parameter-matched `NoLatentMatchedBaseline`
+  ablation control.
+mechanism_family: information
+implementation_kind: bespoke_model

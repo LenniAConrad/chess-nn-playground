@@ -17,8 +17,8 @@ Important local docs and code inspected:
 - `docs/reliable_training_protocol.md`
 - `docs/experimental_training_pipeline.md`
 - `ideas/README.md`
-- `ideas/all_ideas/registry/INDEX.md`
-- `ideas/all_ideas/registry/TODO.md`
+- `ideas/registry/INDEX.md`
+- `ideas/registry/TODO.md`
 - `reports/idea_conformance_audit.md`
 - `results/leaderboard.md`
 - `reports/paper_ready_all/status.md`

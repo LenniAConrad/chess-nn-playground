@@ -1,7 +1,7 @@
 """Tactical Bisimulation Puzzle Network for idea i075.
 
 Implements the markdown architecture from
-``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md``.
+``ideas/research/packets/classic/chess_nn_research_2026-04-25_0113_saturday_shanghai_tactical_bisimulation.md``.
 
 The model learns a latent space ``z = E(board)`` together with a learned
 move proposer ``pi(a|x)`` and a learned latent transition ``T(z, a)``.

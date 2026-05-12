@@ -1,0 +1,32 @@
+idea_id: i070
+name: Relational Query Algebra Network
+slug: relational_query_algebra_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: Relational Query Algebra Network tests learned joins over current-board
+  chess fact tables for puzzle-binary classification.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2139_friday_shanghai_relational_query_algebra.md`;
+  uses a generic mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus relational-query diagnostics over learned join
+  strength, relation usage, query support entropy, material, and CNN energy.
+compute_notes: Builds piece and square fact tables, applies learned piece-square,
+  piece-piece, and line-between semijoin queries over fixed chess-square relations,
+  then fuses those query summaries with a compact CNN board summary.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i070_relational_query_algebra_network/train.py
+config_path: ideas/registry/i070_relational_query_algebra_network/config.yaml
+model_path: ideas/registry/i070_relational_query_algebra_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2139_friday_shanghai_relational_query_algebra.md`.
+  Implemented as a bespoke board-only differentiable relational-query executor registered
+  under `relational_query_algebra_network`.
+mechanism_family: graph
+implementation_kind: bespoke_model

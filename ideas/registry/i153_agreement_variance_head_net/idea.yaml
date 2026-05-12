@@ -1,0 +1,42 @@
+idea_id: i153
+name: Agreement-Variance Head Net
+slug: agreement_variance_head_net
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Use one shared trunk and several cheap heads trained on the same label.
+  Classify from the mean logits, and log head variance as an uncertainty diagnostic.
+  This is a lightweight alternative to full ensembles.
+novelty_claim: Bespoke shared-trunk CNN with `num_heads` cheap MLP heads averaged
+  to produce the puzzle logit. Head variance is computed under `torch.no_grad()`
+  and reported as an epistemic-uncertainty diagnostic, providing ensemble-style
+  disagreement at the cost of a single trunk forward pass.
+expected_advantage: Test the packet's lightweight-ensemble-by-heads thesis under the
+  same puzzle_binary benchmark contract as the other ideas. `head_variance` and
+  `head_disagreement` expose whether the heads actually disagree and whether that
+  disagreement tracks puzzle uncertainty.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (mean over `num_heads` cheap heads) plus the per-head
+  logits and probabilities, the head variance / disagreement, and the per-head
+  probability variance saved to prediction artifacts.
+compute_notes: Compact convolutional trunk of `depth` residual blocks at `channels`
+  width, followed by `num_heads` independently initialised cheap MLP heads of width
+  `hidden_dim`. One trunk forward pass produces all per-head logits.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i153_agreement_variance_head_net/train.py
+config_path: ideas/registry/i153_agreement_variance_head_net/config.yaml
+model_path: ideas/registry/i153_agreement_variance_head_net/model.py
+latest_result_path: null
+notes: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
+  Bespoke `AgreementVarianceHeadNet` model with a shared CNN trunk, `num_heads`
+  cheap MLP heads, and a mean-logit BCE objective. Head variance is reported as
+  an uncertainty diagnostic and is not part of the training loss.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md
+source_packet_candidate: Agreement-Variance Head Net
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: information
+implementation_kind: bespoke_model

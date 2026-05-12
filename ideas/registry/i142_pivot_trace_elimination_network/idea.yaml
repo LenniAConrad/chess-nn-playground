@@ -1,0 +1,39 @@
+idea_id: i142
+name: Pivot Trace Elimination Network
+slug: pivot_trace_elimination_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Gaussian elimination exposes interaction structure through pivot sizes,
+  residual norms, and Schur updates. A chess board can be encoded into a small square
+  matrix, then passed through a fixed-order differentiable elimination procedure.
+  The pivot trace becom...
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`;
+  builds a learned 12x12 group-summary interaction matrix and reads out a fixed-order
+  differentiable Gaussian elimination's pivot trace, off-diagonal update norms, residual
+  decay curve, and condition-like ratio rather than a generic CNN pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus elimination diagnostics (log_pivots, update_norms,
+  residual_norms, cond_ratio, final_residual, log_determinant, matrix, group_summaries,
+  group_masses) saved to prediction artifacts.
+compute_notes: Compact convolutional trunk plus a 12-group bilinear interaction matrix
+  and fixed-order differentiable Gaussian elimination with diagonal stabiliser.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i142_pivot_trace_elimination_network/train.py
+config_path: ideas/registry/i142_pivot_trace_elimination_network/config.yaml
+model_path: ideas/registry/i142_pivot_trace_elimination_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.
+  Bespoke implementation of the markdown architecture in
+  `src/chess_nn_playground/models/pivot_trace_elimination_network.py`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
+source_packet_candidate: Pivot Trace Elimination Network
+source_packet_rank: 6
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

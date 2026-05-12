@@ -1,0 +1,38 @@
+idea_id: i113
+name: Row-File Factor Mixer
+slug: row_file_factor_mixer
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Chess boards have two privileged axes: ranks and files. A model can
+  exploit this without a full Transformer by factorizing board processing into rank
+  mixers, file mixers, and piece-channel mixers, then recombining them with bilinear
+  interactions.'
+novelty_claim: Bespoke factorized rank/file/channel mixer with an explicit bilinear
+  rank-file recombination, materially distinct from the shared ResearchPacketProbe
+  scaffold and from the existing convolutional and attention-based ideas.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus rank/file/bilinear energy diagnostics and a rank-file
+  imbalance score saved to prediction artifacts.
+compute_notes: 1x1 piece-plane embedding plus a stack of factorized rank/file/channel
+  mixer blocks with a bilinear rank-file interaction term.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i113_row_file_factor_mixer/train.py
+config_path: ideas/registry/i113_row_file_factor_mixer/config.yaml
+model_path: ideas/registry/i113_row_file_factor_mixer/model.py
+latest_result_path: null
+notes: Bespoke implementation registered as row_file_factor_mixer in
+  src/chess_nn_playground/models/row_file_factor_mixer.py. The idea-local
+  model.py is a thin wrapper around build_row_file_factor_mixer_from_config;
+  the previous ResearchPacketProbe scaffold has been removed.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md
+source_packet_candidate: Row-File Factor Mixer
+source_packet_rank: 1
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

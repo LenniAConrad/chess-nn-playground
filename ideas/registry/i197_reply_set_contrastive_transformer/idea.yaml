@@ -1,0 +1,51 @@
+idea_id: i197
+name: Reply-Set Contrastive Transformer
+slug: reply_set_contrastive_transformer
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: A puzzle position should embed differently from its plausible reply
+  positions. A near-puzzle may remain close to one or more safe replies. Use contrastive
+  learning over current position and pseudo-reply positions.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`;
+  bespoke board-only contrastive transformer that builds a deterministic
+  pseudo-reply set by translating the side-to-move's own piece planes along
+  twelve chess-relevant offsets, encodes every reply with the shared trunk, and
+  reads only the aggregated cosine similarities (min/mean/std/top-1/top-2/sum-of-positive)
+  into the puzzle head, alongside a token-attention summary and a king-ring
+  defender-reply pool.
+expected_advantage: Forces a near-puzzle to score high on at least one reply
+  similarity (because at least one safe reply stays close to the current
+  embedding), while a real puzzle drives the minimum and positive-sum
+  similarities down. The head therefore sees a structured, low-dimensional
+  contrastive signal rather than a generic pooled feature, and the rest of the
+  network (token attention + defender pool) supplies the proposal-profile
+  features expected by the `graph` mechanism family.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus reply-set contrastive diagnostics
+  (`current_embedding_norm`, `token_summary_norm`, `defender_summary_norm`,
+  `reply_similarity_mean`, `reply_similarity_min`, `reply_similarity_std`,
+  `reply_pressure`, `defense_gap`, `mechanism_energy`, `graph_pressure`,
+  `ray_language_energy`, `proposal_profile_strength`, `proposal_keyword_count`,
+  `num_replies`, `reply_embedding_mean_norm`, `king_ring_pressure`).
+compute_notes: Compact convolutional trunk shared across the current board and
+  twelve deterministic pseudo-replies (eight ray steps and four knight jumps),
+  a small per-square self-attention block, an enemy-king-ring defender-reply
+  attention pool, and a contrastive aggregator over per-reply cosine similarities.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i197_reply_set_contrastive_transformer/train.py
+config_path: ideas/registry/i197_reply_set_contrastive_transformer/config.yaml
+model_path: ideas/registry/i197_reply_set_contrastive_transformer/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
+  Bespoke reply-set contrastive transformer; the idea-local wrapper builds
+  `chess_nn_playground.models.reply_set_contrastive_transformer.ReplySetContrastiveTransformer`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
+source_packet_candidate: Reply-Set Contrastive Transformer
+source_packet_rank: 12
+source_packet_status: batch packet
+mechanism_family: graph
+implementation_kind: bespoke_model

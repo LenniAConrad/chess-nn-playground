@@ -1,0 +1,41 @@
+idea_id: i104
+name: Cross-Scale Attention Residual Network
+slug: cross_scale_attention_residual_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Puzzle-like evidence may appear when fine-square attention cannot be
+  predicted from coarse board context. This model computes attention from fine tokens
+  to coarse tokens, reconstructs expected fine attention as a rank-K factorisation
+  through the coarse pivots, and classifies from the residual attention map.
+novelty_claim: Bespoke cross-scale attention residual where the puzzle logit is decided
+  from `A_actual - A_predicted` with `A_predicted = A_fine_to_coarse @ A_coarse_to_fine`,
+  rather than from any single attention pattern or pooled value.
+expected_advantage: Test the packet's proposed cross-scale residual signal under
+  the same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus residual attention diagnostics (total energy,
+  off-diagonal energy, max absolute, self-diagonal mean, asymmetry, Frobenius norm,
+  row entropy mean and variance, per-source L1 mass) and the actual, predicted, and
+  residual attention maps.
+compute_notes: 64 fine square tokens with K=(8/coarse_scale)^2 coarse tokens averaged
+  over fixed non-overlapping patches; one Q/K projection per scale (no value
+  projection); residual attention map fed to a small Conv2d head plus eight scalar
+  diagnostics.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i104_cross_scale_attention_residual_network/train.py
+config_path: ideas/registry/i104_cross_scale_attention_residual_network/config.yaml
+model_path: ideas/registry/i104_cross_scale_attention_residual_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md`.
+  Bespoke cross-scale attention residual model; idea-local model.py wraps
+  `src/chess_nn_playground/models/cross_scale_attention_residual_network.py`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2056_friday_shanghai_attention_inspired_batch.md
+source_packet_candidate: Cross-Scale Attention Residual Network
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: graph
+implementation_kind: bespoke_model

@@ -1,7 +1,7 @@
 """King-Zone Evidence Ledger model for idea i174.
 
 Faithful implementation of the markdown thesis under
-``ideas/all_ideas/registry/i174_king_zone_evidence_ledger/``: a board-only classifier
+``ideas/registry/i174_king_zone_evidence_ledger/``: a board-only classifier
 that maintains a small bank of learned ``evidence ledger`` slots
 around each king and reads the puzzle logit out of the comparison
 between own-king and opponent-king ledgers.

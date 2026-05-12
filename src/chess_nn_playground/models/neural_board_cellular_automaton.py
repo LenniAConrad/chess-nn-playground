@@ -1,6 +1,6 @@
 """Neural Board Cellular Automaton for idea i115.
 
-Working thesis (from ``ideas/all_ideas/registry/i115_neural_board_cellular_automaton``):
+Working thesis (from ``ideas/registry/i115_neural_board_cellular_automaton``):
 some board patterns may be recognized by repeated *local relaxation*.
 A neural cellular automaton applies the **same** local update rule
 ``f`` for several steps and classifies from both the evolving board

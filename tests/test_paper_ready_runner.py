@@ -23,9 +23,9 @@ def test_paper_ready_runner_discovers_benchmarks_and_ideas():
 
     assert Path("configs/benchmarks/puzzle_binary/bench_lc0_bt4_classifier.yaml") in paths
     assert Path("configs/benchmarks/puzzle_binary/bench_nnue_simple18.yaml") in paths
-    assert Path("ideas/all_ideas/registry/i013_sparse_relation_pursuit_asymmetry/config.yaml") in paths
-    assert Path("ideas/all_ideas/registry/i236_hadamard_spectrum_network/config.yaml") in paths
-    assert Path("ideas/all_ideas/registry/i066_bispectral_phase_coupling_board_network/config.yaml") not in paths
+    assert Path("ideas/registry/i013_sparse_relation_pursuit_asymmetry/config.yaml") in paths
+    assert Path("ideas/registry/i236_hadamard_spectrum_network/config.yaml") in paths
+    assert Path("ideas/registry/i066_bispectral_phase_coupling_board_network/config.yaml") not in paths
     assert len(paths) >= 35
 
 

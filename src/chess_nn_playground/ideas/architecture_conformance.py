@@ -125,7 +125,7 @@ def _architecture_text(path_text: str | None) -> str:
     return Path(path_text).read_text(encoding="utf-8", errors="replace").lower()
 
 
-def audit_architecture_conformance(ideas_root: str | Path = "ideas/all_ideas/registry") -> list[ArchitectureConformanceRow]:
+def audit_architecture_conformance(ideas_root: str | Path = "ideas/registry") -> list[ArchitectureConformanceRow]:
     rows = []
     registered_models = set(available_models())
     for kind_row in audit_implementation_kinds(ideas_root):

@@ -1,0 +1,48 @@
+idea_id: i180
+name: Phase-Transition Pressure Network
+slug: phase_transition_pressure_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: The key difference between a true puzzle and a near-puzzle may be criticality.
+  The board may sit near a threshold where small increases in pressure, line opening,
+  or defender loss cause a tactical collapse.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`
+  (Idea 4, "Phase-Transition Pressure Network"); replaces magnitude-only puzzle pooling
+  with a sweep over learned thresholds across five pressure fields, reading the first
+  differences of mass, king-zone mass, soft largest-component, boundary length, and
+  K/Q/R surplus across thresholds as the puzzle signal.
+expected_advantage: Test the packet's criticality signal under the same puzzle_binary
+  benchmark contract as the other ideas — sharp transition curves should distinguish
+  near-puzzles whose pressure is high but stable from true puzzles whose pressure
+  is poised at a phase transition.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (BCE-with-logits) plus the five raw pressure fields,
+  the learnable threshold grid and temperature, the per-(field, threshold, square)
+  sigmoid-thresholded fields, the per-(field, threshold) summaries (mass, king-zone
+  mass, soft largest-component, boundary length, K/Q/R surplus), the first-difference
+  critical curves, the total |critical-curve| energy, and the trunk feature map.
+compute_notes: Compact convolutional trunk over `simple_18`, plus a 1x1 pressure head
+  emitting 5 learned pressure fields. The threshold sweep and summaries are evaluated
+  in closed form (sigmoid + 3x3 conv + softmax-pool + first differences) without
+  re-running the trunk per threshold.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i180_phase_transition_pressure_network/train.py
+config_path: ideas/registry/i180_phase_transition_pressure_network/config.yaml
+model_path: ideas/registry/i180_phase_transition_pressure_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/phase_transition_pressure_network.py`
+  (`PhaseTransitionPressureNetwork`); the idea-local `model.py` is a thin wrapper
+  around the registered builder. Five learned pressure fields are sigmoid-thresholded
+  on a learnable threshold grid; the readout consumes the first differences across
+  thresholds (the packet's `critical_curve`) plus the operating-point summary.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0037_saturday_shanghai_puzzle_architecture_batch_2.md
+source_packet_candidate: Phase-Transition Pressure Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: tempo
+implementation_kind: bespoke_model

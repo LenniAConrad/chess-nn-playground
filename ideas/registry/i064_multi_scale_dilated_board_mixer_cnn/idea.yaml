@@ -1,0 +1,47 @@
+idea_id: i064
+name: Multi-Scale Dilated Board Mixer CNN
+slug: multi_scale_dilated_board_mixer_cnn
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Multi-Scale Dilated Board Mixer CNN - One-sentence thesis:
+  A practical chess-board CNN should mix local, knight-distance, diagonal/ray-like,
+  and board-wid...'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2107_friday_shanghai_multiscale_cnn_mixer.md`;
+  parallel 3x3 dilation 1/2/3 + 1x1 mixer with appended coordinate planes and a global
+  context channel gate. Not a CNN/residual/attention/sheaf/transport/matrix-pencil/generalized-spectrum/principal-angle/move-delta
+  variant; it is the missing strong conventional baseline for the multi-scale CNN
+  family.
+expected_advantage: Test the packet's parallel multi-scale dilation + coordinate planes
+  + global-gate signal against the same puzzle_binary benchmark contract as the other
+  ideas, with the section-6 falsifiers single_dilation_matched, no_dilation_3,
+  no_coordinate_planes, no_global_context_gate, small_width_control and
+  residual_cnn_matched_params exposed via `model.ablation`.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus mixer diagnostics (stem_energy, trunk_energy,
+  coord_plane_energy, context_gate_mean/std/min/max, branch_count, active_dilations,
+  ablation_active).
+compute_notes: Compact 8x8 feature maps throughout. Default width 64, num_blocks
+  matched to the repo `depth` of 2, branch_width derived as width/2 unless overridden.
+  Activation cost is small because dilation does not increase activation size.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/train.py
+config_path: ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/config.yaml
+model_path: ideas/registry/i064_multi_scale_dilated_board_mixer_cnn/model.py
+latest_result_path: null
+notes: 'Bespoke MultiScaleBoardMixerCNN over the simple_18 board tensor. The trunk
+  appends 4 deterministic coordinate planes (rank, file, center-distance,
+  side-to-move-relative forward direction) via BoardCoordinatePlanes, then runs
+  num_blocks MultiScaleDilatedMixerBlock blocks with parallel 3x3 dilation 1/2/3
+  + 1x1 branches concatenated and projected back to width with a residual + BN. A
+  GlobalContextGate emits a sigmoid channel scale from mean+max global pooling and
+  modulates the trunk before the mean+max pooled MultiScaleHead returns a single
+  puzzle logit. Section-6 falsifiers single_dilation_matched, no_dilation_3,
+  no_coordinate_planes, no_global_context_gate, small_width_control and
+  residual_cnn_matched_params are exposed via the model.ablation config flag.
+  Engine, source, verification, and CRTK metadata are never used as input.'
+mechanism_family: generic
+implementation_kind: bespoke_model

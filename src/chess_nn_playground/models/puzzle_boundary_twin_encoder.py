@@ -1,7 +1,7 @@
 """Puzzle Boundary Twin Encoder for idea i184.
 
 Faithful implementation of the markdown thesis under
-``ideas/all_ideas/registry/i184_puzzle_boundary_twin_encoder/``. The architecture is a
+``ideas/registry/i184_puzzle_boundary_twin_encoder/``. The architecture is a
 *siamese* board encoder that is applied identically to every position
 in a mini-batch (puzzle / near-puzzle / random), and a single linear
 *boundary surface* that turns the encoder latent into one puzzle logit:

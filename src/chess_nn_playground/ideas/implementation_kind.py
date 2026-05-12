@@ -327,11 +327,11 @@ def detect_idea_implementation_kind(folder: str | Path) -> ImplementationKindAud
     )
 
 
-def discover_idea_folders(ideas_root: str | Path = "ideas/all_ideas/registry") -> list[Path]:
+def discover_idea_folders(ideas_root: str | Path = "ideas/registry") -> list[Path]:
     return sorted(Path(ideas_root).glob("i[0-9][0-9][0-9]_*"))
 
 
-def audit_implementation_kinds(ideas_root: str | Path = "ideas/all_ideas/registry") -> list[ImplementationKindAuditRow]:
+def audit_implementation_kinds(ideas_root: str | Path = "ideas/registry") -> list[ImplementationKindAuditRow]:
     rows: list[ImplementationKindAuditRow] = []
     for folder in discover_idea_folders(ideas_root):
         idea = _load_yaml(folder / "idea.yaml")
@@ -344,7 +344,7 @@ def audit_implementation_kinds(ideas_root: str | Path = "ideas/all_ideas/registr
 def sync_implementation_kind_metadata(
     rows: list[ImplementationKindAuditRow],
     *,
-    registry_path: str | Path = "ideas/all_ideas/registry/registry.jsonl",
+    registry_path: str | Path = "ideas/registry/registry.jsonl",
 ) -> dict[str, int]:
     changed_idea_yamls = 0
     by_folder = {row.folder: row for row in rows}

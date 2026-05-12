@@ -1,0 +1,32 @@
+idea_id: i026
+name: Counterfactual Move-Delta Spectrum Network
+slug: counterfactual_move_delta_spectrum_network
+status: implemented
+created_at: '2026-04-30T15:43:30+00:00'
+author: Codex
+short_thesis: '- Idea name: Counterfactual Move-Delta Spectrum Network - One-sentence
+  thesis: A chess position is puzzle-like when the rule-only one-ply board-delta neighborhood
+  of t...'
+novelty_claim: Pseudo-legal one-ply move-delta tokens combined with a covariance/eigen-spectrum
+  pool over learned finite-difference responses, separate from CNN/ResNet/LC0/ViT/sheaf
+  families and from the energy/free-energy pool used by i025.
+expected_advantage: Better near-puzzle recall at matched non-puzzle false-positive
+  rate by exposing sharp one-ply counterfactual structure without engine leakage.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus move-delta covariance/eigen-spectrum diagnostics
+  saved to prediction artifacts.
+compute_notes: Compact convolutional stem, pseudo-legal delta enumerator, and a
+  k-by-k covariance/eigenvalue pool over move-response vectors.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i026_counterfactual_move_delta_spectrum_network/train.py
+config_path: ideas/registry/i026_counterfactual_move_delta_spectrum_network/config.yaml
+model_path: ideas/registry/i026_counterfactual_move_delta_spectrum_network/model.py
+latest_result_path: null
+notes: Bespoke implementation of the markdown architecture. The idea-local model
+  wrapper delegates to `src/chess_nn_playground/models/counterfactual_move_delta_spectrum.py`.
+  Reuses the rule-only simple_18 adapter and pseudo-legal delta enumerator from i025
+  but adds a bespoke covariance/eigen-spectrum pool and head.
+implementation_kind: bespoke_model

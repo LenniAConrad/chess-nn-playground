@@ -206,7 +206,7 @@ def _matching_rows(args: argparse.Namespace) -> list[object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Print copy-paste Codex prompts for scaffold-only ideas.")
-    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
+    parser.add_argument("--ideas-root", default="ideas/registry")
     parser.add_argument(
         "--idea",
         action="append",

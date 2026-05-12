@@ -1,0 +1,42 @@
+idea_id: i122
+name: Invertible Board Coupling Network
+slug: invertible_board_coupling_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Standard encoders can discard information early, which makes it hard
+  to know whether a model learned legitimate current-board structure or fragile shortcuts.
+  A reversible board encoder preserves information by construction and classifies
+  from latent distort...
+novelty_claim: Bespoke reversible board encoder built from invertible 1x1 channel
+  mixings and clamped affine coupling blocks. Information preservation is a design
+  constraint and the inverse reconstruction error is reported as a first-class diagnostic,
+  rather than relying on a shared probe scaffold.
+expected_advantage: Test the packet's proposed reversible-encoder signal under the
+  puzzle_binary benchmark contract while reporting per-block coupling-scale and
+  inverse-reconstruction diagnostics.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus invertible-coupling diagnostics (latent energy,
+  latent peak, mean/max absolute coupling scale, inverse reconstruction error,
+  diagnostic-only branch logit).
+compute_notes: Zero-padded reversible projection plus a stack of invertible 1x1
+  channel mixings and clamped affine coupling blocks; the encoder is fully inverted
+  per forward pass to compute the reconstruction-error diagnostic.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i122_invertible_board_coupling_network/train.py
+config_path: ideas/registry/i122_invertible_board_coupling_network/config.yaml
+model_path: ideas/registry/i122_invertible_board_coupling_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md`.
+  Bespoke reversible board encoder wired to the registered
+  `invertible_board_coupling_network` model in
+  `src/chess_nn_playground/models/invertible_board_coupling_network.py`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2124_friday_shanghai_architecture_batch_5.md
+source_packet_candidate: Invertible Board Coupling Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

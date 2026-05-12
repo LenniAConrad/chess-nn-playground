@@ -1,7 +1,7 @@
 """Loop-Frustration Curvature Network for idea i080.
 
 Implements the markdown architecture from
-``ideas/all_ideas/research/packets/classic/chess_nn_research_2026-04-28_0729_tuesday_new_york_frustration_curvature.md``.
+``ideas/research/packets/classic/chess_nn_research_2026-04-28_0729_tuesday_new_york_frustration_curvature.md``.
 
 The model parameterises a chess-board spin glass on a fixed 8x8
 graph and classifies a position from the *temperature curvature* of

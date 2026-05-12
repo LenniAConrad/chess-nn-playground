@@ -1,0 +1,44 @@
+idea_id: i097
+name: Fixed-Point Residual Defect Network
+slug: fixed_point_residual_defect_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Puzzle-like positions may be harder for a learned board-state operator
+  to equilibrate. Instead of classifying only the final latent, classify from the
+  residual defects of an unrolled update process:'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`;
+  bespoke damped fixed-point iteration over a learned board-conditioned update operator,
+  with a residual-defect trajectory bottleneck (per-step norm, cosine, contraction
+  ratio, signed delta, learned-axis projection) that classifies puzzles from the
+  failure of equilibration rather than from the final latent alone.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus residual-defect trajectory diagnostics (per-step
+  residual norm, cosine, contraction ratio, signed delta, learned-axis projection,
+  path length, defect decay, terminal defect magnitude, oscillation energy, mode
+  code) saved to prediction artifacts.
+compute_notes: Compact convolutional board encoder feeds an initial latent and a board-conditioning
+  embedding to a damped fixed-point iteration with a shared learned update operator;
+  the per-step residual trajectory is pooled into a permutation-equivariant defect
+  readout and a small MLP head returns one logit. Runs on CPU/GPU; no extra dependencies.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i097_fixed_point_residual_defect_network/train.py
+config_path: ideas/registry/i097_fixed_point_residual_defect_network/config.yaml
+model_path: ideas/registry/i097_fixed_point_residual_defect_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md`.
+  Bespoke fixed-point residual defect network registered as `fixed_point_residual_defect_network`
+  in `src/chess_nn_playground/models/fixed_point_residual.py`. Supports ablation modes
+  `fixed_point`, `final_latent_only`, `defect_norm_only`, `single_step`, `untied_residual_blocks`,
+  and `random_update_operator`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2054_friday_shanghai_residual_inspired_batch.md
+source_packet_candidate: Fixed-Point Residual Defect Network
+source_packet_rank: 1
+source_packet_status: batch packet
+mechanism_family: logic
+implementation_kind: bespoke_model

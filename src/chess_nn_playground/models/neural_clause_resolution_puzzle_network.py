@@ -1,7 +1,7 @@
 """Neural Clause-Resolution Puzzle Network for idea i201.
 
 Working thesis (from
-``ideas/all_ideas/registry/i201_neural_clause_resolution_puzzle_network/math_thesis.md``): a
+``ideas/registry/i201_neural_clause_resolution_puzzle_network/math_thesis.md``): a
 puzzle often follows from a small proof made of typed facts such as
 ``Attack(piece, target)``, ``Defends(piece, target)``,
 ``Pinned(piece, king)``, ``LineOpen(piece, target)``,

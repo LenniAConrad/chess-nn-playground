@@ -1,0 +1,39 @@
+idea_id: i007
+name: Neural Proof-Number Search Network
+slug: neural_proof_number_search
+status: tested
+created_at: '2026-04-25T00:57:35+08:00'
+author: Codex
+short_thesis: The most direct puzzle detector should learn a tiny proof/disproof search
+  over pseudo-legal tactical continuations, using neural proof numbers instead of
+  engine evaluations.
+novelty_claim: Unlike the one-ply response-minimax classifier, this builds a bounded
+  multi-ply AND/OR proof tree with learned proof and disproof numbers; unlike proof-core
+  or obligation-flow ideas, it tests continuation existence rather than static witnesses
+  or defensive allocation.
+expected_advantage: 'Highest-upside puzzle benchmark challenger: true puzzles should
+  admit low learned proof cost and high disproof cost, while near-puzzles should fail
+  within the bounded proof tree.'
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor plus deterministic pseudo-legal move trees
+  generated from the same position. No Stockfish scores, PVs, node counts, best moves,
+  source labels, or verification metadata as inputs.
+output_heads: One puzzle logit plus diagnostic proof cost, disproof cost, tree depth
+  usage, and selected proof-line tokens.
+compute_notes: More expensive than the other ideas. First version should use a small
+  tactical beam, shared latent transition, depth 2-3, and no full CNN re-encoding
+  at every node.
+implementation_status: tested
+trainer_entrypoint: ideas/registry/i007_neural_proof_number_search/train.py
+config_path: ideas/registry/i007_neural_proof_number_search/config.yaml
+model_path: ideas/registry/i007_neural_proof_number_search/model.py
+latest_result_path: results/20260428_183322_idea_i007_neural_proof_number_simple18
+notes: 'Paper-grade single-seed benchmark completed on the canonical CRTK tagged split
+  using CUDA mixed precision. Test metrics: accuracy 0.8454, F1 0.7811, PR AUC 0.8399,
+  ROC AUC 0.9199, recall 0.8275, precision 0.7395. Compared with i009, this run has
+  fewer false positives but more missed verified puzzles, so it is more conservative.
+  Weakest slices are equal-eval, hard/very-hard, endgame, promotion/underpromotion,
+  and mate-in-1. Artifacts validate and val/test slice reports were generated. Needs
+  multi-seed repeat and matched-recall comparison before publication claims.'
+implementation_kind: bespoke_model

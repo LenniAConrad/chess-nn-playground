@@ -1,0 +1,53 @@
+idea_id: i189
+name: Counterfactual Defender Dropout Network
+slug: counterfactual_defender_dropout_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: If a near-puzzle is only superficially tactical, randomly removing defenders
+  or attackers may not reveal a sharp causal structure. If a true puzzle hinges on
+  overloaded defenders, pinning, or one critical escape square, dropout interventions
+  should produce...
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`;
+  bespoke board-only counterfactual-dropout network that scores typed deletion
+  interventions (defender, attacker, king-escape, ray-blocker) using a closed-form
+  geometry-driven mask builder, computes per-mask counterfactual deltas through
+  an intervention head, and feeds a 13-dimensional counterfactual evidence
+  vector (defender/attacker/king_escape/blocker top-k sensitivities, asymmetry,
+  entropy, max/mean and per-kind valid counts) into a correction head that
+  additively refines the baseline puzzle logit.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus counterfactual-dropout diagnostics
+  (`base_logit`, `intervention_correction`, `intervention_delta`,
+  `intervention_mask_scores`, `intervention_valid`, `defender_sensitivity`,
+  `attacker_sensitivity`, `king_escape_sensitivity`, `blocker_sensitivity`,
+  `sensitivity_asymmetry`, `defender_minus_escape`, `defender_minus_blocker`,
+  `sensitivity_entropy`, `max_sensitivity`, `mean_sensitivity`,
+  `defender_mask_count`, `attacker_mask_count`, `king_escape_mask_count`,
+  `blocker_mask_count`, `mechanism_energy`, `proposal_profile_strength`,
+  `proposal_keyword_count`).
+compute_notes: Compact convolutional board encoder, a closed-form typed-mask
+  builder over the simple_18 planes (defender / attacker / king-escape /
+  ray-blocker scores from precomputed geometric attack and between-square
+  tables), an intervention head that computes per-mask local/retained mean
+  deltas, and a small correction MLP fusing the 13 counterfactual evidence
+  scalars into an additive correction on the baseline logit.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i189_counterfactual_defender_dropout_network/train.py
+config_path: ideas/registry/i189_counterfactual_defender_dropout_network/config.yaml
+model_path: ideas/registry/i189_counterfactual_defender_dropout_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md`.
+  Bespoke counterfactual defender dropout network; the idea-local wrapper builds
+  `chess_nn_playground.models.counterfactual_defender_dropout.CounterfactualDefenderDropoutNetwork`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0040_saturday_shanghai_puzzle_architecture_batch_3.md
+source_packet_candidate: Counterfactual Defender Dropout Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: move_delta
+implementation_kind: bespoke_model

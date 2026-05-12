@@ -1,0 +1,38 @@
+idea_id: i111
+name: Boundary-Condition Disagreement CNN
+slug: boundary_condition_disagreement_cnn
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: 'Chess board edges matter: pawns, rooks, kings, and tactics behave differently
+  near boundaries. A CNN''s padding convention imposes a boundary assumption. Run
+  a shared CNN under multiple boundary conditions and classify from disagreement.'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`;
+  a board-only puzzle classifier whose head reads the disagreement between a shared-weight
+  convolutional trunk run under several boundary conditions, rather than a generic
+  CNN feature pool.
+expected_advantage: Test the packet's proposed boundary-disagreement signal under the
+  same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-mode feature pools, per-position disagreement
+  map, disagreement-pool features, and pairwise disagreement-energy matrix saved to
+  prediction artifacts.
+compute_notes: Shared-weight conv trunk run under multiple boundary conditions via
+  explicit `F.pad` + `padding=0` `F.conv2d`; only one weight tuple per layer and a
+  compact MLP head are trained.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i111_boundary_condition_disagreement_cnn/train.py
+config_path: ideas/registry/i111_boundary_condition_disagreement_cnn/config.yaml
+model_path: ideas/registry/i111_boundary_condition_disagreement_cnn/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`.
+  Bespoke shared-trunk multi-boundary CNN classifier; no `ResearchPacketProbe` involvement.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md
+source_packet_candidate: Boundary-Condition Disagreement CNN
+source_packet_rank: 5
+source_packet_status: batch packet
+mechanism_family: convex
+implementation_kind: bespoke_model

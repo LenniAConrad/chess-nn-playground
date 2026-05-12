@@ -1,6 +1,6 @@
 """Harmonic Board Potential Network model for idea i059.
 
-Implements the markdown thesis (`ideas/all_ideas/registry/i059_harmonic_board_potential_network/`):
+Implements the markdown thesis (`ideas/registry/i059_harmonic_board_potential_network/`):
 puzzle-likeness is tested by computing fixed inverse-Laplacian board potentials
 over learned current-board charge maps, then feeding charge/potential energy
 and Dirichlet/flux summaries to an MLP head. The central operator is

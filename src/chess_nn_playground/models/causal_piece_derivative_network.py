@@ -1,7 +1,7 @@
 """Causal Piece-Derivative Network for idea i179.
 
 Faithful implementation of the markdown thesis under
-``ideas/all_ideas/registry/i179_causal_piece_derivative_network/``. The model classifies a
+``ideas/registry/i179_causal_piece_derivative_network/``. The model classifies a
 position by asking: *which pieces or squares are causally critical to
 the puzzle decision?* Real puzzles tend to depend sharply on a few
 pieces; near-puzzles tend to come from broad tactical texture without a

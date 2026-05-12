@@ -109,7 +109,7 @@ def _iter_metric_paths(results_dir: Path) -> list[Path]:
     return sorted(results_dir.rglob("metrics_final.json"))
 
 
-def _load_idea_kind_maps(ideas_root: Path = Path("ideas/all_ideas/registry")) -> tuple[dict[str, str], dict[str, str]]:
+def _load_idea_kind_maps(ideas_root: Path = Path("ideas/registry")) -> tuple[dict[str, str], dict[str, str]]:
     by_id: dict[str, str] = {}
     by_model: dict[str, str] = {}
     for folder in sorted(ideas_root.glob("i[0-9][0-9][0-9]_*")):

@@ -1,6 +1,6 @@
 """Tropical Constraint Circuit Network model for idea i060.
 
-Implements the markdown thesis (`ideas/all_ideas/registry/i060_tropical_constraint_circuit_network/`):
+Implements the markdown thesis (`ideas/registry/i060_tropical_constraint_circuit_network/`):
 puzzle-likeness is tested as the *near-satisfaction* of a small number of latent
 tactical constraints. The central computation is a differentiable min-plus
 (tropical) circuit over learned nonnegative current-board literal costs. For a

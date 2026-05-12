@@ -1,0 +1,33 @@
+idea_id: i006
+name: Proof-Core Set Verifier
+slug: proof_core_set_verifier
+status: implemented
+created_at: '2026-04-25T00:53:36+08:00'
+author: Codex
+short_thesis: A real puzzle should be explainable by a small proof core of pieces
+  and squares; classify puzzlehood through a sparse witness set and verifier rather
+  than full-board texture.
+novelty_claim: 'Unlike factor agreement or obligation flow, this creates a hard information
+  bottleneck: a generator selects a tiny proof core and a verifier classifies from
+  only that core plus deterministic relations. Unlike prior sparse-witness packets,
+  it adds deletion stability and monotone proof-core tests as required falsifiers.'
+expected_advantage: Better hard-negative discrimination because near-puzzles may have
+  diffuse tactical texture but no compact consistent proof core.
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor and deterministic relation features among
+  selected pieces/squares. No engine metadata, source labels, or verification metadata
+  as inputs.
+output_heads: One puzzle logit plus diagnostic selected witness masks and proof-core
+  stability scores.
+compute_notes: Small top-k set selection plus verifier over k <= 12 witnesses. Compute
+  should be modest; main risk is differentiable selection stability.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i006_proof_core_set_verifier/train.py
+config_path: ideas/registry/i006_proof_core_set_verifier/config.yaml
+model_path: ideas/registry/i006_proof_core_set_verifier/model.py
+latest_result_path: null
+notes: Implemented as a differentiable square-token proof-core selector plus relation-aware
+  selected-set verifier and bounded global residual, with model registry entry and
+  smoke-test coverage. Benchmark training is pending.
+implementation_kind: bespoke_model

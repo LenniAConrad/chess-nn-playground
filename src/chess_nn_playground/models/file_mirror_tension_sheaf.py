@@ -1,7 +1,7 @@
 """File-Mirror Tension Sheaf Network for idea i028.
 
 Bespoke implementation of the architecture described in
-``ideas/all_ideas/registry/i028_file_mirror_tension_sheaf/architecture.md`` and
+``ideas/registry/i028_file_mirror_tension_sheaf/architecture.md`` and
 ``math_thesis.md``. Builds a board-only typed directed sheaf over
 pseudo-legal attack/defense/x-ray relations, runs sheaf coboundary
 diffusion, reads out energy statistics, and combines them with the
@@ -702,7 +702,7 @@ class FileMirrorPartialGate(nn.Module):
 class FileMirrorTensionSheafNet(nn.Module):
     """Bespoke File-Mirror Tension Sheaf classifier.
 
-    See ``ideas/all_ideas/registry/i028_file_mirror_tension_sheaf/architecture.md`` for the
+    See ``ideas/registry/i028_file_mirror_tension_sheaf/architecture.md`` for the
     full component description.
     """
 

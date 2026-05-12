@@ -1,0 +1,47 @@
+idea_id: i172
+name: Near-Puzzle Margin Twin Network
+slug: near_puzzle_margin_twin_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Near-Puzzle Margin Twin Network — a shared board encoder feeds two
+  latent projections (an ordinary-board latent that absorbs surface similarity and a
+  puzzle-evidence latent that the puzzle head reads from), so a margin-aware trainer
+  can rank real puzzles above near-puzzle hard negatives instead of averaging them
+  into a single negative class.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`
+  (Idea 3, "Near-Puzzle Margin Twin Network"); replaces single-latent CNN pooling
+  with a twin-latent shared encoder that exposes a tactical puzzle-evidence latent
+  the head consumes and an ordinary-board latent for pairwise margin training.
+expected_advantage: Test the packet's pairwise ranking signal under the same puzzle_binary
+  benchmark contract — drive the near-puzzle false-positive rate below the BT4 baseline
+  by routing the puzzle head only through a tactical latent that is explicitly trained
+  to separate puzzles from near-puzzles when group metadata is reliable.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit (BCE-with-logits) plus two twin latents (`z_ordinary`,
+  `z_tactical`), a `puzzle_margin_signal` for batch-level pair-margin losses, and
+  per-batch diagnostics (`ordinary_norm`, `tactical_norm`, `ordinary_tactical_alignment`,
+  `trunk_energy`, `z_shared`).
+compute_notes: Compact convolutional trunk over `simple_18`, mean+max pooled descriptor,
+  shared LayerNorm+Linear+GELU mixer, two parallel projector MLPs producing the ordinary
+  and tactical latents, and a small head that reads the tactical latent only.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i172_near_puzzle_margin_twin_network/train.py
+config_path: ideas/registry/i172_near_puzzle_margin_twin_network/config.yaml
+model_path: ideas/registry/i172_near_puzzle_margin_twin_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/near_puzzle_margin_twin_network.py`
+  (`NearPuzzleMarginTwinNetwork`); the idea-local `model.py` is a thin wrapper around
+  the registered builder. The model never reads group metadata at inference; pairwise
+  margin terms are an optional trainer-side objective that consumes the exposed twin
+  latents and `puzzle_margin_signal`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-25_0031_saturday_shanghai_puzzle_binary_challengers.md
+source_packet_candidate: Near-Puzzle Margin Twin Network
+source_packet_rank: 3
+source_packet_status: batch packet
+mechanism_family: robustness
+implementation_kind: bespoke_model

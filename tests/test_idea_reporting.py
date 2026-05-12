@@ -6,7 +6,7 @@ import yaml
 
 
 REQUIRED_REPORT_TERMS = [
-    "ideas/all_ideas/docs/BENCHMARK_REPORTING.md",
+    "ideas/docs/BENCHMARK_REPORTING.md",
     "slice_report_val.md",
     "slice_report_test.md",
     "crtk_difficulty",
@@ -15,7 +15,7 @@ REQUIRED_REPORT_TERMS = [
 
 
 def test_registered_idea_reports_require_slice_analysis():
-    idea_dirs = sorted(Path("ideas/all_ideas/registry").glob("i[0-9][0-9][0-9]_*"))
+    idea_dirs = sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*"))
     assert idea_dirs
     for idea_dir in idea_dirs:
         idea = yaml.safe_load((idea_dir / "idea.yaml").read_text(encoding="utf-8")) or {}
@@ -28,6 +28,6 @@ def test_registered_idea_reports_require_slice_analysis():
 
 
 def test_future_idea_template_requires_slice_analysis():
-    text = Path("ideas/all_ideas/registry/template/report_template.md").read_text(encoding="utf-8")
+    text = Path("ideas/registry/template/report_template.md").read_text(encoding="utf-8")
     for term in REQUIRED_REPORT_TERMS:
         assert term in text

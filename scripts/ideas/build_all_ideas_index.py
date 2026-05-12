@@ -13,7 +13,7 @@ from typing import Any
 import yaml
 
 
-BASE = Path("ideas/all_ideas")
+BASE = Path("ideas")
 OUTPUT = BASE / "ALL_IDEAS.md"
 
 
@@ -250,7 +250,7 @@ def main() -> None:
     lines = [
         "# All Ideas Index",
         "",
-        "This generated file is the single inventory for every idea-like item stored under `ideas/all_ideas/`.",
+        "This generated file is the single inventory for every idea-like item stored under `ideas/`.",
         "",
         "Registered ideas use their `i###` ID. Raw packets and primitive notes use stable synthetic IDs because they are research inputs, not registered implementations.",
         "",

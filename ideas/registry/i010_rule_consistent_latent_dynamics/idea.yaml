@@ -1,0 +1,34 @@
+idea_id: i010
+name: Rule-Consistent Latent Dynamics Network
+slug: rule_consistent_latent_dynamics
+status: implemented
+created_at: '2026-04-25T01:07:11+08:00'
+author: Codex
+short_thesis: A puzzle classifier should first learn a latent model of legal chess
+  dynamics, then classify from dynamics-aware representations rather than static board
+  texture.
+novelty_claim: Unlike response-minimax or proof-number search, this does not primarily
+  score candidate continuations for the final logit; unlike operator-basis or equilibrium
+  layers, it uses self-supervised legal transition consistency as an architectural
+  bottleneck.
+expected_advantage: Better generalization and hard-negative discrimination because
+  the representation must encode which position features are dynamically legal and
+  consequence-bearing, not just visually tactical.
+target_task: General chess position classification with puzzle_binary as the first
+  benchmark.
+input_representation: Current-board tensor plus deterministic legal/pseudo-legal move
+  descriptors for self-supervised auxiliary reconstruction. No Stockfish metadata,
+  source labels, best moves, or verification metadata as inference inputs.
+output_heads: One puzzle logit plus auxiliary legal-move reconstruction, next-latent
+  consistency, and invalid-move rejection heads during training.
+compute_notes: Moderate cost. Uses a shared board encoder and a latent transition
+  head over sampled rule-generated moves; no full multi-ply tree required.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i010_rule_consistent_latent_dynamics/train.py
+config_path: ideas/registry/i010_rule_consistent_latent_dynamics/config.yaml
+model_path: ideas/registry/i010_rule_consistent_latent_dynamics/model.py
+latest_result_path: null
+notes: Implemented as a board encoder with deterministic pseudo-move descriptors,
+  legal/dynamics diagnostic heads, latent transition summaries, model registry entry,
+  and smoke-test coverage. Benchmark training is pending.
+implementation_kind: bespoke_model

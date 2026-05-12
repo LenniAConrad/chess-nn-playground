@@ -1,0 +1,38 @@
+idea_id: i005
+name: Null-Move Contrast Puzzle Network
+slug: null_move_contrast_puzzle_network
+status: tested
+created_at: '2026-04-25T00:53:36+08:00'
+author: Codex
+short_thesis: 'A real puzzle should be strongly tempo-critical: the puzzle signal
+  should drop when the same board is viewed after a null move or side-to-move swap.'
+novelty_claim: Unlike response-minimax, this does not enumerate actions and replies;
+  unlike factor-agreement, it uses a specific chess counterfactual view; unlike prior
+  tempo-odd packets, it makes current-vs-null contrast the primary puzzle bottleneck.
+expected_advantage: Better near-puzzle rejection by separating positions that merely
+  look tactically tense from positions where the side to move has an immediate forcing
+  privilege.
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor plus deterministic null-move and side-to-move-swapped
+  counterfactual encodings derived from the same position. No engine metadata or source
+  labels as inputs.
+output_heads: One puzzle logit plus diagnostic current/null evidence and contrast
+  scores.
+compute_notes: Roughly 2x to 3x a small shared trunk if current, null, and optional
+  defensive-turn views are encoded; can share weights fully.
+implementation_status: tested
+trainer_entrypoint: ideas/registry/i005_null_move_contrast_puzzle_network/train.py
+config_path: ideas/registry/i005_null_move_contrast_puzzle_network/config.yaml
+model_path: ideas/registry/i005_null_move_contrast_puzzle_network/model.py
+latest_result_path: results/20260429_023704_idea_i005_null_move_contrast_simple18
+notes: Benchmarked on the canonical CRTK puzzle_binary split with simple_18 inputs,
+  CUDA mixed precision, TF32, and the full 20-epoch paper-grade config. Best validation
+  epoch was 18; test metrics were accuracy 0.8479, F1 0.7913, PR AUC 0.8538, ROC AUC
+  0.9274, precision 0.7292, and recall 0.8649. This improves aggregate test metrics
+  over the recent i007 and i009 simple_18 runs, but remains below i013 LC0 BT4 and
+  still struggles with equal-eval, hard/very-hard near-puzzle separation, mate-in-1
+  near-puzzle false positives, endgames, and promotion/underpromotion misses. Treat
+  as a valid single-seed benchmark, not a publication-level claim without seed repeats
+  and matched-threshold comparisons.
+implementation_kind: bespoke_model

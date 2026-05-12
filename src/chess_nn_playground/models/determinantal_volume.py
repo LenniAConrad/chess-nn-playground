@@ -1,6 +1,6 @@
 """Determinantal Tactical Volume Bottleneck model for idea i058.
 
-Implements the markdown thesis (`ideas/all_ideas/registry/i058_determinantal_tactical_volume_bottleneck/`):
+Implements the markdown thesis (`ideas/registry/i058_determinantal_tactical_volume_bottleneck/`):
 puzzle-likeness is tested by measuring the **log-volume** of role-gated PSD
 kernels over occupied piece tokens. The central feature is
 

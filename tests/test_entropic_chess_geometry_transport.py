@@ -13,7 +13,7 @@ from chess_nn_playground.models.chess_geometry_transport import ChessGeometryTra
 from chess_nn_playground.models.registry import build_model
 
 
-IDEA_FOLDER = Path("ideas/all_ideas/registry/i034_entropic_chess_geometry_transport_network")
+IDEA_FOLDER = Path("ideas/registry/i034_entropic_chess_geometry_transport_network")
 
 
 def _load_config() -> dict:

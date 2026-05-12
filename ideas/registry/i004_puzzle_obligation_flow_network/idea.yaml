@@ -1,0 +1,32 @@
+idea_id: i004
+name: Puzzle Obligation Flow Network
+slug: puzzle_obligation_flow_network
+status: implemented
+created_at: '2026-04-25T00:50:34+08:00'
+author: Codex
+short_thesis: A true chess puzzle often exists when the defender's obligations exceed
+  available defensive resources; classify puzzlehood through a learned obligation-resource
+  flow residual.
+novelty_claim: Unlike the registered response-minimax classifier, this does not score
+  explicit action-reply trees; unlike operator-basis and factor-agreement classifiers,
+  it forces the final puzzle logit through a differentiable obligation allocation
+  bottleneck.
+expected_advantage: Lower near-puzzle false positives by distinguishing positions
+  with apparent pressure from positions where defensive resources are actually over-constrained.
+target_task: 'Puzzle-specific architecture for puzzle_binary: source classes 0 and
+  1 map to target 0, source class 2 maps to target 1.'
+input_representation: Current-board tensor plus deterministic rule-derived obligation/resource
+  candidates. No Stockfish metadata, source labels, verification metadata, or generated
+  pseudo-labels as inference inputs.
+output_heads: One puzzle logit plus diagnostic obligation residual summaries.
+compute_notes: Small candidate sets, typed bipartite message passing, and 3-6 Sinkhorn/auction-style
+  allocation iterations. Expected cost above CNN but below full action-reply expansion.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i004_puzzle_obligation_flow_network/train.py
+config_path: ideas/registry/i004_puzzle_obligation_flow_network/config.yaml
+model_path: ideas/registry/i004_puzzle_obligation_flow_network/model.py
+latest_result_path: null
+notes: Implemented as a typed obligation/resource candidate selector with differentiable
+  Sinkhorn-style allocation residuals, model registry entry, and smoke-test coverage.
+  Benchmark training is pending.
+implementation_kind: bespoke_model

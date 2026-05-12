@@ -1,6 +1,6 @@
 """Symmetric Difference Twin Encoder for idea i116.
 
-Working thesis (from ``ideas/all_ideas/registry/i116_symmetric_difference_twin_encoder``):
+Working thesis (from ``ideas/registry/i116_symmetric_difference_twin_encoder``):
 safe deterministic board transforms should preserve some evidence and
 change other evidence. Instead of enforcing invariance, this model
 compares the original and transformed board latents by symmetric-

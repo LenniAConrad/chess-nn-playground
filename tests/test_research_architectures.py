@@ -574,7 +574,7 @@ def test_remaining_research_architectures_forward_shape_and_diagnostics():
 
 
 def test_remaining_idea_configs_are_trainable():
-    for folder in sorted(Path("ideas/all_ideas/registry").glob("i[0-9][0-9][0-9]_*")):
+    for folder in sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*")):
         idea = yaml.safe_load((folder / "idea.yaml").read_text(encoding="utf-8"))
         if idea.get("implementation_status") not in {"implemented", "tested"}:
             continue
@@ -583,7 +583,7 @@ def test_remaining_idea_configs_are_trainable():
 
 
 def test_i070_relational_query_algebra_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i070_relational_query_algebra_network")
+    folder = Path("ideas/registry/i070_relational_query_algebra_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -657,7 +657,7 @@ def test_i070_relational_query_algebra_is_bespoke_and_conformant():
 
 
 def test_i071_variational_board_action_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i071_variational_board_action_network")
+    folder = Path("ideas/registry/i071_variational_board_action_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -789,7 +789,7 @@ def test_i071_variational_board_action_is_bespoke_and_conformant():
 
 
 def test_i072_tensor_core_square_pair_field_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i072_tensor_core_square_pair_field_network")
+    folder = Path("ideas/registry/i072_tensor_core_square_pair_field_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -955,7 +955,7 @@ def test_i072_tensor_core_square_pair_field_is_bespoke_and_conformant():
 
 
 def test_i073_tiny_chess_micronet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i073_tiny_chess_micronet")
+    folder = Path("ideas/registry/i073_tiny_chess_micronet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1105,7 +1105,7 @@ def test_i073_tiny_chess_micronet_is_bespoke_and_conformant():
 
 
 def test_i051_king_escape_percolation_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i051_king_escape_percolation_network")
+    folder = Path("ideas/registry/i051_king_escape_percolation_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1207,7 +1207,7 @@ def test_i051_king_escape_percolation_is_bespoke_and_conformant():
 
 
 def test_i052_soft_king_cage_path_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i052_soft_king_cage_path_bottleneck_network")
+    folder = Path("ideas/registry/i052_soft_king_cage_path_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1314,7 +1314,7 @@ def test_i052_soft_king_cage_path_is_bespoke_and_conformant():
 
 
 def test_i053_hall_defect_obligation_matroid_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i053_hall_defect_obligation_matroid_network")
+    folder = Path("ideas/registry/i053_hall_defect_obligation_matroid_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1460,7 +1460,7 @@ def test_i053_hall_defect_obligation_matroid_is_bespoke_and_conformant():
 def test_i085_hall_defect_zeta_operator_is_bespoke_and_conformant():
     from chess_nn_playground.models.hall_defect_zeta import HallDefectZetaConvLite
 
-    folder = Path("ideas/all_ideas/registry/i085_hall_defect_zeta_operator")
+    folder = Path("ideas/registry/i085_hall_defect_zeta_operator")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1559,7 +1559,7 @@ def test_i085_hall_defect_zeta_operator_is_bespoke_and_conformant():
 
 
 def test_i055_non_backtracking_tactical_walk_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i055_non_backtracking_tactical_walk_network")
+    folder = Path("ideas/registry/i055_non_backtracking_tactical_walk_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1689,7 +1689,7 @@ def test_i055_non_backtracking_tactical_walk_is_bespoke_and_conformant():
 
 
 def test_i054_threat_topology_betti_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i054_threat_topology_betti_bottleneck_network")
+    folder = Path("ideas/registry/i054_threat_topology_betti_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1820,7 +1820,7 @@ def test_i054_threat_topology_betti_is_bespoke_and_conformant():
 
 
 def test_i022_tactical_threat_sheaf_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i022_tactical_threat_sheaf_network")
+    folder = Path("ideas/registry/i022_tactical_threat_sheaf_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1885,7 +1885,7 @@ def test_i022_tactical_threat_sheaf_is_bespoke_and_conformant():
 
 
 def test_i018_oriented_tactical_sheaf_laplacian_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i018_oriented_tactical_sheaf_laplacian")
+    folder = Path("ideas/registry/i018_oriented_tactical_sheaf_laplacian")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -1951,7 +1951,7 @@ def test_i018_oriented_tactical_sheaf_laplacian_is_bespoke_and_conformant():
 
 
 def test_i019_tactical_sheaf_curvature_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i019_tactical_sheaf_curvature_network")
+    folder = Path("ideas/registry/i019_tactical_sheaf_curvature_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2016,7 +2016,7 @@ def test_i019_tactical_sheaf_curvature_is_bespoke_and_conformant():
 
 
 def test_i021_tactical_sheaf_tension_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i021_tactical_sheaf_tension_network")
+    folder = Path("ideas/registry/i021_tactical_sheaf_tension_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2085,7 +2085,7 @@ def test_i021_tactical_sheaf_tension_is_bespoke_and_conformant():
 
 
 def test_i020_attack_defense_sheaf_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i020_attack_defense_sheaf_energy_network")
+    folder = Path("ideas/registry/i020_attack_defense_sheaf_energy_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2153,7 +2153,7 @@ def test_i020_attack_defense_sheaf_is_bespoke_and_conformant():
 
 
 def test_i023_attack_hodge_sheaf_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i023_attack_hodge_sheaf_tension_network")
+    folder = Path("ideas/registry/i023_attack_hodge_sheaf_tension_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2223,7 +2223,7 @@ def test_i023_attack_hodge_sheaf_is_bespoke_and_conformant():
 
 
 def test_i024_directed_attack_sheaf_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i024_directed_attack_sheaf_tension_network")
+    folder = Path("ideas/registry/i024_directed_attack_sheaf_tension_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2293,7 +2293,7 @@ def test_i024_directed_attack_sheaf_is_bespoke_and_conformant():
 
 
 def test_i025_one_ply_counterfactual_move_landscape_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i025_one_ply_counterfactual_move_landscape_network")
+    folder = Path("ideas/registry/i025_one_ply_counterfactual_move_landscape_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2362,7 +2362,7 @@ def test_i025_one_ply_counterfactual_move_landscape_is_bespoke_and_conformant():
 
 
 def test_i026_counterfactual_move_delta_spectrum_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i026_counterfactual_move_delta_spectrum_network")
+    folder = Path("ideas/registry/i026_counterfactual_move_delta_spectrum_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2438,7 +2438,7 @@ def test_i026_counterfactual_move_delta_spectrum_is_bespoke_and_conformant():
 
 
 def test_i027_rule_only_counterfactual_move_delta_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck")
+    folder = Path("ideas/registry/i027_rule_only_counterfactual_move_delta_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2518,7 +2518,7 @@ def test_i027_rule_only_counterfactual_move_delta_bottleneck_is_bespoke_and_conf
 
 
 def test_i127_square_color_parity_mixer_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i127_square_color_parity_mixer")
+    folder = Path("ideas/registry/i127_square_color_parity_mixer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2598,7 +2598,7 @@ def test_i127_square_color_parity_mixer_is_bespoke_and_conformant():
 
 
 def test_i128_occupancy_run_length_segment_encoder_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i128_occupancy_run_length_segment_encoder")
+    folder = Path("ideas/registry/i128_occupancy_run_length_segment_encoder")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2680,7 +2680,7 @@ def test_i128_occupancy_run_length_segment_encoder_is_bespoke_and_conformant():
 
 
 def test_i129_king_shelter_microkernel_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i129_king_shelter_microkernel_network")
+    folder = Path("ideas/registry/i129_king_shelter_microkernel_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2776,7 +2776,7 @@ def test_i129_king_shelter_microkernel_network_is_bespoke_and_conformant():
 
 
 def test_i160_hypercolumn_square_readout_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i160_hypercolumn_square_readout_cnn")
+    folder = Path("ideas/registry/i160_hypercolumn_square_readout_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2851,7 +2851,7 @@ def test_i160_hypercolumn_square_readout_is_bespoke_and_conformant():
 
 
 def test_i190_blocker_pin_lattice_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i190_blocker_pin_lattice_network")
+    folder = Path("ideas/registry/i190_blocker_pin_lattice_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2918,7 +2918,7 @@ def test_i190_blocker_pin_lattice_is_bespoke_and_conformant():
 
 
 def test_i191_safe_reply_certificate_verifier_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i191_safe_reply_certificate_verifier")
+    folder = Path("ideas/registry/i191_safe_reply_certificate_verifier")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -2996,7 +2996,7 @@ def test_i191_safe_reply_certificate_verifier_is_bespoke_and_conformant():
 
 
 def test_i192_latent_reply_entropy_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i192_latent_reply_entropy_network")
+    folder = Path("ideas/registry/i192_latent_reply_entropy_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3082,7 +3082,7 @@ def test_i192_latent_reply_entropy_network_is_bespoke_and_conformant():
 
 
 def test_i145_piece_plane_gated_cnn_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i145_piece_plane_gated_cnn")
+    folder = Path("ideas/registry/i145_piece_plane_gated_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3217,7 +3217,7 @@ def test_i145_piece_plane_gated_cnn_is_bespoke_and_conformant():
 
 
 def test_i146_patch_mixer_boardnet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i146_patch_mixer_boardnet")
+    folder = Path("ideas/registry/i146_patch_mixer_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3350,7 +3350,7 @@ def test_i146_patch_mixer_boardnet_is_bespoke_and_conformant():
 
 
 def test_i147_specialist_head_cnn_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i147_specialist_head_cnn")
+    folder = Path("ideas/registry/i147_specialist_head_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3517,7 +3517,7 @@ def test_i147_specialist_head_cnn_is_bespoke_and_conformant():
 
 
 def test_i100_independence_residual_interaction_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i100_independence_residual_interaction_network")
+    folder = Path("ideas/registry/i100_independence_residual_interaction_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3603,7 +3603,7 @@ def test_i100_independence_residual_interaction_network_is_bespoke_and_conforman
 
 
 def test_i101_residual_calibration_error_field_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i101_residual_calibration_error_field")
+    folder = Path("ideas/registry/i101_residual_calibration_error_field")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3712,7 +3712,7 @@ def test_i101_residual_calibration_error_field_is_bespoke_and_conformant():
 
 
 def test_i102_set_query_attention_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i102_set_query_attention_bottleneck")
+    folder = Path("ideas/registry/i102_set_query_attention_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3831,7 +3831,7 @@ def test_i102_set_query_attention_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i161_multiplicative_conjunction_convnet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i161_multiplicative_conjunction_convnet")
+    folder = Path("ideas/registry/i161_multiplicative_conjunction_convnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -3926,7 +3926,7 @@ def test_i161_multiplicative_conjunction_convnet_is_bespoke_and_conformant():
 
 
 def test_i162_empty_square_opportunity_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i162_empty_square_opportunity_network")
+    folder = Path("ideas/registry/i162_empty_square_opportunity_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4034,7 +4034,7 @@ def test_i162_empty_square_opportunity_network_is_bespoke_and_conformant():
 
 
 def test_i163_global_scratchpad_boardnet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i163_global_scratchpad_boardnet")
+    folder = Path("ideas/registry/i163_global_scratchpad_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4158,7 +4158,7 @@ def test_i163_global_scratchpad_boardnet_is_bespoke_and_conformant():
 
 
 def test_i164_learnable_pooling_tree_boardnet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i164_learnable_pooling_tree_boardnet")
+    folder = Path("ideas/registry/i164_learnable_pooling_tree_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4285,7 +4285,7 @@ def test_i164_learnable_pooling_tree_boardnet_is_bespoke_and_conformant():
 
 
 def test_i165_spatial_film_coordinate_net_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i165_spatial_film_coordinate_net")
+    folder = Path("ideas/registry/i165_spatial_film_coordinate_net")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4482,7 +4482,7 @@ def test_i165_spatial_film_coordinate_net_is_bespoke_and_conformant():
 
 
 def test_i166_channel_bilinear_role_mixer_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i166_channel_bilinear_role_mixer")
+    folder = Path("ideas/registry/i166_channel_bilinear_role_mixer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4587,7 +4587,7 @@ def test_i166_channel_bilinear_role_mixer_is_bespoke_and_conformant():
 
 
 def test_i167_evidence_sieve_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i167_evidence_sieve_network")
+    folder = Path("ideas/registry/i167_evidence_sieve_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4701,7 +4701,7 @@ def test_i167_evidence_sieve_network_is_bespoke_and_conformant():
 
 
 def test_i168_ring_shell_recurrent_boardnet_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i168_ring_shell_recurrent_boardnet")
+    folder = Path("ideas/registry/i168_ring_shell_recurrent_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4819,7 +4819,7 @@ def test_i168_ring_shell_recurrent_boardnet_is_bespoke_and_conformant():
 
 
 def test_i169_rank_file_memory_grid_net_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i169_rank_file_memory_grid_net")
+    folder = Path("ideas/registry/i169_rank_file_memory_grid_net")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -4907,7 +4907,7 @@ def test_i169_rank_file_memory_grid_net_is_bespoke_and_conformant():
 
 
 def test_i235_toda_isospectral_flow_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i235_toda_isospectral_flow_network")
+    folder = Path("ideas/registry/i235_toda_isospectral_flow_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5003,21 +5003,21 @@ def test_i235_toda_isospectral_flow_network_is_bespoke_and_conformant():
 
 
 PROMOTED_BATCH4_BESPOKE_IDEAS = [
-    ("i203", "ideas/all_ideas/registry/i203_hierarchical_tactical_option_network", "hierarchical_tactical_option_network", {"option_utilities", "hierarchical_gate_entropy"}),
-    ("i204", "ideas/all_ideas/registry/i204_cross_defense_consistency_network", "cross_defense_consistency_network", {"cross_defense_agreement", "cross_defense_variance"}),
-    ("i205", "ideas/all_ideas/registry/i205_defender_timing_schedule_network", "defender_timing_schedule_network", {"schedule_overrun", "schedule_entropy"}),
-    ("i206", "ideas/all_ideas/registry/i206_discovered_ray_switchboard_network", "discovered_ray_switchboard_network", {"discovered_ray_energy", "switchboard_entropy"}),
-    ("i207", "ideas/all_ideas/registry/i207_counterplay_insolvency_ledger", "counterplay_insolvency_ledger", {"insolvency_score", "ledger_balance"}),
-    ("i208", "ideas/all_ideas/registry/i208_pinned_mobility_nullspace_network", "pinned_mobility_nullspace_network", {"pin_nullspace_energy", "pin_nullspace_ratio"}),
-    ("i209", "ideas/all_ideas/registry/i209_tactical_effective_resistance_network", "tactical_effective_resistance_network", {"effective_resistance", "potential_spread"}),
-    ("i210", "ideas/all_ideas/registry/i210_defender_opportunity_cost_auction_network", "defender_opportunity_cost_auction_network", {"shadow_prices", "auction_total_value"}),
-    ("i211", "ideas/all_ideas/registry/i211_role_counterfactual_necessity_network", "role_counterfactual_necessity_network", {"role_necessity", "max_role_necessity"}),
-    ("i212", "ideas/all_ideas/registry/i212_phase_specialist_calibration_mixture", "phase_specialist_calibration_mixture", {"phase_probs", "expert_logits"}),
-    ("i213", "ideas/all_ideas/registry/i213_forced_target_funnel_network", "forced_target_funnel_network", {"funnel_concentration", "funnel_entropy"}),
-    ("i214", "ideas/all_ideas/registry/i214_tactical_subgoal_automaton_network", "tactical_subgoal_automaton_network", {"automaton_terminal_state", "transition_entropy"}),
-    ("i215", "ideas/all_ideas/registry/i215_masked_codec_interaction_curvature_network", "masked_codec_interaction_curvature_network", {"interaction_curvature", "reconstruction_error_low"}),
-    ("i216", "ideas/all_ideas/registry/i216_non_puzzle_score_curl_divergence_bottleneck", "non_puzzle_score_curl_divergence_bottleneck", {"score_curl_mean", "score_divergence_mean"}),
-    ("i217", "ideas/all_ideas/registry/i217_ray_grammar_edit_distance_network", "ray_grammar_edit_distance_network", {"global_min_edit_distance", "min_edit_distance_per_template"}),
+    ("i203", "ideas/registry/i203_hierarchical_tactical_option_network", "hierarchical_tactical_option_network", {"option_utilities", "hierarchical_gate_entropy"}),
+    ("i204", "ideas/registry/i204_cross_defense_consistency_network", "cross_defense_consistency_network", {"cross_defense_agreement", "cross_defense_variance"}),
+    ("i205", "ideas/registry/i205_defender_timing_schedule_network", "defender_timing_schedule_network", {"schedule_overrun", "schedule_entropy"}),
+    ("i206", "ideas/registry/i206_discovered_ray_switchboard_network", "discovered_ray_switchboard_network", {"discovered_ray_energy", "switchboard_entropy"}),
+    ("i207", "ideas/registry/i207_counterplay_insolvency_ledger", "counterplay_insolvency_ledger", {"insolvency_score", "ledger_balance"}),
+    ("i208", "ideas/registry/i208_pinned_mobility_nullspace_network", "pinned_mobility_nullspace_network", {"pin_nullspace_energy", "pin_nullspace_ratio"}),
+    ("i209", "ideas/registry/i209_tactical_effective_resistance_network", "tactical_effective_resistance_network", {"effective_resistance", "potential_spread"}),
+    ("i210", "ideas/registry/i210_defender_opportunity_cost_auction_network", "defender_opportunity_cost_auction_network", {"shadow_prices", "auction_total_value"}),
+    ("i211", "ideas/registry/i211_role_counterfactual_necessity_network", "role_counterfactual_necessity_network", {"role_necessity", "max_role_necessity"}),
+    ("i212", "ideas/registry/i212_phase_specialist_calibration_mixture", "phase_specialist_calibration_mixture", {"phase_probs", "expert_logits"}),
+    ("i213", "ideas/registry/i213_forced_target_funnel_network", "forced_target_funnel_network", {"funnel_concentration", "funnel_entropy"}),
+    ("i214", "ideas/registry/i214_tactical_subgoal_automaton_network", "tactical_subgoal_automaton_network", {"automaton_terminal_state", "transition_entropy"}),
+    ("i215", "ideas/registry/i215_masked_codec_interaction_curvature_network", "masked_codec_interaction_curvature_network", {"interaction_curvature", "reconstruction_error_low"}),
+    ("i216", "ideas/registry/i216_non_puzzle_score_curl_divergence_bottleneck", "non_puzzle_score_curl_divergence_bottleneck", {"score_curl_mean", "score_divergence_mean"}),
+    ("i217", "ideas/registry/i217_ray_grammar_edit_distance_network", "ray_grammar_edit_distance_network", {"global_min_edit_distance", "min_edit_distance_per_template"}),
 ]
 
 
@@ -5078,85 +5078,85 @@ def test_batch4_promoted_idea_is_bespoke_and_conformant(idea_id, folder_path, mo
 PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     (
         "i218",
-        "ideas/all_ideas/registry/i218_orbit_disagreement_residual_network",
+        "ideas/registry/i218_orbit_disagreement_residual_network",
         "orbit_disagreement_residual_network",
         {"orbit_residual_mean_norm", "view_logit_disagreement"},
     ),
     (
         "i219",
-        "ideas/all_ideas/registry/i219_hall_defect_dual_residual_network",
+        "ideas/registry/i219_hall_defect_dual_residual_network",
         "hall_defect_dual_residual_network",
         {"primal_violation_final", "dual_norm_final"},
     ),
     (
         "i220",
-        "ideas/all_ideas/registry/i220_credal_temperature_field_network",
+        "ideas/registry/i220_credal_temperature_field_network",
         "credal_temperature_field_network",
         {"credal_temperature", "credal_smoothing"},
     ),
     (
         "i221",
-        "ideas/all_ideas/registry/i221_sylvester_tactical_coupling_network",
+        "ideas/registry/i221_sylvester_tactical_coupling_network",
         "sylvester_tactical_coupling_network",
         {"sylvester_frobenius", "sylvester_resonance_min"},
     ),
     (
         "i222",
-        "ideas/all_ideas/registry/i222_schur_complement_defender_network",
+        "ideas/registry/i222_schur_complement_defender_network",
         "schur_complement_defender_network",
         {"schur_inertia_neg", "schur_log_det_S"},
     ),
     (
         "i223",
-        "ideas/all_ideas/registry/i223_bures_wasserstein_threat_network",
+        "ideas/registry/i223_bures_wasserstein_threat_network",
         "bures_wasserstein_threat_network",
         {"bures_distance_gap", "bures_log_det_sigma"},
     ),
     (
         "i224",
-        "ideas/all_ideas/registry/i224_numerical_range_boundary_network",
+        "ideas/registry/i224_numerical_range_boundary_network",
         "numerical_range_boundary_network",
         {"non_normality_gap", "boundary_support"},
     ),
     (
         "i225",
-        "ideas/all_ideas/registry/i225_lyapunov_threat_stability_network",
+        "ideas/registry/i225_lyapunov_threat_stability_network",
         "lyapunov_threat_stability_network",
         {"lyapunov_cond_P", "lyapunov_hurwitz_indicator"},
     ),
     (
         "i226",
-        "ideas/all_ideas/registry/i226_pfaffian_skew_threat_network",
+        "ideas/registry/i226_pfaffian_skew_threat_network",
         "pfaffian_skew_threat_network",
         {"pfaffian_signed_log", "pfaffian_sign_balance"},
     ),
     (
         "i227",
-        "ideas/all_ideas/registry/i227_padic_ultrametric_threat_network",
+        "ideas/registry/i227_padic_ultrametric_threat_network",
         "padic_ultrametric_threat_network",
         {"padic_depth_histogram", "padic_newton_slopes"},
     ),
     (
         "i228",
-        "ideas/all_ideas/registry/i228_free_probability_r_transform_network",
+        "ideas/registry/i228_free_probability_r_transform_network",
         "free_probability_r_transform_network",
         {"free_coupling_distance", "free_cumulant_mismatch"},
     ),
     (
         "i229",
-        "ideas/all_ideas/registry/i229_williamson_symplectic_threat_network",
+        "ideas/registry/i229_williamson_symplectic_threat_network",
         "williamson_symplectic_threat_network",
         {"symplectic_spectrum", "symplectic_entropy", "heisenberg_slack"},
     ),
     (
         "i230",
-        "ideas/all_ideas/registry/i230_magnus_bch_coupling_series_network",
+        "ideas/registry/i230_magnus_bch_coupling_series_network",
         "magnus_bch_coupling_series_network",
         {"magnus_norms", "magnus_bch_log_norm", "magnus_ratios", "magnus_normalized_norms"},
     ),
     (
         "i231",
-        "ideas/all_ideas/registry/i231_riccati_optimal_defense_network",
+        "ideas/registry/i231_riccati_optimal_defense_network",
         "riccati_optimal_defense_network",
         {
             "riccati_optimal_cost_J_star",
@@ -5167,7 +5167,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i232",
-        "ideas/all_ideas/registry/i232_clifford_rotor_threat_network",
+        "ideas/registry/i232_clifford_rotor_threat_network",
         "clifford_rotor_threat_network",
         {
             "clifford_rotor_bivector_norm_mean",
@@ -5178,7 +5178,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i233",
-        "ideas/all_ideas/registry/i233_tracy_widom_level_spacing_network",
+        "ideas/registry/i233_tracy_widom_level_spacing_network",
         "tracy_widom_level_spacing_network",
         {
             "tracy_widom_mean_spacing_ratio",
@@ -5189,7 +5189,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i234",
-        "ideas/all_ideas/registry/i234_lindstrom_gessel_viennot_path_network",
+        "ideas/registry/i234_lindstrom_gessel_viennot_path_network",
         "lindstrom_gessel_viennot_path_network",
         {
             "lgv_log_abs_det",
@@ -5202,7 +5202,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i140",
-        "ideas/all_ideas/registry/i140_low_displacement_rank_board_operator",
+        "ideas/registry/i140_low_displacement_rank_board_operator",
         "low_displacement_rank_board_operator",
         {
             "ldr_energy_t_rank",
@@ -5216,7 +5216,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i148",
-        "ideas/all_ideas/registry/i148_shallow_wide_residual_boardnet",
+        "ideas/registry/i148_shallow_wide_residual_boardnet",
         "shallow_wide_residual_boardnet",
         {
             "swrb_pool_mean_norm",
@@ -5229,7 +5229,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i176",
-        "ideas/all_ideas/registry/i176_source_rate_calibrated_objective",
+        "ideas/registry/i176_source_rate_calibrated_objective",
         "source_rate_calibrated_objective",
         {
             "source_rate_puzzle_evidence",
@@ -5242,7 +5242,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i178",
-        "ideas/all_ideas/registry/i178_defender_exhaustion_cascade_network",
+        "ideas/registry/i178_defender_exhaustion_cascade_network",
         "defender_exhaustion_cascade_network",
         {
             "exhaustion_sum_positive_residual",
@@ -5255,7 +5255,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i142",
-        "ideas/all_ideas/registry/i142_pivot_trace_elimination_network",
+        "ideas/registry/i142_pivot_trace_elimination_network",
         "pivot_trace_elimination_network",
         {
             "log_pivots",
@@ -5271,7 +5271,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i124",
-        "ideas/all_ideas/registry/i124_local_neighborhood_geometry_network",
+        "ideas/registry/i124_local_neighborhood_geometry_network",
         "local_neighborhood_geometry_network",
         {
             "lng_center_embedding",
@@ -5284,7 +5284,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i139",
-        "ideas/all_ideas/registry/i139_soft_majorization_line_sorter",
+        "ideas/registry/i139_soft_majorization_line_sorter",
         "soft_majorization_line_sorter",
         {
             "smls_salience_fields",
@@ -5300,7 +5300,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i143",
-        "ideas/all_ideas/registry/i143_convnext_boardnet",
+        "ideas/registry/i143_convnext_boardnet",
         "convnext_boardnet",
         {
             "convnext_feature_energy",
@@ -5314,7 +5314,7 @@ PROMOTED_LA_VARIANT_BESPOKE_IDEAS = [
     ),
     (
         "i152",
-        "ideas/all_ideas/registry/i152_iterative_logit_refinement_cnn",
+        "ideas/registry/i152_iterative_logit_refinement_cnn",
         "iterative_logit_refinement_cnn",
         {
             "initial_logit",
@@ -5388,7 +5388,7 @@ def test_la_variant_promoted_idea_is_bespoke_and_conformant(idea_id, folder_path
 
 
 def test_i039_ray_language_automaton_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i039_ray_language_automaton_network")
+    folder = Path("ideas/registry/i039_ray_language_automaton_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5453,7 +5453,7 @@ def test_i039_ray_language_automaton_network_is_bespoke_and_conformant():
 
 
 def test_i040_kinematic_commutator_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i040_kinematic_commutator_bottleneck_network")
+    folder = Path("ideas/registry/i040_kinematic_commutator_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5519,7 +5519,7 @@ def test_i040_kinematic_commutator_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i041_centered_tempo_odd_interventional_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i041_centered_tempo_odd_interventional_bottleneck")
+    folder = Path("ideas/registry/i041_centered_tempo_odd_interventional_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5599,7 +5599,7 @@ def test_i041_centered_tempo_odd_interventional_bottleneck_is_bespoke_and_confor
 
 
 def test_i042_legal_automorphism_quotient_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i042_legal_automorphism_quotient_network")
+    folder = Path("ideas/registry/i042_legal_automorphism_quotient_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5705,7 +5705,7 @@ def test_i042_legal_automorphism_quotient_network_is_bespoke_and_conformant():
 
 
 def test_i043_side_canonical_rule_partition_invariant_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i043_side_canonical_rule_partition_invariant_bottleneck")
+    folder = Path("ideas/registry/i043_side_canonical_rule_partition_invariant_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5817,7 +5817,7 @@ def test_i043_side_canonical_rule_partition_invariant_bottleneck_is_bespoke_and_
 
 
 def test_i044_masked_board_code_length_surprise_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i044_masked_board_code_length_surprise_network")
+    folder = Path("ideas/registry/i044_masked_board_code_length_surprise_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -5927,7 +5927,7 @@ def test_i044_masked_board_code_length_surprise_network_is_bespoke_and_conforman
 
 
 def test_i045_credal_near_puzzle_evidence_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i045_credal_near_puzzle_evidence_network")
+    folder = Path("ideas/registry/i045_credal_near_puzzle_evidence_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6047,7 +6047,7 @@ def test_i045_credal_near_puzzle_evidence_network_is_bespoke_and_conformant():
 
 
 def test_i046_rule_exact_orbit_bottleneck_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i046_rule_exact_orbit_bottleneck_network")
+    folder = Path("ideas/registry/i046_rule_exact_orbit_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6192,7 +6192,7 @@ def test_i046_rule_exact_orbit_bottleneck_network_is_bespoke_and_conformant():
 
 
 def test_i047_color_flip_orbit_evidence_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i047_color_flip_orbit_evidence_bottleneck")
+    folder = Path("ideas/registry/i047_color_flip_orbit_evidence_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6340,7 +6340,7 @@ def test_i047_color_flip_orbit_evidence_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i048_rule_automorphism_quotient_bottleneck_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i048_rule_automorphism_quotient_bottleneck_network")
+    folder = Path("ideas/registry/i048_rule_automorphism_quotient_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6520,7 +6520,7 @@ def test_i048_rule_automorphism_quotient_bottleneck_network_is_bespoke_and_confo
 
 
 def test_i049_tempo_odd_bottleneck_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i049_tempo_odd_bottleneck_network")
+    folder = Path("ideas/registry/i049_tempo_odd_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6606,7 +6606,7 @@ def test_i049_tempo_odd_bottleneck_network_is_bespoke_and_conformant():
 
 
 def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i050_king_anchored_euler_interaction_network")
+    folder = Path("ideas/registry/i050_king_anchored_euler_interaction_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6758,7 +6758,7 @@ def test_i050_king_anchored_euler_interaction_network_is_bespoke_and_conformant(
 
 
 def test_i056_non_puzzle_score_field_bottleneck_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i056_non_puzzle_score_field_bottleneck_network")
+    folder = Path("ideas/registry/i056_non_puzzle_score_field_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6874,7 +6874,7 @@ def test_i056_non_puzzle_score_field_bottleneck_network_is_bespoke_and_conforman
 
 
 def test_i057_soft_formal_concept_closure_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i057_soft_formal_concept_closure_network")
+    folder = Path("ideas/registry/i057_soft_formal_concept_closure_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -6995,7 +6995,7 @@ def test_i057_soft_formal_concept_closure_network_is_bespoke_and_conformant():
 
 
 def test_i058_determinantal_tactical_volume_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i058_determinantal_tactical_volume_bottleneck")
+    folder = Path("ideas/registry/i058_determinantal_tactical_volume_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -7122,7 +7122,7 @@ def test_i058_determinantal_tactical_volume_bottleneck_is_bespoke_and_conformant
 
 
 def test_i059_harmonic_board_potential_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i059_harmonic_board_potential_network")
+    folder = Path("ideas/registry/i059_harmonic_board_potential_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -7269,7 +7269,7 @@ def test_i059_harmonic_board_potential_network_is_bespoke_and_conformant():
 
 
 def test_i060_tropical_constraint_circuit_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i060_tropical_constraint_circuit_network")
+    folder = Path("ideas/registry/i060_tropical_constraint_circuit_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -7444,7 +7444,7 @@ def test_i060_tropical_constraint_circuit_network_is_bespoke_and_conformant():
 
 
 def test_i061_grassmannian_principal_angle_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i061_grassmannian_principal_angle_bottleneck")
+    folder = Path("ideas/registry/i061_grassmannian_principal_angle_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -7623,7 +7623,7 @@ def test_i061_grassmannian_principal_angle_bottleneck_is_bespoke_and_conformant(
 
 
 def test_i062_matrix_pencil_generalized_spectrum_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck")
+    folder = Path("ideas/registry/i062_matrix_pencil_generalized_spectrum_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -7806,7 +7806,7 @@ def test_i062_matrix_pencil_generalized_spectrum_bottleneck_is_bespoke_and_confo
 
 
 def test_i063_polar_procrustes_alignment_bottleneck_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i063_polar_procrustes_alignment_bottleneck")
+    folder = Path("ideas/registry/i063_polar_procrustes_alignment_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8001,7 +8001,7 @@ def test_i063_polar_procrustes_alignment_bottleneck_is_bespoke_and_conformant():
 
 
 def test_i064_multi_scale_dilated_board_mixer_cnn_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i064_multi_scale_dilated_board_mixer_cnn")
+    folder = Path("ideas/registry/i064_multi_scale_dilated_board_mixer_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8165,7 +8165,7 @@ def test_i064_multi_scale_dilated_board_mixer_cnn_is_bespoke_and_conformant():
 
 
 def test_i065_piece_token_cnn_hybrid_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i065_piece_token_cnn_hybrid")
+    folder = Path("ideas/registry/i065_piece_token_cnn_hybrid")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8307,7 +8307,7 @@ def test_i065_piece_token_cnn_hybrid_is_bespoke_and_conformant():
 
 
 def test_i067_finite_field_character_sum_board_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i067_finite_field_character_sum_board_network")
+    folder = Path("ideas/registry/i067_finite_field_character_sum_board_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8415,7 +8415,7 @@ def test_i067_finite_field_character_sum_board_network_is_bespoke_and_conformant
 
 
 def test_i068_schur_ray_line_algebra_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i068_schur_ray_line_algebra_network")
+    folder = Path("ideas/registry/i068_schur_ray_line_algebra_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8512,7 +8512,7 @@ def test_i068_schur_ray_line_algebra_network_is_bespoke_and_conformant():
 
 
 def test_i069_bitboard_shift_algebra_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i069_bitboard_shift_algebra_network")
+    folder = Path("ideas/registry/i069_bitboard_shift_algebra_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8613,7 +8613,7 @@ def test_i069_bitboard_shift_algebra_network_is_bespoke_and_conformant():
 
 
 def test_i074_puzzle_binary_benchmark_challengers_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i074_puzzle_binary_benchmark_challengers")
+    folder = Path("ideas/registry/i074_puzzle_binary_benchmark_challengers")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8764,7 +8764,7 @@ def test_i170_negative_class_disentangled_puzzle_head_is_bespoke_and_conformant(
         build_negative_class_disentangled_puzzle_head_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i170_negative_class_disentangled_puzzle_head")
+    folder = Path("ideas/registry/i170_negative_class_disentangled_puzzle_head")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -8863,7 +8863,7 @@ def test_i075_tactical_bisimulation_puzzle_network_is_bespoke_and_conformant():
         build_tactical_bisimulation_puzzle_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i075_tactical_bisimulation_puzzle_network")
+    folder = Path("ideas/registry/i075_tactical_bisimulation_puzzle_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9000,7 +9000,7 @@ def test_i076_krylov_tactical_subspace_network_is_bespoke_and_conformant():
         build_krylov_tactical_subspace_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i076_krylov_tactical_subspace_network")
+    folder = Path("ideas/registry/i076_krylov_tactical_subspace_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9139,7 +9139,7 @@ def test_i077_adaptive_tactical_resolvent_network_is_bespoke_and_conformant():
         build_adaptive_tactical_resolvent_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i077_adaptive_tactical_resolvent_network")
+    folder = Path("ideas/registry/i077_adaptive_tactical_resolvent_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9283,7 +9283,7 @@ def test_i078_tactical_controllability_gramian_network_is_bespoke_and_conformant
         build_tactical_controllability_gramian_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i078_tactical_controllability_gramian_network")
+    folder = Path("ideas/registry/i078_tactical_controllability_gramian_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9437,7 +9437,7 @@ def test_i079_support_polar_zonotope_certificate_network_is_bespoke_and_conforma
         build_support_polar_zonotope_certificate_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i079_support_polar_zonotope_certificate_network")
+    folder = Path("ideas/registry/i079_support_polar_zonotope_certificate_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9616,7 +9616,7 @@ def test_i080_loop_frustration_curvature_network_is_bespoke_and_conformant():
         build_loop_frustration_curvature_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i080_loop_frustration_curvature_network")
+    folder = Path("ideas/registry/i080_loop_frustration_curvature_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9788,7 +9788,7 @@ def test_i081_forcing_response_front_door_bottleneck_is_bespoke_and_conformant()
         build_forcing_response_front_door_bottleneck_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i081_forcing_response_front_door_bottleneck")
+    folder = Path("ideas/registry/i081_forcing_response_front_door_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -9900,7 +9900,7 @@ def test_i082_chess_hypercut_polynomial_network_is_bespoke_and_conformant():
         build_chess_hypercut_polynomial_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i082_chess_hypercut_polynomial_network")
+    folder = Path("ideas/registry/i082_chess_hypercut_polynomial_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10002,7 +10002,7 @@ def test_i083_fisher_geodesic_tension_network_is_bespoke_and_conformant():
         fisher_rao_distance,
     )
 
-    folder = Path("ideas/all_ideas/registry/i083_fisher_geodesic_tension_network")
+    folder = Path("ideas/registry/i083_fisher_geodesic_tension_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10146,7 +10146,7 @@ def test_i084_typed_hypergraph_motif_grammar_is_bespoke_and_conformant():
         build_typed_hypergraph_motif_grammar_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i084_typed_hypergraph_motif_grammar")
+    folder = Path("ideas/registry/i084_typed_hypergraph_motif_grammar")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10289,7 +10289,7 @@ def test_i086_differentiable_chess_fact_lattice_is_bespoke_and_conformant():
         build_differentiable_chess_fact_lattice_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i086_differentiable_chess_fact_lattice")
+    folder = Path("ideas/registry/i086_differentiable_chess_fact_lattice")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10411,7 +10411,7 @@ def test_i087_tactical_radius_filtration_is_bespoke_and_conformant():
         build_tactical_radius_filtration_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i087_tactical_radius_filtration")
+    folder = Path("ideas/registry/i087_tactical_radius_filtration")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10527,7 +10527,7 @@ def test_i087_tactical_radius_filtration_is_bespoke_and_conformant():
 
 
 def test_i090_chess_mode_tucker_relation_certificate_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i090_chess_mode_tucker_relation_certificate")
+    folder = Path("ideas/registry/i090_chess_mode_tucker_relation_certificate")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10648,7 +10648,7 @@ def test_i091_tactical_state_bottleneck_inference_is_bespoke_and_conformant():
         tactical_state_loss_components,
     )
 
-    folder = Path("ideas/all_ideas/registry/i091_tactical_state_bottleneck_inference")
+    folder = Path("ideas/registry/i091_tactical_state_bottleneck_inference")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10808,7 +10808,7 @@ def test_i150_early_exit_cascade_boardnet_is_bespoke_and_conformant():
         cascade_multi_exit_loss,
     )
 
-    folder = Path("ideas/all_ideas/registry/i150_early_exit_cascade_boardnet")
+    folder = Path("ideas/registry/i150_early_exit_cascade_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -10950,7 +10950,7 @@ def test_i151_auxiliary_reconstruction_boardnet_is_bespoke_and_conformant():
         build_auxiliary_reconstruction_boardnet_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i151_auxiliary_reconstruction_boardnet")
+    folder = Path("ideas/registry/i151_auxiliary_reconstruction_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11088,7 +11088,7 @@ def test_i153_agreement_variance_head_net_is_bespoke_and_conformant():
         build_agreement_variance_head_net_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i153_agreement_variance_head_net")
+    folder = Path("ideas/registry/i153_agreement_variance_head_net")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11218,7 +11218,7 @@ def test_i154_adapter_sandwich_residual_cnn_is_bespoke_and_conformant():
         build_adapter_sandwich_residual_cnn_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i154_adapter_sandwich_residual_cnn")
+    folder = Path("ideas/registry/i154_adapter_sandwich_residual_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11357,7 +11357,7 @@ def test_i155_capsule_motif_boardnet_is_bespoke_and_conformant():
         build_capsule_motif_boardnet_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i155_capsule_motif_boardnet")
+    folder = Path("ideas/registry/i155_capsule_motif_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11501,7 +11501,7 @@ def test_i156_multi_order_board_scan_network_is_bespoke_and_conformant():
         build_multi_order_board_scan_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i156_multi_order_board_scan_network")
+    folder = Path("ideas/registry/i156_multi_order_board_scan_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11659,7 +11659,7 @@ def test_i157_cross_stitch_cnn_token_fusion_net_is_bespoke_and_conformant():
         build_cross_stitch_cnn_token_fusion_net_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i157_cross_stitch_cnn_token_fusion_net")
+    folder = Path("ideas/registry/i157_cross_stitch_cnn_token_fusion_net")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -11853,7 +11853,7 @@ def test_i158_neural_decision_forest_boardnet_is_bespoke_and_conformant():
         build_neural_decision_forest_boardnet_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i158_neural_decision_forest_boardnet")
+    folder = Path("ideas/registry/i158_neural_decision_forest_boardnet")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12009,7 +12009,7 @@ def test_i159_vector_quantized_motif_codebook_net_is_bespoke_and_conformant():
         build_vector_quantized_motif_codebook_net_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i159_vector_quantized_motif_codebook_net")
+    folder = Path("ideas/registry/i159_vector_quantized_motif_codebook_net")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12168,7 +12168,7 @@ def test_i171_line_piece_crossbar_network_is_bespoke_and_conformant():
         build_line_piece_crossbar_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i171_line_piece_crossbar_network")
+    folder = Path("ideas/registry/i171_line_piece_crossbar_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12287,7 +12287,7 @@ def test_i172_near_puzzle_margin_twin_network_is_bespoke_and_conformant():
         build_near_puzzle_margin_twin_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i172_near_puzzle_margin_twin_network")
+    folder = Path("ideas/registry/i172_near_puzzle_margin_twin_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12403,7 +12403,7 @@ def test_i173_stripe_selective_mixer_cnn_is_bespoke_and_conformant():
         build_stripe_selective_mixer_cnn_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i173_stripe_selective_mixer_cnn")
+    folder = Path("ideas/registry/i173_stripe_selective_mixer_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12573,7 +12573,7 @@ def test_i174_king_zone_evidence_ledger_is_bespoke_and_conformant():
         build_king_zone_evidence_ledger_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i174_king_zone_evidence_ledger")
+    folder = Path("ideas/registry/i174_king_zone_evidence_ledger")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12777,7 +12777,7 @@ def test_i175_prototype_margin_puzzle_network_is_bespoke_and_conformant():
         build_prototype_margin_puzzle_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i175_prototype_margin_puzzle_network")
+    folder = Path("ideas/registry/i175_prototype_margin_puzzle_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -12961,7 +12961,7 @@ def test_i177_forcing_certificate_transformer_is_bespoke_and_conformant():
         build_forcing_certificate_transformer_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i177_forcing_certificate_transformer")
+    folder = Path("ideas/registry/i177_forcing_certificate_transformer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13135,7 +13135,7 @@ def test_i179_causal_piece_derivative_network_is_bespoke_and_conformant():
         build_causal_piece_derivative_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i179_causal_piece_derivative_network")
+    folder = Path("ideas/registry/i179_causal_piece_derivative_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13298,7 +13298,7 @@ def test_i180_phase_transition_pressure_network_is_bespoke_and_conformant():
         build_phase_transition_pressure_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i180_phase_transition_pressure_network")
+    folder = Path("ideas/registry/i180_phase_transition_pressure_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13456,7 +13456,7 @@ def test_i181_disproof_ledger_puzzle_network_is_bespoke_and_conformant():
         build_disproof_ledger_puzzle_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i181_disproof_ledger_puzzle_network")
+    folder = Path("ideas/registry/i181_disproof_ledger_puzzle_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13618,7 +13618,7 @@ def test_i182_motif_tensor_factorization_network_is_bespoke_and_conformant():
         build_motif_tensor_factorization_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i182_motif_tensor_factorization_network")
+    folder = Path("ideas/registry/i182_motif_tensor_factorization_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13757,7 +13757,7 @@ def test_i183_tempo_alignment_gate_network_is_bespoke_and_conformant():
         build_tempo_alignment_gate_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i183_tempo_alignment_gate_network")
+    folder = Path("ideas/registry/i183_tempo_alignment_gate_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -13916,7 +13916,7 @@ def test_i184_puzzle_boundary_twin_encoder_is_bespoke_and_conformant():
         build_puzzle_boundary_twin_encoder_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i184_puzzle_boundary_twin_encoder")
+    folder = Path("ideas/registry/i184_puzzle_boundary_twin_encoder")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14045,7 +14045,7 @@ def test_i185_critical_square_budget_network_is_bespoke_and_conformant():
         build_critical_square_budget_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i185_critical_square_budget_network")
+    folder = Path("ideas/registry/i185_critical_square_budget_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14180,7 +14180,7 @@ def test_i186_legal_reaction_bottleneck_network_is_bespoke_and_conformant():
         build_legal_reaction_bottleneck_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i186_legal_reaction_bottleneck_network")
+    folder = Path("ideas/registry/i186_legal_reaction_bottleneck_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14343,7 +14343,7 @@ def test_i187_exchange_soundness_graph_network_is_bespoke_and_conformant():
         build_exchange_soundness_graph_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i187_exchange_soundness_graph_network")
+    folder = Path("ideas/registry/i187_exchange_soundness_graph_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14533,7 +14533,7 @@ def test_i188_tactical_program_induction_network_is_bespoke_and_conformant():
         build_tactical_program_induction_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i188_tactical_program_induction_network")
+    folder = Path("ideas/registry/i188_tactical_program_induction_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14717,7 +14717,7 @@ def test_i189_counterfactual_defender_dropout_network_is_bespoke_and_conformant(
         build_counterfactual_defender_dropout_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i189_counterfactual_defender_dropout_network")
+    folder = Path("ideas/registry/i189_counterfactual_defender_dropout_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -14894,7 +14894,7 @@ def test_i193_exchange_then_king_dual_stream_is_bespoke_and_conformant():
         build_exchange_then_king_dual_stream_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i193_exchange_then_king_dual_stream")
+    folder = Path("ideas/registry/i193_exchange_then_king_dual_stream")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15085,7 +15085,7 @@ def test_i194_tactical_symptom_bayesian_network_is_bespoke_and_conformant():
         build_tactical_symptom_bayesian_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i194_tactical_symptom_bayesian_network")
+    folder = Path("ideas/registry/i194_tactical_symptom_bayesian_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15281,7 +15281,7 @@ def test_i196_source_invariant_puzzle_bottleneck_is_bespoke_and_conformant():
         build_source_invariant_puzzle_bottleneck_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i196_source_invariant_puzzle_bottleneck")
+    folder = Path("ideas/registry/i196_source_invariant_puzzle_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15483,7 +15483,7 @@ def test_i197_reply_set_contrastive_transformer_is_bespoke_and_conformant():
         build_reply_set_contrastive_transformer_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i197_reply_set_contrastive_transformer")
+    folder = Path("ideas/registry/i197_reply_set_contrastive_transformer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15700,7 +15700,7 @@ def test_i088_traced_threat_motif_network_is_bespoke_and_conformant():
         build_traced_threat_motif_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i088_traced_threat_motif_network")
+    folder = Path("ideas/registry/i088_traced_threat_motif_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15841,7 +15841,7 @@ def test_i092_parity_syndrome_puzzle_bottleneck_is_bespoke_and_conformant():
         build_parity_syndrome_puzzle_bottleneck_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i092_parity_syndrome_puzzle_bottleneck")
+    folder = Path("ideas/registry/i092_parity_syndrome_puzzle_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -15982,7 +15982,7 @@ def test_i093_wavelet_scattering_board_network_is_bespoke_and_conformant():
         build_wavelet_scattering_board_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i093_wavelet_scattering_board_network")
+    folder = Path("ideas/registry/i093_wavelet_scattering_board_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16131,7 +16131,7 @@ def test_i094_convex_feasibility_residual_network_is_bespoke_and_conformant():
         build_convex_feasibility_residual_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i094_convex_feasibility_residual_network")
+    folder = Path("ideas/registry/i094_convex_feasibility_residual_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16283,7 +16283,7 @@ def test_i095_rank_quantile_evidence_field_network_is_bespoke_and_conformant():
         build_rank_quantile_evidence_field_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i095_rank_quantile_evidence_field_network")
+    folder = Path("ideas/registry/i095_rank_quantile_evidence_field_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16435,7 +16435,7 @@ def test_i096_oriented_matroid_covector_bottleneck_is_bespoke_and_conformant():
         build_oriented_matroid_covector_bottleneck_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i096_oriented_matroid_covector_bottleneck")
+    folder = Path("ideas/registry/i096_oriented_matroid_covector_bottleneck")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16601,7 +16601,7 @@ def test_i097_fixed_point_residual_defect_network_is_bespoke_and_conformant():
         build_fixed_point_residual_defect_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i097_fixed_point_residual_defect_network")
+    folder = Path("ideas/registry/i097_fixed_point_residual_defect_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16771,7 +16771,7 @@ def test_i098_baseline_logit_residual_adapter_is_bespoke_and_conformant():
         build_baseline_logit_residual_adapter_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i098_baseline_logit_residual_adapter")
+    folder = Path("ideas/registry/i098_baseline_logit_residual_adapter")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -16929,7 +16929,7 @@ def test_i099_coarse_to_fine_board_residual_pyramid_is_bespoke_and_conformant():
         build_coarse_to_fine_board_residual_pyramid_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i099_coarse_to_fine_board_residual_pyramid")
+    folder = Path("ideas/registry/i099_coarse_to_fine_board_residual_pyramid")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17047,7 +17047,7 @@ def test_i099_coarse_to_fine_board_residual_pyramid_is_bespoke_and_conformant():
 
 
 def test_i103_attention_disagreement_residual_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i103_attention_disagreement_residual_network")
+    folder = Path("ideas/registry/i103_attention_disagreement_residual_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17121,7 +17121,7 @@ def test_i103_attention_disagreement_residual_network_is_bespoke_and_conformant(
 
 
 def test_i104_cross_scale_attention_residual_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i104_cross_scale_attention_residual_network")
+    folder = Path("ideas/registry/i104_cross_scale_attention_residual_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17207,7 +17207,7 @@ def test_i104_cross_scale_attention_residual_network_is_bespoke_and_conformant()
 
 
 def test_i105_slot_attention_role_binding_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i105_slot_attention_role_binding_network")
+    folder = Path("ideas/registry/i105_slot_attention_role_binding_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17308,7 +17308,7 @@ def test_i105_slot_attention_role_binding_network_is_bespoke_and_conformant():
 
 
 def test_i106_attention_perturbation_sensitivity_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i106_attention_perturbation_sensitivity_network")
+    folder = Path("ideas/registry/i106_attention_perturbation_sensitivity_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17450,7 +17450,7 @@ def test_i106_attention_perturbation_sensitivity_network_is_bespoke_and_conforma
 
 
 def test_i107_kernel_mean_prototype_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i107_kernel_mean_prototype_network")
+    folder = Path("ideas/registry/i107_kernel_mean_prototype_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17548,7 +17548,7 @@ def test_i107_kernel_mean_prototype_network_is_bespoke_and_conformant():
 
 
 def test_i108_tensorsketch_interaction_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i108_tensorsketch_interaction_network")
+    folder = Path("ideas/registry/i108_tensorsketch_interaction_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17646,7 +17646,7 @@ def test_i108_tensorsketch_interaction_network_is_bespoke_and_conformant():
 
 
 def test_i109_maxout_region_signature_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i109_maxout_region_signature_network")
+    folder = Path("ideas/registry/i109_maxout_region_signature_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17762,7 +17762,7 @@ def test_i109_maxout_region_signature_network_is_bespoke_and_conformant():
 
 
 def test_i110_spline_board_surface_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i110_spline_board_surface_network")
+    folder = Path("ideas/registry/i110_spline_board_surface_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17851,7 +17851,7 @@ def test_i110_spline_board_surface_network_is_bespoke_and_conformant():
 
 
 def test_i111_boundary_condition_disagreement_cnn_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i111_boundary_condition_disagreement_cnn")
+    folder = Path("ideas/registry/i111_boundary_condition_disagreement_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -17949,7 +17949,7 @@ def test_i111_boundary_condition_disagreement_cnn_is_bespoke_and_conformant():
 
 
 def test_i112_piece_drop_stability_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i112_piece_drop_stability_network")
+    folder = Path("ideas/registry/i112_piece_drop_stability_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18054,7 +18054,7 @@ def test_i112_piece_drop_stability_network_is_bespoke_and_conformant():
 
 
 def test_i113_row_file_factor_mixer_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i113_row_file_factor_mixer")
+    folder = Path("ideas/registry/i113_row_file_factor_mixer")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18166,7 +18166,7 @@ def test_i113_row_file_factor_mixer_is_bespoke_and_conformant():
 
 
 def test_i114_piece_conditioned_hypernetwork_cnn_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i114_piece_conditioned_hypernetwork_cnn")
+    folder = Path("ideas/registry/i114_piece_conditioned_hypernetwork_cnn")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18305,7 +18305,7 @@ def test_i114_piece_conditioned_hypernetwork_cnn_is_bespoke_and_conformant():
 
 
 def test_i115_neural_board_cellular_automaton_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i115_neural_board_cellular_automaton")
+    folder = Path("ideas/registry/i115_neural_board_cellular_automaton")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18471,7 +18471,7 @@ def test_i115_neural_board_cellular_automaton_is_bespoke_and_conformant():
 
 
 def test_i116_symmetric_difference_twin_encoder_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i116_symmetric_difference_twin_encoder")
+    folder = Path("ideas/registry/i116_symmetric_difference_twin_encoder")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18630,7 +18630,7 @@ def test_i116_symmetric_difference_twin_encoder_is_bespoke_and_conformant():
 
 
 def test_i117_prototype_patch_dictionary_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i117_prototype_patch_dictionary_network")
+    folder = Path("ideas/registry/i117_prototype_patch_dictionary_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18788,7 +18788,7 @@ def test_i117_prototype_patch_dictionary_network_is_bespoke_and_conformant():
 
 
 def test_i119_tensor_ring_square_interaction_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i119_tensor_ring_square_interaction_network")
+    folder = Path("ideas/registry/i119_tensor_ring_square_interaction_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -18950,7 +18950,7 @@ def test_i119_tensor_ring_square_interaction_network_is_bespoke_and_conformant()
 
 
 def test_i120_sinkhorn_role_assignment_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i120_sinkhorn_role_assignment_network")
+    folder = Path("ideas/registry/i120_sinkhorn_role_assignment_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19084,7 +19084,7 @@ def test_i120_sinkhorn_role_assignment_network_is_bespoke_and_conformant():
 
 
 def test_i121_morphological_threat_field_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i121_morphological_threat_field_network")
+    folder = Path("ideas/registry/i121_morphological_threat_field_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19166,7 +19166,7 @@ def test_i121_morphological_threat_field_network_is_bespoke_and_conformant():
 
 
 def test_i122_invertible_board_coupling_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i122_invertible_board_coupling_network")
+    folder = Path("ideas/registry/i122_invertible_board_coupling_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19255,7 +19255,7 @@ def test_i122_invertible_board_coupling_network_is_bespoke_and_conformant():
 
 
 def test_i123_sparse_expert_board_router_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i123_sparse_expert_board_router")
+    folder = Path("ideas/registry/i123_sparse_expert_board_router")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19382,7 +19382,7 @@ def test_i123_sparse_expert_board_router_is_bespoke_and_conformant():
 
 
 def test_i125_ray_state_space_scan_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i125_ray_state_space_scan_network")
+    folder = Path("ideas/registry/i125_ray_state_space_scan_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19466,7 +19466,7 @@ def test_i125_ray_state_space_scan_network_is_bespoke_and_conformant():
 
 
 def test_i126_pawn_skeleton_barrier_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i126_pawn_skeleton_barrier_network")
+    folder = Path("ideas/registry/i126_pawn_skeleton_barrier_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19561,7 +19561,7 @@ def test_i126_pawn_skeleton_barrier_network_is_bespoke_and_conformant():
 
 
 def test_i130_material_phase_low_rank_adapter_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i130_material_phase_low_rank_adapter_network")
+    folder = Path("ideas/registry/i130_material_phase_low_rank_adapter_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19703,7 +19703,7 @@ def test_i130_material_phase_low_rank_adapter_network_is_bespoke_and_conformant(
 
 
 def test_i132_differentiable_bitboard_boolean_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i132_differentiable_bitboard_boolean_network")
+    folder = Path("ideas/registry/i132_differentiable_bitboard_boolean_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19814,7 +19814,7 @@ def test_i132_differentiable_bitboard_boolean_network_is_bespoke_and_conformant(
 
 
 def test_i133_orthogonal_board_moment_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i133_orthogonal_board_moment_network")
+    folder = Path("ideas/registry/i133_orthogonal_board_moment_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -19935,7 +19935,7 @@ def test_i133_orthogonal_board_moment_network_is_bespoke_and_conformant():
 
 
 def test_i134_legal_constraint_projection_residual_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i134_legal_constraint_projection_residual_network")
+    folder = Path("ideas/registry/i134_legal_constraint_projection_residual_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20067,7 +20067,7 @@ def test_i134_legal_constraint_projection_residual_network_is_bespoke_and_confor
 
 
 def test_i135_zobrist_kernel_feature_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i135_zobrist_kernel_feature_network")
+    folder = Path("ideas/registry/i135_zobrist_kernel_feature_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20193,7 +20193,7 @@ def test_i135_zobrist_kernel_feature_network_is_bespoke_and_conformant():
 
 
 def test_i136_low_rank_signed_cut_query_network_is_bespoke_and_conformant():
-    folder = Path("ideas/all_ideas/registry/i136_low_rank_signed_cut_query_network")
+    folder = Path("ideas/registry/i136_low_rank_signed_cut_query_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20320,7 +20320,7 @@ def test_i195_minimal_edit_puzzle_distance_network_is_bespoke_and_conformant():
         build_minimal_edit_puzzle_distance_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i195_minimal_edit_puzzle_distance_network")
+    folder = Path("ideas/registry/i195_minimal_edit_puzzle_distance_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20476,7 +20476,7 @@ def test_i198_barrier_cut_puzzle_network_is_bespoke_and_conformant():
         build_barrier_cut_puzzle_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i198_barrier_cut_puzzle_network")
+    folder = Path("ideas/registry/i198_barrier_cut_puzzle_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20615,7 +20615,7 @@ def test_i199_tactical_hessian_spectrum_network_is_bespoke_and_conformant():
         build_tactical_hessian_spectrum_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i199_tactical_hessian_spectrum_network")
+    folder = Path("ideas/registry/i199_tactical_hessian_spectrum_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20761,7 +20761,7 @@ def test_i200_absorbing_threat_markov_network_is_bespoke_and_conformant():
         build_absorbing_threat_markov_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i200_absorbing_threat_markov_network")
+    folder = Path("ideas/registry/i200_absorbing_threat_markov_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -20938,7 +20938,7 @@ def test_i201_neural_clause_resolution_puzzle_network_is_bespoke_and_conformant(
         build_neural_clause_resolution_puzzle_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i201_neural_clause_resolution_puzzle_network")
+    folder = Path("ideas/registry/i201_neural_clause_resolution_puzzle_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()
@@ -21132,7 +21132,7 @@ def test_i202_piece_liability_gradient_network_is_bespoke_and_conformant():
         build_piece_liability_gradient_network_from_config,
     )
 
-    folder = Path("ideas/all_ideas/registry/i202_piece_liability_gradient_network")
+    folder = Path("ideas/registry/i202_piece_liability_gradient_network")
     config = yaml.safe_load((folder / "config.yaml").read_text(encoding="utf-8"))
     module = _load_idea_model(folder)
     model = module.build_model_from_config(config).eval()

@@ -1,0 +1,49 @@
+idea_id: i065
+name: Piece-Token CNN Hybrid
+slug: piece_token_cnn_hybrid
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: '- Idea name: Piece-Token CNN Hybrid - One-sentence thesis: A strong
+  regular chess-board benchmark should combine dense 8x8 convolutional features with
+  an explicit occu...'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2109_friday_shanghai_piece_token_cnn_hybrid.md`;
+  bespoke board-only CNN + explicit piece-token mixer with multiplicative late fusion.
+  Not a CNN/residual/attention/sheaf/transport variant; the dual-stream contract is
+  the missing strong conventional baseline for the piece-token hybrid family.
+expected_advantage: Test the packet's CNN + occupied-piece token hypothesis under
+  the same puzzle_binary benchmark contract as the other ideas, with the
+  cnn_only_matched, token_only, no_interaction_fusion, material_token_only,
+  shuffle_token_coordinates and single_token_layer falsifiers exposed via
+  `model.ablation`.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus hybrid diagnostics (token_count, piece_count,
+  material_balance, cnn_energy, token_energy, cnn_token_interaction,
+  token_coordinate_energy).
+compute_notes: Compact 8x8 CNN trunk (default cnn_width 48, cnn_blocks matched to
+  the repo `depth`) plus a 32-token piece-square mixer (default token_dim 64,
+  token_mixer_layers 2). Multiplicative fusion projects to fusion_hidden (defaults
+  to the repo `hidden_dim`).
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i065_piece_token_cnn_hybrid/train.py
+config_path: ideas/registry/i065_piece_token_cnn_hybrid/config.yaml
+model_path: ideas/registry/i065_piece_token_cnn_hybrid/model.py
+latest_result_path: null
+notes: 'Bespoke PieceTokenCNNHybrid over the simple_18 board tensor. The CNN trunk
+  is a stack of 3x3 conv blocks with optional BatchNorm and Dropout2d producing a
+  mean+max pooled vector. The token stream selects up to 32 occupied squares,
+  builds a 22-dim piece-square feature per token (piece type, own/opponent flags,
+  white/black flags, normalized rank/file plus side-relative rank/file, castling
+  rights, ep flags, side-to-move, occupancy weight), and runs a small MLP encoder
+  followed by mask-aware mean+max+sum set-mixer layers. The fusion head projects
+  both pools to fusion_hidden and multiplies them to form an explicit interaction
+  term, then concatenates the raw pools, the material summary and the interaction
+  before a 3-layer MLP returns the puzzle logit. Falsifiers cnn_only_matched,
+  token_only, no_interaction_fusion, material_token_only, shuffle_token_coordinates
+  and single_token_layer are exposed via the model.ablation config flag. Engine,
+  source, verification and CRTK metadata are never used as input.'
+mechanism_family: graph
+implementation_kind: bespoke_model

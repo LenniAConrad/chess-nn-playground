@@ -1,0 +1,42 @@
+idea_id: i080
+name: Loop-Frustration Curvature Network
+slug: loop_frustration_curvature_network
+status: implemented
+created_at: '2026-04-30T15:43:31+00:00'
+author: Codex
+short_thesis: 'Build a network whose decisive layer is not a standard convolutional
+  classifier, but a chess-board spin-glass observable: **loop-frustration curvature**.
+  The model learns site-conditioned pair couplings on a fixed 8x8 board graph, evaluates
+  closed-loop frustration products, estimates a small free-energy curvature by finite
+  differences in inverse temperature, and classifies using only summary statistics
+  and spatial concentration of that observable.'
+novelty_claim: Bespoke spin-glass loop-frustration curvature head over a learned
+  64-square board graph. The classifier consumes only physics-derived statistics
+  of the loop-curvature observable, not raw board features.
+expected_advantage: True puzzles are hypothesised to induce sharper, more
+  localised frustrated loop responses under temperature perturbation than
+  near-puzzles, and the cycle-scramble and no-loop-product controls falsify the
+  claim if the closed-loop topology is not doing work.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus loop-curvature diagnostics (`loop_omega`,
+  `omega_site`, `frustration_rate`, `loop_curvature`, `J`, `beta`, ...) saved to
+  prediction artefacts.
+compute_notes: Conv1x1 + two Conv3x3 board encoder, edge MLP for replica-conditioned
+  couplings on a 210-edge board graph, and a 520-loop bank evaluated in log-stable
+  form. Loop curvature is computed by three finite-difference forward passes through
+  the same edge couplings.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i080_loop_frustration_curvature_network/train.py
+config_path: ideas/registry/i080_loop_frustration_curvature_network/config.yaml
+model_path: ideas/registry/i080_loop_frustration_curvature_network/model.py
+latest_result_path: null
+notes: Bespoke implementation of the Loop-Frustration Curvature Network thesis. The
+  decisive layer is a closed-loop frustration free-energy curvature observable
+  computed on a static 64-square board graph (M = 210 edges, L = 520 loops). The
+  puzzle logit is read from physics-derived statistics of the observable, not from
+  raw board features; CRTK metadata is reporting-only.
+mechanism_family: topology
+implementation_kind: bespoke_model

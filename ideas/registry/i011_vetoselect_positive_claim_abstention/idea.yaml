@@ -1,0 +1,33 @@
+idea_id: i011
+name: VetoSelect Positive-Claim Abstention
+slug: vetoselect_positive_claim_abstention
+status: tested
+created_at: '2026-04-28T00:00:00+08:00'
+author: Codex
+short_thesis: Near-puzzle false positives should be treated as rejected positive evidence,
+  not just low-confidence negatives.
+novelty_claim: Unlike a generic reject class or calibration wrapper, VetoSelect factorizes
+  the positive puzzle claim into raw evidence and a learned trust/veto head, so rejection
+  applies specifically to positive-looking evidence.
+expected_advantage: Better puzzle_binary behavior on near-puzzle negatives at matched
+  puzzle recall while preserving a raw puzzle evidence logit for diagnostics.
+target_task: 'Puzzle-specific puzzle_binary classification: source classes 0 and 1
+  map to non-puzzle, source class 2 maps to puzzle.'
+input_representation: Current-board tensor only, first implementation using lc0_bt4_112.
+  No engine scores, PVs, best moves, source labels, verification metadata, or post-hoc
+  calibration features.
+output_heads: Raw puzzle_logit, selector_logit, selective_puzzle_logit, and hierarchical
+  non-puzzle/rejected-evidence/accepted-puzzle diagnostics.
+compute_notes: LC0 BT4-style residual trunk with two scalar heads. Training uses a
+  self-mined decoy loss after warmup; compute is close to the LC0 BT4 classifier baseline.
+implementation_status: tested
+trainer_entrypoint: ideas/registry/i011_vetoselect_positive_claim_abstention/train.py
+config_path: ideas/registry/i011_vetoselect_positive_claim_abstention/config.yaml
+model_path: ideas/registry/i011_vetoselect_positive_claim_abstention/model.py
+latest_result_path: results/20260428_160748_idea_i011_vetoselect_lc0bt4_v2_texture
+notes: Promoted from research packet chess_nn_research_2026-04-28_0904_tuesday_new_york_vetoselect.md
+  because ideas/registry/TODO.md ranked it as the strongest immediate candidate for near-puzzle
+  false-positive rejection. A2 was below the LC0 BT4 baseline; v2/A3 adds deterministic
+  rule-texture decoys and slightly beats the LC0 BT4 baseline on test F1/PR AUC while
+  reducing matched-recall false positives. See runs/20260428_160748_vetoselect_lc0bt4_v2_texture.md.
+implementation_kind: bespoke_model

@@ -20,7 +20,7 @@ from chess_nn_playground.models.replicator_payoff_piece_dynamics import (
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
-I131_FOLDER = Path("ideas/all_ideas/registry/i131_replicator_payoff_piece_dynamics")
+I131_FOLDER = Path("ideas/registry/i131_replicator_payoff_piece_dynamics")
 
 
 def _load_idea_module():

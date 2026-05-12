@@ -1,0 +1,39 @@
+idea_id: i167
+name: Evidence Sieve Network
+slug: evidence_sieve_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Instead of refining logits, the model can refine features by repeatedly
+  filtering them through learned evidence sieves. Each sieve stage produces a soft
+  mask over channels and squares, passes selected evidence onward, and leaves a diagnostic
+  trail.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`;
+  implements an explicit cascade of learned channel/spatial mask gates that filter
+  the feature map and propagate only the selected evidence between stages, instead
+  of generic CNN pooling or logit refinement.
+expected_advantage: Test the packet's proposed evidence-sieving signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus per-stage channel and spatial masks, selected-evidence
+  energies, and Bernoulli entropies of the masks saved to prediction artifacts.
+compute_notes: Compact CNN trunk plus a stack of `num_sieves` evidence sieve stages
+  (channel-mask MLP and spatial-mask conv head, residual conv on the selected evidence)
+  before a small MLP head over pooled selected-evidence and pooled final trunk features.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i167_evidence_sieve_network/train.py
+config_path: ideas/registry/i167_evidence_sieve_network/config.yaml
+model_path: ideas/registry/i167_evidence_sieve_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md`.
+  Implemented as a bespoke cascade of channel/spatial mask sieves registered under
+  `evidence_sieve_network`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2216_friday_shanghai_architecture_batch_11.md
+source_packet_candidate: Evidence Sieve Network
+source_packet_rank: 6
+source_packet_status: batch packet
+mechanism_family: information
+implementation_kind: bespoke_model

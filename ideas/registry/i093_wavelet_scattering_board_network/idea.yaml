@@ -1,0 +1,39 @@
+idea_id: i093
+name: Wavelet Scattering Board Network
+slug: wavelet_scattering_board_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Puzzle-like structure may live in multiscale arrangements of piece planes.
+  A fixed wavelet scattering front end can test whether stable multiscale modulus
+  features help beyond learned CNN filters while avoiding engine-specific priors.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`;
+  bespoke fixed Haar two-layer scattering front end with channel/scale/orientation
+  pooling and a small MLP head, distinct from learned CNN towers and harmonic-potential
+  models.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus scattering diagnostics (per-channel/scale/orientation
+  modulus statistics, lowpass energies, second-order means, mode code) saved to prediction
+  artifacts.
+compute_notes: Fixed Haar two-layer scattering bank (depthwise convolutions, no learned
+  filters) plus a LayerNorm + GELU MLP head. Runs on CPU/GPU; no extra dependencies.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i093_wavelet_scattering_board_network/train.py
+config_path: ideas/registry/i093_wavelet_scattering_board_network/config.yaml
+model_path: ideas/registry/i093_wavelet_scattering_board_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md`.
+  Bespoke fixed-Haar wavelet scattering board network registered as `wavelet_scattering_board_network`
+  in `src/chess_nn_playground/models/wavelet_scattering_board_network.py`. Supports
+  ablation modes `haar`, `random_fixed_filters`, `lowpass_only`, and `channel_shuffle`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2048_friday_shanghai_architecture_batch_2.md
+source_packet_candidate: Wavelet Scattering Board Network
+source_packet_rank: 2
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model

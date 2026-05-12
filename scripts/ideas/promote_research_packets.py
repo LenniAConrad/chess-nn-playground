@@ -282,7 +282,7 @@ def _report_template(name: str, family: str) -> str:
 - Seeds:
 - GPU:
 - Training budget:
-- Reporting standard: `ideas/all_ideas/docs/BENCHMARK_REPORTING.md`
+- Reporting standard: `ideas/docs/BENCHMARK_REPORTING.md`
 - Validation slice report: `slice_report_val.md`
 - Test slice report: `slice_report_test.md`
 
@@ -319,7 +319,7 @@ State whether `{name}` is kept, refined, scaled, or rejected. The decision must 
 
 
 def _write_idea_folder(idea_id: str, row: dict[str, Any], slug: str, family: str) -> None:
-    folder = Path("ideas/all_ideas/registry") / f"{idea_id}_{slug}"
+    folder = Path("ideas/registry") / f"{idea_id}_{slug}"
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "runs").mkdir(exist_ok=True)
     source_path = row["path"]
@@ -343,9 +343,9 @@ def _write_idea_folder(idea_id: str, row: dict[str, Any], slug: str, family: str
         "compute_notes": "Compact convolutional trunk plus deterministic board-mechanism diagnostics selected by packet family.",
         "implementation_status": "probe_scaffold_only",
         "implementation_kind": "shared_probe_variant",
-        "trainer_entrypoint": f"ideas/all_ideas/registry/{idea_id}_{slug}/train.py",
-        "config_path": f"ideas/all_ideas/registry/{idea_id}_{slug}/config.yaml",
-        "model_path": f"ideas/all_ideas/registry/{idea_id}_{slug}/model.py",
+        "trainer_entrypoint": f"ideas/registry/{idea_id}_{slug}/train.py",
+        "config_path": f"ideas/registry/{idea_id}_{slug}/config.yaml",
+        "model_path": f"ideas/registry/{idea_id}_{slug}/model.py",
         "latest_result_path": None,
         "notes": f"Research-packet promotion from `{source_path}`. Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation of the markdown architecture. Do not benchmark or describe this folder as an implemented architecture until bespoke model code replaces the shared probe.",
         "source_packet_path": source_path,
@@ -373,8 +373,8 @@ def _write_idea_folder(idea_id: str, row: dict[str, Any], slug: str, family: str
 
 
 def main() -> None:
-    catalog_path = Path("ideas/all_ideas/research/packets/CATALOG.jsonl")
-    registry_path = Path("ideas/all_ideas/registry/registry.jsonl")
+    catalog_path = Path("ideas/research/packets/CATALOG.jsonl")
+    registry_path = Path("ideas/registry/registry.jsonl")
     packets = _load_jsonl(catalog_path)
     registry = _load_jsonl(registry_path)
     existing_slugs = {str(row.get("slug", "")) for row in registry}
@@ -396,7 +396,7 @@ def main() -> None:
             "name": name,
             "slug": slug,
             "status": "implemented",
-            "folder": f"ideas/all_ideas/registry/{idea_id}_{slug}",
+            "folder": f"ideas/registry/{idea_id}_{slug}",
             "target_task": "puzzle_binary",
             "short_thesis": _short(row.get("summary") or f"{name} research-packet promotion."),
             "created_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
@@ -416,8 +416,8 @@ def main() -> None:
     all_packet_slugs = [
         str(row.get("slug"))
         for row in registry
-        if str(row.get("folder", "")).startswith("ideas/all_ideas/registry/i") and Path(str(row.get("folder", ""))).exists()
-        and str(row.get("source_packet_path", "")).startswith("ideas/all_ideas/research/packets/classic/")
+        if str(row.get("folder", "")).startswith("ideas/registry/i") and Path(str(row.get("folder", ""))).exists()
+        and str(row.get("source_packet_path", "")).startswith("ideas/research/packets/classic/")
     ]
     Path("src/chess_nn_playground/models/research_packet_registry.py").write_text(
         "from __future__ import annotations\n\n\n"

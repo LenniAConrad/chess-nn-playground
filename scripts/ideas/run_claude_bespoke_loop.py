@@ -326,7 +326,7 @@ def _run_one_idea(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--ideas-root", default="ideas/all_ideas/registry")
+    parser.add_argument("--ideas-root", default="ideas/registry")
     parser.add_argument("--idea", action="append", help="Idea id, folder name, or folder path. May be repeated.")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--offset", type=int, default=0)

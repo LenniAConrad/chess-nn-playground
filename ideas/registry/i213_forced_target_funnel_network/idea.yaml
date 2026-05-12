@@ -1,0 +1,36 @@
+idea_id: i213
+name: Forced-Target Funnel Network
+slug: forced_target_funnel_network
+status: implemented
+created_at: '2026-04-30T15:50:02+00:00'
+author: Codex
+short_thesis: 'A true puzzle often funnels different tactical symptoms toward the
+  same target: king, queen, pinned defender, promotion square, or overloaded defender.
+  A near-puzzle may have many threats, but they point in different directions.'
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`;
+  uses a generic mechanism profile over board-only features rather than generic CNN-only
+  pooling.
+expected_advantage: Test the packet's proposed board-structure signal under the same
+  puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+  artifacts.
+compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
+  selected by packet family.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i213_forced_target_funnel_network/train.py
+config_path: ideas/registry/i213_forced_target_funnel_network/config.yaml
+model_path: ideas/registry/i213_forced_target_funnel_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md`.
+  Bespoke implementation lives in `src/chess_nn_playground/models/forced_target_funnel.py`;
+  the idea-local `model.py` is a thin wrapper around the registered builder.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-28_1859_tuesday_shanghai_puzzle_architecture_batch_5.md
+source_packet_candidate: Forced-Target Funnel Network
+source_packet_rank: 9
+source_packet_status: batch packet
+mechanism_family: convex
+implementation_kind: bespoke_model

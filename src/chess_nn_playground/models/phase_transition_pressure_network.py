@@ -1,7 +1,7 @@
 """Phase-Transition Pressure Network for idea i180.
 
 Faithful implementation of the markdown thesis under
-``ideas/all_ideas/registry/i180_phase_transition_pressure_network/``. The model classifies
+``ideas/registry/i180_phase_transition_pressure_network/``. The model classifies
 a position by asking whether the board sits near a *threshold* where
 small increases in pressure, line opening, or defender loss would
 cause a tactical collapse. The signal is the *transition curve*

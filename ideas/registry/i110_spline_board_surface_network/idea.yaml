@@ -1,0 +1,39 @@
+idea_id: i110
+name: Spline Board Surface Network
+slug: spline_board_surface_network
+status: implemented
+created_at: '2026-04-30T15:50:01+00:00'
+author: Codex
+short_thesis: Chess boards may benefit from a smooth geometric baseline that is not
+  convolutional. Fit learned tensor-product spline surfaces to piece planes and classify
+  from low-degree surface coefficients plus residual maps.
+novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`;
+  a board-only puzzle classifier whose head reads only the smooth tensor-product
+  spline coefficients, the per-plane residual energies and a compact residual-map
+  summary, with no CNN trunk over the raw piece planes.
+expected_advantage: Test the packet's proposed smooth board-surface signal under the
+  same puzzle_binary benchmark contract as the other ideas.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
+  reporting-only and never used as model input.
+output_heads: One puzzle logit plus tensor-product spline coefficients, smooth reconstruction,
+  residual maps, residual energies and residual-map summary statistics saved to prediction
+  artifacts.
+compute_notes: Precomputed tensor-product Bernstein basis and pseudoinverse give a
+  closed-form smooth surface fit; only a small 1x1 residual channel mixer and a
+  compact MLP head are trained.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i110_spline_board_surface_network/train.py
+config_path: ideas/registry/i110_spline_board_surface_network/config.yaml
+model_path: ideas/registry/i110_spline_board_surface_network/model.py
+latest_result_path: null
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md`.
+  Bespoke tensor-product spline board surface classifier; no `ResearchPacketProbe`
+  involvement.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2118_friday_shanghai_architecture_batch_3.md
+source_packet_candidate: Spline Board Surface Network
+source_packet_rank: 4
+source_packet_status: batch packet
+mechanism_family: linear_algebra
+implementation_kind: bespoke_model
