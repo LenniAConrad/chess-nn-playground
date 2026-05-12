@@ -5,7 +5,7 @@ This is the canonical folder for the complete idea corpus.
 | Area | Contents |
 |---|---|
 | [ALL_IDEAS.md](ALL_IDEAS.md) | Single generated inventory with title, ID, source, model attribution, and path. |
-| [registry/](registry/) | Registered `i###_*` ideas that can be implemented, trained, audited, or benchmarked. |
+| [registry/](registry/) | Registered ideas that can be implemented, trained, audited, or benchmarked. ID prefix encodes the target models/ bucket: `i###` = trunk (whole-architecture), `p###` = primitive operator, `a###` = compositional architecture. Numbering is independent per prefix. |
 | [research/](research/) | Raw architecture packets, primitive research, prompts, and human collections. |
 | [docs/](docs/) | Workflow and benchmark-reporting standards. |
 

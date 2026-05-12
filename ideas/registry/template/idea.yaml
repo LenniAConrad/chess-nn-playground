@@ -17,4 +17,4 @@ trainer_entrypoint: null
 config_path: null
 model_path: null
 latest_result_path: null
-notes: "Copy this folder for future ideas. Do not register baselines as novel ideas."
+notes: "Copy this folder for future ideas. Pick the prefix that matches the target models/ bucket: i### for trunk (whole-architecture), p### for primitive operator, a### for compositional architecture. Numbering is independent per prefix. Do not register baselines as novel ideas."

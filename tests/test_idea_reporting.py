@@ -4,6 +4,8 @@ from pathlib import Path
 
 import yaml
 
+from chess_nn_playground.ideas.schema import discover_idea_folders
+
 
 REQUIRED_REPORT_TERMS = [
     "ideas/docs/BENCHMARK_REPORTING.md",
@@ -15,7 +17,7 @@ REQUIRED_REPORT_TERMS = [
 
 
 def test_registered_idea_reports_require_slice_analysis():
-    idea_dirs = sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*"))
+    idea_dirs = discover_idea_folders(Path("ideas/registry"))
     assert idea_dirs
     for idea_dir in idea_dirs:
         idea = yaml.safe_load((idea_dir / "idea.yaml").read_text(encoding="utf-8")) or {}

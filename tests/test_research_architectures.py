@@ -19,6 +19,7 @@ from chess_nn_playground.ideas.architecture_conformance import audit_architectur
 from chess_nn_playground.ideas.implementation import validate_idea_for_training
 from chess_nn_playground.ideas.implementation_kind import analyze_model_wiring
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
+from chess_nn_playground.ideas.schema import discover_idea_folders
 from chess_nn_playground.models.registry import MODEL_BUILDERS
 from chess_nn_playground.models.registry import available_models, build_model
 from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import HallZetaDefectLayer
@@ -574,7 +575,7 @@ def test_remaining_research_architectures_forward_shape_and_diagnostics():
 
 
 def test_remaining_idea_configs_are_trainable():
-    for folder in sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*")):
+    for folder in discover_idea_folders(Path("ideas/registry")):
         idea = yaml.safe_load((folder / "idea.yaml").read_text(encoding="utf-8"))
         if idea.get("implementation_status") not in {"implemented", "tested"}:
             continue

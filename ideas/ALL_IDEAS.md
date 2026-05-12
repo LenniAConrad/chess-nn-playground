@@ -2,7 +2,7 @@
 
 This generated file is the single inventory for every idea-like item stored under `ideas/`.
 
-Registered ideas use their `i###` ID. Raw packets and primitive notes use stable synthetic IDs because they are research inputs, not registered implementations.
+Registered ideas use prefix-based IDs: `i###` for trunks (whole-architecture models), `p###` for primitives (operators), `a###` for compositional architectures. Numbering is independent per prefix. Raw packets and primitive notes use stable synthetic IDs because they are research inputs, not registered implementations.
 
 Provenance notes:
 
@@ -21,7 +21,7 @@ Total rows: 415
 | external primitive report | 30 |
 | primitive proposal | 10 |
 | raw classic research packet | 130 |
-| registered idea | 243 |
+| registered trunk | 243 |
 
 ## Counts By Source
 
@@ -37,249 +37,249 @@ Total rows: 415
 
 | ID | Title | Kind | Source | Model | Path |
 | --- | --- | --- | --- | --- | --- |
-| i001 | Chess Operator Basis Classifier | registered idea | Codex | Codex coding agent | [registry/i001_chess_operator_basis_classifier](registry/i001_chess_operator_basis_classifier) |
-| i002 | Response-Minimax Chess Classifier | registered idea | Codex | Codex coding agent | [registry/i002_response_minimax_classifier](registry/i002_response_minimax_classifier) |
-| i003 | Factor-Agreement Chess Classifier | registered idea | Codex | Codex coding agent | [registry/i003_factor_agreement_classifier](registry/i003_factor_agreement_classifier) |
-| i004 | Puzzle Obligation Flow Network | registered idea | Codex | Codex coding agent | [registry/i004_puzzle_obligation_flow_network](registry/i004_puzzle_obligation_flow_network) |
-| i005 | Null-Move Contrast Puzzle Network | registered idea | Codex | Codex coding agent | [registry/i005_null_move_contrast_puzzle_network](registry/i005_null_move_contrast_puzzle_network) |
-| i006 | Proof-Core Set Verifier | registered idea | Codex | Codex coding agent | [registry/i006_proof_core_set_verifier](registry/i006_proof_core_set_verifier) |
-| i007 | Neural Proof-Number Search Network | registered idea | Codex | Codex coding agent | [registry/i007_neural_proof_number_search](registry/i007_neural_proof_number_search) |
-| i008 | Boundary-Edit Lagrangian Network | registered idea | Codex | Codex coding agent | [registry/i008_boundary_edit_lagrangian_network](registry/i008_boundary_edit_lagrangian_network) |
-| i009 | Tactical Equilibrium Network | registered idea | Codex | Codex coding agent | [registry/i009_tactical_equilibrium_network](registry/i009_tactical_equilibrium_network) |
-| i010 | Rule-Consistent Latent Dynamics Network | registered idea | Codex | Codex coding agent | [registry/i010_rule_consistent_latent_dynamics](registry/i010_rule_consistent_latent_dynamics) |
-| i011 | VetoSelect Positive-Claim Abstention | registered idea | Codex | Codex coding agent | [registry/i011_vetoselect_positive_claim_abstention](registry/i011_vetoselect_positive_claim_abstention) |
-| i012 | Soft-Dykstra Latent Constraint Projector | registered idea | Codex | Codex coding agent | [registry/i012_dykstra_lcp](registry/i012_dykstra_lcp) |
-| i013 | Sparse Relation Pursuit Asymmetry | registered idea | Codex | Codex coding agent | [registry/i013_sparse_relation_pursuit_asymmetry](registry/i013_sparse_relation_pursuit_asymmetry) |
-| i014 | Contamination-DRO Huber Tail Rejection | registered idea | Codex | Codex coding agent | [registry/i014_contamination_dro_huber_tail_rejection](registry/i014_contamination_dro_huber_tail_rejection) |
-| i015 | Material-Locked Tactical Mask DRO | registered idea | Codex | Codex coding agent | [registry/i015_material_locked_tactical_dro](registry/i015_material_locked_tactical_dro) |
-| i016 | Soft Sorting Order Residual Ranker | registered idea | Codex | Codex coding agent | [registry/i016_soft_sorting_order_residual_ranker](registry/i016_soft_sorting_order_residual_ranker) |
-| i017 | Conditional Surprisal Gate | registered idea | Codex | Codex coding agent | [registry/i017_conditional_surprisal_gate](registry/i017_conditional_surprisal_gate) |
-| i018 | Oriented Tactical Sheaf Laplacian | registered idea | Codex | Codex coding agent | [registry/i018_oriented_tactical_sheaf_laplacian](registry/i018_oriented_tactical_sheaf_laplacian) |
-| i019 | Tactical Sheaf Curvature Network | registered idea | Codex | Codex coding agent | [registry/i019_tactical_sheaf_curvature_network](registry/i019_tactical_sheaf_curvature_network) |
-| i020 | Attack-Defense Sheaf Energy Network | registered idea | Codex | Codex coding agent | [registry/i020_attack_defense_sheaf_energy_network](registry/i020_attack_defense_sheaf_energy_network) |
-| i021 | Tactical Sheaf Tension Network | registered idea | Codex | Codex coding agent | [registry/i021_tactical_sheaf_tension_network](registry/i021_tactical_sheaf_tension_network) |
-| i022 | Tactical Threat-Sheaf Network | registered idea | Codex | Codex coding agent | [registry/i022_tactical_threat_sheaf_network](registry/i022_tactical_threat_sheaf_network) |
-| i023 | Attack-Hodge Sheaf Tension Network | registered idea | Codex | Codex coding agent | [registry/i023_attack_hodge_sheaf_tension_network](registry/i023_attack_hodge_sheaf_tension_network) |
-| i024 | Directed Attack-Sheaf Tension Network | registered idea | Codex | Codex coding agent | [registry/i024_directed_attack_sheaf_tension_network](registry/i024_directed_attack_sheaf_tension_network) |
-| i025 | One-Ply Counterfactual Move Landscape Network | registered idea | Codex | Codex coding agent | [registry/i025_one_ply_counterfactual_move_landscape_network](registry/i025_one_ply_counterfactual_move_landscape_network) |
-| i026 | Counterfactual Move-Delta Spectrum Network | registered idea | Codex | Codex coding agent | [registry/i026_counterfactual_move_delta_spectrum_network](registry/i026_counterfactual_move_delta_spectrum_network) |
-| i027 | Rule-Only Counterfactual Move-Delta Bottleneck | registered idea | Codex | Codex coding agent | [registry/i027_rule_only_counterfactual_move_delta_bottleneck](registry/i027_rule_only_counterfactual_move_delta_bottleneck) |
-| i028 | File-Mirror Tension Sheaf | registered idea | Codex | Codex coding agent | [registry/i028_file_mirror_tension_sheaf](registry/i028_file_mirror_tension_sheaf) |
-| i029 | Entropic Piece-Target Transport Bottleneck | registered idea | Codex | Codex coding agent | [registry/i029_entropic_piece_target_transport_bottleneck](registry/i029_entropic_piece_target_transport_bottleneck) |
-| i030 | Nuisance-Orthogonal Puzzle Bottleneck | registered idea | Codex | Codex coding agent | [registry/i030_nuisance_orthogonal_puzzle_bottleneck](registry/i030_nuisance_orthogonal_puzzle_bottleneck) |
-| i031 | Tactical Transport Imbalance Network | registered idea | Codex | Codex coding agent | [registry/i031_tactical_transport_imbalance_network](registry/i031_tactical_transport_imbalance_network) |
-| i032 | King-Anchored Material-Null Transport Bottleneck | registered idea | Codex | Codex coding agent | [registry/i032_king_anchored_material_null_transport_bottleneck](registry/i032_king_anchored_material_null_transport_bottleneck) |
-| i033 | Piece-Target Entropic Transport Bottleneck | registered idea | Codex | Codex coding agent | [registry/i033_piece_target_entropic_transport_bottleneck](registry/i033_piece_target_entropic_transport_bottleneck) |
-| i034 | Entropic Chess Geometry Transport Network | registered idea | Codex | Codex coding agent | [registry/i034_entropic_chess_geometry_transport_network](registry/i034_entropic_chess_geometry_transport_network) |
-| i035 | Ordinal Evidence Ladder Network | registered idea | Codex | Codex coding agent | [registry/i035_ordinal_evidence_ladder_network](registry/i035_ordinal_evidence_ladder_network) |
-| i036 | Geometry-Conditioned Board Pseudo-Likelihood Ratio Network | registered idea | Codex | Codex coding agent | [registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network](registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network) |
-| i037 | Möbius Piece-Constellation Network | registered idea | Codex | Codex coding agent | [registry/i037_mobius_piece_constellation_network](registry/i037_mobius_piece_constellation_network) |
-| i038 | Sparse Witness-Piece Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i038_sparse_witness_piece_bottleneck_network](registry/i038_sparse_witness_piece_bottleneck_network) |
-| i039 | Ray-Language Automaton Network | registered idea | Codex | Codex coding agent | [registry/i039_ray_language_automaton_network](registry/i039_ray_language_automaton_network) |
-| i040 | Kinematic Commutator Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i040_kinematic_commutator_bottleneck_network](registry/i040_kinematic_commutator_bottleneck_network) |
-| i041 | Centered Tempo-Odd Interventional Bottleneck | registered idea | Codex | Codex coding agent | [registry/i041_centered_tempo_odd_interventional_bottleneck](registry/i041_centered_tempo_odd_interventional_bottleneck) |
-| i042 | Legal Automorphism Quotient Network | registered idea | Codex | Codex coding agent | [registry/i042_legal_automorphism_quotient_network](registry/i042_legal_automorphism_quotient_network) |
-| i043 | Side-Canonical Rule-Partition Invariant Bottleneck | registered idea | Codex | Codex coding agent | [registry/i043_side_canonical_rule_partition_invariant_bottleneck](registry/i043_side_canonical_rule_partition_invariant_bottleneck) |
-| i044 | Masked Board Code-Length Surprise Network | registered idea | Codex | Codex coding agent | [registry/i044_masked_board_code_length_surprise_network](registry/i044_masked_board_code_length_surprise_network) |
-| i045 | Credal Near-Puzzle Evidence Network | registered idea | Codex | Codex coding agent | [registry/i045_credal_near_puzzle_evidence_network](registry/i045_credal_near_puzzle_evidence_network) |
-| i046 | Rule-Exact Orbit Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i046_rule_exact_orbit_bottleneck_network](registry/i046_rule_exact_orbit_bottleneck_network) |
-| i047 | Color-Flip Orbit Evidence Bottleneck | registered idea | Codex | Codex coding agent | [registry/i047_color_flip_orbit_evidence_bottleneck](registry/i047_color_flip_orbit_evidence_bottleneck) |
-| i048 | Rule-Automorphism Quotient Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i048_rule_automorphism_quotient_bottleneck_network](registry/i048_rule_automorphism_quotient_bottleneck_network) |
-| i049 | Tempo-Odd Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i049_tempo_odd_bottleneck_network](registry/i049_tempo_odd_bottleneck_network) |
-| i050 | King-Anchored Euler Interaction Network | registered idea | Codex | Codex coding agent | [registry/i050_king_anchored_euler_interaction_network](registry/i050_king_anchored_euler_interaction_network) |
-| i051 | King Escape Percolation Network | registered idea | Codex | Codex coding agent | [registry/i051_king_escape_percolation_network](registry/i051_king_escape_percolation_network) |
-| i052 | Soft King-Cage Path Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i052_soft_king_cage_path_bottleneck_network](registry/i052_soft_king_cage_path_bottleneck_network) |
-| i053 | Hall-Defect Obligation Matroid Network | registered idea | Codex | Codex coding agent | [registry/i053_hall_defect_obligation_matroid_network](registry/i053_hall_defect_obligation_matroid_network) |
-| i054 | Threat-Topology Betti Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i054_threat_topology_betti_bottleneck_network](registry/i054_threat_topology_betti_bottleneck_network) |
-| i055 | Non-Backtracking Tactical Walk Network | registered idea | Codex | Codex coding agent | [registry/i055_non_backtracking_tactical_walk_network](registry/i055_non_backtracking_tactical_walk_network) |
-| i056 | Non-Puzzle Score-Field Bottleneck Network | registered idea | Codex | Codex coding agent | [registry/i056_non_puzzle_score_field_bottleneck_network](registry/i056_non_puzzle_score_field_bottleneck_network) |
-| i057 | Soft Formal-Concept Closure Network | registered idea | Codex | Codex coding agent | [registry/i057_soft_formal_concept_closure_network](registry/i057_soft_formal_concept_closure_network) |
-| i058 | Determinantal Tactical Volume Bottleneck | registered idea | Codex | Codex coding agent | [registry/i058_determinantal_tactical_volume_bottleneck](registry/i058_determinantal_tactical_volume_bottleneck) |
-| i059 | Harmonic Board Potential Network | registered idea | Codex | Codex coding agent | [registry/i059_harmonic_board_potential_network](registry/i059_harmonic_board_potential_network) |
-| i060 | Tropical Constraint Circuit Network | registered idea | Codex | Codex coding agent | [registry/i060_tropical_constraint_circuit_network](registry/i060_tropical_constraint_circuit_network) |
-| i061 | Grassmannian Principal-Angle Bottleneck | registered idea | Codex | Codex coding agent | [registry/i061_grassmannian_principal_angle_bottleneck](registry/i061_grassmannian_principal_angle_bottleneck) |
-| i062 | Matrix-Pencil Generalized Spectrum Bottleneck | registered idea | Codex | Codex coding agent | [registry/i062_matrix_pencil_generalized_spectrum_bottleneck](registry/i062_matrix_pencil_generalized_spectrum_bottleneck) |
-| i063 | Polar-Procrustes Alignment Bottleneck | registered idea | Codex | Codex coding agent | [registry/i063_polar_procrustes_alignment_bottleneck](registry/i063_polar_procrustes_alignment_bottleneck) |
-| i064 | Multi-Scale Dilated Board Mixer CNN | registered idea | Codex | Codex coding agent | [registry/i064_multi_scale_dilated_board_mixer_cnn](registry/i064_multi_scale_dilated_board_mixer_cnn) |
-| i065 | Piece-Token CNN Hybrid | registered idea | Codex | Codex coding agent | [registry/i065_piece_token_cnn_hybrid](registry/i065_piece_token_cnn_hybrid) |
-| i066 | Bispectral Phase-Coupling Board Network | registered idea | Codex | Codex coding agent | [registry/i066_bispectral_phase_coupling_board_network](registry/i066_bispectral_phase_coupling_board_network) |
-| i067 | Finite-Field Character-Sum Board Network | registered idea | Codex | Codex coding agent | [registry/i067_finite_field_character_sum_board_network](registry/i067_finite_field_character_sum_board_network) |
-| i068 | Schur-Ray Line Algebra Network | registered idea | Codex | Codex coding agent | [registry/i068_schur_ray_line_algebra_network](registry/i068_schur_ray_line_algebra_network) |
-| i069 | Bitboard Shift-Algebra Network | registered idea | Codex | Codex coding agent | [registry/i069_bitboard_shift_algebra_network](registry/i069_bitboard_shift_algebra_network) |
-| i070 | Relational Query Algebra Network | registered idea | Codex | Codex coding agent | [registry/i070_relational_query_algebra_network](registry/i070_relational_query_algebra_network) |
-| i071 | Variational Board Action Network | registered idea | Codex | Codex coding agent | [registry/i071_variational_board_action_network](registry/i071_variational_board_action_network) |
-| i072 | Tensor-Core Square-Pair Field Network | registered idea | Codex | Codex coding agent | [registry/i072_tensor_core_square_pair_field_network](registry/i072_tensor_core_square_pair_field_network) |
-| i073 | Tiny Chess MicroNet | registered idea | Codex | Codex coding agent | [registry/i073_tiny_chess_micronet](registry/i073_tiny_chess_micronet) |
-| i074 | Puzzle-Binary Benchmark Challengers | registered idea | Codex | Codex coding agent | [registry/i074_puzzle_binary_benchmark_challengers](registry/i074_puzzle_binary_benchmark_challengers) |
-| i075 | Tactical Bisimulation Puzzle Network | registered idea | Codex | Codex coding agent | [registry/i075_tactical_bisimulation_puzzle_network](registry/i075_tactical_bisimulation_puzzle_network) |
-| i076 | Krylov Tactical Subspace Network | registered idea | Codex | Codex coding agent | [registry/i076_krylov_tactical_subspace_network](registry/i076_krylov_tactical_subspace_network) |
-| i077 | Adaptive Tactical Resolvent Network | registered idea | Codex | Codex coding agent | [registry/i077_adaptive_tactical_resolvent_network](registry/i077_adaptive_tactical_resolvent_network) |
-| i078 | Tactical Controllability Gramian Network | registered idea | Codex | Codex coding agent | [registry/i078_tactical_controllability_gramian_network](registry/i078_tactical_controllability_gramian_network) |
-| i079 | Support-Polar Zonotope Certificate Network | registered idea | Codex | Codex coding agent | [registry/i079_support_polar_zonotope_certificate_network](registry/i079_support_polar_zonotope_certificate_network) |
-| i080 | Loop-Frustration Curvature Network | registered idea | Codex | Codex coding agent | [registry/i080_loop_frustration_curvature_network](registry/i080_loop_frustration_curvature_network) |
-| i081 | Forcing-Response Front-Door Bottleneck | registered idea | Codex | Codex coding agent | [registry/i081_forcing_response_front_door_bottleneck](registry/i081_forcing_response_front_door_bottleneck) |
-| i082 | Chess Hypercut Polynomial Network | registered idea | Codex | Codex coding agent | [registry/i082_chess_hypercut_polynomial_network](registry/i082_chess_hypercut_polynomial_network) |
-| i083 | Fisher-Geodesic Tension Network | registered idea | Codex | Codex coding agent | [registry/i083_fisher_geodesic_tension_network](registry/i083_fisher_geodesic_tension_network) |
-| i084 | Typed Hypergraph Motif Grammar | registered idea | Codex | Codex coding agent | [registry/i084_typed_hypergraph_motif_grammar](registry/i084_typed_hypergraph_motif_grammar) |
-| i085 | Hall-Defect Zeta Operator | registered idea | Codex | Codex coding agent | [registry/i085_hall_defect_zeta_operator](registry/i085_hall_defect_zeta_operator) |
-| i086 | Differentiable Chess Fact Lattice | registered idea | Codex | Codex coding agent | [registry/i086_differentiable_chess_fact_lattice](registry/i086_differentiable_chess_fact_lattice) |
-| i087 | Tactical Radius Filtration | registered idea | Codex | Codex coding agent | [registry/i087_tactical_radius_filtration](registry/i087_tactical_radius_filtration) |
-| i088 | Traced Threat Motif Network | registered idea | Codex | Codex coding agent | [registry/i088_traced_threat_motif_network](registry/i088_traced_threat_motif_network) |
-| i089 | Bounded Board Hinge Logic | registered idea | Codex | Codex coding agent | [registry/i089_bounded_board_hinge_logic](registry/i089_bounded_board_hinge_logic) |
-| i090 | Chess-Mode Tucker Relation Certificate | registered idea | Codex | Codex coding agent | [registry/i090_chess_mode_tucker_relation_certificate](registry/i090_chess_mode_tucker_relation_certificate) |
-| i091 | Tactical State Bottleneck Inference | registered idea | Codex | Codex coding agent | [registry/i091_tactical_state_bottleneck_inference](registry/i091_tactical_state_bottleneck_inference) |
-| i092 | Parity-Syndrome Puzzle Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i092_parity_syndrome_puzzle_bottleneck](registry/i092_parity_syndrome_puzzle_bottleneck) |
-| i093 | Wavelet Scattering Board Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i093_wavelet_scattering_board_network](registry/i093_wavelet_scattering_board_network) |
-| i094 | Convex Feasibility Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i094_convex_feasibility_residual_network](registry/i094_convex_feasibility_residual_network) |
-| i095 | Rank-Quantile Evidence Field Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i095_rank_quantile_evidence_field_network](registry/i095_rank_quantile_evidence_field_network) |
-| i096 | Oriented Matroid Covector Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i096_oriented_matroid_covector_bottleneck](registry/i096_oriented_matroid_covector_bottleneck) |
-| i097 | Fixed-Point Residual Defect Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i097_fixed_point_residual_defect_network](registry/i097_fixed_point_residual_defect_network) |
-| i098 | Baseline Logit Residual Adapter | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i098_baseline_logit_residual_adapter](registry/i098_baseline_logit_residual_adapter) |
-| i099 | Coarse-to-Fine Board Residual Pyramid | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i099_coarse_to_fine_board_residual_pyramid](registry/i099_coarse_to_fine_board_residual_pyramid) |
-| i100 | Independence Residual Interaction Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i100_independence_residual_interaction_network](registry/i100_independence_residual_interaction_network) |
-| i101 | Residual Calibration Error Field | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i101_residual_calibration_error_field](registry/i101_residual_calibration_error_field) |
-| i102 | Set-Query Attention Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i102_set_query_attention_bottleneck](registry/i102_set_query_attention_bottleneck) |
-| i103 | Attention Disagreement Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i103_attention_disagreement_residual_network](registry/i103_attention_disagreement_residual_network) |
-| i104 | Cross-Scale Attention Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i104_cross_scale_attention_residual_network](registry/i104_cross_scale_attention_residual_network) |
-| i105 | Slot Attention Role Binding Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i105_slot_attention_role_binding_network](registry/i105_slot_attention_role_binding_network) |
-| i106 | Attention Perturbation Sensitivity Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i106_attention_perturbation_sensitivity_network](registry/i106_attention_perturbation_sensitivity_network) |
-| i107 | Kernel Mean Prototype Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i107_kernel_mean_prototype_network](registry/i107_kernel_mean_prototype_network) |
-| i108 | TensorSketch Interaction Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i108_tensorsketch_interaction_network](registry/i108_tensorsketch_interaction_network) |
-| i109 | Maxout Region Signature Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i109_maxout_region_signature_network](registry/i109_maxout_region_signature_network) |
-| i110 | Spline Board Surface Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i110_spline_board_surface_network](registry/i110_spline_board_surface_network) |
-| i111 | Boundary-Condition Disagreement CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i111_boundary_condition_disagreement_cnn](registry/i111_boundary_condition_disagreement_cnn) |
-| i112 | Piece-Drop Stability Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i112_piece_drop_stability_network](registry/i112_piece_drop_stability_network) |
-| i113 | Row-File Factor Mixer | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i113_row_file_factor_mixer](registry/i113_row_file_factor_mixer) |
-| i114 | Piece-Conditioned Hypernetwork CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i114_piece_conditioned_hypernetwork_cnn](registry/i114_piece_conditioned_hypernetwork_cnn) |
-| i115 | Neural Board Cellular Automaton | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i115_neural_board_cellular_automaton](registry/i115_neural_board_cellular_automaton) |
-| i116 | Symmetric Difference Twin Encoder | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i116_symmetric_difference_twin_encoder](registry/i116_symmetric_difference_twin_encoder) |
-| i117 | Prototype Patch Dictionary Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i117_prototype_patch_dictionary_network](registry/i117_prototype_patch_dictionary_network) |
-| i118 | Channel Dropout Consensus Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i118_channel_dropout_consensus_network](registry/i118_channel_dropout_consensus_network) |
-| i119 | Tensor-Ring Square Interaction Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i119_tensor_ring_square_interaction_network](registry/i119_tensor_ring_square_interaction_network) |
-| i120 | Sinkhorn Role Assignment Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i120_sinkhorn_role_assignment_network](registry/i120_sinkhorn_role_assignment_network) |
-| i121 | Morphological Threat Field Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i121_morphological_threat_field_network](registry/i121_morphological_threat_field_network) |
-| i122 | Invertible Board Coupling Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i122_invertible_board_coupling_network](registry/i122_invertible_board_coupling_network) |
-| i123 | Sparse Expert Board Router | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i123_sparse_expert_board_router](registry/i123_sparse_expert_board_router) |
-| i124 | Local Neighborhood Geometry Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i124_local_neighborhood_geometry_network](registry/i124_local_neighborhood_geometry_network) |
-| i125 | Ray State-Space Scan Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i125_ray_state_space_scan_network](registry/i125_ray_state_space_scan_network) |
-| i126 | Pawn Skeleton Barrier Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i126_pawn_skeleton_barrier_network](registry/i126_pawn_skeleton_barrier_network) |
-| i127 | Square-Color Parity Mixer | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i127_square_color_parity_mixer](registry/i127_square_color_parity_mixer) |
-| i128 | Occupancy Run-Length Segment Encoder | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i128_occupancy_run_length_segment_encoder](registry/i128_occupancy_run_length_segment_encoder) |
-| i129 | King-Shelter Microkernel Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i129_king_shelter_microkernel_network](registry/i129_king_shelter_microkernel_network) |
-| i130 | Material-Phase Low-Rank Adapter Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i130_material_phase_low_rank_adapter_network](registry/i130_material_phase_low_rank_adapter_network) |
-| i131 | Replicator Payoff Piece Dynamics | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i131_replicator_payoff_piece_dynamics](registry/i131_replicator_payoff_piece_dynamics) |
-| i132 | Differentiable Bitboard Boolean Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i132_differentiable_bitboard_boolean_network](registry/i132_differentiable_bitboard_boolean_network) |
-| i133 | Orthogonal Board Moment Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i133_orthogonal_board_moment_network](registry/i133_orthogonal_board_moment_network) |
-| i134 | Legal-Constraint Projection Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i134_legal_constraint_projection_residual_network](registry/i134_legal_constraint_projection_residual_network) |
-| i135 | Zobrist Kernel Feature Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i135_zobrist_kernel_feature_network](registry/i135_zobrist_kernel_feature_network) |
-| i136 | Low-Rank Signed Cut Query Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i136_low_rank_signed_cut_query_network](registry/i136_low_rank_signed_cut_query_network) |
-| i137 | Commutative View-Consistency Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i137_commutative_view_consistency_network](registry/i137_commutative_view_consistency_network) |
-| i138 | Support-Function Envelope Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i138_support_function_envelope_network](registry/i138_support_function_envelope_network) |
-| i139 | Soft Majorization Line Sorter | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i139_soft_majorization_line_sorter](registry/i139_soft_majorization_line_sorter) |
-| i140 | Low-Displacement-Rank Board Operator | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i140_low_displacement_rank_board_operator](registry/i140_low_displacement_rank_board_operator) |
-| i141 | Submodular Coverage Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i141_submodular_coverage_bottleneck](registry/i141_submodular_coverage_bottleneck) |
-| i142 | Pivot Trace Elimination Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i142_pivot_trace_elimination_network](registry/i142_pivot_trace_elimination_network) |
-| i143 | ConvNeXt BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i143_convnext_boardnet](registry/i143_convnext_boardnet) |
-| i144 | Board FPN CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i144_board_fpn_cnn](registry/i144_board_fpn_cnn) |
-| i145 | Piece-Plane Gated CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i145_piece_plane_gated_cnn](registry/i145_piece_plane_gated_cnn) |
-| i146 | Patch Mixer BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i146_patch_mixer_boardnet](registry/i146_patch_mixer_boardnet) |
-| i147 | Specialist-Head CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i147_specialist_head_cnn](registry/i147_specialist_head_cnn) |
-| i148 | Shallow Wide Residual BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i148_shallow_wide_residual_boardnet](registry/i148_shallow_wide_residual_boardnet) |
-| i149 | Axial Rank-File ConvNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i149_axial_rank_file_convnet](registry/i149_axial_rank_file_convnet) |
-| i150 | Early-Exit Cascade BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i150_early_exit_cascade_boardnet](registry/i150_early_exit_cascade_boardnet) |
-| i151 | Auxiliary Reconstruction BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i151_auxiliary_reconstruction_boardnet](registry/i151_auxiliary_reconstruction_boardnet) |
-| i152 | Iterative Logit Refinement CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i152_iterative_logit_refinement_cnn](registry/i152_iterative_logit_refinement_cnn) |
-| i153 | Agreement-Variance Head Net | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i153_agreement_variance_head_net](registry/i153_agreement_variance_head_net) |
-| i154 | Adapter-Sandwich Residual CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i154_adapter_sandwich_residual_cnn](registry/i154_adapter_sandwich_residual_cnn) |
-| i155 | Capsule Motif BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i155_capsule_motif_boardnet](registry/i155_capsule_motif_boardnet) |
-| i156 | Multi-Order Board Scan Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i156_multi_order_board_scan_network](registry/i156_multi_order_board_scan_network) |
-| i157 | Cross-Stitch CNN-Token Fusion Net | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i157_cross_stitch_cnn_token_fusion_net](registry/i157_cross_stitch_cnn_token_fusion_net) |
-| i158 | Neural Decision Forest BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i158_neural_decision_forest_boardnet](registry/i158_neural_decision_forest_boardnet) |
-| i159 | Vector-Quantized Motif Codebook Net | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i159_vector_quantized_motif_codebook_net](registry/i159_vector_quantized_motif_codebook_net) |
-| i160 | Hypercolumn Square Readout CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i160_hypercolumn_square_readout_cnn](registry/i160_hypercolumn_square_readout_cnn) |
-| i161 | Multiplicative Conjunction ConvNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i161_multiplicative_conjunction_convnet](registry/i161_multiplicative_conjunction_convnet) |
-| i162 | Empty-Square Opportunity Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i162_empty_square_opportunity_network](registry/i162_empty_square_opportunity_network) |
-| i163 | Global Scratchpad BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i163_global_scratchpad_boardnet](registry/i163_global_scratchpad_boardnet) |
-| i164 | Learnable Pooling Tree BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i164_learnable_pooling_tree_boardnet](registry/i164_learnable_pooling_tree_boardnet) |
-| i165 | Spatial FiLM Coordinate Net | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i165_spatial_film_coordinate_net](registry/i165_spatial_film_coordinate_net) |
-| i166 | Channel-Bilinear Role Mixer | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i166_channel_bilinear_role_mixer](registry/i166_channel_bilinear_role_mixer) |
-| i167 | Evidence Sieve Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i167_evidence_sieve_network](registry/i167_evidence_sieve_network) |
-| i168 | Ring-Shell Recurrent BoardNet | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i168_ring_shell_recurrent_boardnet](registry/i168_ring_shell_recurrent_boardnet) |
-| i169 | Rank-File Memory Grid Net | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i169_rank_file_memory_grid_net](registry/i169_rank_file_memory_grid_net) |
-| i170 | Negative-Class Disentangled Puzzle Head | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i170_negative_class_disentangled_puzzle_head](registry/i170_negative_class_disentangled_puzzle_head) |
-| i171 | Line-Piece Crossbar Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i171_line_piece_crossbar_network](registry/i171_line_piece_crossbar_network) |
-| i172 | Near-Puzzle Margin Twin Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i172_near_puzzle_margin_twin_network](registry/i172_near_puzzle_margin_twin_network) |
-| i173 | Stripe-Selective Mixer CNN | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i173_stripe_selective_mixer_cnn](registry/i173_stripe_selective_mixer_cnn) |
-| i174 | King-Zone Evidence Ledger | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i174_king_zone_evidence_ledger](registry/i174_king_zone_evidence_ledger) |
-| i175 | Prototype-Margin Puzzle Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i175_prototype_margin_puzzle_network](registry/i175_prototype_margin_puzzle_network) |
-| i176 | Source-Rate Calibrated Objective | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i176_source_rate_calibrated_objective](registry/i176_source_rate_calibrated_objective) |
-| i177 | Forcing-Certificate Transformer | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i177_forcing_certificate_transformer](registry/i177_forcing_certificate_transformer) |
-| i178 | Defender-Exhaustion Cascade Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i178_defender_exhaustion_cascade_network](registry/i178_defender_exhaustion_cascade_network) |
-| i179 | Causal Piece-Derivative Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i179_causal_piece_derivative_network](registry/i179_causal_piece_derivative_network) |
-| i180 | Phase-Transition Pressure Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i180_phase_transition_pressure_network](registry/i180_phase_transition_pressure_network) |
-| i181 | Disproof-Ledger Puzzle Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i181_disproof_ledger_puzzle_network](registry/i181_disproof_ledger_puzzle_network) |
-| i182 | Motif Tensor Factorization Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i182_motif_tensor_factorization_network](registry/i182_motif_tensor_factorization_network) |
-| i183 | Tempo-Alignment Gate Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i183_tempo_alignment_gate_network](registry/i183_tempo_alignment_gate_network) |
-| i184 | Puzzle Boundary Twin Encoder | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i184_puzzle_boundary_twin_encoder](registry/i184_puzzle_boundary_twin_encoder) |
-| i185 | Critical-Square Budget Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i185_critical_square_budget_network](registry/i185_critical_square_budget_network) |
-| i186 | Legal-Reaction Bottleneck Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i186_legal_reaction_bottleneck_network](registry/i186_legal_reaction_bottleneck_network) |
-| i187 | Exchange-Soundness Graph Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i187_exchange_soundness_graph_network](registry/i187_exchange_soundness_graph_network) |
-| i188 | Tactical Program Induction Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i188_tactical_program_induction_network](registry/i188_tactical_program_induction_network) |
-| i189 | Counterfactual Defender Dropout Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i189_counterfactual_defender_dropout_network](registry/i189_counterfactual_defender_dropout_network) |
-| i190 | Blocker-Pin Lattice Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i190_blocker_pin_lattice_network](registry/i190_blocker_pin_lattice_network) |
-| i191 | Safe-Reply Certificate Verifier | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i191_safe_reply_certificate_verifier](registry/i191_safe_reply_certificate_verifier) |
-| i192 | Latent Reply Entropy Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i192_latent_reply_entropy_network](registry/i192_latent_reply_entropy_network) |
-| i193 | Exchange-Then-King Dual Stream | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i193_exchange_then_king_dual_stream](registry/i193_exchange_then_king_dual_stream) |
-| i194 | Tactical Symptom Bayesian Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i194_tactical_symptom_bayesian_network](registry/i194_tactical_symptom_bayesian_network) |
-| i195 | Minimal-Edit Puzzle Distance Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i195_minimal_edit_puzzle_distance_network](registry/i195_minimal_edit_puzzle_distance_network) |
-| i196 | Source-Invariant Puzzle Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i196_source_invariant_puzzle_bottleneck](registry/i196_source_invariant_puzzle_bottleneck) |
-| i197 | Reply-Set Contrastive Transformer | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i197_reply_set_contrastive_transformer](registry/i197_reply_set_contrastive_transformer) |
-| i198 | Barrier-Cut Puzzle Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i198_barrier_cut_puzzle_network](registry/i198_barrier_cut_puzzle_network) |
-| i199 | Tactical Hessian Spectrum Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i199_tactical_hessian_spectrum_network](registry/i199_tactical_hessian_spectrum_network) |
-| i200 | Absorbing Threat Markov Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i200_absorbing_threat_markov_network](registry/i200_absorbing_threat_markov_network) |
-| i201 | Neural Clause-Resolution Puzzle Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i201_neural_clause_resolution_puzzle_network](registry/i201_neural_clause_resolution_puzzle_network) |
-| i202 | Piece Liability Gradient Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i202_piece_liability_gradient_network](registry/i202_piece_liability_gradient_network) |
-| i203 | Hierarchical Tactical Option Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i203_hierarchical_tactical_option_network](registry/i203_hierarchical_tactical_option_network) |
-| i204 | Cross-Defense Consistency Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i204_cross_defense_consistency_network](registry/i204_cross_defense_consistency_network) |
-| i205 | Defender Timing Schedule Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i205_defender_timing_schedule_network](registry/i205_defender_timing_schedule_network) |
-| i206 | Discovered-Ray Switchboard Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i206_discovered_ray_switchboard_network](registry/i206_discovered_ray_switchboard_network) |
-| i207 | Counterplay Insolvency Ledger | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i207_counterplay_insolvency_ledger](registry/i207_counterplay_insolvency_ledger) |
-| i208 | Pinned Mobility Nullspace Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i208_pinned_mobility_nullspace_network](registry/i208_pinned_mobility_nullspace_network) |
-| i209 | Tactical Effective Resistance Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i209_tactical_effective_resistance_network](registry/i209_tactical_effective_resistance_network) |
-| i210 | Defender Opportunity-Cost Auction Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i210_defender_opportunity_cost_auction_network](registry/i210_defender_opportunity_cost_auction_network) |
-| i211 | Role-Counterfactual Necessity Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i211_role_counterfactual_necessity_network](registry/i211_role_counterfactual_necessity_network) |
-| i212 | Phase-Specialist Calibration Mixture | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i212_phase_specialist_calibration_mixture](registry/i212_phase_specialist_calibration_mixture) |
-| i213 | Forced-Target Funnel Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i213_forced_target_funnel_network](registry/i213_forced_target_funnel_network) |
-| i214 | Tactical Subgoal Automaton Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i214_tactical_subgoal_automaton_network](registry/i214_tactical_subgoal_automaton_network) |
-| i215 | Masked Codec Interaction-Curvature Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i215_masked_codec_interaction_curvature_network](registry/i215_masked_codec_interaction_curvature_network) |
-| i216 | Non-Puzzle Score Curl-Divergence Bottleneck | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i216_non_puzzle_score_curl_divergence_bottleneck](registry/i216_non_puzzle_score_curl_divergence_bottleneck) |
-| i217 | Ray Grammar Edit-Distance Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i217_ray_grammar_edit_distance_network](registry/i217_ray_grammar_edit_distance_network) |
-| i218 | Orbit Disagreement Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i218_orbit_disagreement_residual_network](registry/i218_orbit_disagreement_residual_network) |
-| i219 | Hall-Defect Dual-Residual Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i219_hall_defect_dual_residual_network](registry/i219_hall_defect_dual_residual_network) |
-| i220 | Credal Temperature Field Network | registered idea | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i220_credal_temperature_field_network](registry/i220_credal_temperature_field_network) |
-| i221 | Sylvester Tactical Coupling Network | registered idea | Claude | Claude Opus 4.7 | [registry/i221_sylvester_tactical_coupling_network](registry/i221_sylvester_tactical_coupling_network) |
-| i222 | Schur-Complement Defender Elimination Network | registered idea | Claude | Claude Opus 4.7 | [registry/i222_schur_complement_defender_network](registry/i222_schur_complement_defender_network) |
-| i223 | Bures-Wasserstein SPD Threat Manifold Network | registered idea | Claude | Claude Opus 4.7 | [registry/i223_bures_wasserstein_threat_network](registry/i223_bures_wasserstein_threat_network) |
-| i224 | Numerical-Range Boundary Network | registered idea | Claude | Claude Opus 4.7 | [registry/i224_numerical_range_boundary_network](registry/i224_numerical_range_boundary_network) |
-| i225 | Lyapunov Stability Threat Network | registered idea | Claude | Claude Opus 4.7 | [registry/i225_lyapunov_threat_stability_network](registry/i225_lyapunov_threat_stability_network) |
-| i226 | Pfaffian Skew Threat Network | registered idea | Claude | Claude Opus 4.7 | [registry/i226_pfaffian_skew_threat_network](registry/i226_pfaffian_skew_threat_network) |
-| i227 | p-adic Ultrametric Threat Embedding Network | registered idea | Claude | Claude Opus 4.7 | [registry/i227_padic_ultrametric_threat_network](registry/i227_padic_ultrametric_threat_network) |
-| i228 | Free-Probability R-Transform Spectrum Network | registered idea | Claude | Claude Opus 4.7 | [registry/i228_free_probability_r_transform_network](registry/i228_free_probability_r_transform_network) |
-| i229 | Williamson Symplectic-Eigenvalue Threat Network | registered idea | Claude | Claude Opus 4.7 | [registry/i229_williamson_symplectic_threat_network](registry/i229_williamson_symplectic_threat_network) |
-| i230 | Magnus-BCH Operator-Coupling Series Network | registered idea | Claude | Claude Opus 4.7 | [registry/i230_magnus_bch_coupling_series_network](registry/i230_magnus_bch_coupling_series_network) |
-| i231 | Riccati Optimal-Defense Network | registered idea | Claude | Claude Opus 4.7 | [registry/i231_riccati_optimal_defense_network](registry/i231_riccati_optimal_defense_network) |
-| i232 | Clifford Rotor Threat Network | registered idea | Claude | Claude Opus 4.7 | [registry/i232_clifford_rotor_threat_network](registry/i232_clifford_rotor_threat_network) |
-| i233 | Tracy-Widom Level-Spacing Network | registered idea | Claude | Claude Opus 4.7 | [registry/i233_tracy_widom_level_spacing_network](registry/i233_tracy_widom_level_spacing_network) |
-| i234 | Lindstrom-Gessel-Viennot Path Determinant Network | registered idea | Claude | Claude Opus 4.7 | [registry/i234_lindstrom_gessel_viennot_path_network](registry/i234_lindstrom_gessel_viennot_path_network) |
-| i235 | Toda Isospectral Flow Network | registered idea | Claude | Claude Opus 4.7 | [registry/i235_toda_isospectral_flow_network](registry/i235_toda_isospectral_flow_network) |
-| i236 | Hadamard Walsh-Spectrum Network | registered idea | Claude | Claude Opus 4.7 | [registry/i236_hadamard_spectrum_network](registry/i236_hadamard_spectrum_network) |
-| i237 | Cayley Orthogonal Map Network | registered idea | Claude | Claude Opus 4.7 | [registry/i237_cayley_orthogonal_network](registry/i237_cayley_orthogonal_network) |
-| i238 | Stable-Rank Multiscale Network | registered idea | Claude | Claude Opus 4.7 | [registry/i238_stable_rank_multiscale_network](registry/i238_stable_rank_multiscale_network) |
-| i239 | Permanent Ryser Coupling Network | registered idea | Claude | Claude Opus 4.7 | [registry/i239_permanent_ryser_network](registry/i239_permanent_ryser_network) |
-| i240 | Cayley-Hamilton Coefficient Network | registered idea | Claude | Claude Opus 4.7 | [registry/i240_cayley_hamilton_coeffs_network](registry/i240_cayley_hamilton_coeffs_network) |
-| i241 | Multi-Stream Chess-Decomposed Transformer Evaluator | registered idea | Claude | Claude Opus 4.7 | [registry/i241_multistream_attention_chess_eval](registry/i241_multistream_attention_chess_eval) |
-| i242 | Chess-Decomposed Attention Network | registered idea | Claude | Claude Opus 4.7 | [registry/i242_chess_decomposed_attention](registry/i242_chess_decomposed_attention) |
-| i243 | HalfKA Dual-Stream LC0 Evaluator | registered idea | Claude | Claude Opus 4.7 | [registry/i243_halfka_dual_stream_lc0](registry/i243_halfka_dual_stream_lc0) |
+| i001 | Chess Operator Basis Classifier | registered trunk | Codex | Codex coding agent | [registry/i001_chess_operator_basis_classifier](registry/i001_chess_operator_basis_classifier) |
+| i002 | Response-Minimax Chess Classifier | registered trunk | Codex | Codex coding agent | [registry/i002_response_minimax_classifier](registry/i002_response_minimax_classifier) |
+| i003 | Factor-Agreement Chess Classifier | registered trunk | Codex | Codex coding agent | [registry/i003_factor_agreement_classifier](registry/i003_factor_agreement_classifier) |
+| i004 | Puzzle Obligation Flow Network | registered trunk | Codex | Codex coding agent | [registry/i004_puzzle_obligation_flow_network](registry/i004_puzzle_obligation_flow_network) |
+| i005 | Null-Move Contrast Puzzle Network | registered trunk | Codex | Codex coding agent | [registry/i005_null_move_contrast_puzzle_network](registry/i005_null_move_contrast_puzzle_network) |
+| i006 | Proof-Core Set Verifier | registered trunk | Codex | Codex coding agent | [registry/i006_proof_core_set_verifier](registry/i006_proof_core_set_verifier) |
+| i007 | Neural Proof-Number Search Network | registered trunk | Codex | Codex coding agent | [registry/i007_neural_proof_number_search](registry/i007_neural_proof_number_search) |
+| i008 | Boundary-Edit Lagrangian Network | registered trunk | Codex | Codex coding agent | [registry/i008_boundary_edit_lagrangian_network](registry/i008_boundary_edit_lagrangian_network) |
+| i009 | Tactical Equilibrium Network | registered trunk | Codex | Codex coding agent | [registry/i009_tactical_equilibrium_network](registry/i009_tactical_equilibrium_network) |
+| i010 | Rule-Consistent Latent Dynamics Network | registered trunk | Codex | Codex coding agent | [registry/i010_rule_consistent_latent_dynamics](registry/i010_rule_consistent_latent_dynamics) |
+| i011 | VetoSelect Positive-Claim Abstention | registered trunk | Codex | Codex coding agent | [registry/i011_vetoselect_positive_claim_abstention](registry/i011_vetoselect_positive_claim_abstention) |
+| i012 | Soft-Dykstra Latent Constraint Projector | registered trunk | Codex | Codex coding agent | [registry/i012_dykstra_lcp](registry/i012_dykstra_lcp) |
+| i013 | Sparse Relation Pursuit Asymmetry | registered trunk | Codex | Codex coding agent | [registry/i013_sparse_relation_pursuit_asymmetry](registry/i013_sparse_relation_pursuit_asymmetry) |
+| i014 | Contamination-DRO Huber Tail Rejection | registered trunk | Codex | Codex coding agent | [registry/i014_contamination_dro_huber_tail_rejection](registry/i014_contamination_dro_huber_tail_rejection) |
+| i015 | Material-Locked Tactical Mask DRO | registered trunk | Codex | Codex coding agent | [registry/i015_material_locked_tactical_dro](registry/i015_material_locked_tactical_dro) |
+| i016 | Soft Sorting Order Residual Ranker | registered trunk | Codex | Codex coding agent | [registry/i016_soft_sorting_order_residual_ranker](registry/i016_soft_sorting_order_residual_ranker) |
+| i017 | Conditional Surprisal Gate | registered trunk | Codex | Codex coding agent | [registry/i017_conditional_surprisal_gate](registry/i017_conditional_surprisal_gate) |
+| i018 | Oriented Tactical Sheaf Laplacian | registered trunk | Codex | Codex coding agent | [registry/i018_oriented_tactical_sheaf_laplacian](registry/i018_oriented_tactical_sheaf_laplacian) |
+| i019 | Tactical Sheaf Curvature Network | registered trunk | Codex | Codex coding agent | [registry/i019_tactical_sheaf_curvature_network](registry/i019_tactical_sheaf_curvature_network) |
+| i020 | Attack-Defense Sheaf Energy Network | registered trunk | Codex | Codex coding agent | [registry/i020_attack_defense_sheaf_energy_network](registry/i020_attack_defense_sheaf_energy_network) |
+| i021 | Tactical Sheaf Tension Network | registered trunk | Codex | Codex coding agent | [registry/i021_tactical_sheaf_tension_network](registry/i021_tactical_sheaf_tension_network) |
+| i022 | Tactical Threat-Sheaf Network | registered trunk | Codex | Codex coding agent | [registry/i022_tactical_threat_sheaf_network](registry/i022_tactical_threat_sheaf_network) |
+| i023 | Attack-Hodge Sheaf Tension Network | registered trunk | Codex | Codex coding agent | [registry/i023_attack_hodge_sheaf_tension_network](registry/i023_attack_hodge_sheaf_tension_network) |
+| i024 | Directed Attack-Sheaf Tension Network | registered trunk | Codex | Codex coding agent | [registry/i024_directed_attack_sheaf_tension_network](registry/i024_directed_attack_sheaf_tension_network) |
+| i025 | One-Ply Counterfactual Move Landscape Network | registered trunk | Codex | Codex coding agent | [registry/i025_one_ply_counterfactual_move_landscape_network](registry/i025_one_ply_counterfactual_move_landscape_network) |
+| i026 | Counterfactual Move-Delta Spectrum Network | registered trunk | Codex | Codex coding agent | [registry/i026_counterfactual_move_delta_spectrum_network](registry/i026_counterfactual_move_delta_spectrum_network) |
+| i027 | Rule-Only Counterfactual Move-Delta Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i027_rule_only_counterfactual_move_delta_bottleneck](registry/i027_rule_only_counterfactual_move_delta_bottleneck) |
+| i028 | File-Mirror Tension Sheaf | registered trunk | Codex | Codex coding agent | [registry/i028_file_mirror_tension_sheaf](registry/i028_file_mirror_tension_sheaf) |
+| i029 | Entropic Piece-Target Transport Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i029_entropic_piece_target_transport_bottleneck](registry/i029_entropic_piece_target_transport_bottleneck) |
+| i030 | Nuisance-Orthogonal Puzzle Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i030_nuisance_orthogonal_puzzle_bottleneck](registry/i030_nuisance_orthogonal_puzzle_bottleneck) |
+| i031 | Tactical Transport Imbalance Network | registered trunk | Codex | Codex coding agent | [registry/i031_tactical_transport_imbalance_network](registry/i031_tactical_transport_imbalance_network) |
+| i032 | King-Anchored Material-Null Transport Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i032_king_anchored_material_null_transport_bottleneck](registry/i032_king_anchored_material_null_transport_bottleneck) |
+| i033 | Piece-Target Entropic Transport Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i033_piece_target_entropic_transport_bottleneck](registry/i033_piece_target_entropic_transport_bottleneck) |
+| i034 | Entropic Chess Geometry Transport Network | registered trunk | Codex | Codex coding agent | [registry/i034_entropic_chess_geometry_transport_network](registry/i034_entropic_chess_geometry_transport_network) |
+| i035 | Ordinal Evidence Ladder Network | registered trunk | Codex | Codex coding agent | [registry/i035_ordinal_evidence_ladder_network](registry/i035_ordinal_evidence_ladder_network) |
+| i036 | Geometry-Conditioned Board Pseudo-Likelihood Ratio Network | registered trunk | Codex | Codex coding agent | [registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network](registry/i036_geometry_conditioned_board_pseudo_likelihood_ratio_network) |
+| i037 | Möbius Piece-Constellation Network | registered trunk | Codex | Codex coding agent | [registry/i037_mobius_piece_constellation_network](registry/i037_mobius_piece_constellation_network) |
+| i038 | Sparse Witness-Piece Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i038_sparse_witness_piece_bottleneck_network](registry/i038_sparse_witness_piece_bottleneck_network) |
+| i039 | Ray-Language Automaton Network | registered trunk | Codex | Codex coding agent | [registry/i039_ray_language_automaton_network](registry/i039_ray_language_automaton_network) |
+| i040 | Kinematic Commutator Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i040_kinematic_commutator_bottleneck_network](registry/i040_kinematic_commutator_bottleneck_network) |
+| i041 | Centered Tempo-Odd Interventional Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i041_centered_tempo_odd_interventional_bottleneck](registry/i041_centered_tempo_odd_interventional_bottleneck) |
+| i042 | Legal Automorphism Quotient Network | registered trunk | Codex | Codex coding agent | [registry/i042_legal_automorphism_quotient_network](registry/i042_legal_automorphism_quotient_network) |
+| i043 | Side-Canonical Rule-Partition Invariant Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i043_side_canonical_rule_partition_invariant_bottleneck](registry/i043_side_canonical_rule_partition_invariant_bottleneck) |
+| i044 | Masked Board Code-Length Surprise Network | registered trunk | Codex | Codex coding agent | [registry/i044_masked_board_code_length_surprise_network](registry/i044_masked_board_code_length_surprise_network) |
+| i045 | Credal Near-Puzzle Evidence Network | registered trunk | Codex | Codex coding agent | [registry/i045_credal_near_puzzle_evidence_network](registry/i045_credal_near_puzzle_evidence_network) |
+| i046 | Rule-Exact Orbit Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i046_rule_exact_orbit_bottleneck_network](registry/i046_rule_exact_orbit_bottleneck_network) |
+| i047 | Color-Flip Orbit Evidence Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i047_color_flip_orbit_evidence_bottleneck](registry/i047_color_flip_orbit_evidence_bottleneck) |
+| i048 | Rule-Automorphism Quotient Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i048_rule_automorphism_quotient_bottleneck_network](registry/i048_rule_automorphism_quotient_bottleneck_network) |
+| i049 | Tempo-Odd Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i049_tempo_odd_bottleneck_network](registry/i049_tempo_odd_bottleneck_network) |
+| i050 | King-Anchored Euler Interaction Network | registered trunk | Codex | Codex coding agent | [registry/i050_king_anchored_euler_interaction_network](registry/i050_king_anchored_euler_interaction_network) |
+| i051 | King Escape Percolation Network | registered trunk | Codex | Codex coding agent | [registry/i051_king_escape_percolation_network](registry/i051_king_escape_percolation_network) |
+| i052 | Soft King-Cage Path Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i052_soft_king_cage_path_bottleneck_network](registry/i052_soft_king_cage_path_bottleneck_network) |
+| i053 | Hall-Defect Obligation Matroid Network | registered trunk | Codex | Codex coding agent | [registry/i053_hall_defect_obligation_matroid_network](registry/i053_hall_defect_obligation_matroid_network) |
+| i054 | Threat-Topology Betti Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i054_threat_topology_betti_bottleneck_network](registry/i054_threat_topology_betti_bottleneck_network) |
+| i055 | Non-Backtracking Tactical Walk Network | registered trunk | Codex | Codex coding agent | [registry/i055_non_backtracking_tactical_walk_network](registry/i055_non_backtracking_tactical_walk_network) |
+| i056 | Non-Puzzle Score-Field Bottleneck Network | registered trunk | Codex | Codex coding agent | [registry/i056_non_puzzle_score_field_bottleneck_network](registry/i056_non_puzzle_score_field_bottleneck_network) |
+| i057 | Soft Formal-Concept Closure Network | registered trunk | Codex | Codex coding agent | [registry/i057_soft_formal_concept_closure_network](registry/i057_soft_formal_concept_closure_network) |
+| i058 | Determinantal Tactical Volume Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i058_determinantal_tactical_volume_bottleneck](registry/i058_determinantal_tactical_volume_bottleneck) |
+| i059 | Harmonic Board Potential Network | registered trunk | Codex | Codex coding agent | [registry/i059_harmonic_board_potential_network](registry/i059_harmonic_board_potential_network) |
+| i060 | Tropical Constraint Circuit Network | registered trunk | Codex | Codex coding agent | [registry/i060_tropical_constraint_circuit_network](registry/i060_tropical_constraint_circuit_network) |
+| i061 | Grassmannian Principal-Angle Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i061_grassmannian_principal_angle_bottleneck](registry/i061_grassmannian_principal_angle_bottleneck) |
+| i062 | Matrix-Pencil Generalized Spectrum Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i062_matrix_pencil_generalized_spectrum_bottleneck](registry/i062_matrix_pencil_generalized_spectrum_bottleneck) |
+| i063 | Polar-Procrustes Alignment Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i063_polar_procrustes_alignment_bottleneck](registry/i063_polar_procrustes_alignment_bottleneck) |
+| i064 | Multi-Scale Dilated Board Mixer CNN | registered trunk | Codex | Codex coding agent | [registry/i064_multi_scale_dilated_board_mixer_cnn](registry/i064_multi_scale_dilated_board_mixer_cnn) |
+| i065 | Piece-Token CNN Hybrid | registered trunk | Codex | Codex coding agent | [registry/i065_piece_token_cnn_hybrid](registry/i065_piece_token_cnn_hybrid) |
+| i066 | Bispectral Phase-Coupling Board Network | registered trunk | Codex | Codex coding agent | [registry/i066_bispectral_phase_coupling_board_network](registry/i066_bispectral_phase_coupling_board_network) |
+| i067 | Finite-Field Character-Sum Board Network | registered trunk | Codex | Codex coding agent | [registry/i067_finite_field_character_sum_board_network](registry/i067_finite_field_character_sum_board_network) |
+| i068 | Schur-Ray Line Algebra Network | registered trunk | Codex | Codex coding agent | [registry/i068_schur_ray_line_algebra_network](registry/i068_schur_ray_line_algebra_network) |
+| i069 | Bitboard Shift-Algebra Network | registered trunk | Codex | Codex coding agent | [registry/i069_bitboard_shift_algebra_network](registry/i069_bitboard_shift_algebra_network) |
+| i070 | Relational Query Algebra Network | registered trunk | Codex | Codex coding agent | [registry/i070_relational_query_algebra_network](registry/i070_relational_query_algebra_network) |
+| i071 | Variational Board Action Network | registered trunk | Codex | Codex coding agent | [registry/i071_variational_board_action_network](registry/i071_variational_board_action_network) |
+| i072 | Tensor-Core Square-Pair Field Network | registered trunk | Codex | Codex coding agent | [registry/i072_tensor_core_square_pair_field_network](registry/i072_tensor_core_square_pair_field_network) |
+| i073 | Tiny Chess MicroNet | registered trunk | Codex | Codex coding agent | [registry/i073_tiny_chess_micronet](registry/i073_tiny_chess_micronet) |
+| i074 | Puzzle-Binary Benchmark Challengers | registered trunk | Codex | Codex coding agent | [registry/i074_puzzle_binary_benchmark_challengers](registry/i074_puzzle_binary_benchmark_challengers) |
+| i075 | Tactical Bisimulation Puzzle Network | registered trunk | Codex | Codex coding agent | [registry/i075_tactical_bisimulation_puzzle_network](registry/i075_tactical_bisimulation_puzzle_network) |
+| i076 | Krylov Tactical Subspace Network | registered trunk | Codex | Codex coding agent | [registry/i076_krylov_tactical_subspace_network](registry/i076_krylov_tactical_subspace_network) |
+| i077 | Adaptive Tactical Resolvent Network | registered trunk | Codex | Codex coding agent | [registry/i077_adaptive_tactical_resolvent_network](registry/i077_adaptive_tactical_resolvent_network) |
+| i078 | Tactical Controllability Gramian Network | registered trunk | Codex | Codex coding agent | [registry/i078_tactical_controllability_gramian_network](registry/i078_tactical_controllability_gramian_network) |
+| i079 | Support-Polar Zonotope Certificate Network | registered trunk | Codex | Codex coding agent | [registry/i079_support_polar_zonotope_certificate_network](registry/i079_support_polar_zonotope_certificate_network) |
+| i080 | Loop-Frustration Curvature Network | registered trunk | Codex | Codex coding agent | [registry/i080_loop_frustration_curvature_network](registry/i080_loop_frustration_curvature_network) |
+| i081 | Forcing-Response Front-Door Bottleneck | registered trunk | Codex | Codex coding agent | [registry/i081_forcing_response_front_door_bottleneck](registry/i081_forcing_response_front_door_bottleneck) |
+| i082 | Chess Hypercut Polynomial Network | registered trunk | Codex | Codex coding agent | [registry/i082_chess_hypercut_polynomial_network](registry/i082_chess_hypercut_polynomial_network) |
+| i083 | Fisher-Geodesic Tension Network | registered trunk | Codex | Codex coding agent | [registry/i083_fisher_geodesic_tension_network](registry/i083_fisher_geodesic_tension_network) |
+| i084 | Typed Hypergraph Motif Grammar | registered trunk | Codex | Codex coding agent | [registry/i084_typed_hypergraph_motif_grammar](registry/i084_typed_hypergraph_motif_grammar) |
+| i085 | Hall-Defect Zeta Operator | registered trunk | Codex | Codex coding agent | [registry/i085_hall_defect_zeta_operator](registry/i085_hall_defect_zeta_operator) |
+| i086 | Differentiable Chess Fact Lattice | registered trunk | Codex | Codex coding agent | [registry/i086_differentiable_chess_fact_lattice](registry/i086_differentiable_chess_fact_lattice) |
+| i087 | Tactical Radius Filtration | registered trunk | Codex | Codex coding agent | [registry/i087_tactical_radius_filtration](registry/i087_tactical_radius_filtration) |
+| i088 | Traced Threat Motif Network | registered trunk | Codex | Codex coding agent | [registry/i088_traced_threat_motif_network](registry/i088_traced_threat_motif_network) |
+| i089 | Bounded Board Hinge Logic | registered trunk | Codex | Codex coding agent | [registry/i089_bounded_board_hinge_logic](registry/i089_bounded_board_hinge_logic) |
+| i090 | Chess-Mode Tucker Relation Certificate | registered trunk | Codex | Codex coding agent | [registry/i090_chess_mode_tucker_relation_certificate](registry/i090_chess_mode_tucker_relation_certificate) |
+| i091 | Tactical State Bottleneck Inference | registered trunk | Codex | Codex coding agent | [registry/i091_tactical_state_bottleneck_inference](registry/i091_tactical_state_bottleneck_inference) |
+| i092 | Parity-Syndrome Puzzle Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i092_parity_syndrome_puzzle_bottleneck](registry/i092_parity_syndrome_puzzle_bottleneck) |
+| i093 | Wavelet Scattering Board Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i093_wavelet_scattering_board_network](registry/i093_wavelet_scattering_board_network) |
+| i094 | Convex Feasibility Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i094_convex_feasibility_residual_network](registry/i094_convex_feasibility_residual_network) |
+| i095 | Rank-Quantile Evidence Field Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i095_rank_quantile_evidence_field_network](registry/i095_rank_quantile_evidence_field_network) |
+| i096 | Oriented Matroid Covector Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i096_oriented_matroid_covector_bottleneck](registry/i096_oriented_matroid_covector_bottleneck) |
+| i097 | Fixed-Point Residual Defect Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i097_fixed_point_residual_defect_network](registry/i097_fixed_point_residual_defect_network) |
+| i098 | Baseline Logit Residual Adapter | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i098_baseline_logit_residual_adapter](registry/i098_baseline_logit_residual_adapter) |
+| i099 | Coarse-to-Fine Board Residual Pyramid | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i099_coarse_to_fine_board_residual_pyramid](registry/i099_coarse_to_fine_board_residual_pyramid) |
+| i100 | Independence Residual Interaction Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i100_independence_residual_interaction_network](registry/i100_independence_residual_interaction_network) |
+| i101 | Residual Calibration Error Field | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i101_residual_calibration_error_field](registry/i101_residual_calibration_error_field) |
+| i102 | Set-Query Attention Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i102_set_query_attention_bottleneck](registry/i102_set_query_attention_bottleneck) |
+| i103 | Attention Disagreement Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i103_attention_disagreement_residual_network](registry/i103_attention_disagreement_residual_network) |
+| i104 | Cross-Scale Attention Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i104_cross_scale_attention_residual_network](registry/i104_cross_scale_attention_residual_network) |
+| i105 | Slot Attention Role Binding Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i105_slot_attention_role_binding_network](registry/i105_slot_attention_role_binding_network) |
+| i106 | Attention Perturbation Sensitivity Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i106_attention_perturbation_sensitivity_network](registry/i106_attention_perturbation_sensitivity_network) |
+| i107 | Kernel Mean Prototype Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i107_kernel_mean_prototype_network](registry/i107_kernel_mean_prototype_network) |
+| i108 | TensorSketch Interaction Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i108_tensorsketch_interaction_network](registry/i108_tensorsketch_interaction_network) |
+| i109 | Maxout Region Signature Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i109_maxout_region_signature_network](registry/i109_maxout_region_signature_network) |
+| i110 | Spline Board Surface Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i110_spline_board_surface_network](registry/i110_spline_board_surface_network) |
+| i111 | Boundary-Condition Disagreement CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i111_boundary_condition_disagreement_cnn](registry/i111_boundary_condition_disagreement_cnn) |
+| i112 | Piece-Drop Stability Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i112_piece_drop_stability_network](registry/i112_piece_drop_stability_network) |
+| i113 | Row-File Factor Mixer | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i113_row_file_factor_mixer](registry/i113_row_file_factor_mixer) |
+| i114 | Piece-Conditioned Hypernetwork CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i114_piece_conditioned_hypernetwork_cnn](registry/i114_piece_conditioned_hypernetwork_cnn) |
+| i115 | Neural Board Cellular Automaton | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i115_neural_board_cellular_automaton](registry/i115_neural_board_cellular_automaton) |
+| i116 | Symmetric Difference Twin Encoder | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i116_symmetric_difference_twin_encoder](registry/i116_symmetric_difference_twin_encoder) |
+| i117 | Prototype Patch Dictionary Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i117_prototype_patch_dictionary_network](registry/i117_prototype_patch_dictionary_network) |
+| i118 | Channel Dropout Consensus Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i118_channel_dropout_consensus_network](registry/i118_channel_dropout_consensus_network) |
+| i119 | Tensor-Ring Square Interaction Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i119_tensor_ring_square_interaction_network](registry/i119_tensor_ring_square_interaction_network) |
+| i120 | Sinkhorn Role Assignment Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i120_sinkhorn_role_assignment_network](registry/i120_sinkhorn_role_assignment_network) |
+| i121 | Morphological Threat Field Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i121_morphological_threat_field_network](registry/i121_morphological_threat_field_network) |
+| i122 | Invertible Board Coupling Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i122_invertible_board_coupling_network](registry/i122_invertible_board_coupling_network) |
+| i123 | Sparse Expert Board Router | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i123_sparse_expert_board_router](registry/i123_sparse_expert_board_router) |
+| i124 | Local Neighborhood Geometry Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i124_local_neighborhood_geometry_network](registry/i124_local_neighborhood_geometry_network) |
+| i125 | Ray State-Space Scan Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i125_ray_state_space_scan_network](registry/i125_ray_state_space_scan_network) |
+| i126 | Pawn Skeleton Barrier Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i126_pawn_skeleton_barrier_network](registry/i126_pawn_skeleton_barrier_network) |
+| i127 | Square-Color Parity Mixer | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i127_square_color_parity_mixer](registry/i127_square_color_parity_mixer) |
+| i128 | Occupancy Run-Length Segment Encoder | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i128_occupancy_run_length_segment_encoder](registry/i128_occupancy_run_length_segment_encoder) |
+| i129 | King-Shelter Microkernel Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i129_king_shelter_microkernel_network](registry/i129_king_shelter_microkernel_network) |
+| i130 | Material-Phase Low-Rank Adapter Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i130_material_phase_low_rank_adapter_network](registry/i130_material_phase_low_rank_adapter_network) |
+| i131 | Replicator Payoff Piece Dynamics | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i131_replicator_payoff_piece_dynamics](registry/i131_replicator_payoff_piece_dynamics) |
+| i132 | Differentiable Bitboard Boolean Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i132_differentiable_bitboard_boolean_network](registry/i132_differentiable_bitboard_boolean_network) |
+| i133 | Orthogonal Board Moment Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i133_orthogonal_board_moment_network](registry/i133_orthogonal_board_moment_network) |
+| i134 | Legal-Constraint Projection Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i134_legal_constraint_projection_residual_network](registry/i134_legal_constraint_projection_residual_network) |
+| i135 | Zobrist Kernel Feature Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i135_zobrist_kernel_feature_network](registry/i135_zobrist_kernel_feature_network) |
+| i136 | Low-Rank Signed Cut Query Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i136_low_rank_signed_cut_query_network](registry/i136_low_rank_signed_cut_query_network) |
+| i137 | Commutative View-Consistency Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i137_commutative_view_consistency_network](registry/i137_commutative_view_consistency_network) |
+| i138 | Support-Function Envelope Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i138_support_function_envelope_network](registry/i138_support_function_envelope_network) |
+| i139 | Soft Majorization Line Sorter | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i139_soft_majorization_line_sorter](registry/i139_soft_majorization_line_sorter) |
+| i140 | Low-Displacement-Rank Board Operator | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i140_low_displacement_rank_board_operator](registry/i140_low_displacement_rank_board_operator) |
+| i141 | Submodular Coverage Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i141_submodular_coverage_bottleneck](registry/i141_submodular_coverage_bottleneck) |
+| i142 | Pivot Trace Elimination Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i142_pivot_trace_elimination_network](registry/i142_pivot_trace_elimination_network) |
+| i143 | ConvNeXt BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i143_convnext_boardnet](registry/i143_convnext_boardnet) |
+| i144 | Board FPN CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i144_board_fpn_cnn](registry/i144_board_fpn_cnn) |
+| i145 | Piece-Plane Gated CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i145_piece_plane_gated_cnn](registry/i145_piece_plane_gated_cnn) |
+| i146 | Patch Mixer BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i146_patch_mixer_boardnet](registry/i146_patch_mixer_boardnet) |
+| i147 | Specialist-Head CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i147_specialist_head_cnn](registry/i147_specialist_head_cnn) |
+| i148 | Shallow Wide Residual BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i148_shallow_wide_residual_boardnet](registry/i148_shallow_wide_residual_boardnet) |
+| i149 | Axial Rank-File ConvNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i149_axial_rank_file_convnet](registry/i149_axial_rank_file_convnet) |
+| i150 | Early-Exit Cascade BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i150_early_exit_cascade_boardnet](registry/i150_early_exit_cascade_boardnet) |
+| i151 | Auxiliary Reconstruction BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i151_auxiliary_reconstruction_boardnet](registry/i151_auxiliary_reconstruction_boardnet) |
+| i152 | Iterative Logit Refinement CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i152_iterative_logit_refinement_cnn](registry/i152_iterative_logit_refinement_cnn) |
+| i153 | Agreement-Variance Head Net | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i153_agreement_variance_head_net](registry/i153_agreement_variance_head_net) |
+| i154 | Adapter-Sandwich Residual CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i154_adapter_sandwich_residual_cnn](registry/i154_adapter_sandwich_residual_cnn) |
+| i155 | Capsule Motif BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i155_capsule_motif_boardnet](registry/i155_capsule_motif_boardnet) |
+| i156 | Multi-Order Board Scan Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i156_multi_order_board_scan_network](registry/i156_multi_order_board_scan_network) |
+| i157 | Cross-Stitch CNN-Token Fusion Net | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i157_cross_stitch_cnn_token_fusion_net](registry/i157_cross_stitch_cnn_token_fusion_net) |
+| i158 | Neural Decision Forest BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i158_neural_decision_forest_boardnet](registry/i158_neural_decision_forest_boardnet) |
+| i159 | Vector-Quantized Motif Codebook Net | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i159_vector_quantized_motif_codebook_net](registry/i159_vector_quantized_motif_codebook_net) |
+| i160 | Hypercolumn Square Readout CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i160_hypercolumn_square_readout_cnn](registry/i160_hypercolumn_square_readout_cnn) |
+| i161 | Multiplicative Conjunction ConvNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i161_multiplicative_conjunction_convnet](registry/i161_multiplicative_conjunction_convnet) |
+| i162 | Empty-Square Opportunity Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i162_empty_square_opportunity_network](registry/i162_empty_square_opportunity_network) |
+| i163 | Global Scratchpad BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i163_global_scratchpad_boardnet](registry/i163_global_scratchpad_boardnet) |
+| i164 | Learnable Pooling Tree BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i164_learnable_pooling_tree_boardnet](registry/i164_learnable_pooling_tree_boardnet) |
+| i165 | Spatial FiLM Coordinate Net | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i165_spatial_film_coordinate_net](registry/i165_spatial_film_coordinate_net) |
+| i166 | Channel-Bilinear Role Mixer | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i166_channel_bilinear_role_mixer](registry/i166_channel_bilinear_role_mixer) |
+| i167 | Evidence Sieve Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i167_evidence_sieve_network](registry/i167_evidence_sieve_network) |
+| i168 | Ring-Shell Recurrent BoardNet | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i168_ring_shell_recurrent_boardnet](registry/i168_ring_shell_recurrent_boardnet) |
+| i169 | Rank-File Memory Grid Net | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i169_rank_file_memory_grid_net](registry/i169_rank_file_memory_grid_net) |
+| i170 | Negative-Class Disentangled Puzzle Head | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i170_negative_class_disentangled_puzzle_head](registry/i170_negative_class_disentangled_puzzle_head) |
+| i171 | Line-Piece Crossbar Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i171_line_piece_crossbar_network](registry/i171_line_piece_crossbar_network) |
+| i172 | Near-Puzzle Margin Twin Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i172_near_puzzle_margin_twin_network](registry/i172_near_puzzle_margin_twin_network) |
+| i173 | Stripe-Selective Mixer CNN | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i173_stripe_selective_mixer_cnn](registry/i173_stripe_selective_mixer_cnn) |
+| i174 | King-Zone Evidence Ledger | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i174_king_zone_evidence_ledger](registry/i174_king_zone_evidence_ledger) |
+| i175 | Prototype-Margin Puzzle Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i175_prototype_margin_puzzle_network](registry/i175_prototype_margin_puzzle_network) |
+| i176 | Source-Rate Calibrated Objective | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i176_source_rate_calibrated_objective](registry/i176_source_rate_calibrated_objective) |
+| i177 | Forcing-Certificate Transformer | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i177_forcing_certificate_transformer](registry/i177_forcing_certificate_transformer) |
+| i178 | Defender-Exhaustion Cascade Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i178_defender_exhaustion_cascade_network](registry/i178_defender_exhaustion_cascade_network) |
+| i179 | Causal Piece-Derivative Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i179_causal_piece_derivative_network](registry/i179_causal_piece_derivative_network) |
+| i180 | Phase-Transition Pressure Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i180_phase_transition_pressure_network](registry/i180_phase_transition_pressure_network) |
+| i181 | Disproof-Ledger Puzzle Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i181_disproof_ledger_puzzle_network](registry/i181_disproof_ledger_puzzle_network) |
+| i182 | Motif Tensor Factorization Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i182_motif_tensor_factorization_network](registry/i182_motif_tensor_factorization_network) |
+| i183 | Tempo-Alignment Gate Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i183_tempo_alignment_gate_network](registry/i183_tempo_alignment_gate_network) |
+| i184 | Puzzle Boundary Twin Encoder | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i184_puzzle_boundary_twin_encoder](registry/i184_puzzle_boundary_twin_encoder) |
+| i185 | Critical-Square Budget Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i185_critical_square_budget_network](registry/i185_critical_square_budget_network) |
+| i186 | Legal-Reaction Bottleneck Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i186_legal_reaction_bottleneck_network](registry/i186_legal_reaction_bottleneck_network) |
+| i187 | Exchange-Soundness Graph Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i187_exchange_soundness_graph_network](registry/i187_exchange_soundness_graph_network) |
+| i188 | Tactical Program Induction Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i188_tactical_program_induction_network](registry/i188_tactical_program_induction_network) |
+| i189 | Counterfactual Defender Dropout Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i189_counterfactual_defender_dropout_network](registry/i189_counterfactual_defender_dropout_network) |
+| i190 | Blocker-Pin Lattice Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i190_blocker_pin_lattice_network](registry/i190_blocker_pin_lattice_network) |
+| i191 | Safe-Reply Certificate Verifier | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i191_safe_reply_certificate_verifier](registry/i191_safe_reply_certificate_verifier) |
+| i192 | Latent Reply Entropy Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i192_latent_reply_entropy_network](registry/i192_latent_reply_entropy_network) |
+| i193 | Exchange-Then-King Dual Stream | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i193_exchange_then_king_dual_stream](registry/i193_exchange_then_king_dual_stream) |
+| i194 | Tactical Symptom Bayesian Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i194_tactical_symptom_bayesian_network](registry/i194_tactical_symptom_bayesian_network) |
+| i195 | Minimal-Edit Puzzle Distance Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i195_minimal_edit_puzzle_distance_network](registry/i195_minimal_edit_puzzle_distance_network) |
+| i196 | Source-Invariant Puzzle Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i196_source_invariant_puzzle_bottleneck](registry/i196_source_invariant_puzzle_bottleneck) |
+| i197 | Reply-Set Contrastive Transformer | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i197_reply_set_contrastive_transformer](registry/i197_reply_set_contrastive_transformer) |
+| i198 | Barrier-Cut Puzzle Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i198_barrier_cut_puzzle_network](registry/i198_barrier_cut_puzzle_network) |
+| i199 | Tactical Hessian Spectrum Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i199_tactical_hessian_spectrum_network](registry/i199_tactical_hessian_spectrum_network) |
+| i200 | Absorbing Threat Markov Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i200_absorbing_threat_markov_network](registry/i200_absorbing_threat_markov_network) |
+| i201 | Neural Clause-Resolution Puzzle Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i201_neural_clause_resolution_puzzle_network](registry/i201_neural_clause_resolution_puzzle_network) |
+| i202 | Piece Liability Gradient Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i202_piece_liability_gradient_network](registry/i202_piece_liability_gradient_network) |
+| i203 | Hierarchical Tactical Option Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i203_hierarchical_tactical_option_network](registry/i203_hierarchical_tactical_option_network) |
+| i204 | Cross-Defense Consistency Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i204_cross_defense_consistency_network](registry/i204_cross_defense_consistency_network) |
+| i205 | Defender Timing Schedule Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i205_defender_timing_schedule_network](registry/i205_defender_timing_schedule_network) |
+| i206 | Discovered-Ray Switchboard Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i206_discovered_ray_switchboard_network](registry/i206_discovered_ray_switchboard_network) |
+| i207 | Counterplay Insolvency Ledger | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i207_counterplay_insolvency_ledger](registry/i207_counterplay_insolvency_ledger) |
+| i208 | Pinned Mobility Nullspace Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i208_pinned_mobility_nullspace_network](registry/i208_pinned_mobility_nullspace_network) |
+| i209 | Tactical Effective Resistance Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i209_tactical_effective_resistance_network](registry/i209_tactical_effective_resistance_network) |
+| i210 | Defender Opportunity-Cost Auction Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i210_defender_opportunity_cost_auction_network](registry/i210_defender_opportunity_cost_auction_network) |
+| i211 | Role-Counterfactual Necessity Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i211_role_counterfactual_necessity_network](registry/i211_role_counterfactual_necessity_network) |
+| i212 | Phase-Specialist Calibration Mixture | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i212_phase_specialist_calibration_mixture](registry/i212_phase_specialist_calibration_mixture) |
+| i213 | Forced-Target Funnel Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i213_forced_target_funnel_network](registry/i213_forced_target_funnel_network) |
+| i214 | Tactical Subgoal Automaton Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i214_tactical_subgoal_automaton_network](registry/i214_tactical_subgoal_automaton_network) |
+| i215 | Masked Codec Interaction-Curvature Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i215_masked_codec_interaction_curvature_network](registry/i215_masked_codec_interaction_curvature_network) |
+| i216 | Non-Puzzle Score Curl-Divergence Bottleneck | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i216_non_puzzle_score_curl_divergence_bottleneck](registry/i216_non_puzzle_score_curl_divergence_bottleneck) |
+| i217 | Ray Grammar Edit-Distance Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i217_ray_grammar_edit_distance_network](registry/i217_ray_grammar_edit_distance_network) |
+| i218 | Orbit Disagreement Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i218_orbit_disagreement_residual_network](registry/i218_orbit_disagreement_residual_network) |
+| i219 | Hall-Defect Dual-Residual Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i219_hall_defect_dual_residual_network](registry/i219_hall_defect_dual_residual_network) |
+| i220 | Credal Temperature Field Network | registered trunk | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [registry/i220_credal_temperature_field_network](registry/i220_credal_temperature_field_network) |
+| i221 | Sylvester Tactical Coupling Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i221_sylvester_tactical_coupling_network](registry/i221_sylvester_tactical_coupling_network) |
+| i222 | Schur-Complement Defender Elimination Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i222_schur_complement_defender_network](registry/i222_schur_complement_defender_network) |
+| i223 | Bures-Wasserstein SPD Threat Manifold Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i223_bures_wasserstein_threat_network](registry/i223_bures_wasserstein_threat_network) |
+| i224 | Numerical-Range Boundary Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i224_numerical_range_boundary_network](registry/i224_numerical_range_boundary_network) |
+| i225 | Lyapunov Stability Threat Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i225_lyapunov_threat_stability_network](registry/i225_lyapunov_threat_stability_network) |
+| i226 | Pfaffian Skew Threat Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i226_pfaffian_skew_threat_network](registry/i226_pfaffian_skew_threat_network) |
+| i227 | p-adic Ultrametric Threat Embedding Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i227_padic_ultrametric_threat_network](registry/i227_padic_ultrametric_threat_network) |
+| i228 | Free-Probability R-Transform Spectrum Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i228_free_probability_r_transform_network](registry/i228_free_probability_r_transform_network) |
+| i229 | Williamson Symplectic-Eigenvalue Threat Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i229_williamson_symplectic_threat_network](registry/i229_williamson_symplectic_threat_network) |
+| i230 | Magnus-BCH Operator-Coupling Series Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i230_magnus_bch_coupling_series_network](registry/i230_magnus_bch_coupling_series_network) |
+| i231 | Riccati Optimal-Defense Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i231_riccati_optimal_defense_network](registry/i231_riccati_optimal_defense_network) |
+| i232 | Clifford Rotor Threat Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i232_clifford_rotor_threat_network](registry/i232_clifford_rotor_threat_network) |
+| i233 | Tracy-Widom Level-Spacing Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i233_tracy_widom_level_spacing_network](registry/i233_tracy_widom_level_spacing_network) |
+| i234 | Lindstrom-Gessel-Viennot Path Determinant Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i234_lindstrom_gessel_viennot_path_network](registry/i234_lindstrom_gessel_viennot_path_network) |
+| i235 | Toda Isospectral Flow Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i235_toda_isospectral_flow_network](registry/i235_toda_isospectral_flow_network) |
+| i236 | Hadamard Walsh-Spectrum Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i236_hadamard_spectrum_network](registry/i236_hadamard_spectrum_network) |
+| i237 | Cayley Orthogonal Map Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i237_cayley_orthogonal_network](registry/i237_cayley_orthogonal_network) |
+| i238 | Stable-Rank Multiscale Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i238_stable_rank_multiscale_network](registry/i238_stable_rank_multiscale_network) |
+| i239 | Permanent Ryser Coupling Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i239_permanent_ryser_network](registry/i239_permanent_ryser_network) |
+| i240 | Cayley-Hamilton Coefficient Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i240_cayley_hamilton_coeffs_network](registry/i240_cayley_hamilton_coeffs_network) |
+| i241 | Multi-Stream Chess-Decomposed Transformer Evaluator | registered trunk | Claude | Claude Opus 4.7 | [registry/i241_multistream_attention_chess_eval](registry/i241_multistream_attention_chess_eval) |
+| i242 | Chess-Decomposed Attention Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i242_chess_decomposed_attention](registry/i242_chess_decomposed_attention) |
+| i243 | HalfKA Dual-Stream LC0 Evaluator | registered trunk | Claude | Claude Opus 4.7 | [registry/i243_halfka_dual_stream_lc0](registry/i243_halfka_dual_stream_lc0) |
 | classic-001 | Prompt snapshot | raw classic research packet | Local prompt snapshot | Not applicable | [research/packets/classic/Pasted markdown.md](research/packets/classic/Pasted markdown.md) |
 | classic-002 | Oriented Tactical Sheaf Laplacian | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md) |
 | classic-003 | Tactical Sheaf Curvature Network | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md) |

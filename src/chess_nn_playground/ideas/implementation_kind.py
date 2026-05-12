@@ -10,6 +10,7 @@ from typing import Any
 
 import yaml
 
+from chess_nn_playground.ideas.schema import discover_idea_folders
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
 
@@ -325,10 +326,6 @@ def detect_idea_implementation_kind(folder: str | Path) -> ImplementationKindAud
         issues=tuple(issues),
         wiring=wiring,
     )
-
-
-def discover_idea_folders(ideas_root: str | Path = "ideas/registry") -> list[Path]:
-    return sorted(Path(ideas_root).glob("i[0-9][0-9][0-9]_*"))
 
 
 def audit_implementation_kinds(ideas_root: str | Path = "ideas/registry") -> list[ImplementationKindAuditRow]:

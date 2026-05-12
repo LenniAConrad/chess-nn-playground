@@ -16,6 +16,7 @@ from _bootstrap import bootstrap
 
 bootstrap()
 
+from chess_nn_playground.ideas.schema import discover_idea_folders
 from chess_nn_playground.models.research_packet_probe import PROFILE_NAMES
 from chess_nn_playground.models.research_packet_probe import _profile_flags
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
@@ -387,7 +388,7 @@ def main() -> None:
     parser.add_argument("--markdown", default="reports/idea_conformance_audit.md")
     args = parser.parse_args()
 
-    rows = [audit_one(folder, fix=args.fix) for folder in sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*"))]
+    rows = [audit_one(folder, fix=args.fix) for folder in discover_idea_folders(Path("ideas/registry"))]
     registry_rows_changed = sync_registry(rows) if args.fix else 0
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)

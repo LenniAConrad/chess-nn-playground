@@ -9,6 +9,7 @@ from chess_nn_playground.ideas.implementation import validate_idea_scaffold
 from chess_nn_playground.ideas.schema import (
     ALLOWED_IDEA_STATUS,
     ALLOWED_IMPLEMENTATION_KINDS,
+    IDEA_FOLDER_GLOB,
     REQUIRED_IDEA_DIRS,
     REQUIRED_IDEA_FIELDS,
     REQUIRED_IDEA_FILES,
@@ -89,7 +90,7 @@ def validate_registry(registry_path: str | Path, ideas_root: str | Path) -> dict
                 problems.append(f"line {line_no}: {type(exc).__name__}: {exc}")
     template_report = validate_idea_folder(ideas_root / "template", template_ok=True)
     folder_reports = []
-    for folder in sorted(ideas_root.glob("i[0-9][0-9][0-9]_*")):
+    for folder in sorted(ideas_root.glob(IDEA_FOLDER_GLOB)):
         if folder.is_dir():
             report = validate_idea_folder(folder)
             folder_reports.append(report)

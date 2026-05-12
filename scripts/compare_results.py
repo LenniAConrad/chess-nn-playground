@@ -17,6 +17,7 @@ bootstrap()
 from chess_nn_playground.evaluation.chatgpt_prompt import build_chatgpt_run_prompt
 from chess_nn_playground.evaluation.training_plots import build_global_training_dashboard
 from chess_nn_playground.ideas.implementation_kind import detect_idea_implementation_kind
+from chess_nn_playground.ideas.schema import discover_idea_folders
 
 
 def _markdown_table(df: pd.DataFrame) -> str:
@@ -112,7 +113,7 @@ def _iter_metric_paths(results_dir: Path) -> list[Path]:
 def _load_idea_kind_maps(ideas_root: Path = Path("ideas/registry")) -> tuple[dict[str, str], dict[str, str]]:
     by_id: dict[str, str] = {}
     by_model: dict[str, str] = {}
-    for folder in sorted(ideas_root.glob("i[0-9][0-9][0-9]_*")):
+    for folder in discover_idea_folders(ideas_root):
         row = detect_idea_implementation_kind(folder)
         by_id[row.idea_id] = row.detected_kind
         if row.model_name:

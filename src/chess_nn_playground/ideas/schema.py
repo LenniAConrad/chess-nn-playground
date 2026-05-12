@@ -1,5 +1,28 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+
+IDEA_KIND_BY_PREFIX = {
+    "i": "trunk",
+    "p": "primitive",
+    "a": "architecture",
+}
+
+IDEA_ID_PREFIXES = tuple(IDEA_KIND_BY_PREFIX)
+
+IDEA_FOLDER_GLOB = "[iap][0-9][0-9][0-9]_*"
+
+
+def discover_idea_folders(ideas_root: str | Path = "ideas/registry") -> list[Path]:
+    return sorted(Path(ideas_root).glob(IDEA_FOLDER_GLOB))
+
+
+def idea_kind_for_id(idea_id: str) -> str | None:
+    if not idea_id:
+        return None
+    return IDEA_KIND_BY_PREFIX.get(idea_id[0])
+
 
 REQUIRED_IDEA_FIELDS = [
     "idea_id",

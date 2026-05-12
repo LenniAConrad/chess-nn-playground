@@ -21,6 +21,7 @@ bootstrap()
 from chess_nn_playground.training.config_validation import validate_training_config
 from chess_nn_playground.training.trainer import config_fingerprint
 from chess_nn_playground.ideas.implementation import validate_idea_for_training
+from chess_nn_playground.ideas.schema import IDEA_FOLDER_GLOB
 from chess_nn_playground.utils.config import load_yaml, save_yaml
 from chess_nn_playground.utils.paths import utc_timestamp
 from scripts.validate_run_artifacts import validate_run_artifacts
@@ -356,7 +357,7 @@ def discover_config_paths(
             paths.extend(_suite_configs(suite_path))
         paths.extend(sorted(Path("configs/benchmarks").rglob("bench_*.yaml")))
     if include_ideas:
-        for config_path in sorted(Path("ideas/registry").glob("i[0-9][0-9][0-9]_*/config.yaml")):
+        for config_path in sorted(Path("ideas/registry").glob(f"{IDEA_FOLDER_GLOB}/config.yaml")):
             idea_path = config_path.parent / "idea.yaml"
             idea = load_yaml(idea_path) if idea_path.exists() else {}
             if (

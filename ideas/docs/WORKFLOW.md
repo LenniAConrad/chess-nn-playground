@@ -2,8 +2,20 @@
 
 This folder has two kinds of research material:
 
-- registered ideas: `ideas/registry/i###_*`
+- registered ideas: `ideas/registry/<prefix>###_*` (see [ID prefixes](#id-prefixes) below)
 - raw research packets: `ideas/research/packets/classic/` and curated packet subfolders
+
+### ID prefixes
+
+The first letter of the ID encodes which models/ bucket the idea targets. Numbering is independent per prefix.
+
+| Prefix | Kind | Goes in |
+|---|---|---|
+| `i###` | trunk (whole-architecture model) | `src/chess_nn_playground/models/trunk/` |
+| `p###` | primitive operator | `src/chess_nn_playground/models/primitives/` |
+| `a###` | compositional architecture (combines primitives + trunks) | `src/chess_nn_playground/models/architecture/` |
+
+Existing 243 entries are all `i###` (trunk). New primitives use `p###`, new compositions use `a###`. Do not rename existing folders.
 
 It also has a human navigation layer:
 
@@ -31,7 +43,7 @@ ideas/research/packets/CATALOG.md
 
 | Need | Source |
 |---|---|
-| What is implemented or ready to implement | `ideas/registry/registry.jsonl` and `ideas/registry/i###_*/idea.yaml` |
+| What is implemented or ready to implement | `ideas/registry/registry.jsonl` and `ideas/registry/<prefix>###_*/idea.yaml` |
 | Raw imported ChatGPT/Deep Research output | `ideas/research/packets/classic/` |
 | Human grouping of all idea material | `ideas/research/collections/` |
 | Implementation/performance TODO | `ideas/registry/TODO.md` |
@@ -41,7 +53,7 @@ ideas/research/packets/CATALOG.md
 | Generated compact idea prompt | `ideas/research/prompts/idea_generation_prompt.md` |
 | Benchmark reporting standard | `ideas/docs/BENCHMARK_REPORTING.md` |
 
-Do not treat a raw research packet as implemented. Do not add a packet to `registry.jsonl` until it has a complete `ideas/registry/i###_*` folder.
+Do not treat a raw research packet as implemented. Do not add a packet to `registry.jsonl` until it has a complete `ideas/registry/<prefix>###_*` folder.
 
 ## Lifecycle
 
@@ -61,7 +73,7 @@ Do not treat a raw research packet as implemented. Do not add a packet to `regis
 3. Choose the next available ID:
 
 ```bash
-find ideas/registry -maxdepth 1 -type d -name 'i[0-9][0-9][0-9]_*' | sort
+find ideas/registry -maxdepth 1 -type d -name '[iap][0-9][0-9][0-9]_*' | sort
 ```
 
 4. Copy `ideas/registry/template/` to `ideas/registry/i###_<slug>/`.
@@ -107,7 +119,7 @@ After a run:
 
 1. Link result directory in `idea.yaml.latest_result_path`.
 2. Update `status` and `implementation_status`.
-3. Add a short run note under `ideas/registry/i###_*/runs/`.
+3. Add a short run note under `ideas/registry/<prefix>###_*/runs/`.
 4. Generate `slice_report_val.md` and `slice_report_test.md` with `scripts/reports/report_prediction_slices.py`.
 5. Update the idea report with difficulty, phase, eval-bucket, motif, and tag-family performance, including strongest and weakest slices.
 6. Record whether the central ablation passed or failed overall and on the declared target slices.

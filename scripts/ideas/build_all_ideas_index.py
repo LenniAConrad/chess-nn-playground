@@ -70,12 +70,16 @@ def _infer_source_and_model(author: str) -> tuple[str, str]:
     return "Registered/local or inherited", "Unspecified"
 
 
+REGISTRY_KIND_BY_PREFIX = {"i": "trunk", "p": "primitive", "a": "architecture"}
+
+
 def registered_ideas() -> list[IdeaRow]:
     rows: list[IdeaRow] = []
-    for folder in sorted((BASE / "registry").glob("i[0-9][0-9][0-9]_*")):
+    for folder in sorted((BASE / "registry").glob("[iap][0-9][0-9][0-9]_*")):
         meta = _read_yaml(folder / "idea.yaml")
         idea_id = str(meta.get("idea_id") or folder.name.split("_", 1)[0])
         title = str(meta.get("name") or folder.name.split("_", 1)[-1].replace("_", " ").title())
+        registry_kind = REGISTRY_KIND_BY_PREFIX.get(idea_id[:1], "idea")
         source_packet = str(meta.get("source_packet_path") or "")
         if "research/packets/classic/" in source_packet:
             source, model = "GPT / ChatGPT Deep Research", "GPT-5.5 Pro"
@@ -85,7 +89,7 @@ def registered_ideas() -> list[IdeaRow]:
             IdeaRow(
                 idea_id=idea_id,
                 title=title,
-                kind="registered idea",
+                kind=f"registered {registry_kind}",
                 source=source,
                 model=model,
                 path=folder,
@@ -285,7 +289,7 @@ def main() -> None:
         "",
         "This generated file is the single inventory for every idea-like item stored under `ideas/`.",
         "",
-        "Registered ideas use their `i###` ID. Raw packets and primitive notes use stable synthetic IDs because they are research inputs, not registered implementations.",
+        "Registered ideas use prefix-based IDs: `i###` for trunks (whole-architecture models), `p###` for primitives (operators), `a###` for compositional architectures. Numbering is independent per prefix. Raw packets and primitive notes use stable synthetic IDs because they are research inputs, not registered implementations.",
         "",
         "Provenance notes:",
         "",
