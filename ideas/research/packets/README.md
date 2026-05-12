@@ -6,9 +6,9 @@ Imported from `~/Downloads` on 2026-04-21. These are raw ChatGPT Pro research ou
 
 All primitive-focused research from the 2026-05-12 session has been consolidated under:
 
-- [../primitives/2026-05-12/](../primitives/2026-05-12/)
+- [../primitives/](../primitives/)
 
-That folder separates external primitive imports, Codex-created primitive proposals, prototype scripts, and architecture bridge notes.
+That folder is a single flat directory with file-name prefixes (`claude_`, `codex_`, `external_`) for authorship and a top-level [MANIFEST.md](../primitives/MANIFEST.md) for full provenance. Architecture-level bridge notes live one level up at [../architecture_bridges/](../architecture_bridges/).
 
 The higher-level idea map is in [../collections/](../collections/), including a dedicated [primitive research collection](../collections/primitive_research.md) and a [classic architecture packet collection](../collections/classic_architecture_packets.md).
 

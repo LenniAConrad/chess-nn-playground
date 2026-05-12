@@ -1,23 +1,20 @@
 # Primitive Research
 
-The primitive corpus is consolidated here:
+The primitive corpus is consolidated under [../primitives/](../primitives/) as a single flat folder. File-name prefixes encode the source (`claude_`, `codex_`, `external_`) and full provenance lives in [../primitives/MANIFEST.md](../primitives/MANIFEST.md).
 
-- [2026-05-12](../primitives/2026-05-12/)
+## File Map
 
-That folder is the single place for primitive imports, Codex-created primitive proposals, Claude Opus 4.7 primitive proposals, prototypes, manifests, and primitive-to-architecture bridge notes from the May 12 session.
-
-## Folder Map
-
-| Folder | Contents |
+| Prefix | Contents |
 |---|---|
-| [external_imports](../primitives/2026-05-12/external_imports/) | Thirty imported primitive-focused Google/Deep Research markdown files, normalized and named by primitive concept. |
-| [codex_candidate_reply_primitives](../primitives/2026-05-12/codex_candidate_reply_primitives/) | Five Codex GPT-5 primitive proposals around reply sets, witnesses, regret, copulas, and antichains. |
-| [claude_opus_4_7_primitives](../primitives/2026-05-12/claude_opus_4_7_primitives/) | Five Claude Opus 4.7 primitive proposals plus prototype scripts. |
-| [architecture_bridges](../primitives/2026-05-12/architecture_bridges/) | Primitive stacking plan and a bridge architecture sketch. |
+| `external_*.md` | Thirty imported primitive-focused markdown reports from ChatGPT Deep Research, Claude, and Google/Gemini. |
+| `codex_*.md` | Five Codex GPT-5 primitive proposals around reply sets, witnesses, regret, copulas, and antichains. |
+| `claude_*.md` | Five Claude Opus 4.7 primitive proposals plus prototype scripts under [../primitives/prototypes/](../primitives/prototypes/). |
+
+Architecture bridge notes that combine primitives live one level up at [../architecture_bridges/](../architecture_bridges/), kept out of the primitive folder to avoid mixing operators with compositions.
 
 ## Current Primitive Validation Order
 
-This follows the stacking strategy in [codex_primitive_stacking_strategy.md](../primitives/2026-05-12/architecture_bridges/codex_primitive_stacking_strategy.md).
+This follows the stacking strategy in [../architecture_bridges/codex_primitive_stacking_strategy.md](../architecture_bridges/codex_primitive_stacking_strategy.md).
 
 1. TSDP, Terminal-State Detection Primitive: cheapest first test, precompute in the data loader, target `mate_in_1`.
 2. PFCT, Promotion-Fanout Counterfactual Tensor: gated and sparse, target promotion and underpromotion slices.
@@ -27,17 +24,17 @@ This follows the stacking strategy in [codex_primitive_stacking_strategy.md](../
 
 Do not merge these into a hybrid architecture before each primitive clears its own ablation. The current bridge rule is: promote only if the primitive beats matched ablations on its declared target slices.
 
-The full Claude Code implementation handoff is preserved at [HANDOFF.md](../primitives/2026-05-12/claude_opus_4_7_primitives/HANDOFF.md).
+The full Claude Code implementation handoff is preserved at [../primitives/HANDOFF.md](../primitives/HANDOFF.md).
 
-The operational code/training plan is [PRIMITIVE_TRAINING_TODO.md](../primitives/2026-05-12/PRIMITIVE_TRAINING_TODO.md).
+The operational code/training plan is [../primitives/PRIMITIVE_TRAINING_TODO.md](../primitives/PRIMITIVE_TRAINING_TODO.md).
 
 ## Authorship Notes
 
-| Set | Author/source label | Model label |
+| Prefix | Author/source label | Model label |
 |---|---|---|
-| `codex_candidate_reply_primitives/` | Codex-created local proposals | GPT-5 coding agent |
-| `claude_opus_4_7_primitives/` | Claude-generated local proposals | Claude Opus 4.7 |
-| `external_imports/` | Imported Google/Deep Research files | See the file-level manifest when available; model identity was not always recoverable from the download. |
+| `codex_*.md` | Codex-created local proposals | Codex GPT-5 |
+| `claude_*.md` | Claude-generated local proposals | Claude Opus 4.7 |
+| `external_*.md` | Imported reports | See per-file rows in [../primitives/MANIFEST.md](../primitives/MANIFEST.md); model identity was not always recoverable from the download. |
 
 ## Promotion Notes
 
