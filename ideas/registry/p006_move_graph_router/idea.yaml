@@ -1,0 +1,75 @@
+idea_id: p006
+name: Move-Graph Router
+slug: move_graph_router
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (MGR promotion, ray-legal batch)
+short_thesis: |
+  MoveGraphRouter (MGR) is a gather-scatter primitive whose sparse
+  adjacency is computed inside the op as a non-differentiable function of
+  the discrete board state. For each (own piece) -> (legal target) edge
+  the operator runs a shared MLP over the concatenated source/target
+  square embeddings and aggregates per-source. The primitive lives as an
+  additive, gated head on top of the i193 trunk; the i193 base logit is
+  preserved and the routed signal contributes a small gated delta.
+novelty_claim: |
+  None of the registered i### entries route information along a content-
+  determined sparse legal-move graph computed inside the forward pass.
+  i242 uses dense chess-decomposed attention; i025 / i027 act on the
+  one-ply counterfactual move space (a different abstraction); i178
+  (defender-exhaustion cascade) and i188 (tactical program induction)
+  operate over board features, not piece-typed move edges. MGR's mask is
+  not a tensor input — it is a stop-gradient sparse adjacency rebuilt
+  per sample from the simple_18 board.
+expected_advantage: |
+  Targeted lift on tactical slices where information has to propagate
+  along piece-specific legal moves: ray-locked pins, forks, and skewers
+  that are visible at zero conv depth on the move graph but require
+  several conv layers on the 8x8 grid. Promotion criterion mirrors the
+  MGR spec: ARSA-style 5% relative reduction in CRTK class-1 matched-
+  recall FP rate at no more than 1.3x i193 wall-clock; matched dense-
+  edges ablation should lose most of the lift, otherwise the primitive
+  is collapsing to a generic 64x64 mixer.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The MGR sparse
+  adjacency is computed analytically from the simple_18 piece planes
+  (occupancy, side-to-move) plus the precomputed geometric attack /
+  between-square tables; no python-chess call is required inside the
+  forward pass. CRTK metadata, source labels, verification flags, and
+  engine evaluations are not used as model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output),
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, mgr_edge_count (per-sample number of legal-move
+  edges), mgr_mean_routed_norm, mgr_pooled_norm, plus the i193 trunk
+  diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Primitive head:
+  per-square token tower (Conv1x1) + shared edge MLP (two-layer GELU) +
+  delta MLP + gate MLP. The dense (B, 64, 64, 2d) edge feature tensor is
+  materialised once per forward; the legal-edge mask zeros out non-edge
+  entries before the aggregation. Worst-case extra cost over i193:
+  ~O(B * 64^2 * 2 * token_embed_dim) for the gather, but the dominant
+  cost stays the trunk because primitive widths are kept small
+  (token_embed_dim = 32, edge_hidden_dim = 48 in the default config).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p006_move_graph_router/train.py
+config_path: ideas/registry/p006_move_graph_router/config.yaml
+model_path: ideas/registry/p006_move_graph_router/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  `ideas/research/primitives/external_02_move_graph_router_delta_accumulator.md`.
+  Implements the top-ranked MGR proposal from that file. Deferred internal
+  proposals (IDA delta-accumulator, KISB king-indexed switching bank, TBL
+  tropical bilinear, EEP equilibrium energy) are not implemented in this
+  head; see `ablations.md` for the reasoning. CRTK metadata is reporting-
+  only and never used as model input.
+source_primitive_path: ideas/research/primitives/external_02_move_graph_router_delta_accumulator.md
+source_packet_path: ideas/research/primitives/external_02_move_graph_router_delta_accumulator.md
+source_packet_candidate: MoveGraphRouter
+mechanism_family: legal_routing

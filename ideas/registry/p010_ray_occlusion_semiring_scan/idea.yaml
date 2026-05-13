@@ -1,0 +1,67 @@
+idea_id: p010
+name: Ray-Occlusion Semiring Scan
+slug: ray_occlusion_semiring_scan
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (Ray-Occlusion Scan promotion, ray-legal batch)
+short_thesis: |
+  Ray-Occlusion Semiring Scan is a directional propagation operator
+  where information flows along each of 8 chess ray directions, weighted
+  by the prefix product of (1 - occupancy) along the ray. Each step is
+  additionally weighted by a learned per-direction step-decay parameter,
+  recovering Mamba-style selective decay over a chess-rule-derived
+  topology. Per-direction outputs are concatenated and projected to a
+  scalar logit delta.
+novelty_claim: |
+  None of the registered i### entries propagate information along
+  occlusion-gated rays inside a primitive op. Sheaf operators
+  (i018-i024) use static graphs; the i243 piece-rank scan operates on
+  fixed scan orders without blocker-conditioned transmittance. The
+  semiring scan's prefix-product gating is a different operator class
+  from masked attention or fixed-kernel convolution.
+expected_advantage: |
+  Targeted lift on sliding-piece tactics that depend on first-blocker
+  geometry: pins, skewers, x-rays, discovered attacks. Pass criterion
+  mirrors the file's spec: CRTK class-1 matched-recall FP rate drops
+  by >=5% relative with wall-clock <=1.2x; `uniform_transmittance`
+  ablation must lose most of the lift, otherwise occlusion was not
+  load-bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor. The 8-direction ray-step targets and
+  occupancy transmittance are derived analytically from the simple_18
+  piece planes + precomputed ray-step geometry. CRTK metadata, source
+  labels, verification flags, and engine evaluations are not used as
+  model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  ros_mean_transmittance, ros_step_decay_mean, ros_pooled_norm, plus
+  i193 trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Primitive head:
+  per-square token tower + ray-step gather + per-direction weighted
+  sum with log-prefix transmittance + per-direction linear projections
+  + delta MLP + gate MLP. The dominant cost is the 8-direction gather
+  plus 8 per-direction linears at width `ray_dim`. Per-step decay is
+  a single learned scalar per direction (8 parameters total).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p010_ray_occlusion_semiring_scan/train.py
+config_path: ideas/registry/p010_ray_occlusion_semiring_scan/config.yaml
+model_path: ideas/registry/p010_ray_occlusion_semiring_scan/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  `ideas/research/primitives/external_12_ray_occlusion_legal_dispatch_delta_pair.md`.
+  Implements the top-ranked Ray-Occlusion Semiring Scan proposal.
+  Deferred internal proposals (Legal-Move Sparse Dispatch — covered by
+  p009/p011, Delta-Factorized Pair Accumulator — deferred to a future
+  entry) are documented in `ablations.md`. CRTK metadata is reporting-
+  only.
+source_primitive_path: ideas/research/primitives/external_12_ray_occlusion_legal_dispatch_delta_pair.md
+source_packet_path: ideas/research/primitives/external_12_ray_occlusion_legal_dispatch_delta_pair.md
+source_packet_candidate: Ray-Occlusion Semiring Scan
+mechanism_family: ray_attention

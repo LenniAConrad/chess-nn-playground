@@ -1,0 +1,70 @@
+idea_id: p011
+name: Legal-Edge Compile Scatter
+slug: legal_edge_compile_scatter
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (Legal-Edge Compile Scatter promotion, ray-legal batch)
+short_thesis: |
+  Legal-Edge Compile Scatter is a typed gated message-scatter operator
+  where the per-piece-type adjacency is compiled inside the primitive
+  from the discrete board state. For each typed edge `(src, dst, τ)`
+  the operator computes a sigmoid gate `σ(a_τ . [x_src, x_dst])` and a
+  message `W_τ x_src`, then scatters the gated messages into the
+  destination square. Per-type degree normalisation keeps the operator
+  numerically stable.
+novelty_claim: |
+  Pairs the typed legal-move structure with a per-edge gate that is
+  *trained*, not rule-fixed. p009 LMGConv has rule-fixed edges and
+  rule-fixed weights per type; p011 keeps the typed weights but adds a
+  σ-gate on each edge derived from the (source, destination) feature
+  pair. The compute graph is gather → concat → MLP → σ → broadcast →
+  scatter; the dense n × n attention matrix is never instantiated and
+  the discrete typed mask is treated as a stop-gradient tensor.
+expected_advantage: |
+  Targeted lift on positions where the right tactical edge depends on
+  feature-conditioned routing in addition to piece-type identity:
+  attacker / defender / overloaded-piece interactions, where the same
+  legal move has very different importance depending on the local
+  context. Pass criterion matches the file's spec: CRTK class-1
+  matched-recall FP rate drops with i193 wall-clock <=1.3x; matched
+  `no_edge_gate` ablation should lose part of the lift to confirm the
+  σ-gate carries signal.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor. The per-type adjacency is derived
+  from the simple_18 piece planes + geometric tables; per-edge gate
+  features are the concatenation of source and destination token
+  embeddings. CRTK metadata, source labels, verification flags, and
+  engine evaluations are not used as model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  lecs_edge_count, lecs_gate_mean (mean σ over valid edges), six
+  per-type message norms, plus i193 trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Primitive head:
+  per-square token tower + six per-type linear projections + six per-
+  type 2-layer edge-gate MLPs + degree-normalised scatter. Eager-mode
+  dense (B, 6, 64, 64) materialisation; sparsity zeros most entries.
+  Per-edge gate MLP runs once per type on the `(B, 64, 64, 2d)` concat
+  tensor — the 12-layer breakdown is unrolled into six per-type calls
+  for clarity at the cost of some throughput.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p011_legal_edge_compile_scatter/train.py
+config_path: ideas/registry/p011_legal_edge_compile_scatter/config.yaml
+model_path: ideas/registry/p011_legal_edge_compile_scatter/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  `ideas/research/primitives/external_14_ray_occlusion_legal_edge_compile_scatter.md`.
+  Implements the Content-Compiled Legal Edge Scatter proposal (#2 in
+  the source file); the file's #1 proposal Occlusion-Gated Ray Scan is
+  covered by p010 in this batch. Other deferred proposals are
+  documented in `ablations.md`. CRTK metadata is reporting-only.
+source_primitive_path: ideas/research/primitives/external_14_ray_occlusion_legal_edge_compile_scatter.md
+source_packet_path: ideas/research/primitives/external_14_ray_occlusion_legal_edge_compile_scatter.md
+source_packet_candidate: Content-Compiled Legal Edge Scatter
+mechanism_family: legal_routing

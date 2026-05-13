@@ -1,0 +1,66 @@
+idea_id: p009
+name: Legal-Move-Graph Convolution
+slug: legal_move_graph_delta
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (LMGConv promotion, ray-legal batch)
+short_thesis: |
+  LMGConv is a typed graph-convolution operator where the adjacency is
+  the per-piece-type legal-move bitboard derived from the simple_18 board.
+  For each piece-type `r ∈ {P, N, B, R, Q, K}` the operator routes
+  information from source square `i` to target square `j` whenever the
+  side-to-move has a piece of type `r` on `i` that can legally move (with
+  occlusion) to `j` and `j` is not occupied by an own piece. Per-type
+  linear projections W_r are reduced over targets with GraphSAGE-style
+  degree normalisation.
+novelty_claim: |
+  None of the registered i### entries route information along per-piece-
+  type legal adjacencies inside a primitive op. Sheaf-style entries
+  (i018-i024, i028) embed connectivity in a fixed graph but do not split
+  the message by moving piece type; i025-i027 act on the one-ply move
+  delta but not on the full per-piece-type legal-move tensor. LMGConv's
+  typed adjacency is a content-dependent stop-gradient tensor of shape
+  (B, 6, 64, 64) — different from sheaf operators with static graphs.
+expected_advantage: |
+  Targeted lift on positions where the relevant tactical edge depends on
+  piece type (knight forks, rook batteries, bishop pin geometries).
+  Pass criterion mirrors the LMGConv spec: CRTK class-1 matched-recall
+  FP rate at >=3 percentage points relative to i193 with wall-clock
+  <=1.2x.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The per-type
+  adjacency is computed analytically from the piece planes plus the
+  geometric attack and between-square tables. CRTK metadata, source
+  labels, verification flags, and engine evaluations are not used as
+  model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  lmgconv_edge_count, six per-type message norms
+  (lmgconv_msg_norm_{P,N,B,R,Q,K}), plus the i193 trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Primitive head:
+  per-square token tower + six per-type linear projections (or one shared
+  linear under `shared_weight` ablation) + GraphSAGE-style degree-
+  normalised aggregation + delta MLP + gate MLP. The six (B, 64, 64)
+  bmm calls are folded into a single (B*6, 64, 64) batched matmul.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p009_legal_move_graph_delta/train.py
+config_path: ideas/registry/p009_legal_move_graph_delta/config.yaml
+model_path: ideas/registry/p009_legal_move_graph_delta/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  `ideas/research/primitives/external_05_legal_move_graph_delta_accumulator.md`.
+  Implements the top-ranked LMGConv proposal. The file's slug includes
+  "delta_accumulator" referring to the ΔAcc / Gated DeltaNet reframe
+  (proposal #2) — deferred to a future entry; see `ablations.md`. CRTK
+  metadata is reporting-only.
+source_primitive_path: ideas/research/primitives/external_05_legal_move_graph_delta_accumulator.md
+source_packet_path: ideas/research/primitives/external_05_legal_move_graph_delta_accumulator.md
+source_packet_candidate: Legal-Move-Graph Convolution
+mechanism_family: legal_routing
