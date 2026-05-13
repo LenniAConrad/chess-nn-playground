@@ -1,0 +1,34 @@
+idea_id: p015
+name: DeltaCReLU + Involution Reynolds Head
+slug: delta_crelu_involution_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  DeltaCReLU is a saturation-aware accumulator: a ClippedReLU applied to the additive pre-activation state with per-channel tracking of the saturation regime. Combined with an involution split (h ± ι h) where ι is the chess colour-swap involution, the head exposes both the saturation summary and the Reynolds-symmetric / Reynolds-antisymmetric components of the state.
+novelty_claim: |
+  The composition EmbeddingBag + Hardtanh recomputes the full sum; DeltaCReLU's defining property is the *joint* gradient over the saturation tape, which a pure-functional composition cannot express. The involution split augments this with a structurally-enforced colour-flip equivariance (no augmentation needed).
+expected_advantage: |
+  Lift on positions where the colour-swap symmetry is load-bearing (king-side / queen-side mirrored attacks). Ablations no_clip and no_involution must each lose part of the lift, separating the contributions of saturation tracking and the involution split.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: shared DeltaAccumulator + learnable bias + Hardtanh; involution index lookup via the colour-swap permutation; state is the concatenation of (h_clipped, sym, asym, low_frac, high_frac).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p015_delta_crelu_involution_head/train.py
+config_path: ideas/registry/p015_delta_crelu_involution_head/config.yaml
+model_path: ideas/registry/p015_delta_crelu_involution_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_09_delta_crelu_involution_graph_message.md. Primary proposal implemented: primitive_delta_crelu + primitive_involution_reynolds_affine. Deferred: primitive_input_graph_message_pass, primitive_diff_union_pool, primitive_pair_ray_contraction — documented in the external_09 packet and flagged as 'underexplored primitive for chess' / lowest-confidence; deferred per the report's own staging.
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_09_delta_crelu_involution_graph_message.md
+source_packet_path: ideas/research/primitives/external_09_delta_crelu_involution_graph_message.md
+source_packet_candidate: DeltaCReLU + Involution Reynolds Affine
+mechanism_family: move_delta

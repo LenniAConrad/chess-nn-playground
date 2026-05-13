@@ -1,0 +1,34 @@
+idea_id: p012
+name: Signed-Edit Bilinear Memory
+slug: signed_edit_bilinear_memory
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  SEBM maintains an exact O(|Δ|) state triple (s, u, p) over signed edits to the active piece-square feature set. The pair state p captures attacker+defender / blocker+slider / king-ring+intruder interactions in a single bilinear summary, generalising the first-order HalfKA accumulator without paying the all-pairs cost.
+novelty_claim: |
+  Differentiable signed-edit bilinear primitive: standard sum-only EmbeddingBag and append-only state-space scans cannot express the inverse-consistent insert/delete pair update used here. The pair state p is the cross-term s ⊙ u − Σ a_j ⊙ b_j, exactly the FM identity for the *same* (not partitioned) feature set.
+expected_advantage: |
+  Targeted lift on the pair-interaction slices flagged by external_01 (class-1 near-puzzle matched-recall FP rate). Ablations zero_pair_state and diagonal_only must each lose the lift, or the primitive collapses to a glorified signed-sum accumulator.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: per-edit projections A, B (Linear, bias-free) into a bilinear_rank=r subspace; analytical pair state via the FM identity; LayerNorm + GELU MLP delta head over the 3r-d state plus four stop-gradient trunk diagnostics; sigmoid gate conditioned on trunk diagnostics.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p012_signed_edit_bilinear_memory/train.py
+config_path: ideas/registry/p012_signed_edit_bilinear_memory/config.yaml
+model_path: ideas/registry/p012_signed_edit_bilinear_memory/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_01_signed_edit_bilinear_memory_ray_scan.md. Primary proposal implemented: primitive_signed_edit_bilinear_memory (SEBM). Deferred: primitive_first_blocker_ray_scan and primitive_typed_ordered_hyperedge_exchange (kept as deferred internal proposals in the external_01 packet; SEBM is the strongest pair-state generalisation of the HalfKA accumulator).
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_01_signed_edit_bilinear_memory_ray_scan.md
+source_packet_path: ideas/research/primitives/external_01_signed_edit_bilinear_memory_ray_scan.md
+source_packet_candidate: Signed-Edit Bilinear Memory
+mechanism_family: move_delta

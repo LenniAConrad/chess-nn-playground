@@ -1,0 +1,34 @@
+idea_id: p013
+name: Sparse-Delta Accumulator
+slug: sparse_delta_accumulator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  SDA is the canonical generalisation of HalfKA's first-order accumulator: a persistent state h is updated by a signed-delta stream of feature ids with O(|Δ|·d) cost per ply, exposed as a differentiable autograd primitive. Static-position training uses the analytical fixed point Σ_i W[i] over the active piece-square indices.
+novelty_claim: |
+  No torch.nn op currently carries (state, Δ_add, Δ_remove) as a fused stateful primitive — EmbeddingBag is stateless and recomputes from scratch every forward. The defining contract is the stateful make/unmake autograd path, not the static sum.
+expected_advantage: |
+  Engine-side wall-clock dominates: NNUE-style ≥1.5× speedup at inference on a sequential make/unmake harness with non-regressed matched-recall near-puzzle FP rate. At static training the primitive is a parameter-count match for the additive baseline; the lift comes from the inference-time delta path.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: shared DeltaAccumulator embedding (768×d) + Linear projection + Hardtanh saturation (mirrors NNUE's ClippedReLU); delta and gate MLPs identical to p012.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p013_sparse_delta_accumulator/train.py
+config_path: ideas/registry/p013_sparse_delta_accumulator/config.yaml
+model_path: ideas/registry/p013_sparse_delta_accumulator/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_07_sparse_delta_accumulator_segment_scatter.md. Primary proposal implemented: primitive_sda (Sparse-Delta Accumulator). Deferred: primitive_csg (Content-Sparse Gather), primitive_cgec (Chess-Group Equivariant Contraction), primitive_rstm (Reversible Tree-State Monad), primitive_sessm (Sparse-Event SSM) — documented in the external_07 packet and deferred per the report's own staging rules.
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_07_sparse_delta_accumulator_segment_scatter.md
+source_packet_path: ideas/research/primitives/external_07_sparse_delta_accumulator_segment_scatter.md
+source_packet_candidate: Sparse-Delta Accumulator
+mechanism_family: move_delta

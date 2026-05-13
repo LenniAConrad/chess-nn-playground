@@ -1,0 +1,34 @@
+idea_id: p017
+name: Delta-Event Legal-Move Routing
+slug: delta_event_legal_routing
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  Delta-Event Accumulator + Legal-Move Routing: each active piece-square embedding is gated by a content-dependent routing weight α_i(S) derived from the piece's pseudo-legal mobility on the legal-move graph. The routing weight is rule-derived from S (piece type and source square), not from CRTK / Stockfish metadata.
+novelty_claim: |
+  Standard masked attention uses an input-independent mask; this primitive builds the routing weight inside the operator from the per-piece pseudo-legal target count, fusing edge generation and message routing into a single sparse-event aggregator.
+expected_advantage: |
+  Lift on positions where mobile pieces dominate evaluation (open-endgame, attacking-piece-rich positions). Ablations uniform_routing and scrambled_routing must each lose the lift, or the input-determined routing is not load-bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: pseudo-attack lookup buffer (12×64×64 floats, 200KB), small 3→1 MLP producing a sigmoid α_i per active piece, routing-weighted accumulator sum.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p017_delta_event_legal_routing/train.py
+config_path: ideas/registry/p017_delta_event_legal_routing/config.yaml
+model_path: ideas/registry/p017_delta_event_legal_routing/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_11_delta_event_legal_move_routing.md. Primary proposal implemented: primitive_delta_event_accumulator + primitive_legal_move_routing. Deferred: primitive_occlusion_ray_scan, primitive_chess_orbit_linear, primitive_soft_tactical_distance — documented in the external_11 packet and deferred per the report's own ranking.
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_11_delta_event_legal_move_routing.md
+source_packet_path: ideas/research/primitives/external_11_delta_event_legal_move_routing.md
+source_packet_candidate: Delta-Event Accumulator + Legal-Move Routing
+mechanism_family: move_delta

@@ -1,0 +1,34 @@
+idea_id: p018
+name: DeltaState + SLG Diffusion
+slug: delta_state_slg_diffusion
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  DeltaState exposes the stateful triple-interface contract (forward / apply_delta / inverse_delta) and SLG Diffusion adds a single sheaf-Laplacian diffusion step over the rule-derived alignment-pair graph, with low-rank per-piece-type restriction maps F_ij = U_i V_j^T.
+novelty_claim: |
+  The combination of (a) stateful reversible delta semantics and (b) per-piece-type restriction maps over an input-determined legal-graph is not expressible as a composition of EmbeddingBag, GAT, or torch_geometric MessagePassing — the closest sheaf-NN (Bodnar et al. 2022) work uses non-input-determined adjacency.
+expected_advantage: |
+  Lift on positions where transitive structural propagation matters (multi-piece tactical webs, X-rays, batteries). Ablations identity_restriction_maps and no_diffusion must each lose part of the lift, or SLG has collapsed to a GCN over the alignment graph or to DeltaState alone.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: shared DeltaAccumulator + stalk projection (Linear, bias-free), per-piece-type U/V parameters (12 × stalk_dim each), one or more diffusion steps over the alignment-pair graph, final readout from concat(sum_state, diffused_pool).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p018_delta_state_slg_diffusion/train.py
+config_path: ideas/registry/p018_delta_state_slg_diffusion/config.yaml
+model_path: ideas/registry/p018_delta_state_slg_diffusion/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_17_delta_state_slg_diffusion_fg_tp.md. Primary proposal implemented: primitive_delta_state + primitive_slg_diffusion. Deferred: primitive_fg_tp, primitive_rev_scan (RSS), primitive_mpc — documented in the external_17 packet. RSS partly overlaps with p013; FG-TP overlaps with p016's χ-graded irrep block; MPC is the lowest-confidence pick. Deferred per the report's own staging guidance.
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_17_delta_state_slg_diffusion_fg_tp.md
+source_packet_path: ideas/research/primitives/external_17_delta_state_slg_diffusion_fg_tp.md
+source_packet_candidate: DeltaState + Sheaf-on-Legal-Graph Diffusion
+mechanism_family: move_delta
