@@ -1,0 +1,60 @@
+idea_id: p020
+name: Blocker-Reset Ray Scan
+slug: blocker_reset_ray_scan
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  A fused multi-ray segmented scan that propagates per-square features
+  along queen-style rays while resetting the hidden state at content-
+  defined blockers. The recurrence is ``h_t = U x_t + (1 - O_t) *
+  sigma(lambda_d) (.) h_{t-1}``, where ``O_t`` is the per-square
+  occupancy from the simple_18 piece planes. Sliding-piece vision and
+  pin / x-ray geometry fall out as native edges of the operator.
+novelty_claim: |
+  None of the existing trunk ideas treat blocker-induced segment
+  resets as the *primitive*. The closest neighbours are dense conv
+  (fixed local kernel), masked attention (external mask), and selective
+  Mamba SSMs (one sequence, no multi-ray reset). The novelty is the
+  multi-ray segmented scan with hard reset at content-defined blockers
+  exposed as the operator's first-class signature.
+expected_advantage: |
+  Targeted lift on slices that depend on sliding-piece vision and
+  blocker geometry (long-range pins, skewers, discovered attacks,
+  rook-on-open-file, queen lines into king zone). The static-position
+  forward should be comparable to or faster than the equivalent dense
+  conv at the same width.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Occupancy is
+  derived rule-exactly from the 12 piece planes (sum, clamp to [0, 1]).
+  CRTK metadata, source labels, verification flags, engine scores, and
+  any report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, brrs_occupancy_density, brrs_ray_magnitude,
+  brrs_decay_mean, plus the i193 trunk diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a
+  per-square token projection plus a U (token -> hidden), V (hidden ->
+  token) projection pair, and a learnable per-direction decay
+  parameter lambda_d in (0, 1)^h. Per-direction segmented scan over
+  64 squares x 8 directions x 8 ray steps (including source).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p020_blocker_reset_ray_scan/train.py
+config_path: ideas/registry/p020_blocker_reset_ray_scan/config.yaml
+model_path: ideas/registry/p020_blocker_reset_ray_scan/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_15_blocker_reset_edit_delta_fastweight.md.
+  Other proposals inside that packet (edit-delta fastweight memory,
+  legal-edge attention, rule-generated hyperedge contraction, chess-
+  group orbit linear) are deferred -- the edit-delta fastweight is
+  covered by p019 (sister formulation as kernel memory).
+source_primitive_path: ideas/research/primitives/external_15_blocker_reset_edit_delta_fastweight.md
+source_packet_candidate: primitive_blocker_reset_scan
+mechanism_family: king_path

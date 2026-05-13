@@ -1,0 +1,57 @@
+idea_id: p022
+name: Event-Delta Bilinear Accumulator
+slug: event_delta_bilinear_accumulator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  Maintain first- and second-order sparse-set features over the active
+  piece set with the Newton / factorisation-machine identity
+  ``Q = sum_{i<j} (U_i (.) V_j + U_j (.) V_i) = A (.) B - sum_i U_i (.)
+  V_i``. The static forward costs O(|S| d); the stateful event-update
+  API (add/delete events) is documented for engine inference but not
+  exercised at training time.
+novelty_claim: |
+  None of the existing trunk ideas combine the first-order NNUE-style
+  accumulator with a pair term computed by the FM identity in a single
+  bespoke head over the i193 trunk. The defensible novelty is the
+  stateful event-update API contract; the static math overlaps with
+  classical factorisation machines (cited).
+expected_advantage: |
+  Lift on slices that depend on second-order interactions (king-piece,
+  bishop pair, rook-on-open-file, defender-target, mutual-defense)
+  without enumerating pairs. Pair term cost is O(|S| d) instead of
+  O(|S|^2 d).
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Per-square tokens
+  are computed from the 12 piece planes plus the side-to-move scalar.
+  CRTK metadata, source labels, verification flags, engine scores, and
+  any report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, edba_active_count,
+  edba_first_order_magnitude, edba_pair_term_magnitude, plus the i193
+  trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: two
+  independent linear projections (U, V) from the 13-d token input to
+  ``bilinear_dim``, a closed-form pair term via the FM identity, and
+  a small LayerNorm + GELU MLP that maps [A; B; Q] to a scalar.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p022_event_delta_bilinear_accumulator/train.py
+config_path: ideas/registry/p022_event_delta_bilinear_accumulator/config.yaml
+model_path: ideas/registry/p022_event_delta_bilinear_accumulator/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_18_delta_bilinear_ray_blocked_segment_attention.md.
+  Other proposals inside that packet (ray-blocked selective scan,
+  legal-segment attention, exchange Bellman reducer, orbit
+  canonicaliser) are deferred -- ray scans are covered by p020/p021.
+source_primitive_path: ideas/research/primitives/external_18_delta_bilinear_ray_blocked_segment_attention.md
+source_packet_candidate: primitive_delta_bilinear_accumulator
+mechanism_family: response_constraint

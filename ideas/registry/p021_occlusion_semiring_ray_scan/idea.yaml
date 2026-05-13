@@ -1,0 +1,60 @@
+idea_id: p021
+name: Occlusion Semiring Ray Scan
+slug: occlusion_semiring_ray_scan
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  A blocker-aware ray transport operator that propagates features
+  along queen-style rays using a forward exclusive prefix
+  transmittance product
+  ``T_{s,r,l} = prod_{q<l} (1 - O_{c_{s,r,q}})``.
+  The product gives each ray cell its own visibility weight, so the
+  contribution of any ray cell vanishes the moment a blocker appears
+  between it and the source.
+novelty_claim: |
+  Forward exclusive prefix-product transport along rays with
+  per-direction projection ``A_r``. Distinct from p020's recurrence-
+  with-reset (no prefix product), p023's backward semiring recurrence,
+  and from standard masked attention (no QK softmax, no externally
+  supplied mask).
+expected_advantage: |
+  Targeted lift on slices that depend on x-ray / through-the-blocker
+  reasoning (skewer, pin behind a defender, queen line through a pawn
+  chain). The prefix-product semantic exposes the difference between
+  "line is fully open" and "line is exactly one blocker deep" -- the
+  signature pattern of pins and skewers.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Occupancy is
+  derived rule-exactly from the 12 piece planes. CRTK metadata,
+  source labels, verification flags, engine scores, and any
+  report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy,
+  osrs_mean_transmittance, osrs_open_ray_fraction, plus the i193
+  trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a per-
+  square token projection, an exclusive prefix-product transmittance
+  computed in log-domain via cumsum (numerically stable on long rays),
+  and a per-direction projection A_r (8 separate token -> hidden
+  blocks).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p021_occlusion_semiring_ray_scan/train.py
+config_path: ideas/registry/p021_occlusion_semiring_ray_scan/config.yaml
+model_path: ideas/registry/p021_occlusion_semiring_ray_scan/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_16_ray_blocked_delta_pair_legal_edge_reduce.md.
+  Other proposals inside that packet (delta-pair accumulator, legal
+  edge reduce, orbit-action norm, soft-SEE reducer) are deferred --
+  the delta-pair accumulator is covered by p022.
+source_primitive_path: ideas/research/primitives/external_16_ray_blocked_delta_pair_legal_edge_reduce.md
+source_packet_candidate: primitive_ray_blocked_scan
+mechanism_family: king_path

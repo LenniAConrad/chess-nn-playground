@@ -1,0 +1,62 @@
+idea_id: p023
+name: Occlusion Semiring Delta-Bilinear Hyperedge
+slug: occlusion_semiring_delta_bilinear_hyperedge
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  A blocker-aware ray operator with a *backward recurrence*
+  ``h_t = (1 - O_{t+1}) * h_{t+1} + V x_{t+1}`` (initialised h_L = 0)
+  per ray, followed by a bilinear hyperedge contraction over opposing
+  direction pairs (N/S, NE/SW, E/W, SE/NW). The bilinear hyperedge
+  step expresses the through-the-square pin / x-ray motif: an own
+  piece flanked by attacker and defender along a single line.
+novelty_claim: |
+  Backward semiring recurrence over ray segments combined with an
+  ordered-pair bilinear hyperedge contraction. Distinct from p021's
+  *forward* exclusive prefix-product transmittance, p020's
+  *forward* recurrence with hard reset, and ordinary attention /
+  hypergraph message passing (no external mask / no supplied edge
+  set).
+expected_advantage: |
+  Lift on slices where the through-the-square pin / x-ray motif
+  matters (skewers, pins, batteries along a line). The opposite-
+  direction hyperedge step encodes the "attacker -- own piece --
+  defender on one line" pattern.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Occupancy is
+  derived rule-exactly from the 12 piece planes. CRTK metadata,
+  source labels, verification flags, engine scores, and any
+  report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy,
+  osdb_hidden_magnitude, osdb_pair_hyperedge_magnitude, plus the
+  i193 trunk diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a
+  per-square token projection, a value projection V (token ->
+  hidden), a backward recurrence over 7 ray steps per (B, 8, 64),
+  left / right bilinear projections, and a small MLP head over the
+  4 opposing-direction hyperedge embeddings.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p023_occlusion_semiring_delta_bilinear_hyperedge/train.py
+config_path: ideas/registry/p023_occlusion_semiring_delta_bilinear_hyperedge/config.yaml
+model_path: ideas/registry/p023_occlusion_semiring_delta_bilinear_hyperedge/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_19_occlusion_semiring_delta_bilinear_hyperedge.md.
+  The bilinear hyperedge step is the file-name promise; it pairs
+  opposing-direction ray hidden states into a hyperedge embedding to
+  capture pin / x-ray geometry. Other proposals inside the packet
+  (delta-bilinear accumulator, legal hyperedge contraction, tropical
+  threat scan, chess orbit linear) are deferred -- bilinear
+  accumulation is covered by p022.
+source_primitive_path: ideas/research/primitives/external_19_occlusion_semiring_delta_bilinear_hyperedge.md
+source_packet_candidate: primitive_1_occlusion_semiring_scan
+mechanism_family: king_path
