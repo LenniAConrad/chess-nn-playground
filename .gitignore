@@ -62,6 +62,7 @@ reports/**/logs/
 reports/paper_ready_all/
 reports/claude_primitive_implementation/
 reports/primitive_implementation_with_claude/
+reports/research_primitive_implementation_with_claude/
 reports/primitive_pipeline/
 reports/run_all/
 reports/latest/

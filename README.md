@@ -342,6 +342,30 @@ in the log, or `CLAUDE_NONINTERACTIVE=0` for a manual interactive Claude UI.
 Use `CLAUDE_DRY_RUN=1` to inspect the generated prompt and command without
 invoking Claude.
 
+For the remaining unimplemented primitive research files, use the generic
+single-batch runner when you want to choose explicit targets:
+
+```bash
+CLAUDE_BATCH_NAME=codex-reply \
+CLAUDE_ID_RANGE=p001-p005 \
+CLAUDE_RESEARCH_TARGET_FILES="ideas/research/primitives/codex_01_pareto_antichain_frontier.md ideas/research/primitives/codex_02_regret_saddlepoint.md" \
+./run_research_primitive_implementation_with_claude.sh
+```
+
+For mass-parallel implementation, launch the prepared worktree/tmux batches:
+
+```bash
+./launch_remaining_primitive_implementation_batches.sh
+```
+
+This creates isolated worktrees under `../cnp-primitive-*`, branches named
+`claude/primitive-*`, and tmux sessions named `primitive-*`. The launcher
+reserves `p001` through `p035` for the remaining primitive implementations;
+the existing Claude handoff primitives remain the legacy `i244` through `i248`
+entries. Use `LAUNCH_DRY_RUN=1` to inspect the launch plan,
+`PRIMITIVE_BATCH_FILTER=codex-reply,ray-legal` to launch a subset, and
+`PRIMITIVE_LAUNCH_FORCE=1` to kill and restart an existing batch session.
+
 ## Outputs
 
 Every shared-trainer run should produce standard artifacts under `results/<run_name>/`:
