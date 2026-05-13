@@ -10,6 +10,7 @@ CLAUDE_SESSION_NAME="${CLAUDE_SESSION_NAME:-primitive-implementation-opus-4-7}"
 CLAUDE_PRIMITIVE_TARGETS="${CLAUDE_PRIMITIVE_TARGETS:-TSDP PFCT TDCD DHPE CAIO}"
 CLAUDE_ALLOW_TRAINING="${CLAUDE_ALLOW_TRAINING:-0}"
 CLAUDE_NONINTERACTIVE="${CLAUDE_NONINTERACTIVE:-1}"
+CLAUDE_OUTPUT_FORMAT="${CLAUDE_OUTPUT_FORMAT:-stream-json}"
 REPORT_DIR="${CLAUDE_PRIMITIVE_REPORT_DIR:-$ROOT_DIR/reports/primitive_implementation_with_claude}"
 SAFE_SESSION_NAME="$(printf '%s' "$CLAUDE_SESSION_NAME" | tr -c 'A-Za-z0-9_.-' '_')"
 RUN_STAMP="$(date +%Y%m%d_%H%M%S)_pid$$"
@@ -80,6 +81,16 @@ validate_claude_effort() {
       ;;
     *)
       die "CLAUDE_EFFORT must be xhigh or max for primitive implementation. Current value: $CLAUDE_EFFORT"
+      ;;
+  esac
+}
+
+validate_claude_output_format() {
+  case "$CLAUDE_OUTPUT_FORMAT" in
+    text|json|stream-json)
+      ;;
+    *)
+      die "CLAUDE_OUTPUT_FORMAT must be text, json, or stream-json. Current value: $CLAUDE_OUTPUT_FORMAT"
       ;;
   esac
 }
@@ -169,7 +180,10 @@ run_claude() {
     printf '  %q' "$CLAUDE_BIN" "${claude_args[@]}"
     if [[ "$CLAUDE_NONINTERACTIVE" == "1" ]]; then
       printf ' %q %q' "-p" "--output-format"
-      printf ' %q' "text"
+      printf ' %q' "$CLAUDE_OUTPUT_FORMAT"
+      if [[ "$CLAUDE_OUTPUT_FORMAT" == "stream-json" ]]; then
+        printf ' %q' "--verbose"
+      fi
     fi
     printf ' %q\n' "[prompt from $PROMPT_FILE]"
     echo
@@ -183,13 +197,17 @@ run_claude() {
   echo "Model: $CLAUDE_MODEL"
   echo "Effort: $CLAUDE_EFFORT"
   echo "Permission mode: $CLAUDE_PERMISSION_MODE"
+  echo "Output format: $CLAUDE_OUTPUT_FORMAT"
   echo "Prompt file: $PROMPT_FILE"
 
   local rc=0
   if [[ "$CLAUDE_NONINTERACTIVE" == "1" ]]; then
     echo "Running non-interactive Claude session. Log: $LOG_FILE"
+    if [[ "$CLAUDE_OUTPUT_FORMAT" == "stream-json" ]]; then
+      claude_args+=(--verbose)
+    fi
     set +e
-    "$CLAUDE_BIN" "${claude_args[@]}" -p --output-format text "$prompt" | tee "$LOG_FILE"
+    "$CLAUDE_BIN" "${claude_args[@]}" -p --output-format "$CLAUDE_OUTPUT_FORMAT" "$prompt" | tee "$LOG_FILE"
     rc=${PIPESTATUS[0]}
     set -e
   else
@@ -210,5 +228,6 @@ run_claude() {
 
 cd "$ROOT_DIR"
 validate_claude_effort
+validate_claude_output_format
 write_prompt
 run_claude

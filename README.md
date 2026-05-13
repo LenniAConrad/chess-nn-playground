@@ -334,10 +334,13 @@ CLAUDE_MODEL=opus ./run_primitive_implementation_with_claude.sh
 ```
 
 The launcher defaults to non-interactive `claude -p` mode so background/tmux
-runs actually submit the prompt and stream output to
-`reports/primitive_implementation_with_claude/`. Set `CLAUDE_NONINTERACTIVE=0`
-only when you want a manual interactive Claude UI. Use `CLAUDE_DRY_RUN=1` to
-inspect the generated prompt and command without invoking Claude.
+runs actually submit the prompt. It also defaults to
+`CLAUDE_OUTPUT_FORMAT=stream-json`, so tool calls and progress events are visible
+in `reports/primitive_implementation_with_claude/` while the run is still in
+flight. Set `CLAUDE_OUTPUT_FORMAT=text` if you only want the final prose answer
+in the log, or `CLAUDE_NONINTERACTIVE=0` for a manual interactive Claude UI.
+Use `CLAUDE_DRY_RUN=1` to inspect the generated prompt and command without
+invoking Claude.
 
 ## Outputs
 
