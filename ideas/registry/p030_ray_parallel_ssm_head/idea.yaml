@@ -1,0 +1,67 @@
+idea_id: p030
+name: Ray-Parallel SSM Head
+slug: ray_parallel_ssm_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_27_ray_parallel_ssm_delta_accumulator_sparse_conv.md
+  (Ray-SSM) into a trainable additive head on the i193 dual-stream
+  trunk. Ray-SSM is a selective state-space recurrence with input-
+  conditioned A and B matrices applied along the eight chess
+  directions:
+    h_{i, d} = A_{i, d} h_{i-1, d} + B_{i, d} x_i
+    y_i      = sum_d C_d h_{i, d}
+novelty_claim: |
+  Differs from `p026` (RayPool, decayed prefix sum) and `p029` (OARS,
+  state-dependent blocker gate) by carrying an explicit selective
+  state-space cell with separate A/B/C parameters. Differs from the
+  other primitive heads in this batch by following the Mamba/S6
+  family's selective state update rather than a graph-routing or
+  accumulator pattern.
+expected_advantage: |
+  Targeted lift on slices that depend on a *learned* mixture of
+  retention vs. injection along the ray — for example "carry the
+  attacker's value forward but stop when meeting a defender". Primary
+  falsifier is `disable_selective_A` / `disable_selective_B`: if
+  either control matches the unablated run, the corresponding
+  selectivity is not load-bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. The per-square features and
+  the selection scalars are all derived from the 12 piece planes.
+  CRTK metadata, source labels, verification flags, engine evaluations
+  are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus i193 trunk diagnostics and primitive-
+  specific ray_ssm_mean_A, ray_ssm_mean_B, ray_ssm_dir_energy_mean,
+  ray_ssm_dir_energy_max.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a 1x1
+  conv to a per-square feature, two linear heads emitting the per-
+  (square, direction) A and B sigmoids, a sequential 8-direction
+  selective state-space scan of length max_ray_length, a per-direction
+  C parameter, and two MLPs for the gate and delta.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p030_ray_parallel_ssm_head/train.py
+config_path: ideas/registry/p030_ray_parallel_ssm_head/config.yaml
+model_path: ideas/registry/p030_ray_parallel_ssm_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_27_ray_parallel_ssm_delta_accumulator_sparse_conv.md
+  proposal #1 (Ray-SSM). The other proposals (DDA, move_gated_conv,
+  involution_sym, soft_logic_gate) are deferred: DDA overlaps with
+  p025 / p028; move_gated_conv overlaps with p027; involution_sym is
+  a trunk weight-tying primitive; soft_logic_gate is a separate bit-
+  logic primitive outside this batch.
+source_primitive_path: ideas/research/primitives/external_27_ray_parallel_ssm_delta_accumulator_sparse_conv.md
+source_packet_path: ideas/research/primitives/external_27_ray_parallel_ssm_delta_accumulator_sparse_conv.md
+source_packet_candidate: Ray-Parallel Selective State Space Model (Ray-SSM)
+mechanism_family: king_path
+packet_profile: ray_parallel_ssm_head
