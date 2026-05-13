@@ -8515,6 +8515,210 @@
       "evidence": [
         "model.py delegates to a non-shared architecture builder"
       ],
+      "folder": "ideas/registry/p006_move_graph_router",
+      "idea_id": "p006",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "move_graph_router",
+      "scaffold": null,
+      "slug": "move_graph_router",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.move_graph_router.build_move_graph_router_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.move_graph_router.build_move_graph_router_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.move_graph_router.MoveGraphRouter",
+          "chess_nn_playground.models.primitives.move_graph_router.build_move_graph_router_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p007_attack_ray_sparse_attention",
+      "idea_id": "p007",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "attack_ray_sparse_attention",
+      "scaffold": null,
+      "slug": "attack_ray_sparse_attention",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.attack_ray_sparse_attention.build_attack_ray_sparse_attention_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.attack_ray_sparse_attention.build_attack_ray_sparse_attention_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.attack_ray_sparse_attention.AttackRaySparseAttention",
+          "chess_nn_playground.models.primitives.attack_ray_sparse_attention.build_attack_ray_sparse_attention_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p008_rule_conditioned_sparse_attention",
+      "idea_id": "p008",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "rule_conditioned_sparse_attention",
+      "scaffold": null,
+      "slug": "rule_conditioned_sparse_attention",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.rule_conditioned_sparse_attention.build_rule_conditioned_sparse_attention_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.rule_conditioned_sparse_attention.build_rule_conditioned_sparse_attention_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.rule_conditioned_sparse_attention.RuleConditionedSparseAttention",
+          "chess_nn_playground.models.primitives.rule_conditioned_sparse_attention.build_rule_conditioned_sparse_attention_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p009_legal_move_graph_delta",
+      "idea_id": "p009",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "legal_move_graph_delta",
+      "scaffold": null,
+      "slug": "legal_move_graph_delta",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.legal_move_graph_delta.build_legal_move_graph_delta_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.legal_move_graph_delta.build_legal_move_graph_delta_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.legal_move_graph_delta.LegalMoveGraphDelta",
+          "chess_nn_playground.models.primitives.legal_move_graph_delta.build_legal_move_graph_delta_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p010_ray_occlusion_semiring_scan",
+      "idea_id": "p010",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "ray_occlusion_semiring_scan",
+      "scaffold": null,
+      "slug": "ray_occlusion_semiring_scan",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.ray_occlusion_semiring_scan.build_ray_occlusion_semiring_scan_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.ray_occlusion_semiring_scan.build_ray_occlusion_semiring_scan_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.ray_occlusion_semiring_scan.RayOcclusionSemiringScan",
+          "chess_nn_playground.models.primitives.ray_occlusion_semiring_scan.build_ray_occlusion_semiring_scan_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p011_legal_edge_compile_scatter",
+      "idea_id": "p011",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "legal_edge_compile_scatter",
+      "scaffold": null,
+      "slug": "legal_edge_compile_scatter",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.legal_edge_compile_scatter.build_legal_edge_compile_scatter_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.legal_edge_compile_scatter.build_legal_edge_compile_scatter_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.legal_edge_compile_scatter.LegalEdgeCompileScatter",
+          "chess_nn_playground.models.primitives.legal_edge_compile_scatter.build_legal_edge_compile_scatter_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
       "folder": "ideas/registry/p012_signed_edit_bilinear_memory",
       "idea_id": "p012",
       "idea_status": "implemented",
@@ -8747,15 +8951,593 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p019_reversible_delta_kernel_memory",
+      "idea_id": "p019",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "reversible_delta_kernel_memory",
+      "scaffold": null,
+      "slug": "reversible_delta_kernel_memory",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.reversible_delta_kernel_memory.build_reversible_delta_kernel_memory_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.reversible_delta_kernel_memory.build_reversible_delta_kernel_memory_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.reversible_delta_kernel_memory.ReversibleDeltaKernelMemory",
+          "chess_nn_playground.models.primitives.reversible_delta_kernel_memory.build_reversible_delta_kernel_memory_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p020_blocker_reset_ray_scan",
+      "idea_id": "p020",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "blocker_reset_ray_scan",
+      "scaffold": null,
+      "slug": "blocker_reset_ray_scan",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.blocker_reset_ray_scan.build_blocker_reset_ray_scan_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.blocker_reset_ray_scan.build_blocker_reset_ray_scan_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.blocker_reset_ray_scan.BlockerResetRayScan",
+          "chess_nn_playground.models.primitives.blocker_reset_ray_scan.build_blocker_reset_ray_scan_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p021_occlusion_semiring_ray_scan",
+      "idea_id": "p021",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "occlusion_semiring_ray_scan",
+      "scaffold": null,
+      "slug": "occlusion_semiring_ray_scan",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.occlusion_semiring_ray_scan.build_occlusion_semiring_ray_scan_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.occlusion_semiring_ray_scan.build_occlusion_semiring_ray_scan_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.occlusion_semiring_ray_scan.OcclusionSemiringRayScan",
+          "chess_nn_playground.models.primitives.occlusion_semiring_ray_scan.build_occlusion_semiring_ray_scan_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p022_event_delta_bilinear_accumulator",
+      "idea_id": "p022",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "event_delta_bilinear_accumulator",
+      "scaffold": null,
+      "slug": "event_delta_bilinear_accumulator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.event_delta_bilinear_accumulator.build_event_delta_bilinear_accumulator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.event_delta_bilinear_accumulator.build_event_delta_bilinear_accumulator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.event_delta_bilinear_accumulator.EventDeltaBilinearAccumulator",
+          "chess_nn_playground.models.primitives.event_delta_bilinear_accumulator.build_event_delta_bilinear_accumulator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p023_occlusion_semiring_delta_bilinear_hyperedge",
+      "idea_id": "p023",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "occlusion_semiring_delta_bilinear_hyperedge",
+      "scaffold": null,
+      "slug": "occlusion_semiring_delta_bilinear_hyperedge",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyperedge.build_occlusion_semiring_delta_bilinear_hyperedge_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyperedge.build_occlusion_semiring_delta_bilinear_hyperedge_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyperedge.OcclusionSemiringDeltaBilinearHyperedge",
+          "chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyperedge.build_occlusion_semiring_delta_bilinear_hyperedge_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p024_event_symmetric_interaction_accumulator",
+      "idea_id": "p024",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "event_symmetric_interaction_accumulator",
+      "scaffold": null,
+      "slug": "event_symmetric_interaction_accumulator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator.build_event_symmetric_interaction_accumulator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator.build_event_symmetric_interaction_accumulator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator.EventSymmetricInteractionAccumulator",
+          "chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator.build_event_symmetric_interaction_accumulator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p025_incremental_delta_linear_head",
+      "idea_id": "p025",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "incremental_delta_linear_head",
+      "scaffold": null,
+      "slug": "incremental_delta_linear_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.incremental_delta_linear_head.build_incremental_delta_linear_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.incremental_delta_linear_head.build_incremental_delta_linear_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.incremental_delta_linear_head.IncrementalDeltaLinearHead",
+          "chess_nn_playground.models.primitives.incremental_delta_linear_head.build_incremental_delta_linear_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p026_ray_cast_obstacle_pool_head",
+      "idea_id": "p026",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "ray_cast_obstacle_pool_head",
+      "scaffold": null,
+      "slug": "ray_cast_obstacle_pool_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head.build_ray_cast_obstacle_pool_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head.build_ray_cast_obstacle_pool_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head.RayCastObstaclePoolHead",
+          "chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head.build_ray_cast_obstacle_pool_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p027_sparse_legal_move_router_head",
+      "idea_id": "p027",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "sparse_legal_move_router_head",
+      "scaffold": null,
+      "slug": "sparse_legal_move_router_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.sparse_legal_move_router_head.build_sparse_legal_move_router_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.sparse_legal_move_router_head.build_sparse_legal_move_router_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.sparse_legal_move_router_head.SparseLegalMoveRouterHead",
+          "chess_nn_playground.models.primitives.sparse_legal_move_router_head.build_sparse_legal_move_router_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p028_incremental_latent_accumulator_head",
+      "idea_id": "p028",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "incremental_latent_accumulator_head",
+      "scaffold": null,
+      "slug": "incremental_latent_accumulator_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.incremental_latent_accumulator_head.build_incremental_latent_accumulator_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.incremental_latent_accumulator_head.build_incremental_latent_accumulator_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.incremental_latent_accumulator_head.IncrementalLatentAccumulatorHead",
+          "chess_nn_playground.models.primitives.incremental_latent_accumulator_head.build_incremental_latent_accumulator_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p029_occlusion_aware_ray_scan_head",
+      "idea_id": "p029",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "occlusion_aware_ray_scan_head",
+      "scaffold": null,
+      "slug": "occlusion_aware_ray_scan_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head.build_occlusion_aware_ray_scan_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head.build_occlusion_aware_ray_scan_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head.OcclusionAwareRayScanHead",
+          "chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head.build_occlusion_aware_ray_scan_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p030_ray_parallel_ssm_head",
+      "idea_id": "p030",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "ray_parallel_ssm_head",
+      "scaffold": null,
+      "slug": "ray_parallel_ssm_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.ray_parallel_ssm_head.build_ray_parallel_ssm_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.ray_parallel_ssm_head.build_ray_parallel_ssm_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.ray_parallel_ssm_head.RayParallelSSMHead",
+          "chess_nn_playground.models.primitives.ray_parallel_ssm_head.build_ray_parallel_ssm_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p031_legal_move_laplacian_resolvent",
+      "idea_id": "p031",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "legal_move_laplacian_resolvent",
+      "scaffold": null,
+      "slug": "legal_move_laplacian_resolvent",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.legal_move_laplacian_resolvent.build_legal_move_laplacian_resolvent_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.legal_move_laplacian_resolvent.build_legal_move_laplacian_resolvent_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.legal_move_laplacian_resolvent.LegalMoveLaplacianResolvent",
+          "chess_nn_playground.models.primitives.legal_move_laplacian_resolvent.build_legal_move_laplacian_resolvent_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p032_dynamic_adjacency_gating",
+      "idea_id": "p032",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "dynamic_adjacency_gating",
+      "scaffold": null,
+      "slug": "dynamic_adjacency_gating",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.dynamic_adjacency_gating.build_dynamic_adjacency_gating_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.dynamic_adjacency_gating.build_dynamic_adjacency_gating_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.dynamic_adjacency_gating.DynamicAdjacencyGating",
+          "chess_nn_playground.models.primitives.dynamic_adjacency_gating.build_dynamic_adjacency_gating_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p033_move_kernel_operator",
+      "idea_id": "p033",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "move_kernel_operator",
+      "scaffold": null,
+      "slug": "move_kernel_operator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.move_kernel_operator.build_move_kernel_operator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.move_kernel_operator.build_move_kernel_operator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.move_kernel_operator.MoveKernelOperator",
+          "chess_nn_playground.models.primitives.move_kernel_operator.build_move_kernel_operator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p034_octilinear_selective_scan",
+      "idea_id": "p034",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "octilinear_selective_scan",
+      "scaffold": null,
+      "slug": "octilinear_selective_scan",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.octilinear_selective_scan.build_octilinear_selective_scan_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.octilinear_selective_scan.build_octilinear_selective_scan_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.octilinear_selective_scan.OctilinearSelectiveScan",
+          "chess_nn_playground.models.primitives.octilinear_selective_scan.build_octilinear_selective_scan_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p035_sparse_legal_graph_transition",
+      "idea_id": "p035",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "sparse_legal_graph_transition",
+      "scaffold": null,
+      "slug": "sparse_legal_graph_transition",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.sparse_legal_graph_transition.build_sparse_legal_graph_transition_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.sparse_legal_graph_transition.build_sparse_legal_graph_transition_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.sparse_legal_graph_transition.SparseLegalGraphTransition",
+          "chess_nn_playground.models.primitives.sparse_legal_graph_transition.build_sparse_legal_graph_transition_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 252,
+      "bespoke_model": 275,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 252,
+      "bespoke_model": 275,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -8768,7 +9550,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 258,
+    "total": 281,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

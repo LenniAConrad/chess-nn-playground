@@ -12,10 +12,10 @@ Benchmark the fully implemented bespoke architectures first. Shared-probe folder
 
 Current execution state:
 
-- Registered idea folders: `248`
+- Registered idea folders: `283`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `233`
-- Bespoke model implementations: `240`
+- Fully implemented architectures still needing a linked benchmark run: `268`
+- Bespoke model implementations: `275`
 - Shared ResearchPacketProbe variants: `6`
 
 Recommended immediate sequence:
@@ -34,7 +34,9 @@ Benchmark queue by ID:
 - Batch 7: `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`
 - Batch 8: `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`
 - Batch 9: `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`
-- Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`
+- Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`
+- Batch 11: `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`
+- Batch 12: `p032`, `p033`, `p034`, `p035`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -307,6 +309,41 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p004` | [Tail Copula Concordance Primitive](p004_tail_copula_concordance) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p005` | [Witness-Counterwitness Quantifier Primitive](p005_witness_counterwitness_quantifier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p006` | [Move-Graph Router](p006_move_graph_router) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p007` | [Attack-Ray Sparse Attention](p007_attack_ray_sparse_attention) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p008` | [Rule-Conditioned Sparse Attention (MobScan)](p008_rule_conditioned_sparse_attention) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p009` | [Legal-Move-Graph Convolution](p009_legal_move_graph_delta) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p010` | [Ray-Occlusion Semiring Scan](p010_ray_occlusion_semiring_scan) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p011` | [Legal-Edge Compile Scatter](p011_legal_edge_compile_scatter) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p012` | [Signed-Edit Bilinear Memory](p012_signed_edit_bilinear_memory) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p013` | [Sparse-Delta Accumulator](p013_sparse_delta_accumulator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p014` | [Δ-Pair Accumulator](p014_delta_pair_accumulator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p015` | [DeltaCReLU + Involution Reynolds Head](p015_delta_crelu_involution_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p016` | [Ray-Semiring χ-Head](p016_ray_semiring_chi_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p017` | [Delta-Event Legal-Move Routing](p017_delta_event_legal_routing) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p018` | [DeltaState + SLG Diffusion](p018_delta_state_slg_diffusion) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p019` | [Reversible Delta Kernel Memory](p019_reversible_delta_kernel_memory) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p020` | [Blocker-Reset Ray Scan](p020_blocker_reset_ray_scan) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p021` | [Occlusion Semiring Ray Scan](p021_occlusion_semiring_ray_scan) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p022` | [Event-Delta Bilinear Accumulator](p022_event_delta_bilinear_accumulator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p023` | [Occlusion Semiring Delta-Bilinear Hyperedge](p023_occlusion_semiring_delta_bilinear_hyperedge) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p024` | [Event-Symmetric Interaction Accumulator](p024_event_symmetric_interaction_accumulator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p025` | [Incremental Delta-Linear Accumulator Head](p025_incremental_delta_linear_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p026` | [Ray-Cast Obstacle Pooling Head](p026_ray_cast_obstacle_pool_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p027` | [Sparse Legal-Move Router Head](p027_sparse_legal_move_router_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p028` | [Incremental Latent Accumulator Head](p028_incremental_latent_accumulator_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p029` | [Occlusion-Aware Ray Scan Head](p029_occlusion_aware_ray_scan_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p030` | [Ray-Parallel SSM Head](p030_ray_parallel_ssm_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p031` | [Legal-Move Laplacian Resolvent](p031_legal_move_laplacian_resolvent) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p032` | [Dynamic Adjacency-Conditioned Gating](p032_dynamic_adjacency_gating) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p033` | [Move-Kernel Operator](p033_move_kernel_operator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p034` | [Octilinear Selective Scan](p034_octilinear_selective_scan) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p035` | [Sparse Legal-Move Graph Transition](p035_sparse_legal_graph_transition) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 
 ## Research Packet Backlog
 

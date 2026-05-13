@@ -11,7 +11,7 @@ Provenance notes:
 - External primitive rows use the consolidated manifest at `research/primitives/MANIFEST.md`.
 - Google/Gemini primitive rows keep `Unspecified Gemini model` when the download metadata did not name the exact model.
 
-Total rows: 443
+Total rows: 466
 
 ## Counts By Kind
 
@@ -21,14 +21,14 @@ Total rows: 443
 | external primitive report | 41 |
 | primitive proposal | 10 |
 | raw classic research packet | 130 |
-| registered primitive | 12 |
+| registered primitive | 35 |
 | registered trunk | 248 |
 
 ## Counts By Source
 
 | Source | Count |
 | --- | ---: |
-| Claude | 50 |
+| Claude | 73 |
 | Codex | 103 |
 | GPT / ChatGPT Deep Research | 279 |
 | Google / Gemini | 10 |
@@ -291,6 +291,12 @@ Total rows: 443
 | p003 | Reply Channel Capacity Primitive | registered primitive | Codex | Codex coding agent | [registry/p003_reply_channel_capacity](registry/p003_reply_channel_capacity) |
 | p004 | Tail Copula Concordance Primitive | registered primitive | Codex | Codex coding agent | [registry/p004_tail_copula_concordance](registry/p004_tail_copula_concordance) |
 | p005 | Witness-Counterwitness Quantifier Primitive | registered primitive | Codex | Codex coding agent | [registry/p005_witness_counterwitness_quantifier](registry/p005_witness_counterwitness_quantifier) |
+| p006 | Move-Graph Router | registered primitive | Claude | Claude Opus 4.7 | [registry/p006_move_graph_router](registry/p006_move_graph_router) |
+| p007 | Attack-Ray Sparse Attention | registered primitive | Claude | Claude Opus 4.7 | [registry/p007_attack_ray_sparse_attention](registry/p007_attack_ray_sparse_attention) |
+| p008 | Rule-Conditioned Sparse Attention (MobScan) | registered primitive | Claude | Claude Opus 4.7 | [registry/p008_rule_conditioned_sparse_attention](registry/p008_rule_conditioned_sparse_attention) |
+| p009 | Legal-Move-Graph Convolution | registered primitive | Claude | Claude Opus 4.7 | [registry/p009_legal_move_graph_delta](registry/p009_legal_move_graph_delta) |
+| p010 | Ray-Occlusion Semiring Scan | registered primitive | Claude | Claude Opus 4.7 | [registry/p010_ray_occlusion_semiring_scan](registry/p010_ray_occlusion_semiring_scan) |
+| p011 | Legal-Edge Compile Scatter | registered primitive | Claude | Claude Opus 4.7 | [registry/p011_legal_edge_compile_scatter](registry/p011_legal_edge_compile_scatter) |
 | p012 | Signed-Edit Bilinear Memory | registered primitive | Claude | Claude Opus 4.7 | [registry/p012_signed_edit_bilinear_memory](registry/p012_signed_edit_bilinear_memory) |
 | p013 | Sparse-Delta Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p013_sparse_delta_accumulator](registry/p013_sparse_delta_accumulator) |
 | p014 | Δ-Pair Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p014_delta_pair_accumulator](registry/p014_delta_pair_accumulator) |
@@ -298,6 +304,23 @@ Total rows: 443
 | p016 | Ray-Semiring χ-Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p016_ray_semiring_chi_head](registry/p016_ray_semiring_chi_head) |
 | p017 | Delta-Event Legal-Move Routing | registered primitive | Claude | Claude Opus 4.7 | [registry/p017_delta_event_legal_routing](registry/p017_delta_event_legal_routing) |
 | p018 | DeltaState + SLG Diffusion | registered primitive | Claude | Claude Opus 4.7 | [registry/p018_delta_state_slg_diffusion](registry/p018_delta_state_slg_diffusion) |
+| p019 | Reversible Delta Kernel Memory | registered primitive | Claude | Claude Opus 4.7 | [registry/p019_reversible_delta_kernel_memory](registry/p019_reversible_delta_kernel_memory) |
+| p020 | Blocker-Reset Ray Scan | registered primitive | Claude | Claude Opus 4.7 | [registry/p020_blocker_reset_ray_scan](registry/p020_blocker_reset_ray_scan) |
+| p021 | Occlusion Semiring Ray Scan | registered primitive | Claude | Claude Opus 4.7 | [registry/p021_occlusion_semiring_ray_scan](registry/p021_occlusion_semiring_ray_scan) |
+| p022 | Event-Delta Bilinear Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p022_event_delta_bilinear_accumulator](registry/p022_event_delta_bilinear_accumulator) |
+| p023 | Occlusion Semiring Delta-Bilinear Hyperedge | registered primitive | Claude | Claude Opus 4.7 | [registry/p023_occlusion_semiring_delta_bilinear_hyperedge](registry/p023_occlusion_semiring_delta_bilinear_hyperedge) |
+| p024 | Event-Symmetric Interaction Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p024_event_symmetric_interaction_accumulator](registry/p024_event_symmetric_interaction_accumulator) |
+| p025 | Incremental Delta-Linear Accumulator Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p025_incremental_delta_linear_head](registry/p025_incremental_delta_linear_head) |
+| p026 | Ray-Cast Obstacle Pooling Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p026_ray_cast_obstacle_pool_head](registry/p026_ray_cast_obstacle_pool_head) |
+| p027 | Sparse Legal-Move Router Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p027_sparse_legal_move_router_head](registry/p027_sparse_legal_move_router_head) |
+| p028 | Incremental Latent Accumulator Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p028_incremental_latent_accumulator_head](registry/p028_incremental_latent_accumulator_head) |
+| p029 | Occlusion-Aware Ray Scan Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p029_occlusion_aware_ray_scan_head](registry/p029_occlusion_aware_ray_scan_head) |
+| p030 | Ray-Parallel SSM Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p030_ray_parallel_ssm_head](registry/p030_ray_parallel_ssm_head) |
+| p031 | Legal-Move Laplacian Resolvent | registered primitive | Claude | Claude Opus 4.7 | [registry/p031_legal_move_laplacian_resolvent](registry/p031_legal_move_laplacian_resolvent) |
+| p032 | Dynamic Adjacency-Conditioned Gating | registered primitive | Claude | Claude Opus 4.7 | [registry/p032_dynamic_adjacency_gating](registry/p032_dynamic_adjacency_gating) |
+| p033 | Move-Kernel Operator | registered primitive | Claude | Claude Opus 4.7 | [registry/p033_move_kernel_operator](registry/p033_move_kernel_operator) |
+| p034 | Octilinear Selective Scan | registered primitive | Claude | Claude Opus 4.7 | [registry/p034_octilinear_selective_scan](registry/p034_octilinear_selective_scan) |
+| p035 | Sparse Legal-Move Graph Transition | registered primitive | Claude | Claude Opus 4.7 | [registry/p035_sparse_legal_graph_transition](registry/p035_sparse_legal_graph_transition) |
 | classic-001 | Prompt snapshot | raw classic research packet | Local prompt snapshot | Not applicable | [research/packets/classic/Pasted markdown.md](research/packets/classic/Pasted markdown.md) |
 | classic-002 | Oriented Tactical Sheaf Laplacian | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md) |
 | classic-003 | Tactical Sheaf Curvature Network | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md) |

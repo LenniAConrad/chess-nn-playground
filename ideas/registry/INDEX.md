@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `248`
+- Registered idea folders: `283`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 233, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 240, 'shared_probe_variant': 6, 'unknown': 2}`
+- Registered implementation states: `{'implemented': 268, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 275, 'shared_probe_variant': 6, 'unknown': 2}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 240 | Materially distinct model implementation. |
+| `bespoke_model` | 275 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -288,6 +288,41 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p004` | [Tail Copula Concordance Primitive](p004_tail_copula_concordance) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p005` | [Witness-Counterwitness Quantifier Primitive](p005_witness_counterwitness_quantifier) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p006` | [Move-Graph Router](p006_move_graph_router) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p007` | [Attack-Ray Sparse Attention](p007_attack_ray_sparse_attention) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p008` | [Rule-Conditioned Sparse Attention (MobScan)](p008_rule_conditioned_sparse_attention) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p009` | [Legal-Move-Graph Convolution](p009_legal_move_graph_delta) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p010` | [Ray-Occlusion Semiring Scan](p010_ray_occlusion_semiring_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p011` | [Legal-Edge Compile Scatter](p011_legal_edge_compile_scatter) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p012` | [Signed-Edit Bilinear Memory](p012_signed_edit_bilinear_memory) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p013` | [Sparse-Delta Accumulator](p013_sparse_delta_accumulator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p014` | [Δ-Pair Accumulator](p014_delta_pair_accumulator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p015` | [DeltaCReLU + Involution Reynolds Head](p015_delta_crelu_involution_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p016` | [Ray-Semiring χ-Head](p016_ray_semiring_chi_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p017` | [Delta-Event Legal-Move Routing](p017_delta_event_legal_routing) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p018` | [DeltaState + SLG Diffusion](p018_delta_state_slg_diffusion) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `p019` | [Reversible Delta Kernel Memory](p019_reversible_delta_kernel_memory) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor (the same contract i193 and... |
+| `p020` | [Blocker-Reset Ray Scan](p020_blocker_reset_ray_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p021` | [Occlusion Semiring Ray Scan](p021_occlusion_semiring_ray_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p022` | [Event-Delta Bilinear Accumulator](p022_event_delta_bilinear_accumulator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p023` | [Occlusion Semiring Delta-Bilinear Hyperedge](p023_occlusion_semiring_delta_bilinear_hyperedge) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p024` | [Event-Symmetric Interaction Accumulator](p024_event_symmetric_interaction_accumulator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p025` | [Incremental Delta-Linear Accumulator Head](p025_incremental_delta_linear_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p026` | [Ray-Cast Obstacle Pooling Head](p026_ray_cast_obstacle_pool_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p027` | [Sparse Legal-Move Router Head](p027_sparse_legal_move_router_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p028` | [Incremental Latent Accumulator Head](p028_incremental_latent_accumulator_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p029` | [Occlusion-Aware Ray Scan Head](p029_occlusion_aware_ray_scan_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p030` | [Ray-Parallel SSM Head](p030_ray_parallel_ssm_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine label 2 maps to... |
+| `p031` | [Legal-Move Laplacian Resolvent](p031_legal_move_laplacian_resolvent) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits (fine label 2 -> puzzle,... |
+| `p032` | [Dynamic Adjacency-Conditioned Gating](p032_dynamic_adjacency_gating) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p033` | [Move-Kernel Operator](p033_move_kernel_operator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p034` | [Octilinear Selective Scan](p034_octilinear_selective_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p035` | [Sparse Legal-Move Graph Transition](p035_sparse_legal_graph_transition) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 
 ## Research Packet Map
 

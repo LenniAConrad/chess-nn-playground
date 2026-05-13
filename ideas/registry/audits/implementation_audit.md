@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `258`
+- Ideas audited: `281`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 252 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 275 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -286,6 +286,12 @@ These folders were previously easy to read as distinct implemented architectures
 | `p003` | `ideas/registry/p003_reply_channel_capacity` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_channel_capacity_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p004` | `ideas/registry/p004_tail_copula_concordance` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tail_copula_concordance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p005` | `ideas/registry/p005_witness_counterwitness_quantifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `witness_counterwitness_quantifier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p006` | `ideas/registry/p006_move_graph_router` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `move_graph_router` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p007` | `ideas/registry/p007_attack_ray_sparse_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `attack_ray_sparse_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p008` | `ideas/registry/p008_rule_conditioned_sparse_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_conditioned_sparse_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p009` | `ideas/registry/p009_legal_move_graph_delta` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_move_graph_delta` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p010` | `ideas/registry/p010_ray_occlusion_semiring_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_occlusion_semiring_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p011` | `ideas/registry/p011_legal_edge_compile_scatter` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_edge_compile_scatter` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p012` | `ideas/registry/p012_signed_edit_bilinear_memory` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `signed_edit_bilinear_memory` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p013` | `ideas/registry/p013_sparse_delta_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_delta_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p014` | `ideas/registry/p014_delta_pair_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_pair_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -293,6 +299,23 @@ These folders were previously easy to read as distinct implemented architectures
 | `p016` | `ideas/registry/p016_ray_semiring_chi_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_semiring_chi_head` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p017` | `ideas/registry/p017_delta_event_legal_routing` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_event_legal_routing` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p018` | `ideas/registry/p018_delta_state_slg_diffusion` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_state_slg_diffusion` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p019` | `ideas/registry/p019_reversible_delta_kernel_memory` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reversible_delta_kernel_memory` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p020` | `ideas/registry/p020_blocker_reset_ray_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `blocker_reset_ray_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p021` | `ideas/registry/p021_occlusion_semiring_ray_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `occlusion_semiring_ray_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p022` | `ideas/registry/p022_event_delta_bilinear_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `event_delta_bilinear_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p023` | `ideas/registry/p023_occlusion_semiring_delta_bilinear_hyperedge` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `occlusion_semiring_delta_bilinear_hyperedge` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p024` | `ideas/registry/p024_event_symmetric_interaction_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `event_symmetric_interaction_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p025` | `ideas/registry/p025_incremental_delta_linear_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `incremental_delta_linear_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p026` | `ideas/registry/p026_ray_cast_obstacle_pool_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_cast_obstacle_pool_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p027` | `ideas/registry/p027_sparse_legal_move_router_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_legal_move_router_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p028` | `ideas/registry/p028_incremental_latent_accumulator_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `incremental_latent_accumulator_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p029` | `ideas/registry/p029_occlusion_aware_ray_scan_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `occlusion_aware_ray_scan_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p030` | `ideas/registry/p030_ray_parallel_ssm_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_parallel_ssm_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p031` | `ideas/registry/p031_legal_move_laplacian_resolvent` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_move_laplacian_resolvent` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p032` | `ideas/registry/p032_dynamic_adjacency_gating` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `dynamic_adjacency_gating` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p033` | `ideas/registry/p033_move_kernel_operator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `move_kernel_operator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p034` | `ideas/registry/p034_octilinear_selective_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `octilinear_selective_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p035` | `ideas/registry/p035_sparse_legal_graph_transition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_legal_graph_transition` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 
