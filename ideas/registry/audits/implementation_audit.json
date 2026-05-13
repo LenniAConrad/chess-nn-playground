@@ -9529,15 +9529,219 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p036_canonical_orbit_st_operator",
+      "idea_id": "p036",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "canonical_orbit_st_operator",
+      "scaffold": null,
+      "slug": "canonical_orbit_st_operator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.canonical_orbit_st_operator.build_canonical_orbit_st_operator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.canonical_orbit_st_operator.build_canonical_orbit_st_operator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.canonical_orbit_st_operator.CanonicalOrbitSTOperator",
+          "chess_nn_playground.models.primitives.canonical_orbit_st_operator.build_canonical_orbit_st_operator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p037_gibbs_cut_log_partition",
+      "idea_id": "p037",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "gibbs_cut_log_partition",
+      "scaffold": null,
+      "slug": "gibbs_cut_log_partition",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.gibbs_cut_log_partition.build_gibbs_cut_log_partition_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.gibbs_cut_log_partition.build_gibbs_cut_log_partition_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.gibbs_cut_log_partition.GibbsCutLogPartition",
+          "chess_nn_playground.models.primitives.gibbs_cut_log_partition.build_gibbs_cut_log_partition_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p038_woodbury_set_resolver",
+      "idea_id": "p038",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "woodbury_set_resolver",
+      "scaffold": null,
+      "slug": "woodbury_set_resolver",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.woodbury_set_resolver.build_woodbury_set_resolver_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.woodbury_set_resolver.build_woodbury_set_resolver_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.woodbury_set_resolver.WoodburySetResolver",
+          "chess_nn_playground.models.primitives.woodbury_set_resolver.build_woodbury_set_resolver_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p039_occupancy_eikonal_transform",
+      "idea_id": "p039",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "occupancy_eikonal_transform",
+      "scaffold": null,
+      "slug": "occupancy_eikonal_transform",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.occupancy_eikonal_transform.build_occupancy_eikonal_transform_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.occupancy_eikonal_transform.build_occupancy_eikonal_transform_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.occupancy_eikonal_transform.OccupancyEikonalTransform",
+          "chess_nn_playground.models.primitives.occupancy_eikonal_transform.build_occupancy_eikonal_transform_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p040_conservation_nullspace_norm",
+      "idea_id": "p040",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "conservation_nullspace_norm",
+      "scaffold": null,
+      "slug": "conservation_nullspace_norm",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.conservation_nullspace_norm.build_conservation_nullspace_norm_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.conservation_nullspace_norm.build_conservation_nullspace_norm_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.conservation_nullspace_norm.ConservationNullspaceNorm",
+          "chess_nn_playground.models.primitives.conservation_nullspace_norm.build_conservation_nullspace_norm_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p041_truncated_exterior_product_pool",
+      "idea_id": "p041",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "truncated_exterior_product_pool",
+      "scaffold": null,
+      "slug": "truncated_exterior_product_pool",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.truncated_exterior_product_pool.build_truncated_exterior_product_pool_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.truncated_exterior_product_pool.build_truncated_exterior_product_pool_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.truncated_exterior_product_pool.TruncatedExteriorProductPool",
+          "chess_nn_playground.models.primitives.truncated_exterior_product_pool.build_truncated_exterior_product_pool_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 275,
+      "bespoke_model": 281,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 275,
+      "bespoke_model": 281,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -9550,7 +9754,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 281,
+    "total": 287,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

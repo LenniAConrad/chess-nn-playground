@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `283`
+- Registered idea folders: `289`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 268, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 275, 'shared_probe_variant': 6, 'unknown': 2}`
+- Registered implementation states: `{'implemented': 274, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 281, 'shared_probe_variant': 6, 'unknown': 2}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 275 | Materially distinct model implementation. |
+| `bespoke_model` | 281 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -323,6 +323,12 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `p033` | [Move-Kernel Operator](p033_move_kernel_operator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 | `p034` | [Octilinear Selective Scan](p034_octilinear_selective_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 | `p035` | [Sparse Legal-Move Graph Transition](p035_sparse_legal_graph_transition) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p036` | [Canonical-Orbit Straight-Through Operator](p036_canonical_orbit_st_operator) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor (same contract i193 and i248... |
+| `p037` | [Gibbs Cut Log-Partition Operator](p037_gibbs_cut_log_partition) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor (same contract i193 and i248... |
+| `p038` | [Woodbury Set Resolver](p038_woodbury_set_resolver) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor (same contract i193 and i248... |
+| `p039` | [Differentiable Occupancy Eikonal Transform](p039_occupancy_eikonal_transform) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p040` | [Conservation-Nullspace Normalization](p040_conservation_nullspace_norm) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p041` | [Truncated Exterior Product Pool](p041_truncated_exterior_product_pool) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
 
 ## Research Packet Map
 

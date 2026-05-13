@@ -1,0 +1,63 @@
+idea_id: p039
+name: Differentiable Occupancy Eikonal Transform
+slug: occupancy_eikonal_transform
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-orbit-boolean-algebra primitive batch)
+short_thesis: |
+  A min-plus fixed-point operator on the fixed 8x8 king-neighbour graph.
+  Per-channel edge costs and seed costs are projected from the i193
+  trunk joint feature; the arrival-time field ``T`` is reached by
+  ``num_iterations`` soft Bellman-Ford relaxations with temperature
+  ``tau``. Pooled (mean / max / min) channel-wise statistics of the
+  field form an additive gated logit delta over the i193 trunk. The
+  operator gives the network a tactical-distance bias without
+  enumerating legal moves or attack rays.
+novelty_claim: |
+  Distinct from message passing / Conv2d / attention: the computation
+  graph is a soft shortest-path fixed point, the active predecessor set
+  changes with cost projections, and backprop flows through every
+  relaxation step. Prior differentiable shortest path work exists, so
+  the *reusable bounded-update eikonal primitive* for local dynamic
+  boards is the only operator-level claim made here. The packet's
+  reusable-bounded-update API is documented but not exercised at
+  training time (one position per sample).
+expected_advantage: |
+  Targeted lift on slices where chess king danger / escape corridors
+  matter (king safety, hanging-piece attack budgets) -- arrival times
+  expose those bottlenecks directly. We measure aggregate PR AUC plus
+  per-channel field-range correlation with king-safety scoring.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Edge costs and
+  seed costs are projected from the i193 trunk joint feature and pass
+  through softplus + bias to stay strictly positive. CRTK metadata,
+  source labels, verification flags, engine evaluations, Stockfish
+  scores, principal variations, and any report-only metadata are not
+  consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, eikonal_field_mean,
+  eikonal_field_max, eikonal_field_min, eikonal_field_range, plus the
+  i193 trunk diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: project
+  trunk joint feature to per-channel edge cost field and seed cost
+  field, run ``num_iterations`` soft Bellman-Ford relaxations on the
+  fixed 8x8 king-neighbour graph (eight neighbours per cell), pool the
+  arrival field, project to a scalar gated delta.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p039_occupancy_eikonal_transform/train.py
+config_path: ideas/registry/p039_occupancy_eikonal_transform/config.yaml
+model_path: ideas/registry/p039_occupancy_eikonal_transform/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-3 proposal in
+  ideas/research/primitives/external_34_active_esp_conflict_matching_eikonal_primitives.md
+  (because the rank-1 proposal duplicates p024).
+source_primitive_path: ideas/research/primitives/external_34_active_esp_conflict_matching_eikonal_primitives.md
+source_packet_candidate: primitive_occupancy_eikonal
+mechanism_family: response_constraint

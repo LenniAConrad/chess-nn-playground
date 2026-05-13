@@ -1,0 +1,69 @@
+idea_id: p040
+name: Conservation-Nullspace Normalization
+slug: conservation_nullspace_norm
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-orbit-boolean-algebra primitive batch)
+short_thesis: |
+  Normalise a per-square latent ``X in R^{B, 64, d}`` after projecting
+  out a fixed low-rank subspace spanned by rule-derived conserved
+  charges (constant, file, rank, parity, king-zone proximity, edge /
+  corner indicators). The residual ``R = X - CM`` (with
+  ``M = (C^T D C + eps I)^{-1} C^T D X``) is what is left after the
+  conservation bookkeeping; per-channel weighted variance normalisation
+  follows. The pooled residual norm, charge coefficients, and per-
+  channel sigma form a gated additive logit delta over the i193 trunk.
+novelty_claim: |
+  Distinct from LayerNorm / BatchNorm / GroupNorm: those normalise over
+  fixed axes; ConserveNorm normalises over the *nullspace of a per-
+  position constraint matrix*. The closest neighbour is GLinSAT, but
+  that projects onto bounded linear constraints; this primitive is an
+  internal activation normaliser with a constraint-dependent residual
+  and weighted variance. The charge matrix is a rule-derived static
+  buffer, so the projection is fixed -- not learned -- which is what
+  makes it a primitive rather than a learned layer.
+expected_advantage: |
+  Targeted lift on slices where chess "bookkeeping" (file, rank, parity,
+  king-zone) dominates easy positions and would otherwise crowd out
+  tactical residuals from later channels. We measure aggregate PR AUC
+  plus near-puzzle FP on positions where the conservation projection
+  explains > median fraction of the latent.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Per-square latents
+  are projected from the i193 joint feature. Per-square weights are a
+  1x1 convolution of the simple_18 tensor passed through
+  ``softplus + weight_bias`` so they stay strictly positive. The
+  conserved-charge matrix is fixed and rule-derived from board
+  geometry. CRTK metadata, source labels, verification flags, engine
+  evaluations, Stockfish scores, principal variations, and any
+  report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, cnnorm_residual_norm,
+  cnnorm_x_norm, cnnorm_explained_frac, cnnorm_sum_weight,
+  cnnorm_sigma_mean, plus the i193 trunk diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: project
+  trunk joint feature to per-square latent ``X``; per-square weights
+  from 1x1 conv of the simple_18 board; assemble SPD
+  ``A = C^T D C + eps I`` and ``b = C^T D X``; Cholesky solve for
+  ``M = A^{-1} b``; residual ``R = X - C M``; weighted variance
+  normalisation across the 64 squares with per-channel affine
+  ``gamma, beta``; pool the residual norm, ``M``, and ``sigma`` into a
+  gated additive delta.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p040_conservation_nullspace_norm/train.py
+config_path: ideas/registry/p040_conservation_nullspace_norm/config.yaml
+model_path: ideas/registry/p040_conservation_nullspace_norm/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-2 proposal in
+  ideas/research/primitives/external_35_espa_conservation_isotypic_green_primitives.md
+  (because rank-1 duplicates p024).
+source_primitive_path: ideas/research/primitives/external_35_espa_conservation_isotypic_green_primitives.md
+source_packet_candidate: primitive_conserve_norm
+mechanism_family: response_constraint

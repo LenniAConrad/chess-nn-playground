@@ -1,0 +1,70 @@
+idea_id: p038
+name: Woodbury Set Resolver
+slug: woodbury_set_resolver
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-orbit-boolean-algebra primitive batch)
+short_thesis: |
+  Active-set inverse-precision memory ``A = lambda I + sum_i U_i U_i^T``
+  with cross-covariance ``S = sum_i U_i V_i^T``. The primitive returns
+  ``Y = Q A^{-1} S`` plus the log-determinant ``log det A`` and per-token
+  leverage scores ``l_i = U_i^T A^{-1} U_i``. At engine inference the
+  inverse is maintained by exact rank-one Sherman-Morrison add/delete on
+  each piece move; at training time we run the static recomputation
+  once per sample. The pooled queries, leverage, and log-determinant
+  form an additive gated logit delta over the i193 trunk.
+novelty_claim: |
+  Distinct from linear attention (no softmax, no key-token
+  normalisation; the output is computed through an SPD inverse and the
+  gradient passes through that inverse). The defining operation is the
+  inverse-precision resolver with rank-one update semantics, not a
+  generic ``torch.linalg.solve`` glued into a model. The same operator
+  also covers the rank-1 resolvent pool proposal in
+  ``external_36_exterior_product_rank1_resolvent_primitives.md`` so the
+  worktree deduplicates aggressively.
+expected_advantage: |
+  Targeted lift on slices where chess resources are correlated /
+  overloaded (multiple defenders that encode the same latent direction
+  are downweighted by the inverse). We measure aggregate PR AUC and the
+  near-puzzle FP rate on positions where the leverage variance across
+  pieces is high (positions with one piece carrying most of the
+  evidence).
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor (same
+  contract i193 and i248 follow).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The active-piece
+  set is derived rule-exactly from the simple_18 piece planes; tokens
+  include the piece planes plus side-to-move and the four castling
+  flags. CRTK metadata, source labels, verification flags, engine
+  evaluations, Stockfish scores, principal variations, and any
+  report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, wsr_active_count,
+  wsr_logdet_A, wsr_leverage_mean, wsr_leverage_max, wsr_A_norm, plus
+  the i193 trunk diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: per-
+  square token = piece planes + STM + castling -> u (R^r) and v (R^d_v)
+  projections; gather A and S over occupied squares; Cholesky-solve to
+  obtain ``A^{-1} S`` and per-token leverage scores; project queries
+  derived from the trunk joint feature, concat with leverage mean +
+  logdet, pass through the readout MLP.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p038_woodbury_set_resolver/train.py
+config_path: ideas/registry/p038_woodbury_set_resolver/config.yaml
+model_path: ideas/registry/p038_woodbury_set_resolver/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-3 proposal in
+  ideas/research/primitives/external_33_esp_permanent_woodbury_orbit_primitives.md
+  (because ranks 1 and 4 duplicate p024 and p036 respectively). Also
+  deduplicates the rank-2 proposal in
+  external_36_exterior_product_rank1_resolvent_primitives.md
+  (``primitive_rank1_resolvent_pool``).
+source_primitive_path: ideas/research/primitives/external_33_esp_permanent_woodbury_orbit_primitives.md
+source_packet_candidate: primitive_woodbury_resolver
+mechanism_family: response_constraint

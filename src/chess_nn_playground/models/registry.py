@@ -354,6 +354,24 @@ from chess_nn_playground.models.primitives.octilinear_selective_scan import (
 from chess_nn_playground.models.primitives.sparse_legal_graph_transition import (
     build_sparse_legal_graph_transition_from_config,
 )
+from chess_nn_playground.models.primitives.canonical_orbit_st_operator import (
+    build_canonical_orbit_st_operator_from_config,
+)
+from chess_nn_playground.models.primitives.gibbs_cut_log_partition import (
+    build_gibbs_cut_log_partition_from_config,
+)
+from chess_nn_playground.models.primitives.woodbury_set_resolver import (
+    build_woodbury_set_resolver_from_config,
+)
+from chess_nn_playground.models.primitives.occupancy_eikonal_transform import (
+    build_occupancy_eikonal_transform_from_config,
+)
+from chess_nn_playground.models.primitives.conservation_nullspace_norm import (
+    build_conservation_nullspace_norm_from_config,
+)
+from chess_nn_playground.models.primitives.truncated_exterior_product_pool import (
+    build_truncated_exterior_product_pool_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -1003,6 +1021,12 @@ MODEL_BUILDERS = {
     "move_kernel_operator": build_move_kernel_operator_from_config,
     "octilinear_selective_scan": build_octilinear_selective_scan_from_config,
     "sparse_legal_graph_transition": build_sparse_legal_graph_transition_from_config,
+    "canonical_orbit_st_operator": build_canonical_orbit_st_operator_from_config,
+    "gibbs_cut_log_partition": build_gibbs_cut_log_partition_from_config,
+    "woodbury_set_resolver": build_woodbury_set_resolver_from_config,
+    "occupancy_eikonal_transform": build_occupancy_eikonal_transform_from_config,
+    "conservation_nullspace_norm": build_conservation_nullspace_norm_from_config,
+    "truncated_exterior_product_pool": build_truncated_exterior_product_pool_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
