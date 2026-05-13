@@ -1,0 +1,81 @@
+idea_id: p046
+name: Bounded Subset Log-Partition Transform
+slug: subset_logpartition
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-polynomial-hodge-rook primitive batch)
+short_thesis: |
+  Bounded Subset Log-Partition (SLPT). Compute the log-domain
+  truncated elementary-symmetric polynomial
+
+      Y[k, c] = log sum_{|S|=k} exp sum_{i in S} A[i, c]
+
+  via the fused log-semiring recurrence
+  ``C^{(i)}[k, c] = logaddexp(C^{(i-1)}[k, c], C^{(i-1)}[k-1, c] + A[i, c])``
+  over per-square log-weights ``A[i, c]`` and the occupancy mask. The
+  stacked log-partition tensor (B, K, C) is concatenated with the
+  i193 trunk joint pool and projected to a scalar additive gated
+  logit delta. Gradients are the subset marginals
+  ``Pr(i in S | |S| = k, c)``, computed by autograd through the log-
+  semiring scan.
+novelty_claim: |
+  This is the log-domain counterpart of p042 truncated_multiset_
+  polynomial_pool. The recurrence is a scan in the log-semiring (max-
+  plus replaced by ``logaddexp``); the backward is exactly the subset
+  marginal probability. It is *not* sparsemax, top-k, or attention.
+  K=1 collapses to a logsumexp pool over active tokens; the
+  load-bearing claim is that K>=2 carries subset-marginal signal that
+  additive pooling does not.
+expected_advantage: |
+  The source primitive predicts >= 5% relative class-1 near-puzzle FP
+  reduction at matched recall with <= 10% inference slowdown.
+  Expected target slice: positions where the existence of *k* supporting
+  pieces (not their sum) flips the tactical evaluation -- e.g. "two
+  defenders left" vs "one defender left" near-puzzles.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Per-square log-weights are projected
+  from the 12 piece-presence planes plus the side-to-move plane and
+  LayerNormed (real-valued, not tanh-bounded since the operator runs
+  in log domain). Occupancy mask is the sum of piece-presence planes.
+  CRTK metadata, source labels, verification flags, engine evaluations,
+  and principal variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``slpt_active_mean``, ``slpt_logpartition_norm``, and per-degree
+  log-partition means ``slpt_y1`` / ``slpt_y2`` / ``slpt_y3``. The
+  trunk's i193 diagnostics are forwarded under the ``trunk_<name>``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The SLPT
+  head adds the log-weight projector (Linear + LayerNorm), the log-
+  semiring scan over 64 squares (K logaddexp ops per token), a
+  coefficient LayerNorm, a two-layer delta MLP, and a two-layer gate
+  MLP. The scan is autograd-friendly: ``logaddexp`` has a well-defined
+  reverse mode and the marginal-probability gradient is recovered
+  automatically. Head adds ~80k parameters at defaults.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p046_subset_logpartition/train.py
+config_path: ideas/registry/p046_subset_logpartition/config.yaml
+model_path: ideas/registry/p046_subset_logpartition/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md
+  (Section 2 ``primitive_subset_logpartition``; the file's #2 proposal,
+  promoted over #1 because #1 ``primitive_orbit_stabilizer_canonical``
+  is in the orbit/irrep family deferred to a future symmetry batch
+  and overlaps with the unimplemented #1 of external_39). Deferred
+  internal proposals: ``primitive_exterior_wedge_pool`` (antisymmetric
+  k-blade pool; deferred to a "wedge / Pfaffian" batch),
+  ``primitive_lovasz_chain_pool`` (submodular Lovasz extension;
+  related to Choquet, deferred), ``primitive_pfaffian_conflict_pool``
+  (Pfaffian over signed pairings; flagged low scout demonstrability).
+source_primitive_path: ideas/research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md
+source_primitive_candidate: Bounded Subset Log-Partition Transform
+source_packet_path: ideas/research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md
+source_packet_candidate: Bounded Subset Log-Partition Transform
+mechanism_family: log_semiring_ledger

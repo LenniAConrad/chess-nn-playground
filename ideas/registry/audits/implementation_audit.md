@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `281`
+- Ideas audited: `286`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 275 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 280 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -316,6 +316,11 @@ These folders were previously easy to read as distinct implemented architectures
 | `p033` | `ideas/registry/p033_move_kernel_operator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `move_kernel_operator` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p034` | `ideas/registry/p034_octilinear_selective_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `octilinear_selective_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p035` | `ideas/registry/p035_sparse_legal_graph_transition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_legal_graph_transition` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p042` | `ideas/registry/p042_truncated_multiset_polynomial_pool` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `truncated_multiset_polynomial_pool` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p043` | `ideas/registry/p043_grassmann_rook_pool` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `grassmann_rook_pool` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p044` | `ideas/registry/p044_weighted_hodge_projector` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `weighted_hodge_projector` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p045` | `ideas/registry/p045_kirchhoff_mobility_solve` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `kirchhoff_mobility_solve` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p046` | `ideas/registry/p046_subset_logpartition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `subset_logpartition` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 

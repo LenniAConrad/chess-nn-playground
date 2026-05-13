@@ -354,6 +354,21 @@ from chess_nn_playground.models.primitives.octilinear_selective_scan import (
 from chess_nn_playground.models.primitives.sparse_legal_graph_transition import (
     build_sparse_legal_graph_transition_from_config,
 )
+from chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool import (
+    build_truncated_multiset_polynomial_pool_from_config,
+)
+from chess_nn_playground.models.primitives.grassmann_rook_pool import (
+    build_grassmann_rook_pool_from_config,
+)
+from chess_nn_playground.models.primitives.weighted_hodge_projector import (
+    build_weighted_hodge_projector_from_config,
+)
+from chess_nn_playground.models.primitives.kirchhoff_mobility_solve import (
+    build_kirchhoff_mobility_solve_from_config,
+)
+from chess_nn_playground.models.primitives.subset_logpartition import (
+    build_subset_logpartition_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -1003,6 +1018,11 @@ MODEL_BUILDERS = {
     "move_kernel_operator": build_move_kernel_operator_from_config,
     "octilinear_selective_scan": build_octilinear_selective_scan_from_config,
     "sparse_legal_graph_transition": build_sparse_legal_graph_transition_from_config,
+    "truncated_multiset_polynomial_pool": build_truncated_multiset_polynomial_pool_from_config,
+    "grassmann_rook_pool": build_grassmann_rook_pool_from_config,
+    "weighted_hodge_projector": build_weighted_hodge_projector_from_config,
+    "kirchhoff_mobility_solve": build_kirchhoff_mobility_solve_from_config,
+    "subset_logpartition": build_subset_logpartition_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

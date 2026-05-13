@@ -5774,6 +5774,111 @@
       ],
       "source_markers": [],
       "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p042_truncated_multiset_polynomial_pool/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p042_truncated_multiset_polynomial_pool",
+      "idea_id": "p042",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "truncated_multiset_polynomial_pool",
+      "slug": "truncated_multiset_polynomial_pool",
+      "source_files": [
+        "ideas/registry/p042_truncated_multiset_polynomial_pool/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/truncated_multiset_polynomial_pool.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p043_grassmann_rook_pool/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p043_grassmann_rook_pool",
+      "idea_id": "p043",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "grassmann_rook_pool",
+      "slug": "grassmann_rook_pool",
+      "source_files": [
+        "ideas/registry/p043_grassmann_rook_pool/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/grassmann_rook_pool.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p044_weighted_hodge_projector/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p044_weighted_hodge_projector",
+      "idea_id": "p044",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "weighted_hodge_projector",
+      "slug": "weighted_hodge_projector",
+      "source_files": [
+        "ideas/registry/p044_weighted_hodge_projector/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/weighted_hodge_projector.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p045_kirchhoff_mobility_solve/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p045_kirchhoff_mobility_solve",
+      "idea_id": "p045",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "kirchhoff_mobility_solve",
+      "slug": "kirchhoff_mobility_solve",
+      "source_files": [
+        "ideas/registry/p045_kirchhoff_mobility_solve/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/kirchhoff_mobility_solve.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p046_subset_logpartition/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p046_subset_logpartition",
+      "idea_id": "p046",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "subset_logpartition",
+      "slug": "subset_logpartition",
+      "source_files": [
+        "ideas/registry/p046_subset_logpartition/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/subset_logpartition.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
     }
   ],
   "summary": {
@@ -6052,9 +6157,14 @@
       "ideas/registry/p032_dynamic_adjacency_gating",
       "ideas/registry/p033_move_kernel_operator",
       "ideas/registry/p034_octilinear_selective_scan",
-      "ideas/registry/p035_sparse_legal_graph_transition"
+      "ideas/registry/p035_sparse_legal_graph_transition",
+      "ideas/registry/p042_truncated_multiset_polynomial_pool",
+      "ideas/registry/p043_grassmann_rook_pool",
+      "ideas/registry/p044_weighted_hodge_projector",
+      "ideas/registry/p045_kirchhoff_mobility_solve",
+      "ideas/registry/p046_subset_logpartition"
     ],
-    "implemented_architecture_count": 275,
+    "implemented_architecture_count": 280,
     "issue_folders": [],
     "validation_issue_count": 0
   }

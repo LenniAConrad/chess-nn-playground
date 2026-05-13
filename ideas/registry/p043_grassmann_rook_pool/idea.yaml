@@ -1,0 +1,77 @@
+idea_id: p043
+name: Grassmann Rook-Matching Pool
+slug: grassmann_rook_pool
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-polynomial-hodge-rook primitive batch)
+short_thesis: |
+  Grassmann Rook-Matching Pool (GRMP). Compute the truncated matching-
+  polynomial coefficients of a learned bipartite attacker/defender
+  edge-score tensor with row/column-disjoint enforcement. Coefficients
+  ``e_k = sum_{|S|=k disjoint} prod_{(i,j) in S} z_{ij}`` are computed
+  in closed form for K = 1, 2 (and via an O(R*C) exclusion scan for
+  K = 3) over learned attacker tokens ``a_1,...,a_R`` and defender
+  tokens ``d_1,...,d_C`` pooled from the i193 spatial features. The
+  resulting (B, K, H) coefficient stack is concatenated with the
+  trunk joint pool and projected to a gated logit delta.
+novelty_claim: |
+  The operator enforces row/column exclusivity algebraically inside the
+  product (nilpotent generators ``epsilon_i ^ eta_j``) instead of via
+  attention masks or Sinkhorn iteration. The output is the
+  matching-polynomial coefficient vector, not a doubly-stochastic
+  assignment matrix. K = 1 collapses to bilinear pooling; the
+  ``drop_exclusion`` ablation collapses to the same bilinear baseline
+  even at K = 2, so the load-bearing claim is that row/column
+  exclusion contributes signal beyond bilinear pooling.
+expected_advantage: |
+  The source primitive predicts a >= 5% relative class-1 near-puzzle
+  FP reduction at matched recall with <= 20% latency hit on CRTK
+  class 1. Expected target slice: positions where two threats compete
+  for the same defender or two attackers compete for the same target,
+  i.e. mutually exclusive tactical resources.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Attacker and defender tokens are
+  compiled from the i193 spatial feature map via two independent
+  ``BoardTokenAttention`` pools (separate learned queries per side).
+  Per-token validity is a learned sigmoid mask. CRTK metadata, source
+  labels, verification flags, engine evaluations, and principal
+  variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``grmp_attacker_count`` / ``grmp_defender_count``, ``grmp_coeff_norm``,
+  and per-degree coefficient norms ``grmp_coeff_e1`` / ``grmp_coeff_e2``
+  / ``grmp_coeff_e3``. The trunk's i193 diagnostics are forwarded
+  under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The GRMP
+  head adds two ``BoardTokenAttention`` pools, two mask heads, a
+  bilinear edge scorer, a coefficient LayerNorm, a two-layer delta
+  MLP, and a two-layer gate MLP. The dominant cost is the
+  ``(B, R, C, H)`` edge tensor where R = num_attackers and
+  C = num_defenders. At defaults (R=C=8, H=8), that tensor is
+  (B, 8, 8, 8) — tiny. K=3 adds an O(R*C) Python loop; K=2 is fully
+  vectorised. Head adds ~30k parameters at defaults.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p043_grassmann_rook_pool/train.py
+config_path: ideas/registry/p043_grassmann_rook_pool/config.yaml
+model_path: ideas/registry/p043_grassmann_rook_pool/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md
+  (Section ``primitive_grassmann_rook_pool``; the file's #2 proposal).
+  The file's #1 ``primitive_polynomial_ledger`` overlaps with p042
+  TMPP and is implemented there to avoid duplication. Deferred
+  internal proposals from the same file: ``primitive_matroid_sparsemax``
+  (matroid-constrained sparse pooling; related to p001 PAFR family),
+  ``primitive_irrepnorm`` and ``primitive_poset_conenorm`` (orbit/irrep
+  and order-cone normalisation; deferred to a future symmetry batch).
+source_primitive_path: ideas/research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md
+source_primitive_candidate: Grassmann Rook-Matching Pool
+source_packet_path: ideas/research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md
+source_packet_candidate: Grassmann Rook-Matching Pool
+mechanism_family: rook_matching

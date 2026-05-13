@@ -9529,15 +9529,185 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p042_truncated_multiset_polynomial_pool",
+      "idea_id": "p042",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "truncated_multiset_polynomial_pool",
+      "scaffold": null,
+      "slug": "truncated_multiset_polynomial_pool",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool.build_truncated_multiset_polynomial_pool_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool.build_truncated_multiset_polynomial_pool_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool.TruncatedMultisetPolynomialPool",
+          "chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool.build_truncated_multiset_polynomial_pool_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p043_grassmann_rook_pool",
+      "idea_id": "p043",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "grassmann_rook_pool",
+      "scaffold": null,
+      "slug": "grassmann_rook_pool",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.grassmann_rook_pool.build_grassmann_rook_pool_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.grassmann_rook_pool.build_grassmann_rook_pool_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.grassmann_rook_pool.GrassmannRookPool",
+          "chess_nn_playground.models.primitives.grassmann_rook_pool.build_grassmann_rook_pool_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p044_weighted_hodge_projector",
+      "idea_id": "p044",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "weighted_hodge_projector",
+      "scaffold": null,
+      "slug": "weighted_hodge_projector",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.weighted_hodge_projector.build_weighted_hodge_projector_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.weighted_hodge_projector.build_weighted_hodge_projector_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.weighted_hodge_projector.WeightedHodgeProjector",
+          "chess_nn_playground.models.primitives.weighted_hodge_projector.build_weighted_hodge_projector_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p045_kirchhoff_mobility_solve",
+      "idea_id": "p045",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "kirchhoff_mobility_solve",
+      "scaffold": null,
+      "slug": "kirchhoff_mobility_solve",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.kirchhoff_mobility_solve.build_kirchhoff_mobility_solve_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.kirchhoff_mobility_solve.build_kirchhoff_mobility_solve_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.kirchhoff_mobility_solve.KirchhoffMobilitySolve",
+          "chess_nn_playground.models.primitives.kirchhoff_mobility_solve.build_kirchhoff_mobility_solve_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p046_subset_logpartition",
+      "idea_id": "p046",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "subset_logpartition",
+      "scaffold": null,
+      "slug": "subset_logpartition",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.subset_logpartition.build_subset_logpartition_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.subset_logpartition.build_subset_logpartition_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.subset_logpartition.SubsetLogPartition",
+          "chess_nn_playground.models.primitives.subset_logpartition.build_subset_logpartition_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 275,
+      "bespoke_model": 280,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 275,
+      "bespoke_model": 280,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -9550,7 +9720,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 281,
+    "total": 286,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

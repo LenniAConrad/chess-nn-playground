@@ -138,6 +138,11 @@ discover_primitive_tests() {
     "$ROOT_DIR/tests/test_move_kernel_operator.py"
     "$ROOT_DIR/tests/test_octilinear_selective_scan.py"
     "$ROOT_DIR/tests/test_sparse_legal_graph_transition.py"
+    "$ROOT_DIR/tests/test_truncated_multiset_polynomial_pool.py"
+    "$ROOT_DIR/tests/test_grassmann_rook_pool.py"
+    "$ROOT_DIR/tests/test_weighted_hodge_projector.py"
+    "$ROOT_DIR/tests/test_kirchhoff_mobility_solve.py"
+    "$ROOT_DIR/tests/test_subset_logpartition.py"
   )
 
   local test_path
