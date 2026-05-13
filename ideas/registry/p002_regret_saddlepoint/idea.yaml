@@ -1,0 +1,69 @@
+idea_id: p002
+name: Regret Saddlepoint Primitive
+slug: regret_saddlepoint_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Codex (RSP promotion from research packet)
+short_thesis: |
+  A near-puzzle can have one huge-looking forcing row in a candidate /
+  reply payoff table but one defensive column that refutes it. Pure
+  max-pool over candidate claims overfires; mean-pool washes out
+  decisive structure. The Regret Saddlepoint (RSP) primitive solves the
+  entropy-regularized zero-sum game over the payoff table and returns
+  the saddle value, both equilibrium strategies, attacker/defender
+  regrets, and exploitability — compact tactical pressure diagnostics
+  that the i193 trunk does not currently expose.
+novelty_claim: |
+  No existing registry entry exposes a differentiable entropy-regularized
+  saddlepoint solver as a first-class neural primitive over a learned
+  candidate / reply payoff table, returning value, both strategies, and
+  exploitability as model outputs. The closest neighbours
+  (`response_minimax_classifier`, `tactical_equilibrium_network`) use
+  scalar-pooled minimax surrogates, not a regularized game solver with
+  exploitability diagnostics.
+expected_advantage: |
+  Targeted lift on cyclic / hard / very-hard slices and equal-eval
+  near-puzzles versus i193, with payoff row/column shuffling
+  destroying most of the gain. Promotion criterion per the source
+  packet: improve matched-recall near-puzzle FP by at least 3% over
+  i193, beat WCQ on the same parent for cyclic cases.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. Candidate and reply tokens are
+  compiled inside the model from the i193 trunk's spatial features
+  via two `BoardTokenAttention` pools. The payoff table is a learned
+  bilinear product. CRTK metadata, source labels, verification flags,
+  engine evaluations, and any report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  rsp_saddle_value, rsp_attacker_regret, rsp_defender_regret,
+  rsp_exploitability, rsp_attacker_entropy, rsp_defender_entropy,
+  rsp_best_witness_index, rsp_best_reply_index, plus all i193
+  diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: two
+  set-query attention pools (16 candidates, 12 replies), bilinear
+  payoff table, damped soft saddle solver (24 iterations by default),
+  and a small fusion MLP. Forward cost is
+  `O(T * K * R)` per board with `T = solver_iters`. For `K = 16`,
+  `R = 12`, `T = 24` this is `~4608` ops per board, cheap relative to
+  the trunk encoder cost.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p002_regret_saddlepoint/train.py
+config_path: ideas/registry/p002_regret_saddlepoint/config.yaml
+model_path: ideas/registry/p002_regret_saddlepoint/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/codex_02_regret_saddlepoint.md.
+  Bespoke additive saddlepoint head over the i193 trunk. CRTK metadata
+  is reporting-only and never used as model input. Shares the
+  BoardTokenAttention compiler and trunk-feature helper with the rest
+  of the p001-p005 batch.
+source_primitive_path: ideas/research/primitives/codex_02_regret_saddlepoint.md
+source_packet_path: ideas/research/primitives/codex_02_regret_saddlepoint.md
+source_packet_candidate: Regret Saddlepoint Primitive
+mechanism_family: king_path

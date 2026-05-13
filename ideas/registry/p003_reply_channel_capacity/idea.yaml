@@ -1,0 +1,65 @@
+idea_id: p003
+name: Reply Channel Capacity Primitive
+slug: reply_channel_capacity_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Codex (RCC promotion from research packet)
+short_thesis: |
+  For true forcing tactics good candidate moves induce sharp,
+  distinguishable defender-reply distributions; near-puzzle landscapes
+  often look diffuse, with many viable replies. Reply entropy alone
+  cannot tell those apart. The Reply Channel Capacity (RCC) primitive
+  computes the Blahut-Arimoto channel capacity over the learned
+  candidate-to-reply transition table and surfaces capacity (nats and
+  bits), the capacity-achieving candidate prior, the reply marginal,
+  and conditional / output entropies as first-class diagnostics on top
+  of the i193 trunk.
+novelty_claim: |
+  No existing registry entry exposes a differentiable Blahut-Arimoto
+  channel-capacity reducer as a first-class neural primitive over a
+  learned candidate/reply transition table. The closest neighbour
+  (`i192_latent_reply_entropy_network`) uses scalar entropy
+  diagnostics, not the capacity-achieving prior or the full
+  candidate / reply mutual-information structure.
+expected_advantage: |
+  Targeted lift on matched-recall near-puzzle FP versus reply-entropy-
+  only baselines, with row-shuffled or duplicate-row controls losing
+  most of the gain. Promotion criterion per the source packet:
+  >= 2% improvement over reply-entropy-only on the same parent.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. Candidate and reply tokens are
+  compiled inside the model from the i193 trunk's spatial features
+  via two `BoardTokenAttention` pools. The reply logit table is a
+  learned bilinear product. CRTK metadata, source labels, verification
+  flags, engine evaluations, and report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  rcc_capacity_nats, rcc_capacity_bits, rcc_conditional_entropy,
+  rcc_output_entropy, rcc_capacity_gap, rcc_prior_entropy,
+  rcc_marginal_entropy, plus all i193 diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: two
+  set-query attention pools (16 candidates, 12 replies), bilinear
+  reply-logit table, damped Blahut-Arimoto-style solver
+  (24 iterations by default), and a small fusion MLP. Forward cost is
+  `O(T * K * R)` per board.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p003_reply_channel_capacity/train.py
+config_path: ideas/registry/p003_reply_channel_capacity/config.yaml
+model_path: ideas/registry/p003_reply_channel_capacity/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/codex_03_reply_channel_capacity.md.
+  Bespoke additive channel-capacity head over the i193 trunk. CRTK
+  metadata is reporting-only and never used as model input. Shares the
+  BoardTokenAttention compiler and trunk-feature helper with the rest
+  of the p001-p005 batch.
+source_primitive_path: ideas/research/primitives/codex_03_reply_channel_capacity.md
+source_packet_path: ideas/research/primitives/codex_03_reply_channel_capacity.md
+source_packet_candidate: Reply Channel Capacity Primitive
+mechanism_family: king_path

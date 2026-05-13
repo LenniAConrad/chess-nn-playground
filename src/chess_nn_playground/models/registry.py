@@ -249,6 +249,21 @@ from chess_nn_playground.models.primitives.complex_amplitude_chess_network impor
 from chess_nn_playground.models.primitives.promotion_aware_head import (
     build_promotion_aware_head_from_config,
 )
+from chess_nn_playground.models.primitives.pareto_antichain_frontier_network import (
+    build_pareto_antichain_frontier_network_from_config,
+)
+from chess_nn_playground.models.primitives.regret_saddlepoint_network import (
+    build_regret_saddlepoint_network_from_config,
+)
+from chess_nn_playground.models.primitives.reply_channel_capacity_network import (
+    build_reply_channel_capacity_network_from_config,
+)
+from chess_nn_playground.models.primitives.tail_copula_concordance_network import (
+    build_tail_copula_concordance_network_from_config,
+)
+from chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network import (
+    build_witness_counterwitness_quantifier_network_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -863,6 +878,11 @@ MODEL_BUILDERS = {
     "pair_resonance_hessian_network": build_pair_resonance_hessian_network_from_config,
     "complex_amplitude_chess_network": build_complex_amplitude_chess_network_from_config,
     "promotion_aware_head": build_promotion_aware_head_from_config,
+    "pareto_antichain_frontier_network": build_pareto_antichain_frontier_network_from_config,
+    "regret_saddlepoint_network": build_regret_saddlepoint_network_from_config,
+    "reply_channel_capacity_network": build_reply_channel_capacity_network_from_config,
+    "tail_copula_concordance_network": build_tail_copula_concordance_network_from_config,
+    "witness_counterwitness_quantifier_network": build_witness_counterwitness_quantifier_network_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

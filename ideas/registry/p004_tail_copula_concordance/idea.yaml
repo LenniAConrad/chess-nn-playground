@@ -1,0 +1,67 @@
+idea_id: p004
+name: Tail Copula Concordance Primitive
+slug: tail_copula_concordance_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Codex (TCC promotion from research packet)
+short_thesis: |
+  Two boards with identical per-channel marginal quantiles can have
+  evidence extremes either co-located on the same squares (a real
+  tactic with multiple aligned signals) or scattered across unrelated
+  squares (a near-puzzle with the same marginal "amount of texture" on
+  different sites). The Tail Copula Concordance (TCC) primitive ranks
+  each channel via differentiable soft-rank, isolates the upper-tail
+  membership, and measures cross-channel co-extremity on the same
+  sites. It exposes the symmetric tail concordance matrix, pooled tail
+  mean / max, and per-site tail mass as first-class diagnostics on top
+  of the i193 trunk.
+novelty_claim: |
+  No existing registry entry exposes a differentiable rank-copula
+  upper-tail concordance reducer as a first-class neural primitive
+  over per-square evidence channels. The closest neighbour
+  (`i095_rank_quantile_evidence_field_network`) sorts each channel
+  independently and pools quantiles — it cannot see whether channels
+  share an upper tail on the same sites. TCC combines differentiable
+  ranks, soft tail membership, and tail-dependence concordance into a
+  reusable layer.
+expected_advantage: |
+  Targeted lift on hard / very-hard near-puzzles where the trunk
+  underfits cross-channel evidence alignment, with square-shuffle and
+  channel-shuffle controls losing most of the gain. Promotion
+  criterion per the source packet: >= 2% improvement over
+  rank-quantile pooling only.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. The 64-site evidence field is
+  computed by a 1x1 conv head on the i193 trunk's spatial features.
+  CRTK metadata, source labels, verification flags, engine
+  evaluations, and report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  tcc_tail_mean, tcc_tail_max, tcc_channel_mass_mean,
+  tcc_channel_mass_max, tcc_concordance_trace, tcc_site_mass_max,
+  plus all i193 diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a
+  small 1x1 conv that projects spatial features to C evidence
+  channels, a pairwise soft-rank `O(N^2 * C)` quadratic in sites,
+  upper-tail membership, tail concordance `O(N * C^2)`, and a small
+  fusion MLP. For N = 64 and C = 6 this is `~25k` ops per board.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p004_tail_copula_concordance/train.py
+config_path: ideas/registry/p004_tail_copula_concordance/config.yaml
+model_path: ideas/registry/p004_tail_copula_concordance/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/codex_04_tail_copula_concordance.md.
+  Bespoke additive tail-copula head over the i193 trunk. CRTK metadata
+  is reporting-only and never used as model input. Shares the
+  trunk-feature helper with the rest of the p001-p005 batch.
+source_primitive_path: ideas/research/primitives/codex_04_tail_copula_concordance.md
+source_packet_path: ideas/research/primitives/codex_04_tail_copula_concordance.md
+source_packet_candidate: Tail Copula Concordance Primitive
+mechanism_family: king_path
