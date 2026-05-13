@@ -1,6 +1,6 @@
 # Idea Implementation Conformance Audit
 
-- Ideas audited: `243`
+- Ideas audited: `248`
 - Packet-probe ideas: `6`
 - Rows with issues before fix: `0`
 - Rows changed: `0`
@@ -251,3 +251,8 @@
 | `i241` | `multistream_attention_chess_eval` | `False` | `-` | - | - | - |
 | `i242` | `chess_decomposed_attention` | `False` | `king_path` | - | - | - |
 | `i243` | `halfka_dual_stream_lc0` | `False` | `-` | - | - | - |
+| `i244` | `tempo_defender_cross_derivative_network` | `False` | `tempo` | - | - | - |
+| `i245` | `pair_resonance_hessian_network` | `False` | `counterfactual` | - | - | - |
+| `i246` | `promotion_aware_head` | `False` | `counterfactual` | - | - | - |
+| `i247` | `complex_amplitude_chess_network` | `False` | `counterfactual` | - | - | - |
+| `i248` | `rule_aware_tactical_head` | `False` | `king_path` | - | - | - |

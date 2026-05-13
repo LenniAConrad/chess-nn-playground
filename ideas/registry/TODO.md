@@ -12,10 +12,10 @@ Benchmark the fully implemented bespoke architectures first. Shared-probe folder
 
 Current execution state:
 
-- Registered idea folders: `243`
+- Registered idea folders: `248`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `228`
-- Bespoke model implementations: `235`
+- Fully implemented architectures still needing a linked benchmark run: `233`
+- Bespoke model implementations: `240`
 - Shared ResearchPacketProbe variants: `6`
 
 Recommended immediate sequence:
@@ -34,7 +34,7 @@ Benchmark queue by ID:
 - Batch 7: `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`
 - Batch 8: `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`
 - Batch 9: `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`
-- Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`
+- Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -302,6 +302,11 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [ ] | `i241` | [Multi-Stream Chess-Decomposed Transformer Evaluator](i241_multistream_attention_chess_eval) | no | `unknown` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i242` | [Chess-Decomposed Attention Network](i242_chess_decomposed_attention) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [ ] | `i243` | [HalfKA Dual-Stream LC0 Evaluator](i243_halfka_dual_stream_lc0) | no | `unknown` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i244` | [Tempo-Defender Cross-Derivative Network](i244_tempo_defender_cross_derivative_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i245` | [Pair-Resonance Hessian Network](i245_pair_resonance_hessian_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 
 ## Research Packet Backlog
 

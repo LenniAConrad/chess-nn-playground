@@ -2686,5 +2686,60 @@
     "model_name": "",
     "packet_probe": false,
     "slug": "halfka_dual_stream_lc0"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "tempo",
+    "idea_id": "i244",
+    "issues": [],
+    "model_name": "tempo_defender_cross_derivative_network",
+    "packet_probe": false,
+    "slug": "tempo_defender_cross_derivative_network"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "counterfactual",
+    "idea_id": "i245",
+    "issues": [],
+    "model_name": "pair_resonance_hessian_network",
+    "packet_probe": false,
+    "slug": "pair_resonance_hessian_network"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "counterfactual",
+    "idea_id": "i246",
+    "issues": [],
+    "model_name": "promotion_aware_head",
+    "packet_probe": false,
+    "slug": "promotion_aware_head"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "counterfactual",
+    "idea_id": "i247",
+    "issues": [],
+    "model_name": "complex_amplitude_chess_network",
+    "packet_probe": false,
+    "slug": "complex_amplitude_chess_network"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "king_path",
+    "idea_id": "i248",
+    "issues": [],
+    "model_name": "rule_aware_tactical_head",
+    "packet_probe": false,
+    "slug": "rule_aware_tactical_head"
   }
 ]

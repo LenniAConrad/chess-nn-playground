@@ -16,7 +16,7 @@
       "source_files": [
         "ideas/registry/i001_chess_operator_basis_classifier/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/chess_operator_basis.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -37,7 +37,7 @@
       "source_files": [
         "ideas/registry/i002_response_minimax_classifier/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/response_minimax.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -58,7 +58,7 @@
       "source_files": [
         "ideas/registry/i003_factor_agreement_classifier/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/factor_agreement.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -79,7 +79,7 @@
       "source_files": [
         "ideas/registry/i004_puzzle_obligation_flow_network/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/obligation_flow.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -100,7 +100,7 @@
       "source_files": [
         "ideas/registry/i005_null_move_contrast_puzzle_network/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/null_move_contrast.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -121,7 +121,7 @@
       "source_files": [
         "ideas/registry/i006_proof_core_set_verifier/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/proof_core.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -142,7 +142,7 @@
       "source_files": [
         "ideas/registry/i007_neural_proof_number_search/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/neural_proof_number.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -163,7 +163,7 @@
       "source_files": [
         "ideas/registry/i008_boundary_edit_lagrangian_network/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/boundary_edit.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -184,7 +184,7 @@
       "source_files": [
         "ideas/registry/i009_tactical_equilibrium_network/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/tactical_equilibrium.py"
       ],
       "source_markers": [],
       "status": "tested"
@@ -205,7 +205,7 @@
       "source_files": [
         "ideas/registry/i010_rule_consistent_latent_dynamics/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/research_architectures.py"
+        "src/chess_nn_playground/models/trunk/rule_dynamics.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -289,7 +289,7 @@
       "source_files": [
         "ideas/registry/i014_contamination_dro_huber_tail_rejection/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/contamination_dro_huber_tail.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -310,7 +310,7 @@
       "source_files": [
         "ideas/registry/i015_material_locked_tactical_dro/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/material_locked_tactical_dro.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -331,7 +331,7 @@
       "source_files": [
         "ideas/registry/i016_soft_sorting_order_residual_ranker/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/soft_sorting_order_ranker.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -352,7 +352,7 @@
       "source_files": [
         "ideas/registry/i017_conditional_surprisal_gate/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
-        "src/chess_nn_playground/models/trunk/gpt_research_architectures.py"
+        "src/chess_nn_playground/models/trunk/conditional_surprisal_gate.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -4934,6 +4934,111 @@
       ],
       "source_markers": [],
       "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i244_tempo_defender_cross_derivative_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i244_tempo_defender_cross_derivative_network",
+      "idea_id": "i244",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tempo_defender_cross_derivative_network",
+      "slug": "tempo_defender_cross_derivative_network",
+      "source_files": [
+        "ideas/registry/i244_tempo_defender_cross_derivative_network/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/tempo_defender_cross_derivative_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i245_pair_resonance_hessian_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i245_pair_resonance_hessian_network",
+      "idea_id": "i245",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "pair_resonance_hessian_network",
+      "slug": "pair_resonance_hessian_network",
+      "source_files": [
+        "ideas/registry/i245_pair_resonance_hessian_network/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/pair_resonance_hessian_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i246_promotion_aware_head/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i246_promotion_aware_head",
+      "idea_id": "i246",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "promotion_aware_head",
+      "slug": "promotion_aware_head",
+      "source_files": [
+        "ideas/registry/i246_promotion_aware_head/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/promotion_aware_head.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i247_complex_amplitude_chess_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i247_complex_amplitude_chess_network",
+      "idea_id": "i247",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "complex_amplitude_chess_network",
+      "slug": "complex_amplitude_chess_network",
+      "source_files": [
+        "ideas/registry/i247_complex_amplitude_chess_network/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/complex_amplitude_chess_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i248_rule_aware_tactical_head/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i248_rule_aware_tactical_head",
+      "idea_id": "i248",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "rule_aware_tactical_head",
+      "slug": "rule_aware_tactical_head",
+      "source_files": [
+        "ideas/registry/i248_rule_aware_tactical_head/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/rule_aware_tactical_head.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
     }
   ],
   "summary": {
@@ -5172,9 +5277,14 @@
       "ideas/registry/i238_stable_rank_multiscale_network",
       "ideas/registry/i239_permanent_ryser_network",
       "ideas/registry/i240_cayley_hamilton_coeffs_network",
-      "ideas/registry/i242_chess_decomposed_attention"
+      "ideas/registry/i242_chess_decomposed_attention",
+      "ideas/registry/i244_tempo_defender_cross_derivative_network",
+      "ideas/registry/i245_pair_resonance_hessian_network",
+      "ideas/registry/i246_promotion_aware_head",
+      "ideas/registry/i247_complex_amplitude_chess_network",
+      "ideas/registry/i248_rule_aware_tactical_head"
     ],
-    "implemented_architecture_count": 235,
+    "implemented_architecture_count": 240,
     "issue_folders": [],
     "validation_issue_count": 0
   }

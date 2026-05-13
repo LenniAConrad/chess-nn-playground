@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `241`
+- Ideas audited: `246`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 235 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 240 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -276,6 +276,11 @@ These folders were previously easy to read as distinct implemented architectures
 | `i239` | `ideas/registry/i239_permanent_ryser_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `permanent_ryser_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i240` | `ideas/registry/i240_cayley_hamilton_coeffs_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cayley_hamilton_coeffs_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i242` | `ideas/registry/i242_chess_decomposed_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `chess_decomposed_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i244` | `ideas/registry/i244_tempo_defender_cross_derivative_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tempo_defender_cross_derivative_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i245` | `ideas/registry/i245_pair_resonance_hessian_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pair_resonance_hessian_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i246` | `ideas/registry/i246_promotion_aware_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_aware_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i247` | `ideas/registry/i247_complex_amplitude_chess_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `complex_amplitude_chess_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i248` | `ideas/registry/i248_rule_aware_tactical_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_aware_tactical_head` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 

@@ -1,0 +1,86 @@
+idea_id: i247
+name: Complex-Amplitude Chess Network
+slug: complex_amplitude_chess_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (CAIO promotion)
+short_thesis: |
+  The Complex-Amplitude Interference Operator (CAIO) lifts the real-valued
+  board feature field into complex amplitudes whose phase encodes chess Z2
+  symmetry state (piece colour, side-to-move, square colour). Pairwise
+  constructive / destructive interference under fixed chess relation masks
+  (king-zone adjacency, ray alignment, same-square-colour, file/rank
+  adjacency) is summed into a 3*R + 1 fingerprint. A small additive,
+  gated head over that fingerprint produces a primitive delta logit added
+  to the i193 base logit, testing whether chess tactical coherence is a
+  phase-alignment problem rather than a feature-presence problem.
+novelty_claim: |
+  Promoted from ideas/research/primitives/claude_04_complex_amplitude_interference.md
+  and prototypes/caio_prototype.py. No existing i### entry embeds chess
+  evidence as complex amplitudes and propagates them through interference-
+  aware aggregation. The closest existing entries (i066 bispectral phase
+  coupling — real-valued aggregation of phase triplets; i108-style bilinear
+  relation heads — `u^T W v` real bilinear; equivariant group-orbit heads —
+  invariance/equivariance checks without destructive-interference scoring)
+  do not treat colour / tempo / square colour as phase actions. CAIO is the
+  first registered entry to make complex-amplitude interference under
+  chess-rule phase tying a first-class primitive output.
+expected_advantage: |
+  Improvement on cross-slice coherence failures: matched-recall near-puzzle
+  false-positive rate at recall 0.80, plus per-slice lift on `equal`,
+  `hard`, `mate_in_1`, and promotion / underpromotion buckets. Pass
+  criterion matches the CAIO falsifier in the spec — i247 must beat i193
+  on at least two hard slices, and the `real_only` / `random_phase`
+  ablations must lose at least half of the measured near-puzzle FP
+  improvement.
+target_task: |
+  puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.
+input_representation: |
+  Current-board simple_18 tensor only. The phase rule contribution is
+  computed inside the forward pass from the legal piece-occupancy,
+  side-to-move, and square-colour state. CRTK metadata, source labels,
+  tactic tags, verification flags, Stockfish scores, PV info, and
+  report-only metadata are not consulted at any point. The conjugacy
+  error is computed by colour-flipping the same simple_18 tensor (a
+  closed-form, rule-derived involution).
+output_heads: |
+  One puzzle logit (`logits`) plus diagnostics: `base_logit`,
+  `primitive_delta`, `primitive_delta_raw`, `primitive_gate`,
+  `primitive_gate_applied`, `primitive_gate_logit`,
+  `primitive_gate_entropy`, `primitive_contribution`,
+  `caio_constructive_mean`, `caio_destructive_mean`, `caio_curl_mean`,
+  `caio_conjugacy_error`, `caio_amplitude_norm`, plus the i193 trunk
+  diagnostics re-exported under `trunk_*` keys.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork (unchanged). CAIO
+  primitive head: a small CAIOEncoder (GroupNorm + GELU conv stack)
+  projects to magnitude (softplus) and phase (raw) channels, the chess-rule
+  phase is added in closed form, complex amplitudes z = rho*exp(i theta)
+  are formed and summed with the conjugate outer product under four fixed
+  (64, 64) relation masks. Two encoder passes are run per forward (original
+  + colour-flipped board) to compute the conjugacy error. Wall-clock cost
+  is roughly **1.6x i193** — the CAIO encoder is much cheaper than the
+  trunk, the (B, d, 64, 64) outer product dominates for d=8.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i247_complex_amplitude_chess_network/train.py
+config_path: ideas/registry/i247_complex_amplitude_chess_network/config.yaml
+model_path: ideas/registry/i247_complex_amplitude_chess_network/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/claude_04_complex_amplitude_interference.md
+  and prototypes/caio_prototype.py. Bespoke i193 + CAIO additive head; the
+  idea-local wrapper builds
+  `chess_nn_playground.models.primitives.complex_amplitude_chess_network.ComplexAmplitudeChessNetwork`.
+  This is the fifth primitive in the Claude Opus 4.7 batch (after TSDP,
+  PFCT, TDCD, DHPE in expected-value order); the network is an additive
+  head on the current best trunk (i193) and is not a trunk replacement.
+  CRTK metadata is reporting-only and never used as model input.
+source_primitive_path: ideas/research/primitives/claude_04_complex_amplitude_interference.md
+source_prototype_path: ideas/research/primitives/prototypes/caio_prototype.py
+source_packet_path: ideas/research/primitives/claude_04_complex_amplitude_interference.md
+source_packet_candidate: Complex-Amplitude Interference Operator
+source_packet_rank: 5
+source_packet_status: primitive research packet
+mechanism_family: counterfactual

@@ -1,0 +1,78 @@
+idea_id: i248
+name: Rule-Aware Tactical Head
+slug: rule_aware_tactical_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (TSDP promotion)
+short_thesis: |
+  The Terminal-State Detection Primitive (TSDP) gives the network rule-exact
+  signal on the mate_in_1 / stalemate slices, which the per-class benchmark
+  shows the strongest trunks (i193, i242) still underfit (~0.81 PR AUC vs
+  ~0.876 aggregate). TSDP enumerates side-to-move legal moves with
+  python-chess, classifies each resulting position under exact chess rules,
+  and aggregates an 11-dim feature vector. A small additive, gated head over
+  this rule-exact vector and the i193 trunk diagnostics produces a logit
+  delta that is amplified on tactical positions and stays near zero on quiet
+  positions.
+novelty_claim: |
+  Symbolic rule-exact terminal-state primitive integrated with continuous
+  trunk features. None of the existing tactical i### entries (i007 neural
+  proof-number, i025 one-ply move landscape, i077 adaptive tactical
+  resolvent, i178 defender-exhaustion cascade, i188 tactical program
+  induction, i203 hierarchical tactical option) feed rule-exact mate /
+  stalemate / forcing-move indicators into the forward pass — they all
+  learn approximations. i248 is the first entry to make rule-exact
+  terminal-state detection a first-class primitive output and fuse it
+  additively with the strongest current trunk (i193).
+expected_advantage: |
+  Targeted lift on the mate_in_1 and stalemate-trap slices without
+  regressing aggregate PR AUC. Promotion criterion is the same as the
+  TSDP falsifier: i248 must beat i193 on the declared target slices, and
+  the shuffled-indicator ablation must lose most of that lift. If the
+  shuffled-indicator ablation matches the full architecture the indicators
+  aren't load-bearing and the primitive is dropped.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The TSDP 11-dim rule
+  feature vector is derived deterministically from the simple_18 board
+  inside the forward pass (documented temporary fallback) using python-chess
+  legal-move enumeration. CRTK metadata, source labels, verification flags,
+  and engine evaluations are not used as model inputs at any point. The
+  production path is a precomputed parquet column (TODO:
+  scripts/data/precompute_primitive_features.py) that would short-circuit
+  the in-forward python-chess fallback.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit, plus the i193
+  diagnostics (exchange_logit, king_logit, gate, gate_entropy,
+  stream_disagreement, mechanism_energy, ...). The 11 TSDP indicators are
+  also surfaced as per-sample diagnostics
+  (tsdp_mate_in_1, tsdp_mate_count, tsdp_stalemate_threat, ...).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork (two convolutional
+  stream encoders, dual heads, phase router, residual head). Head: two small
+  LayerNorm + GELU MLPs over the 15-d fusion vector
+  (11 TSDP features + 4 trunk diagnostics). TSDP feature computation is the
+  dominant per-step CPU cost in the fallback path (~50 python-chess legal-
+  move evaluations per sample). The production path moves this work into a
+  parquet column at split-build time.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i248_rule_aware_tactical_head/train.py
+config_path: ideas/registry/i248_rule_aware_tactical_head/config.yaml
+model_path: ideas/registry/i248_rule_aware_tactical_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/claude_05_terminal_state_detection.md
+  and prototypes/tsdp_prototype.py. Bespoke rule-aware additive head on the
+  i193 dual-stream trunk. CRTK metadata is reporting-only and never used as
+  model input. TSDP features are computed inside forward as a documented
+  temporary fallback — see implementation_notes.md for the planned
+  precompute-parquet upgrade.
+source_primitive_path: ideas/research/primitives/claude_05_terminal_state_detection.md
+source_prototype_path: ideas/research/primitives/prototypes/tsdp_prototype.py
+source_packet_path: ideas/research/primitives/claude_05_terminal_state_detection.md
+source_packet_candidate: Terminal-State Detection Primitive
+mechanism_family: king_path

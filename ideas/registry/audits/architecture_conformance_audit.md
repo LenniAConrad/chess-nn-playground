@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `235`
+- Implemented architecture rows audited: `240`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -247,6 +247,11 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `i239` | `ideas/registry/i239_permanent_ryser_network` | `permanent_ryser_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i239_permanent_ryser_network/model.py`<br>`src/chess_nn_playground/models/trunk/__init__.py`<br>`src/chess_nn_playground/models/trunk/permanent_ryser.py` | - |
 | `i240` | `ideas/registry/i240_cayley_hamilton_coeffs_network` | `cayley_hamilton_coeffs_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i240_cayley_hamilton_coeffs_network/model.py`<br>`src/chess_nn_playground/models/trunk/__init__.py`<br>`src/chess_nn_playground/models/trunk/cayley_hamilton_coeffs.py` | - |
 | `i242` | `ideas/registry/i242_chess_decomposed_attention` | `chess_decomposed_attention` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i242_chess_decomposed_attention/model.py`<br>`src/chess_nn_playground/models/trunk/__init__.py`<br>`src/chess_nn_playground/models/trunk/chess_decomposed_attention.py` | - |
+| `i244` | `ideas/registry/i244_tempo_defender_cross_derivative_network` | `tempo_defender_cross_derivative_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i244_tempo_defender_cross_derivative_network/model.py`<br>`src/chess_nn_playground/models/trunk/__init__.py`<br>`src/chess_nn_playground/models/trunk/tempo_defender_cross_derivative_network.py` | - |
+| `i245` | `ideas/registry/i245_pair_resonance_hessian_network` | `pair_resonance_hessian_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i245_pair_resonance_hessian_network/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/pair_resonance_hessian_network.py` | - |
+| `i246` | `ideas/registry/i246_promotion_aware_head` | `promotion_aware_head` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i246_promotion_aware_head/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/promotion_aware_head.py` | - |
+| `i247` | `ideas/registry/i247_complex_amplitude_chess_network` | `complex_amplitude_chess_network` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i247_complex_amplitude_chess_network/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/complex_amplitude_chess_network.py` | - |
+| `i248` | `ideas/registry/i248_rule_aware_tactical_head` | `rule_aware_tactical_head` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/i248_rule_aware_tactical_head/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/rule_aware_tactical_head.py` | - |
 
 Validation command:
 

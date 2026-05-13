@@ -16,15 +16,15 @@
       "slug": "chess_operator_basis_classifier",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_chess_operator_basis_from_config"
+          "chess_nn_playground.models.trunk.chess_operator_basis.build_chess_operator_basis_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_chess_operator_basis_from_config"
+          "chess_nn_playground.models.trunk.chess_operator_basis.build_chess_operator_basis_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.ChessOperatorBasisClassifier",
-          "chess_nn_playground.models.trunk.research_architectures.build_chess_operator_basis_from_config",
+          "chess_nn_playground.models.trunk.chess_operator_basis.ChessOperatorBasisClassifier",
+          "chess_nn_playground.models.trunk.chess_operator_basis.build_chess_operator_basis_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -47,15 +47,15 @@
       "slug": "response_minimax_classifier",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_response_minimax_from_config"
+          "chess_nn_playground.models.trunk.response_minimax.build_response_minimax_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_response_minimax_from_config"
+          "chess_nn_playground.models.trunk.response_minimax.build_response_minimax_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.ResponseMinimaxClassifier",
-          "chess_nn_playground.models.trunk.research_architectures.build_response_minimax_from_config",
+          "chess_nn_playground.models.trunk.response_minimax.ResponseMinimaxClassifier",
+          "chess_nn_playground.models.trunk.response_minimax.build_response_minimax_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -78,15 +78,15 @@
       "slug": "factor_agreement_classifier",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_factor_agreement_from_config"
+          "chess_nn_playground.models.trunk.factor_agreement.build_factor_agreement_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_factor_agreement_from_config"
+          "chess_nn_playground.models.trunk.factor_agreement.build_factor_agreement_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.FactorAgreementClassifier",
-          "chess_nn_playground.models.trunk.research_architectures.build_factor_agreement_from_config",
+          "chess_nn_playground.models.trunk.factor_agreement.FactorAgreementClassifier",
+          "chess_nn_playground.models.trunk.factor_agreement.build_factor_agreement_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -109,15 +109,15 @@
       "slug": "puzzle_obligation_flow_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_obligation_flow_from_config"
+          "chess_nn_playground.models.trunk.obligation_flow.build_obligation_flow_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_obligation_flow_from_config"
+          "chess_nn_playground.models.trunk.obligation_flow.build_obligation_flow_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.PuzzleObligationFlowNetwork",
-          "chess_nn_playground.models.trunk.research_architectures.build_obligation_flow_from_config",
+          "chess_nn_playground.models.trunk.obligation_flow.PuzzleObligationFlowNetwork",
+          "chess_nn_playground.models.trunk.obligation_flow.build_obligation_flow_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -140,15 +140,15 @@
       "slug": "null_move_contrast_puzzle_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_null_move_contrast_from_config"
+          "chess_nn_playground.models.trunk.null_move_contrast.build_null_move_contrast_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_null_move_contrast_from_config"
+          "chess_nn_playground.models.trunk.null_move_contrast.build_null_move_contrast_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.NullMoveContrastPuzzleNetwork",
-          "chess_nn_playground.models.trunk.research_architectures.build_null_move_contrast_from_config",
+          "chess_nn_playground.models.trunk.null_move_contrast.NullMoveContrastPuzzleNetwork",
+          "chess_nn_playground.models.trunk.null_move_contrast.build_null_move_contrast_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -171,15 +171,15 @@
       "slug": "proof_core_set_verifier",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_proof_core_from_config"
+          "chess_nn_playground.models.trunk.proof_core.build_proof_core_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_proof_core_from_config"
+          "chess_nn_playground.models.trunk.proof_core.build_proof_core_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.ProofCoreSetVerifier",
-          "chess_nn_playground.models.trunk.research_architectures.build_proof_core_from_config",
+          "chess_nn_playground.models.trunk.proof_core.ProofCoreSetVerifier",
+          "chess_nn_playground.models.trunk.proof_core.build_proof_core_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -202,15 +202,15 @@
       "slug": "neural_proof_number_search",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_neural_proof_number_from_config"
+          "chess_nn_playground.models.trunk.neural_proof_number.build_neural_proof_number_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_neural_proof_number_from_config"
+          "chess_nn_playground.models.trunk.neural_proof_number.build_neural_proof_number_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.NeuralProofNumberSearch",
-          "chess_nn_playground.models.trunk.research_architectures.build_neural_proof_number_from_config",
+          "chess_nn_playground.models.trunk.neural_proof_number.NeuralProofNumberSearch",
+          "chess_nn_playground.models.trunk.neural_proof_number.build_neural_proof_number_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -233,15 +233,15 @@
       "slug": "boundary_edit_lagrangian_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_boundary_edit_from_config"
+          "chess_nn_playground.models.trunk.boundary_edit.build_boundary_edit_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_boundary_edit_from_config"
+          "chess_nn_playground.models.trunk.boundary_edit.build_boundary_edit_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.BoundaryEditLagrangianNetwork",
-          "chess_nn_playground.models.trunk.research_architectures.build_boundary_edit_from_config",
+          "chess_nn_playground.models.trunk.boundary_edit.BoundaryEditLagrangianNetwork",
+          "chess_nn_playground.models.trunk.boundary_edit.build_boundary_edit_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -264,15 +264,15 @@
       "slug": "tactical_equilibrium_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_tactical_equilibrium_from_config"
+          "chess_nn_playground.models.trunk.tactical_equilibrium.build_tactical_equilibrium_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_tactical_equilibrium_from_config"
+          "chess_nn_playground.models.trunk.tactical_equilibrium.build_tactical_equilibrium_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.TacticalEquilibriumNetwork",
-          "chess_nn_playground.models.trunk.research_architectures.build_tactical_equilibrium_from_config",
+          "chess_nn_playground.models.trunk.tactical_equilibrium.TacticalEquilibriumNetwork",
+          "chess_nn_playground.models.trunk.tactical_equilibrium.build_tactical_equilibrium_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -295,15 +295,15 @@
       "slug": "rule_consistent_latent_dynamics",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_rule_dynamics_from_config"
+          "chess_nn_playground.models.trunk.rule_dynamics.build_rule_dynamics_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_rule_dynamics_from_config"
+          "chess_nn_playground.models.trunk.rule_dynamics.build_rule_dynamics_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.RuleConsistentLatentDynamics",
-          "chess_nn_playground.models.trunk.research_architectures.build_rule_dynamics_from_config",
+          "chess_nn_playground.models.trunk.rule_dynamics.RuleConsistentLatentDynamics",
+          "chess_nn_playground.models.trunk.rule_dynamics.build_rule_dynamics_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -419,15 +419,15 @@
       "slug": "contamination_dro_huber_tail_rejection",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_contamination_dro_huber_tail_from_config"
+          "chess_nn_playground.models.trunk.contamination_dro_huber_tail.build_contamination_dro_huber_tail_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_contamination_dro_huber_tail_from_config"
+          "chess_nn_playground.models.trunk.contamination_dro_huber_tail.build_contamination_dro_huber_tail_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.ContaminationDROHuberTailClassifier",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_contamination_dro_huber_tail_from_config",
+          "chess_nn_playground.models.trunk.contamination_dro_huber_tail.ContaminationDROHuberTailClassifier",
+          "chess_nn_playground.models.trunk.contamination_dro_huber_tail.build_contamination_dro_huber_tail_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -450,15 +450,15 @@
       "slug": "material_locked_tactical_dro",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_material_locked_tactical_dro_from_config"
+          "chess_nn_playground.models.trunk.material_locked_tactical_dro.build_material_locked_tactical_dro_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_material_locked_tactical_dro_from_config"
+          "chess_nn_playground.models.trunk.material_locked_tactical_dro.build_material_locked_tactical_dro_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.MaterialLockedTacticalDROClassifier",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_material_locked_tactical_dro_from_config",
+          "chess_nn_playground.models.trunk.material_locked_tactical_dro.MaterialLockedTacticalDROClassifier",
+          "chess_nn_playground.models.trunk.material_locked_tactical_dro.build_material_locked_tactical_dro_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -481,15 +481,15 @@
       "slug": "soft_sorting_order_residual_ranker",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_soft_sorting_order_ranker_from_config"
+          "chess_nn_playground.models.trunk.soft_sorting_order_ranker.build_soft_sorting_order_ranker_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_soft_sorting_order_ranker_from_config"
+          "chess_nn_playground.models.trunk.soft_sorting_order_ranker.build_soft_sorting_order_ranker_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.SoftSortingOrderResidualRanker",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_soft_sorting_order_ranker_from_config",
+          "chess_nn_playground.models.trunk.soft_sorting_order_ranker.SoftSortingOrderResidualRanker",
+          "chess_nn_playground.models.trunk.soft_sorting_order_ranker.build_soft_sorting_order_ranker_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -512,15 +512,15 @@
       "slug": "conditional_surprisal_gate",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_conditional_surprisal_gate_from_config"
+          "chess_nn_playground.models.trunk.conditional_surprisal_gate.build_conditional_surprisal_gate_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_conditional_surprisal_gate_from_config"
+          "chess_nn_playground.models.trunk.conditional_surprisal_gate.build_conditional_surprisal_gate_from_config"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.ConditionalSurprisalGatePuzzleNet",
-          "chess_nn_playground.models.trunk.gpt_research_architectures.build_conditional_surprisal_gate_from_config",
+          "chess_nn_playground.models.trunk.conditional_surprisal_gate.ConditionalSurprisalGatePuzzleNet",
+          "chess_nn_playground.models.trunk.conditional_surprisal_gate.build_conditional_surprisal_gate_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -4607,19 +4607,12 @@
       "scaffold": "ResearchPacketProbe",
       "slug": "commutative_view_consistency_network",
       "wiring": {
-        "builder_calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_commutative_view_consistency_network_from_config"
-        ],
+        "builder_calls": [],
         "calls": [
-          "chess_nn_playground.models.trunk.research_architectures.build_commutative_view_consistency_network_from_config",
-          "config.get",
-          "dict",
-          "model_cfg.setdefault"
+          "NotImplementedError"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.trunk.research_architectures.CommutativeViewConsistencyNetwork",
-          "chess_nn_playground.models.trunk.research_architectures.build_commutative_view_consistency_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -8176,15 +8169,185 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i244_tempo_defender_cross_derivative_network",
+      "idea_id": "i244",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "tempo_defender_cross_derivative_network",
+      "scaffold": null,
+      "slug": "tempo_defender_cross_derivative_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network.build_tempo_defender_cross_derivative_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network.build_tempo_defender_cross_derivative_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network.TempoDefenderCrossDerivativeNetwork",
+          "chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network.build_tempo_defender_cross_derivative_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i245_pair_resonance_hessian_network",
+      "idea_id": "i245",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "pair_resonance_hessian_network",
+      "scaffold": null,
+      "slug": "pair_resonance_hessian_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.pair_resonance_hessian_network.build_pair_resonance_hessian_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.pair_resonance_hessian_network.build_pair_resonance_hessian_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.pair_resonance_hessian_network.PairResonanceHessianNetwork",
+          "chess_nn_playground.models.primitives.pair_resonance_hessian_network.build_pair_resonance_hessian_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i246_promotion_aware_head",
+      "idea_id": "i246",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "promotion_aware_head",
+      "scaffold": null,
+      "slug": "promotion_aware_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.promotion_aware_head.build_promotion_aware_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.promotion_aware_head.build_promotion_aware_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.promotion_aware_head.PromotionAwareHead",
+          "chess_nn_playground.models.primitives.promotion_aware_head.build_promotion_aware_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i247_complex_amplitude_chess_network",
+      "idea_id": "i247",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "complex_amplitude_chess_network",
+      "scaffold": null,
+      "slug": "complex_amplitude_chess_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.complex_amplitude_chess_network.build_complex_amplitude_chess_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.complex_amplitude_chess_network.build_complex_amplitude_chess_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.complex_amplitude_chess_network.ComplexAmplitudeChessNetwork",
+          "chess_nn_playground.models.primitives.complex_amplitude_chess_network.build_complex_amplitude_chess_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i248_rule_aware_tactical_head",
+      "idea_id": "i248",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "rule_aware_tactical_head",
+      "scaffold": null,
+      "slug": "rule_aware_tactical_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.rule_aware_tactical_head.build_rule_aware_tactical_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.rule_aware_tactical_head.build_rule_aware_tactical_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.rule_aware_tactical_head.RuleAwareTacticalHead",
+          "chess_nn_playground.models.primitives.rule_aware_tactical_head.build_rule_aware_tactical_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 235,
+      "bespoke_model": 240,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 235,
+      "bespoke_model": 240,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -8197,7 +8360,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 241,
+    "total": 246,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

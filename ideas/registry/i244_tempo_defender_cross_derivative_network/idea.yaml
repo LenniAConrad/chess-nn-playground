@@ -1,0 +1,62 @@
+idea_id: i244
+name: Tempo-Defender Cross-Derivative Network
+slug: tempo_defender_cross_derivative_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude
+short_thesis: Compute the mixed partial derivative of a learned scoring function
+  under two Z2 perturbations of the current board (tempo flip and per-defender
+  removal). A true puzzle's tempo asymmetry is insensitive to removing any single
+  defender (distributed forcing initiative); a near-puzzle's tempo asymmetry
+  collapses when the critical defender is removed. The cross-derivative signal
+  `DeltaDelta_k = ||tau_k|| - ||g_T||` is what separates the two classes, not the
+  main effects on their own.
+novelty_claim: Promoted from `ideas/research/primitives/claude_02_tempo_defender_cross_derivative.md`.
+  No existing registered idea computes the joint cross-derivative of tempo and
+  defender perturbations; closest entries (i041 tempo-odd, i189 counterfactual
+  defender dropout, i211 role-counterfactual necessity, i025-i027 move landscapes,
+  i222 Schur defender elimination) all reduce to first-order single-perturbation
+  responses.
+expected_advantage: Lift the universally-hard `crtk_eval_bucket = equal` slice
+  while leaving aggregate puzzle_binary PR AUC stable. Pass criterion is equal-slice
+  PR AUC >= 0.832 (i193 0.817 + 0.015) with aggregate test PR AUC >= 0.871 and no
+  per-slice regression beyond 0.01.
+target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.'
+input_representation: Current-board simple_18 tensor only. The tempo involution
+  `sigma_T` flips channel 12, and the defender-removal operator `delta_k` zeros
+  the enemy piece planes at a saliency-selected square. CRTK, tactic, source
+  labels, Stockfish, and PV metadata are reporting-only and never read.
+output_heads: One puzzle logit plus TDCD diagnostics (`base_logit`,
+  `primitive_delta`, `primitive_gate`, `primitive_gate_logit`,
+  `primitive_gate_entropy`, `primitive_logit_contribution`, `saliency_entropy`,
+  `saliency_concentration`, `saliency_top_valid_count`, `fingerprint_norm`,
+  `g_T_norm`, `max_dd`, `mean_dd`, `std_dd`, `topk_dd_ratio`,
+  `baseline_feature_norm`, `g_D_mean_norm`, `valid_slot_count`,
+  `delta_delta_per_slot`, `mechanism_energy`, `proposal_profile_strength`,
+  `proposal_keyword_count`, plus i193 trunk diagnostics re-exported under
+  `trunk_*` keys).
+compute_notes: i193 dual-stream trunk evaluated once per board, a learned per-square
+  saliency head over the simple_18 board, a 2*(K+1)-slot cross-derivative grid
+  evaluated by a separate compact `TDCDEncoder` (GroupNorm + GELU conv stack), a
+  cross-derivative fingerprint that summarizes the spectrum into 8 + K + 5
+  scalars, and a small discriminator MLP with a sigmoid gate added to the i193
+  base logit. Cost is roughly 2-3x i193 wall-clock (the lightweight encoder runs
+  2*(K+1)=8 times per sample but is significantly cheaper than i193).
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i244_tempo_defender_cross_derivative_network/train.py
+config_path: ideas/registry/i244_tempo_defender_cross_derivative_network/config.yaml
+model_path: ideas/registry/i244_tempo_defender_cross_derivative_network/model.py
+latest_result_path: null
+notes: Promoted from `ideas/research/primitives/claude_02_tempo_defender_cross_derivative.md`.
+  Bespoke i193+TDCD additive head; the idea-local wrapper builds
+  `chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network.TempoDefenderCrossDerivativeNetwork`.
+  This is the third primitive in the Claude Opus 4.7 batch (after TSDP and PFCT
+  in expected-value order); the network is an additive head on the current best
+  trunk (i193) and is not a trunk replacement.
+source_packet_path: ideas/research/primitives/claude_02_tempo_defender_cross_derivative.md
+source_packet_candidate: Tempo-Defender Cross-Derivative Operator
+source_packet_rank: 3
+source_packet_status: primitive research packet
+mechanism_family: tempo
+implementation_kind: bespoke_model

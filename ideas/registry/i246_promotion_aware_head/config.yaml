@@ -1,0 +1,65 @@
+idea_id: i246
+run:
+  name: i246_promotion_aware_head_simple18
+  output_dir: results
+seed: 42
+deterministic: true
+mode: puzzle_binary
+device: nvidia
+data:
+  train_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet
+  val_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_val.parquet
+  test_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet
+  encoding: simple_18
+  cache_features: false
+model:
+  name: promotion_aware_head
+  input_channels: 18
+  num_classes: 1
+  trunk_channels: 64
+  trunk_hidden_dim: 96
+  trunk_depth: 2
+  trunk_dropout: 0.1
+  trunk_use_batchnorm: true
+  trunk_ablation: none
+  max_promotion_pawns: 4
+  pawn_embed_dim: 32
+  promotion_embed_dim: 16
+  attn_dim: 64
+  head_hidden_dim: 64
+  head_dropout: 0.1
+  gate_init: -2.0
+  ablation: none
+  mechanism_family: counterfactual
+  packet_profile: promotion_aware_head
+training:
+  epochs: 20
+  batch_size: 128
+  num_workers: auto
+  persistent_workers: true
+  prefetch_factor: 2
+  learning_rate: 0.0007
+  weight_decay: 0.0001
+  class_weighting: balanced
+  loss: bce_with_logits
+  early_stopping_patience: 5
+  mixed_precision: true
+  allow_tf32: true
+  matmul_precision: high
+  reliability_tier: paper_grade
+  min_epochs: 10
+  min_active_epochs: 10
+  gradient_clip_norm: 1.0
+  lr_scheduler:
+    name: reduce_on_plateau
+    factor: 0.5
+    patience: 2
+    min_lr: 1.0e-05
+notes: |
+  i246 Promotion-Aware Head — additive, gated PFCT cross-attention fanout
+  over the i193 trunk. Counterfactual board substitution is computed
+  analytically on the simple_18 piece planes (no python-chess in forward).
+  Batch size is halved relative to i193 because the worst-case effective
+  trunk batch reaches B * max_promotion_pawns * 4. CRTK metadata,
+  source labels, verification flags, and engine evaluations are
+  reporting-only and never used as model inputs.

@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `243`
+- Registered idea folders: `248`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 228, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 235, 'shared_probe_variant': 6, 'unknown': 2}`
+- Registered implementation states: `{'implemented': 233, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 240, 'shared_probe_variant': 6, 'unknown': 2}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 235 | Materially distinct model implementation. |
+| `bespoke_model` | 240 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -283,6 +283,11 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `i241` | [Multi-Stream Chess-Decomposed Transformer Evaluator](i241_multistream_attention_chess_eval) | `proposed` | `proposed` | `unknown` | Position evaluation for chess play (value + policy heads), not puzzle_binary classifica... |
 | `i242` | [Chess-Decomposed Attention Network](i242_chess_decomposed_attention) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 -> non-puzzle, fine label 2 -> puzzle). |
 | `i243` | [HalfKA Dual-Stream LC0 Evaluator](i243_halfka_dual_stream_lc0) | `proposed` | `proposed` | `unknown` | Engine-strength chess evaluation: WDL value head + 1858-dim policy head. The puzzle_bin... |
+| `i244` | [Tempo-Defender Cross-Derivative Network](i244_tempo_defender_cross_derivative_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i245` | [Pair-Resonance Hessian Network](i245_pair_resonance_hessian_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 
 ## Research Packet Map
 

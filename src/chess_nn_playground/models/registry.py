@@ -237,6 +237,18 @@ from chess_nn_playground.models.trunk.counterfactual_defender_dropout import (
 from chess_nn_playground.models.trunk.exchange_then_king_dual_stream import (
     build_exchange_then_king_dual_stream_from_config,
 )
+from chess_nn_playground.models.primitives.rule_aware_tactical_head import (
+    build_rule_aware_tactical_head_from_config,
+)
+from chess_nn_playground.models.primitives.pair_resonance_hessian_network import (
+    build_pair_resonance_hessian_network_from_config,
+)
+from chess_nn_playground.models.primitives.complex_amplitude_chess_network import (
+    build_complex_amplitude_chess_network_from_config,
+)
+from chess_nn_playground.models.primitives.promotion_aware_head import (
+    build_promotion_aware_head_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -459,6 +471,9 @@ from chess_nn_playground.models.trunk.motif_tensor_factorization_network import 
 )
 from chess_nn_playground.models.trunk.tempo_alignment_gate_network import (
     build_tempo_alignment_gate_network_from_config,
+)
+from chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network import (
+    build_tempo_defender_cross_derivative_network_from_config,
 )
 from chess_nn_playground.models.trunk.forcing_certificate_transformer import (
     build_forcing_certificate_transformer_from_config,
@@ -841,8 +856,13 @@ MODEL_BUILDERS = {
     "disproof_ledger_puzzle_network": build_disproof_ledger_puzzle_network_from_config,
     "motif_tensor_factorization_network": build_motif_tensor_factorization_network_from_config,
     "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
+    "tempo_defender_cross_derivative_network": build_tempo_defender_cross_derivative_network_from_config,
     "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
     "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
+    "rule_aware_tactical_head": build_rule_aware_tactical_head_from_config,
+    "pair_resonance_hessian_network": build_pair_resonance_hessian_network_from_config,
+    "complex_amplitude_chess_network": build_complex_amplitude_chess_network_from_config,
+    "promotion_aware_head": build_promotion_aware_head_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

@@ -1,0 +1,80 @@
+idea_id: i245
+name: Pair-Resonance Hessian Network
+slug: pair_resonance_hessian_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (DHPE promotion)
+short_thesis: |
+  The Discrete Hessian over Piece-Existence (DHPE) primitive measures the
+  signed second-order mixed forward-difference of a learned scoring function
+  with respect to pairwise piece-existence indicators. Its sign separates
+  super-additive piece pairs (constructive tactics: pins, forks, mating
+  nets) from sub-additive ones (substitution: defender/blocker pairs whose
+  removal makes the other piece more critical). Aggregating this signed
+  Hessian over a top-K saliency-selected piece set produces a 6-d
+  fingerprint (base, z_pos, z_neg, z_total, z_ratio, z_top1) that an
+  additive, gated head adds to the i193 base logit.
+novelty_claim: |
+  Promoted from ideas/research/primitives/claude_01_signed_hessian_resonance.md
+  and prototypes/dhpe_prototype.py / dhpe_v2.py. No existing i### entry
+  computes a signed pairwise piece-existence Hessian. The closest entries
+  (i189 counterfactual defender dropout, i041 centered tempo-odd
+  interventional bottleneck, i211 role-counterfactual necessity, i025-i027
+  one-ply move landscapes) all reduce to first-order single-perturbation
+  responses; DHPE evaluates the four-vertex hypercube
+  {full, P\i, P\j, P\{i,j}} and exposes the *sign* of the pair-interaction.
+expected_advantage: |
+  Targeted lift on the `equal` eval-bucket and `hard` / near-puzzle slices
+  where pairwise piece-interaction sign is load-bearing. Pass criterion
+  matches the DHPE falsifier in the spec: i245 must beat i193 on the
+  declared target slices, and the `unsigned` / `shuffled_pairs` ablations
+  must lose most of that lift (otherwise sign / interaction structure
+  isn't load-bearing and the primitive is dropped).
+target_task: |
+  puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle.
+input_representation: |
+  Current-board simple_18 tensor only. Top-K saliency is computed
+  deterministically from piece-value priors that are themselves derived
+  from the legal piece-occupancy planes (no CRTK metadata, source labels,
+  tactic tags, Stockfish scores, PV info, or report-only metadata are
+  consulted at any point).
+output_heads: |
+  One puzzle logit (`logits`) plus diagnostics: `base_logit` (i193 trunk
+  output), `primitive_delta`, `primitive_delta_raw`, `primitive_gate`,
+  `primitive_gate_applied`, `primitive_gate_logit`,
+  `primitive_gate_entropy`, `primitive_contribution`,
+  `dhpe_base_phi`, `dhpe_z_pos`, `dhpe_z_neg`, `dhpe_z_total`,
+  `dhpe_z_ratio`, `dhpe_z_top1`, `dhpe_valid_count`, plus the i193 trunk
+  diagnostics re-exported under `trunk_*` keys.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork (unchanged from
+  i193 — two convolutional stream encoders, dual heads, phase router,
+  residual head). DHPE primitive head: a compact PhiScorer (Conv +
+  GroupNorm + GELU stack, mean+max pool, two-layer scalar score head)
+  evaluated on `1 + top_k + C(top_k, 2)` board variants per position
+  (default top_k=4 -> 11 variants). With phi roughly 1/8th the FLOPs of
+  i193 the total wall-clock cost is approximately 2.5x i193 — well below
+  the 10x worst case quoted by the spec when phi is the full trunk.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i245_pair_resonance_hessian_network/train.py
+config_path: ideas/registry/i245_pair_resonance_hessian_network/config.yaml
+model_path: ideas/registry/i245_pair_resonance_hessian_network/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/claude_01_signed_hessian_resonance.md
+  and prototypes/dhpe_prototype.py + prototypes/dhpe_v2.py. Bespoke i193 +
+  DHPE additive head; the idea-local wrapper builds
+  `chess_nn_playground.models.primitives.pair_resonance_hessian_network.PairResonanceHessianNetwork`.
+  This is the fourth primitive in the Claude Opus 4.7 batch (after TSDP,
+  PFCT, TDCD in expected-value order); the network is an additive head on
+  the current best trunk (i193) and is not a trunk replacement. CRTK
+  metadata is reporting-only and never used as model input.
+source_primitive_path: ideas/research/primitives/claude_01_signed_hessian_resonance.md
+source_prototype_path: ideas/research/primitives/prototypes/dhpe_prototype.py
+source_packet_path: ideas/research/primitives/claude_01_signed_hessian_resonance.md
+source_packet_candidate: Signed Piece-Existence Hessian Operator
+source_packet_rank: 1
+source_packet_status: primitive research packet
+mechanism_family: counterfactual

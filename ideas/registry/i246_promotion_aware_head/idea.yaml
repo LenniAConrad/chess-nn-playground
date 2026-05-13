@@ -1,0 +1,84 @@
+idea_id: i246
+name: Promotion-Aware Head
+slug: promotion_aware_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (PFCT promotion)
+short_thesis: |
+  The Promotion-Fanout Counterfactual Tensor (PFCT) primitive exposes the
+  latent piece-type identity of pre-promotion pawns by substituting each
+  own near-promotion pawn with every chess-legal promotion piece
+  {Q, R, B, N}, passing the substituted boards back through the shared
+  i193 trunk, and pooling the resulting 4-row fanout with a cross-attention
+  head conditioned on per-pawn square and promotion-type embeddings. The
+  per-pawn deltas are summed and gated; the gate is structurally zero on
+  positions without near-promotion pawns, so the primitive is a strict
+  no-op on the bulk of training data.
+novelty_claim: |
+  Counterfactual primitive on the piece-type substitution axis — the only
+  chess-rule-legal type transformation. No registered idea explores this
+  axis: i025 (one-ply move counterfactual) acts on the move space,
+  i041 (tempo-odd) acts on side-to-move, i189 (defender dropout) acts on
+  binary piece presence, and the recently promoted i244 / i245 cross
+  tempo/defender or piece-pair existence axes. None substitute a pre-
+  promotion pawn with the four legal promotion pieces and pool the resulting
+  fanout features. The primitive is also a strict no-op on positions
+  without near-promotion pawns (~94% of all data), so the wall-clock
+  cost is concentrated on the small slice it actually targets.
+expected_advantage: |
+  Surgical lift on the `crtk_tactic_motifs = promotion` slice (the largest
+  per-slice PR-AUC gap reported in the i193 / i242 benchmark, 0.667 vs
+  aggregate 0.876) and the joint-tagged `crtk_tactic_motifs = underpromotion`
+  slice, without regressing aggregate PR AUC by more than 0.005. Pass
+  criterion mirrors the PFCT spec: PR AUC >= 0.720 on each target slice
+  with the matched-ablation `copy_baseline_fanout` losing >= 60% of any
+  promotion-slice lift.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. Near-promotion pawn
+  identification and the four promotion substitutions are computed
+  analytically on the simple_18 piece planes (no python-chess call inside
+  forward); the substitutions are exact one-hot piece edits on the source
+  and promotion squares. CRTK metadata, source labels, verification flags,
+  and engine evaluations are not used as model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics include base_logit (i193 trunk output),
+  primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, primitive_logit_contribution, promotion_pawn_count,
+  promotion_has_pawn, promotion_attention_entropy,
+  promotion_dominant_type (0=Q, 1=R, 2=B, 3=N, -1 if no pawn),
+  promotion_fanout_dispersion, promotion_pawn_delta_max,
+  mechanism_energy, plus i193 trunk diagnostics re-exported under
+  `trunk_*` keys.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork (two convolutional
+  stream encoders, dual heads, phase router, residual head).
+  Head: per-pawn cross-attention over four promotion piece types, with a
+  per-square pawn embedding and per-type promotion embedding. The shared
+  trunk encoder runs once for the baseline and `K * 4` extra times per
+  sample for the counterfactual fanout (`K = max_promotion_pawns`). The
+  gate is structurally zero on positions with no near-promotion pawn, so
+  the extra cost is paid only on samples that actually contain one
+  (typical chess corpora: 4-6% of positions). With `K = 4` and
+  `trunk_channels = 64`, dense throughput is roughly 1.4-1.5x i193 wall-
+  clock on a mixed corpus.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i246_promotion_aware_head/train.py
+config_path: ideas/registry/i246_promotion_aware_head/config.yaml
+model_path: ideas/registry/i246_promotion_aware_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from `ideas/research/primitives/claude_03_promotion_fanout_counterfactual.md`
+  and `ideas/research/primitives/prototypes/pfct_prototype.py`. PFCT is the
+  second primitive in the Claude Opus 4.7 batch (after TSDP in expected-value
+  order); the architecture is an additive, gated head on the current best
+  trunk (i193) and is not a trunk replacement. CRTK metadata is reporting-
+  only.
+source_primitive_path: ideas/research/primitives/claude_03_promotion_fanout_counterfactual.md
+source_prototype_path: ideas/research/primitives/prototypes/pfct_prototype.py
+source_packet_path: ideas/research/primitives/claude_03_promotion_fanout_counterfactual.md
+source_packet_candidate: Promotion-Fanout Counterfactual Tensor
+mechanism_family: counterfactual
