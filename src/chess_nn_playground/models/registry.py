@@ -249,6 +249,27 @@ from chess_nn_playground.models.primitives.complex_amplitude_chess_network impor
 from chess_nn_playground.models.primitives.promotion_aware_head import (
     build_promotion_aware_head_from_config,
 )
+from chess_nn_playground.models.primitives.signed_edit_bilinear_memory import (
+    build_signed_edit_bilinear_memory_from_config,
+)
+from chess_nn_playground.models.primitives.sparse_delta_accumulator import (
+    build_sparse_delta_accumulator_from_config,
+)
+from chess_nn_playground.models.primitives.delta_pair_accumulator import (
+    build_delta_pair_accumulator_from_config,
+)
+from chess_nn_playground.models.primitives.delta_crelu_involution import (
+    build_delta_crelu_involution_head_from_config,
+)
+from chess_nn_playground.models.primitives.ray_semiring_chi_head import (
+    build_ray_semiring_chi_head_from_config,
+)
+from chess_nn_playground.models.primitives.delta_event_legal_routing import (
+    build_delta_event_legal_routing_from_config,
+)
+from chess_nn_playground.models.primitives.delta_state_slg_diffusion import (
+    build_delta_state_slg_diffusion_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -863,6 +884,13 @@ MODEL_BUILDERS = {
     "pair_resonance_hessian_network": build_pair_resonance_hessian_network_from_config,
     "complex_amplitude_chess_network": build_complex_amplitude_chess_network_from_config,
     "promotion_aware_head": build_promotion_aware_head_from_config,
+    "signed_edit_bilinear_memory": build_signed_edit_bilinear_memory_from_config,
+    "sparse_delta_accumulator": build_sparse_delta_accumulator_from_config,
+    "delta_pair_accumulator": build_delta_pair_accumulator_from_config,
+    "delta_crelu_involution_head": build_delta_crelu_involution_head_from_config,
+    "ray_semiring_chi_head": build_ray_semiring_chi_head_from_config,
+    "delta_event_legal_routing": build_delta_event_legal_routing_from_config,
+    "delta_state_slg_diffusion": build_delta_state_slg_diffusion_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

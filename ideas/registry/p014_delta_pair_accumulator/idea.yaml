@@ -1,0 +1,34 @@
+idea_id: p014
+name: Δ-Pair Accumulator
+slug: delta_pair_accumulator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (delta-accumulator batch)
+short_thesis: |
+  DPA extends the first-order accumulator with an explicit pair term restricted to an input-dependent edge set E(S) ⊂ S × S. The chess instantiation uses the rule-derived alignment predicate (same rank, file, or diagonal) which is the cheapest deterministic-from-S generalisation of attacker→defender pairs.
+novelty_claim: |
+  The factorisation-machine identity (Rendle 2010) sums over ALL pairs and cannot recover an input-dependent strict subset E(S); EmbeddingBag is sum-only. DPA exposes the pair structure as a first-class operator with O(|S|+|E(S)|·k) cost rather than O(|S|²·k).
+expected_advantage: |
+  Lift on positions with batteries / pins / skewers (alignment-pair slice). The zero_pair_term and uniform_edge_mask ablations must lose the lift; otherwise DPA has collapsed to the sum-only baseline or to dense bilinear.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The active piece-square feature set used by the delta-accumulator is computed deterministically from the 12 piece planes; the side-to-move plane is also rule-derived. CRTK metadata, source labels, verification flags, principal variations, and engine evaluations are reporting-only and never used as model inputs.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output), primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit, primitive_active_count, primitive_state_norm, plus the i193 trunk diagnostics and the primitive-specific per-sample diagnostics emitted by compute_state.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork.
+  Head: pair embedding table 144×pair_dim (per ordered piece-type pair) + low-rank Δsq gate over (rank_diff, file_diff). Edge mask is computed in O(K²) on the static batch; the O(|E(S)|·k) inference path is documented in implementation_notes.md.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p014_delta_pair_accumulator/train.py
+config_path: ideas/registry/p014_delta_pair_accumulator/config.yaml
+model_path: ideas/registry/p014_delta_pair_accumulator/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_08_delta_pair_ray_selective_bispectrum.md. Primary proposal implemented: primitive_delta_pair_accumulator (DPA). Deferred: primitive_ray_selective_scan, primitive_d4_z2_bispectrum, primitive_popconv, primitive_threat_diffusion_deq — documented in the external_08 packet and explicitly deferred until DPA lands per the report's own staging guidance.
+  CRTK metadata, source labels, verification flags, and engine scores are reporting-only and never used as model inputs.
+source_primitive_path: ideas/research/primitives/external_08_delta_pair_ray_selective_bispectrum.md
+source_packet_path: ideas/research/primitives/external_08_delta_pair_ray_selective_bispectrum.md
+source_packet_candidate: Δ-Pair Accumulator
+mechanism_family: move_delta
