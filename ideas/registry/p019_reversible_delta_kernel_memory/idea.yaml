@@ -1,0 +1,64 @@
+idea_id: p019
+name: Reversible Delta Kernel Memory
+slug: reversible_delta_kernel_memory
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  A linear-attention-style set memory ``(M, z)`` with exact signed
+  insert/delete updates over the active piece set. At training time the
+  memory is computed statically over the current board's piece tokens;
+  the same state would be maintained incrementally by an engine's
+  make/unmake loop using ``add(piece)`` / ``remove(piece)`` events.
+novelty_claim: |
+  None of the existing trunk ideas treat the piece set as a stateful
+  kernel-memory dynamic-set primitive with exact signed deletion. The
+  closest neighbours are linear-attention sequence operators (sequence
+  recurrence, not unordered set with delete) and NNUE accumulators
+  (first-order sum, not kernel memory). The novelty is the unordered
+  signed-edit kernel memory with insert/delete deltas surfaced as the
+  primitive's I/O signature.
+expected_advantage: |
+  Targeted lift on slices that depend on second-order piece interactions
+  (king-piece distance, pinned-piece-plus-pinner, defender-plus-target)
+  without recomputing the full pair fan. Speed advantage is a deferred
+  claim of the stateful API; at training time we measure only the
+  static-position lift.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor (the same
+  contract i193 and i248 follow).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The active-piece
+  set is derived rule-exactly from the simple_18 piece planes (one
+  token per occupied square, encoded by piece type + side + square).
+  CRTK metadata, source labels, verification flags, engine scores, and
+  any report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, rdkm_active_count,
+  rdkm_memory_norm, rdkm_z_norm, plus the i193 trunk diagnostics
+  (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: per-
+  square token projection plus ``phi`` (elu+1) and ``nu`` projections;
+  static memory ``M = sum_i phi(u_i) nu(u_i)^T`` and normaliser
+  ``z = sum_i phi(u_i)`` over 64 squares; ``num_queries`` queries
+  drawn from the trunk joint feature, kernel-attended over ``(M, z)``.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p019_reversible_delta_kernel_memory/train.py
+config_path: ideas/registry/p019_reversible_delta_kernel_memory/config.yaml
+model_path: ideas/registry/p019_reversible_delta_kernel_memory/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_13_reversible_delta_kernel_occlusion_transport.md.
+  Other proposals inside that packet (occlusion-scanned move transport,
+  incremental pair accumulator, alternating soft-exchange scan, signed
+  chess orbit normalisation) are deferred -- two of them are covered by
+  sister primitives in this same batch (p020/p021 ray scans, p022
+  bilinear accumulator).
+source_primitive_path: ideas/research/primitives/external_13_reversible_delta_kernel_occlusion_transport.md
+source_packet_candidate: primitive_01_reversible_delta_kernel_memory
+mechanism_family: response_constraint

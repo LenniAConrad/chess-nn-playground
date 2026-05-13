@@ -1,0 +1,57 @@
+idea_id: p024
+name: Event-Symmetric Interaction Accumulator
+slug: event_symmetric_interaction_accumulator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (occlusion-blocker primitive batch)
+short_thesis: |
+  Maintain the elementary symmetric polynomial states ``E^{(r)} = sum_{i_1
+  < ... < i_r} u_{i_1} (.) ... (.) u_{i_r}`` of the active piece tokens
+  for orders ``r = 1, 2, ..., R``. The streaming recurrence ``E^{(r)}
+  <- E^{(r)} + u_i (.) E^{(r-1)}`` and its inverse ``tilde E^{(r)} =
+  E^{(r)} - u_i (.) tilde E^{(r-1)}`` give exact reversible add /
+  remove updates.
+novelty_claim: |
+  Reversible elementary-symmetric Hadamard polynomial state with
+  exact insert/delete updates. Stateless implementations collapse to
+  ordinary polynomial pooling; the defensible novelty is the
+  reversible event API and the explicit hierarchy of orders >= 2.
+expected_advantage: |
+  Lift on slices where third-order interaction patterns matter (king-
+  attacker-defender triple, fork-attacker-target1-target2, discovered
+  attack triple). Higher-order interactions are otherwise indirect
+  via stacked first-order layers.
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Per-square tokens
+  are computed from the 12 piece planes plus the side-to-move scalar.
+  CRTK metadata, source labels, verification flags, engine scores, and
+  any report-only metadata are not consulted at any point.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, esia_active_count,
+  esia_order_max_magnitude, esia_order_mean_magnitude, plus per-order
+  esia_order_<r>_magnitude diagnostics, plus the i193 trunk
+  diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: single
+  token projection per square, streaming recurrence over all 64
+  squares for orders 1..R (R=2 by default), final readout MLP over
+  concat(E^{(1)}, ..., E^{(R)}).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p024_event_symmetric_interaction_accumulator/train.py
+config_path: ideas/registry/p024_event_symmetric_interaction_accumulator/config.yaml
+model_path: ideas/registry/p024_event_symmetric_interaction_accumulator/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_20_event_symmetric_sparse_scatter_ray_scan.md.
+  Other proposals inside that packet (rule-generated sparse scatter,
+  first-blocker ray scan, chess-irrep orbit norm, counterfactual
+  delta map) are deferred -- the ray scan is covered by p020/p021.
+source_primitive_path: ideas/research/primitives/external_20_event_symmetric_sparse_scatter_ray_scan.md
+source_packet_candidate: primitive_event_symmetric_accumulator
+mechanism_family: response_constraint
