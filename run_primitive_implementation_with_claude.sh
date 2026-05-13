@@ -9,7 +9,7 @@ CLAUDE_PERMISSION_MODE="${CLAUDE_PERMISSION_MODE:-bypassPermissions}"
 CLAUDE_SESSION_NAME="${CLAUDE_SESSION_NAME:-primitive-implementation-opus-4-7}"
 CLAUDE_PRIMITIVE_TARGETS="${CLAUDE_PRIMITIVE_TARGETS:-TSDP PFCT TDCD DHPE CAIO}"
 CLAUDE_ALLOW_TRAINING="${CLAUDE_ALLOW_TRAINING:-0}"
-CLAUDE_NONINTERACTIVE="${CLAUDE_NONINTERACTIVE:-0}"
+CLAUDE_NONINTERACTIVE="${CLAUDE_NONINTERACTIVE:-1}"
 REPORT_DIR="${CLAUDE_PRIMITIVE_REPORT_DIR:-$ROOT_DIR/reports/primitive_implementation_with_claude}"
 SAFE_SESSION_NAME="$(printf '%s' "$CLAUDE_SESSION_NAME" | tr -c 'A-Za-z0-9_.-' '_')"
 RUN_STAMP="$(date +%Y%m%d_%H%M%S)_pid$$"
@@ -167,6 +167,10 @@ run_claude() {
   if [[ "${CLAUDE_DRY_RUN:-0}" == "1" ]]; then
     echo "Claude command:"
     printf '  %q' "$CLAUDE_BIN" "${claude_args[@]}"
+    if [[ "$CLAUDE_NONINTERACTIVE" == "1" ]]; then
+      printf ' %q %q' "-p" "--output-format"
+      printf ' %q' "text"
+    fi
     printf ' %q\n' "[prompt from $PROMPT_FILE]"
     echo
     echo "Prompt file: $PROMPT_FILE"

@@ -333,8 +333,10 @@ the exact model string, run:
 CLAUDE_MODEL=opus ./run_primitive_implementation_with_claude.sh
 ```
 
-Use `CLAUDE_NONINTERACTIVE=1` to run with `claude -p` and tee the output to
-`reports/primitive_implementation_with_claude/`. Use `CLAUDE_DRY_RUN=1` to
+The launcher defaults to non-interactive `claude -p` mode so background/tmux
+runs actually submit the prompt and stream output to
+`reports/primitive_implementation_with_claude/`. Set `CLAUDE_NONINTERACTIVE=0`
+only when you want a manual interactive Claude UI. Use `CLAUDE_DRY_RUN=1` to
 inspect the generated prompt and command without invoking Claude.
 
 ## Outputs
