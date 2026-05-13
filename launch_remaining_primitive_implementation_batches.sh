@@ -189,69 +189,25 @@ main() {
   fi
 
   launch_batch \
-    "codex-reply" \
-    "p001-p005" \
-    "Candidate/reply/game reducers for hard negatives and tactical ambiguity." \
-    "ideas/research/primitives/codex_01_pareto_antichain_frontier.md" \
-    "ideas/research/primitives/codex_02_regret_saddlepoint.md" \
-    "ideas/research/primitives/codex_03_reply_channel_capacity.md" \
-    "ideas/research/primitives/codex_04_tail_copula_concordance.md" \
-    "ideas/research/primitives/codex_05_witness_counterwitness_quantifier.md"
+    "gpt-orbit-boolean-algebra" \
+    "p036-p041" \
+    "2026-05-13 GPT primitives covering canonicalization, BDD/WMC, ESP/permanent/resolvent, active matching/eikonal, conservation/Hodge, and exterior/resolvent operators. Deduplicate aggressively before implementing variants." \
+    "ideas/research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md" \
+    "ideas/research/primitives/external_32_elementary_symmetric_gibbs_hodge_primitives.md" \
+    "ideas/research/primitives/external_33_esp_permanent_woodbury_orbit_primitives.md" \
+    "ideas/research/primitives/external_34_active_esp_conflict_matching_eikonal_primitives.md" \
+    "ideas/research/primitives/external_35_espa_conservation_isotypic_green_primitives.md" \
+    "ideas/research/primitives/external_36_exterior_product_rank1_resolvent_primitives.md"
 
   launch_batch \
-    "ray-legal" \
-    "p006-p011" \
-    "Ray-cast and legal-move sparse routing primitives with minimal trainer surface area." \
-    "ideas/research/primitives/external_02_move_graph_router_delta_accumulator.md" \
-    "ideas/research/primitives/external_03_attack_ray_sparse_attention_delta_accumulator.md" \
-    "ideas/research/primitives/external_04_rule_conditioned_sparse_attention_mobscan.md" \
-    "ideas/research/primitives/external_05_legal_move_graph_delta_accumulator.md" \
-    "ideas/research/primitives/external_12_ray_occlusion_legal_dispatch_delta_pair.md" \
-    "ideas/research/primitives/external_14_ray_occlusion_legal_edge_compile_scatter.md"
-
-  launch_batch \
-    "delta-accumulator" \
-    "p012-p018" \
-    "O(delta) incremental/edit accumulator primitives and selective pair reducers." \
-    "ideas/research/primitives/external_01_signed_edit_bilinear_memory_ray_scan.md" \
-    "ideas/research/primitives/external_07_sparse_delta_accumulator_segment_scatter.md" \
-    "ideas/research/primitives/external_08_delta_pair_ray_selective_bispectrum.md" \
-    "ideas/research/primitives/external_09_delta_crelu_involution_graph_message.md" \
-    "ideas/research/primitives/external_10_ray_semiring_exchange_and_chi_head.md" \
-    "ideas/research/primitives/external_11_delta_event_legal_move_routing.md" \
-    "ideas/research/primitives/external_17_delta_state_slg_diffusion_fg_tp.md"
-
-  launch_batch \
-    "occlusion-blocker" \
-    "p019-p024" \
-    "Blocker-aware ray/occlusion scans, reset kernels, and sparse hyperedge reducers." \
-    "ideas/research/primitives/external_13_reversible_delta_kernel_occlusion_transport.md" \
-    "ideas/research/primitives/external_15_blocker_reset_edit_delta_fastweight.md" \
-    "ideas/research/primitives/external_16_ray_blocked_delta_pair_legal_edge_reduce.md" \
-    "ideas/research/primitives/external_18_delta_bilinear_ray_blocked_segment_attention.md" \
-    "ideas/research/primitives/external_19_occlusion_semiring_delta_bilinear_hyperedge.md" \
-    "ideas/research/primitives/external_20_event_symmetric_sparse_scatter_ray_scan.md"
-
-  launch_batch \
-    "gemini-graph-state" \
-    "p025-p030" \
-    "Gemini graph/state/ray state-space primitives that look most compatible with i193." \
-    "ideas/research/primitives/external_21_incremental_delta_linear_color_involution_adjacency.md" \
-    "ideas/research/primitives/external_22_ray_cast_obstacle_pooling_sparse_emit.md" \
-    "ideas/research/primitives/external_23_sparse_legal_move_router_kinematic_state_space.md" \
-    "ideas/research/primitives/external_24_incremental_latent_accumulator_directional_scan.md" \
-    "ideas/research/primitives/external_26_delta_update_occlusion_ray_piece_kernels.md" \
-    "ideas/research/primitives/external_27_ray_parallel_ssm_delta_accumulator_sparse_conv.md"
-
-  launch_batch \
-    "gemini-misc" \
-    "p031-p035" \
-    "High-risk legal graph, rank/order, transition, and octilinear delta variants." \
-    "ideas/research/primitives/external_06_high_risk_legal_graph_delta_state_primitives.md" \
-    "ideas/research/primitives/external_25_dynamic_adjacency_rank_order_involution_gate.md" \
-    "ideas/research/primitives/external_28_sparse_differential_accumulator_move_kernel.md" \
-    "ideas/research/primitives/external_29_incremental_move_update_octilinear_scan.md" \
-    "ideas/research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md"
+    "gpt-polynomial-hodge-rook" \
+    "p042-p046" \
+    "2026-05-13 GPT primitives centered on polynomial ledgers, rook/matroid matching, orbit/Hodge projections, coalition/resolvent pooling, and subset log-partition operators. Prefer one representative per duplicate family." \
+    "ideas/research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md" \
+    "ideas/research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md" \
+    "ideas/research/primitives/external_39_orbit_irrep_hodge_projection_primitives.md" \
+    "ideas/research/primitives/external_40_symmetric_coalition_resolvent_primitives.md" \
+    "ideas/research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md"
 
   echo
   if [[ "$LAUNCH_DRY_RUN" == "1" ]]; then
