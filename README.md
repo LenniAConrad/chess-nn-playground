@@ -321,7 +321,7 @@ The launcher defaults to:
 ```text
 CLAUDE_MODEL=claude-opus-4-7
 CLAUDE_EFFORT=max
-CLAUDE_PERMISSION_MODE=acceptEdits
+CLAUDE_PERMISSION_MODE=bypassPermissions
 ```
 
 The launcher only accepts `CLAUDE_EFFORT=max` or `CLAUDE_EFFORT=xhigh` for this
