@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `281`
+- Implemented architecture rows audited: `286`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -293,6 +293,11 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `p039` | `ideas/registry/p039_occupancy_eikonal_transform` | `occupancy_eikonal_transform` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p039_occupancy_eikonal_transform/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/occupancy_eikonal_transform.py` | - |
 | `p040` | `ideas/registry/p040_conservation_nullspace_norm` | `conservation_nullspace_norm` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p040_conservation_nullspace_norm/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/conservation_nullspace_norm.py` | - |
 | `p041` | `ideas/registry/p041_truncated_exterior_product_pool` | `truncated_exterior_product_pool` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p041_truncated_exterior_product_pool/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/truncated_exterior_product_pool.py` | - |
+| `p042` | `ideas/registry/p042_truncated_multiset_polynomial_pool` | `truncated_multiset_polynomial_pool` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p042_truncated_multiset_polynomial_pool/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/truncated_multiset_polynomial_pool.py` | - |
+| `p043` | `ideas/registry/p043_grassmann_rook_pool` | `grassmann_rook_pool` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p043_grassmann_rook_pool/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/grassmann_rook_pool.py` | - |
+| `p044` | `ideas/registry/p044_weighted_hodge_projector` | `weighted_hodge_projector` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p044_weighted_hodge_projector/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/weighted_hodge_projector.py` | - |
+| `p045` | `ideas/registry/p045_kirchhoff_mobility_solve` | `kirchhoff_mobility_solve` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p045_kirchhoff_mobility_solve/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/kirchhoff_mobility_solve.py` | - |
+| `p046` | `ideas/registry/p046_subset_logpartition` | `subset_logpartition` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p046_subset_logpartition/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/subset_logpartition.py` | - |
 
 Validation command:
 

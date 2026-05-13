@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `289`
+- Registered idea folders: `294`
 - Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 274, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 281, 'shared_probe_variant': 6, 'unknown': 2}`
+- Registered implementation states: `{'implemented': 279, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 286, 'shared_probe_variant': 6, 'unknown': 2}`
 - Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 281 | Materially distinct model implementation. |
+| `bespoke_model` | 286 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -329,6 +329,11 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `p039` | [Differentiable Occupancy Eikonal Transform](p039_occupancy_eikonal_transform) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
 | `p040` | [Conservation-Nullspace Normalization](p040_conservation_nullspace_norm) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
 | `p041` | [Truncated Exterior Product Pool](p041_truncated_exterior_product_pool) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the simple_18 board tensor. |
+| `p042` | [Truncated Multiset Polynomial Pool](p042_truncated_multiset_polynomial_pool) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p043` | [Grassmann Rook-Matching Pool](p043_grassmann_rook_pool) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p044` | [Weighted Hodge Projector](p044_weighted_hodge_projector) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p045` | [Kirchhoff Mobility Solve](p045_kirchhoff_mobility_solve) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p046` | [Bounded Subset Log-Partition Transform](p046_subset_logpartition) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 
 ## Research Packet Map
 

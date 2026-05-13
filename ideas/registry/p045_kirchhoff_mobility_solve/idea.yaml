@@ -1,0 +1,77 @@
+idea_id: p045
+name: Kirchhoff Mobility Solve
+slug: kirchhoff_mobility_solve
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-polynomial-hodge-rook primitive batch)
+short_thesis: |
+  Kirchhoff Mobility Solve (KMS). Solve the SPD equilibrium
+
+      (D^T diag(c_b) D + lambda I) u_b = s_b
+
+  where ``D`` is the fixed 8x8 grid vertex-edge incidence, ``c_b`` is
+  an input-dependent positive edge conductance (softplus of an MLP
+  over edge-endpoint features), and ``s_b`` is a per-square source /
+  sink term from the i193 spatial features. The exact electrical
+  potential ``u_b`` is the resolvent of the conductance graph, the
+  "long-range bottleneck-aware" feature that local convs and unrolled
+  GNNs cannot represent in finite hops. The potential is projected
+  and pooled to a scalar logit delta gated on top of the i193 trunk.
+novelty_claim: |
+  This is *not* an unrolled GNN or fixed-step diffusion. The operator
+  returns the equilibrium of a learned conductance system through a
+  batched SPD solve with implicit reverse mode. It differs from the
+  legal-move Laplacian resolvent (p031, LM-LPP) because the underlying
+  graph is the fixed 8x8 grid, not the legal-move graph -- KMS is a
+  geometry primitive, not a rule-graph primitive. It also differs from
+  p044 weighted_hodge_projector because the input is a source field
+  with a single SPD solve, not a flow with two orthogonal-projection
+  solves.
+expected_advantage: |
+  The source primitive predicts >= 5% relative class-1 near-puzzle FP
+  reduction at matched recall with <= 25% inference slowdown. Expected
+  target slice: positions where a one-square blocker changes the
+  effective conductance between king, escape squares, and attacking
+  zones -- king-safety and fortress patterns that depend on global
+  bottleneck structure.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Source and conductance are read
+  from the i193 spatial feature map. CRTK metadata, source labels,
+  verification flags, engine evaluations, and principal variations
+  are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``kms_potential_norm``, ``kms_conductance_mean``, ``kms_source_norm``.
+  The trunk's i193 diagnostics are forwarded under the ``trunk_<name>``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The KMS
+  head adds a source head (Linear), a conductance head (2-layer MLP),
+  one batched ``torch.linalg.solve`` of size 64 x 64 over
+  ``source_channels`` right-hand sides, an output projection, a
+  two-layer delta MLP, and a two-layer gate MLP. The solve is the
+  dominant cost: O(B * 64^3) FLOPs, well-supported on modern GPUs.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p045_kirchhoff_mobility_solve/train.py
+config_path: ideas/registry/p045_kirchhoff_mobility_solve/config.yaml
+model_path: ideas/registry/p045_kirchhoff_mobility_solve/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_40_symmetric_coalition_resolvent_primitives.md
+  (Section 4 ``primitive_kirchhoff_mobility_solve``). The file's #1
+  ``primitive_symmetric_coalition_pool`` overlaps with the polynomial-
+  ledger family (p042) and is implemented there. #5
+  ``primitive_choquet_coalition_integral`` overlaps with subset-style
+  pooling (p046). #2 ``primitive_determinantal_coverage_pool`` is a
+  log-det DPP variant; #3 ``primitive_character_orbit_norm`` is in the
+  orbit/irrep family deferred to a future symmetry batch.
+source_primitive_path: ideas/research/primitives/external_40_symmetric_coalition_resolvent_primitives.md
+source_primitive_candidate: Differentiable Kirchhoff Mobility Solve
+source_packet_path: ideas/research/primitives/external_40_symmetric_coalition_resolvent_primitives.md
+source_packet_candidate: Differentiable Kirchhoff Mobility Solve
+mechanism_family: resolvent_pool

@@ -12,10 +12,10 @@ Benchmark the fully implemented bespoke architectures first. Shared-probe folder
 
 Current execution state:
 
-- Registered idea folders: `289`
+- Registered idea folders: `294`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `274`
-- Bespoke model implementations: `281`
+- Fully implemented architectures still needing a linked benchmark run: `279`
+- Bespoke model implementations: `286`
 - Shared ResearchPacketProbe variants: `6`
 
 Recommended immediate sequence:
@@ -36,7 +36,7 @@ Benchmark queue by ID:
 - Batch 9: `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`
 - Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`
 - Batch 11: `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`
-- Batch 12: `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`
+- Batch 12: `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -350,6 +350,11 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `p039` | [Differentiable Occupancy Eikonal Transform](p039_occupancy_eikonal_transform) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p040` | [Conservation-Nullspace Normalization](p040_conservation_nullspace_norm) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p041` | [Truncated Exterior Product Pool](p041_truncated_exterior_product_pool) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p042` | [Truncated Multiset Polynomial Pool](p042_truncated_multiset_polynomial_pool) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p043` | [Grassmann Rook-Matching Pool](p043_grassmann_rook_pool) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p044` | [Weighted Hodge Projector](p044_weighted_hodge_projector) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p045` | [Kirchhoff Mobility Solve](p045_kirchhoff_mobility_solve) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p046` | [Bounded Subset Log-Partition Transform](p046_subset_logpartition) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 
 ## Research Packet Backlog
 

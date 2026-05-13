@@ -1,0 +1,80 @@
+idea_id: p042
+name: Truncated Multiset Polynomial Pool
+slug: truncated_multiset_polynomial_pool
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-polynomial-hodge-rook primitive batch)
+short_thesis: |
+  Truncated Multiset Polynomial Pool (TMPP). Compute the truncated
+  elementary-symmetric polynomial coefficients
+  ``e_k = sum_{|S|=k} prod_{i in S} u_i`` of a per-token tanh-bounded
+  latent ``u_i = tanh(W x_i + b)`` over own-piece squares, with
+  ``k = 1, ..., K``. The recurrence ``e_k <- e_k + u_i * e_{k-1}``
+  applied descending in k is a fused triangular polynomial scan in the
+  truncated ring R[t]/t^{K+1}; it is *not* DeepSets sum pool (the K=1
+  control collapses to that), and it is *not* attention. The stacked
+  coefficient tensor is concatenated with the i193 trunk joint pool and
+  projected to a scalar additive gated logit delta.
+novelty_claim: |
+  The operator returns a *vector* of low-order multiplicative coalition
+  coefficients per channel, with a Hadamard-product polynomial state
+  that no PyTorch built-in exposes. K=1 reduces to additive pooling
+  (DeepSets); the load-bearing claim is that K >= 2 carries
+  distinguishable interaction information. This is distinct from the
+  pair-resonance Hessian family (no derivative over piece existence,
+  arbitrary K) and from delta accumulators (state is multiplicative,
+  not additive).
+expected_advantage: |
+  The source primitive predicts a >=10% relative near-puzzle FP
+  reduction at matched recall with <5% inference slowdown on CRTK
+  class-1. Expected target slice: positions where one extra supporting
+  piece or defender flips the tactical sign (hard negatives that
+  additive pooling blurs).
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Per-token latents are projected from
+  the 12 piece-presence planes plus the side-to-move plane. The
+  per-square occupancy mask is the sum of piece-presence planes,
+  clamped to [0, 1]. CRTK metadata, source labels, verification
+  flags, engine evaluations, and principal variations are *not*
+  consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``tmpp_active_mean``, ``tmpp_coeff_norm``, and per-degree coefficient
+  norms ``tmpp_coeff_e1`` / ``tmpp_coeff_e2`` / ``tmpp_coeff_e3``. The
+  trunk's i193 diagnostics are forwarded under the ``trunk_<name>``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The TMPP
+  head adds the token projector (Linear(13, latent_dim) + LayerNorm),
+  the polynomial scan over 64 squares, a coefficient LayerNorm, a
+  two-layer delta MLP, and a two-layer gate MLP. The scan runs a
+  Python loop over 64 squares with K (default 3) coefficient updates,
+  each an in-place Hadamard product followed by add — well within
+  PyTorch graph budget. Head adds ~50k parameters at defaults.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p042_truncated_multiset_polynomial_pool/train.py
+config_path: ideas/registry/p042_truncated_multiset_polynomial_pool/config.yaml
+model_path: ideas/registry/p042_truncated_multiset_polynomial_pool/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md
+  (Section 1 ``primitive_truncated_multiset_polynomial_pool``;
+  first-ranked proposal). Deferred internal proposals from the same
+  source: ``primitive_entropic_rook_matching_contraction`` (rook-
+  polynomial DP — addressed by p043 grassmann rook pool),
+  ``primitive_laplacian_forest_connectivity`` (Laplacian resolvent —
+  addressed by p045 kirchhoff mobility solve),
+  ``primitive_weighted_hodge_flow_split`` (Hodge decomposition —
+  addressed by p044 weighted hodge projector), and
+  ``primitive_chess_group_irrep_norm`` (irrep-projector normalisation
+  — orbit/irrep family deferred to a future batch).
+source_primitive_path: ideas/research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md
+source_primitive_candidate: Truncated Multiset Polynomial Pool
+source_packet_path: ideas/research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md
+source_packet_candidate: Truncated Multiset Polynomial Pool
+mechanism_family: ledger_polynomial
