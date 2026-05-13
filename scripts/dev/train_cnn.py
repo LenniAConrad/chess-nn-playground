@@ -18,7 +18,7 @@ from chess_nn_playground.utils.config import load_yaml
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train the simple CNN baseline.")
-    parser.add_argument("--config", default="configs/_archive/legacy/cnn_baseline.yaml")
+    parser.add_argument("--config", default="configs/benchmarks/coarse_binary/bench_cnn_small_simple18.yaml")
     args = parser.parse_args()
     config = load_yaml(args.config)
     run_dir = train_from_config(config)

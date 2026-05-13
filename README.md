@@ -86,7 +86,6 @@ PYTHONDONTWRITEBYTECODE=1 pytest -q
 src/chess_nn_playground/      Importable Python package
 configs/benchmarks/           Benchmark configs grouped by task
 configs/suites/               Multi-config benchmark suites
-configs/_archive/legacy/               Older configs kept for comparison or smoke work
 scripts/                      Stable training, validation, suite, and reporting entrypoints
 scripts/data/                 CRTK import, audit, split, and tagging utilities
 scripts/reports/              Plotting and report-generation utilities

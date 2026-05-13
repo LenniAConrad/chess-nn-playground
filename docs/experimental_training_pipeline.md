@@ -131,7 +131,7 @@ Run the current puzzle-binary suite:
 PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py --suite configs/suites/network_signal_benchmark_suite.yaml --skip-existing
 ```
 
-Run the legacy coarse-binary suite only for the older CNN/ResNet comparison:
+Run the coarse-binary suite only for the older CNN/ResNet comparison:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py --suite configs/suites/experiment_suite.yaml --skip-existing
@@ -163,10 +163,12 @@ results/leaderboard.md
 reports/leaderboards/global_leaderboard.md
 ```
 
-Validate configs without training:
+Validate coarse-binary configs without training:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py configs/_archive/legacy/cnn_crtk_sample.yaml configs/_archive/legacy/residual_cnn_crtk_sample.yaml
+PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py \
+  configs/benchmarks/coarse_binary/bench_cnn_small_simple18.yaml \
+  configs/benchmarks/coarse_binary/bench_residual_small_simple18.yaml
 ```
 
 Validate a completed run's required artifacts:
@@ -379,7 +381,7 @@ configs/benchmarks/fine_3class/bench_fine3_cnn_simple18.yaml
 configs/benchmarks/fine_3class/bench_fine3_lc0_bt4_classifier.yaml
 ```
 
-The legacy coarse-binary suite compares:
+The coarse-binary suite compares:
 
 ```text
 configs/benchmarks/coarse_binary/bench_cnn_small_simple18.yaml

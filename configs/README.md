@@ -8,7 +8,6 @@ Training configs are grouped by benchmark contract. Suites reference configs by 
 - `benchmarks/fine_3class/`: direct 3-class classification of non-puzzle, near-puzzle, and puzzle.
 - `benchmarks/coarse_binary/`: older binary architecture comparison configs.
 - `suites/`: config lists for `scripts/run_experiment_suite.py`.
-- `legacy/`: older configs kept for comparison, smoke tests, or migration reference.
 - `project/`: non-training project configs.
 - `external/`: local external-engine/CLI configs, not neural-network training configs.
 
