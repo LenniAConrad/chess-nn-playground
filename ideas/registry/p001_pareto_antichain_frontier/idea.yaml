@@ -1,0 +1,71 @@
+idea_id: p001
+name: Pareto Antichain Frontier Primitive
+slug: pareto_antichain_frontier_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Codex (PAFR promotion from research packet)
+short_thesis: |
+  Many tactical candidates have multiple non-commensurate utility axes
+  (forcing claim, king exposure, exchange soundness, reply safety,
+  promotion pressure, defender overload). Forcing all axes through one
+  scalar score before set selection collapses the partial order and
+  loses puzzle-vs-near-puzzle structure. The Pareto Antichain Frontier
+  (PAFR) primitive keeps the partial order intact: it returns soft
+  non-dominated probabilities, frontier width, frontier entropy, and a
+  frontier-weighted summary, then injects an additive gated logit delta
+  on top of the i193 dual-stream trunk.
+novelty_claim: |
+  No existing trunk in the registry exposes a differentiable
+  partial-order antichain reducer as a first-class neural primitive
+  over learned candidate utility tables. The closest neighbours
+  (sparsemax / top-k / soft-sort) all require a scalar score per item;
+  PAFR computes a soft Pareto antichain over an explicit pairwise
+  dominance product before any scalarization, with diagnostics
+  (frontier width / entropy / non-dominated probabilities) surfaced as
+  first-class model outputs.
+expected_advantage: |
+  Targeted lift on near-puzzle false positives at recall 0.80 versus
+  i193, with a matched ablation that destroys the partial-order
+  structure (single channel, shuffled channels, or scalar max) losing
+  most of the lift. Promotion criterion is per the source packet:
+  improve matched-recall near-puzzle FP by at least 3% over i193 and
+  beat the one-channel control.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. Candidate tokens are compiled
+  inside the model from the i193 trunk's spatial features via a
+  learned set-query attention pool. CRTK metadata, source labels,
+  verification flags, engine evaluations, principal variations, and any
+  report-only metadata are not consumed at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output),
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, pafr_frontier_width, pafr_frontier_entropy,
+  pafr_max_nondominated_prob, pafr_summary_norm, pafr_utility_mean,
+  pafr_utility_max, plus all i193 diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head:
+  candidate set-query attention pool (16 tokens), bilinear utility
+  head with 6 channels, pairwise dominance product (B * K^2 * C),
+  log-domain non-dominated probability, frontier softmax, and a small
+  fusion MLP. Forward cost is O(B * K^2 * C + trunk). For K = 16 and
+  C = 6 this is cheap relative to the i193 encoder cost.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p001_pareto_antichain_frontier/train.py
+config_path: ideas/registry/p001_pareto_antichain_frontier/config.yaml
+model_path: ideas/registry/p001_pareto_antichain_frontier/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/codex_01_pareto_antichain_frontier.md.
+  Bespoke additive Pareto-antichain head over the i193 trunk. CRTK
+  metadata is reporting-only and never used as model input. The
+  candidate / reply primitive batch (p001-p005) shares the
+  BoardTokenAttention compiler and trunk-feature helper in
+  src/chess_nn_playground/models/primitives/codex_reply_primitives.py.
+source_primitive_path: ideas/research/primitives/codex_01_pareto_antichain_frontier.md
+source_packet_path: ideas/research/primitives/codex_01_pareto_antichain_frontier.md
+source_packet_candidate: Pareto Antichain Frontier Primitive
+mechanism_family: king_path

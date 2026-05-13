@@ -1,0 +1,69 @@
+idea_id: p005
+name: Witness-Counterwitness Quantifier Primitive
+slug: witness_counterwitness_quantifier_network
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Codex (WCQ promotion from research packet)
+short_thesis: |
+  Near-puzzles often have the same positive-looking forcing witness as
+  true puzzles, but they also have one surviving defensive
+  counterwitness. Existing attention, pooling, and graph reductions
+  pool evidence additively and cannot natively express
+  "exists own candidate m such that no reply r refutes m." The
+  Witness-Counterwitness Quantifier (WCQ) primitive turns the nested
+  adversarial structure into the layer itself: a differentiable
+  `exists / forall` over ragged claim and counter scores, with witness
+  / counterwitness assignments and a board-level value as native
+  outputs. Acts as an additive gated head on top of the i193 trunk.
+novelty_claim: |
+  No existing registry entry implements a reusable ragged-set
+  differentiable nested adversarial quantifier as a first-class
+  neural primitive over learned candidate / reply token sets. Closest
+  neighbours (logsumexp pooling, sparse attention, differentiable
+  minimax backups) all pool additively or require scalar values. WCQ
+  exposes the nested `exists witness / forall counterwitness` operator
+  with saved witness / counter soft assignments as model outputs.
+expected_advantage: |
+  Targeted lift on matched-recall near-puzzle FP, especially in the
+  promotion / underpromotion and mate-in-1 near-puzzle buckets. The
+  promotion criterion per the source packet: >= 5% improvement over
+  i193 and i011 on near-puzzle FP at recall 0.80.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. Candidate (witness) and reply
+  (counterwitness) tokens are compiled inside the model from the i193
+  trunk's spatial features via two `BoardTokenAttention` pools. The
+  claim and counter scores are learned head MLPs. CRTK metadata,
+  source labels, verification flags, engine evaluations, and
+  report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  wcq_value, wcq_max_margin, wcq_min_margin,
+  wcq_counter_envelope_max, wcq_witness_entropy,
+  wcq_best_witness_index, wcq_best_counter_index, wcq_claim_max,
+  plus all i193 diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: two
+  set-query attention pools (16 candidates, 12 replies), claim MLP,
+  bilinear compatibility-conditioned counter MLP, the nested
+  logsumexp quantifier, and a small fusion MLP. Forward cost is
+  `O(K + K * R)` per board.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p005_witness_counterwitness_quantifier/train.py
+config_path: ideas/registry/p005_witness_counterwitness_quantifier/config.yaml
+model_path: ideas/registry/p005_witness_counterwitness_quantifier/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/codex_05_witness_counterwitness_quantifier.md.
+  Bespoke additive WCQ head over the i193 trunk. CRTK metadata is
+  reporting-only and never used as model input. Shares the
+  BoardTokenAttention compiler and trunk-feature helper with the rest
+  of the p001-p005 batch.
+source_primitive_path: ideas/research/primitives/codex_05_witness_counterwitness_quantifier.md
+source_packet_path: ideas/research/primitives/codex_05_witness_counterwitness_quantifier.md
+source_packet_candidate: Witness-Counterwitness Quantifier Primitive
+mechanism_family: king_path
