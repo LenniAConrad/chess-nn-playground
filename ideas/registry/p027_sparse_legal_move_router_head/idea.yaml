@@ -1,0 +1,69 @@
+idea_id: p027
+name: Sparse Legal-Move Router Head
+slug: sparse_legal_move_router_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_23_sparse_legal_move_router_kinematic_state_space.md (SLMR)
+  into a trainable additive head on the i193 dual-stream trunk. The head
+  builds a rule-exact legal-move adjacency from the simple_18 board and
+  runs one round of masked attention strictly inside the legal-move
+  topology. The pooled routed feature is fused with the trunk
+  diagnostics to produce a gated logit delta.
+novelty_claim: |
+  The i193 trunk encodes piece-type attack masks but pools per-square
+  features into stream-level descriptors before reasoning about
+  routing. p027 introduces explicit per-square message passing whose
+  connectivity is the rule-derived legal-move graph, fused additively on
+  top of the trunk. None of the existing i### entries (i007, i025, i203,
+  ...) materialise the legal-move adjacency as a first-class routing
+  primitive.
+expected_advantage: |
+  Targeted lift on slices where the relevant interaction is between two
+  squares connected by a legal move that the trunk's pooled features do
+  not surface (e.g. piece-counts-defending-square reasoning, fork
+  patterns, knight-move tactics). Primary falsifier is
+  `full_64x64_mask`: if attention without the legal-move restriction
+  matches the unablated run, the topological constraint is not load-
+  bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor. The legal-move adjacency is computed
+  rule-exactly from the 12 piece planes + the side-to-move plane via the
+  i193 geometry tables and per-position occupancy. CRTK metadata, source
+  labels, verification flags, and engine evaluations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus i193 trunk diagnostics and primitive-
+  specific slmr_legal_move_edges, slmr_active_sources,
+  slmr_attention_entropy, slmr_routed_feature_norm.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: piece-
+  type + per-square embedding tables; one round of masked attention
+  (Q, K, V projections of width attn_dim) gated by the rule-exact
+  legal-move mask; LayerNorm + two small MLPs over the pooled routed
+  feature + trunk diagnostics. Cost is dominated by the (B, 64, 64)
+  attention matmul, ~O(B * 64 * 64 * attn_dim).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p027_sparse_legal_move_router_head/train.py
+config_path: ideas/registry/p027_sparse_legal_move_router_head/config.yaml
+model_path: ideas/registry/p027_sparse_legal_move_router_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_23_sparse_legal_move_router_kinematic_state_space.md
+  proposal #1 (SLMR). The other proposals (KDS, ISSC, CIF, BPIP) are
+  deferred: KDS is a piece-type-conditioned convolution that fits better
+  as a trunk feature stack; ISSC overlaps with p028 ILA and p030 Ray-SSM;
+  CIF is an activation-only primitive; BPIP overlaps with the DHPE/PPI
+  piece-pair family (i245).
+source_primitive_path: ideas/research/primitives/external_23_sparse_legal_move_router_kinematic_state_space.md
+source_packet_path: ideas/research/primitives/external_23_sparse_legal_move_router_kinematic_state_space.md
+source_packet_candidate: Sparse Legal-Move Router (SLMR)
+mechanism_family: king_path
+packet_profile: sparse_legal_move_router_head

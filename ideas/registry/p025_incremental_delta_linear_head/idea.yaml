@@ -1,0 +1,74 @@
+idea_id: p025
+name: Incremental Delta-Linear Accumulator Head
+slug: incremental_delta_linear_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_21_incremental_delta_linear_color_involution_adjacency.md (the
+  Incremental Delta-Linear Operator, IDL) into a trainable additive head on
+  the i193 dual-stream trunk. The operator factorises into a learned
+  per-(piece-type, plane-square) embedding table whose sparse sum over
+  occupied cells produces a low-dim accumulator state. A small gated MLP
+  fuses that state with the i193 trunk diagnostics and emits a logit delta.
+novelty_claim: |
+  The DHPE (i245), TDCD (i244), PFCT (i246), CAIO (i247), and TSDP (i248)
+  primitive heads register signed Hessian, mixed defender derivative,
+  promotion fanout, complex amplitude, and rule-exact terminal state
+  respectively. None of them factorises the trunk into a per-(piece-type,
+  square) sparse-sum embedding with explicit incremental-update semantics
+  in the math. p025 is the first head whose operator is a *pure sparse
+  linear accumulator* over piece-square indicators — the linear half of the
+  NNUE / HalfKA mechanism written as a standalone primitive on top of the
+  modern i193 trunk.
+expected_advantage: |
+  Targeted lift on slices where a stable global piece-square statistic
+  carries signal that the convolutional trunk underfits — e.g. simple
+  material-count discrimination and pawn-structure regularities. The
+  primary falsifier is shuffle_squares / permute_piece_types: if either
+  control matches the unablated run on the declared target slice, the
+  per-(piece-type, square) factorisation is not load-bearing and the
+  primitive is dropped.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The IDL accumulator
+  reads the 12 piece planes flattened to (B, 12, 64), so the input is
+  rule-derived from legal board state. CRTK metadata, source labels,
+  verification flags, and engine evaluations are *not* consumed at any
+  point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit (i193 trunk output),
+  primitive_delta, primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus the i193 trunk diagnostics
+  (exchange_logit, king_logit, gate, gate_entropy, mechanism_energy,
+  stream_disagreement, ...). The primitive surface area also includes
+  idl_accumulator_norm, idl_accumulator_state_l2, and idl_active_cells.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork (two convolutional
+  stream encoders, dual heads, phase router, residual head). Head: a
+  learned (12, 64, accumulator_dim) embedding table (~36k params at the
+  default 48-d) plus two small LayerNorm + GELU MLPs over the
+  accumulator-state + trunk-diagnostics fusion vector. The embedding sum
+  is implemented as a single torch.einsum and adds negligible per-step
+  cost on top of the trunk forward.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p025_incremental_delta_linear_head/train.py
+config_path: ideas/registry/p025_incremental_delta_linear_head/config.yaml
+model_path: ideas/registry/p025_incremental_delta_linear_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_21_incremental_delta_linear_color_involution_adjacency.md
+  proposal #1 (IDL). The other four external_21 proposals (IEL, AGR, PPI,
+  GSL) stay research-only inside this packet: IEL is a trunk weight-tying
+  constraint rather than a head, AGR overlaps with the SLMR primitive
+  (p027), PPI overlaps with the DHPE/PPI piece-pair family (i245), and GSL
+  is already a king-stream feature in the i193 trunk.
+source_primitive_path: ideas/research/primitives/external_21_incremental_delta_linear_color_involution_adjacency.md
+source_packet_path: ideas/research/primitives/external_21_incremental_delta_linear_color_involution_adjacency.md
+source_packet_candidate: Incremental Delta-Linear Operator (IDL)
+mechanism_family: king_path
+packet_profile: incremental_delta_linear_head

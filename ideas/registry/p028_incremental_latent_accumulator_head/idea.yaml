@@ -1,0 +1,66 @@
+idea_id: p028
+name: Incremental Latent Accumulator Head
+slug: incremental_latent_accumulator_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_24_incremental_latent_accumulator_directional_scan.md (ILA)
+  into a trainable additive head on the i193 dual-stream trunk. The
+  head is a deep generalisation of the NNUE / HalfKA accumulator: a
+  global per-(piece-type, square) embedding plus a king-anchored
+  per-(king-square, piece-type, square) embedding feed a sparse sum
+  that is then passed through a small non-linear lift before being
+  fused into the i193 base logit.
+novelty_claim: |
+  Differs from `p025` (IDL) by adding (a) a king-anchored accumulator
+  conditioned on the own-king square — the HalfKA refinement — and (b)
+  an explicit non-linear `phi` lift before the LayerNorm. This separates
+  the linear-only test (p025) from the non-linear-latent test (p028).
+  Differs from the other primitive heads in this batch by carrying a
+  king-anchored embedding table rather than a directional scan.
+expected_advantage: |
+  Targeted lift on slices where the king square is the determining
+  context for piece evaluation (king-safety, king-zone activity,
+  endgame king activity). Primary falsifier is
+  `zero_king_accumulator`: if the architecture matches the no-king
+  control, the king-anchored embedding is not load-bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor. ILA reads the 12 piece planes plus the
+  own-king square (rule-derived from the simple_18 piece planes + side-
+  to-move plane). CRTK metadata, source labels, verification flags, and
+  engine evaluations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus i193 trunk diagnostics and primitive-
+  specific ila_global_norm, ila_king_norm, ila_latent_norm,
+  ila_active_cells, ila_king_index.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a
+  (12, 64, global_dim) global embedding (~36k floats @ d=48), a
+  (65, 12, 64, king_dim) king-anchored embedding (~50k floats @ d=16),
+  a phi MLP, a LayerNorm and two fusion MLPs. Memory is dominated by
+  the king-anchored table — at king_dim=16 and global_dim=48 the head
+  is well under 200k parameters.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p028_incremental_latent_accumulator_head/train.py
+config_path: ideas/registry/p028_incremental_latent_accumulator_head/config.yaml
+model_path: ideas/registry/p028_incremental_latent_accumulator_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_24_incremental_latent_accumulator_directional_scan.md
+  proposal #1 (ILA). The other proposals (LMTG, BPDO, SEI, DSS) are
+  deferred: LMTG overlaps with p027; BPDO is a separate counting/logic
+  primitive; SEI is a trunk weight-tying primitive; DSS overlaps with
+  p029 / p030.
+source_primitive_path: ideas/research/primitives/external_24_incremental_latent_accumulator_directional_scan.md
+source_packet_path: ideas/research/primitives/external_24_incremental_latent_accumulator_directional_scan.md
+source_packet_candidate: Incremental Latent Accumulator (ILA)
+mechanism_family: king_path
+packet_profile: incremental_latent_accumulator_head

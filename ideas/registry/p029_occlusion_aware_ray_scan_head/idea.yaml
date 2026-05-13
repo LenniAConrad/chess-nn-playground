@@ -1,0 +1,64 @@
+idea_id: p029
+name: Occlusion-Aware Ray Scan Head
+slug: occlusion_aware_ray_scan_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_26_delta_update_occlusion_ray_piece_kernels.md (OARS) into a
+  trainable additive head on the i193 dual-stream trunk. OARS is a
+  selective scan along the 8 chess directions whose associative
+  operator is a + sigma(W_block * a) * b — the blocker gate is a
+  function of the intermediate state rather than of raw occupancy.
+novelty_claim: |
+  Differs from `p026` (RayPool) by deriving the per-step blocker gate
+  from the running scan state rather than from raw board occupancy.
+  This puts the gating decision inside the model rather than fixing it
+  rule-exactly, so OARS can learn to terminate rays on *features* like
+  "first hostile piece" instead of just "first piece of any kind".
+  Differs from `p030` (Ray-SSM) by carrying a single running sum
+  rather than an explicit selective state.
+expected_advantage: |
+  Targeted lift on slices where the relevant interaction is decided by
+  a *learned* notion of "what counts as a blocker" — e.g. x-ray attacks
+  through one's own pieces, pinned-piece reasoning, or batteries that
+  see through specific colours. Primary falsifier is
+  `disable_blocker_gate`: if the architecture matches the
+  unrestricted scan, the selective blocker is not load-bearing.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor only. The per-square features are a
+  1x1 conv over the 12 piece planes; the blocker gate is a linear map
+  over those features. CRTK metadata is *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus i193 trunk diagnostics and primitive-
+  specific oars_mean_blocker_gate, oars_dir_energy_mean,
+  oars_dir_energy_max.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a 1x1
+  conv to a per-square feature, a per-(square, direction) blocker gate
+  linear head, a sequential 8-direction selective scan of length
+  max_ray_length, a per-direction projection, and two small MLPs.
+  Sequential per direction, vectorised over the batch.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p029_occlusion_aware_ray_scan_head/train.py
+config_path: ideas/registry/p029_occlusion_aware_ray_scan_head/config.yaml
+model_path: ideas/registry/p029_occlusion_aware_ray_scan_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_26_delta_update_occlusion_ray_piece_kernels.md
+  proposal #1 (OARS). The other proposals (DUA, EPIK, LMMP, DBI) are
+  deferred: DUA overlaps with p025 / p028; EPIK is a trunk-level
+  weight-tying primitive; LMMP overlaps with p027; DBI is a separate
+  bit-logic primitive outside this batch.
+source_primitive_path: ideas/research/primitives/external_26_delta_update_occlusion_ray_piece_kernels.md
+source_packet_path: ideas/research/primitives/external_26_delta_update_occlusion_ray_piece_kernels.md
+source_packet_candidate: Occlusion-Aware Ray Scan (OARS)
+mechanism_family: king_path
+packet_profile: occlusion_aware_ray_scan_head

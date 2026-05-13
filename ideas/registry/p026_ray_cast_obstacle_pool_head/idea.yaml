@@ -1,0 +1,66 @@
+idea_id: p026
+name: Ray-Cast Obstacle Pooling Head
+slug: ray_cast_obstacle_pool_head
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-graph-state primitive batch)
+short_thesis: |
+  Promotes the first-ranked proposal of
+  external_22_ray_cast_obstacle_pooling_sparse_emit.md (RayPool) into a
+  trainable additive head on the i193 dual-stream trunk. The head fires a
+  decayed prefix sum along each of the 8 chess directions, terminating at
+  the first occupied square. Direction-pooled features are fused with the
+  trunk diagnostics to produce a gated logit delta.
+novelty_claim: |
+  The i193 trunk encodes per-square attack masks and king-zone features
+  but does not aggregate per-square content along the eight directional
+  rays with explicit occlusion termination. p026 adds the
+  "geometric-series along ray" operator as a first-class primitive over
+  the i193 trunk. Adjacent primitives (DHPE/PFCT/CAIO/TSDP) target
+  different mechanisms (Hessian, fanout, complex amplitude, terminal
+  state); none compute the direction-prefixed ray sum.
+expected_advantage: |
+  Targeted lift on slices that hinge on long-range piece influence
+  (back-rank mates, skewers, batteries, pins). Primary falsifier is
+  drop_occlusion / shuffle_directions: if either control matches the
+  unablated run on long-range slices, the direction / occlusion structure
+  is not load-bearing and the primitive is dropped.
+target_task: |
+  puzzle_binary classification (fine labels 0 / 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The RayPool features
+  consume the 12 piece planes for occupancy and the projected per-square
+  features. CRTK metadata, source labels, verification flags, and engine
+  evaluations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  primitive_gate_entropy, plus i193 trunk diagnostics and primitive-
+  specific raypool_active_squares, raypool_ray_energy,
+  raypool_max_dir_energy, raypool_gamma_mean.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: a 1x1 conv
+  reducing piece planes to a low-dim feature, an 8-direction shifted-
+  prefix scan of length max_ray_length, and two small MLP heads over the
+  flattened (NUM_DIRECTIONS * feature_dim + 4)-dim fusion vector. Cost is
+  O(8 * max_ray_length * feature_dim * 64) per sample, well under the
+  trunk forward.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p026_ray_cast_obstacle_pool_head/train.py
+config_path: ideas/registry/p026_ray_cast_obstacle_pool_head/config.yaml
+model_path: ideas/registry/p026_ray_cast_obstacle_pool_head/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_22_ray_cast_obstacle_pooling_sparse_emit.md
+  proposal #1 (RayPool). The other proposals (DeltaGELU, LegalMoveAttn,
+  ZeroSumExchange, SparseEmitLinear) are deferred: DeltaGELU is a stateful
+  cache that does not fit our stateless model(x) contract; LegalMoveAttn
+  overlaps with p027 SLMR; ZeroSumExchange is a routing constraint that
+  would replace the trunk; SparseEmitLinear is a kernel-level optimisation.
+source_primitive_path: ideas/research/primitives/external_22_ray_cast_obstacle_pooling_sparse_emit.md
+source_packet_path: ideas/research/primitives/external_22_ray_cast_obstacle_pooling_sparse_emit.md
+source_packet_candidate: Ray-Cast Obstacle Pooling (RayPool)
+mechanism_family: king_path
+packet_profile: ray_cast_obstacle_pool_head

@@ -321,6 +321,24 @@ from chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyp
 from chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator import (
     build_event_symmetric_interaction_accumulator_from_config,
 )
+from chess_nn_playground.models.primitives.incremental_delta_linear_head import (
+    build_incremental_delta_linear_head_from_config,
+)
+from chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head import (
+    build_ray_cast_obstacle_pool_head_from_config,
+)
+from chess_nn_playground.models.primitives.sparse_legal_move_router_head import (
+    build_sparse_legal_move_router_head_from_config,
+)
+from chess_nn_playground.models.primitives.incremental_latent_accumulator_head import (
+    build_incremental_latent_accumulator_head_from_config,
+)
+from chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head import (
+    build_occlusion_aware_ray_scan_head_from_config,
+)
+from chess_nn_playground.models.primitives.ray_parallel_ssm_head import (
+    build_ray_parallel_ssm_head_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -959,6 +977,12 @@ MODEL_BUILDERS = {
     "event_delta_bilinear_accumulator": build_event_delta_bilinear_accumulator_from_config,
     "occlusion_semiring_delta_bilinear_hyperedge": build_occlusion_semiring_delta_bilinear_hyperedge_from_config,
     "event_symmetric_interaction_accumulator": build_event_symmetric_interaction_accumulator_from_config,
+    "incremental_delta_linear_head": build_incremental_delta_linear_head_from_config,
+    "ray_cast_obstacle_pool_head": build_ray_cast_obstacle_pool_head_from_config,
+    "sparse_legal_move_router_head": build_sparse_legal_move_router_head_from_config,
+    "incremental_latent_accumulator_head": build_incremental_latent_accumulator_head_from_config,
+    "occlusion_aware_ray_scan_head": build_occlusion_aware_ray_scan_head_from_config,
+    "ray_parallel_ssm_head": build_ray_parallel_ssm_head_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
