@@ -249,6 +249,24 @@ from chess_nn_playground.models.primitives.complex_amplitude_chess_network impor
 from chess_nn_playground.models.primitives.promotion_aware_head import (
     build_promotion_aware_head_from_config,
 )
+from chess_nn_playground.models.primitives.move_graph_router import (
+    build_move_graph_router_from_config,
+)
+from chess_nn_playground.models.primitives.attack_ray_sparse_attention import (
+    build_attack_ray_sparse_attention_from_config,
+)
+from chess_nn_playground.models.primitives.rule_conditioned_sparse_attention import (
+    build_rule_conditioned_sparse_attention_from_config,
+)
+from chess_nn_playground.models.primitives.legal_move_graph_delta import (
+    build_legal_move_graph_delta_from_config,
+)
+from chess_nn_playground.models.primitives.ray_occlusion_semiring_scan import (
+    build_ray_occlusion_semiring_scan_from_config,
+)
+from chess_nn_playground.models.primitives.legal_edge_compile_scatter import (
+    build_legal_edge_compile_scatter_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -863,6 +881,12 @@ MODEL_BUILDERS = {
     "pair_resonance_hessian_network": build_pair_resonance_hessian_network_from_config,
     "complex_amplitude_chess_network": build_complex_amplitude_chess_network_from_config,
     "promotion_aware_head": build_promotion_aware_head_from_config,
+    "move_graph_router": build_move_graph_router_from_config,
+    "attack_ray_sparse_attention": build_attack_ray_sparse_attention_from_config,
+    "rule_conditioned_sparse_attention": build_rule_conditioned_sparse_attention_from_config,
+    "legal_move_graph_delta": build_legal_move_graph_delta_from_config,
+    "ray_occlusion_semiring_scan": build_ray_occlusion_semiring_scan_from_config,
+    "legal_edge_compile_scatter": build_legal_edge_compile_scatter_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

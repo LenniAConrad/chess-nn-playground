@@ -19,7 +19,7 @@ from _bootstrap import bootstrap
 bootstrap()
 
 
-IDEA_DIR_RE = re.compile(r"^i\d{3}_.+")
+IDEA_DIR_RE = re.compile(r"^[ipa]\d{3}_.+")
 DATE_RE = re.compile(r"chess_nn_research_(\d{4}-\d{2}-\d{2})_")
 TRAINABLE_IMPLEMENTATION_STATES = {"implemented", "tested"}
 

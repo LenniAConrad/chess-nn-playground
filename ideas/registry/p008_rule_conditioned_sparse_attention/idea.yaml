@@ -1,0 +1,70 @@
+idea_id: p008
+name: Rule-Conditioned Sparse Attention (MobScan)
+slug: rule_conditioned_sparse_attention
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (MobScan promotion, ray-legal batch)
+short_thesis: |
+  MobScan is a Mamba/Mamba-2-style selective recurrence whose scan order
+  and edge set are the input-determined legal-move graph rather than a
+  1-D sequence. For each square the operator runs an input-conditioned
+  state update `h_s = A_s ⊙ mean(h_parents) + B_s ⊙ x_s` and emits
+  `y_s = C_s ⊙ h_s`, with the parents indexed by the rule-derived legal-
+  move adjacency. Iterated `num_iterations` times with weight-tied
+  selective gates and unrolled into eager mode for scout-scale.
+novelty_claim: |
+  None of the registered i### entries run a selective SSM whose
+  recurrence topology is an input-determined sparse DAG (legal-move
+  graph). Graph-Mamba variants in the literature use a fixed graph;
+  AlphaGateau uses an input-determined graph with GAT, not a selective
+  scan. MobScan is the cross-product: input-determined graph + selective
+  recurrence with input-conditioned A/B/C gates.
+expected_advantage: |
+  Targeted lift on slices where information has to flow several legal
+  moves deep (multi-step threats, deep tactical sequences) without the
+  network having to discover the chain-of-attacks itself. Pass criterion
+  mirrors the MobScan spec: match or beat i193 CRTK class-1 FP at <=1.2x
+  wall-clock; matched `random_edges` ablation should lose the gain.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The legal-move
+  graph is computed analytically from the simple_18 piece planes
+  (occupancy, side-to-move) plus the precomputed geometric tables; no
+  python-chess call is required inside the forward pass. CRTK metadata,
+  source labels, verification flags, and engine evaluations are not
+  used as model inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics: base_logit, primitive_delta,
+  primitive_delta_raw, primitive_gate, primitive_gate_logit,
+  mobscan_edge_count, mobscan_state_norm, mobscan_gate_A_mean,
+  mobscan_gate_B_mean, mobscan_gate_C_mean, plus the i193 trunk
+  diagnostics.
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Primitive head:
+  per-square token tower + three input-conditioned gates A/B/C +
+  weight-tied recurrence run `num_iterations` times over inbound-
+  normalised legal-edge adjacency + delta MLP + gate MLP. The dominant
+  cost is one (B, 64, 64) bmm per iteration; with `num_iterations = 3`
+  and `state_dim = 32` the head adds roughly 15-20% wall-clock over
+  i193 in scout-scale measurements.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p008_rule_conditioned_sparse_attention/train.py
+config_path: ideas/registry/p008_rule_conditioned_sparse_attention/config.yaml
+model_path: ideas/registry/p008_rule_conditioned_sparse_attention/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  `ideas/research/primitives/external_04_rule_conditioned_sparse_attention_mobscan.md`.
+  The file's top-2 self-audit names RCSA and EDA. Since p007 already
+  covers the ray-cast-attention flavour as ARSA, this entry implements
+  MobScan (proposal #2 in the file, ranked just below RCSA) — the slug
+  `rule_conditioned_sparse_attention_mobscan` explicitly calls out the
+  MobScan variant. Deferred internal proposals (RCSA, EDA, SPIL, CRHBA)
+  are documented in `ablations.md`. CRTK metadata is reporting-only.
+source_primitive_path: ideas/research/primitives/external_04_rule_conditioned_sparse_attention_mobscan.md
+source_packet_path: ideas/research/primitives/external_04_rule_conditioned_sparse_attention_mobscan.md
+source_packet_candidate: Mobility-Scan Selective SSM
+mechanism_family: legal_routing
