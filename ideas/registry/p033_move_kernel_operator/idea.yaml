@@ -1,0 +1,74 @@
+idea_id: p033
+name: Move-Kernel Operator
+slug: move_kernel_operator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-misc primitive batch)
+short_thesis: |
+  Move-Kernel Operator (MKO). A rule-informed convolution whose kernel
+  is indexed by the chess move-type relationship between source and
+  target (rank, file, diagonal, antidiagonal, knight, king-step) rather
+  than by spatial offset. Per-type linear projections tie weights across
+  squares so the kernel exploits chess geometric structure for weight
+  sharing.
+novelty_claim: |
+  Standard Conv2d uses fixed spatial offsets. MKO uses a fixed chess-rule
+  reach mask (no blocker resolution) keyed by move type. This is distinct
+  from p032 DAG (per-board blocker-resolved adjacency) and from p031
+  LM-LPP (Neumann resolvent). The kernel's weight-sharing pattern is
+  the move-type relation, not the spatial offset -- a knight at f3 and
+  a knight at d4 exert identical influence patterns by construction.
+expected_advantage: |
+  The source primitive predicts a >15% reduction in FP rate on
+  "long-range tactic" puzzles. We expect the lift to concentrate on
+  positions where the move-type structure is the discriminator (e.g.
+  long-diagonal pin attacks, knight-outpost coordination) and where the
+  i193 trunk's general conv weights cannot easily share across squares.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. The MKO move-type masks are static
+  (depend only on board geometry, not on piece placement) and are
+  registered as buffers. Per-square seed features come from the
+  simple_18 piece planes plus side-to-move. CRTK metadata, source
+  labels, verification flags, and engine evaluations are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  and per-type ``mko_norm_<name>`` activation-magnitude diagnostics
+  (knight, rank, file, diag, antidiag, king). Trunk diagnostics are
+  surfaced under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The MKO
+  head adds 6 per-type linear projections, a single scalar-per-type
+  fallback parameter, an aggregator MLP, and a small pool / delta /
+  gate stack. With defaults (``feature_dim=24``, ``head_hidden_dim=64``)
+  the head adds ~0.5M parameters; the dominant op is one batched einsum
+  on (T, 64, 64) x (B, T, 64, d).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p033_move_kernel_operator/train.py
+config_path: ideas/registry/p033_move_kernel_operator/config.yaml
+model_path: ideas/registry/p033_move_kernel_operator/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_28_sparse_differential_accumulator_move_kernel.md.
+  The file lists SDA (Sparse Differential Accumulator) first; SDA
+  overlaps heavily with the existing i248 TSDP / DSA-LHN family
+  (rule-derived terminal features + additive gated head) and with the
+  ``one_ply_counterfactual_move_landscape_network`` /
+  ``counterfactual_move_delta_spectrum_network`` /
+  ``rule_only_counterfactual_move_delta_bottleneck`` registered ideas.
+  MKO is selected as the strongest *distinct* proposal in the file --
+  it has no direct counterpart in the existing registry, matches the
+  batch focus on "transition" variants, and is structurally novel
+  (move-type indexed weight sharing). Deferred internal proposals from
+  the same source file: SDA (overlaps with i248 family), IPN
+  (involutional parity normalisation -- symmetry primitive), SRA
+  (selective ray attention -- overlaps with p035 / ray_state_space_scan),
+  MPC (metamorphic piece convolution -- hyper-network kernel).
+source_primitive_path: ideas/research/primitives/external_28_sparse_differential_accumulator_move_kernel.md
+source_primitive_candidate: Move-Kernel Operator
+source_packet_path: ideas/research/primitives/external_28_sparse_differential_accumulator_move_kernel.md
+source_packet_candidate: Move-Kernel Operator
+mechanism_family: legal_graph

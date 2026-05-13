@@ -1,0 +1,75 @@
+idea_id: p031
+name: Legal-Move Laplacian Resolvent
+slug: legal_move_laplacian_resolvent
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-misc primitive batch)
+short_thesis: |
+  Legal-Move Laplacian Pseudoinverse Propagation (LM-LPP). For each board,
+  build the per-position signed Laplacian L = D - A of the pseudo-legal
+  move adjacency A (weighted by per-piece edge weights), then apply a
+  truncated Neumann-series resolvent Y = sum_{k=0..K} alpha^k * L^k X to
+  rule-derived per-square features. Add a gated logit delta on top of the
+  i193 dual-stream trunk.
+novelty_claim: |
+  Existing PyTorch ops do not provide a resolvent operator over a content-
+  dependent stop-gradient adjacency. The closest pretender at K=1 is
+  GAT-with-legal-mask, which is the explicit failure-mode catalogue entry
+  in the source primitive. The Neumann-series truncation with K>=2 is what
+  distinguishes the operator: a stacked-GAT control with the same depth
+  uses independent weights per layer, whereas LM-LPP applies the *same*
+  L^k structure with a single alpha and a single mixing matrix Theta. The
+  K=1 ablation is included as a built-in falsifier to detect the rebrand.
+expected_advantage: |
+  Targeted lift on near-puzzle / hard-negative slices where transitive
+  tactical influence (X-rays, batteries, discovered attacks) is the
+  discriminator. The source spec predicts a ~15% drop in CRTK class-1
+  matched-recall FP rate versus a single-attention-block baseline; we
+  expect the lift to concentrate on positions where multi-hop ray
+  reasoning matters. The aggregate metric should be flat-to-positive
+  relative to i193.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits
+  (fine label 2 -> puzzle, fine labels 0/1 -> non-puzzle).
+input_representation: |
+  Current-board simple_18 tensor as the only model input. The legal-move
+  adjacency A is computed analytically from the simple_18 piece planes
+  and side-to-move plane via blocker-resolved chess-rule geometry (see
+  ``src/chess_nn_playground/models/primitives/legal_move_graph.py``). No
+  python-chess call is required inside the forward pass. CRTK metadata,
+  source labels, verification flags, and engine scores are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``, ``primitive_delta``,
+  ``primitive_delta_raw``, ``primitive_gate``, ``primitive_gate_logit``,
+  ``primitive_gate_entropy``, ``primitive_contribution``,
+  ``lmlpp_alpha`` (effective Neumann damping), ``lmlpp_mean_feature_norm``,
+  ``lmlpp_max_feature_norm``, ``lmlpp_degree_mean``, plus the trunk
+  diagnostics surfaced via the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). Primitive:
+  ``compute_legal_move_graph`` produces a (B, 64, 64) stop-grad float
+  adjacency; piece-weighted Laplacian build is two einsum-like ops; the
+  Neumann series is ``K`` batched 64x64x32 matmuls (default ``K=4``,
+  feature_dim=32). The dominant per-step GPU cost is the K matmuls
+  followed by the Theta linear layer; with default sizes the head adds
+  ~0.5M params on top of the trunk.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p031_legal_move_laplacian_resolvent/train.py
+config_path: ideas/registry/p031_legal_move_laplacian_resolvent/config.yaml
+model_path: ideas/registry/p031_legal_move_laplacian_resolvent/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_06_high_risk_legal_graph_delta_state_primitives.md
+  (Section 1, LM-LPP, explicitly highest-ranked). Deferred internal
+  proposals from the same source file: DSA-LHN (delta-sparse accumulator
+  -- overlaps with i248 TSDP and i246 PFCT families), RG3T (ray-gated
+  ternary tensor -- needs custom Triton kernel before scout-scale), CIEL
+  (color-involution steerable linear -- orthogonal symmetry primitive,
+  not legal-graph), IQFP (implicit quiescence fixed-point -- DEQ-style;
+  defer until LM-LPP keep-decision is in).
+source_primitive_path: ideas/research/primitives/external_06_high_risk_legal_graph_delta_state_primitives.md
+source_primitive_candidate: Legal-Move Laplacian Pseudoinverse Propagation
+source_packet_path: ideas/research/primitives/external_06_high_risk_legal_graph_delta_state_primitives.md
+source_packet_candidate: Legal-Move Laplacian Pseudoinverse Propagation
+mechanism_family: legal_graph

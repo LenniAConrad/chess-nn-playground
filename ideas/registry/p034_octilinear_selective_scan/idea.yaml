@@ -1,0 +1,67 @@
+idea_id: p034
+name: Octilinear Selective Scan
+slug: octilinear_selective_scan
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-misc primitive batch)
+short_thesis: |
+  Octilinear Selective Scan (OSS). Run a Mamba-style channelwise
+  selective state-space scan along each of the eight chess ray
+  directions (E, W, N, S, NE, NW, SE, SW). For each direction the
+  scan accumulates a hidden state along the chess-rule ordering of the
+  squares; the eight per-direction features are concatenated and pooled
+  to a scalar additive gated logit delta over the i193 trunk.
+novelty_claim: |
+  Standard PyTorch ops do not provide a 1D selective scan over the 2D
+  chess board's eight ray directions. The "selectivity" matches Mamba
+  S6 -- the transition matrix is data-dependent at each step -- but the
+  scan order is chess-geometry-driven (8 ray directions, not the usual
+  raster order). This is distinct from p031 / p032 / p033, all of which
+  use static or single-hop adjacency operators rather than a
+  *sequential* scan with state propagation.
+expected_advantage: |
+  The source primitive predicts OSS as the highest-potential
+  "Mamba-level" speed primitive. We expect the lift to concentrate on
+  positions where long-range ray reasoning matters (open files,
+  diagonal pin lattices, far-piece coordination) -- positions where the
+  state propagation along a ray captures more than a 1-hop adjacency.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Per-square seed features come from
+  the simple_18 piece planes and side-to-move plane. The per-direction
+  scan paths are static buffers built from chess geometry. CRTK
+  metadata, source labels, verification flags, and engine evaluations
+  are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  and per-direction ``oss_energy_<direction>`` activation magnitude
+  diagnostics (E, W, N, S, NE, NW, SE, SW). Trunk diagnostics are
+  surfaced under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The OSS
+  head adds 8 per-direction `A` and `B` projections plus a small fuser
+  / pool / delta / gate stack. The scan loop is at most 8 sequential
+  steps per direction. With defaults (``feature_dim=16``,
+  ``head_hidden_dim=64``) the head adds ~0.4M parameters. The Python
+  scan loop adds wall-clock overhead -- production upgrade is a Triton
+  or `parallel_scan`-style kernel (tracked in implementation notes).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p034_octilinear_selective_scan/train.py
+config_path: ideas/registry/p034_octilinear_selective_scan/config.yaml
+model_path: ideas/registry/p034_octilinear_selective_scan/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_29_incremental_move_update_octilinear_scan.md
+  (Section "primitive_oss"; explicitly ranked first in the file's "Final
+  Ranking" section). Deferred internal proposals from the same source
+  file: IMUA (overlaps with i248 TSDP / delta family), EPTP
+  (piece-permutation equivariance -- orthogonal symmetry primitive),
+  LMHI (overlaps with p032 DAG), DBLF (generic soft-logic primitive).
+source_primitive_path: ideas/research/primitives/external_29_incremental_move_update_octilinear_scan.md
+source_primitive_candidate: Octilinear Selective Scan
+source_packet_path: ideas/research/primitives/external_29_incremental_move_update_octilinear_scan.md
+source_packet_candidate: Octilinear Selective Scan
+mechanism_family: ray_scan

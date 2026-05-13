@@ -1,0 +1,69 @@
+idea_id: p032
+name: Dynamic Adjacency-Conditioned Gating
+slug: dynamic_adjacency_gating
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-misc primitive batch)
+short_thesis: |
+  Dynamic Adjacency-Conditioned Gating (DAG). For each board, decompose
+  the legal-move adjacency by chess move type (rank, file, diagonal,
+  antidiagonal, knight, king, pawn push, pawn capture) and apply a
+  per-type learned linear projection that the binary adjacency mask
+  gates before aggregation. Add a gated logit delta over the i193
+  dual-stream trunk.
+novelty_claim: |
+  The source primitive frames DAG as a "hard, discrete topological
+  constraint directly into the kernel" -- the mask is binary by design
+  and is decomposed by chess-rule move type so that different
+  per-type weights are applied along each ray family / leap class. This
+  is distinct from p031 LM-LPP (which applies a multi-hop Neumann
+  resolvent) and from existing models that fold masking into a softmax
+  attention (which is a soft mask). The discrete-mask + move-type
+  decomposition has no direct counterpart in the registered i### trunks.
+expected_advantage: |
+  The source primitive predicts a >15% reduction in CRTK class-1
+  matched-recall FP rate. We expect the lift to concentrate on
+  positions where one move-type class dominates (e.g. open files, long
+  diagonals) and where the i193 trunk's general purpose conv weights
+  under-specialise per move type.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. The per-type legal-move masks are
+  computed analytically inside the forward pass from the simple_18
+  piece planes, side-to-move plane, and blocker occupancy. CRTK
+  metadata, source labels, verification flags, and engine evaluations
+  are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``dag_total_degree``, and per-type ``dag_degree_type_<code>``
+  diagnostics. The trunk diagnostics are surfaced under the
+  ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The DAG
+  head adds T per-type linear projections (default T=8) and a small
+  pool / delta / gate MLP. Per-type aggregation is a single batched
+  einsum over the (B, T, 64, 64) masked-adjacency tensor and the
+  (B, T, 64, feature_dim) per-type projection. With defaults
+  (``feature_dim=24``, ``head_hidden_dim=64``) the head adds roughly
+  the same parameter count as PFCT's promotion head (~0.6M).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p032_dynamic_adjacency_gating/train.py
+config_path: ideas/registry/p032_dynamic_adjacency_gating/config.yaml
+model_path: ideas/registry/p032_dynamic_adjacency_gating/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_25_dynamic_adjacency_rank_order_involution_gate.md
+  (Section 1, DAG, first-listed proposal). Deferred internal proposals
+  from the same source file: ROP (rank-order pool -- overlaps with
+  soft_sorting_order_residual_ranker; separate primitive after DAG
+  decision), IIG (color-involution gate -- orthogonal symmetry axis),
+  SAD (sparse accumulator -- overlaps with i248 TSDP / DSA-LHN
+  families), GPI (Chebyshev kernel -- orthogonal geometry axis).
+source_primitive_path: ideas/research/primitives/external_25_dynamic_adjacency_rank_order_involution_gate.md
+source_primitive_candidate: Dynamic Adjacency-Conditioned Gating
+source_packet_path: ideas/research/primitives/external_25_dynamic_adjacency_rank_order_involution_gate.md
+source_packet_candidate: Dynamic Adjacency-Conditioned Gating
+mechanism_family: legal_graph
