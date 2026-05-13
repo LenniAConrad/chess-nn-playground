@@ -8339,15 +8339,423 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p001_pareto_antichain_frontier",
+      "idea_id": "p001",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "pareto_antichain_frontier_network",
+      "scaffold": null,
+      "slug": "pareto_antichain_frontier_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.pareto_antichain_frontier_network.build_pareto_antichain_frontier_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.pareto_antichain_frontier_network.build_pareto_antichain_frontier_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.pareto_antichain_frontier_network.ParetoAntichainFrontierNetwork",
+          "chess_nn_playground.models.primitives.pareto_antichain_frontier_network.build_pareto_antichain_frontier_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p002_regret_saddlepoint",
+      "idea_id": "p002",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "regret_saddlepoint_network",
+      "scaffold": null,
+      "slug": "regret_saddlepoint_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.regret_saddlepoint_network.build_regret_saddlepoint_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.regret_saddlepoint_network.build_regret_saddlepoint_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.regret_saddlepoint_network.RegretSaddlepointNetwork",
+          "chess_nn_playground.models.primitives.regret_saddlepoint_network.build_regret_saddlepoint_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p003_reply_channel_capacity",
+      "idea_id": "p003",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "reply_channel_capacity_network",
+      "scaffold": null,
+      "slug": "reply_channel_capacity_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.reply_channel_capacity_network.build_reply_channel_capacity_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.reply_channel_capacity_network.build_reply_channel_capacity_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.reply_channel_capacity_network.ReplyChannelCapacityNetwork",
+          "chess_nn_playground.models.primitives.reply_channel_capacity_network.build_reply_channel_capacity_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p004_tail_copula_concordance",
+      "idea_id": "p004",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "tail_copula_concordance_network",
+      "scaffold": null,
+      "slug": "tail_copula_concordance_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.tail_copula_concordance_network.build_tail_copula_concordance_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.tail_copula_concordance_network.build_tail_copula_concordance_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.tail_copula_concordance_network.TailCopulaConcordanceNetwork",
+          "chess_nn_playground.models.primitives.tail_copula_concordance_network.build_tail_copula_concordance_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p005_witness_counterwitness_quantifier",
+      "idea_id": "p005",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "witness_counterwitness_quantifier_network",
+      "scaffold": null,
+      "slug": "witness_counterwitness_quantifier_network",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network.build_witness_counterwitness_quantifier_network_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network.build_witness_counterwitness_quantifier_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network.WitnessCounterwitnessQuantifierNetwork",
+          "chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network.build_witness_counterwitness_quantifier_network_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p012_signed_edit_bilinear_memory",
+      "idea_id": "p012",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "signed_edit_bilinear_memory",
+      "scaffold": null,
+      "slug": "signed_edit_bilinear_memory",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.signed_edit_bilinear_memory.build_signed_edit_bilinear_memory_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.signed_edit_bilinear_memory.build_signed_edit_bilinear_memory_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.signed_edit_bilinear_memory.SignedEditBilinearMemory",
+          "chess_nn_playground.models.primitives.signed_edit_bilinear_memory.build_signed_edit_bilinear_memory_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p013_sparse_delta_accumulator",
+      "idea_id": "p013",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "sparse_delta_accumulator",
+      "scaffold": null,
+      "slug": "sparse_delta_accumulator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.sparse_delta_accumulator.build_sparse_delta_accumulator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.sparse_delta_accumulator.build_sparse_delta_accumulator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.sparse_delta_accumulator.SparseDeltaAccumulator",
+          "chess_nn_playground.models.primitives.sparse_delta_accumulator.build_sparse_delta_accumulator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p014_delta_pair_accumulator",
+      "idea_id": "p014",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "delta_pair_accumulator",
+      "scaffold": null,
+      "slug": "delta_pair_accumulator",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.delta_pair_accumulator.build_delta_pair_accumulator_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.delta_pair_accumulator.build_delta_pair_accumulator_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.delta_pair_accumulator.DeltaPairAccumulator",
+          "chess_nn_playground.models.primitives.delta_pair_accumulator.build_delta_pair_accumulator_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p015_delta_crelu_involution_head",
+      "idea_id": "p015",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "delta_crelu_involution_head",
+      "scaffold": null,
+      "slug": "delta_crelu_involution_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.delta_crelu_involution.build_delta_crelu_involution_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.delta_crelu_involution.build_delta_crelu_involution_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.delta_crelu_involution.DeltaCReLUInvolutionHead",
+          "chess_nn_playground.models.primitives.delta_crelu_involution.build_delta_crelu_involution_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p016_ray_semiring_chi_head",
+      "idea_id": "p016",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "ray_semiring_chi_head",
+      "scaffold": null,
+      "slug": "ray_semiring_chi_head",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.ray_semiring_chi_head.build_ray_semiring_chi_head_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.ray_semiring_chi_head.build_ray_semiring_chi_head_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.ray_semiring_chi_head.RaySemiringChiHead",
+          "chess_nn_playground.models.primitives.ray_semiring_chi_head.build_ray_semiring_chi_head_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p017_delta_event_legal_routing",
+      "idea_id": "p017",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "delta_event_legal_routing",
+      "scaffold": null,
+      "slug": "delta_event_legal_routing",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.delta_event_legal_routing.build_delta_event_legal_routing_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.delta_event_legal_routing.build_delta_event_legal_routing_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.delta_event_legal_routing.DeltaEventLegalRoutingHead",
+          "chess_nn_playground.models.primitives.delta_event_legal_routing.build_delta_event_legal_routing_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p018_delta_state_slg_diffusion",
+      "idea_id": "p018",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "delta_state_slg_diffusion",
+      "scaffold": null,
+      "slug": "delta_state_slg_diffusion",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.delta_state_slg_diffusion.build_delta_state_slg_diffusion_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.delta_state_slg_diffusion.build_delta_state_slg_diffusion_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.delta_state_slg_diffusion.DeltaStateSLGDiffusionHead",
+          "chess_nn_playground.models.primitives.delta_state_slg_diffusion.build_delta_state_slg_diffusion_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 240,
+      "bespoke_model": 252,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 240,
+      "bespoke_model": 252,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -8360,7 +8768,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 246,
+    "total": 258,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

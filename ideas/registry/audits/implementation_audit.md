@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `246`
+- Ideas audited: `258`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 240 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 252 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -281,6 +281,18 @@ These folders were previously easy to read as distinct implemented architectures
 | `i246` | `ideas/registry/i246_promotion_aware_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_aware_head` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i247` | `ideas/registry/i247_complex_amplitude_chess_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `complex_amplitude_chess_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i248` | `ideas/registry/i248_rule_aware_tactical_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_aware_tactical_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p001` | `ideas/registry/p001_pareto_antichain_frontier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pareto_antichain_frontier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p002` | `ideas/registry/p002_regret_saddlepoint` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `regret_saddlepoint_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p003` | `ideas/registry/p003_reply_channel_capacity` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_channel_capacity_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p004` | `ideas/registry/p004_tail_copula_concordance` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tail_copula_concordance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p005` | `ideas/registry/p005_witness_counterwitness_quantifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `witness_counterwitness_quantifier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p012` | `ideas/registry/p012_signed_edit_bilinear_memory` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `signed_edit_bilinear_memory` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p013` | `ideas/registry/p013_sparse_delta_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_delta_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p014` | `ideas/registry/p014_delta_pair_accumulator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_pair_accumulator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p015` | `ideas/registry/p015_delta_crelu_involution_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_crelu_involution_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p016` | `ideas/registry/p016_ray_semiring_chi_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `ray_semiring_chi_head` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p017` | `ideas/registry/p017_delta_event_legal_routing` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_event_legal_routing` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p018` | `ideas/registry/p018_delta_state_slg_diffusion` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `delta_state_slg_diffusion` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 

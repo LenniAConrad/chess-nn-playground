@@ -5039,6 +5039,258 @@
       ],
       "source_markers": [],
       "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p001_pareto_antichain_frontier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p001_pareto_antichain_frontier",
+      "idea_id": "p001",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "pareto_antichain_frontier_network",
+      "slug": "pareto_antichain_frontier_network",
+      "source_files": [
+        "ideas/registry/p001_pareto_antichain_frontier/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/pareto_antichain_frontier_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p002_regret_saddlepoint/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p002_regret_saddlepoint",
+      "idea_id": "p002",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "regret_saddlepoint_network",
+      "slug": "regret_saddlepoint_network",
+      "source_files": [
+        "ideas/registry/p002_regret_saddlepoint/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/regret_saddlepoint_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p003_reply_channel_capacity/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p003_reply_channel_capacity",
+      "idea_id": "p003",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "reply_channel_capacity_network",
+      "slug": "reply_channel_capacity_network",
+      "source_files": [
+        "ideas/registry/p003_reply_channel_capacity/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/reply_channel_capacity_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p004_tail_copula_concordance/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p004_tail_copula_concordance",
+      "idea_id": "p004",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "tail_copula_concordance_network",
+      "slug": "tail_copula_concordance_network",
+      "source_files": [
+        "ideas/registry/p004_tail_copula_concordance/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/tail_copula_concordance_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p005_witness_counterwitness_quantifier/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p005_witness_counterwitness_quantifier",
+      "idea_id": "p005",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "witness_counterwitness_quantifier_network",
+      "slug": "witness_counterwitness_quantifier_network",
+      "source_files": [
+        "ideas/registry/p005_witness_counterwitness_quantifier/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/witness_counterwitness_quantifier_network.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p012_signed_edit_bilinear_memory/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p012_signed_edit_bilinear_memory",
+      "idea_id": "p012",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "signed_edit_bilinear_memory",
+      "slug": "signed_edit_bilinear_memory",
+      "source_files": [
+        "ideas/registry/p012_signed_edit_bilinear_memory/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/signed_edit_bilinear_memory.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p013_sparse_delta_accumulator/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p013_sparse_delta_accumulator",
+      "idea_id": "p013",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "sparse_delta_accumulator",
+      "slug": "sparse_delta_accumulator",
+      "source_files": [
+        "ideas/registry/p013_sparse_delta_accumulator/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/sparse_delta_accumulator.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p014_delta_pair_accumulator/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p014_delta_pair_accumulator",
+      "idea_id": "p014",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "delta_pair_accumulator",
+      "slug": "delta_pair_accumulator",
+      "source_files": [
+        "ideas/registry/p014_delta_pair_accumulator/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/delta_pair_accumulator.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p015_delta_crelu_involution_head/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p015_delta_crelu_involution_head",
+      "idea_id": "p015",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "delta_crelu_involution_head",
+      "slug": "delta_crelu_involution_head",
+      "source_files": [
+        "ideas/registry/p015_delta_crelu_involution_head/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/delta_crelu_involution.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p016_ray_semiring_chi_head/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p016_ray_semiring_chi_head",
+      "idea_id": "p016",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "ray_semiring_chi_head",
+      "slug": "ray_semiring_chi_head",
+      "source_files": [
+        "ideas/registry/p016_ray_semiring_chi_head/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/ray_semiring_chi_head.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p017_delta_event_legal_routing/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p017_delta_event_legal_routing",
+      "idea_id": "p017",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "delta_event_legal_routing",
+      "slug": "delta_event_legal_routing",
+      "source_files": [
+        "ideas/registry/p017_delta_event_legal_routing/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/delta_event_legal_routing.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p018_delta_state_slg_diffusion/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p018_delta_state_slg_diffusion",
+      "idea_id": "p018",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "delta_state_slg_diffusion",
+      "slug": "delta_state_slg_diffusion",
+      "source_files": [
+        "ideas/registry/p018_delta_state_slg_diffusion/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/delta_state_slg_diffusion.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
     }
   ],
   "summary": {
@@ -5282,9 +5534,21 @@
       "ideas/registry/i245_pair_resonance_hessian_network",
       "ideas/registry/i246_promotion_aware_head",
       "ideas/registry/i247_complex_amplitude_chess_network",
-      "ideas/registry/i248_rule_aware_tactical_head"
+      "ideas/registry/i248_rule_aware_tactical_head",
+      "ideas/registry/p001_pareto_antichain_frontier",
+      "ideas/registry/p002_regret_saddlepoint",
+      "ideas/registry/p003_reply_channel_capacity",
+      "ideas/registry/p004_tail_copula_concordance",
+      "ideas/registry/p005_witness_counterwitness_quantifier",
+      "ideas/registry/p012_signed_edit_bilinear_memory",
+      "ideas/registry/p013_sparse_delta_accumulator",
+      "ideas/registry/p014_delta_pair_accumulator",
+      "ideas/registry/p015_delta_crelu_involution_head",
+      "ideas/registry/p016_ray_semiring_chi_head",
+      "ideas/registry/p017_delta_event_legal_routing",
+      "ideas/registry/p018_delta_state_slg_diffusion"
     ],
-    "implemented_architecture_count": 240,
+    "implemented_architecture_count": 252,
     "issue_folders": [],
     "validation_issue_count": 0
   }

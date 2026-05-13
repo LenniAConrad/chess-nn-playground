@@ -11,25 +11,26 @@ Provenance notes:
 - External primitive rows use the consolidated manifest at `research/primitives/MANIFEST.md`.
 - Google/Gemini primitive rows keep `Unspecified Gemini model` when the download metadata did not name the exact model.
 
-Total rows: 415
+Total rows: 443
 
 ## Counts By Kind
 
 | Kind | Count |
 | --- | ---: |
 | architecture bridge | 2 |
-| external primitive report | 30 |
+| external primitive report | 41 |
 | primitive proposal | 10 |
 | raw classic research packet | 130 |
-| registered trunk | 243 |
+| registered primitive | 12 |
+| registered trunk | 248 |
 
 ## Counts By Source
 
 | Source | Count |
 | --- | ---: |
-| Claude | 38 |
-| Codex | 98 |
-| GPT / ChatGPT Deep Research | 268 |
+| Claude | 50 |
+| Codex | 103 |
+| GPT / ChatGPT Deep Research | 279 |
 | Google / Gemini | 10 |
 | Local prompt snapshot | 1 |
 
@@ -280,6 +281,23 @@ Total rows: 415
 | i241 | Multi-Stream Chess-Decomposed Transformer Evaluator | registered trunk | Claude | Claude Opus 4.7 | [registry/i241_multistream_attention_chess_eval](registry/i241_multistream_attention_chess_eval) |
 | i242 | Chess-Decomposed Attention Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i242_chess_decomposed_attention](registry/i242_chess_decomposed_attention) |
 | i243 | HalfKA Dual-Stream LC0 Evaluator | registered trunk | Claude | Claude Opus 4.7 | [registry/i243_halfka_dual_stream_lc0](registry/i243_halfka_dual_stream_lc0) |
+| i244 | Tempo-Defender Cross-Derivative Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i244_tempo_defender_cross_derivative_network](registry/i244_tempo_defender_cross_derivative_network) |
+| i245 | Pair-Resonance Hessian Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i245_pair_resonance_hessian_network](registry/i245_pair_resonance_hessian_network) |
+| i246 | Promotion-Aware Head | registered trunk | Claude | Claude Opus 4.7 | [registry/i246_promotion_aware_head](registry/i246_promotion_aware_head) |
+| i247 | Complex-Amplitude Chess Network | registered trunk | Claude | Claude Opus 4.7 | [registry/i247_complex_amplitude_chess_network](registry/i247_complex_amplitude_chess_network) |
+| i248 | Rule-Aware Tactical Head | registered trunk | Claude | Claude Opus 4.7 | [registry/i248_rule_aware_tactical_head](registry/i248_rule_aware_tactical_head) |
+| p001 | Pareto Antichain Frontier Primitive | registered primitive | Codex | Codex coding agent | [registry/p001_pareto_antichain_frontier](registry/p001_pareto_antichain_frontier) |
+| p002 | Regret Saddlepoint Primitive | registered primitive | Codex | Codex coding agent | [registry/p002_regret_saddlepoint](registry/p002_regret_saddlepoint) |
+| p003 | Reply Channel Capacity Primitive | registered primitive | Codex | Codex coding agent | [registry/p003_reply_channel_capacity](registry/p003_reply_channel_capacity) |
+| p004 | Tail Copula Concordance Primitive | registered primitive | Codex | Codex coding agent | [registry/p004_tail_copula_concordance](registry/p004_tail_copula_concordance) |
+| p005 | Witness-Counterwitness Quantifier Primitive | registered primitive | Codex | Codex coding agent | [registry/p005_witness_counterwitness_quantifier](registry/p005_witness_counterwitness_quantifier) |
+| p012 | Signed-Edit Bilinear Memory | registered primitive | Claude | Claude Opus 4.7 | [registry/p012_signed_edit_bilinear_memory](registry/p012_signed_edit_bilinear_memory) |
+| p013 | Sparse-Delta Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p013_sparse_delta_accumulator](registry/p013_sparse_delta_accumulator) |
+| p014 | Δ-Pair Accumulator | registered primitive | Claude | Claude Opus 4.7 | [registry/p014_delta_pair_accumulator](registry/p014_delta_pair_accumulator) |
+| p015 | DeltaCReLU + Involution Reynolds Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p015_delta_crelu_involution_head](registry/p015_delta_crelu_involution_head) |
+| p016 | Ray-Semiring χ-Head | registered primitive | Claude | Claude Opus 4.7 | [registry/p016_ray_semiring_chi_head](registry/p016_ray_semiring_chi_head) |
+| p017 | Delta-Event Legal-Move Routing | registered primitive | Claude | Claude Opus 4.7 | [registry/p017_delta_event_legal_routing](registry/p017_delta_event_legal_routing) |
+| p018 | DeltaState + SLG Diffusion | registered primitive | Claude | Claude Opus 4.7 | [registry/p018_delta_state_slg_diffusion](registry/p018_delta_state_slg_diffusion) |
 | classic-001 | Prompt snapshot | raw classic research packet | Local prompt snapshot | Not applicable | [research/packets/classic/Pasted markdown.md](research/packets/classic/Pasted markdown.md) |
 | classic-002 | Oriented Tactical Sheaf Laplacian | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_oriented_tactical_sheaf.md) |
 | classic-003 | Tactical Sheaf Curvature Network | raw classic research packet | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md](research/packets/classic/chess_nn_research_2026-04-21_0254_tuesday_local_tactical_sheaf_curvature.md) |
@@ -440,6 +458,17 @@ Total rows: 415
 | primitive-external-28 | Research Proposal: Novel Neural Primitives for Chess Evaluation | external primitive report | Google / Gemini | Unspecified Gemini model | [research/primitives/external_28_sparse_differential_accumulator_move_kernel.md](research/primitives/external_28_sparse_differential_accumulator_move_kernel.md) |
 | primitive-external-29 | Research Proposal: Novel Neural Primitives for Chess Evaluation | external primitive report | Google / Gemini | Unspecified Gemini model | [research/primitives/external_29_incremental_move_update_octilinear_scan.md](research/primitives/external_29_incremental_move_update_octilinear_scan.md) |
 | primitive-external-30 | Deep Research: Novel Neural Primitives for Chess Evaluation | external primitive report | Google / Gemini | Unspecified Gemini model | [research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md](research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md) |
+| primitive-external-31 | New Neural Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md](research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md) |
+| primitive-external-32 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_32_elementary_symmetric_gibbs_hodge_primitives.md](research/primitives/external_32_elementary_symmetric_gibbs_hodge_primitives.md) |
+| primitive-external-33 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_33_esp_permanent_woodbury_orbit_primitives.md](research/primitives/external_33_esp_permanent_woodbury_orbit_primitives.md) |
+| primitive-external-34 | New Neural Primitive Proposals for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_34_active_esp_conflict_matching_eikonal_primitives.md](research/primitives/external_34_active_esp_conflict_matching_eikonal_primitives.md) |
+| primitive-external-35 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_35_espa_conservation_isotypic_green_primitives.md](research/primitives/external_35_espa_conservation_isotypic_green_primitives.md) |
+| primitive-external-36 | New Neural Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_36_exterior_product_rank1_resolvent_primitives.md](research/primitives/external_36_exterior_product_rank1_resolvent_primitives.md) |
+| primitive-external-37 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md](research/primitives/external_37_truncated_multiset_polynomial_rook_matching_primitives.md) |
+| primitive-external-38 | New Neural Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md](research/primitives/external_38_polynomial_ledger_grassmann_rook_primitives.md) |
+| primitive-external-39 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_39_orbit_irrep_hodge_projection_primitives.md](research/primitives/external_39_orbit_irrep_hodge_projection_primitives.md) |
+| primitive-external-40 | Invent New Neural Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_40_symmetric_coalition_resolvent_primitives.md](research/primitives/external_40_symmetric_coalition_resolvent_primitives.md) |
+| primitive-external-41 | New Neural-Network Primitives for Chess Evaluation | external primitive report | GPT / ChatGPT Deep Research | GPT-5.5 Pro | [research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md](research/primitives/external_41_orbit_stabilizer_subset_logpartition_primitives.md) |
 | primitive-claude-01 | 01 — Signed Piece-Existence Hessian Operator (DHPE) | primitive proposal | Claude | Claude Opus 4.7 | [research/primitives/claude_01_signed_hessian_resonance.md](research/primitives/claude_01_signed_hessian_resonance.md) |
 | primitive-claude-02 | 02 — Tempo-Defender Cross-Derivative Operator (TDCD) | primitive proposal | Claude | Claude Opus 4.7 | [research/primitives/claude_02_tempo_defender_cross_derivative.md](research/primitives/claude_02_tempo_defender_cross_derivative.md) |
 | primitive-claude-03 | 03 — Promotion-Fanout Counterfactual Tensor (PFCT) | primitive proposal | Claude | Claude Opus 4.7 | [research/primitives/claude_03_promotion_fanout_counterfactual.md](research/primitives/claude_03_promotion_fanout_counterfactual.md) |
