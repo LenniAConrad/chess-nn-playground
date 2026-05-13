@@ -1,0 +1,68 @@
+idea_id: p036
+name: Canonical-Orbit Straight-Through Operator
+slug: canonical_orbit_st_operator
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-orbit-boolean-algebra primitive batch)
+short_thesis: |
+  A finite chess symmetry group ``G = {e, F, R, F.R}`` acts on a per-square
+  latent map by board-geometry permutations. The operator picks the
+  canonical orbit representative by lexicographic argmin of a non-learned
+  hash key and exposes the inverse action in backward. Because the chosen
+  permutation is orthogonal, PyTorch's gather already routes the gradient
+  back through the inverse permutation -- the "straight-through" claim of
+  the operator. Pooled canonical features and the symmetry residual are
+  combined into a gated additive logit delta over the i193 trunk.
+novelty_claim: |
+  Distinct from group-equivariant CNNs (which weight-share or average over
+  the orbit) and from learned canonicalisation networks (which train a
+  pose network). The orbit selection rule here is a fixed hash, not a
+  learned function; the gradient path is the inverse of the selected
+  transform; and the surrounding head is the i193 additive primitive
+  contract. No existing ``p###`` primitive applies an orbit-quotient
+  selector and surfaces orbit-gap / tie-count diagnostics on the chess
+  board-geometry group.
+expected_advantage: |
+  Targeted lift on slices where chess symmetry quotienting would help
+  (file-mirror tactical motifs, rank-flip end-game positions) without
+  paying for an 8-way symmetry ensemble at inference. We measure
+  static-position aggregate PR AUC plus slice PR AUC on positions where
+  the orbit gap exceeds the median (positions that have a strong
+  preferred orientation).
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor (same
+  contract i193 and i248 follow).
+input_representation: |
+  Current-board simple_18 tensor as the model input. The canonical
+  representative is computed in latent space (per-square projection of
+  the i193 joint feature), not on the raw board tensor. CRTK metadata,
+  source labels, verification flags, engine evaluations, Stockfish
+  scores, PVs, and any report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, cost_chosen_orbit_index,
+  cost_orbit_gap, cost_orbit_ties, cost_residual_norm,
+  cost_canonical_norm, plus the i193 trunk diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: project
+  the trunk joint feature to ``64 * latent_dim`` per-square latents,
+  apply each of ``|G|=4`` C2 x C2 permutations, hash each transformed
+  copy by a fixed quantised random projection, lexicographic argmin
+  selects the canonical representative, pool ``canonical`` and
+  ``residual = canonical - latent``, project to a scalar gated delta.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p036_canonical_orbit_st_operator/train.py
+config_path: ideas/registry/p036_canonical_orbit_st_operator/config.yaml
+model_path: ideas/registry/p036_canonical_orbit_st_operator/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md.
+  Deferred proposals in the same packet: BDD-WMC layer, matroid-rank
+  envelope pool, tactical LCP projector, bounded-delta Cholesky whitening
+  accumulator -- documented in implementation_notes.md.
+source_primitive_path: ideas/research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md
+source_packet_candidate: primitive_canonical_orbit_st
+mechanism_family: response_constraint

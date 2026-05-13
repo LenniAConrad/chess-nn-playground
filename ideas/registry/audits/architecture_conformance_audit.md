@@ -7,7 +7,7 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 
 ## Summary
 
-- Implemented architecture rows audited: `275`
+- Implemented architecture rows audited: `281`
 - Validation issues: `0`
 
 | ID | Folder | Model name | Implementation kind | Status | Markdown binding | Source files | Issues |
@@ -287,6 +287,12 @@ It does not certify the 218 `shared_probe_variant` folders as implemented archit
 | `p033` | `ideas/registry/p033_move_kernel_operator` | `move_kernel_operator` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p033_move_kernel_operator/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/move_kernel_operator.py` | - |
 | `p034` | `ideas/registry/p034_octilinear_selective_scan` | `octilinear_selective_scan` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p034_octilinear_selective_scan/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/octilinear_selective_scan.py` | - |
 | `p035` | `ideas/registry/p035_sparse_legal_graph_transition` | `sparse_legal_graph_transition` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p035_sparse_legal_graph_transition/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/sparse_legal_graph_transition.py` | - |
+| `p036` | `ideas/registry/p036_canonical_orbit_st_operator` | `canonical_orbit_st_operator` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p036_canonical_orbit_st_operator/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/canonical_orbit_st_operator.py` | - |
+| `p037` | `ideas/registry/p037_gibbs_cut_log_partition` | `gibbs_cut_log_partition` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p037_gibbs_cut_log_partition/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/gibbs_cut_log_partition.py` | - |
+| `p038` | `ideas/registry/p038_woodbury_set_resolver` | `woodbury_set_resolver` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p038_woodbury_set_resolver/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/woodbury_set_resolver.py` | - |
+| `p039` | `ideas/registry/p039_occupancy_eikonal_transform` | `occupancy_eikonal_transform` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p039_occupancy_eikonal_transform/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/occupancy_eikonal_transform.py` | - |
+| `p040` | `ideas/registry/p040_conservation_nullspace_norm` | `conservation_nullspace_norm` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p040_conservation_nullspace_norm/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/conservation_nullspace_norm.py` | - |
+| `p041` | `ideas/registry/p041_truncated_exterior_product_pool` | `truncated_exterior_product_pool` | `bespoke_model` | `implemented` | section+model+source+wrapper | `ideas/registry/p041_truncated_exterior_product_pool/model.py`<br>`src/chess_nn_playground/models/primitives/__init__.py`<br>`src/chess_nn_playground/models/primitives/truncated_exterior_product_pool.py` | - |
 
 Validation command:
 

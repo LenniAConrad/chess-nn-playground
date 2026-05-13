@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `281`
+- Ideas audited: `287`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 275 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 281 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -316,6 +316,12 @@ These folders were previously easy to read as distinct implemented architectures
 | `p033` | `ideas/registry/p033_move_kernel_operator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `move_kernel_operator` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p034` | `ideas/registry/p034_octilinear_selective_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `octilinear_selective_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p035` | `ideas/registry/p035_sparse_legal_graph_transition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sparse_legal_graph_transition` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p036` | `ideas/registry/p036_canonical_orbit_st_operator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `canonical_orbit_st_operator` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p037` | `ideas/registry/p037_gibbs_cut_log_partition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `gibbs_cut_log_partition` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p038` | `ideas/registry/p038_woodbury_set_resolver` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `woodbury_set_resolver` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p039` | `ideas/registry/p039_occupancy_eikonal_transform` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `occupancy_eikonal_transform` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p040` | `ideas/registry/p040_conservation_nullspace_norm` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `conservation_nullspace_norm` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p041` | `ideas/registry/p041_truncated_exterior_product_pool` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `truncated_exterior_product_pool` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 

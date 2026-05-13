@@ -5774,6 +5774,132 @@
       ],
       "source_markers": [],
       "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p036_canonical_orbit_st_operator/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p036_canonical_orbit_st_operator",
+      "idea_id": "p036",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "canonical_orbit_st_operator",
+      "slug": "canonical_orbit_st_operator",
+      "source_files": [
+        "ideas/registry/p036_canonical_orbit_st_operator/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/canonical_orbit_st_operator.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p037_gibbs_cut_log_partition/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p037_gibbs_cut_log_partition",
+      "idea_id": "p037",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "gibbs_cut_log_partition",
+      "slug": "gibbs_cut_log_partition",
+      "source_files": [
+        "ideas/registry/p037_gibbs_cut_log_partition/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/gibbs_cut_log_partition.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p038_woodbury_set_resolver/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p038_woodbury_set_resolver",
+      "idea_id": "p038",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "woodbury_set_resolver",
+      "slug": "woodbury_set_resolver",
+      "source_files": [
+        "ideas/registry/p038_woodbury_set_resolver/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/woodbury_set_resolver.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p039_occupancy_eikonal_transform/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p039_occupancy_eikonal_transform",
+      "idea_id": "p039",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "occupancy_eikonal_transform",
+      "slug": "occupancy_eikonal_transform",
+      "source_files": [
+        "ideas/registry/p039_occupancy_eikonal_transform/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/occupancy_eikonal_transform.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p040_conservation_nullspace_norm/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p040_conservation_nullspace_norm",
+      "idea_id": "p040",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "conservation_nullspace_norm",
+      "slug": "conservation_nullspace_norm",
+      "source_files": [
+        "ideas/registry/p040_conservation_nullspace_norm/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/conservation_nullspace_norm.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/p041_truncated_exterior_product_pool/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/p041_truncated_exterior_product_pool",
+      "idea_id": "p041",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "truncated_exterior_product_pool",
+      "slug": "truncated_exterior_product_pool",
+      "source_files": [
+        "ideas/registry/p041_truncated_exterior_product_pool/model.py",
+        "src/chess_nn_playground/models/primitives/__init__.py",
+        "src/chess_nn_playground/models/primitives/truncated_exterior_product_pool.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
     }
   ],
   "summary": {
@@ -6052,9 +6178,15 @@
       "ideas/registry/p032_dynamic_adjacency_gating",
       "ideas/registry/p033_move_kernel_operator",
       "ideas/registry/p034_octilinear_selective_scan",
-      "ideas/registry/p035_sparse_legal_graph_transition"
+      "ideas/registry/p035_sparse_legal_graph_transition",
+      "ideas/registry/p036_canonical_orbit_st_operator",
+      "ideas/registry/p037_gibbs_cut_log_partition",
+      "ideas/registry/p038_woodbury_set_resolver",
+      "ideas/registry/p039_occupancy_eikonal_transform",
+      "ideas/registry/p040_conservation_nullspace_norm",
+      "ideas/registry/p041_truncated_exterior_product_pool"
     ],
-    "implemented_architecture_count": 275,
+    "implemented_architecture_count": 281,
     "issue_folders": [],
     "validation_issue_count": 0
   }

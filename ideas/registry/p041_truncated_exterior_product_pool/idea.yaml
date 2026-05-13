@@ -1,0 +1,69 @@
+idea_id: p041
+name: Truncated Exterior Product Pool
+slug: truncated_exterior_product_pool
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gpt-orbit-boolean-algebra primitive batch)
+short_thesis: |
+  Pool active piece tokens through the truncated exterior algebra
+  ``M = prod_i^{(wedge, <=R)} (1 + z_i)``, returning grade-projected
+  components ``M^{(k)} in Lambda^k(R^r)`` for ``k = 0..R``. Wedge is
+  antisymmetric, so two collinear tokens cancel at grade 2 and above;
+  this directly targets the "looks defended but is overloaded" hard-
+  negative pattern. The grades are concatenated to a fixed
+  ``D_R = sum_k C(r, k)``-dimensional readout and projected to a gated
+  additive logit delta over the i193 trunk.
+novelty_claim: |
+  Distinct from elementary-symmetric pooling (p024) which uses
+  *commutative* Hadamard products; the wedge product cancels collinear
+  tokens. Distinct from pair-resonance Hessian primitives (i245) which
+  use second derivatives over piece-existence variables; grade-k
+  components here are alternating k-body volumes from the forward
+  pass. The packet's defining new computation is the multiset
+  exterior-product pool with bounded-change deletion semantics
+  (``(1 + z)^{-1} = 1 - z`` in the nilpotent ring); we implement the
+  forward pool and document the deletion semantics.
+expected_advantage: |
+  Targeted lift on slices where chess resources are redundant /
+  collinear (two attackers on the same functional line should not count
+  like two independent threats). We measure aggregate PR AUC plus
+  near-puzzle FP rate on positions where grade-2 magnitude is above
+  median (positions where the wedge cancellation is informative).
+target_task: |
+  puzzle_binary classification on the simple_18 board tensor.
+input_representation: |
+  Current-board simple_18 tensor as the model input. Per-square tokens
+  are the 12 piece planes plus the side-to-move plane; the active
+  piece set is derived rule-exactly from the simple_18 piece planes.
+  CRTK metadata, source labels, verification flags, engine
+  evaluations, Stockfish scores, principal variations, and any
+  report-only metadata are not consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include base_logit,
+  primitive_delta, primitive_delta_raw, primitive_gate,
+  primitive_gate_logit, primitive_gate_entropy, tepp_active_count,
+  tepp_grade_max_magnitude, tepp_grade_mean_magnitude,
+  tepp_grade_<k>_magnitude for k in 0..R, plus the i193 trunk
+  diagnostics (trunk_*).
+compute_notes: |
+  Trunk: bespoke i193 ExchangeThenKingDualStreamNetwork. Head: per-
+  square ``z = tanh(W token)`` in R^r (default r = 4); precompute the
+  wedge "extend by tail" table with canonical sorted multi-indices +/-
+  signs at construction time; iterate over the 64 tokens, multiplying
+  ``M' = M * (1 + z_i)`` in the truncated exterior algebra; concat the
+  grade components and project to a gated additive delta.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p041_truncated_exterior_product_pool/train.py
+config_path: ideas/registry/p041_truncated_exterior_product_pool/config.yaml
+model_path: ideas/registry/p041_truncated_exterior_product_pool/model.py
+latest_result_path: null
+notes: |
+  Promoted from the rank-1 proposal in
+  ideas/research/primitives/external_36_exterior_product_rank1_resolvent_primitives.md.
+  Rank-2 proposal in the same packet (Rank-1 Resolvent Pool) is the
+  same operator as p038 Woodbury Set Resolver and is therefore not re-
+  implemented.
+source_primitive_path: ideas/research/primitives/external_36_exterior_product_rank1_resolvent_primitives.md
+source_packet_candidate: primitive_exterior_product_pool
+mechanism_family: response_constraint
