@@ -4,10 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.trunk.gpt_research_architectures import (
-    ConditionalSurprisalGatePuzzleNet,
-    build_conditional_surprisal_gate_from_config,
-)
+from chess_nn_playground.models.trunk.conditional_surprisal_gate import ConditionalSurprisalGatePuzzleNet, build_conditional_surprisal_gate_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> ConditionalSurprisalGatePuzzleNet:

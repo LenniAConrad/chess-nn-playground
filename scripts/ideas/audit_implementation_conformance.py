@@ -331,11 +331,23 @@ def audit_one(folder: Path, *, fix: bool) -> dict[str, Any]:
     config_path = folder / "config.yaml"
     architecture_path = folder / "architecture.md"
     idea = _load_yaml(idea_path)
-    config = _load_yaml(config_path)
+    config_exists = config_path.exists()
+    config = _load_yaml(config_path) if config_exists else {}
     model_cfg = config.get("model", {}) if isinstance(config.get("model"), dict) else {}
     slug = str(idea.get("slug") or model_cfg.get("name") or folder.name.split("_", 1)[-1])
     name = str(idea.get("name") or slug)
     model_name = str(model_cfg.get("name") or "")
+    implementation_status = str(idea.get("implementation_status") or idea.get("status") or "").lower()
+    implementation_kind = str(idea.get("implementation_kind") or "").lower()
+    expects_config = bool(idea.get("config_path")) or implementation_status in {
+        "implemented",
+        "tested",
+        "benchmarking",
+    } or implementation_kind in {
+        "bespoke_model",
+        "shared_probe_variant",
+        "probe_scaffold_only",
+    }
     is_packet_probe = model_name in RESEARCH_PACKET_MODEL_NAMES
     current_family = model_cfg.get("mechanism_family")
     expected_family = infer_family(slug=slug, name=name, current=str(current_family or "generic"))
@@ -343,7 +355,9 @@ def audit_one(folder: Path, *, fix: bool) -> dict[str, Any]:
 
     issues: list[str] = []
     actions: list[str] = []
-    if model_name != slug:
+    if not config_exists and expects_config:
+        issues.append("missing config.yaml")
+    if config_exists and model_name != slug:
         issues.append(f"model.name {model_name!r} does not match slug {slug!r}")
     if is_packet_probe:
         if current_family != expected_family:

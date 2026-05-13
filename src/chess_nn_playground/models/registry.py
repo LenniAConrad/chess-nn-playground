@@ -204,27 +204,23 @@ from chess_nn_playground.models.trunk.threat_topology_betti import (
     build_threat_topology_betti_bottleneck_network_from_config,
 )
 from chess_nn_playground.models.trunk.dykstra_vetoselect import build_dykstra_vetoselect_from_config
-from chess_nn_playground.models.trunk.gpt_research_architectures import (
-    build_conditional_surprisal_gate_from_config,
-    build_contamination_dro_huber_tail_from_config,
-    build_material_locked_tactical_dro_from_config,
-    build_soft_sorting_order_ranker_from_config,
-)
+from chess_nn_playground.models.trunk.conditional_surprisal_gate import build_conditional_surprisal_gate_from_config
+from chess_nn_playground.models.trunk.contamination_dro_huber_tail import build_contamination_dro_huber_tail_from_config
+from chess_nn_playground.models.trunk.material_locked_tactical_dro import build_material_locked_tactical_dro_from_config
+from chess_nn_playground.models.trunk.soft_sorting_order_ranker import build_soft_sorting_order_ranker_from_config
 from chess_nn_playground.models.trunk.lc0_bt4 import build_lc0_bt4_from_config
 from chess_nn_playground.models.trunk.mlp import build_mlp_from_config
 from chess_nn_playground.models.trunk.nnue import build_nnue_from_config
-from chess_nn_playground.models.trunk.research_architectures import (
-    build_boundary_edit_from_config,
-    build_chess_operator_basis_from_config,
-    build_factor_agreement_from_config,
-    build_neural_proof_number_from_config,
-    build_null_move_contrast_from_config,
-    build_obligation_flow_from_config,
-    build_proof_core_from_config,
-    build_response_minimax_from_config,
-    build_rule_dynamics_from_config,
-    build_tactical_equilibrium_from_config,
-)
+from chess_nn_playground.models.trunk.boundary_edit import build_boundary_edit_from_config
+from chess_nn_playground.models.trunk.chess_operator_basis import build_chess_operator_basis_from_config
+from chess_nn_playground.models.trunk.factor_agreement import build_factor_agreement_from_config
+from chess_nn_playground.models.trunk.neural_proof_number import build_neural_proof_number_from_config
+from chess_nn_playground.models.trunk.null_move_contrast import build_null_move_contrast_from_config
+from chess_nn_playground.models.trunk.obligation_flow import build_obligation_flow_from_config
+from chess_nn_playground.models.trunk.proof_core import build_proof_core_from_config
+from chess_nn_playground.models.trunk.response_minimax import build_response_minimax_from_config
+from chess_nn_playground.models.trunk.rule_dynamics import build_rule_dynamics_from_config
+from chess_nn_playground.models.trunk.tactical_equilibrium import build_tactical_equilibrium_from_config
 from chess_nn_playground.models.research_packet_probe import build_research_packet_probe_from_config
 from chess_nn_playground.models.research_packet_probe import infer_mechanism_family
 from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES

@@ -49,4 +49,4 @@ Reliable benchmark configs should use:
 
 The validator checks encoding/input-channel consistency and catches many config-contract mistakes before training starts.
 
-The paper-ready all-runner generates seeded derived configs under `reports/paper_ready_all/generated_configs/`; keep hand-authored source configs under `configs/`.
+The paper-ready trunk sweep runner generates seeded derived configs under `reports/paper_ready_all/generated_configs/`; keep hand-authored source configs under `configs/`.

@@ -15,7 +15,7 @@ This repo is structured as an experiment harness. Keep source code, configs, gen
 - `configs/benchmarks/fine_3class/`: 3-class non-puzzle / near-puzzle / puzzle benchmark configs.
 - `configs/benchmarks/coarse_binary/`: older coarse-binary architecture comparison configs.
 - `configs/suites/`: suite YAML files consumed by `scripts/run_experiment_suite.py`.
-- `configs/legacy/`: older configs retained for smoke, regression, or comparison work.
+- `configs/_archive/legacy/`: older configs retained for smoke, regression, or comparison work.
 - `configs/project/`: non-training project configs.
 - `configs/external/`: external engine/CLI configs that are not part of neural-network training.
 

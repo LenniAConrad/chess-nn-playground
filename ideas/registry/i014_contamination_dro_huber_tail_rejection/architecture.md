@@ -5,5 +5,5 @@ The model is a compact convolutional board encoder with global mean/max pooling 
 ## Implementation Binding
 
 - Registered model name: `contamination_dro_huber_tail_rejection`.
-- Source implementation: `src/chess_nn_playground/models/trunk/gpt_research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/contamination_dro_huber_tail.py`.
 - Idea-local wrapper: `ideas/registry/i014_contamination_dro_huber_tail_rejection/model.py`.

@@ -86,5 +86,5 @@ Expected to be cheaper than dense 64-token attention and comparable to a small r
 ## Implementation Binding
 
 - Registered model name: `chess_operator_basis_classifier`.
-- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/chess_operator_basis.py`.
 - Idea-local wrapper: `ideas/registry/i001_chess_operator_basis_classifier/model.py`.

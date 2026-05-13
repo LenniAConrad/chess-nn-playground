@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.trunk.research_architectures import BoundaryEditLagrangianNetwork, build_boundary_edit_from_config
+from chess_nn_playground.models.trunk.boundary_edit import BoundaryEditLagrangianNetwork, build_boundary_edit_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> BoundaryEditLagrangianNetwork:

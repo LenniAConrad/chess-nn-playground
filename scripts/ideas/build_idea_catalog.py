@@ -552,7 +552,7 @@ def build_todo_md(registered: list[dict[str, Any]], packets: list[dict[str, Any]
             "4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.",
             "5. Compare every result against the LC0 BT4, VetoSelect, and Dykstra baselines before changing architectures again.",
             "",
-            "Use `reports/paper_ready_all/state.json` as the resume ledger if the all-runner is interrupted.",
+            "Use `reports/paper_ready_all/state.json` as the resume ledger if the trunk sweep runner is interrupted.",
             "Open `reports/paper_ready_all/status.md` for task state, then `reports/paper_ready_all/paper_report.pdf` for the paper-style summary once analysis finishes.",
         ]
         if result:

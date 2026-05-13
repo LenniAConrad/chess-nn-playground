@@ -2,13 +2,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.trunk.research_architectures import (
-    CommutativeViewConsistencyNetwork,
-    build_commutative_view_consistency_network_from_config,
-)
 
-
-def build_model_from_config(config: dict[str, Any]) -> CommutativeViewConsistencyNetwork:
-    model_cfg = dict(config.get("model", {}))
-    model_cfg.setdefault("num_classes", 1)
-    return build_commutative_view_consistency_network_from_config(model_cfg)
+def build_model_from_config(config: dict[str, Any]):
+    raise NotImplementedError(
+        "i137 commutative_view_consistency_network is probe_scaffold_only. "
+        "CommutativeViewConsistencyNetwork was never implemented in the "
+        "original research_architectures bundle. Implement the architecture as "
+        "a per-file trunk module before promoting this idea."
+    )

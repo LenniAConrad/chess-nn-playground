@@ -108,5 +108,5 @@ Do not re-run a CNN at every node in version 1.
 ## Implementation Binding
 
 - Registered model name: `neural_proof_number_search`.
-- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/neural_proof_number.py`.
 - Idea-local wrapper: `ideas/registry/i007_neural_proof_number_search/model.py`.

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import torch
 
-from chess_nn_playground.models.trunk.gpt_research_architectures import CompactBoardEncoder
-from chess_nn_playground.models.trunk.gpt_research_architectures import DeterministicTacticalMaskBuilder
+from chess_nn_playground.models.trunk._gpt_research_blocks import CompactBoardEncoder
+from chess_nn_playground.models.trunk._gpt_research_blocks import DeterministicTacticalMaskBuilder
 from chess_nn_playground.models.research_packet_probe import _piece_occupancy
 
 

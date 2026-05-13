@@ -166,7 +166,7 @@ reports/leaderboards/global_leaderboard.md
 Validate configs without training:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py configs/legacy/cnn_crtk_sample.yaml configs/legacy/residual_cnn_crtk_sample.yaml
+PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py configs/_archive/legacy/cnn_crtk_sample.yaml configs/_archive/legacy/residual_cnn_crtk_sample.yaml
 ```
 
 Validate a completed run's required artifacts:

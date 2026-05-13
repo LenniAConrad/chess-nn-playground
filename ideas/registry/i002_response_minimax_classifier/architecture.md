@@ -85,5 +85,5 @@ Use shallow MLP encoders first. Do not rerun a full CNN for every action.
 ## Implementation Binding
 
 - Registered model name: `response_minimax_classifier`.
-- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/response_minimax.py`.
 - Idea-local wrapper: `ideas/registry/i002_response_minimax_classifier/model.py`.

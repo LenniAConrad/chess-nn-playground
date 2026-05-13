@@ -4,10 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from chess_nn_playground.models.trunk.gpt_research_architectures import (
-    ContaminationDROHuberTailClassifier,
-    build_contamination_dro_huber_tail_from_config,
-)
+from chess_nn_playground.models.trunk.contamination_dro_huber_tail import ContaminationDROHuberTailClassifier, build_contamination_dro_huber_tail_from_config
 
 
 def build_model_from_config(config: dict[str, Any]) -> ContaminationDROHuberTailClassifier:

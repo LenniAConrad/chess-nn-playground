@@ -88,5 +88,5 @@ The selector over all candidates is cheaper than dense board attention.
 ## Implementation Binding
 
 - Registered model name: `proof_core_set_verifier`.
-- Source implementation: `src/chess_nn_playground/models/trunk/research_architectures.py`.
+- Source implementation: `src/chess_nn_playground/models/trunk/proof_core.py`.
 - Idea-local wrapper: `ideas/registry/i006_proof_core_set_verifier/model.py`.

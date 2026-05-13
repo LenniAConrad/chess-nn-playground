@@ -86,7 +86,7 @@ PYTHONDONTWRITEBYTECODE=1 pytest -q
 src/chess_nn_playground/      Importable Python package
 configs/benchmarks/           Benchmark configs grouped by task
 configs/suites/               Multi-config benchmark suites
-configs/legacy/               Older configs kept for comparison or smoke work
+configs/_archive/legacy/               Older configs kept for comparison or smoke work
 scripts/                      Stable training, validation, suite, and reporting entrypoints
 scripts/data/                 CRTK import, audit, split, and tagging utilities
 scripts/reports/              Plotting and report-generation utilities
@@ -194,22 +194,58 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
   --gpu-ids 0,1
 ```
 
-## Paper-Ready Runner
+## Run Everything
 
-On a fresh GPU machine, use the tmux wrapper to install Python dependencies, detect
-visible NVIDIA GPUs, verify the canonical split, and start the full resumable run:
+Use the top-level combined runner when you want one entrypoint for the full
+trunk sweep followed by the primitive pipeline:
 
 ```bash
 ./run_all.sh
 ```
 
-The wrapper starts or attaches to the `chess-nn-all` tmux session and then invokes
-`scripts/run_paper_ready_all.py` with the full default sweep. It uses all visible
-NVIDIA GPUs by default, with one parallel training job per GPU. To limit the run
-to the first N visible GPUs, set `RUN_ALL_GPU_COUNT=N`; to choose interactively
-inside tmux, set `RUN_ALL_ASK_GPU_COUNT=1`.
+It starts or attaches to the `chess-nn-run-all` tmux session, runs
+`run_trunk_sweep.sh --inside-tmux`, then runs `run_primitive_pipeline.sh`.
+Arguments passed to `run_all.sh` are forwarded to the trunk sweep. Primitive
+training is controlled with `RUN_PRIMITIVE_*` variables because primitive
+prototype checks, config discovery, dry-run planning, and scout training have
+separate controls.
 
-Use this single command for a complete RTX 3070 full run after the canonical split exists. It trains every benchmark config and registered idea, expands each one to all configured size variants and seeds, resumes after interruption, writes logs with ETA, and builds the final leaderboards, dashboards, and PDF report:
+Useful controls:
+
+```bash
+RUN_ALL_SKIP_TRUNKS=1 ./run_all.sh              # primitive pipeline only
+RUN_ALL_SKIP_PRIMITIVES=1 ./run_all.sh          # trunk sweep only
+RUN_ALL_CONTINUE_AFTER_TRUNK_FAILURE=1 ./run_all.sh
+RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 ./run_all.sh
+```
+
+Combined logs are written under `reports/run_all/`; the trunk and primitive
+status files stay in their dedicated report folders.
+
+## Trunk Sweep Wrapper
+
+On a fresh GPU machine, use the tmux wrapper to install Python dependencies, detect
+visible NVIDIA GPUs, verify the canonical split, and start the full resumable
+trunk/registered-architecture sweep:
+
+```bash
+./run_trunk_sweep.sh
+```
+
+The wrapper starts or attaches to the `chess-nn-trunk-sweep` tmux session and
+then invokes `scripts/run_paper_ready_all.py` with the full default sweep. This
+is for trunk and registered-architecture runs; primitive-native architectures
+with custom primitive inputs should get their own dedicated wrapper/config path.
+It uses all visible NVIDIA GPUs by default, with one parallel training job per
+GPU. To limit the run to the first N visible GPUs, set
+`RUN_TRUNK_SWEEP_GPU_COUNT=N`; to choose interactively inside tmux, set
+`RUN_TRUNK_SWEEP_ASK_GPU_COUNT=1`. Legacy `RUN_ALL_*` variables still work as a
+fallback.
+
+Use this command directly when you do not need the tmux/dependency wrapper. It
+trains every benchmark config and registered idea, expands each one to all
+configured size variants and seeds, resumes after interruption, writes logs with
+ETA, and builds the final leaderboards, dashboards, and PDF report:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py \
@@ -242,6 +278,65 @@ By default the runner performs three architecture-size sweeps for every config a
 If the process or machine stops, rerun the same command. Completed runs are skipped, interrupted runs resume from `checkpoint_last.pt`, and runs that trained but still need final reports resume into the artifact pipeline. At the end, the runner rebuilds leaderboards, aggregate training dashboards, speed summaries, and the paper-style PDF report.
 
 Use `--dry-run` first to inspect the plan without requiring CUDA. Open `reports/paper_ready_all/status.md` first; it summarizes task counts, ETA once at least one task has finished, pending work, failures, logs, leaderboards, training dashboards, and the final PDF report path. The terminal prints numbered task progress as it starts and finishes work, including the current rough ETA; `events.jsonl` keeps the full timestamped machine-readable ledger, and `timeline.md` keeps the readable chronology of what ran when and where.
+
+## Primitive Pipeline
+
+Use the primitive pipeline for primitive-only prototype checks, primitive tests,
+static validation, and scout training of promoted primitive configs:
+
+```bash
+./run_primitive_pipeline.sh
+```
+
+By default it runs the current primitive prototypes and any primitive-specific
+pytest files, validates promoted primitive configs, and writes status/logs under
+`reports/primitive_pipeline/`. It does not launch training unless requested.
+
+Promoted primitive configs are discovered from `ideas/registry/p###_*/config*.yaml`
+or the legacy handoff IDs `i244` through `i248`. To train the discovered configs:
+
+```bash
+RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 ./run_primitive_pipeline.sh
+```
+
+To train explicit configs instead of auto-discovery:
+
+```bash
+RUN_PRIMITIVE_CONFIGS="ideas/registry/p001_rule_aware_tactical_head/config.yaml" \
+RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 \
+./run_primitive_pipeline.sh
+```
+
+## Primitive Implementation With Claude
+
+To hand the primitive implementation work to Claude Code using the Claude
+subscription login, Opus, and maximum reasoning effort:
+
+```bash
+./run_primitive_implementation_with_claude.sh
+```
+
+The launcher defaults to:
+
+```text
+CLAUDE_MODEL=claude-opus-4-7
+CLAUDE_EFFORT=max
+CLAUDE_PERMISSION_MODE=acceptEdits
+```
+
+The launcher only accepts `CLAUDE_EFFORT=max` or `CLAUDE_EFFORT=xhigh` for this
+task, and defaults to `max`.
+
+If this Claude Code install exposes Opus through the moving alias instead of
+the exact model string, run:
+
+```bash
+CLAUDE_MODEL=opus ./run_primitive_implementation_with_claude.sh
+```
+
+Use `CLAUDE_NONINTERACTIVE=1` to run with `claude -p` and tee the output to
+`reports/primitive_implementation_with_claude/`. Use `CLAUDE_DRY_RUN=1` to
+inspect the generated prompt and command without invoking Claude.
 
 ## Outputs
 

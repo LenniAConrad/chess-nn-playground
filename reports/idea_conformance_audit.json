@@ -188,645 +188,530 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i018",
     "issues": [],
     "model_name": "oriented_tactical_sheaf_laplacian",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "oriented_tactical_sheaf_laplacian"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf",
-      "topology"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i019",
     "issues": [],
     "model_name": "tactical_sheaf_curvature_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_sheaf_curvature_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf",
-      "graph"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i020",
     "issues": [],
     "model_name": "attack_defense_sheaf_energy_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "attack_defense_sheaf_energy_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i021",
     "issues": [],
     "model_name": "tactical_sheaf_tension_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_sheaf_tension_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i022",
     "issues": [],
     "model_name": "tactical_threat_sheaf_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_threat_sheaf_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i023",
     "issues": [],
     "model_name": "attack_hodge_sheaf_tension_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "attack_hodge_sheaf_tension_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i024",
     "issues": [],
     "model_name": "directed_attack_sheaf_tension_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "directed_attack_sheaf_tension_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i025",
     "issues": [],
     "model_name": "one_ply_counterfactual_move_landscape_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "one_ply_counterfactual_move_landscape_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta",
-      "linear_algebra"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i026",
     "issues": [],
     "model_name": "counterfactual_move_delta_spectrum_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "counterfactual_move_delta_spectrum_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i027",
     "issues": [],
     "model_name": "rule_only_counterfactual_move_delta_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "rule_only_counterfactual_move_delta_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf",
-      "symmetry"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i028",
     "issues": [],
     "model_name": "file_mirror_tension_sheaf",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "file_mirror_tension_sheaf"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport",
-      "king_path"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i029",
     "issues": [],
     "model_name": "entropic_piece_target_transport_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "entropic_piece_target_transport_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i030",
     "issues": [],
     "model_name": "nuisance_orthogonal_puzzle_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "nuisance_orthogonal_puzzle_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i031",
     "issues": [],
     "model_name": "tactical_transport_imbalance_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_transport_imbalance_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport",
-      "king_path"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i032",
     "issues": [],
     "model_name": "king_anchored_material_null_transport_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "king_anchored_material_null_transport_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport",
-      "king_path"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i033",
     "issues": [],
     "model_name": "piece_target_entropic_transport_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_target_entropic_transport_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport",
-      "topology"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i034",
     "issues": [],
     "model_name": "entropic_chess_geometry_transport_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "entropic_chess_geometry_transport_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i035",
     "issues": [],
     "model_name": "ordinal_evidence_ladder_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "ordinal_evidence_ladder_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology",
-      "information"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i036",
     "issues": [],
     "model_name": "geometry_conditioned_board_pseudo_likelihood_ratio_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "geometry_conditioned_board_pseudo_likelihood_ratio_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i037",
     "issues": [],
     "model_name": "mobius_piece_constellation_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "mobius_piece_constellation_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i038",
     "issues": [],
     "model_name": "sparse_witness_piece_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "sparse_witness_piece_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sequence_memory"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i039",
     "issues": [],
     "model_name": "ray_language_automaton_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "ray_language_automaton_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i040",
     "issues": [],
     "model_name": "kinematic_commutator_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "kinematic_commutator_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i041",
     "issues": [],
     "model_name": "centered_tempo_odd_interventional_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "centered_tempo_odd_interventional_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i042",
     "issues": [],
     "model_name": "legal_automorphism_quotient_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "legal_automorphism_quotient_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i043",
     "issues": [],
     "model_name": "side_canonical_rule_partition_invariant_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "side_canonical_rule_partition_invariant_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i044",
     "issues": [],
     "model_name": "masked_board_code_length_surprise_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "masked_board_code_length_surprise_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "robustness",
-      "probabilistic"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i045",
     "issues": [],
     "model_name": "credal_near_puzzle_evidence_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "credal_near_puzzle_evidence_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i046",
     "issues": [],
     "model_name": "rule_exact_orbit_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "rule_exact_orbit_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry",
-      "information"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i047",
     "issues": [],
     "model_name": "color_flip_orbit_evidence_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "color_flip_orbit_evidence_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i048",
     "issues": [],
     "model_name": "rule_automorphism_quotient_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "rule_automorphism_quotient_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i049",
     "issues": [],
     "model_name": "tempo_odd_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tempo_odd_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology",
-      "king_path",
-      "graph"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i050",
     "issues": [],
     "model_name": "king_anchored_euler_interaction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "king_anchored_euler_interaction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology",
-      "king_path"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i051",
     "issues": [],
     "model_name": "king_escape_percolation_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "king_escape_percolation_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "king_path"
-    ],
-    "expected_family": "king_path",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "king_path",
     "idea_id": "i052",
     "issues": [],
     "model_name": "soft_king_cage_path_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "soft_king_cage_path_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "proof_certificate"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i053",
     "issues": [],
     "model_name": "hall_defect_obligation_matroid_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "hall_defect_obligation_matroid_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i054",
     "issues": [],
     "model_name": "threat_topology_betti_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "threat_topology_betti_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i055",
     "issues": [],
     "model_name": "non_backtracking_tactical_walk_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "non_backtracking_tactical_walk_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i056",
     "issues": [],
     "model_name": "non_puzzle_score_field_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "non_puzzle_score_field_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i057",
     "issues": [],
     "model_name": "soft_formal_concept_closure_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "soft_formal_concept_closure_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i058",
     "issues": [],
     "model_name": "determinantal_tactical_volume_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "determinantal_tactical_volume_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i059",
     "issues": [],
     "model_name": "harmonic_board_potential_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "harmonic_board_potential_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i060",
     "issues": [],
     "model_name": "tropical_constraint_circuit_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tropical_constraint_circuit_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i061",
     "issues": [],
     "model_name": "grassmannian_principal_angle_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "grassmannian_principal_angle_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i062",
     "issues": [],
     "model_name": "matrix_pencil_generalized_spectrum_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "matrix_pencil_generalized_spectrum_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i063",
     "issues": [],
     "model_name": "polar_procrustes_alignment_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "polar_procrustes_alignment_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i064",
     "issues": [],
     "model_name": "multi_scale_dilated_board_mixer_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "multi_scale_dilated_board_mixer_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "spatial_cnn",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i065",
     "issues": [],
     "model_name": "piece_token_cnn_hybrid",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_token_cnn_hybrid"
   },
   {
@@ -846,688 +731,563 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i067",
     "issues": [],
     "model_name": "finite_field_character_sum_board_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "finite_field_character_sum_board_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "linear_algebra"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i068",
     "issues": [],
     "model_name": "schur_ray_line_algebra_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "schur_ray_line_algebra_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i069",
     "issues": [],
     "model_name": "bitboard_shift_algebra_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "bitboard_shift_algebra_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i070",
     "issues": [],
     "model_name": "relational_query_algebra_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "relational_query_algebra_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "probabilistic"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i071",
     "issues": [],
     "model_name": "variational_board_action_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "variational_board_action_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i072",
     "issues": [],
     "model_name": "tensor_core_square_pair_field_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tensor_core_square_pair_field_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i073",
     "issues": [],
     "model_name": "tiny_chess_micronet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tiny_chess_micronet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i074",
     "issues": [],
     "model_name": "puzzle_binary_benchmark_challengers",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "puzzle_binary_benchmark_challengers"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i075",
     "issues": [],
     "model_name": "tactical_bisimulation_puzzle_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_bisimulation_puzzle_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i076",
     "issues": [],
     "model_name": "krylov_tactical_subspace_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "krylov_tactical_subspace_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i077",
     "issues": [],
     "model_name": "adaptive_tactical_resolvent_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "adaptive_tactical_resolvent_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i078",
     "issues": [],
     "model_name": "tactical_controllability_gramian_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_controllability_gramian_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "proof_certificate"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i079",
     "issues": [],
     "model_name": "support_polar_zonotope_certificate_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "support_polar_zonotope_certificate_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i080",
     "issues": [],
     "model_name": "loop_frustration_curvature_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "loop_frustration_curvature_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i081",
     "issues": [],
     "model_name": "forcing_response_front_door_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "forcing_response_front_door_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i082",
     "issues": [],
     "model_name": "chess_hypercut_polynomial_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "chess_hypercut_polynomial_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sheaf",
-      "information"
-    ],
-    "expected_family": "sheaf",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sheaf",
     "idea_id": "i083",
     "issues": [],
     "model_name": "fisher_geodesic_tension_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "fisher_geodesic_tension_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sparse",
-      "graph"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i084",
     "issues": [],
     "model_name": "typed_hypergraph_motif_grammar",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "typed_hypergraph_motif_grammar"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i085",
     "issues": [],
     "model_name": "hall_defect_zeta_operator",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "hall_defect_zeta_operator"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i086",
     "issues": [],
     "model_name": "differentiable_chess_fact_lattice",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "differentiable_chess_fact_lattice"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i087",
     "issues": [],
     "model_name": "tactical_radius_filtration",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_radius_filtration"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i088",
     "issues": [],
     "model_name": "traced_threat_motif_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "traced_threat_motif_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i089",
     "issues": [],
     "model_name": "bounded_board_hinge_logic",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "bounded_board_hinge_logic"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph",
-      "proof_certificate"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i090",
     "issues": [],
     "model_name": "chess_mode_tucker_relation_certificate",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "chess_mode_tucker_relation_certificate"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i091",
     "issues": [],
     "model_name": "tactical_state_bottleneck_inference",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_state_bottleneck_inference"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i092",
     "issues": [],
     "model_name": "parity_syndrome_puzzle_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "parity_syndrome_puzzle_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i093",
     "issues": [],
     "model_name": "wavelet_scattering_board_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "wavelet_scattering_board_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i094",
     "issues": [],
     "model_name": "convex_feasibility_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "convex_feasibility_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "information"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i095",
     "issues": [],
     "model_name": "rank_quantile_evidence_field_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "rank_quantile_evidence_field_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i096",
     "issues": [],
     "model_name": "oriented_matroid_covector_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "oriented_matroid_covector_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i097",
     "issues": [],
     "model_name": "fixed_point_residual_defect_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "fixed_point_residual_defect_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i098",
     "issues": [],
     "model_name": "baseline_logit_residual_adapter",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "baseline_logit_residual_adapter"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i099",
     "issues": [],
     "model_name": "coarse_to_fine_board_residual_pyramid",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "coarse_to_fine_board_residual_pyramid"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i100",
     "issues": [],
     "model_name": "independence_residual_interaction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "independence_residual_interaction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "robustness",
-      "phase_calibration"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i101",
     "issues": [],
     "model_name": "residual_calibration_error_field",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "residual_calibration_error_field"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i102",
     "issues": [],
     "model_name": "set_query_attention_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "set_query_attention_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i103",
     "issues": [],
     "model_name": "attention_disagreement_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "attention_disagreement_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i104",
     "issues": [],
     "model_name": "cross_scale_attention_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "cross_scale_attention_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i105",
     "issues": [],
     "model_name": "slot_attention_role_binding_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "slot_attention_role_binding_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i106",
     "issues": [],
     "model_name": "attention_perturbation_sensitivity_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "attention_perturbation_sensitivity_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i107",
     "issues": [],
     "model_name": "kernel_mean_prototype_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "kernel_mean_prototype_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i108",
     "issues": [],
     "model_name": "tensorsketch_interaction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tensorsketch_interaction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i109",
     "issues": [],
     "model_name": "maxout_region_signature_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "maxout_region_signature_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i110",
     "issues": [],
     "model_name": "spline_board_surface_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "spline_board_surface_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "spatial_cnn"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i111",
     "issues": [],
     "model_name": "boundary_condition_disagreement_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "boundary_condition_disagreement_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "robustness"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i112",
     "issues": [],
     "model_name": "piece_drop_stability_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_drop_stability_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "spatial_cnn"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i113",
     "issues": [],
     "model_name": "row_file_factor_mixer",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "row_file_factor_mixer"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "spatial_cnn"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i114",
     "issues": [],
     "model_name": "piece_conditioned_hypernetwork_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_conditioned_hypernetwork_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "tempo",
-      "sequence_memory"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i115",
     "issues": [],
     "model_name": "neural_board_cellular_automaton",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "neural_board_cellular_automaton"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i116",
     "issues": [],
     "model_name": "symmetric_difference_twin_encoder",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "symmetric_difference_twin_encoder"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse",
-      "spatial_cnn"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i117",
     "issues": [],
     "model_name": "prototype_patch_dictionary_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "prototype_patch_dictionary_network"
   },
   {
@@ -1545,249 +1305,200 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i119",
     "issues": [],
     "model_name": "tensor_ring_square_interaction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tensor_ring_square_interaction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "transport"
-    ],
-    "expected_family": "transport",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "transport",
     "idea_id": "i120",
     "issues": [],
     "model_name": "sinkhorn_role_assignment_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "sinkhorn_role_assignment_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i121",
     "issues": [],
     "model_name": "morphological_threat_field_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "morphological_threat_field_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i122",
     "issues": [],
     "model_name": "invertible_board_coupling_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "invertible_board_coupling_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i123",
     "issues": [],
     "model_name": "sparse_expert_board_router",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "sparse_expert_board_router"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i124",
     "issues": [],
     "model_name": "local_neighborhood_geometry_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "local_neighborhood_geometry_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sequence_memory"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i125",
     "issues": [],
     "model_name": "ray_state_space_scan_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "ray_state_space_scan_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "barrier_cut"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i126",
     "issues": [],
     "model_name": "pawn_skeleton_barrier_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "pawn_skeleton_barrier_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "spatial_cnn"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i127",
     "issues": [],
     "model_name": "square_color_parity_mixer",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "square_color_parity_mixer"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sequence_memory"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i128",
     "issues": [],
     "model_name": "occupancy_run_length_segment_encoder",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "occupancy_run_length_segment_encoder"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "king_path",
-      "spatial_cnn"
-    ],
-    "expected_family": "king_path",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "king_path",
     "idea_id": "i129",
     "issues": [],
     "model_name": "king_shelter_microkernel_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "king_shelter_microkernel_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "tempo",
-      "phase_calibration"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i130",
     "issues": [],
     "model_name": "material_phase_low_rank_adapter_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "material_phase_low_rank_adapter_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i131",
     "issues": [],
     "model_name": "replicator_payoff_piece_dynamics",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "replicator_payoff_piece_dynamics"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "linear_algebra"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i132",
     "issues": [],
     "model_name": "differentiable_bitboard_boolean_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "differentiable_bitboard_boolean_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i133",
     "issues": [],
     "model_name": "orthogonal_board_moment_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "orthogonal_board_moment_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i134",
     "issues": [],
     "model_name": "legal_constraint_projection_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "legal_constraint_projection_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i135",
     "issues": [],
     "model_name": "zobrist_kernel_feature_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "zobrist_kernel_feature_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph",
-      "convex",
-      "token_attention",
-      "barrier_cut"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i136",
     "issues": [],
     "model_name": "low_rank_signed_cut_query_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "low_rank_signed_cut_query_network"
   },
   {
@@ -1805,41 +1516,35 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i138",
     "issues": [],
     "model_name": "support_function_envelope_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "support_function_envelope_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i139",
     "issues": [],
     "model_name": "soft_majorization_line_sorter",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "soft_majorization_line_sorter"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i140",
     "issues": [],
     "model_name": "low_displacement_rank_board_operator",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "low_displacement_rank_board_operator"
   },
   {
@@ -1857,28 +1562,24 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i142",
     "issues": [],
     "model_name": "pivot_trace_elimination_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "pivot_trace_elimination_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i143",
     "issues": [],
     "model_name": "convnext_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "convnext_boardnet"
   },
   {
@@ -1896,54 +1597,46 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i145",
     "issues": [],
     "model_name": "piece_plane_gated_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_plane_gated_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i146",
     "issues": [],
     "model_name": "patch_mixer_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "patch_mixer_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i147",
     "issues": [],
     "model_name": "specialist_head_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "specialist_head_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i148",
     "issues": [],
     "model_name": "shallow_wide_residual_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "shallow_wide_residual_boardnet"
   },
   {
@@ -1962,1195 +1655,955 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i150",
     "issues": [],
     "model_name": "early_exit_cascade_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "early_exit_cascade_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i151",
     "issues": [],
     "model_name": "auxiliary_reconstruction_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "auxiliary_reconstruction_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo",
-      "spatial_cnn"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i152",
     "issues": [],
     "model_name": "iterative_logit_refinement_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "iterative_logit_refinement_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i153",
     "issues": [],
     "model_name": "agreement_variance_head_net",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "agreement_variance_head_net"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i154",
     "issues": [],
     "model_name": "adapter_sandwich_residual_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "adapter_sandwich_residual_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse",
-      "token_attention"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i155",
     "issues": [],
     "model_name": "capsule_motif_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "capsule_motif_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sequence_memory"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i156",
     "issues": [],
     "model_name": "multi_order_board_scan_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "multi_order_board_scan_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "spatial_cnn",
-      "token_attention"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i157",
     "issues": [],
     "model_name": "cross_stitch_cnn_token_fusion_net",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "cross_stitch_cnn_token_fusion_net"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i158",
     "issues": [],
     "model_name": "neural_decision_forest_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "neural_decision_forest_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i159",
     "issues": [],
     "model_name": "vector_quantized_motif_codebook_net",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "vector_quantized_motif_codebook_net"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
-    "family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "spatial_cnn",
     "idea_id": "i160",
     "issues": [],
     "model_name": "hypercolumn_square_readout_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "hypercolumn_square_readout_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "spatial_cnn"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i161",
     "issues": [],
     "model_name": "multiplicative_conjunction_convnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "multiplicative_conjunction_convnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "auction_cost"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i162",
     "issues": [],
     "model_name": "empty_square_opportunity_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "empty_square_opportunity_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i163",
     "issues": [],
     "model_name": "global_scratchpad_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "global_scratchpad_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i164",
     "issues": [],
     "model_name": "learnable_pooling_tree_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "learnable_pooling_tree_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "generic",
     "idea_id": "i165",
     "issues": [],
     "model_name": "spatial_film_coordinate_net",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "spatial_film_coordinate_net"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "spatial_cnn"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i166",
     "issues": [],
     "model_name": "channel_bilinear_role_mixer",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "channel_bilinear_role_mixer"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i167",
     "issues": [],
     "model_name": "evidence_sieve_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "evidence_sieve_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo",
-      "sequence_memory"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i168",
     "issues": [],
     "model_name": "ring_shell_recurrent_boardnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "ring_shell_recurrent_boardnet"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "sequence_memory"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i169",
     "issues": [],
     "model_name": "rank_file_memory_grid_net",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "rank_file_memory_grid_net"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "robustness"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i170",
     "issues": [],
     "model_name": "negative_class_disentangled_puzzle_head",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "negative_class_disentangled_puzzle_head"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i171",
     "issues": [],
     "model_name": "line_piece_crossbar_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "line_piece_crossbar_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "robustness"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i172",
     "issues": [],
     "model_name": "near_puzzle_margin_twin_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "near_puzzle_margin_twin_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "spatial_cnn"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i173",
     "issues": [],
     "model_name": "stripe_selective_mixer_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "stripe_selective_mixer_cnn"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "king_path",
-      "information",
-      "proof_certificate"
-    ],
-    "expected_family": "king_path",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "king_path",
     "idea_id": "i174",
     "issues": [],
     "model_name": "king_zone_evidence_ledger",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "king_zone_evidence_ledger"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "sparse",
-      "robustness"
-    ],
-    "expected_family": "sparse",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "sparse",
     "idea_id": "i175",
     "issues": [],
     "model_name": "prototype_margin_puzzle_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "prototype_margin_puzzle_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "phase_calibration"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i176",
     "issues": [],
     "model_name": "source_rate_calibrated_objective",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "source_rate_calibrated_objective"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention",
-      "proof_certificate"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i177",
     "issues": [],
     "model_name": "forcing_certificate_transformer",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "forcing_certificate_transformer"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "tempo",
-      "defender_reply"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i178",
     "issues": [],
     "model_name": "defender_exhaustion_cascade_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "defender_exhaustion_cascade_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i179",
     "issues": [],
     "model_name": "causal_piece_derivative_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "causal_piece_derivative_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo",
-      "phase_calibration"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i180",
     "issues": [],
     "model_name": "phase_transition_pressure_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "phase_transition_pressure_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "proof_certificate"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i181",
     "issues": [],
     "model_name": "disproof_ledger_puzzle_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "disproof_ledger_puzzle_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "sparse"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i182",
     "issues": [],
     "model_name": "motif_tensor_factorization_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "motif_tensor_factorization_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i183",
     "issues": [],
     "model_name": "tempo_alignment_gate_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tempo_alignment_gate_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i184",
     "issues": [],
     "model_name": "puzzle_boundary_twin_encoder",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "puzzle_boundary_twin_encoder"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "auction_cost"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i185",
     "issues": [],
     "model_name": "critical_square_budget_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "critical_square_budget_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "defender_reply"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i186",
     "issues": [],
     "model_name": "legal_reaction_bottleneck_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "legal_reaction_bottleneck_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "graph",
-      "defender_reply"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i187",
     "issues": [],
     "model_name": "exchange_soundness_graph_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "exchange_soundness_graph_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i188",
     "issues": [],
     "model_name": "tactical_program_induction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_program_induction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta",
-      "graph",
-      "robustness",
-      "defender_reply"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i189",
     "issues": [],
     "model_name": "counterfactual_defender_dropout_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "counterfactual_defender_dropout_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "barrier_cut"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i190",
     "issues": [],
     "model_name": "blocker_pin_lattice_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "blocker_pin_lattice_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic",
-      "graph",
-      "proof_certificate",
-      "defender_reply"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i191",
     "issues": [],
     "model_name": "safe_reply_certificate_verifier",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "safe_reply_certificate_verifier"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "graph",
-      "defender_reply"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i192",
     "issues": [],
     "model_name": "latent_reply_entropy_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "latent_reply_entropy_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "king_path",
-      "defender_reply"
-    ],
-    "expected_family": "king_path",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "king_path",
     "idea_id": "i193",
     "issues": [],
     "model_name": "exchange_then_king_dual_stream",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "exchange_then_king_dual_stream"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "probabilistic"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i194",
     "issues": [],
     "model_name": "tactical_symptom_bayesian_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_symptom_bayesian_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta",
-      "convex"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i195",
     "issues": [],
     "model_name": "minimal_edit_puzzle_distance_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "minimal_edit_puzzle_distance_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i196",
     "issues": [],
     "model_name": "source_invariant_puzzle_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "source_invariant_puzzle_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "token_attention",
-      "defender_reply"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i197",
     "issues": [],
     "model_name": "reply_set_contrastive_transformer",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "reply_set_contrastive_transformer"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "barrier_cut"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i198",
     "issues": [],
     "model_name": "barrier_cut_puzzle_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "barrier_cut_puzzle_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i199",
     "issues": [],
     "model_name": "tactical_hessian_spectrum_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_hessian_spectrum_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i200",
     "issues": [],
     "model_name": "absorbing_threat_markov_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "absorbing_threat_markov_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i201",
     "issues": [],
     "model_name": "neural_clause_resolution_puzzle_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "neural_clause_resolution_puzzle_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex",
-      "auction_cost"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i202",
     "issues": [],
     "model_name": "piece_liability_gradient_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "piece_liability_gradient_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i203",
     "issues": [],
     "model_name": "hierarchical_tactical_option_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "hierarchical_tactical_option_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i204",
     "issues": [],
     "model_name": "cross_defense_consistency_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "cross_defense_consistency_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "tempo",
-      "defender_reply"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i205",
     "issues": [],
     "model_name": "defender_timing_schedule_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "defender_timing_schedule_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i206",
     "issues": [],
     "model_name": "discovered_ray_switchboard_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "discovered_ray_switchboard_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "proof_certificate",
-      "defender_reply"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i207",
     "issues": [],
     "model_name": "counterplay_insolvency_ledger",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "counterplay_insolvency_ledger"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "barrier_cut"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i208",
     "issues": [],
     "model_name": "pinned_mobility_nullspace_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "pinned_mobility_nullspace_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i209",
     "issues": [],
     "model_name": "tactical_effective_resistance_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_effective_resistance_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "graph",
-      "convex",
-      "defender_reply",
-      "auction_cost"
-    ],
-    "expected_family": "graph",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "graph",
     "idea_id": "i210",
     "issues": [],
     "model_name": "defender_opportunity_cost_auction_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "defender_opportunity_cost_auction_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i211",
     "issues": [],
     "model_name": "role_counterfactual_necessity_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "role_counterfactual_necessity_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "tempo",
-      "robustness",
-      "phase_calibration"
-    ],
-    "expected_family": "tempo",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "tempo",
     "idea_id": "i212",
     "issues": [],
     "model_name": "phase_specialist_calibration_mixture",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "phase_specialist_calibration_mixture"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "king_path",
-      "convex",
-      "barrier_cut"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i213",
     "issues": [],
     "model_name": "forced_target_funnel_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "forced_target_funnel_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "grammar",
-      "sequence_memory",
-      "proof_certificate"
-    ],
-    "expected_family": "grammar",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "grammar",
     "idea_id": "i214",
     "issues": [],
     "model_name": "tactical_subgoal_automaton_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tactical_subgoal_automaton_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "topology",
-      "information",
-      "graph"
-    ],
-    "expected_family": "topology",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "topology",
     "idea_id": "i215",
     "issues": [],
     "model_name": "masked_codec_interaction_curvature_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "masked_codec_interaction_curvature_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i216",
     "issues": [],
     "model_name": "non_puzzle_score_curl_divergence_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "non_puzzle_score_curl_divergence_bottleneck"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "move_delta",
-      "grammar",
-      "convex"
-    ],
-    "expected_family": "move_delta",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "move_delta",
     "idea_id": "i217",
     "issues": [],
     "model_name": "ray_grammar_edit_distance_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "ray_grammar_edit_distance_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i218",
     "issues": [],
     "model_name": "orbit_disagreement_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "orbit_disagreement_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "logic"
-    ],
-    "expected_family": "logic",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "logic",
     "idea_id": "i219",
     "issues": [],
     "model_name": "hall_defect_dual_residual_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "hall_defect_dual_residual_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "information",
-      "robustness",
-      "probabilistic"
-    ],
-    "expected_family": "information",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "information",
     "idea_id": "i220",
     "issues": [],
     "model_name": "credal_temperature_field_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "credal_temperature_field_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i221",
     "issues": [],
     "model_name": "sylvester_tactical_coupling_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "sylvester_tactical_coupling_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph",
-      "defender_reply"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i222",
     "issues": [],
     "model_name": "schur_complement_defender_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "schur_complement_defender_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i223",
     "issues": [],
     "model_name": "bures_wasserstein_threat_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "bures_wasserstein_threat_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "convex"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i224",
     "issues": [],
     "model_name": "numerical_range_boundary_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "numerical_range_boundary_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "robustness"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i225",
     "issues": [],
     "model_name": "lyapunov_threat_stability_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "lyapunov_threat_stability_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i226",
     "issues": [],
     "model_name": "pfaffian_skew_threat_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "pfaffian_skew_threat_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i227",
     "issues": [],
     "model_name": "padic_ultrametric_threat_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "padic_ultrametric_threat_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i228",
     "issues": [],
     "model_name": "free_probability_r_transform_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "free_probability_r_transform_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i229",
     "issues": [],
     "model_name": "williamson_symplectic_threat_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "williamson_symplectic_threat_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i230",
     "issues": [],
     "model_name": "magnus_bch_coupling_series_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "magnus_bch_coupling_series_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "graph"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i231",
     "issues": [],
     "model_name": "riccati_optimal_defense_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "riccati_optimal_defense_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i232",
     "issues": [],
     "model_name": "clifford_rotor_threat_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "clifford_rotor_threat_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i233",
     "issues": [],
     "model_name": "tracy_widom_level_spacing_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "tracy_widom_level_spacing_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i234",
     "issues": [],
     "model_name": "lindstrom_gessel_viennot_path_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "lindstrom_gessel_viennot_path_network"
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i235",
     "issues": [],
     "model_name": "toda_isospectral_flow_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "toda_isospectral_flow_network"
   },
   {
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "linear_algebra",
     "idea_id": "i236",
     "issues": [],
     "model_name": "hadamard_spectrum_network",
@@ -3161,7 +2614,7 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "linear_algebra",
     "idea_id": "i237",
     "issues": [],
     "model_name": "cayley_orthogonal_network",
@@ -3172,7 +2625,7 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "linear_algebra",
     "idea_id": "i238",
     "issues": [],
     "model_name": "stable_rank_multiscale_network",
@@ -3183,7 +2636,7 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "linear_algebra",
     "idea_id": "i239",
     "issues": [],
     "model_name": "permanent_ryser_network",
@@ -3194,11 +2647,44 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "linear_algebra",
     "idea_id": "i240",
     "issues": [],
     "model_name": "cayley_hamilton_coeffs_network",
     "packet_probe": false,
     "slug": "cayley_hamilton_coeffs_network"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": null,
+    "idea_id": "i241",
+    "issues": [],
+    "model_name": "",
+    "packet_probe": false,
+    "slug": "multistream_attention_chess_eval"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "king_path",
+    "idea_id": "i242",
+    "issues": [],
+    "model_name": "chess_decomposed_attention",
+    "packet_probe": false,
+    "slug": "chess_decomposed_attention"
+  },
+  {
+    "actions": [],
+    "active_profiles": [],
+    "expected_family": null,
+    "family": null,
+    "idea_id": "i243",
+    "issues": [],
+    "model_name": "",
+    "packet_probe": false,
+    "slug": "halfka_dual_stream_lc0"
   }
 ]
