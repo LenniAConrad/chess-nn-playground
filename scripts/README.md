@@ -66,7 +66,7 @@ The shared trainer is responsible for graphable run artifacts, including `comple
 
 For interrupted paper-ready batches, rerun the same `run_paper_ready_all.py` command. The default paper-ready runner now expands each source config into `base`, `scale_up`, and `scale_xl` architecture-size variants. The resume ledger is `reports/paper_ready_all/state.json`, and training resumes from `checkpoint_last.pt` when that checkpoint exists.
 
-The trunk sweep runner also writes `reports/paper_ready_all/status.md`; open that first to see task counts, ETA after the first completed task, failures, next tasks, logs, leaderboards, and training-dashboard paths. During execution the terminal prints numbered task start/finish lines with GPU, batch size, log path, run directory, and rough ETA. The same chronology is persisted to `reports/paper_ready_all/events.jsonl` and `reports/paper_ready_all/timeline.md`.
+The trunk pipeline runner also writes `reports/paper_ready_all/status.md`; open that first to see task counts, ETA after the first completed task, failures, next tasks, logs, leaderboards, and training-dashboard paths. During execution the terminal prints numbered task start/finish lines with GPU, batch size, log path, run directory, and rough ETA. The same chronology is persisted to `reports/paper_ready_all/events.jsonl` and `reports/paper_ready_all/timeline.md`.
 
 Default paper-ready batch caps are `base:256,scale_up:192,scale_xl:128`, chosen for a single 8GB RTX 3070. Override with `--batch-size-caps none` or custom `scale:max_batch` values only after memory calibration.
 

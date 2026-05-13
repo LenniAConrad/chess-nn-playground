@@ -4,28 +4,28 @@ set -Eeuo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 env_value() {
-  local primary="$1"
-  local legacy="$2"
-  local default="${3-}"
-  if [[ -n "${!primary+x}" ]]; then
-    printf '%s\n' "${!primary}"
-  elif [[ -n "${!legacy+x}" ]]; then
-    printf '%s\n' "${!legacy}"
-  else
-    printf '%s\n' "$default"
-  fi
+  local default="${*: -1}"
+  local count=$(($# - 1))
+  local name
+  for name in "${@:1:$count}"; do
+    if [[ -n "${!name+x}" ]]; then
+      printf '%s\n' "${!name}"
+      return 0
+    fi
+  done
+  printf '%s\n' "$default"
 }
 
-# Prefer RUN_TRUNK_SWEEP_* variables. RUN_ALL_* remains supported for old launch
-# commands that predate the wrapper rename.
+# Prefer RUN_TRUNK_PIPELINE_* variables. RUN_TRUNK_SWEEP_* and RUN_ALL_* remain
+# supported for old launch commands that predate the wrapper rename.
 
-SESSION_NAME="$(env_value RUN_TRUNK_SWEEP_SESSION RUN_ALL_SESSION chess-nn-trunk-sweep)"
-VENV_DIR="$(env_value RUN_TRUNK_SWEEP_VENV RUN_ALL_VENV "$ROOT_DIR/.venv")"
+SESSION_NAME="$(env_value RUN_TRUNK_PIPELINE_SESSION RUN_TRUNK_SWEEP_SESSION RUN_ALL_SESSION chess-nn-trunk-pipeline)"
+VENV_DIR="$(env_value RUN_TRUNK_PIPELINE_VENV RUN_TRUNK_SWEEP_VENV RUN_ALL_VENV "$ROOT_DIR/.venv")"
 REPORT_DIR="$ROOT_DIR/reports/paper_ready_all"
-BOOTSTRAP_LOG="$REPORT_DIR/run_trunk_sweep_bootstrap.log"
+BOOTSTRAP_LOG="$REPORT_DIR/run_trunk_pipeline_bootstrap.log"
 
 inside_tmux=0
-no_attach="$(env_value RUN_TRUNK_SWEEP_NO_ATTACH RUN_ALL_NO_ATTACH 0)"
+no_attach="$(env_value RUN_TRUNK_PIPELINE_NO_ATTACH RUN_TRUNK_SWEEP_NO_ATTACH RUN_ALL_NO_ATTACH 0)"
 runner_args=()
 for arg in "$@"; do
   case "$arg" in
@@ -41,12 +41,12 @@ for arg in "$@"; do
   esac
 done
 
-if [[ "$(env_value RUN_TRUNK_SWEEP_DRY_RUN RUN_ALL_DRY_RUN 0)" == "1" ]]; then
+if [[ "$(env_value RUN_TRUNK_PIPELINE_DRY_RUN RUN_TRUNK_SWEEP_DRY_RUN RUN_ALL_DRY_RUN 0)" == "1" ]]; then
   runner_args+=("--dry-run")
 fi
-trunk_sweep_limit="$(env_value RUN_TRUNK_SWEEP_LIMIT RUN_ALL_LIMIT "")"
-if [[ -n "$trunk_sweep_limit" ]]; then
-  runner_args+=("--limit" "$trunk_sweep_limit")
+trunk_pipeline_limit="$(env_value RUN_TRUNK_PIPELINE_LIMIT RUN_TRUNK_SWEEP_LIMIT RUN_ALL_LIMIT "")"
+if [[ -n "$trunk_pipeline_limit" ]]; then
+  runner_args+=("--limit" "$trunk_pipeline_limit")
 fi
 
 die() {
@@ -112,7 +112,7 @@ start_tmux_session() {
     echo "tmux session '$SESSION_NAME' already exists."
   else
     local command
-    command="$(printf "%q " "$ROOT_DIR/run_trunk_sweep.sh" "--inside-tmux" "${runner_args[@]}")"
+    command="$(printf "%q " "$ROOT_DIR/run_trunk_pipeline.sh" "--inside-tmux" "${runner_args[@]}")"
     tmux new-session -d -s "$SESSION_NAME" -c "$ROOT_DIR" "$command"
     echo "Started tmux session '$SESSION_NAME'."
   fi
@@ -139,7 +139,7 @@ PY
 
 find_python() {
   local python_override
-  python_override="$(env_value RUN_TRUNK_SWEEP_PYTHON RUN_ALL_PYTHON "")"
+  python_override="$(env_value RUN_TRUNK_PIPELINE_PYTHON RUN_TRUNK_SWEEP_PYTHON RUN_ALL_PYTHON "")"
   if [[ -n "$python_override" ]]; then
     python_version_ok "$python_override" && {
       printf '%s\n' "$python_override"
@@ -180,7 +180,7 @@ create_or_update_venv() {
   if [[ ! -x "$VENV_DIR/bin/python" ]]; then
     echo "Creating virtualenv: $VENV_DIR"
     local venv_args=()
-    if [[ "$(env_value RUN_TRUNK_SWEEP_SYSTEM_SITE_PACKAGES RUN_ALL_SYSTEM_SITE_PACKAGES 0)" == "1" ]]; then
+    if [[ "$(env_value RUN_TRUNK_PIPELINE_SYSTEM_SITE_PACKAGES RUN_TRUNK_SWEEP_SYSTEM_SITE_PACKAGES RUN_ALL_SYSTEM_SITE_PACKAGES 0)" == "1" ]]; then
       venv_args+=("--system-site-packages")
     fi
     "$base_python" -m venv "${venv_args[@]}" "$VENV_DIR" || {
@@ -248,14 +248,14 @@ PY
 }
 
 install_python_dependencies() {
-  if [[ "$(env_value RUN_TRUNK_SWEEP_SKIP_INSTALL RUN_ALL_SKIP_INSTALL 0)" == "1" ]]; then
-    echo "Skipping Python dependency install because RUN_TRUNK_SWEEP_SKIP_INSTALL=1."
+  if [[ "$(env_value RUN_TRUNK_PIPELINE_SKIP_INSTALL RUN_TRUNK_SWEEP_SKIP_INSTALL RUN_ALL_SKIP_INSTALL 0)" == "1" ]]; then
+    echo "Skipping Python dependency install because RUN_TRUNK_PIPELINE_SKIP_INSTALL=1."
     return 0
   fi
 
   export PIP_DISABLE_PIP_VERSION_CHECK=1
   export PIP_ROOT_USER_ACTION=ignore
-  if [[ "$(env_value RUN_TRUNK_SWEEP_USE_TSINGHUA_PIP_MIRROR RUN_ALL_USE_TSINGHUA_PIP_MIRROR 0)" == "1" && -z "${PIP_INDEX_URL:-}" ]]; then
+  if [[ "$(env_value RUN_TRUNK_PIPELINE_USE_TSINGHUA_PIP_MIRROR RUN_TRUNK_SWEEP_USE_TSINGHUA_PIP_MIRROR RUN_ALL_USE_TSINGHUA_PIP_MIRROR 0)" == "1" && -z "${PIP_INDEX_URL:-}" ]]; then
     export PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
   fi
 
@@ -277,7 +277,7 @@ install_python_dependencies() {
 
 detect_gpu_ids() {
   local gpu_ids_override
-  gpu_ids_override="$(env_value RUN_TRUNK_SWEEP_GPU_IDS RUN_ALL_GPU_IDS "")"
+  gpu_ids_override="$(env_value RUN_TRUNK_PIPELINE_GPU_IDS RUN_TRUNK_SWEEP_GPU_IDS RUN_ALL_GPU_IDS "")"
   if [[ -n "$gpu_ids_override" ]]; then
     printf '%s\n' "$gpu_ids_override"
     return 0
@@ -320,11 +320,11 @@ count_csv_items() {
 choose_gpu_ids() {
   local detected="$1"
   local requested_count
-  requested_count="$(env_value RUN_TRUNK_SWEEP_GPU_COUNT RUN_ALL_GPU_COUNT "")"
+  requested_count="$(env_value RUN_TRUNK_PIPELINE_GPU_COUNT RUN_TRUNK_SWEEP_GPU_COUNT RUN_ALL_GPU_COUNT "")"
   local available_count
   available_count="$(count_csv_items "$detected")"
 
-  if [[ -z "$requested_count" && "$(env_value RUN_TRUNK_SWEEP_ASK_GPU_COUNT RUN_ALL_ASK_GPU_COUNT 0)" == "1" && "$available_count" -gt 0 && -t 0 ]]; then
+  if [[ -z "$requested_count" && "$(env_value RUN_TRUNK_PIPELINE_ASK_GPU_COUNT RUN_TRUNK_SWEEP_ASK_GPU_COUNT RUN_ALL_ASK_GPU_COUNT 0)" == "1" && "$available_count" -gt 0 && -t 0 ]]; then
     read -r -p "Use how many GPUs? [all $available_count]: " requested_count || requested_count=""
   fi
 
@@ -333,13 +333,13 @@ choose_gpu_ids() {
     return 0
   fi
   if ! [[ "$requested_count" =~ ^[0-9]+$ ]] || [[ "$requested_count" -lt 1 ]]; then
-    die "RUN_TRUNK_SWEEP_GPU_COUNT must be a positive integer."
+    die "RUN_TRUNK_PIPELINE_GPU_COUNT must be a positive integer."
   fi
   if [[ "$available_count" -eq 0 ]]; then
-    die "RUN_TRUNK_SWEEP_GPU_COUNT was set, but no visible GPUs were detected."
+    die "RUN_TRUNK_PIPELINE_GPU_COUNT was set, but no visible GPUs were detected."
   fi
   if [[ "$requested_count" -gt "$available_count" ]]; then
-    die "RUN_TRUNK_SWEEP_GPU_COUNT=$requested_count exceeds visible GPU count $available_count."
+    die "RUN_TRUNK_PIPELINE_GPU_COUNT=$requested_count exceeds visible GPU count $available_count."
   fi
   first_csv_items "$detected" "$requested_count"
 }
@@ -358,7 +358,7 @@ check_required_data() {
     fi
   done
   if [[ "$missing" == "1" ]]; then
-    die "Upload the canonical split files before starting the trunk sweep."
+    die "Upload the canonical split files before starting the trunk pipeline."
   fi
 }
 
@@ -397,20 +397,20 @@ run_training() {
   install_python_dependencies
   check_required_data
 
-  if [[ "$(env_value RUN_TRUNK_SWEEP_SKIP_AUDIT RUN_ALL_SKIP_AUDIT 0)" != "1" ]]; then
+  if [[ "$(env_value RUN_TRUNK_PIPELINE_SKIP_AUDIT RUN_TRUNK_SWEEP_SKIP_AUDIT RUN_ALL_SKIP_AUDIT 0)" != "1" ]]; then
     "$VENV_DIR/bin/python" scripts/data/audit_benchmark_data.py --skip-fen-validation
   fi
 
   local gpu_ids
   gpu_ids="$(choose_gpu_ids "$(detect_gpu_ids || true)")"
   if [[ -z "$gpu_ids" ]] && ! has_runner_flag "--dry-run"; then
-    die "No GPU IDs detected. Set RUN_TRUNK_SWEEP_GPU_IDS=0 or fix nvidia-smi."
+    die "No GPU IDs detected. Set RUN_TRUNK_PIPELINE_GPU_IDS=0 or fix nvidia-smi."
   fi
 
   validate_cuda_runtime
 
   local jobs
-  jobs="$(env_value RUN_TRUNK_SWEEP_JOBS RUN_ALL_JOBS "")"
+  jobs="$(env_value RUN_TRUNK_PIPELINE_JOBS RUN_TRUNK_SWEEP_JOBS RUN_ALL_JOBS "")"
   if [[ -z "$jobs" ]]; then
     local gpu_count
     gpu_count="$(count_csv_items "$gpu_ids")"
@@ -423,20 +423,20 @@ run_training() {
 
   local runner=(
     "$VENV_DIR/bin/python" scripts/run_paper_ready_all.py
-    --seeds "$(env_value RUN_TRUNK_SWEEP_SEEDS RUN_ALL_SEEDS 42,43,44)"
-    --scale-variants "$(env_value RUN_TRUNK_SWEEP_SCALE_VARIANTS RUN_ALL_SCALE_VARIANTS base:1,scale_up:1.5,scale_xl:2)"
-    --batch-size-caps "$(env_value RUN_TRUNK_SWEEP_BATCH_SIZE_CAPS RUN_ALL_BATCH_SIZE_CAPS base:256,scale_up:192,scale_xl:128)"
-    --epochs "$(env_value RUN_TRUNK_SWEEP_EPOCHS RUN_ALL_EPOCHS 30)"
-    --min-epochs "$(env_value RUN_TRUNK_SWEEP_MIN_EPOCHS RUN_ALL_MIN_EPOCHS 15)"
-    --patience "$(env_value RUN_TRUNK_SWEEP_PATIENCE RUN_ALL_PATIENCE 8)"
+    --seeds "$(env_value RUN_TRUNK_PIPELINE_SEEDS RUN_TRUNK_SWEEP_SEEDS RUN_ALL_SEEDS 42,43,44)"
+    --scale-variants "$(env_value RUN_TRUNK_PIPELINE_SCALE_VARIANTS RUN_TRUNK_SWEEP_SCALE_VARIANTS RUN_ALL_SCALE_VARIANTS base:1,scale_up:1.5,scale_xl:2)"
+    --batch-size-caps "$(env_value RUN_TRUNK_PIPELINE_BATCH_SIZE_CAPS RUN_TRUNK_SWEEP_BATCH_SIZE_CAPS RUN_ALL_BATCH_SIZE_CAPS base:256,scale_up:192,scale_xl:128)"
+    --epochs "$(env_value RUN_TRUNK_PIPELINE_EPOCHS RUN_TRUNK_SWEEP_EPOCHS RUN_ALL_EPOCHS 30)"
+    --min-epochs "$(env_value RUN_TRUNK_PIPELINE_MIN_EPOCHS RUN_TRUNK_SWEEP_MIN_EPOCHS RUN_ALL_MIN_EPOCHS 15)"
+    --patience "$(env_value RUN_TRUNK_PIPELINE_PATIENCE RUN_TRUNK_SWEEP_PATIENCE RUN_ALL_PATIENCE 8)"
     --jobs "$jobs"
   )
   if [[ -n "$gpu_ids" ]]; then
     runner+=(--gpu-ids "$gpu_ids")
   fi
-  trunk_sweep_timeout_minutes="$(env_value RUN_TRUNK_SWEEP_TIMEOUT_MINUTES RUN_ALL_TIMEOUT_MINUTES "")"
-  if [[ -n "$trunk_sweep_timeout_minutes" ]]; then
-    runner+=(--timeout-minutes "$trunk_sweep_timeout_minutes")
+  trunk_pipeline_timeout_minutes="$(env_value RUN_TRUNK_PIPELINE_TIMEOUT_MINUTES RUN_TRUNK_SWEEP_TIMEOUT_MINUTES RUN_ALL_TIMEOUT_MINUTES "")"
+  if [[ -n "$trunk_pipeline_timeout_minutes" ]]; then
+    runner+=(--timeout-minutes "$trunk_pipeline_timeout_minutes")
   fi
   runner+=("${runner_args[@]}")
 

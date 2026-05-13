@@ -72,19 +72,19 @@ run_combined_pipeline() {
 
   local trunk_rc=0
   if [[ "${RUN_ALL_SKIP_TRUNKS:-0}" == "1" ]]; then
-    echo "SKIP: trunk sweep disabled by RUN_ALL_SKIP_TRUNKS=1"
+    echo "SKIP: trunk pipeline disabled by RUN_ALL_SKIP_TRUNKS=1"
   else
-    echo "## Trunk Sweep"
-    echo "Command: ./run_trunk_sweep.sh --inside-tmux ${trunk_args[*]}"
-    ./run_trunk_sweep.sh --inside-tmux "${trunk_args[@]}" || trunk_rc=$?
+    echo "## Trunk Pipeline"
+    echo "Command: ./run_trunk_pipeline.sh --inside-tmux ${trunk_args[*]}"
+    ./run_trunk_pipeline.sh --inside-tmux "${trunk_args[@]}" || trunk_rc=$?
     if [[ "$trunk_rc" != "0" ]]; then
-      echo "FAIL: trunk sweep exited with rc=$trunk_rc"
+      echo "FAIL: trunk pipeline exited with rc=$trunk_rc"
       if [[ "${RUN_ALL_CONTINUE_AFTER_TRUNK_FAILURE:-0}" != "1" ]]; then
         echo "Primitive pipeline was not started. Set RUN_ALL_CONTINUE_AFTER_TRUNK_FAILURE=1 to run it anyway."
         exit "$trunk_rc"
       fi
     else
-      echo "PASS: trunk sweep completed."
+      echo "PASS: trunk pipeline completed."
     fi
   fi
 

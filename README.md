@@ -197,15 +197,15 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 ## Run Everything
 
 Use the top-level combined runner when you want one entrypoint for the full
-trunk sweep followed by the primitive pipeline:
+trunk pipeline followed by the primitive pipeline:
 
 ```bash
 ./run_all.sh
 ```
 
 It starts or attaches to the `chess-nn-run-all` tmux session, runs
-`run_trunk_sweep.sh --inside-tmux`, then runs `run_primitive_pipeline.sh`.
-Arguments passed to `run_all.sh` are forwarded to the trunk sweep. Primitive
+`run_trunk_pipeline.sh --inside-tmux`, then runs `run_primitive_pipeline.sh`.
+Arguments passed to `run_all.sh` are forwarded to the trunk pipeline. Primitive
 training is controlled with `RUN_PRIMITIVE_*` variables because primitive
 prototype checks, config discovery, dry-run planning, and scout training have
 separate controls.
@@ -214,7 +214,7 @@ Useful controls:
 
 ```bash
 RUN_ALL_SKIP_TRUNKS=1 ./run_all.sh              # primitive pipeline only
-RUN_ALL_SKIP_PRIMITIVES=1 ./run_all.sh          # trunk sweep only
+RUN_ALL_SKIP_PRIMITIVES=1 ./run_all.sh          # trunk pipeline only
 RUN_ALL_CONTINUE_AFTER_TRUNK_FAILURE=1 ./run_all.sh
 RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 ./run_all.sh
 ```
@@ -222,25 +222,25 @@ RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 ./run_all.
 Combined logs are written under `reports/run_all/`; the trunk and primitive
 status files stay in their dedicated report folders.
 
-## Trunk Sweep Wrapper
+## Trunk Pipeline Wrapper
 
 On a fresh GPU machine, use the tmux wrapper to install Python dependencies, detect
 visible NVIDIA GPUs, verify the canonical split, and start the full resumable
-trunk/registered-architecture sweep:
+trunk/registered-architecture pipeline:
 
 ```bash
-./run_trunk_sweep.sh
+./run_trunk_pipeline.sh
 ```
 
-The wrapper starts or attaches to the `chess-nn-trunk-sweep` tmux session and
-then invokes `scripts/run_paper_ready_all.py` with the full default sweep. This
+The wrapper starts or attaches to the `chess-nn-trunk-pipeline` tmux session and
+then invokes `scripts/run_paper_ready_all.py` with the full default pipeline. This
 is for trunk and registered-architecture runs; primitive-native architectures
 with custom primitive inputs should get their own dedicated wrapper/config path.
 It uses all visible NVIDIA GPUs by default, with one parallel training job per
 GPU. To limit the run to the first N visible GPUs, set
-`RUN_TRUNK_SWEEP_GPU_COUNT=N`; to choose interactively inside tmux, set
-`RUN_TRUNK_SWEEP_ASK_GPU_COUNT=1`. Legacy `RUN_ALL_*` variables still work as a
-fallback.
+`RUN_TRUNK_PIPELINE_GPU_COUNT=N`; to choose interactively inside tmux, set
+`RUN_TRUNK_PIPELINE_ASK_GPU_COUNT=1`. Legacy `RUN_TRUNK_SWEEP_*` and
+`RUN_ALL_*` variables still work as fallbacks.
 
 Use this command directly when you do not need the tmux/dependency wrapper. It
 trains every benchmark config and registered idea, expands each one to all

@@ -102,7 +102,7 @@ Required context to read first:
 - ideas/research/primitives/PRIMITIVE_TRAINING_TODO.md
 - ideas/research/architecture_bridges/codex_primitive_stacking_strategy.md, if present
 - run_primitive_pipeline.sh
-- run_trunk_sweep.sh
+- run_trunk_pipeline.sh
 - src/chess_nn_playground/models/registry.py
 - the current i193 exchange/king dual-stream implementation mentioned in the TODO
 - ideas/registry/template/
