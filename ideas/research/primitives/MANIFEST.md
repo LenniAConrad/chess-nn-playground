@@ -1,6 +1,6 @@
 # Primitive Research — Manifest
 
-Single flat directory of every primitive research report from the 2026-05-12 session. Each row tells you who wrote it and what model produced it. Prototype scripts live in [prototypes/](prototypes/); architecture-level notes that combine primitives live one level up in [../architecture_bridges/](../architecture_bridges/).
+Single flat directory of every primitive research report from the 2026-05-12 and 2026-05-13 sessions. Each row tells you who wrote it and what model produced it. Prototype scripts live in [prototypes/](prototypes/); architecture-level notes that combine primitives live one level up in [../architecture_bridges/](../architecture_bridges/).
 
 ## Claude Opus 4.7 primitive proposals (5)
 
@@ -28,9 +28,9 @@ Produced locally in the 2026-05-12 session by the Codex GPT-5 coding agent. Rese
 | [codex_04_tail_copula_concordance.md](codex_04_tail_copula_concordance.md) | Tail Copula Concordance Primitive | `primitive_tail_copula_concordance` | research packet | Codex GPT-5 |
 | [codex_05_witness_counterwitness_quantifier.md](codex_05_witness_counterwitness_quantifier.md) | Witness-Counterwitness Quantifier Primitive | `primitive_witness_counterwitness_quantifier` | research packet | Codex GPT-5 |
 
-## External primitive imports (30)
+## External primitive imports (41)
 
-Markdown reports downloaded from external chat services. Producer is from the download URI; the exact model column comes from the user's session note (Claude outputs from Opus 4.7, ChatGPT outputs from GPT-5.5 Pro; Gemini model unspecified).
+Markdown reports downloaded from external chat services. Producer is from the download URI and filename context; the exact model column comes from the user's session note where available (Claude outputs from Opus 4.7, ChatGPT outputs from GPT-5.5 Pro; Gemini model unspecified).
 
 | File | Original download | Producer | Exact model |
 |---|---|---|---|
@@ -64,8 +64,19 @@ Markdown reports downloaded from external chat services. Producer is from the do
 | [external_28_sparse_differential_accumulator_move_kernel.md](external_28_sparse_differential_accumulator_move_kernel.md) | `chess_primitives_proposal.md` | Google / Gemini | Unspecified Gemini model |
 | [external_29_incremental_move_update_octilinear_scan.md](external_29_incremental_move_update_octilinear_scan.md) | `gemini-code-1778570804098.md` | Google / Gemini | Unspecified Gemini model |
 | [external_30_sparse_legal_graph_transition_delta_accumulator.md](external_30_sparse_legal_graph_transition_delta_accumulator.md) | `chess_nn_primitives(4).md` | Google / Gemini | Unspecified Gemini model |
+| [external_31_canonical_orbit_bdd_wmc_primitives.md](external_31_canonical_orbit_bdd_wmc_primitives.md) | `chess_nn_new_primitives.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_32_elementary_symmetric_gibbs_hodge_primitives.md](external_32_elementary_symmetric_gibbs_hodge_primitives.md) | `chess_nn_new_primitives(1).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_33_esp_permanent_woodbury_orbit_primitives.md](external_33_esp_permanent_woodbury_orbit_primitives.md) | `chess_nn_new_primitives(2).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_34_active_esp_conflict_matching_eikonal_primitives.md](external_34_active_esp_conflict_matching_eikonal_primitives.md) | `chess_nn_new_primitives(3).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_35_espa_conservation_isotypic_green_primitives.md](external_35_espa_conservation_isotypic_green_primitives.md) | `chess_nn_new_primitives(4).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_36_exterior_product_rank1_resolvent_primitives.md](external_36_exterior_product_rank1_resolvent_primitives.md) | `chess_nn_new_primitives(5).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_37_truncated_multiset_polynomial_rook_matching_primitives.md](external_37_truncated_multiset_polynomial_rook_matching_primitives.md) | `chess_nn_new_primitives(6).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_38_polynomial_ledger_grassmann_rook_primitives.md](external_38_polynomial_ledger_grassmann_rook_primitives.md) | `chess_nn_new_primitives(7).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_39_orbit_irrep_hodge_projection_primitives.md](external_39_orbit_irrep_hodge_projection_primitives.md) | `new_neural_primitives_chess_evaluation.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_40_symmetric_coalition_resolvent_primitives.md](external_40_symmetric_coalition_resolvent_primitives.md) | `neural_primitives_chess_evaluation.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_41_orbit_stabilizer_subset_logpartition_primitives.md](external_41_orbit_stabilizer_subset_logpartition_primitives.md) | `chess_neural_primitives_proposals.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
 
-The first batch of 21 downloads contained two `compass_artifact_wf-7e5d02f8-...` files with identical SHA-256, so this directory keeps the 20 unique files. The later Google/Gemini batch added 10 more unique reports as `external_21` through `external_30`.
+The first batch of 21 downloads contained two `compass_artifact_wf-7e5d02f8-...` files with identical SHA-256, so this directory keeps the 20 unique files. The later Google/Gemini batch added 10 more unique reports as `external_21` through `external_30`. The 2026-05-13 GPT batch added 11 unique reports as `external_31` through `external_41`; these are raw research inputs and are not implementation-complete until promoted into `ideas/registry/p###_*`.
 
 ## Cross-references
 

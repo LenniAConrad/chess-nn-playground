@@ -1,58 +1,52 @@
-# Codex Research Synthesis: 2026-05-12 Created Idea Ledger
+# Primitive Research Session Ledger
 
 Author: Codex
-Model: GPT-5 (Codex coding agent)
-Date: 2026-05-12
-Status: synthesis packet
+Model: GPT-5 Codex coding agent
+Last updated: 2026-05-13
+Status: active research ledger
 
-## Purpose
+This ledger is the human routing table for primitive research files, implementation batches, and follow-up training. The authoritative provenance table is [MANIFEST.md](MANIFEST.md).
 
-This file is the explicit Markdown ledger for the ideas Codex created during the 2026-05-12 primitive/model exploration session. Each full idea remains in its own packet; this ledger makes the set discoverable from one place.
+## Research Files
 
-Imported Claude, GPT, and Google/Gemini primitive reports are not counted as Codex-created ideas here. They are documented separately in [external_imports/MANIFEST.md](external_imports/MANIFEST.md).
+| Range | Count | Source | Model | Status |
+|---|---:|---|---|---|
+| `claude_01`-`claude_05` | 5 | Claude | Claude Opus 4.7 | Implemented separately as legacy `i244`-`i248` |
+| `codex_01`-`codex_05` | 5 | Codex | Codex GPT-5 | Implemented in worktree batch `primitive-codex-reply` as `p001`-`p005` |
+| `external_01`-`external_20` | 20 | ChatGPT + Claude downloads | GPT-5.5 Pro / Claude Opus 4.7 | Implementation batches launched as `p006`-`p024` |
+| `external_21`-`external_30` | 10 | Google / Gemini downloads | Unspecified Gemini model | Implementation batches launched as `p025`-`p035` |
+| `external_31`-`external_41` | 11 | ChatGPT downloads | GPT-5.5 Pro | Imported research backlog; reserve `p036`-`p046` |
 
-## Codex-Created Ideas
+## Implementation Batches
 
-| Idea | Kind | Packet | Main role |
+| Batch | Research files | Reserved IDs | Current disposition |
 |---|---|---|---|
-| Forcing Reply Envelope Veto Network | model architecture | [forcing reply envelope veto](architecture_bridges/forcing_reply_envelope_veto_network.md) | i193-style exchange/king parent plus reply-envelope veto head for near-puzzle false-positive rejection. |
-| Witness-Counterwitness Quantifier Primitive | neural primitive | [witness counterwitness quantifier](codex_candidate_reply_primitives/05_witness_counterwitness_quantifier.md) | Differentiable `exists witness / no surviving counterwitness` reducer over ragged candidate-reply sets. |
-| Pareto Antichain Frontier Primitive | neural primitive | [pareto antichain frontier](codex_candidate_reply_primitives/01_pareto_antichain_frontier.md) | Partial-order reducer that keeps nondominated tactical candidate frontiers instead of collapsing early to one scalar. |
-| Regret Saddlepoint Primitive | neural primitive | [regret saddlepoint](codex_candidate_reply_primitives/02_regret_saddlepoint.md) | Entropy-regularized zero-sum reducer for attacker-candidate versus defender-reply payoff tables. |
-| Reply Channel Capacity Primitive | neural primitive | [reply channel capacity](codex_candidate_reply_primitives/03_reply_channel_capacity.md) | Information-theoretic reducer measuring whether candidate choice collapses or controls defender reply distributions. |
-| Tail Copula Concordance Primitive | neural primitive | [tail copula concordance](codex_candidate_reply_primitives/04_tail_copula_concordance.md) | Rank-copula reducer checking whether multiple evidence fields become extreme on the same squares or candidates. |
+| `primitive-codex-reply` | `codex_01`-`codex_05` | `p001`-`p005` | Claude run completed; pending local review and merge |
+| `primitive-ray-legal` | `external_02`, `external_03`, `external_04`, `external_05`, `external_12`, `external_14` | `p006`-`p011` | Claude run active / pending final validation |
+| `primitive-delta-accumulator` | `external_01`, `external_07`, `external_08`, `external_09`, `external_10`, `external_11`, `external_17` | `p012`-`p018` | Claude run completed; pending local review and merge |
+| `primitive-occlusion-blocker` | `external_13`, `external_15`, `external_16`, `external_18`, `external_19`, `external_20` | `p019`-`p024` | Claude run active / pending final validation |
+| `primitive-gemini-graph-state` | `external_21`, `external_22`, `external_23`, `external_24`, `external_26`, `external_27` | `p025`-`p030` | Claude run active / pending final validation |
+| `primitive-gemini-misc` | `external_06`, `external_25`, `external_28`, `external_29`, `external_30` | `p031`-`p035` | Claude run active; `p035` was still pending at last check |
+| `primitive-gpt-polynomial-next` | `external_31`-`external_41` | `p036`-`p046` | Not launched; triage first because several reports duplicate elementary-symmetric / polynomial-ledger themes |
 
-## Shared Architecture Direction
+## Integration Rules
 
-The five primitives are designed to share a future candidate/reply infrastructure:
+1. Merge completed batches only after local checks pass in their worktree.
+2. Prefer code/docs/tests/configs over generated audit artifacts from worktrees; regenerate audits in the main tree after integration.
+3. Keep raw research files in this folder and implementation folders in `ideas/registry/p###_*`.
+4. Do not train from a primitive until its model registry key, static config, focused tests, and dry-run primitive pipeline pass.
+5. Treat repeated elementary-symmetric, exterior-product, and polynomial-ledger proposals as a single family during triage; implement one clean representative before adding variants.
 
-```text
-current board
--> i193-style exchange/king features
--> candidate compiler
--> reply compiler
--> candidate x reply utility table
--> WCQ / PAFR / RSP / RCC / TCC diagnostics
--> VetoSelect-style acceptance head
-```
+## Next Research Triage
 
-The first implementation path should be padded PyTorch prototypes, not fused kernels. Fused or ragged custom kernels should wait until a primitive wins against simple attention, max-minus-max, shuffled-reply, and scalar-pooling controls on the hard near-puzzle slices.
+The 2026-05-13 GPT batch is heavy on polynomial/set/cohomology primitives. Initial grouping:
 
-## Minimum Documentation Check
-
-Every Codex-created idea in this session has a standalone Markdown packet and is linked above.
-
-Additional Codex/Claude-authored primitive notes were also present in a subdirectory and have been made internally complete:
-
-| Idea | Kind | Packet |
+| Theme | Files | Suggested first representative |
 |---|---|---|
-| Signed Piece-Existence Hessian Operator | neural primitive | [DHPE](claude_opus_4_7_primitives/01_signed_hessian_resonance.md) |
-| Tempo-Defender Cross-Derivative Operator | neural primitive | [TDCD](claude_opus_4_7_primitives/02_tempo_defender_cross_derivative.md) |
-| Promotion-Fanout Counterfactual Tensor | neural primitive | [PFCT](claude_opus_4_7_primitives/03_promotion_fanout_counterfactual.md) |
-| Complex-Amplitude Interference Operator | neural primitive | [CAIO](claude_opus_4_7_primitives/04_complex_amplitude_interference.md) |
-| Terminal-State Detection Primitive | neural primitive | [TSDP](claude_opus_4_7_primitives/05_terminal_state_detection.md) |
-| Codex Primitive Stacking Strategy | synthesis | [stacking strategy](architecture_bridges/codex_primitive_stacking_strategy.md) |
+| Elementary-symmetric / polynomial ledger pooling | `external_32`, `external_33`, `external_34`, `external_35`, `external_37`, `external_38`, `external_40` | `external_38_polynomial_ledger_grassmann_rook_primitives.md` |
+| Orbit/canonicalization/irrep normalization | `external_31`, `external_33`, `external_39`, `external_41` | `external_39_orbit_irrep_hodge_projection_primitives.md` |
+| Matching / rook / matroid constraints | `external_33`, `external_34`, `external_35`, `external_37`, `external_38`, `external_41` | `external_37_truncated_multiset_polynomial_rook_matching_primitives.md` |
+| Hodge / graph projection / Green solve | `external_32`, `external_35`, `external_39` | `external_39_orbit_irrep_hodge_projection_primitives.md` |
+| BDD / subset log-partition / Boolean solver layers | `external_31`, `external_41` | `external_31_canonical_orbit_bdd_wmc_primitives.md` |
 
-The imported primitive research set also has a Markdown manifest:
-
-- [external_imports/MANIFEST.md](external_imports/MANIFEST.md)
+Launch `p036`-`p046` only after deduping this batch into a smaller implementation queue, unless the goal is broad coverage over implementation quality.

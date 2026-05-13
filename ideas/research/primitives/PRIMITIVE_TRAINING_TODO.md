@@ -8,10 +8,11 @@ The rule is simple: validate primitives one at a time on top of the current best
 
 | Area | Purpose | Status |
 |---|---|---|
-| `external_imports/` | Imported primitive research reports | Organized and named |
-| `codex_candidate_reply_primitives/` | Codex GPT-5 candidate-reply primitives | Documented as research input |
-| `claude_opus_4_7_primitives/` | Claude Opus 4.7 primitives: DHPE, TDCD, PFCT, CAIO, TSDP | Documented with handoff and prototypes |
-| `architecture_bridges/` | Stacking strategy and hybrid architecture notes | Documented |
+| `claude_*.md` | Claude Opus 4.7 primitives: DHPE, TDCD, PFCT, CAIO, TSDP | Documented with handoff and prototypes |
+| `codex_*.md` | Codex GPT-5 candidate/reply primitives | Implemented in a worktree batch as `p001`-`p005`; pending integration review |
+| `external_01`-`external_30` | Imported primitive reports from ChatGPT, Claude, and Google/Gemini | Implementation batches launched as `p006`-`p035`; some still pending validation |
+| `external_31`-`external_41` | 2026-05-13 GPT-5.5 Pro primitive reports imported from Downloads | Raw research backlog; reserve `p036`-`p046` for the next implementation pass |
+| `../architecture_bridges/` | Stacking strategy and hybrid architecture notes | Documented |
 | `PRIMITIVE_TRAINING_TODO.md` | Execution plan for code, tests, training, and promotion | This file |
 | `ideas/research/collections/` | Human index over primitive, classic, and registered ideas | Linked from the root idea docs |
 
@@ -24,12 +25,16 @@ Do not move registered `ideas/registry/i###_*` folders into this tree. They are 
 - Current trainer passes only board tensor `batch["x"]` into the model, with FEN and CRTK tags retained for reports/predictions.
 - CRTK metadata remains reporting-only. It must not be used as model input.
 - TSDP needs exact legal-move state from FEN or equivalent rule state. If used as input, compute it from FEN/board rules, not from benchmark tags.
-- Proposed primitive IDs from the handoff are treated as reserved labels for the batch:
+- Proposed primitive IDs from the Claude handoff are legacy implementation labels for that batch:
   - TDCD: `i244`
   - DHPE: `i245`
   - PFCT: `i246`
   - CAIO: `i247`
   - TSDP: `i248`
+- New primitive-native work should use the `p###` registry prefix:
+  - `p001`-`p005`: Codex candidate/reply primitives.
+  - `p006`-`p035`: 2026-05-12 external import implementation batches.
+  - `p036`-`p046`: reserved for the 2026-05-13 GPT import batch.
 
 Implementation order follows expected value, not numeric order.
 
@@ -46,6 +51,8 @@ Implementation order follows expected value, not numeric order.
 - [ ] Promote and implement TDCD for the `equal` eval bucket.
 - [ ] Promote DHPE only after cheaper counterfactual primitives are evaluated.
 - [ ] Promote CAIO last, after a small autograd and `torch.compile` compatibility check.
+- [ ] Review and integrate completed `p001`-`p035` worktree batches one at a time.
+- [ ] Triage `external_31`-`external_41`, deduplicate repeated elementary-symmetric/poly-ledger variants, and launch only the highest-potential non-duplicates first.
 - [ ] Build a hybrid only from primitives that pass individual falsifiers.
 
 ## Training Order
@@ -76,8 +83,8 @@ For each primitive that we choose to test:
    - `baseline_comparison: i193_exchange_then_king_dual_stream`
 4. Add reusable code under `src/chess_nn_playground/models/`.
 5. Add a build function and registry key in `src/chess_nn_playground/models/registry.py`.
-6. Add the idea-local wrapper in `ideas/registry/i###_<slug>/model.py`.
-7. Add a config in `ideas/registry/i###_<slug>/config.yaml` using the same split and training protocol as i193.
+6. Add the idea-local wrapper in `ideas/registry/p###_<slug>/model.py`.
+7. Add a config in `ideas/registry/p###_<slug>/config.yaml` using the same split and training protocol as i193.
 8. Add focused tests under `tests/`.
 9. Run static validation, smoke tests, then scout training.
 10. Write run notes under `ideas/registry/i###_<slug>/runs/` and update `idea.yaml.latest_result_path`.
