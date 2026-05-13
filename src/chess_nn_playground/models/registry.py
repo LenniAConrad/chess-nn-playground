@@ -339,6 +339,21 @@ from chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head import 
 from chess_nn_playground.models.primitives.ray_parallel_ssm_head import (
     build_ray_parallel_ssm_head_from_config,
 )
+from chess_nn_playground.models.primitives.legal_move_laplacian_resolvent import (
+    build_legal_move_laplacian_resolvent_from_config,
+)
+from chess_nn_playground.models.primitives.dynamic_adjacency_gating import (
+    build_dynamic_adjacency_gating_from_config,
+)
+from chess_nn_playground.models.primitives.move_kernel_operator import (
+    build_move_kernel_operator_from_config,
+)
+from chess_nn_playground.models.primitives.octilinear_selective_scan import (
+    build_octilinear_selective_scan_from_config,
+)
+from chess_nn_playground.models.primitives.sparse_legal_graph_transition import (
+    build_sparse_legal_graph_transition_from_config,
+)
 from chess_nn_playground.models.trunk.chess_decomposed_attention import (
     build_chess_decomposed_attention_from_config,
 )
@@ -983,6 +998,11 @@ MODEL_BUILDERS = {
     "incremental_latent_accumulator_head": build_incremental_latent_accumulator_head_from_config,
     "occlusion_aware_ray_scan_head": build_occlusion_aware_ray_scan_head_from_config,
     "ray_parallel_ssm_head": build_ray_parallel_ssm_head_from_config,
+    "legal_move_laplacian_resolvent": build_legal_move_laplacian_resolvent_from_config,
+    "dynamic_adjacency_gating": build_dynamic_adjacency_gating_from_config,
+    "move_kernel_operator": build_move_kernel_operator_from_config,
+    "octilinear_selective_scan": build_octilinear_selective_scan_from_config,
+    "sparse_legal_graph_transition": build_sparse_legal_graph_transition_from_config,
     "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
     "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
     "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,

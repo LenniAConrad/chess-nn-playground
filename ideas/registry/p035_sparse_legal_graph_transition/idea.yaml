@@ -1,0 +1,68 @@
+idea_id: p035
+name: Sparse Legal-Move Graph Transition
+slug: sparse_legal_graph_transition
+status: implemented
+created_at: '2026-05-13T00:00:00+00:00'
+author: Claude (gemini-misc primitive batch)
+short_thesis: |
+  Sparse Legal-Move Graph Transition (SLMGT). For each board, compute
+  the per-board legal-move adjacency ``A`` and apply a learned *joint*
+  edge function ``phi(X_i, X_j)`` (GAT-style: ``W_self X_i + W_neighbor
+  X_j + W_interact (X_i ⊙ X_j)`` followed by ReLU and LayerNorm) at
+  every (i, j) pair. Mask by ``A`` and sum over ``j`` to produce the
+  per-square aggregated message. The aggregated feature is pooled to a
+  scalar additive gated logit delta over the i193 trunk.
+novelty_claim: |
+  This is a genuine message-passing GNN operator with content-determined
+  edges. Distinct from p031 (Neumann resolvent, no edge function), p032
+  (per-type masked linear projection), p033 (static reach + per-type
+  linear), and p034 (sequential SSM scan). The Hadamard interaction
+  term in the edge function makes ``phi`` truly joint (non-separable
+  through any single Linear projection).
+expected_advantage: |
+  The source primitive predicts a >5% reduction in FP rate on "hanging
+  piece" puzzles with <10% latency increase. We expect the lift to
+  concentrate on positions where source-target interaction matters
+  (e.g. attacker-defender pairs, pinned-piece detection) and where
+  single-hop legal-mask attention is insufficient.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. The legal-move adjacency is computed
+  inside the forward pass from the simple_18 piece planes and
+  side-to-move plane via blocker-resolved chess-rule geometry. CRTK
+  metadata, source labels, verification flags, and engine evaluations
+  are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``slmgt_degree_mean``, ``slmgt_edge_norm``, ``slmgt_edge_max``,
+  plus the trunk diagnostics surfaced via the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The SLMGT
+  head adds three Linear projections (W_self, W_neighbor, W_interact),
+  an edge LayerNorm, an aggregator, and the standard pool / delta /
+  gate stack. The dominant cost is the (B, 64, 64, edge_hidden_dim)
+  pair tensor materialisation; at defaults (``feature_dim=16``,
+  ``edge_hidden_dim=24``, B=128) the pair tensor is ~50MB. The head
+  parameters add ~0.4M on top of the trunk.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p035_sparse_legal_graph_transition/train.py
+config_path: ideas/registry/p035_sparse_legal_graph_transition/config.yaml
+model_path: ideas/registry/p035_sparse_legal_graph_transition/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md
+  (Section "primitive_sparse_transition_flow"; first-listed proposal).
+  Deferred internal proposals from the same source file: GDA (Gated
+  Delta-Accumulator -- overlaps with i248 TSDP / DSA-LHN family), SIN
+  (Symm-Involution Normalization -- symmetry primitive), LRMG
+  (Low-Rank Mixture Gating -- adaptive-capacity primitive), PTRP
+  (Piece-Type Relational Pooler -- overlaps with
+  vector_quantized_motif_codebook_net).
+source_primitive_path: ideas/research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md
+source_primitive_candidate: Sparse Legal-Move Graph Transition
+source_packet_path: ideas/research/primitives/external_30_sparse_legal_graph_transition_delta_accumulator.md
+source_packet_candidate: Sparse Legal-Move Graph Transition
+mechanism_family: legal_graph
