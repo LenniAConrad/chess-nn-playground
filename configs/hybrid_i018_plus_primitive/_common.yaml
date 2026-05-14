@@ -1,0 +1,10 @@
+# Common header (not loaded directly; reference only). Each i018_plus_pXXX.yaml
+# mirrors this block plus a model.primitive section pointing at one primitive.
+
+# Reasoning: graft each primitive onto i018 oriented_tactical_sheaf_laplacian
+# via gated-logit fusion (final_logit = sheaf_logit + sigmoid(gate) * prim_logit).
+# Goal: does a primitive with non-overlapping math (SSM, delta accumulator,
+# kernel memory, bilinear hyperedge) lift the sheaf trunk?
+
+# Baseline i018 base-scale paper-grade mean test_pr_auc: 0.8752 (3 seeds).
+# Each hybrid runs 3 seeds at base scale, same training hyperparams.

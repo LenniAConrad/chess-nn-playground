@@ -179,6 +179,12 @@ from chess_nn_playground.models.trunk.ordinal_evidence_ladder import (
     build_ordinal_evidence_ladder_network_from_config,
 )
 from chess_nn_playground.models.trunk.oriented_tactical_sheaf import build_oriented_tactical_sheaf_from_config
+from chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast import (
+    build_oriented_tactical_sheaf_fast_from_config,
+)
+from chess_nn_playground.models.architecture.oriented_sheaf_plus_primitive import (
+    build_oriented_sheaf_plus_primitive_from_config,
+)
 from chess_nn_playground.models.trunk.permanent_ryser import build_permanent_ryser_from_config
 from chess_nn_playground.models.trunk.patch_mixer_boardnet import build_patch_mixer_boardnet_from_config
 from chess_nn_playground.models.trunk.piece_plane_gated_cnn import build_piece_plane_gated_cnn_from_config
@@ -767,6 +773,8 @@ MODEL_BUILDERS = {
     "sparse_witness_piece_bottleneck_network": build_sparse_witness_piece_bottleneck_network_from_config,
     "tactical_threat_sheaf_network": build_tactical_threat_sheaf_from_config,
     "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
+    "oriented_tactical_sheaf_fast": build_oriented_tactical_sheaf_fast_from_config,
+    "oriented_sheaf_plus_primitive": build_oriented_sheaf_plus_primitive_from_config,
     "tactical_sheaf_curvature_network": build_tactical_sheaf_curvature_from_config,
     "tactical_sheaf_tension_network": build_tactical_sheaf_tension_from_config,
     "attack_defense_sheaf_energy_network": build_attack_defense_sheaf_from_config,

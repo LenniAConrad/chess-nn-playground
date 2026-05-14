@@ -379,7 +379,7 @@ def discover_config_paths(
 
 
 def _kind_for_config(path: Path) -> str:
-    return "idea" if path.as_posix().startswith("ideas/") else "benchmark"
+    return "idea" if "ideas" in path.parts else "benchmark"
 
 
 def _task_id(path: Path, seed: int, scale_variant: str) -> str:
