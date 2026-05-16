@@ -33,6 +33,8 @@ i249_run_pid="$(pgrep -f 'run_paper_ready_all.py.*i249_fast' || true)"
 i249_waiter_pid="$(pgrep -f 'run_i249_fast.sh' || true)"
 bt4mix_run_pid="$(pgrep -f 'run_paper_ready_all.py.*bt4_primitive_mixers' || true)"
 bt4mix_waiter_pid="$(pgrep -f 'run_bt4_primitive_mixers.sh' || true)"
+tfm_run_pid="$(pgrep -f 'run_paper_ready_all.py.*lc0_bt4_transformer' || true)"
+tfm_waiter_pid="$(pgrep -f 'run_lc0_bt4_transformer.sh' || true)"
 
 count_status() {
   local path="$1" status="$2"
@@ -176,7 +178,8 @@ if [[ -z "$scout_run_pid" && -z "$paper_run_pid" && -z "$paper_waiter_pid" \
    && -z "$falsifier_run_pid" && -z "$falsifier_waiter_pid" \
    && -z "$hybrid_run_pid" && -z "$hybrid_waiter_pid" \
    && -z "$i249_run_pid" && -z "$i249_waiter_pid" \
-   && -z "$bt4mix_run_pid" && -z "$bt4mix_waiter_pid" ]]; then
+   && -z "$bt4mix_run_pid" && -z "$bt4mix_waiter_pid" \
+   && -z "$tfm_run_pid" && -z "$tfm_waiter_pid" ]]; then
   echo "[$NOW] All pipelines stopped. Self-monitor exiting." | tee -a "$SCHEDLOG"
   exit 0
 fi
