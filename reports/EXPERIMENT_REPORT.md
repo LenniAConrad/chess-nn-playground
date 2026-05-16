@@ -24,7 +24,7 @@ the highest-value sections.
 | 5 | i018 falsifier (scrambled relation masks, 3 seeds) | ✅ done | **THESIS SUPPORTED, −0.0424 PR-AUC.** i018's chess geometry is doing real work. |
 | 6 | i249 fast (i018 vectorized + torch.compile, 3 seeds × 3 scales) | ✅ done | **FAILURE on both axes: 0.90× speed (slower), up to −0.022 PR-AUC accuracy drift.** |
 | 7 | BT4 primitive-mixer scout (40 mixers × 1 seed × base) | ✅ done (37 ok / 3 fail) | **0 of 37 beat the conv baseline.** Best: a031 ray_cast_obstacle_pool_head at 0.8414 (−0.018 vs conv). |
-| 8 | LC0 BT4 real transformer benchmark (9 tasks, 3 seeds × 3 scales) | 🔄 8/9 done | **DEGRADES with scale: base 0.757, scale_up 0.640, scale_xl 0.59.** Probably my training-config fault (no warmup, CNN-style schedule). |
+| 8 | LC0 BT4 real transformer benchmark (9 tasks, 3 seeds × 3 scales) | ✅ done (9/9) | **DEGRADES with scale: base 0.7571, scale_up 0.6402, scale_xl 0.5875.** Probably my training-config fault (no warmup, CNN-style schedule). |
 | 9 | CPU inference benchmark (3 models × 3 scales × 3 batch sizes) | ✅ done | **bt4_classifier is the FASTEST**, not i018. Another wrong speed prediction. |
 | 10 | Self-monitor (auto-update + queue tracker) | ✅ alive (was buggy) | Forgot to include transformer in the keep-alive check → died yesterday 15:15. Fixed. |
 
@@ -296,17 +296,19 @@ transformer. **Final actual param counts** (runner-scaled): base 4.8M /
 scale_up 12.5M / scale_xl 25.4M (not the 16M / 38M I designed — the runner's
 scale keys multiplied width and depth jointly in a way I didn't predict).
 
-**Results (8/9 done, scale_xl_seed44 still in flight):**
+**Final results (9/9 done):**
 
 ```
-                 params       test PR-AUC (3 seeds)           mean
-base              4.8M        0.7692 / 0.7546 / 0.7475       0.757
-scale_up         12.5M        0.6318 / 0.6879 / 0.6010       0.640
-scale_xl         25.4M        0.5665 / 0.6190 / (in flight)  ~0.59
+                 params       test PR-AUC (3 seeds)           mean      std
+base              4.8M        0.7692 / 0.7546 / 0.7475       0.7571    0.0091
+scale_up         12.5M        0.6318 / 0.6879 / 0.6010       0.6402    0.0359
+scale_xl         25.4M        0.5665 / 0.6190 / 0.5769       0.5875    0.0227
 ```
 
 Reference: bt4_classifier conv tower ~0.859, i018 ~0.890. **The transformer at
-base is 0.10 PR-AUC below the conv tower, and degrades from there.**
+base is 0.10 PR-AUC below the conv tower, and degrades by another 0.17 across
+scale.** Largest scale (25.4M params) is *0.30 PR-AUC below i018 scale_xl
+(474K params)* — i018 with **53× fewer parameters** wins by 30 points.
 
 #### Why this is bad — and probably my fault, not the architecture's
 
@@ -556,13 +558,14 @@ i018 and add bias, don't start from BT4 and add primitives.
 
 ## What's still pending
 
-- **lc0_bt4_transformer scale_xl_seed44** — the final transformer task,
-  in flight as of this writing (epoch 22/30). Won't change the verdict —
-  the existing scale_xl seed42/seed43 are both around 0.6 and seed44 won't
-  rescue that.
-- Self-monitor is restarted and tracking all five GPU pipelines + transformer
-  correctly. Writes snapshots into `reports/monitor/` every 60 min and
-  rebuilds `reports/aggregate_report.md` on the same cadence.
+**Nothing.** All 10 experiments complete. The last transformer task
+(scale_xl_seed44 = 0.5769) finished and confirmed the scale_xl mean at
+0.5875 — the verdict is unchanged.
 
-Once the last transformer task finishes (~15–25 min), everything in this
-report is final.
+Self-monitor remains alive and tracks status hourly into `reports/monitor/`
++ rebuilds `reports/aggregate_report.md` on every tick. It will exit cleanly
+the next time it wakes up and finds no pipeline processes alive.
+
+This is the final version of this report. The companion
+[docs/KNOWLEDGE.md](../docs/KNOWLEDGE.md) generalizes these findings into
+reusable lessons for future iterations.
