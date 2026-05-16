@@ -35,3 +35,47 @@ Tactical positions concentrate gluing defect on the typed tactical incidence com
 - Quiet endgame studies and zugzwang positions may be puzzle-like with weak attack/defense incidence; static one-ply tactics will miss them.
 - Non-puzzle blunder-rich positions can exhibit high tactical tension without verified puzzle status.
 - The central falsifier (per the source packet) is replacing real relation masks with degree-preserving random masks; if performance is unchanged the typed-relation thesis is rejected and the family must not be re-scaled.
+
+## Hybrid Primitive Composition Results (auto-generated)
+
+Last run: 2026-05-14T15:22:17+00:00
+
+Baseline i018 (base scale, 3 seeds): test_pr_auc = 0.8752 +/- 0.0045
+
+Each hybrid grafts one primitive via gated-logit fusion.
+
+| Hybrid | mean test_pr_auc | delta vs baseline | verdict |
+|---|---:|---:|---|
+| i018_plus_p019 | 0.8817 | +0.0065 | +lift (>=0.005) |
+| i018_plus_p034 | 0.8812 | +0.0060 | +lift (>=0.005) |
+| i018_plus_p023 | 0.8808 | +0.0056 | +lift (>=0.005) |
+| i018_plus_p013 | 0.8693 | -0.0059 | -regression (>=0.005) |
+
+Full details: [reports/hybrid_i018/results.md](reports/hybrid_i018/results.md)
+
+## Falsifier Results (auto-generated)
+
+Last run: 2026-05-14T16:54:22+00:00
+
+Falsifier from this thesis: *"replacing real relation masks with degree-preserving random masks; if performance is unchanged the typed-relation thesis is rejected and the family must not be re-scaled."*
+
+Setup: 3 seeds (42, 43, 44), base scale, 20 epochs, single-seed configs identical to the paper-grade baseline runs except  (per-(batch, relation) random column permutation; preserves per-source out-degree exactly).
+
+| Variant | n | Test PR-AUC (mean) | Test PR-AUC (std) |
+|---|---:|---:|---:|
+| Baseline (real chess geometry, scramble_relations=false) | 3 | 0.8752 | 0.0045 |
+| Falsifier (degree-preserving random masks, scramble_relations=true) | 3 | 0.8328 | 0.0012 |
+| **Delta (falsifier - baseline)** | | **-0.0424** | |
+
+### Per-seed details
+
+
+
+### Verdict
+
+**THESIS SUPPORTED**: falsifier drops by >= 0.02 PR-AUC; real chess geometry is doing real work.
+
+Thresholds:
+- strong support: falsifier drops by >= 0.02 PR-AUC
+- rejection: falsifier within 0.01 PR-AUC of baseline
+- between: inconclusive

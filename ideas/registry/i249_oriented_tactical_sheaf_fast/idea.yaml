@@ -1,0 +1,50 @@
+idea_id: i249
+name: Oriented Tactical Sheaf Laplacian (Fast)
+slug: oriented_tactical_sheaf_fast
+status: implemented
+created_at: '2026-05-14T08:00:00+00:00'
+author: Claude
+short_thesis: >-
+  Speed-optimized i018. Same cellular sheaf Laplacian math, same parameters,
+  same numerics, but a GPU-friendlier execution pattern (vectorized chunked
+  relation diffusion plus optional torch.compile) to close i018's wall-clock
+  gap without touching accuracy.
+novelty_claim: >-
+  Not a new model family. A drop-in execution-optimized variant of i018
+  oriented_tactical_sheaf_laplacian. The original runs a 12-iteration Python
+  loop over typed relations (about 72 small kernel launches per block) and
+  rematerializes large (B, 64, 64, stalk) intermediates; this variant
+  vectorizes the relation projections, batches the coboundary in memory-capped
+  chunks, and optionally wraps the static-shape forward in torch.compile.
+expected_advantage: >-
+  Same test PR-AUC as i018 because the forward and gradient are numerically
+  identical (logits match to about 1e-8, loss and gradients to about 1e-10),
+  at lower GPU wall-clock. Targets i018's known weakness, namely FLOP-light but
+  launch-overhead-bound execution.
+target_task: >-
+  puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle. Identical contract to i018.
+input_representation: >-
+  Current-board simple_18 tensor only. CRTK and source metadata are
+  reporting-only and never used as model input. Identical to i018.
+output_heads: >-
+  One puzzle logit plus the same sheaf-tension, per-relation energy, transport,
+  triad-defect, pin, king-ring, and board diagnostics as i018.
+compute_notes: >-
+  FastSheafDiffusionBlock replaces the per-relation Python loop with a single
+  einsum projection over all relations plus a chunked batched coboundary. The
+  chunk size caps the (B, chunk, 64, 64, stalk) intermediate for 8 GB GPUs.
+  Optional torch.compile with mode reduce-overhead exploits i018's fully static
+  shapes for kernel fusion and CUDA graphs. All other modules are imported
+  unchanged from the i018 source module so the variant cannot drift.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i249_oriented_tactical_sheaf_fast/train.py
+config_path: ideas/registry/i249_oriented_tactical_sheaf_fast/config.yaml
+model_path: ideas/registry/i249_oriented_tactical_sheaf_fast/model.py
+latest_result_path: null
+notes: >-
+  Implemented as the registered oriented_tactical_sheaf_fast model in
+  src/chess_nn_playground/models/trunk/oriented_tactical_sheaf_fast.py, which
+  subclasses i018's OrientedTacticalSheafNet and only swaps the diffusion block
+  and forward execution path. Numerical equivalence to i018 is verified.
+implementation_kind: bespoke_model

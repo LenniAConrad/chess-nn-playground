@@ -496,11 +496,13 @@ class OrientedTacticalSheafNet(nn.Module):
         encoding: str = "simple_18",
         piece_adapter: str = "exact",
         use_triads: bool = True,
+        scramble_relations: bool = False,
     ) -> None:
         super().__init__()
         self.spec = BoardTensorSpec(input_channels=input_channels)
         self.num_classes = int(num_classes)
         self.relation_names = RELATION_NAMES
+        self.scramble_relations = bool(scramble_relations)
         self.adapter = BoardStateAdapter(input_channels=input_channels, encoding=encoding, piece_adapter=piece_adapter)
         self.incidence = TacticalIncidenceBuilder()
         self.encoder = SquareTokenEncoder(input_channels=input_channels, d_model=channels, dropout=dropout)
@@ -541,11 +543,27 @@ class OrientedTacticalSheafNet(nn.Module):
         x = require_board_tensor(x, self.spec)
         board = self.adapter(x)
         incidence = self.incidence(board.piece_state, board.occupancy)
+        if self.scramble_relations:
+            # Falsifier ablation: degree-preserving random rewiring of the 12 typed
+            # relation masks. Per (batch, relation) plane we draw one random column
+            # permutation and apply it to every source row. This preserves the per-
+            # source out-degree exactly while randomizing which targets each square
+            # reaches. relation_density (sum over plane) is unchanged; only the
+            # spatial pattern of edges is scrambled. our_attack / our_piece / etc.
+            # remain real -- this isolates "does the sheaf math need real chess
+            # geometry?" rather than scrambling everything.
+            sheaf_masks = incidence.relation_masks
+            B, R, N, _ = sheaf_masks.shape
+            perm = torch.argsort(torch.rand(B, R, N, device=sheaf_masks.device), dim=-1)
+            perm_expanded = perm.unsqueeze(-2).expand(-1, -1, N, -1)
+            scrambled_masks = torch.gather(sheaf_masks, dim=-1, index=perm_expanded)
+        else:
+            scrambled_masks = incidence.relation_masks
         h = self.encoder(board.square_raw, board.piece_state)
         block_energies: list[torch.Tensor] = []
         block_gates: list[torch.Tensor] = []
         for block in self.blocks:
-            h, energy, gates = block(h, incidence.relation_masks)
+            h, energy, gates = block(h, scrambled_masks)
             block_energies.append(energy)
             block_gates.append(gates.unsqueeze(0).expand(x.shape[0], -1))
 
@@ -617,4 +635,5 @@ def build_oriented_tactical_sheaf_from_config(config: dict[str, Any]) -> Oriente
         encoding=str(config.get("encoding", "simple_18")),
         piece_adapter=str(config.get("piece_adapter", "exact")),
         use_triads=bool(config.get("use_triads", True)),
+        scramble_relations=bool(config.get("scramble_relations", False)),
     )
