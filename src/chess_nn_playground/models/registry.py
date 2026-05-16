@@ -182,8 +182,14 @@ from chess_nn_playground.models.trunk.oriented_tactical_sheaf import build_orien
 from chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast import (
     build_oriented_tactical_sheaf_fast_from_config,
 )
+from chess_nn_playground.models.trunk.lc0_bt4_transformer import (
+    build_lc0_bt4_transformer_from_config,
+)
 from chess_nn_playground.models.architecture.oriented_sheaf_plus_primitive import (
     build_oriented_sheaf_plus_primitive_from_config,
+)
+from chess_nn_playground.models.architecture.bt4_primitive_mixer import (
+    build_bt4_primitive_mixer_from_config,
 )
 from chess_nn_playground.models.trunk.permanent_ryser import build_permanent_ryser_from_config
 from chess_nn_playground.models.trunk.patch_mixer_boardnet import build_patch_mixer_boardnet_from_config
@@ -775,6 +781,8 @@ MODEL_BUILDERS = {
     "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
     "oriented_tactical_sheaf_fast": build_oriented_tactical_sheaf_fast_from_config,
     "oriented_sheaf_plus_primitive": build_oriented_sheaf_plus_primitive_from_config,
+    "bt4_primitive_mixer": build_bt4_primitive_mixer_from_config,
+    "lc0_bt4_transformer": build_lc0_bt4_transformer_from_config,
     "tactical_sheaf_curvature_network": build_tactical_sheaf_curvature_from_config,
     "tactical_sheaf_tension_network": build_tactical_sheaf_tension_from_config,
     "attack_defense_sheaf_energy_network": build_attack_defense_sheaf_from_config,
@@ -1032,6 +1040,29 @@ def _make_research_packet_builder(model_name: str) -> Any:
 
 for _research_packet_model_name in RESEARCH_PACKET_MODEL_NAMES:
     MODEL_BUILDERS.setdefault(_research_packet_model_name, _make_research_packet_builder(_research_packet_model_name))
+
+
+def _make_bt4_mixer_alias(mixer_name: str) -> Any:
+    """Thin alias so each bt4_<mixer>_mixer idea can set model.name == its slug
+    while still building the single shared bt4_primitive_mixer net."""
+
+    def build_bt4_mixer_alias(config: dict[str, Any]) -> nn.Module:
+        alias_config = dict(config)
+        alias_config.setdefault("mixer", mixer_name)
+        return build_bt4_primitive_mixer_from_config(alias_config)
+
+    build_bt4_mixer_alias.__name__ = f"build_bt4_{mixer_name}_mixer_from_config"
+    build_bt4_mixer_alias.__qualname__ = build_bt4_mixer_alias.__name__
+    return build_bt4_mixer_alias
+
+
+try:  # auto-register one model alias per discovered bt4 mixer
+    from chess_nn_playground.models.architecture.bt4_mixers import available_mixers as _available_bt4_mixers
+
+    for _bt4_mixer_name in _available_bt4_mixers():
+        MODEL_BUILDERS.setdefault(f"bt4_{_bt4_mixer_name}_mixer", _make_bt4_mixer_alias(_bt4_mixer_name))
+except Exception:  # pragma: no cover - mixer package optional / partially built
+    pass
 
 
 def register_model(name: str, builder: Any) -> None:

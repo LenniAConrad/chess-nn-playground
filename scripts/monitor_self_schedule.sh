@@ -31,6 +31,8 @@ hybrid_run_pid="$(pgrep -f 'run_paper_ready_all.py.*hybrid_i018' || true)"
 hybrid_waiter_pid="$(pgrep -f 'run_hybrid_i018.sh' || true)"
 i249_run_pid="$(pgrep -f 'run_paper_ready_all.py.*i249_fast' || true)"
 i249_waiter_pid="$(pgrep -f 'run_i249_fast.sh' || true)"
+bt4mix_run_pid="$(pgrep -f 'run_paper_ready_all.py.*bt4_primitive_mixers' || true)"
+bt4mix_waiter_pid="$(pgrep -f 'run_bt4_primitive_mixers.sh' || true)"
 
 count_status() {
   local path="$1" status="$2"
@@ -145,6 +147,16 @@ scout_top5="$(
     if [[ "$idone" -gt 0 ]]; then echo "- Status: STOPPED ($idone completed)"; else echo "- Status: NOT STARTED"; fi
   fi
   echo
+  echo "## BT4 primitive mixers (bt4_primitive_mixers)"
+  if [[ -n "$bt4mix_run_pid" ]]; then
+    echo "- Status: RUNNING (pid $bt4mix_run_pid)"
+  elif [[ -n "$bt4mix_waiter_pid" ]]; then
+    echo "- Status: WAITING IN QUEUE (pid $bt4mix_waiter_pid)"
+  else
+    bdone="$(count_status "$ROOT_DIR/reports/bt4_primitive_mixers/state.json" completed)"
+    if [[ "$bdone" -gt 0 ]]; then echo "- Status: STOPPED ($bdone completed)"; else echo "- Status: NOT STARTED"; fi
+  fi
+  echo
   echo "## Tmux sessions"
   echo '```'
   tmux ls 2>&1 || echo "(no tmux server)"
@@ -153,10 +165,18 @@ scout_top5="$(
 
 echo "- [$NOW] scout=$scout_done/$scout_total paper=$paper_done/$paper_total -> $(basename "$STATUS_FILE")" >> "$ROLLING"
 
+# Rebuild the cross-pipeline aggregate report every tick so it auto-updates
+# even while the user is away. Non-fatal if it fails.
+PYTHON_BIN="$ROOT_DIR/.venv/bin/python"
+[[ -x "$PYTHON_BIN" ]] || PYTHON_BIN="python3"
+PYTHONDONTWRITEBYTECODE=1 "$PYTHON_BIN" "$ROOT_DIR/scripts/reports/build_aggregate_report.py" \
+  >>"$SCHEDLOG" 2>&1 || echo "[$NOW] aggregate report rebuild failed (non-fatal)" >>"$SCHEDLOG"
+
 if [[ -z "$scout_run_pid" && -z "$paper_run_pid" && -z "$paper_waiter_pid" \
    && -z "$falsifier_run_pid" && -z "$falsifier_waiter_pid" \
    && -z "$hybrid_run_pid" && -z "$hybrid_waiter_pid" \
-   && -z "$i249_run_pid" && -z "$i249_waiter_pid" ]]; then
+   && -z "$i249_run_pid" && -z "$i249_waiter_pid" \
+   && -z "$bt4mix_run_pid" && -z "$bt4mix_waiter_pid" ]]; then
   echo "[$NOW] All pipelines stopped. Self-monitor exiting." | tee -a "$SCHEDLOG"
   exit 0
 fi
