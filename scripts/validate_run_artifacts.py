@@ -7,9 +7,6 @@ from pathlib import Path
 
 import pandas as pd
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 
 REQUIRED_ARTIFACTS = [

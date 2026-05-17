@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `294`
-- Research packet files cataloged: `130`
-- Registered implementation states: `{'implemented': 279, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 286, 'shared_probe_variant': 6, 'unknown': 2}`
-- Research packet statuses: `{'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
+- Registered idea folders: `335`
+- Research packet files cataloged: `140`
+- Registered implementation states: `{'implemented': 320, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 327, 'shared_probe_variant': 6, 'unknown': 2}`
+- Research packet statuses: `{'backlog packet': 10, 'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 286 | Materially distinct model implementation. |
+| `bespoke_model` | 327 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -40,6 +40,46 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 
 | ID | Idea | Status | Trainable state | Implementation kind | Target |
 |---|---|---|---|---|---|
+| `a001` | [BT4 Primitive Mixer (tempo_defender_cross_derivative_network)](a001_bt4_tempo_defender_cross_derivative_network_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a002` | [BT4 Primitive Mixer (pair_resonance_hessian_network)](a002_bt4_pair_resonance_hessian_network_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a003` | [BT4 Primitive Mixer (promotion_aware_head)](a003_bt4_promotion_aware_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a004` | [BT4 Primitive Mixer (complex_amplitude_chess_network)](a004_bt4_complex_amplitude_chess_network_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a005` | [BT4 Primitive Mixer (rule_aware_tactical_head)](a005_bt4_rule_aware_tactical_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a006` | [BT4 Primitive Mixer (pareto_antichain_frontier)](a006_bt4_pareto_antichain_frontier_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a007` | [BT4 Primitive Mixer (regret_saddlepoint)](a007_bt4_regret_saddlepoint_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a008` | [BT4 Primitive Mixer (reply_channel_capacity)](a008_bt4_reply_channel_capacity_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a009` | [BT4 Primitive Mixer (tail_copula_concordance)](a009_bt4_tail_copula_concordance_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a010` | [BT4 Primitive Mixer (witness_counterwitness_quantifier)](a010_bt4_witness_counterwitness_quantifier_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a011` | [BT4 Primitive Mixer (move_graph_router)](a011_bt4_move_graph_router_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a012` | [BT4 Primitive Mixer (attack_ray_sparse_attention)](a012_bt4_attack_ray_sparse_attention_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a013` | [BT4 Primitive Mixer (rule_conditioned_sparse_attention)](a013_bt4_rule_conditioned_sparse_attention_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a014` | [BT4 Primitive Mixer (legal_move_graph_delta)](a014_bt4_legal_move_graph_delta_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a015` | [BT4 Primitive Mixer (ray_occlusion_semiring_scan)](a015_bt4_ray_occlusion_semiring_scan_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a016` | [BT4 Primitive Mixer (legal_edge_compile_scatter)](a016_bt4_legal_edge_compile_scatter_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a017` | [BT4 Primitive Mixer (signed_edit_bilinear_memory)](a017_bt4_signed_edit_bilinear_memory_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a018` | [BT4 Primitive Mixer (sparse_delta_accumulator)](a018_bt4_sparse_delta_accumulator_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a019` | [BT4 Primitive Mixer (delta_pair_accumulator)](a019_bt4_delta_pair_accumulator_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a020` | [BT4 Primitive Mixer (delta_crelu_involution_head)](a020_bt4_delta_crelu_involution_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a021` | [BT4 Primitive Mixer (ray_semiring_chi_head)](a021_bt4_ray_semiring_chi_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a022` | [BT4 Primitive Mixer (delta_event_legal_routing)](a022_bt4_delta_event_legal_routing_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a023` | [BT4 Primitive Mixer (delta_state_slg_diffusion)](a023_bt4_delta_state_slg_diffusion_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a024` | [BT4 Primitive Mixer (reversible_delta_kernel_memory)](a024_bt4_reversible_delta_kernel_memory_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a025` | [BT4 Primitive Mixer (blocker_reset_ray_scan)](a025_bt4_blocker_reset_ray_scan_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a026` | [BT4 Primitive Mixer (occlusion_semiring_ray_scan)](a026_bt4_occlusion_semiring_ray_scan_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a027` | [BT4 Primitive Mixer (event_delta_bilinear_accumulator)](a027_bt4_event_delta_bilinear_accumulator_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a028` | [BT4 Primitive Mixer (occlusion_semiring_delta_bilinear_hyperedge)](a028_bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a029` | [BT4 Primitive Mixer (event_symmetric_interaction_accumulator)](a029_bt4_event_symmetric_interaction_accumulator_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a030` | [BT4 Primitive Mixer (incremental_delta_linear_head)](a030_bt4_incremental_delta_linear_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a031` | [BT4 Primitive Mixer (ray_cast_obstacle_pool_head)](a031_bt4_ray_cast_obstacle_pool_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a032` | [BT4 Primitive Mixer (sparse_legal_move_router_head)](a032_bt4_sparse_legal_move_router_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a033` | [BT4 Primitive Mixer (incremental_latent_accumulator_head)](a033_bt4_incremental_latent_accumulator_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a034` | [BT4 Primitive Mixer (occlusion_aware_ray_scan_head)](a034_bt4_occlusion_aware_ray_scan_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a035` | [BT4 Primitive Mixer (ray_parallel_ssm_head)](a035_bt4_ray_parallel_ssm_head_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a036` | [BT4 Primitive Mixer (legal_move_laplacian_resolvent)](a036_bt4_legal_move_laplacian_resolvent_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a037` | [BT4 Primitive Mixer (dynamic_adjacency_gating)](a037_bt4_dynamic_adjacency_gating_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a038` | [BT4 Primitive Mixer (move_kernel_operator)](a038_bt4_move_kernel_operator_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a039` | [BT4 Primitive Mixer (octilinear_selective_scan)](a039_bt4_octilinear_selective_scan_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `a040` | [BT4 Primitive Mixer (sparse_legal_graph_transition)](a040_bt4_sparse_legal_graph_transition_mixer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i001` | [Chess Operator Basis Classifier](i001_chess_operator_basis_classifier) | `implemented` | `implemented` | `bespoke_model` | General chess position classification; first benchmark is puzzle_binary with source cla... |
 | `i002` | [Response-Minimax Chess Classifier](i002_response_minimax_classifier) | `implemented` | `implemented` | `bespoke_model` | General chess position classification; first benchmark is puzzle_binary. |
 | `i003` | [Factor-Agreement Chess Classifier](i003_factor_agreement_classifier) | `implemented` | `implemented` | `bespoke_model` | General chess position classification; first benchmark is puzzle_binary. |
@@ -288,6 +328,7 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i249` | [Oriented Tactical Sheaf Laplacian (Fast)](i249_oriented_tactical_sheaf_fast) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
@@ -347,8 +388,8 @@ Most frequent packet tags:
 | Tag | Count |
 |---|---:|
 | `linear-algebra` | 13 |
-| `sheaf` | 8 |
-| `puzzle-binary` | 6 |
+| `sheaf` | 12 |
+| `puzzle-binary` | 7 |
 | `symmetry` | 6 |
 | `transport` | 5 |
 | `information` | 5 |
@@ -372,4 +413,4 @@ Most frequent packet tags:
 
 For detailed steps, see `ideas/docs/WORKFLOW.md`.
 
-Generated by `PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py`.
+Generated by `chess-nn-build-idea-catalog`.

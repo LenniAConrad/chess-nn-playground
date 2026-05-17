@@ -30,6 +30,34 @@ def test_dataset_item_loading(tmp_path):
     assert item["sample_id"] == "a"
 
 
+def test_dataset_uses_arrow_split_table_for_counts(tmp_path):
+    path = tmp_path / "split.parquet"
+    pd.DataFrame(
+        [
+            {
+                "sample_id": "a",
+                "fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+                "normalized_fen": "8/8/8/8/8/8/8/K6k w - - 0 1",
+                "coarse_label": 0,
+                "fine_label": 0,
+            },
+            {
+                "sample_id": "b",
+                "fen": "8/8/8/8/8/8/7K/k7 b - - 0 1",
+                "normalized_fen": "8/8/8/8/8/8/7K/k7 b - - 0 1",
+                "coarse_label": 1,
+                "fine_label": 2,
+            },
+        ]
+    ).to_parquet(path, index=False)
+
+    dataset = ChessPositionDataset(path, mode="coarse_binary")
+
+    assert dataset.split.table.num_rows == 2
+    assert dataset.label_counts() == {0: 1, 1: 1}
+    assert dataset.value_counts("fine_label") == {0: 1, 2: 1}
+
+
 def test_dataset_item_loading_lc0_bt4_encoding(tmp_path):
     path = tmp_path / "split.parquet"
     pd.DataFrame(

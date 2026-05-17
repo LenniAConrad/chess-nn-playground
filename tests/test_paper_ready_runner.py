@@ -2,20 +2,17 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-import sys
 from types import SimpleNamespace
-
-sys.path.insert(0, str(Path("scripts").resolve()))
 
 from chess_nn_playground.training.trainer import config_fingerprint
 from chess_nn_playground.utils.config import load_yaml
-from run_paper_ready_all import append_event
-from run_paper_ready_all import apply_architecture_scale
-from run_paper_ready_all import apply_paper_ready_overrides
-from run_paper_ready_all import build_tasks
-from run_paper_ready_all import discover_config_paths
-from run_paper_ready_all import eta_snapshot
-from run_paper_ready_all import refresh_task_statuses
+from scripts.run_paper_ready_all import append_event
+from scripts.run_paper_ready_all import apply_architecture_scale
+from scripts.run_paper_ready_all import apply_paper_ready_overrides
+from scripts.run_paper_ready_all import build_tasks
+from scripts.run_paper_ready_all import discover_config_paths
+from scripts.run_paper_ready_all import eta_snapshot
+from scripts.run_paper_ready_all import refresh_task_statuses
 
 
 def test_paper_ready_runner_discovers_benchmarks_and_ideas():

@@ -2,13 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-import sys
-
-sys.path.insert(0, str(Path("scripts").resolve()))
-
-from validate_run_artifacts import LEGACY_OPTIONAL_BUT_EXPECTED_WITH_TEST
-from validate_run_artifacts import LEGACY_REQUIRED_ARTIFACTS
-from validate_run_artifacts import validate_run_artifacts
+from scripts.validate_run_artifacts import LEGACY_OPTIONAL_BUT_EXPECTED_WITH_TEST
+from scripts.validate_run_artifacts import LEGACY_REQUIRED_ARTIFACTS
+from scripts.validate_run_artifacts import validate_run_artifacts
 
 
 def test_legacy_run_artifacts_are_warnings_only_when_allowed(tmp_path):

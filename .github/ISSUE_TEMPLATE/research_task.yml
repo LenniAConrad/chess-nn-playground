@@ -1,0 +1,43 @@
+name: Research Or Engineering Task
+description: Propose a scoped improvement, experiment, refactor, or documentation task.
+title: "[Task]: "
+labels:
+  - task
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What should change, and why is it useful?
+      placeholder: Describe the concrete outcome.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: List the files, modules, configs, or docs likely affected.
+      placeholder: |
+        In scope:
+        Out of scope:
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation Plan
+      description: Which checks, tests, runs, or artifact validations should prove this is done?
+      placeholder: |
+        ruff check .
+        python -m compileall -q src scripts tests
+        python -m pytest ...
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks And Notes
+      description: Call out benchmark comparability, artifact-contract, data, licensing, or reproducibility concerns.
+    validations:
+      required: false
+

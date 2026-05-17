@@ -12,7 +12,7 @@ self-scheduling monitor (every tick) and by each pipeline launcher on
 completion, so the report stays fresh.
 
 Run:
-    PYTHONDONTWRITEBYTECODE=1 python scripts/reports/build_aggregate_report.py
+    PYTHONDONTWRITEBYTECODE=1 python -m scripts.reports.build_aggregate_report
 """
 
 from __future__ import annotations

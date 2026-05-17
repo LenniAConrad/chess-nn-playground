@@ -1,0 +1,13 @@
+# Default owner for all repository changes.
+* @LenniAConrad
+
+# High-risk surfaces.
+/.github/ @LenniAConrad
+/pyproject.toml @LenniAConrad
+/src/ @LenniAConrad
+/scripts/ @LenniAConrad
+/tests/ @LenniAConrad
+/configs/ @LenniAConrad
+/docs/ @LenniAConrad
+/ideas/ @LenniAConrad
+

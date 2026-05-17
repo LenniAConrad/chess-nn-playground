@@ -9,11 +9,7 @@ from typing import Any
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.ideas.implementation_kind import audit_implementation_kinds
 from chess_nn_playground.ideas.implementation_kind import rows_to_jsonable
@@ -106,7 +102,7 @@ def build_markdown_report(summary: dict[str, Any], rows: list[dict[str, Any]], s
             "Validation command:",
             "",
             "```bash",
-            "PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check",
+            "chess-nn-audit-ideas --check",
             "```",
         ]
     )

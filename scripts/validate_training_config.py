@@ -3,9 +3,6 @@ from __future__ import annotations
 
 import argparse
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.training.config_validation import validate_training_config
 from chess_nn_playground.utils.config import load_yaml

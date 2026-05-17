@@ -1,0 +1,1 @@
+"""Idea registry command modules."""

@@ -59,8 +59,9 @@ def _resolve_cuda_device(device_name: str, requested: Any) -> torch.device:
 def resolve_torch_device(device_name: Any = "auto") -> torch.device:
     """Resolve a config device value into a torch device.
 
-    ``auto`` keeps the old convenience behavior and falls back to CPU. Use
-    ``nvidia`` or ``cuda`` in experiment configs when CPU fallback is not acceptable.
+    ``auto`` keeps the old convenience behavior for initial device selection and
+    falls back to CPU. Use ``nvidia`` or ``cuda`` in experiment configs when
+    CPU device selection is not acceptable.
     """
 
     normalised = _normalise_device_name(device_name)

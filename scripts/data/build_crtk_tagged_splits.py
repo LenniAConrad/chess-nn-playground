@@ -16,11 +16,7 @@ from tqdm import tqdm
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 
 DEFAULT_CRTK_JAR = Path(os.environ.get("CRTK_JAR", "/home/lennart/Code/chess-rtk/crtk.jar"))

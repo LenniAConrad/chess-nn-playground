@@ -12,11 +12,7 @@ from typing import Any
 
 import yaml
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.ideas.implementation_kind import audit_implementation_kinds
 
@@ -118,15 +114,15 @@ def _prompt_for(row: object) -> str:
 
         Verification commands to run before finishing:
         ```bash
-        PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check
-        PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py --check
+        chess-nn-audit-ideas --check
+        chess-nn-audit-architectures --check
         PYTHONDONTWRITEBYTECODE=1 pytest tests/test_idea_registry.py tests/test_research_architectures.py
         ```
 
         If registry/index/report generation changes, also run:
         ```bash
-        PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py
-        PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_prompt.py
+        chess-nn-build-idea-catalog
+        PYTHONDONTWRITEBYTECODE=1 python -m scripts.ideas.build_idea_prompt
         ```
 
         Final response requirements:

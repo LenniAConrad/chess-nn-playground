@@ -1,11 +1,2 @@
-torch
-numpy
-pandas
-pyarrow
-scikit-learn
-python-chess
-pyyaml
-tqdm
-matplotlib
-pytest
-ijson
+# Compatibility shim. Keep package metadata authoritative in pyproject.toml.
+-e .[dev]

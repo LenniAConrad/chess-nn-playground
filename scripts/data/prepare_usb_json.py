@@ -8,11 +8,7 @@ from pathlib import Path
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 
 def run(command: list[str]) -> None:
@@ -39,17 +35,19 @@ def main() -> None:
 
     inspect_cmd = [
         sys.executable,
-        "scripts/data/inspect_json_data.py",
+        "-m",
+        "scripts.data.inspect_json_data",
         "--input",
         str(source),
         "--max-files",
         str(args.max_files),
     ]
     run(inspect_cmd)
-    run([sys.executable, "scripts/data/data_audit.py", "--input", str(source), "--sample-per-file", "5"])
+    run([sys.executable, "-m", "scripts.data.data_audit", "--input", str(source), "--sample-per-file", "5"])
     prepare_cmd = [
         sys.executable,
-        "scripts/data/prepare_dataset.py",
+        "-m",
+        "scripts.data.prepare_dataset",
         "--input",
         str(source),
         "--output",
@@ -66,7 +64,7 @@ def main() -> None:
     if args.default_label_status:
         prepare_cmd.extend(["--default-label-status", args.default_label_status])
     run(prepare_cmd)
-    run([sys.executable, "scripts/data/generate_splits.py", "--mode", args.mode])
+    run([sys.executable, "-m", "scripts.data.generate_splits", "--mode", args.mode])
 
 
 if __name__ == "__main__":

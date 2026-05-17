@@ -8,11 +8,7 @@ from typing import Any
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.ideas.architecture_conformance import audit_architecture_conformance
 from chess_nn_playground.ideas.architecture_conformance import rows_to_jsonable
@@ -57,7 +53,7 @@ def build_markdown_report(summary: dict[str, Any], rows: list[dict[str, Any]]) -
             "Validation command:",
             "",
             "```bash",
-            "PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py --check",
+            "chess-nn-audit-architectures --check",
             "```",
         ]
     )

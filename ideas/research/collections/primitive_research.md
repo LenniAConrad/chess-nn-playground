@@ -6,7 +6,7 @@ The primitive corpus is consolidated under [../primitives/](../primitives/) as a
 
 | Prefix | Contents |
 |---|---|
-| `external_*.md` | Thirty imported primitive-focused markdown reports from ChatGPT Deep Research, Claude, and Google/Gemini. |
+| `external_*.md` | Fifty imported primitive-focused markdown reports from ChatGPT Deep Research, Claude, and Google/Gemini. |
 | `codex_*.md` | Five Codex GPT-5 primitive proposals around reply sets, witnesses, regret, copulas, and antichains. |
 | `claude_*.md` | Five Claude Opus 4.7 primitive proposals plus prototype scripts under [../primitives/prototypes/](../primitives/prototypes/). |
 
@@ -27,6 +27,8 @@ Do not merge these into a hybrid architecture before each primitive clears its o
 The full Claude Code implementation handoff is preserved at [../primitives/HANDOFF.md](../primitives/HANDOFF.md).
 
 The operational code/training plan is [../primitives/PRIMITIVE_TRAINING_TODO.md](../primitives/PRIMITIVE_TRAINING_TODO.md).
+
+The pre-scout validation gate for new primitives is [../primitives/PRIMITIVE_VALIDATION_PROTOCOL.md](../primitives/PRIMITIVE_VALIDATION_PROTOCOL.md).
 
 ## Authorship Notes
 

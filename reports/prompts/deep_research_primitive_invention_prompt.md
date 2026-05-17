@@ -35,6 +35,39 @@ A primitive is a single mathematical operator that the deep-learning community w
 
 ---
 
+## Existing primitive memory: hard duplicate blocklist
+
+The project already has a primitive research inventory under `ideas/research/primitives/`. Treat the following families as **already explored**. Do not return a proposal that is the same idea with renamed variables, a slightly different chess feature, a new acronym, or a thin combination of two listed families.
+
+Already proposed local primitives:
+
+- Signed Piece-Existence Hessian / Discrete Hessian-over-Piece-Existence / pair-resonance Hessian operators.
+- Tempo-Defender Cross-Derivative operators.
+- Promotion-Fanout Counterfactual Tensor operators.
+- Complex-Amplitude Interference operators.
+- Terminal-State Detection primitives.
+- Pareto Antichain Frontier, Regret Saddlepoint, Reply Channel Capacity, Tail Copula Concordance, and Witness-Counterwitness Quantifier primitives.
+
+Already imported external primitive families:
+
+- Signed edit bilinear memory and ray-scan operators.
+- Move-graph routers, legal-move graph accumulators, sparse legal graph transitions, legal-edge compilers, and legal-move kinematic state-space routers.
+- Attack-ray sparse attention, rule-conditioned sparse attention, ray-occlusion dispatch, ray-blocked reducers, obstacle-pooling sparse emitters, ray-parallel SSMs, directional/octilinear scans, and ray-piece kernel updates.
+- Sparse delta accumulators, segment scatters, delta-event routers, event-symmetric sparse scatters, incremental latent accumulators, reversible delta kernels, blocker-reset fastweights, and sparse differential move kernels.
+- Delta pair selective bispectra, bilinear ray-blocked segment attention, occlusion semiring bilinear hyperedges, ray semiring exchange, and chi-head style reducers.
+- CRELU/color-involution graph messages, color-involution adjacency updates, dynamic adjacency rank-order gates, and piece-relabelling/involution gates.
+- High-risk legal graph delta-state, SLG diffusion, factor-graph/tensor-product style legal-state primitives.
+
+Duplicate rejection standard:
+
+- If the core state update is "maintain an accumulator under a bounded move delta", it is probably a duplicate unless the accumulator's algebra, gradient, and update complexity are genuinely different from the families above.
+- If the connectivity is "legal move/ray graph decides where messages flow", it is probably a duplicate unless the primitive introduces a new non-message-passing computation graph.
+- If the novelty is "content-conditioned sparse attention", it is probably a duplicate unless it is not expressible as sparse attention, graph attention, or routing over precomputed edges.
+- If the primitive can be described by combining two blocklisted families, reject it. Do not propose hybrids such as "ray-occlusion delta accumulator" or "legal-move semiring scatter" unless the combination creates a new primitive-level operation with a distinct mathematical signature.
+- Before finalising each proposal, explicitly compare it against the closest two blocklisted families. If the distinction is only domain vocabulary, feature choice, mask construction, or a different learned scoring function, drop the proposal and replace it.
+
+---
+
 ## Non-negotiable rules
 
 1. **No architecture proposals.** This prompt is not for new networks. If you find yourself drawing a block diagram with arrows between named modules, you are off-task.
@@ -42,6 +75,7 @@ A primitive is a single mathematical operator that the deep-learning community w
 3. **No training-trick proposals.** New losses, curricula, schedulers, data-augmentation tricks are out of scope.
 4. **No hyperparameter rebrands.** "Conv with kernel size 9" or "attention with $h=32$ heads" is not a new primitive.
 5. **Stockfish scores, PVs, node counts, verification metadata may NOT enter the primitive's compute graph as input features.** They are labels or audit fields, not inputs.
+6. **No near-duplicates of the existing primitive memory.** A proposal is disqualified if its core operator is already covered by the blocklist above, even if the chess motivation, notation, or implementation harness changes.
 
 ---
 
@@ -78,6 +112,11 @@ For each proposed primitive, produce a self-contained block with **exactly** the
 <2–4 sentences identifying the structural property that prevents naive
 decomposition. Be specific: name the existing op you'd compare to and
 explain the computation-graph difference.>
+
+**Duplicate audit against existing primitive memory:**
+<Name the closest two blocklisted families and explain, in concrete
+mathematical terms, why this proposal is not a duplicate. If you cannot
+make a strong distinction, reject this proposal and do not output it.>
 
 **Chess-specific motivation:**
 <2–4 sentences pointing at a concrete chess structural fact that this
@@ -118,14 +157,15 @@ reviewer objection and name it.>
 When this prompt is pasted into GPT Deep Research:
 
 1. **Survey the deep-learning literature** for actual recent novel primitives (last 5 years, prioritise 2024–2026). Use the calibration table above as the bar.
-2. **Generate 5 candidate primitives** for chess evaluation that clear the bar in the "What counts" section.
-3. **Rank them** on: (a) plausibility of novelty, (b) demonstrability on a single RTX 3070, (c) potential inference-speed advantage, (d) generalisation beyond chess.
-4. **Self-audit the top 2** by playing devil's advocate: for each, try to prove it is actually a hidden rebrand of an existing primitive. If you can prove it, drop the proposal and replace it.
-5. **Cite real prior work** for any claimed novelty. If a proposal turns out to overlap with a 2024 NeurIPS / ICLR / ICML paper, say so and adjust the claim from "new primitive" to "underexplored primitive for chess."
-6. **Do not propose architectures or encodings**, even if the user's earlier work suggests them. If you want to mention an architecture, do so only as the test harness in which the new primitive would be evaluated.
-7. **Do not invent results.** No claims like "this primitive achieves +X PR AUC" without a citation or without explicitly marking the number as a prediction.
-8. **Keep each proposal under 400 words.** A reviewer should be able to read 5 of them in 15 minutes.
+2. **Generate at least 10 rough candidate primitives internally**, then discard anything that duplicates the existing primitive memory before choosing the final 5.
+3. **Generate 5 candidate primitives** for chess evaluation that clear the bar in the "What counts" section and pass the duplicate rejection standard.
+4. **Rank them** on: (a) plausibility of novelty, (b) demonstrability on a single RTX 3070, (c) potential inference-speed advantage, (d) generalisation beyond chess.
+5. **Self-audit all 5** by playing devil's advocate: for each, try to prove it is actually a hidden rebrand of an existing PyTorch primitive or one of the blocklisted project primitives. If you can prove it, drop the proposal and replace it.
+6. **Cite real prior work** for any claimed novelty. If a proposal turns out to overlap with a 2024 NeurIPS / ICLR / ICML paper, say so and adjust the claim from "new primitive" to "underexplored primitive for chess."
+7. **Do not propose architectures or encodings**, even if the user's earlier work suggests them. If you want to mention an architecture, do so only as the test harness in which the new primitive would be evaluated.
+8. **Do not invent results.** No claims like "this primitive achieves +X PR AUC" without a citation or without explicitly marking the number as a prediction.
+9. **Keep each proposal under 450 words.** The duplicate audit is mandatory, so the word budget is slightly larger than before.
 
-Reply format: numbered list of 5 proposals using the schema above, followed by a short "what I cut" section listing the 3–5 candidate primitives you rejected during self-audit and why.
+Reply format: numbered list of 5 proposals using the schema above, followed by a short "what I cut" section listing the 5–10 candidate primitives you rejected during duplicate audit or self-audit and why.
 
 Keep the answer concrete, evidence-bound, and structurally honest about novelty.

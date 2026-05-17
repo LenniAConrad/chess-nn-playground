@@ -100,6 +100,7 @@ data:
   cache_features: false
 training:
   reliability_tier: paper_grade
+  allow_cpu_oom_fallback: false
   epochs: 20
   min_epochs: 10
   min_active_epochs: 10
@@ -114,6 +115,10 @@ training:
 ```
 
 Paper-grade runs should use the convergence budget above unless the architecture has a documented reason to require less or more.
+
+CUDA OOM is a failed reliable run by default. `training.allow_cpu_oom_fallback: true` is only for debugging
+salvage runs; if it triggers, the output is labeled `cpu_oom_fallback_non_benchmark` and should not be
+cited as benchmark evidence.
 
 Batch size is model-dependent. Use the largest stable batch size that fits GPU memory without changing the comparison target. Current LC0 BT4-style runs usually fit around `192` to `256` on the local NVIDIA GPU.
 

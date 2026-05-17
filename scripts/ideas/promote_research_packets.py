@@ -11,11 +11,7 @@ import yaml
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 
 IMPLEMENTABLE_STATUSES = {"handoff packet", "research packet"}

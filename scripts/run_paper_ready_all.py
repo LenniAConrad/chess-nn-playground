@@ -14,9 +14,6 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.training.config_validation import validate_training_config
 from chess_nn_playground.training.trainer import config_fingerprint
@@ -684,7 +681,7 @@ def build_tasks(args: argparse.Namespace, state: dict[str, Any]) -> list[dict[st
                 tasks.append({"state": row, "config": config, "source_path": source_path})
 
     # Order: base scale first (cheapest, fits in VRAM), then scale_up, then scale_xl
-    # last (largest models — these are the ones likely to need slow CPU fallback).
+    # last (largest models — these are the ones most likely to hit CUDA OOM).
     _scale_priority = {"base": 0, "scale_up": 1, "scale_xl": 2}
     tasks.sort(
         key=lambda t: (
@@ -921,7 +918,7 @@ def run_pending_tasks(
             next_gpu += 1
             env["CUDA_VISIBLE_DEVICES"] = assigned_gpu
             row["cuda_visible_devices"] = assigned_gpu
-        command = [sys.executable, "scripts/train_model.py", "--config", row["generated_config"]]
+        command = [sys.executable, "-m", "scripts.train_model", "--config", row["generated_config"]]
         row["command"] = command
         log_path.parent.mkdir(parents=True, exist_ok=True)
         log = log_path.open("w", encoding="utf-8")
@@ -1080,7 +1077,7 @@ def _default_path(path: str) -> Path:
 
 
 def _resume_command(args: argparse.Namespace) -> str:
-    command = ["PYTHONDONTWRITEBYTECODE=1", "python", "scripts/run_paper_ready_all.py"]
+    command = ["chess-nn-paper-ready"]
     command.extend(str(item) for item in args.config)
     defaults = {
         "--results-dir": _default_path("results/paper_ready_all"),
@@ -1211,8 +1208,8 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
             [
                 "## Speed Snapshot",
                 "",
-                "| Task | Scale | Params | Train Samples/s | Val Samples/s | Total Seconds |",
-                "|---|---|---:|---:|---:|---:|",
+                "| Task | Scale | Params | Train Samples/s | Val Samples/s | CPU Infer/s | GPU Infer/s | Total Seconds |",
+                "|---|---|---:|---:|---:|---:|---:|---:|",
             ]
         )
         for task in completed_speed_rows[:30]:
@@ -1223,10 +1220,14 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
                 f"{row.get('num_params') or '-'} | "
                 f"{float(speed.get('train_samples_per_second') or 0):.1f} | "
                 f"{float(speed.get('val_samples_per_second') or 0):.1f} | "
+                f"{float(speed.get('cpu_inference_samples_per_second') or 0):.1f} | "
+                f"{float(speed.get('gpu_inference_samples_per_second') or 0):.1f} | "
                 f"{float(speed.get('fit_elapsed_seconds') or row.get('elapsed_seconds') or 0):.1f} |"
             )
         if len(completed_speed_rows) > 30:
-            lines.append(f"| ... | ... | ... | ... | ... | `{len(completed_speed_rows) - 30}` more completed runs |")
+            lines.append(
+                f"| ... | ... | ... | ... | ... | ... | ... | `{len(completed_speed_rows) - 30}` more completed runs |"
+            )
         lines.append("")
 
     next_rows = _next_tasks(tasks)
@@ -1284,10 +1285,11 @@ def run_analysis(args: argparse.Namespace, state: dict[str, Any], state_path: Pa
         return False
     failed = False
     commands = [
-        [sys.executable, "scripts/compare_results.py", "--results-dir", str(args.results_dir)],
+        [sys.executable, "-m", "scripts.compare_results", "--results-dir", str(args.results_dir)],
         [
             sys.executable,
-            "scripts/reports/plot_training_results.py",
+            "-m",
+            "scripts.reports.plot_training_results",
             "--results-dir",
             str(args.results_dir),
             "--output-dir",
@@ -1297,7 +1299,8 @@ def run_analysis(args: argparse.Namespace, state: dict[str, Any], state_path: Pa
         ],
         [
             sys.executable,
-            "scripts/reports/build_paper_report.py",
+            "-m",
+            "scripts.reports.build_paper_report",
             "--results-dir",
             str(args.results_dir),
             "--state-path",

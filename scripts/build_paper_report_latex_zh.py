@@ -19,9 +19,8 @@ from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Re-use everything from the English script
-sys.path.insert(0, str(Path(__file__).parent))
-from build_paper_report_latex import (
+# Re-use everything from the English script.
+from scripts.build_paper_report_latex import (
     analyze_run, short_name, latex_escape, fmt_params, fmt_speed, fmt_mflops,
     enc_pill_tex, texttt_breakable, render_confusion_matrix_png,
 )

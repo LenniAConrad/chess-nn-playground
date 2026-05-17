@@ -11,9 +11,6 @@ import time
 from pathlib import Path
 from typing import Any
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.training.trainer import config_fingerprint
 from chess_nn_playground.training.config_validation import validate_training_config
@@ -390,7 +387,7 @@ def main() -> None:
                 run_rows.append(row)
                 continue
 
-            command = [sys.executable, "scripts/train_model.py", "--config", str(effective_config_path)]
+            command = [sys.executable, "-m", "scripts.train_model", "--config", str(effective_config_path)]
             row["command"] = command
             if args.dry_run:
                 row["status"] = "dry_run_ok"
@@ -420,7 +417,7 @@ def main() -> None:
     leaderboard_returncode = None
     if rebuild_leaderboard and not args.dry_run:
         result = subprocess.run(
-            [sys.executable, "scripts/compare_results.py", "--results-dir", str(results_dir)],
+            [sys.executable, "-m", "scripts.compare_results", "--results-dir", str(results_dir)],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,

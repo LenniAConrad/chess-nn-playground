@@ -6,11 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.utils.env import collect_environment, environment_markdown
 from chess_nn_playground.utils.logging import write_json, write_text

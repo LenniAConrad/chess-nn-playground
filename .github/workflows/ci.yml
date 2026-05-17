@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpu-lint-test:
+    name: CPU lint, unit, smoke, and artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    env:
+      CUDA_VISIBLE_DEVICES: ""
+      MPLBACKEND: Agg
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package and development tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Lint
+        run: |
+          ruff check .
+          python -m compileall -q src scripts tests
+          python - <<'PY'
+          from pathlib import Path
+
+          patterns = ("from _bootstrap import bootstrap", "bootstrap()", "sys.path.insert", "pythonpath")
+          roots = [Path("scripts"), Path("tests"), Path("pyproject.toml")]
+          hits = []
+          for root in roots:
+              paths = [root] if root.is_file() else root.rglob("*")
+              for path in paths:
+                  if not path.is_file() or path.suffix not in {".py", ".toml"}:
+                      continue
+                  text = path.read_text(encoding="utf-8")
+                  for pattern in patterns:
+                      if pattern in text:
+                          hits.append(f"{path}: contains {pattern!r}")
+          if hits:
+              raise SystemExit("\n".join(hits))
+          PY
+
+      - name: Package entry points
+        run: |
+          python - <<'PY'
+          import importlib.metadata as metadata
+          import tomllib
+          from pathlib import Path
+
+          project = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))["project"]
+          distribution = metadata.distribution("chess-nn-playground")
+          assert distribution.metadata["Name"] == project["name"]
+          assert distribution.metadata["Version"] == project["version"]
+          assert project["dependencies"]
+          assert project["scripts"]
+          PY
+          chess-nn-validate-config --static configs/benchmarks/puzzle_binary/bench_lc0_bt4_classifier.yaml
+          chess-nn-train --list-models > /tmp/chess-nn-models.txt
+          test -s /tmp/chess-nn-models.txt
+          python -m scripts.train_model --list-models > /tmp/chess-nn-module-models.txt
+          test -s /tmp/chess-nn-module-models.txt
+
+      - name: CPU unit and packaging regression tests
+        run: |
+          python -m pytest \
+            tests/test_compare_results.py \
+            tests/test_run_artifact_validation.py::test_legacy_run_artifacts_are_warnings_only_when_allowed \
+            tests/test_flop_report.py \
+            tests/test_paper_report.py \
+            tests/test_paper_ready_runner.py \
+            tests/test_training_speed_controls.py \
+            tests/test_research_packet_promotions.py \
+            tests/test_config_validation.py
+
+      - name: CPU smoke tests and artifact validation
+        run: |
+          python -m pytest tests/test_training_smoke.py

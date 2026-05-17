@@ -13,8 +13,8 @@ auto-registered by registry.py, so each idea's ``config.yaml model.name``
 matches its slug, which the idea scaffold validator requires.
 
 Run:
-    PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/scaffold_bt4_primitive_mixers.py
-    PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/scaffold_bt4_primitive_mixers.py --overwrite
+    PYTHONDONTWRITEBYTECODE=1 python -m scripts.ideas.scaffold_bt4_primitive_mixers
+    PYTHONDONTWRITEBYTECODE=1 python -m scripts.ideas.scaffold_bt4_primitive_mixers --overwrite
 """
 
 from __future__ import annotations
@@ -23,10 +23,6 @@ import argparse
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from _bootstrap import bootstrap  # noqa: E402
-
-bootstrap()
 
 import torch  # noqa: E402
 
@@ -200,16 +196,6 @@ def build_model_from_config(config: dict[str, Any]) -> BT4PrimitiveMixerNet:
 
 
 TRAIN_PY = """from __future__ import annotations
-
-from pathlib import Path
-import sys
-
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SRC_ROOT = PROJECT_ROOT / "src"
-for path in (SRC_ROOT, PROJECT_ROOT):
-    path_text = str(path)
-    if path_text not in sys.path:
-        sys.path.insert(0, path_text)
 
 from chess_nn_playground.ideas.implementation import idea_train_cli
 

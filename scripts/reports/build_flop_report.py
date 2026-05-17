@@ -9,20 +9,16 @@ import sys
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.models.complexity import SUPPORTED_METHOD
 from chess_nn_playground.models.complexity import estimate_model_complexity_from_config
 from chess_nn_playground.utils.config import load_yaml
 from chess_nn_playground.utils.paths import utc_timestamp
-from run_paper_ready_all import DEFAULT_SCALE_VARIANTS_TEXT
-from run_paper_ready_all import apply_architecture_scale
-from run_paper_ready_all import discover_config_paths
-from run_paper_ready_all import _parse_scale_variants
+from scripts.run_paper_ready_all import DEFAULT_SCALE_VARIANTS_TEXT
+from scripts.run_paper_ready_all import apply_architecture_scale
+from scripts.run_paper_ready_all import discover_config_paths
+from scripts.run_paper_ready_all import _parse_scale_variants
 
 
 REPORT_NAME = "tiny_flop_report"

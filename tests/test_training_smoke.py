@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import json
-import subprocess
-import sys
 
 import pandas as pd
 
+from scripts.validate_run_artifacts import validate_run_artifacts
 from chess_nn_playground.training.trainer import train_from_config
 
 
@@ -77,11 +76,20 @@ def test_tiny_training_loop_and_report(tmp_path):
     speed_summary = json.loads((run_dir / "speed_summary.json").read_text(encoding="utf-8"))
     complexity = json.loads((run_dir / "complexity_estimate.json").read_text(encoding="utf-8"))
     final_metrics = json.loads((run_dir / "metrics_final.json").read_text(encoding="utf-8"))
+    metadata = json.loads((run_dir / "run_metadata.json").read_text(encoding="utf-8"))
     assert speed_summary["fit_elapsed_seconds"] > 0
     assert speed_summary["train_samples_per_second"] > 0
+    assert speed_summary["cpu_inference_samples_per_second"] > 0
+    assert speed_summary["cpu_inference_ms_per_sample"] > 0
+    assert speed_summary["inference_forward_benchmark"]["devices"]["cpu"]["available"] is True
+    assert "cuda" in speed_summary["inference_forward_benchmark"]["devices"]
     assert complexity["estimated_flops_per_position"] > 0
     assert final_metrics["speed"]["fit_elapsed_seconds"] > 0
-    subprocess.run([sys.executable, "scripts/validate_run_artifacts.py", str(run_dir)], check=True)
+    assert final_metrics["speed"]["cpu_inference_samples_per_second"] > 0
+    assert metadata["cpu_oom_fallback"]["used"] is False
+    assert metadata["benchmark_status"] == "benchmark_candidate"
+    messages = validate_run_artifacts(run_dir)
+    assert not any(message.startswith("ERROR:") for message in messages), messages
 
 
 def test_tiny_puzzle_binary_training_loop_writes_3x2_matrix(tmp_path):
@@ -151,4 +159,5 @@ def test_tiny_puzzle_binary_training_loop_writes_3x2_matrix(tmp_path):
     assert (run_dir / "slice_report_test.md").exists()
     assert (run_dir / "slice_metrics_test.json").exists()
     assert "Benchmark slice analysis" in (run_dir / "run_summary.md").read_text(encoding="utf-8")
-    subprocess.run([sys.executable, "scripts/validate_run_artifacts.py", str(run_dir)], check=True)
+    messages = validate_run_artifacts(run_dir)
+    assert not any(message.startswith("ERROR:") for message in messages), messages

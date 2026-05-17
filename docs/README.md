@@ -8,6 +8,7 @@ Use this directory for stable project protocols and reference material. Generate
 - [experimental_training_pipeline.md](experimental_training_pipeline.md): data flow, benchmark commands, required artifacts, model registration, and encoding notes.
 - [reliable_training_protocol.md](reliable_training_protocol.md): smoke, triage, reliable, promotion-grade, and paper-grade training standards.
 - [repo_layout.md](repo_layout.md): current folder structure and path stability rules.
+- [engineering_audit_2026-05-16.md](engineering_audit_2026-05-16.md): repo-health engineering audit, structural findings, and remediation priorities.
 - [crtk_export_contract.md](crtk_export_contract.md): required CRTK export fields and import expectations.
 - [export_training_data_from_stacks.md](export_training_data_from_stacks.md): short CRTK stack export, import, split, tagging, and audit guide.
 
@@ -23,5 +24,5 @@ Use this directory for stable project protocols and reference material. Generate
 
 - Keep this directory concise and stable; do not store one-off run logs here.
 - Update docs when moving source paths, changing benchmark contracts, or changing required artifacts.
-- Regenerate idea catalogs with `PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py` instead of hand-editing generated idea indexes.
+- Regenerate idea catalogs with `chess-nn-build-idea-catalog` instead of hand-editing generated idea indexes.
 - Prefer repo-relative paths in docs so commands remain copyable from the repo root.

@@ -3,7 +3,7 @@
 This is the execution checklist for the idea backlog. It covers registered idea folders and raw research packets. Update it by running:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py
+chess-nn-build-idea-catalog
 ```
 
 ## Current Recommendation
@@ -12,31 +12,33 @@ Benchmark the fully implemented bespoke architectures first. Shared-probe folder
 
 Current execution state:
 
-- Registered idea folders: `294`
+- Registered idea folders: `335`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `279`
-- Bespoke model implementations: `286`
+- Fully implemented architectures still needing a linked benchmark run: `320`
+- Bespoke model implementations: `327`
 - Shared ResearchPacketProbe variants: `6`
 
 Recommended immediate sequence:
 
-1. Materialize the resumable paper-ready plan with `PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py --dry-run`.
+1. Materialize the resumable paper-ready plan with `chess-nn-paper-ready --dry-run`.
 2. Run paper-grade benchmarks for unrun fully implemented bespoke ideas in the batches below.
 
 Benchmark queue by ID:
 
-- Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `i014`, `i015`, `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`
-- Batch 2: `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`, `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`
-- Batch 3: `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`, `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`
-- Batch 4: `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i088`, `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`
-- Batch 5: `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`, `i112`, `i113`, `i114`, `i115`, `i116`, `i117`, `i119`, `i120`, `i121`, `i122`, `i123`, `i124`, `i125`, `i126`, `i127`, `i128`, `i129`
-- Batch 6: `i130`, `i131`, `i132`, `i133`, `i134`, `i135`, `i136`, `i138`, `i139`, `i140`, `i142`, `i143`, `i145`, `i146`, `i147`, `i148`, `i150`, `i151`, `i152`, `i153`, `i154`, `i155`, `i156`, `i157`
-- Batch 7: `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`
-- Batch 8: `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`
-- Batch 9: `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`
-- Batch 10: `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`
-- Batch 11: `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`
-- Batch 12: `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`
+- Batch 1: `i002`, `i004`, `i006`, `i003`, `i001`, `i010`, `a001`, `a002`, `a003`, `a004`, `a005`, `a006`, `a007`, `a008`, `a009`, `a010`, `a011`, `a012`, `a013`, `a014`, `a015`, `a016`, `a017`, `a018`
+- Batch 2: `a019`, `a020`, `a021`, `a022`, `a023`, `a024`, `a025`, `a026`, `a027`, `a028`, `a029`, `a030`, `a031`, `a032`, `a033`, `a034`, `a035`, `a036`, `a037`, `a038`, `a039`, `a040`, `i014`, `i015`
+- Batch 3: `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`, `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`
+- Batch 4: `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`, `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`
+- Batch 5: `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`, `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i088`
+- Batch 6: `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`, `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`, `i112`
+- Batch 7: `i113`, `i114`, `i115`, `i116`, `i117`, `i119`, `i120`, `i121`, `i122`, `i123`, `i124`, `i125`, `i126`, `i127`, `i128`, `i129`, `i130`, `i131`, `i132`, `i133`, `i134`, `i135`, `i136`, `i138`
+- Batch 8: `i139`, `i140`, `i142`, `i143`, `i145`, `i146`, `i147`, `i148`, `i150`, `i151`, `i152`, `i153`, `i154`, `i155`, `i156`, `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`
+- Batch 9: `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`
+- Batch 10: `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
+- Batch 11: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`
+- Batch 12: `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `i249`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`, `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`
+- Batch 13: `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`, `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`
+- Batch 14: `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -61,6 +63,46 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 
 | Done | ID | Idea | Implemented? | Implementation kind | Performance | Next action |
 |---|---|---|---|---|---|---|
+| [x] | `a001` | [BT4 Primitive Mixer (tempo_defender_cross_derivative_network)](a001_bt4_tempo_defender_cross_derivative_network_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a002` | [BT4 Primitive Mixer (pair_resonance_hessian_network)](a002_bt4_pair_resonance_hessian_network_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a003` | [BT4 Primitive Mixer (promotion_aware_head)](a003_bt4_promotion_aware_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a004` | [BT4 Primitive Mixer (complex_amplitude_chess_network)](a004_bt4_complex_amplitude_chess_network_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a005` | [BT4 Primitive Mixer (rule_aware_tactical_head)](a005_bt4_rule_aware_tactical_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a006` | [BT4 Primitive Mixer (pareto_antichain_frontier)](a006_bt4_pareto_antichain_frontier_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a007` | [BT4 Primitive Mixer (regret_saddlepoint)](a007_bt4_regret_saddlepoint_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a008` | [BT4 Primitive Mixer (reply_channel_capacity)](a008_bt4_reply_channel_capacity_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a009` | [BT4 Primitive Mixer (tail_copula_concordance)](a009_bt4_tail_copula_concordance_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a010` | [BT4 Primitive Mixer (witness_counterwitness_quantifier)](a010_bt4_witness_counterwitness_quantifier_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a011` | [BT4 Primitive Mixer (move_graph_router)](a011_bt4_move_graph_router_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a012` | [BT4 Primitive Mixer (attack_ray_sparse_attention)](a012_bt4_attack_ray_sparse_attention_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a013` | [BT4 Primitive Mixer (rule_conditioned_sparse_attention)](a013_bt4_rule_conditioned_sparse_attention_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a014` | [BT4 Primitive Mixer (legal_move_graph_delta)](a014_bt4_legal_move_graph_delta_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a015` | [BT4 Primitive Mixer (ray_occlusion_semiring_scan)](a015_bt4_ray_occlusion_semiring_scan_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a016` | [BT4 Primitive Mixer (legal_edge_compile_scatter)](a016_bt4_legal_edge_compile_scatter_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a017` | [BT4 Primitive Mixer (signed_edit_bilinear_memory)](a017_bt4_signed_edit_bilinear_memory_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a018` | [BT4 Primitive Mixer (sparse_delta_accumulator)](a018_bt4_sparse_delta_accumulator_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a019` | [BT4 Primitive Mixer (delta_pair_accumulator)](a019_bt4_delta_pair_accumulator_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a020` | [BT4 Primitive Mixer (delta_crelu_involution_head)](a020_bt4_delta_crelu_involution_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a021` | [BT4 Primitive Mixer (ray_semiring_chi_head)](a021_bt4_ray_semiring_chi_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a022` | [BT4 Primitive Mixer (delta_event_legal_routing)](a022_bt4_delta_event_legal_routing_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a023` | [BT4 Primitive Mixer (delta_state_slg_diffusion)](a023_bt4_delta_state_slg_diffusion_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a024` | [BT4 Primitive Mixer (reversible_delta_kernel_memory)](a024_bt4_reversible_delta_kernel_memory_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a025` | [BT4 Primitive Mixer (blocker_reset_ray_scan)](a025_bt4_blocker_reset_ray_scan_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a026` | [BT4 Primitive Mixer (occlusion_semiring_ray_scan)](a026_bt4_occlusion_semiring_ray_scan_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a027` | [BT4 Primitive Mixer (event_delta_bilinear_accumulator)](a027_bt4_event_delta_bilinear_accumulator_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a028` | [BT4 Primitive Mixer (occlusion_semiring_delta_bilinear_hyperedge)](a028_bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a029` | [BT4 Primitive Mixer (event_symmetric_interaction_accumulator)](a029_bt4_event_symmetric_interaction_accumulator_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a030` | [BT4 Primitive Mixer (incremental_delta_linear_head)](a030_bt4_incremental_delta_linear_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a031` | [BT4 Primitive Mixer (ray_cast_obstacle_pool_head)](a031_bt4_ray_cast_obstacle_pool_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a032` | [BT4 Primitive Mixer (sparse_legal_move_router_head)](a032_bt4_sparse_legal_move_router_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a033` | [BT4 Primitive Mixer (incremental_latent_accumulator_head)](a033_bt4_incremental_latent_accumulator_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a034` | [BT4 Primitive Mixer (occlusion_aware_ray_scan_head)](a034_bt4_occlusion_aware_ray_scan_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a035` | [BT4 Primitive Mixer (ray_parallel_ssm_head)](a035_bt4_ray_parallel_ssm_head_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a036` | [BT4 Primitive Mixer (legal_move_laplacian_resolvent)](a036_bt4_legal_move_laplacian_resolvent_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a037` | [BT4 Primitive Mixer (dynamic_adjacency_gating)](a037_bt4_dynamic_adjacency_gating_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a038` | [BT4 Primitive Mixer (move_kernel_operator)](a038_bt4_move_kernel_operator_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a039` | [BT4 Primitive Mixer (octilinear_selective_scan)](a039_bt4_octilinear_selective_scan_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `a040` | [BT4 Primitive Mixer (sparse_legal_graph_transition)](a040_bt4_sparse_legal_graph_transition_mixer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i001` | [Chess Operator Basis Classifier](i001_chess_operator_basis_classifier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i002` | [Response-Minimax Chess Classifier](i002_response_minimax_classifier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i003` | [Factor-Agreement Chess Classifier](i003_factor_agreement_classifier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -309,6 +351,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i249` | [Oriented Tactical Sheaf Laplacian (Fast)](i249_oriented_tactical_sheaf_fast) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -359,6 +402,21 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 ## Research Packet Backlog
 
 Raw packets below are kept for provenance, synthesis context, or duplicate prevention. Source packets that have been promoted are marked accordingly; code lives under registered `ideas/registry/i###_*` folders.
+
+### Backlog Handoff Packets
+
+| Done | Packet | Implemented? | Performance | Next action |
+|---|---|---|---|---|
+| [ ] | [i250 Learned Relation Confidence Sheaf](../research/packets/classic/i250_learned_relation_confidence_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [Candidate Move Forcedness Sheaf](../research/packets/classic/i251_candidate_move_forcedness_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i252_pin_xray_overload_sheaf.md](../research/packets/classic/i252_pin_xray_overload_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i253_i018_bt4_112_controlled_encoding.md](../research/packets/classic/i253_i018_bt4_112_controlled_encoding.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i254_efficient_i018_scale_xxl.md](../research/packets/classic/i254_efficient_i018_scale_xxl.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [Fast Distilled Conv Student for Puzzle Classification](../research/packets/classic/i255_i018_bt4_distillation_student.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i256 Near Puzzle Rejection Specialist](../research/packets/classic/i256_near_puzzle_rejection_specialist.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i257 Promotion Mate Slice Specialist](../research/packets/classic/i257_promotion_mate_slice_specialist.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i258_relation_masked_attention_i018.md](../research/packets/classic/i258_relation_masked_attention_i018.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
+| [ ] | [i259_i018_bt4_ensemble_compression.md](../research/packets/classic/i259_i018_bt4_ensemble_compression.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 
 ### Synthesis/Reference Packets
 
@@ -507,4 +565,4 @@ Raw packets below are kept for provenance, synthesis context, or duplicate preve
 - Always record performance as a result path plus core metrics, not as an informal note.
 - If an idea fails, keep it in the TODO as rejected so future research does not regenerate it.
 
-Generated by `PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py`.
+Generated by `chess-nn-build-idea-catalog`.

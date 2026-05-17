@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 WORKTREE_ROOT="${PRIMITIVE_WORKTREE_ROOT:-$(dirname "$ROOT_DIR")}"
 BASE_REF="${PRIMITIVE_BASE_REF:-main}"
-RUNNER_NAME="run_research_primitive_implementation_with_claude.sh"
-RUNNER="$ROOT_DIR/$RUNNER_NAME"
+RUNNER_REL="scripts/agents/run_research_primitive_implementation_with_claude.sh"
+RUNNER="$ROOT_DIR/$RUNNER_REL"
 LAUNCH_DRY_RUN="${LAUNCH_DRY_RUN:-0}"
 PRIMITIVE_LAUNCH_FORCE="${PRIMITIVE_LAUNCH_FORCE:-0}"
 PRIMITIVE_BATCH_FILTER="${PRIMITIVE_BATCH_FILTER:-}"
@@ -13,7 +13,8 @@ PRIMITIVE_MAX_BATCHES="${PRIMITIVE_MAX_BATCHES:-}"
 CLAUDE_BIN="${CLAUDE_BIN:-claude}"
 CLAUDE_MODEL="${CLAUDE_MODEL:-claude-opus-4-7}"
 CLAUDE_EFFORT="${CLAUDE_EFFORT:-max}"
-CLAUDE_PERMISSION_MODE="${CLAUDE_PERMISSION_MODE:-bypassPermissions}"
+CLAUDE_PERMISSION_MODE="${CLAUDE_PERMISSION_MODE:-acceptEdits}"
+CLAUDE_ALLOW_BYPASS_PERMISSIONS="${CLAUDE_ALLOW_BYPASS_PERMISSIONS:-0}"
 CLAUDE_OUTPUT_FORMAT="${CLAUDE_OUTPUT_FORMAT:-stream-json}"
 CLAUDE_NONINTERACTIVE="${CLAUDE_NONINTERACTIVE:-1}"
 CLAUDE_ALLOW_API_KEY="${CLAUDE_ALLOW_API_KEY:-0}"
@@ -108,6 +109,7 @@ build_tmux_command() {
   printf 'CLAUDE_MODEL=%s ' "$(quote "$CLAUDE_MODEL")"
   printf 'CLAUDE_EFFORT=%s ' "$(quote "$CLAUDE_EFFORT")"
   printf 'CLAUDE_PERMISSION_MODE=%s ' "$(quote "$CLAUDE_PERMISSION_MODE")"
+  printf 'CLAUDE_ALLOW_BYPASS_PERMISSIONS=%s ' "$(quote "$CLAUDE_ALLOW_BYPASS_PERMISSIONS")"
   printf 'CLAUDE_OUTPUT_FORMAT=%s ' "$(quote "$CLAUDE_OUTPUT_FORMAT")"
   printf 'CLAUDE_NONINTERACTIVE=%s ' "$(quote "$CLAUDE_NONINTERACTIVE")"
   printf 'CLAUDE_ALLOW_API_KEY=%s ' "$(quote "$CLAUDE_ALLOW_API_KEY")"
@@ -118,7 +120,7 @@ build_tmux_command() {
   printf 'CLAUDE_ID_RANGE=%s ' "$(quote "$id_range")"
   printf 'CLAUDE_BATCH_FOCUS=%s ' "$(quote "$focus")"
   printf 'CLAUDE_RESEARCH_TARGET_FILES=%s ' "$(quote "$files")"
-  printf './%s; rc=$?; echo; echo "[%s exited rc=$rc]"; exec bash' "$RUNNER_NAME" "$session"
+  printf './%s; rc=$?; echo; echo "[%s exited rc=$rc]"; exec bash' "$RUNNER_REL" "$session"
 }
 
 launch_batch() {
@@ -158,7 +160,7 @@ launch_batch() {
   fi
 
   ensure_worktree "$branch" "$worktree"
-  [[ -x "$worktree/$RUNNER_NAME" ]] || die "Runner is missing or not executable in $worktree. Commit the runner on $BASE_REF before launching."
+  [[ -x "$worktree/$RUNNER_REL" ]] || die "Runner is missing or not executable in $worktree. Commit the runner on $BASE_REF before launching."
 
   if tmux_session_exists "$session"; then
     if [[ "$PRIMITIVE_LAUNCH_FORCE" == "1" ]]; then
@@ -181,7 +183,7 @@ main() {
   have git || die "git is required."
   have tmux || die "tmux is required for mass-parallel launch."
   have "$CLAUDE_BIN" || die "Claude Code CLI not found: $CLAUDE_BIN"
-  [[ -f "$RUNNER" ]] || die "Missing runner: $RUNNER_NAME"
+  [[ -f "$RUNNER" ]] || die "Missing runner: $RUNNER_REL"
   git rev-parse --verify "$BASE_REF" >/dev/null 2>&1 || die "Base ref does not exist: $BASE_REF"
 
   if [[ "$LAUNCH_DRY_RUN" != "1" ]]; then

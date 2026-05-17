@@ -6,9 +6,6 @@ import os
 import resource
 import sys
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.models.registry import available_models
 from chess_nn_playground.training.trainer import train_from_config
@@ -44,6 +41,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train a registered chess puzzle-classification model.")
     parser.add_argument("--config", default=None)
     parser.add_argument("--list-models", action="store_true", help="Print registered model names and exit")
+    parser.add_argument(
+        "--allow-cpu-oom-fallback",
+        action="store_true",
+        help="After a CUDA OOM, retry on CPU and label the run as cpu_oom_fallback_non_benchmark.",
+    )
     args = parser.parse_args()
     if args.list_models:
         for name in available_models():
@@ -52,6 +54,11 @@ def main() -> None:
     if not args.config:
         raise SystemExit("--config is required unless --list-models is used")
     config = load_yaml(args.config)
+    if args.allow_cpu_oom_fallback:
+        training_cfg = config.setdefault("training", {})
+        if not isinstance(training_cfg, dict):
+            raise SystemExit("training must be a mapping to use --allow-cpu-oom-fallback")
+        training_cfg["allow_cpu_oom_fallback"] = True
     try:
         run_dir = train_from_config(config)
     except MemoryError as exc:

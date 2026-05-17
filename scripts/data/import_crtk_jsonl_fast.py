@@ -14,11 +14,7 @@ import pyarrow.parquet as pq
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.data.schema import CANONICAL_COLUMNS, DERIVED_COLUMNS
 from chess_nn_playground.utils.logging import write_json, write_text

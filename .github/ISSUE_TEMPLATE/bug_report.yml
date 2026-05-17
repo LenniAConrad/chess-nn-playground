@@ -1,0 +1,58 @@
+name: Bug Report
+description: Report a reproducible bug in training, data, models, scripts, or reports.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please include enough detail to reproduce the issue without local machine assumptions.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What failed, and what did you expect to happen?
+      placeholder: Describe the failure and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction Steps
+      description: Include commands, config paths, inputs, and relevant environment settings.
+      placeholder: |
+        1. Run ...
+        2. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs And Tracebacks
+      description: Paste the smallest useful traceback, command output, or validation messages.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Python version, OS, CPU/GPU, CUDA visibility, install command, and package versions if relevant.
+      placeholder: |
+        Python:
+        OS:
+        Device:
+        Install command:
+    validations:
+      required: false
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-Submission Checks
+      options:
+        - label: I checked for duplicate issues or notes in the repository.
+          required: true
+        - label: I did not include private data, secrets, local datasets, or machine-specific paths unless intentionally redacted.
+          required: true
+

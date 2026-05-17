@@ -1,0 +1,148 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper, top=2.2cm, bottom=2.2cm, left=2.4cm, right=2.4cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{forest}{HTML}{2D7355}
+\definecolor{deepforest}{HTML}{1B3F2F}
+\definecolor{ink}{HTML}{14181A}
+\definecolor{rule}{HTML}{1B3F2F}
+
+\titleformat{\section}
+  {\color{forest}\sffamily\large\bfseries}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{14pt}{5pt}
+
+\setlist{topsep=3pt, itemsep=2pt, parsep=0pt}
+\setlength{\parskip}{0.4em}
+\setlength{\parindent}{0pt}
+\color{ink}
+
+\begin{document}
+\thispagestyle{empty}
+
+\noindent{\sffamily\color{forest}\bfseries\small PROJECT MEMO \quad$\cdot$\quad CHESS-NN-PLAYGROUND}
+
+\vspace{0.3cm}
+\noindent{\sffamily\bfseries\LARGE\color{deepforest} Reframing the project into a research paper}
+
+\vspace{0.15cm}
+\noindent{\itshape\color{forest}\large A response to supervisor feedback, with two questions for guidance.}
+
+\vspace{0.25cm}
+\noindent{\color{rule}\rule{\linewidth}{1.2pt}}
+
+\vspace{0.2cm}
+\noindent
+\begin{tabular}{@{}>{\sffamily\bfseries\footnotesize}l@{\hspace{16pt}}>{\footnotesize}l@{}}
+AUTHOR & Lennart Axel Conrad (Student ID: 2025080264) \\
+AFFILIATION & Zijing College, Tsinghua University \\
+SUPERVISOR & Prof.\ Jungong Han, Department of Automation \\
+SUBJECT & Reframing the chess-architecture investigation into a contribution-driven paper \\
+\end{tabular}
+
+\section{Where the project stands}
+
+The current article evaluates a broad range of neural architectures for chess-position
+classification, including meaningful modifications of existing designs. I agree with your
+assessment: at present it reads as a strong technical investigation rather than a research
+paper with clearly defined, validated contributions. This memo proposes a sharper framing
+and asks for your guidance on two decisions I cannot make alone.
+
+\section{Proposed contributions}
+
+\textbf{Contribution 1 --- A hard-negative chess-position benchmark.} \textit{This is the
+main contribution.} Ordinary puzzle classification is too easy; the real difficulty comes
+from \emph{near-puzzles} --- positions that look tactical but are not verified
+unique-solution puzzles. I propose a puzzle-vs-near-puzzle benchmark, evaluated with a
+matched-recall near-puzzle false-positive metric, that exposes a representation-failure mode
+which generic architectures and chess-specific baselines all struggle with.
+
+\textbf{Contribution 2 --- A new architecture for puzzle classification, and a mechanism
+study of its key design choice.} My broad architecture scout served as \emph{hypothesis
+generation}, not as final evidence. Its clearest signal is a chess-specific architecture
+built around one primitive: a dual-stream design that separates material/exchange tactics
+from king-safety pressure, combined by a learned router. This has an intuitive justification
+(it mirrors how chess evaluation is classically decomposed) and a testable prediction (it
+should specifically reduce near-puzzle false positives). The paper would present the
+architecture and then validate the decomposition itself through per-component ablations,
+multiple seeds, and a scaling study.
+
+\section{Honest status of the current evidence}
+
+Most experiments so far are single-seed, at a single model size, and on a subset of the
+data --- this is screening evidence, not scientific proof. In particular, my most promising
+candidate architecture looks strong at small scale, but I do not yet know whether the
+advantage survives scaling. I will treat that as a question to answer, not a claim to make.
+
+\section{Two questions I would value your guidance on}
+
+\textbf{1. Direction of the project.} Everything is currently framed as classification.
+I see four possible directions, ordered roughly from most contained to most ambitious, and
+I am genuinely unsure which makes the strongest paper:
+\begin{itemize}
+  \item \textbf{(a) Stay with classification} --- keep the hard-negative benchmark as the
+  target; the contribution is a rigorous benchmark + architecture + ablation study. Lowest
+  risk, and achievable on my current hardware.
+  \item \textbf{(b) Move to tactical move selection} --- keep the same near-puzzle idea,
+  but ask a more chess-native question: can the model identify or rank the tactical move,
+  not just classify the position as puzzle-like? This is between classification and a full
+  engine. It would test whether the architecture learns actionable tactical structure
+  rather than a binary surface signal, while still being much cheaper than full engine
+  training.
+  \item \textbf{(c) Move toward a chess engine} --- replace the classification head with
+  policy and win--draw--loss heads, as real engines use, and evaluate the architecture in
+  actual play or fixed-depth search against a baseline. This is the most ambitious
+  chess-specific direction and the most practically exciting, but it is also the most
+  data- and compute-hungry.
+  \item \textbf{(d) Abstract the design beyond chess} --- treat the exchange/king split
+  as one example of a broader principle: structured task decomposition with a learned
+  router for hard-negative reasoning problems. It would be scientifically valuable to test
+  whether this transfers to another structured domain with confusable positives and
+  negatives, such as theorem-proving states, program-analysis tasks, graph reasoning, or
+  board-game problems outside chess. This has the highest scientific ceiling because the
+  contribution would no longer be limited to chess, but it broadens the paper and would
+  require a second testbed.
+\end{itemize}
+My instinct is that the paper's spine should be (a), with a careful mechanism study of the
+best architecture. Direction (b) is an attractive middle ground if classification alone
+feels too narrow; (c) is the long-term chess-engine goal; and (d) is the highest-level
+scientific framing if we want the contribution to generalise beyond chess. I would value
+your opinion on the right scope, especially given the compute question below.
+
+\textbf{2. Compute resources.} This is my main practical constraint. My current setup is a
+single GPU on a remote machine --- enough for small-scale screening, but not for the
+rigorous validation the paper needs. Multiple seeds, multiple model sizes, a scaling study,
+and a from-scratch baseline comparison would take weeks of wall-clock time on my current
+hardware. If there is any way to access additional compute through the department or the
+lab, it would be the difference between a thorough validation and a partial one, and I would
+be very grateful for help arranging that.
+
+\section{Planned validation steps}
+
+\begin{enumerate}
+  \item Lock one canonical dataset split and reconcile inconsistent reports.
+  \item Re-run the finalist architectures and baselines with multiple seeds.
+  \item Run controlled component ablations of the exchange/king decomposition.
+  \item Run a scaling study --- on the finalist architectures only.
+  \item Compare against a BT4-style architecture trained from scratch under identical data,
+  optimiser, schedule, and compute budget.
+  \item Report an efficiency analysis (parameters, FLOPs, inference latency) as
+  accuracy/robustness-vs-cost Pareto fronts.
+\end{enumerate}
+
+\vspace{0.3cm}
+\noindent{\color{rule}\rule{\linewidth}{0.6pt}}
+
+\vspace{0.15cm}
+\noindent\textit{\color{forest} If this direction sounds reasonable, I would be glad to meet
+briefly to discuss priorities --- especially the compute question, which gates how much of
+the validation plan is feasible before the deadline.}
+
+\end{document}

@@ -7,11 +7,7 @@ from collections import Counter
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.data.json_loader import (
     choose_fen,

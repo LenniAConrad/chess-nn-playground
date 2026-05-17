@@ -12,11 +12,7 @@ from tqdm import tqdm
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.data.dataset import BINARY_MODES, PUZZLE_BINARY
 from chess_nn_playground.data.dataset import ChessPositionDataset, collate_positions

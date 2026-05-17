@@ -53,7 +53,8 @@ Rows:
 45,002,737
 ```
 
-This file is the canonical large dataset. Do not feed it directly into the current pandas-backed trainer.
+This file is the canonical large dataset. Use the sampled tagged split below for benchmark training unless
+you are deliberately running a large-scale Arrow-backed experiment.
 
 Canonical RAM-safe source-balanced benchmark splits:
 
@@ -95,7 +96,13 @@ All benchmark and idea configs should require the NVIDIA GPU path:
 device: nvidia
 ```
 
-This resolves to PyTorch CUDA and fails before training if CUDA is not available. Keep `device: cpu` for explicit smoke tests only.
+This resolves to PyTorch CUDA and fails before training if CUDA is not available. CUDA OOM also fails by
+default; benchmark runs must not silently switch execution regimes. Keep `device: cpu` for explicit smoke
+tests only.
+
+For a debugging salvage run after CUDA OOM, opt in with `training.allow_cpu_oom_fallback: true` or
+`--allow-cpu-oom-fallback`. The retried run is renamed and tagged `cpu_oom_fallback_non_benchmark`, and it
+is not benchmark evidence.
 
 Small puzzle-binary CNN:
 
@@ -278,15 +285,25 @@ def build_my_model_from_config(config: dict[str, Any]) -> nn.Module:
     )
 ```
 
-3. Register it in `src/chess_nn_playground/models/registry.py`:
+3. Register it in the lazy model manifest:
 
 ```python
-from chess_nn_playground.models.my_model import build_my_model_from_config
-
-MODEL_BUILDERS = {
+# src/chess_nn_playground/models/_registry_manifest.py
+MODEL_SPECS = {
     ...
-    "my_model": build_my_model_from_config,
+    "my_model": ("chess_nn_playground.models.my_model", "build_my_model_from_config"),
 }
+```
+
+For explicitly imported extension modules, decorator registration is also
+supported:
+
+```python
+from chess_nn_playground.models.registry import register_model
+
+@register_model("my_model")
+def build_my_model_from_config(config: dict[str, Any]) -> nn.Module:
+    ...
 ```
 
 4. Create a config:
@@ -349,7 +366,9 @@ Start model files from `ideas/registry/template/model.py` or the reusable chunks
 
 ## Scaling Rules
 
-For now, keep `cache_features: false`. The current trainer loads split tables into pandas, so do not point it at the 45M-row file.
+For now, keep `cache_features: false` for benchmark configs. The trainer uses Arrow-backed split tables, but
+feature caching still materializes tensors in Python process memory and is only appropriate for tiny smoke
+runs.
 
 Scale in this order:
 

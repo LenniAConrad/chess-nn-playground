@@ -1,6 +1,6 @@
 # Primitive Research — Manifest
 
-Single flat directory of every primitive research report from the 2026-05-12 and 2026-05-13 sessions. Each row tells you who wrote it and what model produced it. Prototype scripts live in [prototypes/](prototypes/); architecture-level notes that combine primitives live one level up in [../architecture_bridges/](../architecture_bridges/).
+Single flat directory of every primitive research report from the 2026-05-12, 2026-05-13, and 2026-05-16 sessions. Each row tells you who wrote it and what model produced it. Prototype scripts live in [prototypes/](prototypes/); architecture-level notes that combine primitives live one level up in [../architecture_bridges/](../architecture_bridges/).
 
 ## Claude Opus 4.7 primitive proposals (5)
 
@@ -28,7 +28,7 @@ Produced locally in the 2026-05-12 session by the Codex GPT-5 coding agent. Rese
 | [codex_04_tail_copula_concordance.md](codex_04_tail_copula_concordance.md) | Tail Copula Concordance Primitive | `primitive_tail_copula_concordance` | research packet | Codex GPT-5 |
 | [codex_05_witness_counterwitness_quantifier.md](codex_05_witness_counterwitness_quantifier.md) | Witness-Counterwitness Quantifier Primitive | `primitive_witness_counterwitness_quantifier` | research packet | Codex GPT-5 |
 
-## External primitive imports (41)
+## External primitive imports (50)
 
 Markdown reports downloaded from external chat services. Producer is from the download URI and filename context; the exact model column comes from the user's session note where available (Claude outputs from Opus 4.7, ChatGPT outputs from GPT-5.5 Pro; Gemini model unspecified).
 
@@ -75,8 +75,23 @@ Markdown reports downloaded from external chat services. Producer is from the do
 | [external_39_orbit_irrep_hodge_projection_primitives.md](external_39_orbit_irrep_hodge_projection_primitives.md) | `new_neural_primitives_chess_evaluation.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
 | [external_40_symmetric_coalition_resolvent_primitives.md](external_40_symmetric_coalition_resolvent_primitives.md) | `neural_primitives_chess_evaluation.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
 | [external_41_orbit_stabilizer_subset_logpartition_primitives.md](external_41_orbit_stabilizer_subset_logpartition_primitives.md) | `chess_neural_primitives_proposals.md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_42_learned_relation_confidence_primitive.md](external_42_learned_relation_confidence_primitive.md) | `deep-research-report(22).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_43_candidate_move_forcedness_primitive.md](external_43_candidate_move_forcedness_primitive.md) | `deep-research-report(23).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_44_pin_xray_skewer_primitive.md](external_44_pin_xray_skewer_primitive.md) | `deep-research-report(11).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_45_defender_overload_triad_primitive.md](external_45_defender_overload_triad_primitive.md) | `deep-research-report(12).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_46_king_zone_reply_pressure_primitive.md](external_46_king_zone_reply_pressure_primitive.md) | `deep-research-report(15).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_47_promotion_underpromotion_primitive.md](external_47_promotion_underpromotion_primitive.md) | `deep-research-report(16).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_48_legal_move_graph_delta_primitive.md](external_48_legal_move_graph_delta_primitive.md) | `deep-research-report(17).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_49_efficient_ray_occlusion_scan_primitive.md](external_49_efficient_ray_occlusion_scan_primitive.md) | `deep-research-report(27).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
+| [external_50_near_puzzle_hard_negative_primitive.md](external_50_near_puzzle_hard_negative_primitive.md) | `deep-research-report(24).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
 
-The first batch of 21 downloads contained two `compass_artifact_wf-7e5d02f8-...` files with identical SHA-256, so this directory keeps the 20 unique files. The later Google/Gemini batch added 10 more unique reports as `external_21` through `external_30`. The 2026-05-13 GPT batch added 11 unique reports as `external_31` through `external_41`; these are raw research inputs and are not implementation-complete until promoted into `ideas/registry/p###_*`.
+The first batch of 21 downloads contained two `compass_artifact_wf-7e5d02f8-...` files with identical SHA-256, so this directory keeps the 20 unique files. The later Google/Gemini batch added 10 more unique reports as `external_21` through `external_30`. The 2026-05-13 GPT batch added 11 unique reports as `external_31` through `external_41`. The 2026-05-16 GPT batch added 9 unique primitive reports as `external_42` through `external_50`; the duplicate downloads `deep-research-report(13).md`, `deep-research-report(14).md`, and `deep-research-report(21).md` were byte-identical to imported files and were skipped. Some original 2026-05-16 report titles use `p041`-`p046`, which now collide with implemented registry IDs; renumber them if promoted. These are raw research inputs and are not implementation-complete until promoted into `ideas/registry/p###_*`.
+
+## Protocol imports
+
+| File | Original download | Producer | Exact model |
+|---|---|---|---|
+| [PRIMITIVE_VALIDATION_PROTOCOL.md](PRIMITIVE_VALIDATION_PROTOCOL.md) | `deep-research-report(25).md` | GPT / ChatGPT Deep Research | GPT-5.5 Pro |
 
 ## Cross-references
 

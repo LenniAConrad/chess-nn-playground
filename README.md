@@ -38,26 +38,26 @@ git clone https://github.com/LenniAConrad/chess-nn-playground.git
 cd chess-nn-playground
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -e .[dev]
 ```
 
 List registered model keys:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/train_model.py --list-models
+chess-nn-train --list-models
 ```
 
 Validate the current LC0 BT4-style benchmark config:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py \
+chess-nn-validate-config \
   configs/benchmarks/puzzle_binary/bench_lc0_bt4_classifier.yaml
 ```
 
 Run one benchmark config:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/train_model.py \
+chess-nn-train \
   --config configs/benchmarks/puzzle_binary/bench_cnn_signal_simple18.yaml
 ```
 
@@ -65,6 +65,14 @@ Run tests:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 pytest -q
+```
+
+Run the CPU CI gate locally:
+
+```bash
+ruff check .
+python -m compileall -q src scripts tests
+pytest tests/test_training_smoke.py
 ```
 
 ## Documentation Map
@@ -79,6 +87,8 @@ PYTHONDONTWRITEBYTECODE=1 pytest -q
 - [ideas/registry/TODO.md](ideas/registry/TODO.md): generated implementation and benchmark backlog.
 - [configs/README.md](configs/README.md): config folders and suite entrypoints.
 - [scripts/README.md](scripts/README.md): command entrypoints and utility folders.
+- [CONTRIBUTING.md](CONTRIBUTING.md): contribution workflow, validation expectations, and licensing note.
+- [LICENSE](LICENSE): current repository rights notice.
 
 ## Repository Layout
 
@@ -100,6 +110,10 @@ tests/                        Unit, contract, and smoke tests
 
 The package import name remains `chess_nn_playground`; only the filesystem location uses the normal `src/` layout.
 
+## Governance
+
+This repository is currently all rights reserved; see [LICENSE](LICENSE). Contribution rules, validation expectations, and third-party material guidance live in [CONTRIBUTING.md](CONTRIBUTING.md). GitHub issue templates, the pull request template, CODEOWNERS, and CI workflow live under [.github/](.github/).
+
 ## Data
 
 Training data, split Parquet files, checkpoints, predictions, and generated run
@@ -114,7 +128,7 @@ The expected local full imported dataset path is:
 data/processed/crtk_training_20260419_180229_fast.parquet
 ```
 
-Do not point the pandas-backed trainer directly at the full 45M-row Parquet file. Use the canonical tagged split:
+Use the canonical tagged Arrow-backed split for benchmark training:
 
 ```text
 data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet
@@ -125,7 +139,7 @@ data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet
 Rebuild the split from the imported Parquet:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/data/make_crtk_sample_splits.py \
+PYTHONDONTWRITEBYTECODE=1 python -m scripts.data.make_crtk_sample_splits \
   --mode fine_3class \
   --input data/processed/crtk_training_20260419_180229_fast.parquet \
   --output-dir data/splits/crtk_sample_3class_unique \
@@ -140,7 +154,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/data/make_crtk_sample_splits.py \
 Add CRTK slice tags after the split exists:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/data/build_crtk_tagged_splits.py \
+PYTHONDONTWRITEBYTECODE=1 python -m scripts.data.build_crtk_tagged_splits \
   --split-dir data/splits/crtk_sample_3class_unique \
   --output-dir data/splits/crtk_sample_3class_unique_crtk_tags \
   --report-path data/reports/crtk_sample_3class_unique_crtk_tagged_report.md \
@@ -157,12 +171,23 @@ Benchmark and idea configs should use the NVIDIA path:
 device: nvidia
 ```
 
-That resolves to PyTorch CUDA and fails fast if no NVIDIA GPU is visible. Use `device: cpu` only for explicit smoke tests.
+That resolves to PyTorch CUDA and fails fast if no NVIDIA GPU is visible. CUDA out-of-memory also fails by
+default instead of retrying on CPU. Use `device: cpu` only for explicit smoke tests.
+
+If a crashed run is worth salvaging for debugging, opt in explicitly:
+
+```yaml
+training:
+  allow_cpu_oom_fallback: true
+```
+
+or pass `--allow-cpu-oom-fallback` to `chess-nn-train`. Any retry is renamed and tagged
+`cpu_oom_fallback_non_benchmark`, so it must not be used as benchmark evidence.
 
 Run the current binary puzzle benchmark suite:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
+chess-nn-run-suite \
   --suite configs/suites/network_signal_benchmark_suite.yaml \
   --skip-existing
 ```
@@ -170,7 +195,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 Run the current 3-class benchmark suite:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
+chess-nn-run-suite \
   --suite configs/suites/network_signal_fine3_benchmark_suite.yaml \
   --skip-existing
 ```
@@ -178,7 +203,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 Dry-run a suite before spending GPU time:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
+chess-nn-run-suite \
   --suite configs/suites/network_signal_benchmark_suite.yaml \
   --dry-run
 ```
@@ -186,7 +211,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
 On multi-GPU machines, the suite runner assigns one CUDA device per subprocess. Pin a two-GPU run explicitly with:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/run_experiment_suite.py \
+chess-nn-run-suite \
   --suite configs/suites/network_signal_benchmark_suite.yaml \
   --skip-existing \
   --jobs 2 \
@@ -232,7 +257,7 @@ trunk/registered-architecture pipeline:
 ```
 
 The wrapper starts or attaches to the `chess-nn-trunk-pipeline` tmux session and
-then invokes `scripts/run_paper_ready_all.py` with the full default pipeline. This
+then invokes `chess-nn-paper-ready` with the full default pipeline. This
 is for trunk and registered-architecture runs; primitive-native architectures
 with custom primitive inputs should get their own dedicated wrapper/config path.
 It uses all visible NVIDIA GPUs by default, with one parallel training job per
@@ -247,7 +272,7 @@ configured size variants and seeds, resumes after interruption, writes logs with
 ETA, and builds the final leaderboards, dashboards, and PDF report:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/run_paper_ready_all.py \
+chess-nn-paper-ready \
   --seeds 42,43,44 \
   --scale-variants base:1,scale_up:1.5,scale_xl:2 \
   --batch-size-caps base:256,scale_up:192,scale_xl:128 \
@@ -306,67 +331,19 @@ RUN_PRIMITIVE_TRAIN=1 RUN_PRIMITIVE_DRY_RUN=0 RUN_PRIMITIVE_GPU_IDS=0 \
 ./run_primitive_pipeline.sh
 ```
 
-## Primitive Implementation With Claude
+## Experimental Agent Automation
 
-To hand the primitive implementation work to Claude Code using the Claude
-subscription login, Opus, and maximum reasoning effort:
+Claude/Codex implementation handoff scripts live under [scripts/agents/](scripts/agents/) so they stay out of the normal training, benchmark, reporting, and CI path.
 
-```bash
-./run_primitive_implementation_with_claude.sh
-```
-
-The launcher defaults to:
-
-```text
-CLAUDE_MODEL=claude-opus-4-7
-CLAUDE_EFFORT=max
-CLAUDE_PERMISSION_MODE=bypassPermissions
-```
-
-The launcher only accepts `CLAUDE_EFFORT=max` or `CLAUDE_EFFORT=xhigh` for this
-task, and defaults to `max`.
-
-If this Claude Code install exposes Opus through the moving alias instead of
-the exact model string, run:
+Start with dry runs:
 
 ```bash
-CLAUDE_MODEL=opus ./run_primitive_implementation_with_claude.sh
+CLAUDE_DRY_RUN=1 scripts/agents/run_primitive_implementation_with_claude.sh
+
+LAUNCH_DRY_RUN=1 scripts/agents/launch_remaining_primitive_implementation_batches.sh
 ```
 
-The launcher defaults to non-interactive `claude -p` mode so background/tmux
-runs actually submit the prompt. It also defaults to
-`CLAUDE_OUTPUT_FORMAT=stream-json`, so tool calls and progress events are visible
-in `reports/primitive_implementation_with_claude/` while the run is still in
-flight. Set `CLAUDE_OUTPUT_FORMAT=text` if you only want the final prose answer
-in the log, or `CLAUDE_NONINTERACTIVE=0` for a manual interactive Claude UI.
-Use `CLAUDE_DRY_RUN=1` to inspect the generated prompt and command without
-invoking Claude.
-
-For the remaining unimplemented primitive research files, use the generic
-single-batch runner when you want to choose explicit targets:
-
-```bash
-CLAUDE_BATCH_NAME=gpt-orbit-boolean-algebra \
-CLAUDE_ID_RANGE=p036-p041 \
-CLAUDE_RESEARCH_TARGET_FILES="ideas/research/primitives/external_31_canonical_orbit_bdd_wmc_primitives.md ideas/research/primitives/external_32_elementary_symmetric_gibbs_hodge_primitives.md" \
-./run_research_primitive_implementation_with_claude.sh
-```
-
-For mass-parallel implementation, launch the prepared worktree/tmux batches:
-
-```bash
-./launch_remaining_primitive_implementation_batches.sh
-```
-
-This creates isolated worktrees under `../cnp-primitive-*`, branches named
-`claude/primitive-*`, and tmux sessions named `primitive-*`. The current
-launcher targets the 2026-05-13 imported GPT research backlog and reserves
-`p036` through `p046`. Earlier primitive batches `p001` through `p035` are
-already registered implementations. The existing Claude handoff primitives
-remain the legacy `i244` through `i248` entries. Use `LAUNCH_DRY_RUN=1` to
-inspect the launch plan, `PRIMITIVE_BATCH_FILTER=gpt-orbit-boolean-algebra` to
-launch a subset, and `PRIMITIVE_LAUNCH_FORCE=1` to kill and restart an existing
-batch session.
+Agent launchers use safer defaults and require an explicit opt-in before using permission bypass modes. See [scripts/agents/README.md](scripts/agents/README.md) before running them against a writable worktree.
 
 ## Outputs
 
@@ -396,6 +373,11 @@ run_summary.md
 report.html
 ```
 
+`speed_summary.json` separates training/evaluation throughput from clean
+inference-only forward-pass timing. Every run records CPU inference speed and,
+when CUDA is available, GPU inference speed for the same model and synthetic
+input shape.
+
 Leaderboards are rebuilt at:
 
 ```text
@@ -407,7 +389,7 @@ reports/leaderboards/global_leaderboard.md
 Rebuild aggregate training plots:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/reports/plot_training_results.py \
+chess-nn-plot-training \
   --results-dir results \
   --output-dir reports/training
 ```
@@ -415,7 +397,7 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/reports/plot_training_results.py \
 Build the multi-page paper-style PDF report manually:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/reports/build_paper_report.py \
+chess-nn-build-paper-report \
   --results-dir results \
   --state-path reports/paper_ready_all/state.json \
   --output reports/paper_ready_all/paper_report.pdf
@@ -426,14 +408,14 @@ The leaderboard, training dashboard, and PDF report builders scan nested run dir
 Validate a completed run:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/validate_run_artifacts.py results/<run_dir>
+chess-nn-validate-run results/<run_dir>
 ```
 
 ## Adding A Model
 
 1. Add reusable model code under `src/chess_nn_playground/models/`.
 2. Add a builder that accepts a config dictionary and returns a `torch.nn.Module`.
-3. Register the builder in `src/chess_nn_playground/models/registry.py`.
+3. Add the model key to `src/chess_nn_playground/models/_registry_manifest.py`, or register an explicitly imported extension module with `@register_model("my_model")`.
 4. Add a config under `configs/benchmarks/<task>/` or the relevant `ideas/registry/i###_*/` folder.
 5. Validate the config before training.
 6. Add the config to a suite only after it is stable.
@@ -441,12 +423,12 @@ PYTHONDONTWRITEBYTECODE=1 python scripts/validate_run_artifacts.py results/<run_
 Useful commands:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/train_model.py --list-models
+chess-nn-train --list-models
 
-PYTHONDONTWRITEBYTECODE=1 python scripts/validate_training_config.py \
+chess-nn-validate-config \
   configs/benchmarks/puzzle_binary/my_new_model.yaml
 
-PYTHONDONTWRITEBYTECODE=1 python scripts/train_model.py \
+chess-nn-train \
   --config configs/benchmarks/puzzle_binary/my_new_model.yaml
 ```
 
@@ -477,9 +459,9 @@ The guarded idea `train.py` checks identity, implementation status, CUDA policy,
 Regenerate idea navigation and TODO files after changing idea status, importing packets, or linking results:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/build_idea_catalog.py
-PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check
-PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_architecture_conformance.py --check
+chess-nn-build-idea-catalog
+chess-nn-audit-ideas --check
+chess-nn-audit-architectures --check
 ```
 
 ## Ground Rules

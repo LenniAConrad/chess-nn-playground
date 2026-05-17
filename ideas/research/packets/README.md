@@ -259,6 +259,25 @@ positive-claim abstention / veto-select heads
 
 Future passes should avoid exact near-duplicates of these latest packet families unless the formal object and central falsifier change beyond vocabulary, tensor rank, relation labels, number of shells, dictionary size, solver iteration count, hidden dimensions, or pooling statistics.
 
+The 2026-05-16 Downloads import adds ten architecture/composition packets under `classic/i250_*.md` through `classic/i259_*.md`:
+
+```text
+i250 learned relation-confidence sheaf over i018 relations
+i251 candidate-move forcedness sheaf
+i252 pin/x-ray/overload sheaf relation expansion
+i253 controlled i018 + BT4-112 encoding experiment
+i254 efficient i018 scale-XXL path
+i255 BT4-shaped distillation student from i018 diagnostics
+i256 near-puzzle rejection specialist
+i257 promotion/mate slice specialist
+i258 relation-masked attention graft inside i018
+i259 i018 + BT4 ensemble compression and distillation
+```
+
+The primitive half of the same import lives in [../primitives/](../primitives/). Duplicate Downloads files `deep-research-report(13).md`, `deep-research-report(14).md`, and `deep-research-report(21).md` were byte-identical to imported files and were skipped. `deep-research-report(30).md` and `deep-research-report(31).md` were byte-identical repo-health audit copies; one copy was imported as [../../../docs/engineering_audit_2026-05-16.md](../../../docs/engineering_audit_2026-05-16.md).
+
+Future passes should avoid repeating i018 relation-confidence, candidate-forcedness, pin/x-ray/overload sheaf, BT4 encoding graft, distillation-student, near-puzzle rejection, promotion/mate specialist, relation-masked attention, or i018+BT4 ensemble-compression packets unless they change the central bottleneck and falsifier rather than only scale, hidden width, or auxiliary heads.
+
 ## Prompt Lessons Applied
 
 - Require a smallest central falsification ablation in the executive summary.

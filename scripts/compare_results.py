@@ -10,9 +10,6 @@ from typing import Any
 import pandas as pd
 import yaml
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.evaluation.chatgpt_prompt import build_chatgpt_run_prompt
 from chess_nn_playground.evaluation.training_plots import build_global_training_dashboard
@@ -81,6 +78,8 @@ def _seed_summary(df: pd.DataFrame) -> pd.DataFrame:
         "fit_elapsed_seconds",
         "train_samples_per_second",
         "val_samples_per_second",
+        "cpu_inference_samples_per_second",
+        "gpu_inference_samples_per_second",
     ]
     rows: list[dict[str, Any]] = []
     for keys, group in working.groupby(group_cols, dropna=False):
@@ -173,6 +172,12 @@ def main() -> None:
                 speed.get("train_samples_per_second") if isinstance(speed, dict) else None
             ),
             "val_samples_per_second": speed.get("val_samples_per_second") if isinstance(speed, dict) else None,
+            "cpu_inference_samples_per_second": (
+                speed.get("cpu_inference_samples_per_second") if isinstance(speed, dict) else None
+            ),
+            "gpu_inference_samples_per_second": (
+                speed.get("gpu_inference_samples_per_second") if isinstance(speed, dict) else None
+            ),
             "train_samples": sum(class_counts.get("train", {}).values()) if isinstance(class_counts.get("train"), dict) else None,
             "val_samples": sum(class_counts.get("val", {}).values()) if isinstance(class_counts.get("val"), dict) else None,
             "test_samples": sum(class_counts.get("test", {}).values()) if isinstance(class_counts.get("test"), dict) else None,

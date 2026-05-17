@@ -2,7 +2,7 @@
 
 Author: Codex
 Model: GPT-5 Codex coding agent
-Last updated: 2026-05-13
+Last updated: 2026-05-16
 Status: active research ledger
 
 This ledger is the human routing table for primitive research files, implementation batches, and follow-up training. The authoritative provenance table is [MANIFEST.md](MANIFEST.md).
@@ -16,6 +16,8 @@ This ledger is the human routing table for primitive research files, implementat
 | `external_01`-`external_20` | 20 | ChatGPT + Claude downloads | GPT-5.5 Pro / Claude Opus 4.7 | Implementation batches launched as `p006`-`p024` |
 | `external_21`-`external_30` | 10 | Google / Gemini downloads | Unspecified Gemini model | Implementation batches launched as `p025`-`p035` |
 | `external_31`-`external_41` | 11 | ChatGPT downloads | GPT-5.5 Pro | Imported research backlog; reserve `p036`-`p046` |
+| `external_42`-`external_50` | 9 | ChatGPT downloads | GPT-5.5 Pro | Imported research backlog; renumber on promotion because some source labels collide with implemented `p041`-`p046` |
+| `PRIMITIVE_VALIDATION_PROTOCOL.md` | 1 | ChatGPT download | GPT-5.5 Pro | Validation gate for future primitive implementation work |
 
 ## Implementation Batches
 
@@ -28,6 +30,7 @@ This ledger is the human routing table for primitive research files, implementat
 | `primitive-gemini-graph-state` | `external_21`, `external_22`, `external_23`, `external_24`, `external_26`, `external_27` | `p025`-`p030` | Claude run active / pending final validation |
 | `primitive-gemini-misc` | `external_06`, `external_25`, `external_28`, `external_29`, `external_30` | `p031`-`p035` | Claude run active; `p035` was still pending at last check |
 | `primitive-gpt-polynomial-next` | `external_31`-`external_41` | `p036`-`p046` | Not launched; triage first because several reports duplicate elementary-symmetric / polynomial-ledger themes |
+| `primitive-gpt-tactical-next` | `external_42`-`external_50` | unreserved; likely `p047`-`p055` only after dedupe | Not launched; triage first because relation-confidence, candidate-move, and legal-move topics overlap earlier primitive families |
 
 ## Integration Rules
 
@@ -50,3 +53,15 @@ The 2026-05-13 GPT batch is heavy on polynomial/set/cohomology primitives. Initi
 | BDD / subset log-partition / Boolean solver layers | `external_31`, `external_41` | `external_31_canonical_orbit_bdd_wmc_primitives.md` |
 
 Launch `p036`-`p046` only after deduping this batch into a smaller implementation queue, unless the goal is broad coverage over implementation quality.
+
+The 2026-05-16 GPT batch is tactical/relation-heavy. Initial grouping:
+
+| Theme | Files | Suggested first representative |
+|---|---|---|
+| Relation confidence / masked edge weighting | `external_42` | `external_42_learned_relation_confidence_primitive.md` |
+| Candidate forcedness / near-puzzle rejection | `external_43`, `external_50` | `external_50_near_puzzle_hard_negative_primitive.md` |
+| Pin / x-ray / overload / king-zone pressure | `external_44`, `external_45`, `external_46` | `external_44_pin_xray_skewer_primitive.md` |
+| Promotion / underpromotion | `external_47` | `external_47_promotion_underpromotion_primitive.md` |
+| Legal-move delta and compact ray scan infrastructure | `external_48`, `external_49` | `external_49_efficient_ray_occlusion_scan_primitive.md` |
+
+Apply [PRIMITIVE_VALIDATION_PROTOCOL.md](PRIMITIVE_VALIDATION_PROTOCOL.md) before any `external_42`-`external_50` primitive gets scout compute.

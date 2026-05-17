@@ -4,8 +4,6 @@ import gc
 import json
 import math
 import os
-import hashlib
-import re
 import resource
 import sys
 import time
@@ -15,11 +13,9 @@ from typing import Any
 import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from chess_nn_playground.data.dataset import BINARY_MODES, PUZZLE_BINARY, ChessPositionDataset, collate_positions
-from chess_nn_playground.data.board_features import SIMPLE_18
+from chess_nn_playground.data.dataset import BINARY_MODES, PUZZLE_BINARY, ChessPositionDataset
 from chess_nn_playground.evaluation.plots import (
     plot_calibration,
     plot_class_distribution,
@@ -30,135 +26,73 @@ from chess_nn_playground.evaluation.plots import (
 from chess_nn_playground.evaluation.reports import build_run_report
 from chess_nn_playground.evaluation.slices import write_slice_artifacts
 from chess_nn_playground.models.trunk.cnn import count_parameters, model_summary_text
-from chess_nn_playground.models.complexity import estimate_model_complexity
-from chess_nn_playground.models.registry import build_model
 from chess_nn_playground.training.callbacks import EarlyStopping
 from chess_nn_playground.training.checkpointing import load_checkpoint, save_checkpoint
 from chess_nn_playground.training.device import resolve_torch_device
-from chess_nn_playground.training.losses import (
-    ConditionalSurprisalGateLoss,
-    ContaminationDROHuberTailLoss,
-    DykstraLCPLoss,
-    DykstraVetoSelectLoss,
-    MaterialLockedDROLoss,
-    SRPALoss,
-    SoftSortOrderResidualLoss,
-    VetoSelectLoss,
-    binary_cross_entropy_loss,
-    cross_entropy_loss,
+from chess_nn_playground.training.runtime_artifacts import benchmark_inference_forward, speed_totals
+from chess_nn_playground.training.runtime_config import (
+    config_fingerprint,
+    configure_torch_precision,
+    resolve_num_workers,
+    resolve_run_paths,
+    resolve_training_runtime,
+    safe_name,
+    sync_device_for_timing,
+)
+from chess_nn_playground.training.runtime_data import (
+    binary_pos_weight_tensor,
+    build_dataset_bundle,
+    build_loader,
+    class_weight_tensor,
+)
+from chess_nn_playground.training.runtime_loss import (
+    build_loss_runtime,
+    compute_training_loss,
+    resolve_loss_runtime_config,
+)
+from chess_nn_playground.training.runtime_model import build_model_runtime
+from chess_nn_playground.training.runtime_outputs import (
+    batch_fine_labels,
+    fine_to_binary_matrix,
+    optional_int,
+    primary_logits,
+    probabilities_from_logits,
+    scalar_output_columns,
 )
 from chess_nn_playground.training.metrics import compute_metrics
 from chess_nn_playground.utils.config import save_yaml
 from chess_nn_playground.utils.env import collect_environment
 from chess_nn_playground.utils.logging import write_json
-from chess_nn_playground.utils.paths import ensure_dir, utc_timestamp
+from chess_nn_playground.utils.paths import utc_timestamp
 from chess_nn_playground.utils.seed import set_seed
 
 
-def _safe_name(name: str) -> str:
-    return re.sub(r"[^A-Za-z0-9_.-]+", "_", name).strip("_") or "run"
+_safe_name = safe_name
+_probabilities_from_logits = probabilities_from_logits
+_primary_logits = primary_logits
+_scalar_output_columns = scalar_output_columns
+_optional_int = optional_int
+_batch_fine_labels = batch_fine_labels
+_sync_device_for_timing = sync_device_for_timing
+_resolve_num_workers = resolve_num_workers
+_fine_to_binary_matrix = fine_to_binary_matrix
+
+CPU_OOM_FALLBACK_LABEL = "cpu_oom_fallback_non_benchmark"
+CPU_OOM_FALLBACK_ENV = "CHESS_NN_ALLOW_CPU_OOM_FALLBACK"
+CPU_OOM_FALLBACK_DISABLE_ENV = "CHESS_NN_DISABLE_CPU_FALLBACK"
 
 
-def _probabilities_from_logits(logits: torch.Tensor, single_logit_binary: bool) -> np.ndarray:
-    if single_logit_binary:
-        puzzle_prob = torch.sigmoid(logits.detach().view(-1).cpu())
-        return torch.stack([1.0 - puzzle_prob, puzzle_prob], dim=1).numpy()
-    return torch.softmax(logits.detach().cpu(), dim=1).numpy()
-
-
-def _primary_logits(output: torch.Tensor | dict[str, torch.Tensor]) -> torch.Tensor:
-    if isinstance(output, dict):
-        if "selective_puzzle_logit" in output:
-            return output["selective_puzzle_logit"]
-        if "logits" in output:
-            return output["logits"]
-        if "puzzle_logit" in output:
-            return output["puzzle_logit"]
-        raise ValueError(f"Model output dictionary has no usable logits key: {sorted(output)}")
-    return output
-
-
-def _scalar_output_columns(output: torch.Tensor | dict[str, torch.Tensor]) -> dict[str, list[float]]:
-    if not isinstance(output, dict):
-        return {}
-    columns: dict[str, list[float]] = {}
-    for key, value in output.items():
-        if not isinstance(value, torch.Tensor) or value.ndim == 0:
-            continue
-        flat = value.detach().cpu().view(value.shape[0], -1)
-        if flat.shape[1] == 1:
-            columns[key] = [float(item) for item in flat[:, 0].tolist()]
-    return columns
-
-
-def config_fingerprint(config: dict[str, Any]) -> str:
-    normalized = json.loads(json.dumps(config, sort_keys=True, default=str))
-    run_cfg = normalized.get("run")
-    if isinstance(run_cfg, dict):
-        run_cfg.pop("run_dir", None)
-    training_cfg = normalized.get("training")
-    if isinstance(training_cfg, dict):
-        training_cfg.pop("resume_from", None)
-        training_cfg.pop("resume_run_dir", None)
-    payload = json.dumps(normalized, sort_keys=True, default=str).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()[:16]
-
-
-def _optional_int(value: Any) -> int | None:
+def _bool_from_config(value: Any, default: bool = True) -> bool:
     if value is None:
-        return None
-    try:
-        if pd.isna(value):
-            return None
-    except Exception:
-        pass
-    try:
-        return int(value)
-    except Exception:
-        return None
-
-
-def _batch_fine_labels(batch: dict[str, Any], device: torch.device, non_blocking: bool) -> torch.Tensor | None:
-    values = batch.get("fine_label")
-    if values is None:
-        return None
-    parsed = [_optional_int(value) for value in values]
-    if any(value is None for value in parsed):
-        return None
-    return torch.tensor([int(value) for value in parsed], dtype=torch.long, device=device)
-
-
-def _sync_device_for_timing(device: torch.device) -> None:
-    if device.type == "cuda" and torch.cuda.is_available():
-        torch.cuda.synchronize(device)
-
-
-def _resolve_num_workers(value: Any, device: torch.device) -> int:
-    text = str(value).strip().lower() if value is not None else "auto"
-    if text in {"", "auto"}:
-        if device.type != "cuda":
-            return 0
-        cpu_count = os.cpu_count() or 2
-        return max(1, min(8, max(1, cpu_count // 2)))
-    workers = int(value)
-    if workers < 0:
-        raise ValueError("training.num_workers must be non-negative or auto")
-    return workers
-
-
-def _fine_to_binary_matrix(predictions: pd.DataFrame) -> list[list[int]] | None:
-    required = {"true_fine_label", "predicted_label"}
-    if predictions.empty or not required.issubset(predictions.columns):
-        return None
-    matrix = np.zeros((3, 2), dtype=int)
-    for fine_label, predicted_label in zip(predictions["true_fine_label"], predictions["predicted_label"]):
-        fine = _optional_int(fine_label)
-        pred = _optional_int(predicted_label)
-        if fine in {0, 1, 2} and pred in {0, 1}:
-            matrix[fine, pred] += 1
-    if matrix.sum() == 0:
-        return None
-    return matrix.tolist()
+        return default
+    if isinstance(value, bool):
+        return value
+    text = str(value).strip().lower()
+    if text in {"1", "true", "yes", "on"}:
+        return True
+    if text in {"0", "false", "no", "off"}:
+        return False
+    return default
 
 
 class Trainer:
@@ -170,117 +104,85 @@ class Trainer:
         self.metric_num_classes = 2 if self.mode in BINARY_MODES else 3
         self.requested_device = config.get("device", "auto")
         self.device = resolve_torch_device(self.requested_device)
-        run_cfg = config.get("run", {})
-        run_name = _safe_name(run_cfg.get("name", "cnn_baseline"))
-        fixed_run_dir = run_cfg.get("run_dir")
-        if fixed_run_dir:
-            self.run_dir = Path(fixed_run_dir)
-        else:
-            self.run_dir = Path(run_cfg.get("output_dir", "results")) / f"{utc_timestamp(compact=True)}_{run_name}"
-        ensure_dir(self.run_dir)
+        paths = resolve_run_paths(config)
+        self.run_dir = paths.run_dir
+        self.train_path = paths.train_path
+        self.val_path = paths.val_path
+        self.test_path = paths.test_path
+        self.input_encoding = paths.input_encoding
 
-        data_cfg = config.get("data", {})
-        self.train_path = Path(data_cfg.get("train_path", "data/splits/split_train.parquet"))
-        self.val_path = Path(data_cfg.get("val_path", "data/splits/split_val.parquet"))
-        self.test_path = Path(data_cfg.get("test_path", "data/splits/split_test.parquet"))
-        self.input_encoding = data_cfg.get("encoding", SIMPLE_18)
-
-        training_cfg = config.get("training", {})
-        self.batch_size = int(training_cfg.get("batch_size", 64))
-        self.num_workers = _resolve_num_workers(training_cfg.get("num_workers", "auto"), self.device)
-        self.persistent_workers = bool(training_cfg.get("persistent_workers", self.num_workers > 0)) and self.num_workers > 0
-        self.prefetch_factor = int(training_cfg.get("prefetch_factor", 2))
-        self.epochs = int(training_cfg.get("epochs", 10))
-        self.min_epochs = int(training_cfg.get("min_epochs", 0))
-        self.min_active_epochs = int(training_cfg.get("min_active_epochs", self.min_epochs))
-        self.learning_rate = float(training_cfg.get("learning_rate", 1e-3))
-        self.weight_decay = float(training_cfg.get("weight_decay", 0.0))
-        clip_value = training_cfg.get("gradient_clip_norm")
-        self.gradient_clip_norm = float(clip_value) if clip_value is not None else None
-        mixed_precision_cfg = training_cfg.get("mixed_precision", False)
-        if str(mixed_precision_cfg).strip().lower() == "auto":
-            self.use_amp = self.device.type == "cuda"
-        else:
-            self.use_amp = bool(mixed_precision_cfg) and self.device.type == "cuda"
-        self.pin_memory = bool(training_cfg.get("pin_memory", self.device.type == "cuda"))
-        self.allow_tf32 = bool(training_cfg.get("allow_tf32", self.device.type == "cuda"))
-        self.matmul_precision = str(training_cfg.get("matmul_precision", "high" if self.device.type == "cuda" else "highest"))
-        if hasattr(torch, "set_float32_matmul_precision"):
-            torch.set_float32_matmul_precision(self.matmul_precision)
-        if self.device.type == "cuda":
-            torch.backends.cuda.matmul.allow_tf32 = self.allow_tf32
-            torch.backends.cudnn.allow_tf32 = self.allow_tf32
-        self.class_weighting = training_cfg.get("class_weighting", "none")
-        self.loss_name = str(training_cfg.get("loss", "")).strip().lower()
-        self.veto_select_cfg = training_cfg.get("veto_select", {})
-        if not isinstance(self.veto_select_cfg, dict):
-            self.veto_select_cfg = {}
-        self.dykstra_lcp_cfg = training_cfg.get("dykstra_lcp", {})
-        if not isinstance(self.dykstra_lcp_cfg, dict):
-            self.dykstra_lcp_cfg = {}
-        self.dykstra_vetoselect_cfg = training_cfg.get("dykstra_vetoselect", {})
-        if not isinstance(self.dykstra_vetoselect_cfg, dict):
-            self.dykstra_vetoselect_cfg = {}
-        self.srpa_cfg = training_cfg.get("srpa", {})
-        if not isinstance(self.srpa_cfg, dict):
-            self.srpa_cfg = {}
-        self.contamination_dro_cfg = training_cfg.get("contamination_dro", {})
-        if not isinstance(self.contamination_dro_cfg, dict):
-            self.contamination_dro_cfg = {}
-        self.material_locked_dro_cfg = training_cfg.get("material_locked_dro", {})
-        if not isinstance(self.material_locked_dro_cfg, dict):
-            self.material_locked_dro_cfg = {}
-        self.soft_sort_order_cfg = training_cfg.get("soft_sort_order", {})
-        if not isinstance(self.soft_sort_order_cfg, dict):
-            self.soft_sort_order_cfg = {}
-        self.conditional_surprisal_gate_cfg = training_cfg.get("conditional_surprisal_gate", {})
-        if not isinstance(self.conditional_surprisal_gate_cfg, dict):
-            self.conditional_surprisal_gate_cfg = {}
-        self.veto_select_warmup_epochs = int(self.veto_select_cfg.get("warmup_epochs", 1))
-        self.use_rule_texture = bool(
-            self.veto_select_cfg.get("use_rule_texture", data_cfg.get("include_rule_texture", False))
+        data_cfg = config.get("data", {}) or {}
+        training_cfg = config.get("training", {}) or {}
+        runtime_cfg = resolve_training_runtime(config, device=self.device, mode=self.mode)
+        self.batch_size = runtime_cfg.batch_size
+        self.num_workers = runtime_cfg.num_workers
+        self.persistent_workers = runtime_cfg.persistent_workers
+        self.prefetch_factor = runtime_cfg.prefetch_factor
+        self.epochs = runtime_cfg.epochs
+        self.min_epochs = runtime_cfg.min_epochs
+        self.min_active_epochs = runtime_cfg.min_active_epochs
+        self.learning_rate = runtime_cfg.learning_rate
+        self.weight_decay = runtime_cfg.weight_decay
+        self.gradient_clip_norm = runtime_cfg.gradient_clip_norm
+        self.use_amp = runtime_cfg.use_amp
+        self.pin_memory = runtime_cfg.pin_memory
+        self.allow_tf32 = runtime_cfg.allow_tf32
+        self.matmul_precision = runtime_cfg.matmul_precision
+        self.monitor_metric = runtime_cfg.monitor_metric
+        configure_torch_precision(
+            device=self.device,
+            allow_tf32=self.allow_tf32,
+            matmul_precision=self.matmul_precision,
         )
+        inference_speed_cfg = training_cfg.get("inference_speed_benchmark", {})
+        if isinstance(inference_speed_cfg, dict):
+            self.inference_speed_enabled = _bool_from_config(inference_speed_cfg.get("enabled"), default=True)
+            self.inference_speed_devices = list(inference_speed_cfg.get("devices", ["cpu", "cuda"]))
+            self.inference_speed_batch_sizes = inference_speed_cfg.get("batch_sizes")
+            self.inference_speed_warmup_iters = int(inference_speed_cfg.get("warmup_iters", 2))
+            self.inference_speed_timed_iters = int(inference_speed_cfg.get("timed_iters", 5))
+        else:
+            self.inference_speed_enabled = _bool_from_config(inference_speed_cfg, default=True)
+            self.inference_speed_devices = ["cpu", "cuda"]
+            self.inference_speed_batch_sizes = None
+            self.inference_speed_warmup_iters = 2
+            self.inference_speed_timed_iters = 5
+
+        self.loss_runtime_config = resolve_loss_runtime_config(training_cfg=training_cfg, data_cfg=data_cfg)
+        self.class_weighting = self.loss_runtime_config.class_weighting
+        self.loss_name = self.loss_runtime_config.loss_name
+        self.veto_select_cfg = self.loss_runtime_config.veto_select_cfg
+        self.dykstra_lcp_cfg = self.loss_runtime_config.dykstra_lcp_cfg
+        self.dykstra_vetoselect_cfg = self.loss_runtime_config.dykstra_vetoselect_cfg
+        self.srpa_cfg = self.loss_runtime_config.srpa_cfg
+        self.contamination_dro_cfg = self.loss_runtime_config.contamination_dro_cfg
+        self.material_locked_dro_cfg = self.loss_runtime_config.material_locked_dro_cfg
+        self.soft_sort_order_cfg = self.loss_runtime_config.soft_sort_order_cfg
+        self.conditional_surprisal_gate_cfg = self.loss_runtime_config.conditional_surprisal_gate_cfg
+        self.veto_select_warmup_epochs = self.loss_runtime_config.veto_select_warmup_epochs
+        self.use_rule_texture = self.loss_runtime_config.use_rule_texture
         self.early_stopping = EarlyStopping(
             patience=int(training_cfg.get("early_stopping_patience", 10)),
             mode="max",
         )
-        # Checkpoint-selection metric. Default to PR AUC for binary modes (the
-        # paper-grade primary metric); fall back to macro_f1 for fine_3class.
-        # Override via `training.monitor` in the YAML.
-        configured_monitor = training_cfg.get("monitor")
-        if configured_monitor is None:
-            self.monitor_metric = "pr_auc" if self.mode in BINARY_MODES else "macro_f1"
-        else:
-            self.monitor_metric = str(configured_monitor).strip().lower()
-
-        model_cfg = dict(config.get("model", {}))
-        model_name = model_cfg.pop("name", "simple_cnn")
-        default_model_classes = 1 if self.mode == PUZZLE_BINARY else self.metric_num_classes
-        model_cfg.setdefault("num_classes", default_model_classes)
-        self.model_output_classes = int(model_cfg.get("num_classes", default_model_classes))
-        self.single_logit_binary = self.mode in BINARY_MODES and self.model_output_classes == 1
-        self.model_name = model_name
-        self.model = build_model(model_name, model_cfg).to(self.device)
-        self.model_input_channels = int(model_cfg.get("input_channels", 18))
-        try:
-            self.model_complexity = estimate_model_complexity(
-                self.model,
-                input_channels=self.model_input_channels,
-                device=self.device,
-            )
-        except Exception as exc:
-            self.model_complexity = {
-                "status": "failed",
-                "error": f"{type(exc).__name__}: {exc}",
-                "model_name": self.model_name,
-                "input_shape": [1, self.model_input_channels, 8, 8],
-            }
+        model_runtime = build_model_runtime(
+            config,
+            mode=self.mode,
+            metric_num_classes=self.metric_num_classes,
+            device=self.device,
+        )
+        self.model_name = model_runtime.name
+        self.model = model_runtime.model
+        self.model_output_classes = model_runtime.output_classes
+        self.single_logit_binary = model_runtime.single_logit_binary
+        self.model_input_channels = model_runtime.input_channels
+        self.model_complexity = model_runtime.complexity
         self.optimizer = torch.optim.AdamW(
             self.model.parameters(),
             lr=self.learning_rate,
             weight_decay=self.weight_decay,
         )
-        self.scheduler = self._build_scheduler(training_cfg.get("lr_scheduler", {}))
+        self.scheduler = self._build_scheduler(runtime_cfg.scheduler_cfg)
         try:
             self.scaler = torch.amp.GradScaler("cuda", enabled=self.use_amp)
         except Exception:
@@ -300,131 +202,26 @@ class Trainer:
                 self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
             self.start_epoch = int(checkpoint.get("epoch", 0)) + 1
 
-        self.train_dataset = ChessPositionDataset(
-            self.train_path,
+        datasets = build_dataset_bundle(
+            train_path=self.train_path,
+            val_path=self.val_path,
+            test_path=self.test_path,
             mode=self.mode,
-            cache_features=bool(data_cfg.get("cache_features", False)),
             encoding=self.input_encoding,
+            cache_features=bool(data_cfg.get("cache_features", False)),
             include_rule_texture=self.use_rule_texture,
         )
-        self.val_dataset = ChessPositionDataset(
-            self.val_path,
-            mode=self.mode,
-            cache_features=bool(data_cfg.get("cache_features", False)),
-            encoding=self.input_encoding,
-            include_rule_texture=self.use_rule_texture,
+        self.train_dataset = datasets.train
+        self.val_dataset = datasets.val
+        self.test_dataset = datasets.test
+        self.loss_runtime = build_loss_runtime(
+            self.loss_runtime_config,
+            train_dataset=self.train_dataset,
+            metric_num_classes=self.metric_num_classes,
+            single_logit_binary=self.single_logit_binary,
+            device=self.device,
         )
-        self.test_dataset = None
-        if self.test_path.exists():
-            self.test_dataset = ChessPositionDataset(
-                self.test_path,
-                mode=self.mode,
-                cache_features=bool(data_cfg.get("cache_features", False)),
-                encoding=self.input_encoding,
-                include_rule_texture=self.use_rule_texture,
-            )
-        if self.loss_name == "veto_select":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=veto_select requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = VetoSelectLoss(
-                pos_weight=pos_weight,
-                tau_e=float(self.veto_select_cfg.get("tau_e", 1.5)),
-                d_max=float(self.veto_select_cfg.get("d_max", 0.85)),
-                gamma_decoy=float(self.veto_select_cfg.get("gamma_decoy", 1.0)),
-                lambda_anchor=float(self.veto_select_cfg.get("lambda_anchor", 0.15)),
-            )
-        elif self.loss_name == "dykstra_lcp":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=dykstra_lcp requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = DykstraLCPLoss(
-                pos_weight=pos_weight,
-                hard_negative_fraction=float(self.dykstra_lcp_cfg.get("hard_negative_fraction", 0.20)),
-                hard_negative_weight=float(self.dykstra_lcp_cfg.get("hard_negative_weight", 1.5)),
-                lambda_pos_residual=float(self.dykstra_lcp_cfg.get("lambda_pos_residual", 0.03)),
-                lambda_neg_margin=float(self.dykstra_lcp_cfg.get("lambda_neg_margin", 0.02)),
-                lambda_decay=float(self.dykstra_lcp_cfg.get("lambda_decay", 0.01)),
-                negative_projection_margin=float(self.dykstra_lcp_cfg.get("negative_projection_margin", 0.20)),
-            )
-        elif self.loss_name == "dykstra_vetoselect":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=dykstra_vetoselect requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = DykstraVetoSelectLoss(
-                pos_weight=pos_weight,
-                tau_e=float(self.veto_select_cfg.get("tau_e", 1.5)),
-                d_max=float(self.veto_select_cfg.get("d_max", 0.85)),
-                gamma_decoy=float(self.veto_select_cfg.get("gamma_decoy", 1.0)),
-                lambda_anchor=float(self.veto_select_cfg.get("lambda_anchor", 0.12)),
-                projection_temperature=float(self.dykstra_vetoselect_cfg.get("projection_temperature", 0.04)),
-                trace_temperature=float(self.dykstra_vetoselect_cfg.get("trace_temperature", 0.006)),
-                lambda_pos_residual=float(self.dykstra_vetoselect_cfg.get("lambda_pos_residual", 0.02)),
-                lambda_neg_margin=float(self.dykstra_vetoselect_cfg.get("lambda_neg_margin", 0.01)),
-                lambda_decay=float(self.dykstra_vetoselect_cfg.get("lambda_decay", 0.01)),
-                negative_projection_margin=float(self.dykstra_vetoselect_cfg.get("negative_projection_margin", 0.04)),
-            )
-        elif self.loss_name == "srpa":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=srpa requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = SRPALoss(
-                pos_weight=pos_weight,
-                lambda_aux=float(self.srpa_cfg.get("lambda_aux", 0.15)),
-                lambda_residual=float(self.srpa_cfg.get("lambda_residual", 0.02)),
-                lambda_l1=float(self.srpa_cfg.get("lambda_l1", 0.001)),
-                lambda_group=float(self.srpa_cfg.get("lambda_group", 0.001)),
-                lambda_dictionary_coherence=float(self.srpa_cfg.get("lambda_dictionary_coherence", 0.0005)),
-                lambda_branch_separation=float(self.srpa_cfg.get("lambda_branch_separation", 0.0005)),
-                lambda_dead_group=float(self.srpa_cfg.get("lambda_dead_group", 0.0001)),
-            )
-        elif self.loss_name == "contamination_dro_huber":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=contamination_dro_huber requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = ContaminationDROHuberTailLoss(
-                pos_weight=pos_weight,
-                lambda_tail=float(self.contamination_dro_cfg.get("lambda_tail", 0.35)),
-                margin=float(self.contamination_dro_cfg.get("margin", 0.25)),
-                kappa=float(self.contamination_dro_cfg.get("kappa", 1.0)),
-                beta=float(self.contamination_dro_cfg.get("beta", 0.25)),
-                min_near_count=int(self.contamination_dro_cfg.get("min_near_count", 4)),
-            )
-        elif self.loss_name == "material_locked_dro":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=material_locked_dro requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = MaterialLockedDROLoss(
-                pos_weight=pos_weight,
-                gamma_near=float(self.material_locked_dro_cfg.get("gamma_near", 2.0)),
-                lambda_robust=float(self.material_locked_dro_cfg.get("lambda_robust", 0.5)),
-                lambda_budget=float(self.material_locked_dro_cfg.get("lambda_budget", 0.02)),
-            )
-        elif self.loss_name == "soft_sort_order":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=soft_sort_order requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = SoftSortOrderResidualLoss(
-                pos_weight=pos_weight,
-                lambda_order=float(self.soft_sort_order_cfg.get("lambda_order", 0.25)),
-                tau=float(self.soft_sort_order_cfg.get("tau", 0.25)),
-            )
-        elif self.loss_name == "conditional_surprisal_gate":
-            if not self.single_logit_binary:
-                raise ValueError("training.loss=conditional_surprisal_gate requires a single-logit binary model")
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = ConditionalSurprisalGateLoss(
-                pos_weight=pos_weight,
-                lambda_kl=float(self.conditional_surprisal_gate_cfg.get("lambda_kl", 0.05)),
-                lambda_capacity=float(self.conditional_surprisal_gate_cfg.get("lambda_capacity", 0.05)),
-                target_gate_rate=float(self.conditional_surprisal_gate_cfg.get("target_gate_rate", 0.35)),
-            )
-        elif self.single_logit_binary:
-            pos_weight = self._binary_pos_weight() if self.class_weighting == "balanced" else None
-            self.criterion = binary_cross_entropy_loss(pos_weight)
-        else:
-            class_weights = self._class_weights() if self.class_weighting == "balanced" else None
-            self.criterion = cross_entropy_loss(class_weights)
+        self.criterion = self.loss_runtime.criterion
         self.best_score = -math.inf
         self.best_metrics: dict[str, Any] = {}
 
@@ -477,19 +274,14 @@ class Trainer:
         return ["0 non-puzzle", "1 puzzle/near-puzzle"]
 
     def _class_weights(self) -> torch.Tensor:
-        labels = self.train_dataset.df[self.train_dataset.label_column].astype(int).to_numpy()
-        counts = np.bincount(labels, minlength=self.metric_num_classes)
-        total = counts.sum()
-        weights = [total / (self.metric_num_classes * count) if count > 0 else 0.0 for count in counts]
-        return torch.tensor(weights, dtype=torch.float32, device=self.device)
+        return class_weight_tensor(
+            self.train_dataset,
+            num_classes=self.metric_num_classes,
+            device=self.device,
+        )
 
     def _binary_pos_weight(self) -> torch.Tensor:
-        labels = self.train_dataset.df[self.train_dataset.label_column].astype(int).to_numpy()
-        counts = np.bincount(labels, minlength=2)
-        negative = float(counts[0])
-        positive = float(counts[1])
-        value = negative / positive if positive > 0 else 1.0
-        return torch.tensor([value], dtype=torch.float32, device=self.device)
+        return binary_pos_weight_tensor(self.train_dataset, device=self.device)
 
     def _batch_rule_texture(self, batch: dict[str, Any]) -> torch.Tensor | None:
         texture = batch.get("rule_texture")
@@ -497,20 +289,15 @@ class Trainer:
             return None
         return texture.to(self.device, non_blocking=self.pin_memory)
 
-    def _loader(self, dataset: ChessPositionDataset, shuffle: bool) -> DataLoader:
-        loader_kwargs: dict[str, Any] = {
-            "batch_size": self.batch_size,
-            "shuffle": shuffle,
-            "num_workers": self.num_workers,
-            "collate_fn": collate_positions,
-            "pin_memory": self.pin_memory,
-        }
-        if self.num_workers > 0:
-            loader_kwargs["persistent_workers"] = self.persistent_workers
-            loader_kwargs["prefetch_factor"] = self.prefetch_factor
-        return DataLoader(
+    def _loader(self, dataset: ChessPositionDataset, shuffle: bool) -> Any:
+        return build_loader(
             dataset,
-            **loader_kwargs,
+            batch_size=self.batch_size,
+            shuffle=shuffle,
+            num_workers=self.num_workers,
+            persistent_workers=self.persistent_workers,
+            prefetch_factor=self.prefetch_factor,
+            pin_memory=self.pin_memory,
         )
 
     def _compute_loss(
@@ -522,43 +309,18 @@ class Trainer:
         texture: torch.Tensor | None = None,
         fine_label: torch.Tensor | None = None,
     ) -> torch.Tensor:
-        if self.loss_name == "veto_select":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=veto_select requires model output diagnostics")
-            enable_decoys = epoch is None or epoch > self.veto_select_warmup_epochs
-            return self.criterion(output, y, enable_decoys=enable_decoys, texture=texture)
-        if self.loss_name == "dykstra_lcp":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=dykstra_lcp requires model output diagnostics")
-            return self.criterion(output, y)
-        if self.loss_name == "dykstra_vetoselect":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=dykstra_vetoselect requires model output diagnostics")
-            enable_decoys = epoch is None or epoch > self.veto_select_warmup_epochs
-            return self.criterion(output, y, enable_decoys=enable_decoys, texture=texture)
-        if self.loss_name == "srpa":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=srpa requires model output diagnostics")
-            return self.criterion(output, y)
-        if self.loss_name == "contamination_dro_huber":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=contamination_dro_huber requires model output diagnostics")
-            return self.criterion(output, y, fine_label=fine_label)
-        if self.loss_name == "material_locked_dro":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=material_locked_dro requires model output diagnostics")
-            return self.criterion(output, y, fine_label=fine_label)
-        if self.loss_name == "soft_sort_order":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=soft_sort_order requires model output diagnostics")
-            return self.criterion(output, y)
-        if self.loss_name == "conditional_surprisal_gate":
-            if not isinstance(output, dict):
-                raise ValueError("training.loss=conditional_surprisal_gate requires model output diagnostics")
-            return self.criterion(output, y)
-        if self.single_logit_binary:
-            return self.criterion(logits.view(-1), y.float())
-        return self.criterion(logits, y)
+        return compute_training_loss(
+            loss_name=self.loss_name,
+            criterion=self.criterion,
+            output=output,
+            logits=logits,
+            target=y,
+            epoch=epoch,
+            veto_select_warmup_epochs=self.veto_select_warmup_epochs,
+            single_logit_binary=self.single_logit_binary,
+            texture=texture,
+            fine_label=fine_label,
+        )
 
     def train_epoch(self, epoch: int) -> dict[str, Any]:
         self.model.train()
@@ -693,18 +455,19 @@ class Trainer:
 
     def _write_run_metadata(self, extra: dict[str, Any] | None = None) -> dict[str, Any]:
         class_counts = {
-            "train": self.train_dataset.df[self.train_dataset.label_column].value_counts().to_dict(),
-            "val": self.val_dataset.df[self.val_dataset.label_column].value_counts().to_dict(),
+            "train": self.train_dataset.label_counts(),
+            "val": self.val_dataset.label_counts(),
         }
         source_class_counts = {
-            "train": self.train_dataset.df.get("fine_label", pd.Series(dtype=int)).value_counts().sort_index().to_dict(),
-            "val": self.val_dataset.df.get("fine_label", pd.Series(dtype=int)).value_counts().sort_index().to_dict(),
+            "train": self.train_dataset.value_counts("fine_label"),
+            "val": self.val_dataset.value_counts("fine_label"),
         }
         if self.test_dataset is not None:
-            class_counts["test"] = self.test_dataset.df[self.test_dataset.label_column].value_counts().to_dict()
-            source_class_counts["test"] = (
-                self.test_dataset.df.get("fine_label", pd.Series(dtype=int)).value_counts().sort_index().to_dict()
-            )
+            class_counts["test"] = self.test_dataset.label_counts()
+            source_class_counts["test"] = self.test_dataset.value_counts("fine_label")
+        training_for_metadata = self.config.get("training", {})
+        if not isinstance(training_for_metadata, dict):
+            training_for_metadata = {}
         metadata = {
             "run_name": self.run_dir.name,
             "timestamp": utc_timestamp(),
@@ -733,6 +496,14 @@ class Trainer:
             "checkpoint_best": str(self.run_dir / "checkpoint_best.pt"),
             "checkpoint_last": str(self.run_dir / "checkpoint_last.pt"),
             "notes": self.config.get("notes"),
+            "benchmark_status": self.config.get("benchmark_status", "benchmark_candidate"),
+            "cpu_oom_fallback": self.config.get(
+                "cpu_oom_fallback",
+                {
+                    "used": False,
+                    "enabled": bool(training_for_metadata.get("allow_cpu_oom_fallback", False)),
+                },
+            ),
             "training": {
                 "epochs": self.epochs,
                 "min_epochs": self.min_epochs,
@@ -769,16 +540,59 @@ class Trainer:
 
     @staticmethod
     def _speed_totals(rows: list[dict[str, Any]]) -> dict[str, Any]:
-        sample_count = sum(int(row.get("sample_count") or 0) for row in rows)
-        batch_count = sum(int(row.get("batch_count") or 0) for row in rows)
-        elapsed_seconds = sum(float(row.get("elapsed_seconds") or 0.0) for row in rows)
-        return {
-            "sample_count": sample_count,
-            "batch_count": batch_count,
-            "elapsed_seconds": elapsed_seconds,
-            "samples_per_second": sample_count / elapsed_seconds if elapsed_seconds > 0 else None,
-            "batches_per_second": batch_count / elapsed_seconds if elapsed_seconds > 0 else None,
-        }
+        return speed_totals(rows)
+
+    def _inference_benchmark_batch_sizes(self) -> list[int]:
+        configured = self.inference_speed_batch_sizes
+        if configured is None:
+            values = [1, self.batch_size]
+        elif isinstance(configured, int):
+            values = [configured]
+        else:
+            values = list(configured)
+        batch_sizes: list[int] = []
+        for value in values:
+            batch_size = int(value)
+            if batch_size > 0 and batch_size not in batch_sizes:
+                batch_sizes.append(batch_size)
+        return batch_sizes or [1]
+
+    def _inference_sample_shape(self) -> tuple[int, ...]:
+        if len(self.train_dataset) > 0:
+            sample = self.train_dataset[0]["x"]
+            return tuple(int(value) for value in sample.shape)
+        return (int(self.model_input_channels), 8, 8)
+
+    def _run_inference_speed_benchmark(self) -> dict[str, Any]:
+        if not self.inference_speed_enabled:
+            return {"enabled": False}
+        return benchmark_inference_forward(
+            self.model,
+            sample_shape=self._inference_sample_shape(),
+            batch_sizes=self._inference_benchmark_batch_sizes(),
+            devices=self.inference_speed_devices,
+            warmup_iters=self.inference_speed_warmup_iters,
+            timed_iters=self.inference_speed_timed_iters,
+        )
+
+    @staticmethod
+    def _representative_inference_row(
+        inference_benchmark: dict[str, Any],
+        *,
+        device_key: str,
+        batch_size: int,
+    ) -> dict[str, Any] | None:
+        devices = inference_benchmark.get("devices", {})
+        device_result = devices.get(device_key) if isinstance(devices, dict) else None
+        if not isinstance(device_result, dict) or not device_result.get("available"):
+            return None
+        rows = device_result.get("results", [])
+        if not isinstance(rows, list):
+            return None
+        for row in rows:
+            if isinstance(row, dict) and int(row.get("batch_size") or 0) == batch_size:
+                return row
+        return next((row for row in rows if isinstance(row, dict)), None)
 
     def _write_speed_summary(
         self,
@@ -799,13 +613,37 @@ class Trainer:
                 "samples_per_second": metrics.get("samples_per_second"),
                 "batches_per_second": metrics.get("batches_per_second"),
             }
+        inference_benchmark = self._run_inference_speed_benchmark()
+        cpu_inference = self._representative_inference_row(
+            inference_benchmark,
+            device_key="cpu",
+            batch_size=self.batch_size,
+        )
+        gpu_inference = self._representative_inference_row(
+            inference_benchmark,
+            device_key="cuda",
+            batch_size=self.batch_size,
+        )
         summary = {
             "fit_elapsed_seconds": float(fit_elapsed_seconds),
             "train": train_speed,
             "validation_epochs": val_speed,
             "final_eval": final_eval,
+            "inference_forward_benchmark": inference_benchmark,
             "train_samples_per_second": train_speed.get("samples_per_second"),
             "val_samples_per_second": val_speed.get("samples_per_second"),
+            "cpu_inference_samples_per_second": (
+                cpu_inference.get("samples_per_second") if cpu_inference is not None else None
+            ),
+            "cpu_inference_ms_per_sample": (
+                cpu_inference.get("mean_ms_per_sample") if cpu_inference is not None else None
+            ),
+            "gpu_inference_samples_per_second": (
+                gpu_inference.get("samples_per_second") if gpu_inference is not None else None
+            ),
+            "gpu_inference_ms_per_sample": (
+                gpu_inference.get("mean_ms_per_sample") if gpu_inference is not None else None
+            ),
             "batch_size": self.batch_size,
             "num_workers": self.num_workers,
             "mixed_precision": self.use_amp,
@@ -952,10 +790,7 @@ class Trainer:
                     x_label="Model output",
                     y_label="Original source class",
                 )
-        train_counts = {
-            str(k): int(v)
-            for k, v in self.train_dataset.df[self.train_dataset.label_column].value_counts().sort_index().items()
-        }
+        train_counts = {str(k): int(v) for k, v in sorted(self.train_dataset.label_counts().items())}
         artifact_paths["class_distribution"] = plot_class_distribution(
             train_counts,
             self.run_dir / "class_distribution.png",
@@ -1105,7 +940,8 @@ class Trainer:
 def _is_cuda_oom(exc: BaseException) -> bool:
     if isinstance(exc, torch.cuda.OutOfMemoryError):
         return True
-    if isinstance(exc, RuntimeError) and "out of memory" in str(exc).lower():
+    message = str(exc).lower()
+    if isinstance(exc, RuntimeError) and "cuda" in message and "out of memory" in message:
         return True
     return False
 
@@ -1120,10 +956,52 @@ def _release_cuda_memory() -> None:
             pass
 
 
-def _force_cpu_config(config: dict[str, Any]) -> dict[str, Any]:
+def _truthy(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if value is None:
+        return False
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _cpu_oom_fallback_policy(config: dict[str, Any]) -> tuple[bool, str]:
+    if _truthy(os.environ.get(CPU_OOM_FALLBACK_DISABLE_ENV)):
+        return False, CPU_OOM_FALLBACK_DISABLE_ENV
+    training = config.get("training", {}) if isinstance(config.get("training"), dict) else {}
+    if _truthy(training.get("allow_cpu_oom_fallback", False)):
+        return True, "training.allow_cpu_oom_fallback"
+    if _truthy(os.environ.get(CPU_OOM_FALLBACK_ENV)):
+        return True, CPU_OOM_FALLBACK_ENV
+    return False, "default"
+
+
+def _append_note(existing: Any, addition: str) -> str:
+    text = str(existing or "").strip()
+    return f"{text} {addition}".strip() if text else addition
+
+
+def _force_cpu_config(
+    config: dict[str, Any],
+    *,
+    original_requested_device: Any,
+    oom_reason: BaseException,
+    enabled_by: str,
+) -> dict[str, Any]:
     cpu_config = dict(config)
     cpu_config["device"] = "cpu"
-    training = dict(cpu_config.get("training", {}))
+    cpu_config["benchmark_status"] = CPU_OOM_FALLBACK_LABEL
+    cpu_config["notes"] = _append_note(
+        cpu_config.get("notes"),
+        "CPU OOM fallback run: explicitly labeled non-benchmark because execution moved from CUDA to CPU.",
+    )
+    run_cfg = dict(cpu_config.get("run", {}) or {})
+    base_name = str(run_cfg.get("name", "run")).strip() or "run"
+    if CPU_OOM_FALLBACK_LABEL not in base_name:
+        run_cfg["name"] = f"{base_name}_{CPU_OOM_FALLBACK_LABEL}"
+    run_cfg["benchmark_label"] = CPU_OOM_FALLBACK_LABEL
+    cpu_config["run"] = run_cfg
+    training = dict(cpu_config.get("training") or {})
+    training["allow_cpu_oom_fallback"] = True
     training["mixed_precision"] = False
     training["pin_memory"] = False
     training["allow_tf32"] = False
@@ -1134,6 +1012,14 @@ def _force_cpu_config(config: dict[str, Any]) -> dict[str, Any]:
     training["num_workers"] = max(2, min(8, cpu_count // 4))
     training["persistent_workers"] = True
     cpu_config["training"] = training
+    cpu_config["cpu_oom_fallback"] = {
+        "used": True,
+        "enabled_by": enabled_by,
+        "label": CPU_OOM_FALLBACK_LABEL,
+        "original_requested_device": str(original_requested_device),
+        "fallback_device": "cpu",
+        "reason": str(oom_reason),
+    }
     return cpu_config
 
 
@@ -1205,25 +1091,42 @@ def _apply_cpu_fallback_heap_cap() -> None:
 def train_from_config(config: dict[str, Any]) -> Path:
     requested_device = str(config.get("device", "auto")).strip().lower()
     cpu_only = requested_device == "cpu"
-    fallback_disabled = bool(os.environ.get("CHESS_NN_DISABLE_CPU_FALLBACK", "").strip())
+    fallback_enabled, fallback_source = _cpu_oom_fallback_policy(config)
+    oom_reason: Exception | None = None
     try:
         return Trainer(config).fit()
-    except BaseException as exc:
-        if cpu_only or fallback_disabled or not _is_cuda_oom(exc):
-            if fallback_disabled and _is_cuda_oom(exc):
-                print(
-                    f"[oom-fallback] CUDA OOM and CHESS_NN_DISABLE_CPU_FALLBACK set; failing task.",
-                    file=sys.stderr,
-                    flush=True,
-                )
+    except Exception as exc:
+        if cpu_only or not _is_cuda_oom(exc):
+            raise
+        if not fallback_enabled:
+            disabled_reason = (
+                f"{CPU_OOM_FALLBACK_DISABLE_ENV} is set"
+                if fallback_source == CPU_OOM_FALLBACK_DISABLE_ENV
+                else "CPU fallback is disabled by default"
+            )
+            print(
+                "[oom-fallback] CUDA OOM; failing without CPU retry because "
+                f"{disabled_reason}. Set training.allow_cpu_oom_fallback: true or "
+                f"{CPU_OOM_FALLBACK_ENV}=1 to opt in. Any retry is labeled "
+                f"{CPU_OOM_FALLBACK_LABEL}.",
+                file=sys.stderr,
+                flush=True,
+            )
             raise
         print(
-            f"[oom-fallback] CUDA out of memory: {exc}. Retrying on CPU.",
+            f"[oom-fallback] CUDA out of memory: {exc}. Retrying on CPU as {CPU_OOM_FALLBACK_LABEL} "
+            f"(opt-in via {fallback_source}).",
             file=sys.stderr,
             flush=True,
         )
         _release_cuda_memory()
+        oom_reason = exc
     _apply_cpu_fallback_heap_cap()
     _maximize_cpu_threads()
-    cpu_config = _force_cpu_config(config)
+    cpu_config = _force_cpu_config(
+        config,
+        original_requested_device=config.get("device", "auto"),
+        oom_reason=oom_reason if oom_reason is not None else RuntimeError("CUDA out of memory"),
+        enabled_by=fallback_source,
+    )
     return Trainer(cpu_config).fit()

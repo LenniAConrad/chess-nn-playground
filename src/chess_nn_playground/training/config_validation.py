@@ -279,6 +279,9 @@ def validate_training_config(
         errors.append(f"{path_text}: training.matmul_precision must be highest, high, or medium")
     if training_cfg.get("class_weighting") not in {None, "none", "balanced"}:
         errors.append(f"{path_text}: training.class_weighting must be none or balanced")
+    allow_cpu_oom_fallback = training_cfg.get("allow_cpu_oom_fallback", False)
+    if not isinstance(allow_cpu_oom_fallback, bool):
+        errors.append(f"{path_text}: training.allow_cpu_oom_fallback must be true or false")
     scheduler_cfg = training_cfg.get("lr_scheduler", {})
     if scheduler_cfg is not None and not isinstance(scheduler_cfg, dict):
         errors.append(f"{path_text}: training.lr_scheduler must be a mapping when provided")
@@ -305,6 +308,10 @@ def validate_training_config(
         if mixed_precision is False:
             warnings.append(
                 f"{path_text}: paper-grade CUDA benchmark has mixed_precision=false; use true or auto for faster NVIDIA runs"
+            )
+        if allow_cpu_oom_fallback is True:
+            warnings.append(
+                f"{path_text}: paper-grade config enables CPU OOM fallback; fallback results are labeled non-benchmark"
             )
 
     return [f"ERROR: {message}" for message in errors] + [f"WARNING: {message}" for message in warnings]

@@ -10,11 +10,7 @@ import yaml
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.ideas.schema import discover_idea_folders
 from chess_nn_playground.models.research_packet_probe import PROFILE_NAMES

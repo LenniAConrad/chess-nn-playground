@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Run Claude Code headlessly across every scaffold-only idea.
+"""Experimental Claude Code automation for scaffold-only ideas.
 
 One fresh `claude -p` invocation per idea. Fresh session = clean context, no
 cross-idea token spillover, cheapest per-idea cost.
@@ -9,9 +9,9 @@ architecture-conformance audits plus the focused pytest suite. On green it
 auto-commits the touched files for that idea; on red it leaves the working
 tree dirty (or restores it, with --restore-on-fail) and moves on.
 
-Defaults to `--dangerously-skip-permissions` so the verification commands
-embedded in the prompt actually run unattended. Switch to `--safe` to use
-`--permission-mode acceptEdits` with a Bash allowlist instead.
+Defaults to `--permission-mode acceptEdits` with a small Bash allowlist. Pass
+`--unsafe-skip-permissions` only for a dedicated throwaway worktree where broad
+tool execution is intentional.
 """
 from __future__ import annotations
 
@@ -24,20 +24,16 @@ import subprocess
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
 
-bootstrap()
-
-from print_codex_bespoke_prompt import _matching_rows, _prompt_for  # noqa: E402
+from scripts.ideas.print_codex_bespoke_prompt import _matching_rows, _prompt_for
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_LOG_DIR = REPO_ROOT / "logs" / "claude_bespoke"
 
 VERIFY_COMMANDS: list[list[str]] = [
-    ["python", "scripts/ideas/audit_implementation_kinds.py", "--check"],
-    ["python", "scripts/ideas/audit_architecture_conformance.py", "--check"],
+    ["chess-nn-audit-ideas", "--check"],
+    ["chess-nn-audit-architectures", "--check"],
 ]
 
 
@@ -125,7 +121,7 @@ def _resolve_claude_bin(explicit: str | None) -> str:
 def _build_claude_argv(
     *,
     claude_bin: str,
-    safe: bool,
+    unsafe_skip_permissions: bool,
     max_turns: int,
     model: str | None,
     effort: str | None,
@@ -137,11 +133,11 @@ def _build_claude_argv(
         argv += ["--model", model]
     if effort:
         argv += ["--effort", effort]
-    if safe:
+    if unsafe_skip_permissions:
+        argv += ["--dangerously-skip-permissions"]
+    else:
         argv += ["--permission-mode", "acceptEdits"]
         argv += ["--allowedTools", ",".join(SAFE_ALLOWED_TOOLS)]
-    else:
-        argv += ["--dangerously-skip-permissions"]
     return argv
 
 
@@ -335,7 +331,11 @@ def main() -> None:
     parser.add_argument("--model", default=None, help="Override Claude model alias or full id (e.g. 'opus', 'sonnet', 'claude-opus-4-7'). Default: claude CLI's own default (Opus on a Max subscription).")
     parser.add_argument("--effort", default="high", choices=["low", "medium", "high", "xhigh", "max", "none"], help="Extended-thinking effort level. Default: high. Use 'none' to omit the flag entirely.")
     parser.add_argument("--claude-bin", default=None, help="Path to claude CLI (default: PATH lookup).")
-    parser.add_argument("--safe", action="store_true", help="Use acceptEdits + tool allowlist instead of dangerously-skip-permissions.")
+    parser.add_argument(
+        "--unsafe-skip-permissions",
+        action="store_true",
+        help="Use Claude's dangerously-skip-permissions mode. Intended only for disposable worktrees.",
+    )
     parser.add_argument(
         "--restore-on-fail",
         dest="restore_on_fail",
@@ -361,7 +361,7 @@ def main() -> None:
     effort = None if args.effort == "none" else args.effort
     claude_argv = _build_claude_argv(
         claude_bin=claude_bin,
-        safe=args.safe,
+        unsafe_skip_permissions=args.unsafe_skip_permissions,
         max_turns=args.max_turns,
         model=args.model,
         effort=effort,

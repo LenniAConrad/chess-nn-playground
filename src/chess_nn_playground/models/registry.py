@@ -1,1076 +1,39 @@
 from __future__ import annotations
 
+import importlib
+from collections.abc import Callable, Iterator, MutableMapping
+from functools import lru_cache
 from typing import Any
 
 from torch import nn
 
-from chess_nn_playground.models.trunk.attack_defense_sheaf import build_attack_defense_sheaf_from_config
-from chess_nn_playground.models.trunk.attack_hodge_sheaf import build_attack_hodge_sheaf_from_config
-from chess_nn_playground.models.trunk.cayley_hamilton_coeffs import build_cayley_hamilton_coeffs_from_config
-from chess_nn_playground.models.trunk.cayley_orthogonal import build_cayley_orthogonal_from_config
-from chess_nn_playground.models.trunk.centered_tempo_odd_interventional_bottleneck import (
-    build_centered_tempo_odd_interventional_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.chess_geometry_transport import (
-    build_entropic_chess_geometry_transport_network_from_config,
-)
-from chess_nn_playground.models.trunk.chess_mode_tucker_relation_certificate import (
-    build_chess_mode_tucker_relation_certificate_from_config,
-)
-from chess_nn_playground.models.trunk.cnn import build_cnn_from_config
-from chess_nn_playground.models.trunk.determinantal_volume import (
-    build_determinantal_tactical_volume_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.differentiable_chess_fact_lattice import (
-    build_differentiable_chess_fact_lattice_from_config,
-)
-from chess_nn_playground.models.trunk.directed_attack_sheaf import build_directed_attack_sheaf_from_config
-from chess_nn_playground.models.trunk.file_mirror_tension_sheaf import build_file_mirror_tension_sheaf_from_config
-from chess_nn_playground.models.trunk.finite_field_character_sum import (
-    build_finite_field_character_sum_board_network_from_config,
-)
-from chess_nn_playground.models.trunk.schur_ray_line_algebra import (
-    build_schur_ray_line_algebra_network_from_config,
-)
-from chess_nn_playground.models.trunk.bitboard_shift_algebra import (
-    build_bitboard_shift_algebra_network_from_config,
-)
-from chess_nn_playground.models.trunk.dykstra_lcp import build_dykstra_lcp_from_config
-from chess_nn_playground.models.trunk.auxiliary_reconstruction_boardnet import (
-    build_auxiliary_reconstruction_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.adapter_sandwich_residual_cnn import (
-    build_adapter_sandwich_residual_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.capsule_motif_boardnet import (
-    build_capsule_motif_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.multi_order_board_scan_network import (
-    build_multi_order_board_scan_network_from_config,
-)
-from chess_nn_playground.models.trunk.cross_stitch_cnn_token_fusion_net import (
-    build_cross_stitch_cnn_token_fusion_net_from_config,
-)
-from chess_nn_playground.models.trunk.neural_decision_forest_boardnet import (
-    build_neural_decision_forest_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.vector_quantized_motif_codebook_net import (
-    build_vector_quantized_motif_codebook_net_from_config,
-)
-from chess_nn_playground.models.trunk.agreement_variance_head_net import (
-    build_agreement_variance_head_net_from_config,
-)
-from chess_nn_playground.models.trunk.early_exit_cascade_boardnet import (
-    build_early_exit_cascade_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.empty_square_opportunity_network import build_empty_square_opportunity_network_from_config
-from chess_nn_playground.models.trunk.entropic_piece_target_transport_bottleneck import (
-    build_entropic_piece_target_transport_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.piece_target_transport import (
-    build_piece_target_entropic_transport_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.hadamard_spectrum import build_hadamard_spectrum_from_config
-from chess_nn_playground.models.trunk.harmonic_board_potential_network import (
-    build_harmonic_board_potential_network_from_config,
-)
-from chess_nn_playground.models.trunk.tropical_constraint_circuit_network import (
-    build_tropical_constraint_circuit_network_from_config,
-)
-from chess_nn_playground.models.trunk.grassmannian_principal_angle_bottleneck import (
-    build_grassmannian_principal_angle_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.matrix_pencil_generalized_spectrum_bottleneck import (
-    build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.pivot_trace_elimination_network import (
-    build_pivot_trace_elimination_network_from_config,
-)
-from chess_nn_playground.models.trunk.polar_procrustes_alignment_bottleneck import (
-    build_polar_procrustes_alignment_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.hall_defect_obligation_matroid import (
-    build_hall_defect_obligation_matroid_network_from_config,
-)
-from chess_nn_playground.models.trunk.hall_defect_zeta import (
-    build_hall_defect_zeta_operator_from_config,
-)
-from chess_nn_playground.models.trunk.geometry_pseudolikelihood_ratio import (
-    build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
-)
-from chess_nn_playground.models.trunk.global_scratchpad_boardnet import build_global_scratchpad_boardnet_from_config
-from chess_nn_playground.models.trunk.learnable_pooling_tree_boardnet import (
-    build_learnable_pooling_tree_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.spatial_film_coordinate_net import (
-    build_spatial_film_coordinate_net_from_config,
-)
-from chess_nn_playground.models.trunk.channel_bilinear_role_mixer import (
-    build_channel_bilinear_role_mixer_from_config,
-)
-from chess_nn_playground.models.trunk.evidence_sieve_network import (
-    build_evidence_sieve_network_from_config,
-)
-from chess_nn_playground.models.trunk.ring_shell_recurrent_boardnet import (
-    build_ring_shell_recurrent_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.rank_file_memory_grid_net import (
-    build_rank_file_memory_grid_net_from_config,
-)
-from chess_nn_playground.models.trunk.line_piece_crossbar_network import (
-    build_line_piece_crossbar_network_from_config,
-)
-from chess_nn_playground.models.trunk.near_puzzle_margin_twin_network import (
-    build_near_puzzle_margin_twin_network_from_config,
-)
-from chess_nn_playground.models.trunk.puzzle_boundary_twin_encoder import (
-    build_puzzle_boundary_twin_encoder_from_config,
-)
-from chess_nn_playground.models.trunk.critical_square_budget_network import (
-    build_critical_square_budget_network_from_config,
-)
-from chess_nn_playground.models.trunk.exchange_soundness_graph_network import (
-    build_exchange_soundness_graph_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_program_induction import (
-    build_tactical_program_induction_network_from_config,
-)
-from chess_nn_playground.models.trunk.legal_reaction_bottleneck_network import (
-    build_legal_reaction_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.prototype_margin_puzzle_network import (
-    build_prototype_margin_puzzle_network_from_config,
-)
-from chess_nn_playground.models.trunk.stripe_selective_mixer_cnn import (
-    build_stripe_selective_mixer_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.king_zone_evidence_ledger import (
-    build_king_zone_evidence_ledger_from_config,
-)
-from chess_nn_playground.models.trunk.blocker_pin_lattice import build_blocker_pin_lattice_network_from_config
-from chess_nn_playground.models.trunk.hypercolumn_square_readout_cnn import (
-    build_hypercolumn_square_readout_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.independence_residual import (
-    build_independence_residual_interaction_network_from_config,
-)
-from chess_nn_playground.models.trunk.king_anchored_euler_interaction_network import (
-    build_king_anchored_euler_interaction_network_from_config,
-)
-from chess_nn_playground.models.trunk.non_backtracking_tactical_walk import (
-    build_non_backtracking_tactical_walk_network_from_config,
-)
-from chess_nn_playground.models.trunk.king_anchored_material_null_transport import (
-    build_king_anchored_material_null_transport_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.king_escape_percolation import build_king_escape_percolation_network_from_config
-from chess_nn_playground.models.trunk.king_shelter_microkernel import build_king_shelter_microkernel_network_from_config
-from chess_nn_playground.models.trunk.latent_reply_entropy import build_latent_reply_entropy_network_from_config
-from chess_nn_playground.models.trunk.mobius_piece_constellation import build_mobius_piece_constellation_network_from_config
-from chess_nn_playground.models.trunk.move_landscape_net import build_move_landscape_net_from_config
-from chess_nn_playground.models.trunk.multiplicative_conjunction_convnet import (
-    build_multiplicative_conjunction_convnet_from_config,
-)
-from chess_nn_playground.models.trunk.nuisance_orthogonal_puzzle_bottleneck import (
-    build_nuisance_orthogonal_puzzle_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.occupancy_run_length_segment import build_occupancy_run_length_segment_encoder_from_config
-from chess_nn_playground.models.trunk.ordinal_evidence_ladder import (
-    build_ordinal_evidence_ladder_network_from_config,
-)
-from chess_nn_playground.models.trunk.oriented_tactical_sheaf import build_oriented_tactical_sheaf_from_config
-from chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast import (
-    build_oriented_tactical_sheaf_fast_from_config,
-)
-from chess_nn_playground.models.trunk.lc0_bt4_transformer import (
-    build_lc0_bt4_transformer_from_config,
-)
-from chess_nn_playground.models.architecture.oriented_sheaf_plus_primitive import (
-    build_oriented_sheaf_plus_primitive_from_config,
-)
-from chess_nn_playground.models.architecture.bt4_primitive_mixer import (
-    build_bt4_primitive_mixer_from_config,
-)
-from chess_nn_playground.models.trunk.permanent_ryser import build_permanent_ryser_from_config
-from chess_nn_playground.models.trunk.patch_mixer_boardnet import build_patch_mixer_boardnet_from_config
-from chess_nn_playground.models.trunk.piece_plane_gated_cnn import build_piece_plane_gated_cnn_from_config
-from chess_nn_playground.models.trunk.safe_reply_certificate import build_safe_reply_certificate_verifier_from_config
-from chess_nn_playground.models.trunk.specialist_head_cnn import build_specialist_head_cnn_from_config
-from chess_nn_playground.models.trunk.tactical_sheaf_curvature import build_tactical_sheaf_curvature_from_config
-from chess_nn_playground.models.trunk.tactical_sheaf_tension import build_tactical_sheaf_tension_from_config
-from chess_nn_playground.models.trunk.tactical_transport_imbalance import (
-    build_tactical_transport_imbalance_network_from_config,
-)
-from chess_nn_playground.models.trunk.sparse_witness_bottleneck import (
-    build_sparse_witness_piece_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.square_color_parity_mixer import build_square_color_parity_mixer_from_config
-from chess_nn_playground.models.trunk.stable_rank_multiscale import build_stable_rank_multiscale_from_config
-from chess_nn_playground.models.trunk.soft_king_cage_path import (
-    build_soft_king_cage_path_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.toda_isospectral_flow import (
-    build_toda_isospectral_flow_network_from_config,
-)
-from chess_nn_playground.models.trunk.threat_topology_betti import (
-    build_threat_topology_betti_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.dykstra_vetoselect import build_dykstra_vetoselect_from_config
-from chess_nn_playground.models.trunk.conditional_surprisal_gate import build_conditional_surprisal_gate_from_config
-from chess_nn_playground.models.trunk.contamination_dro_huber_tail import build_contamination_dro_huber_tail_from_config
-from chess_nn_playground.models.trunk.material_locked_tactical_dro import build_material_locked_tactical_dro_from_config
-from chess_nn_playground.models.trunk.soft_sorting_order_ranker import build_soft_sorting_order_ranker_from_config
-from chess_nn_playground.models.trunk.lc0_bt4 import build_lc0_bt4_from_config
-from chess_nn_playground.models.trunk.mlp import build_mlp_from_config
-from chess_nn_playground.models.trunk.nnue import build_nnue_from_config
-from chess_nn_playground.models.trunk.boundary_edit import build_boundary_edit_from_config
-from chess_nn_playground.models.trunk.chess_operator_basis import build_chess_operator_basis_from_config
-from chess_nn_playground.models.trunk.factor_agreement import build_factor_agreement_from_config
-from chess_nn_playground.models.trunk.neural_proof_number import build_neural_proof_number_from_config
-from chess_nn_playground.models.trunk.null_move_contrast import build_null_move_contrast_from_config
-from chess_nn_playground.models.trunk.obligation_flow import build_obligation_flow_from_config
-from chess_nn_playground.models.trunk.proof_core import build_proof_core_from_config
-from chess_nn_playground.models.trunk.response_minimax import build_response_minimax_from_config
-from chess_nn_playground.models.trunk.rule_dynamics import build_rule_dynamics_from_config
-from chess_nn_playground.models.trunk.tactical_equilibrium import build_tactical_equilibrium_from_config
-from chess_nn_playground.models.research_packet_probe import build_research_packet_probe_from_config
-from chess_nn_playground.models.research_packet_probe import infer_mechanism_family
-from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
-from chess_nn_playground.models.trunk.relational_query_algebra import (
-    build_relational_query_algebra_network_from_config,
-)
-from chess_nn_playground.models.trunk.residual_calibration import build_residual_calibration_error_field_from_config
-from chess_nn_playground.models.trunk.residual_cnn import build_residual_cnn_from_config
-from chess_nn_playground.models.trunk.set_query_attention import build_set_query_attention_bottleneck_from_config
-from chess_nn_playground.models.trunk.sparse_relation_pursuit import build_sparse_relation_pursuit_from_config
-from chess_nn_playground.models.trunk.counterfactual_defender_dropout import (
-    build_counterfactual_defender_dropout_network_from_config,
-)
-from chess_nn_playground.models.trunk.exchange_then_king_dual_stream import (
-    build_exchange_then_king_dual_stream_from_config,
-)
-from chess_nn_playground.models.primitives.rule_aware_tactical_head import (
-    build_rule_aware_tactical_head_from_config,
-)
-from chess_nn_playground.models.primitives.pair_resonance_hessian_network import (
-    build_pair_resonance_hessian_network_from_config,
-)
-from chess_nn_playground.models.primitives.complex_amplitude_chess_network import (
-    build_complex_amplitude_chess_network_from_config,
-)
-from chess_nn_playground.models.primitives.promotion_aware_head import (
-    build_promotion_aware_head_from_config,
-)
-from chess_nn_playground.models.primitives.pareto_antichain_frontier_network import (
-    build_pareto_antichain_frontier_network_from_config,
-)
-from chess_nn_playground.models.primitives.regret_saddlepoint_network import (
-    build_regret_saddlepoint_network_from_config,
-)
-from chess_nn_playground.models.primitives.reply_channel_capacity_network import (
-    build_reply_channel_capacity_network_from_config,
-)
-from chess_nn_playground.models.primitives.tail_copula_concordance_network import (
-    build_tail_copula_concordance_network_from_config,
-)
-from chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network import (
-    build_witness_counterwitness_quantifier_network_from_config,
-)
-from chess_nn_playground.models.primitives.signed_edit_bilinear_memory import (
-    build_signed_edit_bilinear_memory_from_config,
-)
-from chess_nn_playground.models.primitives.sparse_delta_accumulator import (
-    build_sparse_delta_accumulator_from_config,
-)
-from chess_nn_playground.models.primitives.delta_pair_accumulator import (
-    build_delta_pair_accumulator_from_config,
-)
-from chess_nn_playground.models.primitives.delta_crelu_involution import (
-    build_delta_crelu_involution_head_from_config,
-)
-from chess_nn_playground.models.primitives.ray_semiring_chi_head import (
-    build_ray_semiring_chi_head_from_config,
-)
-from chess_nn_playground.models.primitives.delta_event_legal_routing import (
-    build_delta_event_legal_routing_from_config,
-)
-from chess_nn_playground.models.primitives.delta_state_slg_diffusion import (
-    build_delta_state_slg_diffusion_from_config,
-)
-from chess_nn_playground.models.primitives.move_graph_router import (
-    build_move_graph_router_from_config,
-)
-from chess_nn_playground.models.primitives.attack_ray_sparse_attention import (
-    build_attack_ray_sparse_attention_from_config,
-)
-from chess_nn_playground.models.primitives.rule_conditioned_sparse_attention import (
-    build_rule_conditioned_sparse_attention_from_config,
-)
-from chess_nn_playground.models.primitives.legal_move_graph_delta import (
-    build_legal_move_graph_delta_from_config,
-)
-from chess_nn_playground.models.primitives.ray_occlusion_semiring_scan import (
-    build_ray_occlusion_semiring_scan_from_config,
-)
-from chess_nn_playground.models.primitives.legal_edge_compile_scatter import (
-    build_legal_edge_compile_scatter_from_config,
-)
-from chess_nn_playground.models.primitives.reversible_delta_kernel_memory import (
-    build_reversible_delta_kernel_memory_from_config,
-)
-from chess_nn_playground.models.primitives.blocker_reset_ray_scan import (
-    build_blocker_reset_ray_scan_from_config,
-)
-from chess_nn_playground.models.primitives.occlusion_semiring_ray_scan import (
-    build_occlusion_semiring_ray_scan_from_config,
-)
-from chess_nn_playground.models.primitives.event_delta_bilinear_accumulator import (
-    build_event_delta_bilinear_accumulator_from_config,
-)
-from chess_nn_playground.models.primitives.occlusion_semiring_delta_bilinear_hyperedge import (
-    build_occlusion_semiring_delta_bilinear_hyperedge_from_config,
-)
-from chess_nn_playground.models.primitives.event_symmetric_interaction_accumulator import (
-    build_event_symmetric_interaction_accumulator_from_config,
-)
-from chess_nn_playground.models.primitives.incremental_delta_linear_head import (
-    build_incremental_delta_linear_head_from_config,
-)
-from chess_nn_playground.models.primitives.ray_cast_obstacle_pool_head import (
-    build_ray_cast_obstacle_pool_head_from_config,
-)
-from chess_nn_playground.models.primitives.sparse_legal_move_router_head import (
-    build_sparse_legal_move_router_head_from_config,
-)
-from chess_nn_playground.models.primitives.incremental_latent_accumulator_head import (
-    build_incremental_latent_accumulator_head_from_config,
-)
-from chess_nn_playground.models.primitives.occlusion_aware_ray_scan_head import (
-    build_occlusion_aware_ray_scan_head_from_config,
-)
-from chess_nn_playground.models.primitives.ray_parallel_ssm_head import (
-    build_ray_parallel_ssm_head_from_config,
-)
-from chess_nn_playground.models.primitives.legal_move_laplacian_resolvent import (
-    build_legal_move_laplacian_resolvent_from_config,
-)
-from chess_nn_playground.models.primitives.dynamic_adjacency_gating import (
-    build_dynamic_adjacency_gating_from_config,
-)
-from chess_nn_playground.models.primitives.move_kernel_operator import (
-    build_move_kernel_operator_from_config,
-)
-from chess_nn_playground.models.primitives.octilinear_selective_scan import (
-    build_octilinear_selective_scan_from_config,
-)
-from chess_nn_playground.models.primitives.sparse_legal_graph_transition import (
-    build_sparse_legal_graph_transition_from_config,
-)
-from chess_nn_playground.models.primitives.canonical_orbit_st_operator import (
-    build_canonical_orbit_st_operator_from_config,
-)
-from chess_nn_playground.models.primitives.gibbs_cut_log_partition import (
-    build_gibbs_cut_log_partition_from_config,
-)
-from chess_nn_playground.models.primitives.woodbury_set_resolver import (
-    build_woodbury_set_resolver_from_config,
-)
-from chess_nn_playground.models.primitives.occupancy_eikonal_transform import (
-    build_occupancy_eikonal_transform_from_config,
-)
-from chess_nn_playground.models.primitives.conservation_nullspace_norm import (
-    build_conservation_nullspace_norm_from_config,
-)
-from chess_nn_playground.models.primitives.truncated_exterior_product_pool import (
-    build_truncated_exterior_product_pool_from_config,
-)
-from chess_nn_playground.models.primitives.truncated_multiset_polynomial_pool import (
-    build_truncated_multiset_polynomial_pool_from_config,
-)
-from chess_nn_playground.models.primitives.grassmann_rook_pool import (
-    build_grassmann_rook_pool_from_config,
-)
-from chess_nn_playground.models.primitives.weighted_hodge_projector import (
-    build_weighted_hodge_projector_from_config,
-)
-from chess_nn_playground.models.primitives.kirchhoff_mobility_solve import (
-    build_kirchhoff_mobility_solve_from_config,
-)
-from chess_nn_playground.models.primitives.subset_logpartition import (
-    build_subset_logpartition_from_config,
-)
-from chess_nn_playground.models.trunk.chess_decomposed_attention import (
-    build_chess_decomposed_attention_from_config,
-)
-from chess_nn_playground.models.trunk.source_invariant_puzzle_bottleneck import (
-    build_source_invariant_puzzle_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.reply_set_contrastive_transformer import (
-    build_reply_set_contrastive_transformer_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_symptom_bayesian_network import (
-    build_tactical_symptom_bayesian_network_from_config,
-)
-from chess_nn_playground.models.trunk.counterfactual_delta_bottleneck import (
-    build_counterfactual_delta_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.counterfactual_move_delta_spectrum import (
-    build_counterfactual_move_delta_spectrum_network_from_config,
-)
-from chess_nn_playground.models.trunk.counterplay_insolvency_ledger import (
-    build_counterplay_insolvency_ledger_from_config,
-)
-from chess_nn_playground.models.trunk.cross_defense_consistency import (
-    build_cross_defense_consistency_network_from_config,
-)
-from chess_nn_playground.models.trunk.defender_opportunity_cost_auction import (
-    build_defender_opportunity_cost_auction_network_from_config,
-)
-from chess_nn_playground.models.trunk.defender_timing_schedule import (
-    build_defender_timing_schedule_network_from_config,
-)
-from chess_nn_playground.models.trunk.discovered_ray_switchboard import (
-    build_discovered_ray_switchboard_network_from_config,
-)
-from chess_nn_playground.models.trunk.forced_target_funnel import (
-    build_forced_target_funnel_network_from_config,
-)
-from chess_nn_playground.models.trunk.hierarchical_tactical_option import (
-    build_hierarchical_tactical_option_network_from_config,
-)
-from chess_nn_playground.models.trunk.masked_codec_interaction_curvature import (
-    build_masked_codec_interaction_curvature_network_from_config,
-)
-from chess_nn_playground.models.trunk.masked_surprise_codec import (
-    build_masked_board_code_length_surprise_network_from_config,
-)
-from chess_nn_playground.models.trunk.non_puzzle_score_curl_divergence import (
-    build_non_puzzle_score_curl_divergence_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.non_puzzle_score_field_bottleneck import (
-    build_non_puzzle_score_field_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.soft_formal_concept_closure import (
-    build_soft_formal_concept_closure_network_from_config,
-)
-from chess_nn_playground.models.trunk.phase_specialist_calibration_mixture import (
-    build_phase_specialist_calibration_mixture_from_config,
-)
-from chess_nn_playground.models.trunk.pinned_mobility_nullspace import (
-    build_pinned_mobility_nullspace_network_from_config,
-)
-from chess_nn_playground.models.trunk.ray_grammar_edit_distance import (
-    build_ray_grammar_edit_distance_network_from_config,
-)
-from chess_nn_playground.models.trunk.kinematic_commutator_bottleneck import (
-    build_kinematic_commutator_bottleneck_network_from_config,
-)
-from chess_nn_playground.models.trunk.legal_automorphism_quotient_network import (
-    build_legal_automorphism_quotient_network_from_config,
-)
-from chess_nn_playground.models.trunk.color_flip_orbit_evidence import (
-    build_color_flip_orbit_evidence_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.rule_automorphism_quotient import (
-    build_rule_automorphism_quotient_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.rule_exact_orbit_bottleneck import (
-    build_rule_exact_orbit_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.rule_partition_invariant_bottleneck import (
-    build_side_canonical_rule_partition_invariant_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.ray_language_automaton_network import (
-    build_ray_language_automaton_network_from_config,
-)
-from chess_nn_playground.models.trunk.role_counterfactual_necessity import (
-    build_role_counterfactual_necessity_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_effective_resistance import (
-    build_tactical_effective_resistance_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_subgoal_automaton import (
-    build_tactical_subgoal_automaton_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_threat_sheaf import build_tactical_threat_sheaf_from_config
-from chess_nn_playground.models.trunk.tempo_odd_bottleneck import build_tempo_odd_bottleneck_from_config
-from chess_nn_playground.models.trunk.tensor_core_square_pair_field import (
-    build_tensor_core_square_pair_field_network_from_config,
-)
-from chess_nn_playground.models.trunk.tiny_chess_micronet import build_tiny_chess_micronet_from_config
-from chess_nn_playground.models.trunk.variational_board_action import build_variational_board_action_network_from_config
-from chess_nn_playground.models.trunk.vetoselect import build_vetoselect_from_config
+from chess_nn_playground.models._registry_manifest import MODEL_SPECS
+
+ModelBuilder = Callable[[dict[str, Any]], nn.Module]
+
+_RUNTIME_BUILDERS: dict[str, ModelBuilder] = {}
+_RESOLVED_BUILDERS: dict[str, ModelBuilder] = {}
 
 
-from chess_nn_playground.models.trunk.orbit_disagreement import build_orbit_disagreement_residual_network_from_config
-from chess_nn_playground.models.trunk.attention_disagreement_residual_network import (
-    build_attention_disagreement_residual_network_from_config,
-)
-from chess_nn_playground.models.trunk.cross_scale_attention_residual_network import (
-    build_cross_scale_attention_residual_network_from_config,
-)
-from chess_nn_playground.models.trunk.slot_attention_role_binding_network import (
-    build_slot_attention_role_binding_network_from_config,
-)
-from chess_nn_playground.models.trunk.attention_perturbation_sensitivity_network import (
-    build_attention_perturbation_sensitivity_network_from_config,
-)
-from chess_nn_playground.models.trunk.kernel_mean_prototype_network import (
-    build_kernel_mean_prototype_network_from_config,
-)
-from chess_nn_playground.models.trunk.tensorsketch_interaction_network import (
-    build_tensorsketch_interaction_network_from_config,
-)
-from chess_nn_playground.models.trunk.maxout_region_signature_network import (
-    build_maxout_region_signature_network_from_config,
-)
-from chess_nn_playground.models.trunk.spline_board_surface_network import (
-    build_spline_board_surface_network_from_config,
-)
-from chess_nn_playground.models.trunk.boundary_condition_disagreement_cnn import (
-    build_boundary_condition_disagreement_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.piece_drop_stability_network import (
-    build_piece_drop_stability_network_from_config,
-)
-from chess_nn_playground.models.trunk.hall_dual_residual import build_hall_defect_dual_residual_network_from_config
-from chess_nn_playground.models.trunk.credal_near_puzzle_evidence import (
-    build_credal_near_puzzle_evidence_network_from_config,
-)
-from chess_nn_playground.models.trunk.credal_temperature import build_credal_temperature_field_network_from_config
-from chess_nn_playground.models.trunk.sylvester_coupling import build_sylvester_tactical_coupling_network_from_config
-from chess_nn_playground.models.trunk.schur_complement_defender import build_schur_complement_defender_network_from_config
-from chess_nn_playground.models.trunk.bures_wasserstein_threat import build_bures_wasserstein_threat_network_from_config
-from chess_nn_playground.models.trunk.numerical_range_boundary import build_numerical_range_boundary_network_from_config
-from chess_nn_playground.models.trunk.lyapunov_threat_stability import build_lyapunov_threat_stability_network_from_config
-from chess_nn_playground.models.trunk.pfaffian_skew_threat import build_pfaffian_skew_threat_network_from_config
-from chess_nn_playground.models.trunk.padic_ultrametric_threat import build_padic_ultrametric_threat_network_from_config
-from chess_nn_playground.models.trunk.free_probability_r_transform import build_free_probability_r_transform_network_from_config
-from chess_nn_playground.models.trunk.williamson_symplectic_threat_network import (
-    build_williamson_symplectic_threat_network_from_config,
-)
-from chess_nn_playground.models.trunk.magnus_bch_coupling_series_network import (
-    build_magnus_bch_coupling_series_network_from_config,
-)
-from chess_nn_playground.models.trunk.riccati_optimal_defense_network import (
-    build_riccati_optimal_defense_network_from_config,
-)
-from chess_nn_playground.models.trunk.clifford_rotor_threat_network import (
-    build_clifford_rotor_threat_network_from_config,
-)
-from chess_nn_playground.models.trunk.tracy_widom_level_spacing_network import (
-    build_tracy_widom_level_spacing_network_from_config,
-)
-from chess_nn_playground.models.trunk.lindstrom_gessel_viennot_path_network import (
-    build_lindstrom_gessel_viennot_path_network_from_config,
-)
-from chess_nn_playground.models.trunk.low_displacement_rank_board_operator import (
-    build_low_displacement_rank_board_operator_from_config,
-)
-from chess_nn_playground.models.trunk.defender_exhaustion_cascade_network import (
-    build_defender_exhaustion_cascade_network_from_config,
-)
-from chess_nn_playground.models.trunk.local_neighborhood_geometry_network import (
-    build_local_neighborhood_geometry_network_from_config,
-)
-from chess_nn_playground.models.trunk.multi_scale_dilated_board_mixer_cnn import (
-    build_multi_scale_dilated_board_mixer_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.piece_token_cnn_hybrid import (
-    build_piece_token_cnn_hybrid_from_config,
-)
-from chess_nn_playground.models.trunk.puzzle_binary_benchmark_challengers import (
-    build_negative_class_disentangled_puzzle_head_from_config,
-    build_puzzle_binary_benchmark_challengers_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_bisimulation_puzzle_network import (
-    build_tactical_bisimulation_puzzle_network_from_config,
-)
-from chess_nn_playground.models.trunk.krylov_tactical_subspace_network import (
-    build_krylov_tactical_subspace_network_from_config,
-)
-from chess_nn_playground.models.trunk.adaptive_tactical_resolvent_network import (
-    build_adaptive_tactical_resolvent_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_controllability_gramian_network import (
-    build_tactical_controllability_gramian_network_from_config,
-)
-from chess_nn_playground.models.trunk.support_polar_zonotope import (
-    build_support_polar_zonotope_certificate_network_from_config,
-)
-from chess_nn_playground.models.trunk.support_function_envelope_network import (
-    build_support_function_envelope_network_from_config,
-)
-from chess_nn_playground.models.trunk.loop_frustration_curvature_network import (
-    build_loop_frustration_curvature_network_from_config,
-)
-from chess_nn_playground.models.trunk.forcing_response_front_door_bottleneck import (
-    build_forcing_response_front_door_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.causal_piece_derivative_network import (
-    build_causal_piece_derivative_network_from_config,
-)
-from chess_nn_playground.models.trunk.phase_transition_pressure_network import (
-    build_phase_transition_pressure_network_from_config,
-)
-from chess_nn_playground.models.trunk.disproof_ledger_puzzle_network import (
-    build_disproof_ledger_puzzle_network_from_config,
-)
-from chess_nn_playground.models.trunk.motif_tensor_factorization_network import (
-    build_motif_tensor_factorization_network_from_config,
-)
-from chess_nn_playground.models.trunk.tempo_alignment_gate_network import (
-    build_tempo_alignment_gate_network_from_config,
-)
-from chess_nn_playground.models.trunk.tempo_defender_cross_derivative_network import (
-    build_tempo_defender_cross_derivative_network_from_config,
-)
-from chess_nn_playground.models.trunk.forcing_certificate_transformer import (
-    build_forcing_certificate_transformer_from_config,
-)
-from chess_nn_playground.models.trunk.chess_hypercut_polynomial import (
-    build_chess_hypercut_polynomial_network_from_config,
-)
-from chess_nn_playground.models.trunk.fisher_geodesic_tension import (
-    build_fisher_geodesic_tension_network_from_config,
-)
-from chess_nn_playground.models.trunk.typed_hypergraph_motif_grammar import (
-    build_typed_hypergraph_motif_grammar_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_radius_filtration import (
-    build_tactical_radius_filtration_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_state_bottleneck import (
-    build_tactical_state_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.bounded_board_hinge_logic import (
-    build_bounded_board_hinge_logic_from_config,
-)
-from chess_nn_playground.models.trunk.traced_threat_motif import (
-    build_traced_threat_motif_network_from_config,
-)
-from chess_nn_playground.models.trunk.parity_syndrome import (
-    build_parity_syndrome_puzzle_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.wavelet_scattering_board_network import (
-    build_wavelet_scattering_board_network_from_config,
-)
-from chess_nn_playground.models.trunk.convex_feasibility import (
-    build_convex_feasibility_residual_network_from_config,
-)
-from chess_nn_playground.models.trunk.oriented_matroid_covector import (
-    build_oriented_matroid_covector_bottleneck_from_config,
-)
-from chess_nn_playground.models.trunk.fixed_point_residual import (
-    build_fixed_point_residual_defect_network_from_config,
-)
-from chess_nn_playground.models.trunk.baseline_logit_residual_adapter import (
-    build_baseline_logit_residual_adapter_from_config,
-)
-from chess_nn_playground.models.trunk.coarse_to_fine_residual_pyramid import (
-    build_coarse_to_fine_board_residual_pyramid_from_config,
-)
-from chess_nn_playground.models.trunk.row_file_factor_mixer import (
-    build_row_file_factor_mixer_from_config,
-)
-from chess_nn_playground.models.trunk.piece_conditioned_hypernetwork_cnn import (
-    build_piece_conditioned_hypernetwork_cnn_from_config,
-)
-from chess_nn_playground.models.trunk.neural_board_cellular_automaton import (
-    build_neural_board_cellular_automaton_from_config,
-)
-from chess_nn_playground.models.trunk.symmetric_difference_twin_encoder import (
-    build_symmetric_difference_twin_encoder_from_config,
-)
-from chess_nn_playground.models.trunk.minimal_edit_puzzle_distance_network import (
-    build_minimal_edit_puzzle_distance_network_from_config,
-)
-from chess_nn_playground.models.trunk.barrier_cut_puzzle_network import (
-    build_barrier_cut_puzzle_network_from_config,
-)
-from chess_nn_playground.models.trunk.tactical_hessian_spectrum_network import (
-    build_tactical_hessian_spectrum_network_from_config,
-)
-from chess_nn_playground.models.trunk.absorbing_threat_markov_network import (
-    build_absorbing_threat_markov_network_from_config,
-)
-from chess_nn_playground.models.trunk.neural_clause_resolution_puzzle_network import (
-    build_neural_clause_resolution_puzzle_network_from_config,
-)
-from chess_nn_playground.models.trunk.piece_liability_gradient_network import (
-    build_piece_liability_gradient_network_from_config,
-)
-from chess_nn_playground.models.trunk.prototype_patch_dictionary_network import (
-    build_prototype_patch_dictionary_network_from_config,
-)
-from chess_nn_playground.models.trunk.tensor_ring_square_interaction_network import (
-    build_tensor_ring_square_interaction_network_from_config,
-)
-from chess_nn_playground.models.trunk.sinkhorn_role_assignment_network import (
-    build_sinkhorn_role_assignment_network_from_config,
-)
-from chess_nn_playground.models.trunk.morphological_threat_field_network import (
-    build_morphological_threat_field_network_from_config,
-)
-from chess_nn_playground.models.trunk.invertible_board_coupling_network import (
-    build_invertible_board_coupling_network_from_config,
-)
-from chess_nn_playground.models.trunk.sparse_expert_board_router import (
-    build_sparse_expert_board_router_from_config,
-)
-from chess_nn_playground.models.trunk.rank_quantile import (
-    build_rank_quantile_evidence_field_network_from_config,
-)
-from chess_nn_playground.models.trunk.ray_state_space_scan import (
-    build_ray_state_space_scan_network_from_config,
-)
-from chess_nn_playground.models.trunk.pawn_skeleton_barrier import (
-    build_pawn_skeleton_barrier_network_from_config,
-)
-from chess_nn_playground.models.trunk.material_phase_low_rank_adapter import (
-    build_material_phase_low_rank_adapter_network_from_config,
-)
-from chess_nn_playground.models.trunk.replicator_payoff_piece_dynamics import (
-    build_replicator_payoff_piece_dynamics_from_config,
-)
-from chess_nn_playground.models.trunk.differentiable_bitboard_boolean_network import (
-    build_differentiable_bitboard_boolean_network_from_config,
-)
-from chess_nn_playground.models.trunk.orthogonal_board_moment_network import (
-    build_orthogonal_board_moment_network_from_config,
-)
-from chess_nn_playground.models.trunk.legal_constraint_projection_residual_network import (
-    build_legal_constraint_projection_residual_network_from_config,
-)
-from chess_nn_playground.models.trunk.zobrist_kernel_feature_network import (
-    build_zobrist_kernel_feature_network_from_config,
-)
-from chess_nn_playground.models.trunk.low_rank_signed_cut_query_network import (
-    build_low_rank_signed_cut_query_network_from_config,
-)
-from chess_nn_playground.models.trunk.shallow_wide_residual_boardnet import (
-    build_shallow_wide_residual_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.source_rate_calibrated_objective import (
-    build_source_rate_calibrated_objective_from_config,
-)
-from chess_nn_playground.models.trunk.soft_majorization_line_sorter import (
-    build_soft_majorization_line_sorter_from_config,
-)
-from chess_nn_playground.models.trunk.convnext_boardnet import (
-    build_convnext_boardnet_from_config,
-)
-from chess_nn_playground.models.trunk.iterative_logit_refinement_cnn import (
-    build_iterative_logit_refinement_cnn_from_config,
-)
+def _load_manifest_builder(name: str) -> ModelBuilder | None:
+    spec = MODEL_SPECS.get(name)
+    if spec is None:
+        return None
+    if name not in _RESOLVED_BUILDERS:
+        module_name, attr_name = spec
+        module = importlib.import_module(module_name)
+        builder = getattr(module, attr_name)
+        _RESOLVED_BUILDERS[name] = builder
+    return _RESOLVED_BUILDERS[name]
 
 
-MODEL_BUILDERS = {
-    "simple_cnn": build_cnn_from_config,
-    "cnn_baseline": build_cnn_from_config,
-    "residual_cnn": build_residual_cnn_from_config,
-    "mlp": build_mlp_from_config,
-    "board_mlp": build_mlp_from_config,
-    "stockfish_nnue": build_nnue_from_config,
-    "nnue": build_nnue_from_config,
-    "lc0_bt4": build_lc0_bt4_from_config,
-    "lc0_bt4_classifier": build_lc0_bt4_from_config,
-    "vetoselect_positive_claim_abstention": build_vetoselect_from_config,
-    "dykstra_lcp": build_dykstra_lcp_from_config,
-    "dykstra_vetoselect": build_dykstra_vetoselect_from_config,
-    "sparse_relation_pursuit_asymmetry": build_sparse_relation_pursuit_from_config,
-    "sparse_relation_pursuit": build_sparse_relation_pursuit_from_config,
-    "chess_operator_basis_classifier": build_chess_operator_basis_from_config,
-    "response_minimax_classifier": build_response_minimax_from_config,
-    "factor_agreement_classifier": build_factor_agreement_from_config,
-    "puzzle_obligation_flow_network": build_obligation_flow_from_config,
-    "null_move_contrast_puzzle_network": build_null_move_contrast_from_config,
-    "proof_core_set_verifier": build_proof_core_from_config,
-    "neural_proof_number_search": build_neural_proof_number_from_config,
-    "boundary_edit_lagrangian_network": build_boundary_edit_from_config,
-    "tactical_equilibrium_network": build_tactical_equilibrium_from_config,
-    "rule_consistent_latent_dynamics": build_rule_dynamics_from_config,
-    "contamination_dro_huber_tail_rejection": build_contamination_dro_huber_tail_from_config,
-    "material_locked_tactical_dro": build_material_locked_tactical_dro_from_config,
-    "soft_sorting_order_residual_ranker": build_soft_sorting_order_ranker_from_config,
-    "conditional_surprisal_gate": build_conditional_surprisal_gate_from_config,
-    "hadamard_spectrum_network": build_hadamard_spectrum_from_config,
-    "cayley_orthogonal_network": build_cayley_orthogonal_from_config,
-    "stable_rank_multiscale_network": build_stable_rank_multiscale_from_config,
-    "permanent_ryser_network": build_permanent_ryser_from_config,
-    "cayley_hamilton_coeffs_network": build_cayley_hamilton_coeffs_from_config,
-    "king_escape_percolation_network": build_king_escape_percolation_network_from_config,
-    "soft_king_cage_path_bottleneck_network": build_soft_king_cage_path_bottleneck_network_from_config,
-    "hall_defect_obligation_matroid_network": build_hall_defect_obligation_matroid_network_from_config,
-    "hall_defect_zeta_operator": build_hall_defect_zeta_operator_from_config,
-    "threat_topology_betti_bottleneck_network": build_threat_topology_betti_bottleneck_network_from_config,
-    "blocker_pin_lattice_network": build_blocker_pin_lattice_network_from_config,
-    "safe_reply_certificate_verifier": build_safe_reply_certificate_verifier_from_config,
-    "latent_reply_entropy_network": build_latent_reply_entropy_network_from_config,
-    "geometry_conditioned_board_pseudo_likelihood_ratio_network": build_geometry_conditioned_board_pseudo_likelihood_ratio_network_from_config,
-    "mobius_piece_constellation_network": build_mobius_piece_constellation_network_from_config,
-    "sparse_witness_piece_bottleneck_network": build_sparse_witness_piece_bottleneck_network_from_config,
-    "tactical_threat_sheaf_network": build_tactical_threat_sheaf_from_config,
-    "oriented_tactical_sheaf_laplacian": build_oriented_tactical_sheaf_from_config,
-    "oriented_tactical_sheaf_fast": build_oriented_tactical_sheaf_fast_from_config,
-    "oriented_sheaf_plus_primitive": build_oriented_sheaf_plus_primitive_from_config,
-    "bt4_primitive_mixer": build_bt4_primitive_mixer_from_config,
-    "lc0_bt4_transformer": build_lc0_bt4_transformer_from_config,
-    "tactical_sheaf_curvature_network": build_tactical_sheaf_curvature_from_config,
-    "tactical_sheaf_tension_network": build_tactical_sheaf_tension_from_config,
-    "attack_defense_sheaf_energy_network": build_attack_defense_sheaf_from_config,
-    "attack_hodge_sheaf_tension_network": build_attack_hodge_sheaf_from_config,
-    "directed_attack_sheaf_tension_network": build_directed_attack_sheaf_from_config,
-    "file_mirror_tension_sheaf": build_file_mirror_tension_sheaf_from_config,
-    "entropic_piece_target_transport_bottleneck": build_entropic_piece_target_transport_bottleneck_from_config,
-    "piece_target_entropic_transport_bottleneck": build_piece_target_entropic_transport_bottleneck_from_config,
-    "king_anchored_material_null_transport_bottleneck": build_king_anchored_material_null_transport_bottleneck_from_config,
-    "nuisance_orthogonal_puzzle_bottleneck": build_nuisance_orthogonal_puzzle_bottleneck_from_config,
-    "one_ply_counterfactual_move_landscape_network": build_move_landscape_net_from_config,
-    "counterfactual_move_delta_spectrum_network": build_counterfactual_move_delta_spectrum_network_from_config,
-    "rule_only_counterfactual_move_delta_bottleneck": build_counterfactual_delta_bottleneck_from_config,
-    "specialist_head_cnn": build_specialist_head_cnn_from_config,
-    "patch_mixer_boardnet": build_patch_mixer_boardnet_from_config,
-    "piece_plane_gated_cnn": build_piece_plane_gated_cnn_from_config,
-    "hypercolumn_square_readout_cnn": build_hypercolumn_square_readout_cnn_from_config,
-    "multiplicative_conjunction_convnet": build_multiplicative_conjunction_convnet_from_config,
-    "empty_square_opportunity_network": build_empty_square_opportunity_network_from_config,
-    "global_scratchpad_boardnet": build_global_scratchpad_boardnet_from_config,
-    "learnable_pooling_tree_boardnet": build_learnable_pooling_tree_boardnet_from_config,
-    "spatial_film_coordinate_net": build_spatial_film_coordinate_net_from_config,
-    "channel_bilinear_role_mixer": build_channel_bilinear_role_mixer_from_config,
-    "evidence_sieve_network": build_evidence_sieve_network_from_config,
-    "square_color_parity_mixer": build_square_color_parity_mixer_from_config,
-    "independence_residual_interaction_network": build_independence_residual_interaction_network_from_config,
-    "residual_calibration_error_field": build_residual_calibration_error_field_from_config,
-    "set_query_attention_bottleneck": build_set_query_attention_bottleneck_from_config,
-    "relational_query_algebra_network": build_relational_query_algebra_network_from_config,
-    "toda_isospectral_flow_network": build_toda_isospectral_flow_network_from_config,
-    "occupancy_run_length_segment_encoder": build_occupancy_run_length_segment_encoder_from_config,
-    "king_shelter_microkernel_network": build_king_shelter_microkernel_network_from_config,
-    "variational_board_action_network": build_variational_board_action_network_from_config,
-    "tensor_core_square_pair_field_network": build_tensor_core_square_pair_field_network_from_config,
-    "tiny_chess_micronet": build_tiny_chess_micronet_from_config,
-    "hierarchical_tactical_option_network": build_hierarchical_tactical_option_network_from_config,
-    "cross_defense_consistency_network": build_cross_defense_consistency_network_from_config,
-    "defender_timing_schedule_network": build_defender_timing_schedule_network_from_config,
-    "discovered_ray_switchboard_network": build_discovered_ray_switchboard_network_from_config,
-    "counterplay_insolvency_ledger": build_counterplay_insolvency_ledger_from_config,
-    "pinned_mobility_nullspace_network": build_pinned_mobility_nullspace_network_from_config,
-    "tactical_effective_resistance_network": build_tactical_effective_resistance_network_from_config,
-    "defender_opportunity_cost_auction_network": build_defender_opportunity_cost_auction_network_from_config,
-    "role_counterfactual_necessity_network": build_role_counterfactual_necessity_network_from_config,
-    "phase_specialist_calibration_mixture": build_phase_specialist_calibration_mixture_from_config,
-    "forced_target_funnel_network": build_forced_target_funnel_network_from_config,
-    "tactical_subgoal_automaton_network": build_tactical_subgoal_automaton_network_from_config,
-    "masked_codec_interaction_curvature_network": build_masked_codec_interaction_curvature_network_from_config,
-    "masked_board_code_length_surprise_network": build_masked_board_code_length_surprise_network_from_config,
-    "non_puzzle_score_curl_divergence_bottleneck": build_non_puzzle_score_curl_divergence_bottleneck_from_config,
-    "non_puzzle_score_field_bottleneck_network": build_non_puzzle_score_field_bottleneck_network_from_config,
-    "soft_formal_concept_closure_network": build_soft_formal_concept_closure_network_from_config,
-    "ray_grammar_edit_distance_network": build_ray_grammar_edit_distance_network_from_config,
-    "ray_language_automaton_network": build_ray_language_automaton_network_from_config,
-    "kinematic_commutator_bottleneck_network": build_kinematic_commutator_bottleneck_network_from_config,
-    "orbit_disagreement_residual_network": build_orbit_disagreement_residual_network_from_config,
-    "hall_defect_dual_residual_network": build_hall_defect_dual_residual_network_from_config,
-    "credal_near_puzzle_evidence_network": build_credal_near_puzzle_evidence_network_from_config,
-    "credal_temperature_field_network": build_credal_temperature_field_network_from_config,
-    "sylvester_tactical_coupling_network": build_sylvester_tactical_coupling_network_from_config,
-    "schur_complement_defender_network": build_schur_complement_defender_network_from_config,
-    "bures_wasserstein_threat_network": build_bures_wasserstein_threat_network_from_config,
-    "numerical_range_boundary_network": build_numerical_range_boundary_network_from_config,
-    "lyapunov_threat_stability_network": build_lyapunov_threat_stability_network_from_config,
-    "pfaffian_skew_threat_network": build_pfaffian_skew_threat_network_from_config,
-    "padic_ultrametric_threat_network": build_padic_ultrametric_threat_network_from_config,
-    "free_probability_r_transform_network": build_free_probability_r_transform_network_from_config,
-    "williamson_symplectic_threat_network": build_williamson_symplectic_threat_network_from_config,
-    "magnus_bch_coupling_series_network": build_magnus_bch_coupling_series_network_from_config,
-    "riccati_optimal_defense_network": build_riccati_optimal_defense_network_from_config,
-    "clifford_rotor_threat_network": build_clifford_rotor_threat_network_from_config,
-    "tracy_widom_level_spacing_network": build_tracy_widom_level_spacing_network_from_config,
-    "lindstrom_gessel_viennot_path_network": build_lindstrom_gessel_viennot_path_network_from_config,
-    "low_displacement_rank_board_operator": build_low_displacement_rank_board_operator_from_config,
-    "defender_exhaustion_cascade_network": build_defender_exhaustion_cascade_network_from_config,
-    "local_neighborhood_geometry_network": build_local_neighborhood_geometry_network_from_config,
-    "tactical_transport_imbalance_network": build_tactical_transport_imbalance_network_from_config,
-    "entropic_chess_geometry_transport_network": build_entropic_chess_geometry_transport_network_from_config,
-    "ordinal_evidence_ladder_network": build_ordinal_evidence_ladder_network_from_config,
-    "centered_tempo_odd_interventional_bottleneck": build_centered_tempo_odd_interventional_bottleneck_from_config,
-    "legal_automorphism_quotient_network": build_legal_automorphism_quotient_network_from_config,
-    "side_canonical_rule_partition_invariant_bottleneck": build_side_canonical_rule_partition_invariant_bottleneck_from_config,
-    "rule_exact_orbit_bottleneck_network": build_rule_exact_orbit_bottleneck_from_config,
-    "color_flip_orbit_evidence_bottleneck": build_color_flip_orbit_evidence_bottleneck_from_config,
-    "rule_automorphism_quotient_bottleneck_network": build_rule_automorphism_quotient_bottleneck_from_config,
-    "tempo_odd_bottleneck_network": build_tempo_odd_bottleneck_from_config,
-    "king_anchored_euler_interaction_network": build_king_anchored_euler_interaction_network_from_config,
-    "non_backtracking_tactical_walk_network": build_non_backtracking_tactical_walk_network_from_config,
-    "determinantal_tactical_volume_bottleneck": build_determinantal_tactical_volume_bottleneck_from_config,
-    "harmonic_board_potential_network": build_harmonic_board_potential_network_from_config,
-    "tropical_constraint_circuit_network": build_tropical_constraint_circuit_network_from_config,
-    "grassmannian_principal_angle_bottleneck": build_grassmannian_principal_angle_bottleneck_from_config,
-    "matrix_pencil_generalized_spectrum_bottleneck": build_matrix_pencil_generalized_spectrum_bottleneck_from_config,
-    "pivot_trace_elimination_network": build_pivot_trace_elimination_network_from_config,
-    "polar_procrustes_alignment_bottleneck": build_polar_procrustes_alignment_bottleneck_from_config,
-    "multi_scale_dilated_board_mixer_cnn": build_multi_scale_dilated_board_mixer_cnn_from_config,
-    "piece_token_cnn_hybrid": build_piece_token_cnn_hybrid_from_config,
-    "finite_field_character_sum_board_network": build_finite_field_character_sum_board_network_from_config,
-    "schur_ray_line_algebra_network": build_schur_ray_line_algebra_network_from_config,
-    "bitboard_shift_algebra_network": build_bitboard_shift_algebra_network_from_config,
-    "puzzle_binary_benchmark_challengers": build_puzzle_binary_benchmark_challengers_from_config,
-    "negative_class_disentangled_puzzle_head": build_negative_class_disentangled_puzzle_head_from_config,
-    "tactical_bisimulation_puzzle_network": build_tactical_bisimulation_puzzle_network_from_config,
-    "krylov_tactical_subspace_network": build_krylov_tactical_subspace_network_from_config,
-    "adaptive_tactical_resolvent_network": build_adaptive_tactical_resolvent_network_from_config,
-    "tactical_controllability_gramian_network": build_tactical_controllability_gramian_network_from_config,
-    "support_polar_zonotope_certificate_network": build_support_polar_zonotope_certificate_network_from_config,
-    "support_function_envelope_network": build_support_function_envelope_network_from_config,
-    "loop_frustration_curvature_network": build_loop_frustration_curvature_network_from_config,
-    "forcing_response_front_door_bottleneck": build_forcing_response_front_door_bottleneck_from_config,
-    "chess_hypercut_polynomial_network": build_chess_hypercut_polynomial_network_from_config,
-    "fisher_geodesic_tension_network": build_fisher_geodesic_tension_network_from_config,
-    "typed_hypergraph_motif_grammar": build_typed_hypergraph_motif_grammar_from_config,
-    "differentiable_chess_fact_lattice": build_differentiable_chess_fact_lattice_from_config,
-    "tactical_radius_filtration": build_tactical_radius_filtration_from_config,
-    "chess_mode_tucker_relation_certificate": build_chess_mode_tucker_relation_certificate_from_config,
-    "tactical_state_bottleneck_inference": build_tactical_state_bottleneck_from_config,
-    "traced_threat_motif_network": build_traced_threat_motif_network_from_config,
-    "bounded_board_hinge_logic": build_bounded_board_hinge_logic_from_config,
-    "parity_syndrome_puzzle_bottleneck": build_parity_syndrome_puzzle_bottleneck_from_config,
-    "wavelet_scattering_board_network": build_wavelet_scattering_board_network_from_config,
-    "convex_feasibility_residual_network": build_convex_feasibility_residual_network_from_config,
-    "rank_quantile_evidence_field_network": build_rank_quantile_evidence_field_network_from_config,
-    "oriented_matroid_covector_bottleneck": build_oriented_matroid_covector_bottleneck_from_config,
-    "fixed_point_residual_defect_network": build_fixed_point_residual_defect_network_from_config,
-    "baseline_logit_residual_adapter": build_baseline_logit_residual_adapter_from_config,
-    "coarse_to_fine_board_residual_pyramid": build_coarse_to_fine_board_residual_pyramid_from_config,
-    "attention_disagreement_residual_network": build_attention_disagreement_residual_network_from_config,
-    "cross_scale_attention_residual_network": build_cross_scale_attention_residual_network_from_config,
-    "slot_attention_role_binding_network": build_slot_attention_role_binding_network_from_config,
-    "attention_perturbation_sensitivity_network": build_attention_perturbation_sensitivity_network_from_config,
-    "kernel_mean_prototype_network": build_kernel_mean_prototype_network_from_config,
-    "tensorsketch_interaction_network": build_tensorsketch_interaction_network_from_config,
-    "maxout_region_signature_network": build_maxout_region_signature_network_from_config,
-    "spline_board_surface_network": build_spline_board_surface_network_from_config,
-    "boundary_condition_disagreement_cnn": build_boundary_condition_disagreement_cnn_from_config,
-    "piece_drop_stability_network": build_piece_drop_stability_network_from_config,
-    "row_file_factor_mixer": build_row_file_factor_mixer_from_config,
-    "piece_conditioned_hypernetwork_cnn": build_piece_conditioned_hypernetwork_cnn_from_config,
-    "neural_board_cellular_automaton": build_neural_board_cellular_automaton_from_config,
-    "symmetric_difference_twin_encoder": build_symmetric_difference_twin_encoder_from_config,
-    "minimal_edit_puzzle_distance_network": build_minimal_edit_puzzle_distance_network_from_config,
-    "barrier_cut_puzzle_network": build_barrier_cut_puzzle_network_from_config,
-    "tactical_hessian_spectrum_network": build_tactical_hessian_spectrum_network_from_config,
-    "absorbing_threat_markov_network": build_absorbing_threat_markov_network_from_config,
-    "neural_clause_resolution_puzzle_network": build_neural_clause_resolution_puzzle_network_from_config,
-    "piece_liability_gradient_network": build_piece_liability_gradient_network_from_config,
-    "prototype_patch_dictionary_network": build_prototype_patch_dictionary_network_from_config,
-    "tensor_ring_square_interaction_network": build_tensor_ring_square_interaction_network_from_config,
-    "sinkhorn_role_assignment_network": build_sinkhorn_role_assignment_network_from_config,
-    "morphological_threat_field_network": build_morphological_threat_field_network_from_config,
-    "invertible_board_coupling_network": build_invertible_board_coupling_network_from_config,
-    "sparse_expert_board_router": build_sparse_expert_board_router_from_config,
-    "ray_state_space_scan_network": build_ray_state_space_scan_network_from_config,
-    "pawn_skeleton_barrier_network": build_pawn_skeleton_barrier_network_from_config,
-    "material_phase_low_rank_adapter_network": build_material_phase_low_rank_adapter_network_from_config,
-    "replicator_payoff_piece_dynamics": build_replicator_payoff_piece_dynamics_from_config,
-    "differentiable_bitboard_boolean_network": build_differentiable_bitboard_boolean_network_from_config,
-    "orthogonal_board_moment_network": build_orthogonal_board_moment_network_from_config,
-    "legal_constraint_projection_residual_network": build_legal_constraint_projection_residual_network_from_config,
-    "zobrist_kernel_feature_network": build_zobrist_kernel_feature_network_from_config,
-    "low_rank_signed_cut_query_network": build_low_rank_signed_cut_query_network_from_config,
-    "shallow_wide_residual_boardnet": build_shallow_wide_residual_boardnet_from_config,
-    "source_rate_calibrated_objective": build_source_rate_calibrated_objective_from_config,
-    "soft_majorization_line_sorter": build_soft_majorization_line_sorter_from_config,
-    "convnext_boardnet": build_convnext_boardnet_from_config,
-    "iterative_logit_refinement_cnn": build_iterative_logit_refinement_cnn_from_config,
-    "early_exit_cascade_boardnet": build_early_exit_cascade_boardnet_from_config,
-    "auxiliary_reconstruction_boardnet": build_auxiliary_reconstruction_boardnet_from_config,
-    "agreement_variance_head_net": build_agreement_variance_head_net_from_config,
-    "adapter_sandwich_residual_cnn": build_adapter_sandwich_residual_cnn_from_config,
-    "capsule_motif_boardnet": build_capsule_motif_boardnet_from_config,
-    "multi_order_board_scan_network": build_multi_order_board_scan_network_from_config,
-    "cross_stitch_cnn_token_fusion_net": build_cross_stitch_cnn_token_fusion_net_from_config,
-    "neural_decision_forest_boardnet": build_neural_decision_forest_boardnet_from_config,
-    "vector_quantized_motif_codebook_net": build_vector_quantized_motif_codebook_net_from_config,
-    "ring_shell_recurrent_boardnet": build_ring_shell_recurrent_boardnet_from_config,
-    "rank_file_memory_grid_net": build_rank_file_memory_grid_net_from_config,
-    "line_piece_crossbar_network": build_line_piece_crossbar_network_from_config,
-    "near_puzzle_margin_twin_network": build_near_puzzle_margin_twin_network_from_config,
-    "puzzle_boundary_twin_encoder": build_puzzle_boundary_twin_encoder_from_config,
-    "critical_square_budget_network": build_critical_square_budget_network_from_config,
-    "legal_reaction_bottleneck_network": build_legal_reaction_bottleneck_network_from_config,
-    "exchange_soundness_graph_network": build_exchange_soundness_graph_network_from_config,
-    "tactical_program_induction_network": build_tactical_program_induction_network_from_config,
-    "prototype_margin_puzzle_network": build_prototype_margin_puzzle_network_from_config,
-    "stripe_selective_mixer_cnn": build_stripe_selective_mixer_cnn_from_config,
-    "king_zone_evidence_ledger": build_king_zone_evidence_ledger_from_config,
-    "forcing_certificate_transformer": build_forcing_certificate_transformer_from_config,
-    "causal_piece_derivative_network": build_causal_piece_derivative_network_from_config,
-    "phase_transition_pressure_network": build_phase_transition_pressure_network_from_config,
-    "disproof_ledger_puzzle_network": build_disproof_ledger_puzzle_network_from_config,
-    "motif_tensor_factorization_network": build_motif_tensor_factorization_network_from_config,
-    "tempo_alignment_gate_network": build_tempo_alignment_gate_network_from_config,
-    "tempo_defender_cross_derivative_network": build_tempo_defender_cross_derivative_network_from_config,
-    "counterfactual_defender_dropout_network": build_counterfactual_defender_dropout_network_from_config,
-    "exchange_then_king_dual_stream": build_exchange_then_king_dual_stream_from_config,
-    "rule_aware_tactical_head": build_rule_aware_tactical_head_from_config,
-    "pair_resonance_hessian_network": build_pair_resonance_hessian_network_from_config,
-    "complex_amplitude_chess_network": build_complex_amplitude_chess_network_from_config,
-    "promotion_aware_head": build_promotion_aware_head_from_config,
-    "pareto_antichain_frontier_network": build_pareto_antichain_frontier_network_from_config,
-    "regret_saddlepoint_network": build_regret_saddlepoint_network_from_config,
-    "reply_channel_capacity_network": build_reply_channel_capacity_network_from_config,
-    "tail_copula_concordance_network": build_tail_copula_concordance_network_from_config,
-    "witness_counterwitness_quantifier_network": build_witness_counterwitness_quantifier_network_from_config,
-    "signed_edit_bilinear_memory": build_signed_edit_bilinear_memory_from_config,
-    "sparse_delta_accumulator": build_sparse_delta_accumulator_from_config,
-    "delta_pair_accumulator": build_delta_pair_accumulator_from_config,
-    "delta_crelu_involution_head": build_delta_crelu_involution_head_from_config,
-    "ray_semiring_chi_head": build_ray_semiring_chi_head_from_config,
-    "delta_event_legal_routing": build_delta_event_legal_routing_from_config,
-    "delta_state_slg_diffusion": build_delta_state_slg_diffusion_from_config,
-    "move_graph_router": build_move_graph_router_from_config,
-    "attack_ray_sparse_attention": build_attack_ray_sparse_attention_from_config,
-    "rule_conditioned_sparse_attention": build_rule_conditioned_sparse_attention_from_config,
-    "legal_move_graph_delta": build_legal_move_graph_delta_from_config,
-    "ray_occlusion_semiring_scan": build_ray_occlusion_semiring_scan_from_config,
-    "legal_edge_compile_scatter": build_legal_edge_compile_scatter_from_config,
-    "reversible_delta_kernel_memory": build_reversible_delta_kernel_memory_from_config,
-    "blocker_reset_ray_scan": build_blocker_reset_ray_scan_from_config,
-    "occlusion_semiring_ray_scan": build_occlusion_semiring_ray_scan_from_config,
-    "event_delta_bilinear_accumulator": build_event_delta_bilinear_accumulator_from_config,
-    "occlusion_semiring_delta_bilinear_hyperedge": build_occlusion_semiring_delta_bilinear_hyperedge_from_config,
-    "event_symmetric_interaction_accumulator": build_event_symmetric_interaction_accumulator_from_config,
-    "incremental_delta_linear_head": build_incremental_delta_linear_head_from_config,
-    "ray_cast_obstacle_pool_head": build_ray_cast_obstacle_pool_head_from_config,
-    "sparse_legal_move_router_head": build_sparse_legal_move_router_head_from_config,
-    "incremental_latent_accumulator_head": build_incremental_latent_accumulator_head_from_config,
-    "occlusion_aware_ray_scan_head": build_occlusion_aware_ray_scan_head_from_config,
-    "ray_parallel_ssm_head": build_ray_parallel_ssm_head_from_config,
-    "legal_move_laplacian_resolvent": build_legal_move_laplacian_resolvent_from_config,
-    "dynamic_adjacency_gating": build_dynamic_adjacency_gating_from_config,
-    "move_kernel_operator": build_move_kernel_operator_from_config,
-    "octilinear_selective_scan": build_octilinear_selective_scan_from_config,
-    "sparse_legal_graph_transition": build_sparse_legal_graph_transition_from_config,
-    "canonical_orbit_st_operator": build_canonical_orbit_st_operator_from_config,
-    "gibbs_cut_log_partition": build_gibbs_cut_log_partition_from_config,
-    "woodbury_set_resolver": build_woodbury_set_resolver_from_config,
-    "occupancy_eikonal_transform": build_occupancy_eikonal_transform_from_config,
-    "conservation_nullspace_norm": build_conservation_nullspace_norm_from_config,
-    "truncated_exterior_product_pool": build_truncated_exterior_product_pool_from_config,
-    "truncated_multiset_polynomial_pool": build_truncated_multiset_polynomial_pool_from_config,
-    "grassmann_rook_pool": build_grassmann_rook_pool_from_config,
-    "weighted_hodge_projector": build_weighted_hodge_projector_from_config,
-    "kirchhoff_mobility_solve": build_kirchhoff_mobility_solve_from_config,
-    "subset_logpartition": build_subset_logpartition_from_config,
-    "chess_decomposed_attention": build_chess_decomposed_attention_from_config,
-    "tactical_symptom_bayesian_network": build_tactical_symptom_bayesian_network_from_config,
-    "source_invariant_puzzle_bottleneck": build_source_invariant_puzzle_bottleneck_from_config,
-    "reply_set_contrastive_transformer": build_reply_set_contrastive_transformer_from_config,
-}
-
-def _make_research_packet_builder(model_name: str) -> Any:
+def _make_research_packet_builder(model_name: str) -> ModelBuilder:
     def build_named_research_packet(config: dict[str, Any]) -> nn.Module:
+        from chess_nn_playground.models.research_packet_probe import (
+            build_research_packet_probe_from_config,
+            infer_mechanism_family,
+        )
+
         packet_config = dict(config)
         packet_config.setdefault("name", model_name)
         packet_config.setdefault("packet_profile", model_name)
@@ -1082,15 +45,12 @@ def _make_research_packet_builder(model_name: str) -> Any:
     return build_named_research_packet
 
 
-for _research_packet_model_name in RESEARCH_PACKET_MODEL_NAMES:
-    MODEL_BUILDERS.setdefault(_research_packet_model_name, _make_research_packet_builder(_research_packet_model_name))
-
-
-def _make_bt4_mixer_alias(mixer_name: str) -> Any:
-    """Thin alias so each bt4_<mixer>_mixer idea can set model.name == its slug
-    while still building the single shared bt4_primitive_mixer net."""
-
+def _make_bt4_mixer_alias(mixer_name: str) -> ModelBuilder:
     def build_bt4_mixer_alias(config: dict[str, Any]) -> nn.Module:
+        from chess_nn_playground.models.architecture.bt4_primitive_mixer import (
+            build_bt4_primitive_mixer_from_config,
+        )
+
         alias_config = dict(config)
         alias_config.setdefault("mixer", mixer_name)
         return build_bt4_primitive_mixer_from_config(alias_config)
@@ -1100,28 +60,133 @@ def _make_bt4_mixer_alias(mixer_name: str) -> Any:
     return build_bt4_mixer_alias
 
 
-try:  # auto-register one model alias per discovered bt4 mixer
-    from chess_nn_playground.models.architecture.bt4_mixers import available_mixers as _available_bt4_mixers
+@lru_cache(maxsize=1)
+def _research_packet_model_names() -> tuple[str, ...]:
+    from chess_nn_playground.models.research_packet_registry import RESEARCH_PACKET_MODEL_NAMES
 
-    for _bt4_mixer_name in _available_bt4_mixers():
-        MODEL_BUILDERS.setdefault(f"bt4_{_bt4_mixer_name}_mixer", _make_bt4_mixer_alias(_bt4_mixer_name))
-except Exception:  # pragma: no cover - mixer package optional / partially built
-    pass
+    return tuple(RESEARCH_PACKET_MODEL_NAMES)
 
 
-def register_model(name: str, builder: Any) -> None:
+@lru_cache(maxsize=1)
+def _bt4_mixer_names() -> tuple[str, ...]:
+    try:
+        from chess_nn_playground.models.architecture.bt4_mixers import available_mixers
+
+        return tuple(available_mixers())
+    except Exception:  # pragma: no cover - mixer package optional / partially built
+        return ()
+
+
+def _bt4_alias_to_mixer(name: str) -> str | None:
+    prefix = "bt4_"
+    suffix = "_mixer"
+    if not name.startswith(prefix) or not name.endswith(suffix):
+        return None
+    mixer_name = name[len(prefix) : -len(suffix)]
+    if mixer_name in _bt4_mixer_names():
+        return mixer_name
+    return None
+
+
+def _all_model_names() -> set[str]:
+    names = set(MODEL_SPECS)
+    names.update(_RUNTIME_BUILDERS)
+    names.update(_research_packet_model_names())
+    names.update(f"bt4_{mixer_name}_mixer" for mixer_name in _bt4_mixer_names())
+    return names
+
+
+def _resolve_builder(name: str) -> ModelBuilder:
+    runtime_builder = _RUNTIME_BUILDERS.get(name)
+    if runtime_builder is not None:
+        return runtime_builder
+
+    manifest_builder = _load_manifest_builder(name)
+    if manifest_builder is not None:
+        return manifest_builder
+
+    if name in _research_packet_model_names():
+        if name not in _RESOLVED_BUILDERS:
+            _RESOLVED_BUILDERS[name] = _make_research_packet_builder(name)
+        return _RESOLVED_BUILDERS[name]
+
+    mixer_name = _bt4_alias_to_mixer(name)
+    if mixer_name is not None:
+        if name not in _RESOLVED_BUILDERS:
+            _RESOLVED_BUILDERS[name] = _make_bt4_mixer_alias(mixer_name)
+        return _RESOLVED_BUILDERS[name]
+
+    raise KeyError(name)
+
+
+class _ModelBuilderMapping(MutableMapping[str, ModelBuilder]):
+    """Compatibility view over lazily resolved model builders."""
+
+    def __getitem__(self, name: str) -> ModelBuilder:
+        try:
+            return _resolve_builder(name)
+        except KeyError as exc:
+            raise KeyError(name) from exc
+
+    def __setitem__(self, name: str, builder: ModelBuilder) -> None:
+        _register_runtime_model(name, builder)
+
+    def __delitem__(self, name: str) -> None:
+        if name not in _RUNTIME_BUILDERS:
+            raise KeyError(name)
+        del _RUNTIME_BUILDERS[name]
+        _RESOLVED_BUILDERS.pop(name, None)
+
+    def __iter__(self) -> Iterator[str]:
+        return iter(available_models())
+
+    def __len__(self) -> int:
+        return len(_all_model_names())
+
+    def __contains__(self, name: object) -> bool:
+        return isinstance(name, str) and name in _all_model_names()
+
+
+MODEL_BUILDERS: MutableMapping[str, ModelBuilder] = _ModelBuilderMapping()
+
+
+def _register_runtime_model(name: str, builder: ModelBuilder) -> ModelBuilder:
     if not name:
         raise ValueError("Model name must be non-empty")
-    if name in MODEL_BUILDERS:
+    if name in _all_model_names() and name not in _RUNTIME_BUILDERS:
         raise ValueError(f"Model already registered: {name}")
-    MODEL_BUILDERS[name] = builder
+    if name in _RUNTIME_BUILDERS:
+        raise ValueError(f"Model already registered: {name}")
+    _RUNTIME_BUILDERS[name] = builder
+    _RESOLVED_BUILDERS[name] = builder
+    return builder
+
+
+def register_model(name: str, builder: ModelBuilder | None = None) -> Any:
+    """Register a model builder at runtime.
+
+    Can be used either as ``register_model("name", builder)`` or as a decorator:
+
+        @register_model("name")
+        def build_name_from_config(config: dict[str, Any]) -> nn.Module: ...
+    """
+
+    if builder is not None:
+        return _register_runtime_model(name, builder)
+
+    def _decorator(decorated_builder: ModelBuilder) -> ModelBuilder:
+        return _register_runtime_model(name, decorated_builder)
+
+    return _decorator
 
 
 def available_models() -> list[str]:
-    return sorted(MODEL_BUILDERS)
+    return sorted(_all_model_names())
 
 
 def build_model(name: str, config: dict[str, Any]) -> nn.Module:
-    if name not in MODEL_BUILDERS:
-        raise ValueError(f"Unknown model: {name}. Available: {available_models()}")
-    return MODEL_BUILDERS[name](config)
+    try:
+        builder = _resolve_builder(name)
+    except KeyError as exc:
+        raise ValueError(f"Unknown model: {name}. Available: {available_models()}") from exc
+    return builder(config)

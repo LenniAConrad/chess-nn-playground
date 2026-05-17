@@ -11,11 +11,7 @@ import pandas as pd
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.data.fen_utils import normalize_fen, summarize_fen_dict, validate_fen
 from chess_nn_playground.data.json_loader import choose_fen, find_json_files, iter_json_records, truncate_value

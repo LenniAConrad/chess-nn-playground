@@ -51,3 +51,23 @@ def test_config_validation_rejects_missing_label_column(tmp_path):
     )
 
     assert any("missing required column" in message for message in messages)
+
+
+def test_config_validation_rejects_non_boolean_cpu_oom_fallback(tmp_path):
+    train_path = tmp_path / "train.parquet"
+    val_path = tmp_path / "val.parquet"
+    frame = pd.DataFrame(
+        [{"normalized_fen": "8/8/8/8/8/8/8/K6k w - - 0 1", "fine_label": 0}]
+    )
+    frame.to_parquet(train_path, index=False)
+    frame.to_parquet(val_path, index=False)
+    config = _base_config(train_path, val_path)
+    config["training"]["allow_cpu_oom_fallback"] = "yes"
+
+    messages = validate_training_config(
+        config,
+        tmp_path / "config.yaml",
+        require_device_available=False,
+    )
+
+    assert any("training.allow_cpu_oom_fallback must be true or false" in message for message in messages)

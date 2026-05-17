@@ -8,14 +8,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
-try:
-    from _bootstrap import bootstrap
-except ImportError:
-    from scripts._bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.utils.logging import write_json, write_text
 from chess_nn_playground.utils.paths import utc_timestamp

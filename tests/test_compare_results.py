@@ -1,12 +1,9 @@
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path("scripts").resolve()))
-
-from compare_results import _best_val_f1
-from compare_results import _iter_metric_paths
+from scripts.compare_results import _best_val_f1
+from scripts.compare_results import _iter_metric_paths
 
 
 def test_best_val_f1_uses_binary_f1_for_puzzle_binary():

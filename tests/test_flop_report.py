@@ -2,12 +2,9 @@ from __future__ import annotations
 
 import csv
 import json
-import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path("scripts/reports").resolve()))
-
-from build_flop_report import build_report
+from scripts.reports.build_flop_report import build_report
 
 
 def test_flop_report_writes_markdown_csv_and_json(tmp_path):

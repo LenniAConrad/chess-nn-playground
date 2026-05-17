@@ -15,11 +15,7 @@ import yaml
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from matplotlib.backends.backend_pdf import PdfPages
 

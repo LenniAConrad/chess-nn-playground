@@ -1,15 +1,12 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 import yaml
 
-sys.path.insert(0, str(Path("scripts/reports").resolve()))
-
-from build_paper_report import build_report
-from build_paper_report import load_runs
+from scripts.reports.build_paper_report import build_report
+from scripts.reports.build_paper_report import load_runs
 
 
 def _write_json(path: Path, data: dict) -> None:

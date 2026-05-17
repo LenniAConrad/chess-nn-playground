@@ -10,11 +10,7 @@ from pathlib import Path
 
 import sys
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _bootstrap import bootstrap
-
-bootstrap()
 
 from chess_nn_playground.ideas.registry import validate_ideas
 from chess_nn_playground.utils.config import save_yaml
@@ -74,12 +70,13 @@ def main() -> None:
         for row in SYNTHETIC_ROWS:
             handle.write(json.dumps(row) + "\n")
 
-    run([sys.executable, "scripts/data/inspect_json_data.py", "--input", str(jsonl_path), "--output-json", "data/reports/smoke_json_data_audit.json", "--output-md", "data/reports/smoke_json_data_audit.md"])
-    run([sys.executable, "scripts/data/prepare_dataset.py", "--input", str(jsonl_path), "--output", "data/processed/smoke_positions.parquet", "--rejected-output", "data/processed/smoke_rejected_positions.parquet"])
+    run([sys.executable, "-m", "scripts.data.inspect_json_data", "--input", str(jsonl_path), "--output-json", "data/reports/smoke_json_data_audit.json", "--output-md", "data/reports/smoke_json_data_audit.md"])
+    run([sys.executable, "-m", "scripts.data.prepare_dataset", "--input", str(jsonl_path), "--output", "data/processed/smoke_positions.parquet", "--rejected-output", "data/processed/smoke_rejected_positions.parquet"])
     smoke_splits_dir = Path("data/splits/smoke")
     run([
         sys.executable,
-        "scripts/data/generate_splits.py",
+        "-m",
+        "scripts.data.generate_splits",
         "--input",
         "data/processed/smoke_positions.parquet",
         "--output-dir",
@@ -129,8 +126,8 @@ def main() -> None:
         },
         smoke_config_path,
     )
-    run([sys.executable, "scripts/dev/train_cnn.py", "--config", str(smoke_config_path)])
-    run([sys.executable, "scripts/compare_results.py"])
+    run([sys.executable, "-m", "scripts.dev.train_cnn", "--config", str(smoke_config_path)])
+    run([sys.executable, "-m", "scripts.compare_results"])
     idea_report = validate_ideas()
     if not idea_report["valid"]:
         raise SystemExit(f"Idea registry validation failed: {idea_report}")
