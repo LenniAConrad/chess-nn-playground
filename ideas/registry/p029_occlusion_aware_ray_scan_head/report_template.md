@@ -29,6 +29,17 @@
 - `primitive_delta` distribution on the same two buckets
 - Distribution of `oars_mean_blocker_gate` (post-train)
 
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted idea must
+report aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, and performance broken
+down by `crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`. Include per-slice false
+positives for fine label `1`, per-slice false negatives for fine label
+`2`, confidence/calibration by slice, and the highest-confidence wrong
+examples with FEN, difficulty, phase, and motifs.
+
 ## Slice Findings
 
 - Target slice: x-ray / pin / battery positions
@@ -36,6 +47,13 @@
   - Required: A1 (`disable_blocker_gate`) loses >= 70% of that lift
   - Cross-check: unablated p029 > p026 RayPool on the same slice
 - Watch slice: `crtk_eval_bucket = equal` — must not regress
+- Required `crtk_difficulty` breakdown: lift must concentrate on
+  medium/hard buckets (where x-ray / pin / battery reasoning matters
+  most) without regressing the easy bucket.
+- Required `crtk_phase` breakdown: lift must hold on middlegame and
+  endgame buckets (where ray-blocker interactions dominate), with no
+  opening-bucket regression.
+- Near-puzzle FP rate at matched recall
 
 ## Ablation Comparison Table
 

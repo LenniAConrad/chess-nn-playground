@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=pareto_antichain_frontier`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/pareto_antichain_frontier.py`
+- Idea-local wrapper: `ideas/registry/a006_bt4_pareto_antichain_frontier_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=pareto_antichain_frontier`)
 - Source primitive idea: `p001_pareto_antichain_frontier`
 
 ## What this is

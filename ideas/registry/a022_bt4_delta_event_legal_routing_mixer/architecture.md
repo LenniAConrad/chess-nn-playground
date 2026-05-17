@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_delta_event_legal_routing_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=delta_event_legal_routing`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/delta_event_legal_routing.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/delta_event_legal_routing.py`
+- Idea-local wrapper: `ideas/registry/a022_bt4_delta_event_legal_routing_mixer/model.py`
 - Source primitive idea: `p017_delta_event_legal_routing`
 
 ## What this is

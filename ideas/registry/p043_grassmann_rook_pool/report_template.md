@@ -37,6 +37,20 @@
   - Required: p043 unablated >= i193 + 0.02 PR AUC on target slice
   - Required: A1 (`drop_exclusion`) loses >= 40% of that lift
   - Required: A2 (`scalar_score`) loses >= 25% of that lift
+- Per-slice breakdowns required (must not regress vs i193):
+  - `crtk_difficulty` buckets (easy / medium / hard) — the rook-disjoint
+    matching coefficients are expected to lift the medium / hard
+    buckets where overloaded defenders and competing attackers
+    dominate, without regressing the easy bucket.
+  - `crtk_phase` buckets (opening / middlegame / endgame) — lift
+    should concentrate on middlegame positions where two attackers
+    contest the same defender, with no opening-bucket regression.
+  - `crtk_eval_bucket`, `crtk_tactic_motifs`, `crtk_tag_families`.
+- Per-slice false-positive rate for fine label `1` and false-negative
+  rate for fine label `2`, jointly stratified by `crtk_difficulty` x
+  `crtk_phase`.
+- Highest-confidence wrong examples must report FEN,
+  `crtk_difficulty`, `crtk_phase`, and motifs.
 
 ## Ablation Comparison Table
 

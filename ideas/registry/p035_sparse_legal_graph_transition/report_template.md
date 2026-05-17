@@ -36,6 +36,23 @@
   - Required: p035 unablated >= i193 + 0.02 PR AUC on target slice
   - Required: A1 (`separable_phi`) loses >= 40% of that lift
   - Required: A2 (`uniform_adjacency`) loses >= 30% of that lift
+- Watch slice: `crtk_eval_bucket = equal` — must not regress
+- Difficulty breakdown: report PR AUC and gate mean per
+  `crtk_difficulty` bucket (easy / medium / hard). The joint
+  edge function is hypothesised to discriminate on medium/hard
+  source-target interactions where 1-hop legal-mask attention is
+  insufficient; easy slices must not regress.
+- Phase breakdown: report PR AUC, gate mean, and
+  ``slmgt_degree_mean`` / ``slmgt_edge_norm`` distributions per
+  `crtk_phase` bucket (opening / middlegame / endgame). Middlegame
+  and endgame should dominate the lift because the legal-move graph
+  becomes more discriminative once piece counts drop; opening must
+  not regress.
+- Per-slice false positives for fine label `1` and false negatives
+  for fine label `2`, sliced by `crtk_difficulty` and `crtk_phase`.
+- Highest-confidence wrong examples reported with FEN,
+  `crtk_difficulty`, `crtk_phase`, and `crtk_tactic_motifs`.
+- Near-puzzle FP rate at matched recall.
 
 ## Ablation Comparison Table
 
@@ -56,6 +73,8 @@
 - [ ] A1 (`separable_phi`) loses >= 40% of the lift
 - [ ] A2 (`uniform_adjacency`) loses >= 30% of the lift
 - [ ] `crtk_eval_bucket = equal` slice did not regress
+- [ ] No regression on the easy `crtk_difficulty` bucket
+- [ ] No regression on the opening `crtk_phase` bucket
 - [ ] Throughput drop versus i193 < 30% (or plan sparse-edge upgrade)
 
 If any box fails: drop p035 (or upgrade to sparse-edge kernel).

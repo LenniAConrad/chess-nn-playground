@@ -25,9 +25,11 @@ model:
   mechanism_family: sheaf
   packet_profile: oriented_tactical_sheaf_laplacian
   # Speed-optimization knobs (do not affect numerics):
-  sheaf_chunk_size: 3
   compile_model: true
   compile_mode: reduce-overhead
+  return_diagnostics: true
+  inference_autocast_dtype: none
+  inference_autocast_min_batch: 1
 training:
   epochs: 20
   batch_size: 256
@@ -51,6 +53,5 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Execution-optimized variant of i018. Same math, parameters, and numerics;
-  vectorized chunked sheaf diffusion plus optional torch.compile. CRTK metadata is
-  reporting-only.
+notes: Execution-optimized variant of i018. Exact-logit algebraic dense-edge-free
+  sheaf diffusion plus optional torch.compile. CRTK metadata is reporting-only.

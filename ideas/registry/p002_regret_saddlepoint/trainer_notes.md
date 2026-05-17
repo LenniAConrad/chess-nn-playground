@@ -12,7 +12,7 @@ architecture-level comparison is matched on:
 
 Differences vs the i193 baseline:
 
-- `model.name = regret_saddlepoint_network`
+- `model.name = regret_saddlepoint`
 - New head hyperparameters: `num_candidates`, `num_replies`,
   `token_dim`, `head_hidden_dim`, `head_dropout`, `solver_iters`,
   `tau_p`, `tau_q`, `solver_damp`, `gate_init`, `ablation`.

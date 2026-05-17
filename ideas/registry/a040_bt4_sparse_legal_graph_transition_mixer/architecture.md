@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_sparse_legal_graph_transition_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=sparse_legal_graph_transition`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/sparse_legal_graph_transition.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/sparse_legal_graph_transition.py`
+- Idea-local wrapper: `ideas/registry/a040_bt4_sparse_legal_graph_transition_mixer/model.py`
 - Source primitive idea: `p035_sparse_legal_graph_transition`
 
 ## What this is

@@ -39,6 +39,16 @@
   - Required: A1 (`k1_gat_rebrand`) loses >= 50% of that lift
   - Required: A3 (`shuffle_adjacency`) loses >= 70% of that lift
 - Watch slice: `crtk_eval_bucket = equal` -- must not regress
+- Difficulty breakdown: report PR AUC and `primitive_gate` mean per
+  `crtk_difficulty` bucket (easy / medium / hard). The Neumann expansion
+  is justified only if lift concentrates on medium/hard buckets where
+  multi-hop influence matters; the easy bucket must not regress.
+- Phase breakdown: report PR AUC and `primitive_gate` mean per
+  `crtk_phase` bucket (opening / middlegame / endgame). Lift should
+  hold on middlegame (dense legal-move graph) without regressing the
+  opening bucket.
+- Near-puzzle FP rate at matched recall, broken down by
+  `crtk_difficulty` and `crtk_phase`.
 
 ## Ablation Comparison Table
 

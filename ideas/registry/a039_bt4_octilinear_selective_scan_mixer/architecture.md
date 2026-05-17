@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_octilinear_selective_scan_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=octilinear_selective_scan`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/octilinear_selective_scan.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/octilinear_selective_scan.py`
+- Idea-local wrapper: `ideas/registry/a039_bt4_octilinear_selective_scan_mixer/model.py`
 - Source primitive idea: `p034_octilinear_selective_scan`
 
 ## What this is

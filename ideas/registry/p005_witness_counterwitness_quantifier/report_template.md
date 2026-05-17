@@ -29,6 +29,16 @@
 - `wcq_value`, `wcq_max_margin`, `wcq_counter_envelope_max`,
   `wcq_witness_entropy` distributions by class
 
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted WCQ run
+must report aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, and performance by
+`crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`, per-slice false
+positives for fine label `1` and false negatives for fine label `2`,
+and a short keep/drop conclusion.
+
 ## Slice Findings
 
 - Target slice: matched-recall near-puzzle FP at recall 0.80
@@ -36,6 +46,10 @@
 - Target slice: promotion / underpromotion near-FP
 - Target slice: mate-in-1 near-FP
 - Watch slice: `crtk_eval_bucket = equal`
+- Required per-slice breakouts: `crtk_difficulty` (easy / medium /
+  hard) and `crtk_phase` (opening / middlegame / endgame). WCQ must
+  not regress any difficulty or phase bucket by more than 0.01 PR AUC
+  versus i193.
 
 ## Ablation Comparison Table
 

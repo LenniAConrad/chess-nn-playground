@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=occlusion_semiring_delta_bilinear_hyperedge`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/occlusion_semiring_delta_bilinear_hyperedge.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/occlusion_semiring_delta_bilinear_hyperedge.py`
+- Idea-local wrapper: `ideas/registry/a028_bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer/model.py`
 - Source primitive idea: `p023_occlusion_semiring_delta_bilinear_hyperedge`
 
 ## What this is

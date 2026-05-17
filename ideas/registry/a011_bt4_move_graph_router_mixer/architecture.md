@@ -8,8 +8,10 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_move_graph_router_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=move_graph_router`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/move_graph_router.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/move_graph_router.py`
+- Idea-local wrapper: `ideas/registry/a011_bt4_move_graph_router_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=move_graph_router`)
 - Source primitive idea: `p006_move_graph_router`
 
 ## What this is

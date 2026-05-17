@@ -12,7 +12,9 @@ architecture-level comparison is matched on:
 
 Differences vs the i193 baseline:
 
-- `model.name = pareto_antichain_frontier_network`
+- `model.name = pareto_antichain_frontier` (the legacy
+  `pareto_antichain_frontier_network` alias still resolves to the same
+  builder for backwards-compatible tests).
 - New head hyperparameters: `num_candidates`, `token_dim`,
   `utility_channels`, `head_hidden_dim`, `head_dropout`, `tau_dim`,
   `tau_set`, `eps_margin`, `beta`, `gate_init`, `ablation`.

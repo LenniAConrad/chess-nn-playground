@@ -91,14 +91,21 @@ are *not* consumed.
 
 ## Implementation Binding
 
-- Registered model name: `witness_counterwitness_quantifier_network`.
+- Registered model name: `witness_counterwitness_quantifier` (idea slug).
+  The legacy registry alias `witness_counterwitness_quantifier_network`
+  resolves to the same builder for backwards-compatible tests.
 - Source implementation:
-  `src/chess_nn_playground/models/primitives/witness_counterwitness_quantifier_network.py`.
+  `src/chess_nn_playground/models/primitives/witness_counterwitness_quantifier_network.py`
+  (the module retains its `_network` filename; the class is
+  `WitnessCounterwitnessQuantifierNetwork`).
 - Shared candidate/reply utilities:
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
+- Trunk source:
+  `src/chess_nn_playground/models/trunk/exchange_then_king_dual_stream.py`
+  (the bespoke i193 trunk is wrapped, not reimplemented).
 - Idea-local wrapper:
   `ideas/registry/p005_witness_counterwitness_quantifier/model.py`.
 - Training config:
   `ideas/registry/p005_witness_counterwitness_quantifier/config.yaml`.
-- Builder entry in `src/chess_nn_playground/models/registry.py`:
-  `MODEL_BUILDERS["witness_counterwitness_quantifier_network"] = build_witness_counterwitness_quantifier_network_from_config`.
+- Builder entry in `src/chess_nn_playground/models/_registry_manifest.py`:
+  `'witness_counterwitness_quantifier': ('chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network', 'build_witness_counterwitness_quantifier_network_from_config')`.

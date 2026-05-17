@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_ray_cast_obstacle_pool_head_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=ray_cast_obstacle_pool_head`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/ray_cast_obstacle_pool_head.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/ray_cast_obstacle_pool_head.py`
+- Idea-local wrapper: `ideas/registry/a031_bt4_ray_cast_obstacle_pool_head_mixer/model.py`
 - Source primitive idea: `p026_ray_cast_obstacle_pool_head`
 
 ## What this is

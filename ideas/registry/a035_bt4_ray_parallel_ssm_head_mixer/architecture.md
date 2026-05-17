@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_ray_parallel_ssm_head_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=ray_parallel_ssm_head`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/ray_parallel_ssm_head.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/ray_parallel_ssm_head.py`
+- Idea-local wrapper: `ideas/registry/a035_bt4_ray_parallel_ssm_head_mixer/model.py`
 - Source primitive idea: `p030_ray_parallel_ssm_head`
 
 ## What this is

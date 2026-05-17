@@ -6,7 +6,22 @@
 - Config: `ideas/registry/p008_rule_conditioned_sparse_attention/config.yaml`
 - Seeds:
 - GPU:
+- Training budget:
 - Reporting standard: `ideas/docs/BENCHMARK_REPORTING.md`
+- Validation slice report: `slice_report_val.md`
+- Test slice report: `slice_report_test.md`
+
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted idea must
+require aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, performance by
+`crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`, per-slice false
+positives for fine label `1` and false negatives for fine label `2`,
+confidence/calibration by slice, the highest-confidence wrong examples
+(FEN, `crtk_difficulty`, `crtk_phase`, motifs), and a short
+keep/drop conclusion.
 
 ## Aggregate Metrics
 
@@ -19,12 +34,18 @@
 - `mobscan_gate_A_mean / B_mean / C_mean`: distribution per epoch and
   per ablation; flat distributions hint at collapsed selectivity.
 - `mobscan_state_norm` distribution vs `primitive_gate`.
+- `mobscan_edge_count` mean by `crtk_phase` — verifies the legal-move
+  adjacency density tracks the expected open/middle/endgame profile.
 
 ## Slice Findings
 
 - Target slice: multi-step tactical motifs (deep mate threats, two-move
-  forcing lines).
+  forcing lines) — broken out by `crtk_difficulty` and `crtk_phase`.
 - Watch slice: aggregate FP rate at matched recall.
+- Watch slice: `crtk_eval_bucket = equal` — must not regress.
+- Performance must be broken out by `crtk_difficulty` and `crtk_phase`
+  buckets so we can tell whether the lift is concentrated on the easy
+  end of the puzzle distribution or on a particular game-phase.
 
 ## Ablation Comparison Table
 
@@ -49,3 +70,11 @@
 - [ ] Throughput drop versus i193 < 25%
 
 If any box fails: drop p008.
+
+## Conclusions
+
+- What the operator appears able to learn:
+- What it appears unable to learn:
+- Highest-confidence wrong examples (FEN, `crtk_difficulty`,
+  `crtk_phase`, motifs):
+- Recommended next step:

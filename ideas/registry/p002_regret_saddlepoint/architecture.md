@@ -93,7 +93,9 @@ board, dwarfed by the trunk forward.
 
 ## Implementation Binding
 
-- Registered model name: `regret_saddlepoint_network`.
+- Registered model name: `regret_saddlepoint` (folder-matching slug).
+  The legacy key `regret_saddlepoint_network` remains registered as an
+  alias to the same builder for backward compatibility.
 - Source implementation:
   `src/chess_nn_playground/models/primitives/regret_saddlepoint_network.py`.
 - Shared candidate/reply utilities:
@@ -102,5 +104,5 @@ board, dwarfed by the trunk forward.
   `ideas/registry/p002_regret_saddlepoint/model.py`.
 - Training config:
   `ideas/registry/p002_regret_saddlepoint/config.yaml`.
-- Builder entry in `src/chess_nn_playground/models/registry.py`:
-  `MODEL_BUILDERS["regret_saddlepoint_network"] = build_regret_saddlepoint_network_from_config`.
+- Builder entry in `src/chess_nn_playground/models/_registry_manifest.py`:
+  `MODEL_SPECS["regret_saddlepoint"] = ('chess_nn_playground.models.primitives.regret_saddlepoint_network', 'build_regret_saddlepoint_network_from_config')`.

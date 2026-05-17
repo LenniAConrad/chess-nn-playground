@@ -1,6 +1,6 @@
 idea_id: p001
 name: Pareto Antichain Frontier Primitive
-slug: pareto_antichain_frontier_network
+slug: pareto_antichain_frontier
 status: implemented
 created_at: '2026-05-13T00:00:00+00:00'
 author: Codex (PAFR promotion from research packet)

@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=rule_conditioned_sparse_attention`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/rule_conditioned_sparse_attention.py`
+- Idea-local wrapper: `ideas/registry/a013_bt4_rule_conditioned_sparse_attention_mixer/model.py`
+- Training config: `ideas/registry/a013_bt4_rule_conditioned_sparse_attention_mixer/config.yaml`
 - Source primitive idea: `p008_rule_conditioned_sparse_attention`
 
 ## What this is

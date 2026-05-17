@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=ray_occlusion_semiring_scan`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/ray_occlusion_semiring_scan.py`
+- Idea-local wrapper: `ideas/registry/a015_bt4_ray_occlusion_semiring_scan_mixer/model.py`
+- Training config: `ideas/registry/a015_bt4_ray_occlusion_semiring_scan_mixer/config.yaml`
 - Source primitive idea: `p010_ray_occlusion_semiring_scan`
 
 ## What this is

@@ -10,6 +10,7 @@ per-block spatial-mixing operator.
   with `mixer=legal_edge_compile_scatter`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/legal_edge_compile_scatter.py`
+- Idea-local wrapper: `ideas/registry/a016_bt4_legal_edge_compile_scatter_mixer/model.py`
 - Source primitive idea: `p011_legal_edge_compile_scatter`
 
 ## What this is

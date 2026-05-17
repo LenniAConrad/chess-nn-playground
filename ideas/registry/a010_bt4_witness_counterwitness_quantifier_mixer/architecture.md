@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_witness_counterwitness_quantifier_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=witness_counterwitness_quantifier`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/witness_counterwitness_quantifier.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/witness_counterwitness_quantifier.py`
+- Idea-local wrapper: `ideas/registry/a010_bt4_witness_counterwitness_quantifier_mixer/model.py`
 - Source primitive idea: `p005_witness_counterwitness_quantifier`
 
 ## What this is

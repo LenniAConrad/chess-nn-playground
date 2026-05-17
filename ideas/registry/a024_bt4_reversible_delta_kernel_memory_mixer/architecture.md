@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_reversible_delta_kernel_memory_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=reversible_delta_kernel_memory`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/reversible_delta_kernel_memory.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/reversible_delta_kernel_memory.py`
+- Idea-local wrapper: `ideas/registry/a024_bt4_reversible_delta_kernel_memory_mixer/model.py`
 - Source primitive idea: `p019_reversible_delta_kernel_memory`
 
 ## What this is

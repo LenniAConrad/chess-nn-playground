@@ -19,6 +19,29 @@
 - PR AUC:
 - Calibration:
 
+## Required Slice Analysis
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. In addition to the aggregate
+metrics, this idea's report must include:
+
+- accuracy, recall, false-positive rate, and confidence by `crtk_difficulty`
+  (very_easy, easy, medium, hard, very_hard);
+- the same metrics by `crtk_phase` (opening, middlegame, endgame), with
+  special attention to endgame fortress positions where the cut log-partition
+  is expected to fire;
+- `crtk_eval_bucket` rows so we can see whether the lift survives once the
+  positions are not visually winning;
+- motif rows for `crtk_tactic_motifs` including `pin`, `skewer`,
+  `discovered_attack`, `fork`, `hanging`, `overload`, `mate_in_1`,
+  `promotion`, and `(none)`;
+- `crtk_tag_families` sanity rows (TACTIC, ENDGAME, OUTPOST, THREAT);
+- per-slice false positives on fine label `1` and false negatives on fine
+  label `2`, with confidence and calibration by slice;
+- the highest-confidence wrong examples with FEN, `crtk_difficulty`,
+  `crtk_phase`, and motifs;
+- a short conclusion describing what the cut log-partition appears able and
+  unable to learn relative to the i193 trunk.
+
 ## Architecture-Specific Diagnostics
 
 - Mechanism family: `response_constraint`

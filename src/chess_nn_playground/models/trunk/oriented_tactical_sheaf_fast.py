@@ -1,26 +1,20 @@
-"""Speed-optimized variant of i018 oriented_tactical_sheaf_laplacian (idea i249).
+"""Algebraic inference rewrite of i018 oriented_tactical_sheaf_laplacian.
 
-Same math, same parameters, same numerics as the original
-``oriented_tactical_sheaf`` module -- only the GPU execution pattern changes:
+Idea i249 is intentionally not a new architecture. It keeps i018's adapter,
+incidence builder, encoder, readout, diagnostics, parameter names, and sheaf
+math, but replaces the slow edge-materializing diffusion block with an
+algebraically equivalent implementation.
 
-1. ``FastSheafDiffusionBlock`` replaces the original per-relation Python ``for``
-   loop (12 iterations x ~6 small ops = ~72 kernel launches per block) with a
-   single vectorized projection over all relations plus a chunked batched
-   coboundary. This collapses kernel-launch overhead and reuses the projected
-   stalks instead of recomputing them per relation. The chunk size caps the
-   peak ``(B, chunk, 64, 64, stalk)`` intermediate so it stays within an 8 GB
-   GPU. The arithmetic is identical to the original block, so a model trained
-   with either block is the same architecture.
+The original block forms, for each relation, a dense edge residual tensor
+``(B, 64, 64, stalk_dim)`` and then projects/reduces it. This rewrite expands
+the same sums before materialization:
 
-2. Optional ``torch.compile`` wrapping of the forward pass. i018 has fully
-   static shapes (board ``(B, 18, 8, 8)``, relations ``(B, 12, 64, 64)``),
-   which is the ideal case for kernel fusion + CUDA graphs via
-   ``mode="reduce-overhead"``. Compilation wraps a *bound method*, not the
-   module, so ``state_dict`` keys stay clean (no ``_orig_mod.`` prefix).
+    sum_j W_ij (dst_j - sign * src_i)
+    sum_i W_ij (dst_j - sign * src_i)
 
-Everything else -- BoardStateAdapter, TacticalIncidenceBuilder,
-SquareTokenEncoder, TriadDefectPool, the readout head -- is imported unchanged
-from the original module so this variant can never silently drift from i018.
+which can be computed from ``W @ dst``, ``W.T @ src``, in-degrees, and
+out-degrees. That removes the largest intermediate and collapses the 12-relation
+Python loop into a small set of batched matrix multiplications.
 """
 
 from __future__ import annotations
@@ -30,18 +24,34 @@ from typing import Any
 import torch
 from torch import nn
 
+from chess_nn_playground.models.trunk.idea_blocks import require_board_tensor
 from chess_nn_playground.models.trunk.oriented_tactical_sheaf import (
     RELATION_NAMES,
     OrientedTacticalSheafNet,
+    _format_logits,
+    _weighted_mean,
 )
 
 
-class FastSheafDiffusionBlock(nn.Module):
-    """Vectorized, chunked equivalent of the original SheafDiffusionBlock.
+def _resolve_autocast_dtype(value: Any) -> torch.dtype | None:
+    if value is None or value is False:
+        return None
+    text = str(value).strip().lower()
+    if text in {"", "0", "false", "none", "off", "disabled"}:
+        return None
+    if text in {"float16", "fp16", "half"}:
+        return torch.float16
+    if text in {"bfloat16", "bf16"}:
+        return torch.bfloat16
+    raise ValueError("inference_autocast_dtype must be one of: none, float16, bfloat16")
 
-    Identical parameter set and identical math; only the execution pattern
-    differs. Parameter names match the original so a state_dict transfers
-    cleanly in either direction.
+
+class FastSheafDiffusionBlock(nn.Module):
+    """Algebraically equivalent, dense-edge-free i018 diffusion block.
+
+    Parameter names and shapes match ``SheafDiffusionBlock`` exactly so i018 and
+    i249 checkpoints can be loaded in either direction. Only the execution order
+    changes.
     """
 
     def __init__(
@@ -50,12 +60,10 @@ class FastSheafDiffusionBlock(nn.Module):
         relation_count: int,
         stalk_dim: int,
         dropout: float,
-        chunk_size: int = 3,
     ) -> None:
         super().__init__()
         self.relation_count = int(relation_count)
         self.stalk_dim = int(stalk_dim)
-        self.chunk_size = max(1, int(chunk_size))
         self.node_to_stalk = nn.Linear(d_model, stalk_dim)
         self.stalk_to_node = nn.Linear(stalk_dim, d_model)
         eye = torch.eye(stalk_dim).unsqueeze(0).repeat(relation_count, 1, 1)
@@ -78,82 +86,68 @@ class FastSheafDiffusionBlock(nn.Module):
         self, h: torch.Tensor, relation_masks: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         z = self.node_to_stalk(h)
-        batch, squares, stalk_dim = z.shape
         gates = 2.0 * torch.sigmoid(self.relation_gate_logits)
         eta = 0.25 * torch.sigmoid(self.eta_logit)
 
-        # Project every relation's source/target stalks in one shot, instead of
-        # recomputing z @ rho_src / z @ rho_dst inside a 12-iteration loop.
-        # src_all[b, r, n, t] = sum_s z[b, n, s] * rho_src[r, s, t]
-        src_all = torch.einsum("bns,rst->brnt", z, self.rho_src)
-        dst_all = torch.einsum("bns,rst->brnt", z, self.rho_dst)
+        # Project all relation-specific source/target stalks once.
+        src = torch.matmul(z.unsqueeze(1), self.rho_src.unsqueeze(0))
+        dst = torch.matmul(z.unsqueeze(1), self.rho_dst.unsqueeze(0))
 
-        z_update = z.new_zeros(batch, squares, stalk_dim)
-        degree = z.new_zeros(batch, squares)
-        energy_chunks: list[torch.Tensor] = []
+        out_degree = relation_masks.sum(dim=-1)
+        in_degree = relation_masks.sum(dim=-2)
+        w_dst = torch.matmul(relation_masks, dst)
+        wt_src = torch.matmul(relation_masks.transpose(-1, -2), src)
 
-        for start in range(0, self.relation_count, self.chunk_size):
-            stop = min(start + self.chunk_size, self.relation_count)
-            w = relation_masks[:, start:stop]                       # (B, Rc, Nv, Nu)
-            src = src_all[:, start:stop]                            # (B, Rc, N, s)
-            dst = dst_all[:, start:stop]                            # (B, Rc, N, s)
-            signs = self.relation_signs[start:stop]                 # (Rc,)
-            g = gates[start:stop]                                   # (Rc,)
-            rho_src_c = self.rho_src[start:stop]                    # (Rc, s, s)
-            rho_dst_c = self.rho_dst[start:stop]                    # (Rc, s, s)
+        signs = self.relation_signs.to(dtype=z.dtype).view(1, self.relation_count, 1, 1)
+        gates_view = gates.to(dtype=z.dtype).view(1, self.relation_count, 1, 1)
 
-            # Match the original block exactly: residual[b, r, i, j, s] indexes
-            # src on i (dim 2) and dst on j (dim 3), i.e.
-            #   residual[b, r, i, j, :] = dst[b, r, j, :] - sign[r] * src[b, r, i, :]
-            residual = dst[:, :, None, :, :] - signs[None, :, None, None, None] * src[:, :, :, None, :]
-            weighted_residual = g[None, :, None, None, None] * w[..., None] * residual
+        source_pre = signs * w_dst - out_degree.unsqueeze(-1) * src
+        target_pre = signs * wt_src - in_degree.unsqueeze(-1) * dst
+        source_back = torch.matmul(source_pre, self.rho_src.transpose(-1, -2).unsqueeze(0))
+        target_back = torch.matmul(target_pre, self.rho_dst.transpose(-1, -2).unsqueeze(0))
+        z_update = (gates_view * (source_back + target_back)).sum(dim=1)
 
-            energy = weighted_residual.mul(residual).sum(dim=(2, 3, 4)) / w.sum(dim=(2, 3)).clamp_min(1.0)
-            energy_chunks.append(energy)
-
-            # src_back[b, r, v, u, t] = sum_s weighted_residual[...,s] * rho_src[r, t, s]
-            src_back = torch.einsum("brvus,rts->brvut", weighted_residual, rho_src_c)
-            dst_back = torch.einsum("brvus,rts->brvut", weighted_residual, rho_dst_c)
-
-            z_update = z_update + (
-                signs[None, :, None, None] * src_back.sum(dim=3)
-            ).sum(dim=1) - dst_back.sum(dim=2).sum(dim=1)
-            degree = degree + (g[None, :, None] * (w.sum(dim=3) + w.sum(dim=2))).sum(dim=1)
-
-        z_update = eta * z_update / degree.unsqueeze(-1).clamp_min(1.0)
+        degree = (gates.to(dtype=z.dtype).view(1, self.relation_count, 1) * (out_degree + in_degree)).sum(dim=1)
+        z_update = eta.to(dtype=z.dtype) * z_update / degree.unsqueeze(-1).clamp_min(1.0)
         h = self.norm(h + self.stalk_to_node(z_update) + self.node_mlp(h))
-        energies = torch.cat(energy_chunks, dim=1)
+
+        src_norm = src.square().sum(dim=-1)
+        dst_norm = dst.square().sum(dim=-1)
+        cross = (src * w_dst).sum(dim=-1)
+        energy_numer = (
+            (out_degree * src_norm).sum(dim=-1)
+            + (in_degree * dst_norm).sum(dim=-1)
+            - 2.0 * self.relation_signs.to(dtype=z.dtype).view(1, self.relation_count) * cross.sum(dim=-1)
+        )
+        denom = out_degree.sum(dim=-1).clamp_min(1.0)
+        energies = gates.to(dtype=z.dtype).view(1, self.relation_count) * energy_numer / denom
         return h, energies, gates
 
 
 class OrientedTacticalSheafFastNet(OrientedTacticalSheafNet):
-    """i018 with FastSheafDiffusionBlock and optional torch.compile.
-
-    Subclasses the original net, so adapter / incidence builder / encoder /
-    triad pool / readout / forward logic are all inherited unchanged. Only the
-    diffusion blocks are swapped and (optionally) the forward is compiled.
-    """
+    """i018 with algebraic sheaf diffusion and optional compiled forward."""
 
     def __init__(
         self,
         *args: Any,
-        chunk_size: int = 3,
         compile_model: bool = True,
         compile_mode: str = "reduce-overhead",
+        return_diagnostics: bool = True,
+        inference_autocast_dtype: str | torch.dtype | None = None,
+        inference_autocast_min_batch: int = 1,
         **kwargs: Any,
     ) -> None:
         super().__init__(*args, **kwargs)
+        self.return_diagnostics = bool(return_diagnostics)
+        self.inference_autocast_dtype = _resolve_autocast_dtype(inference_autocast_dtype)
+        self.inference_autocast_min_batch = max(1, int(inference_autocast_min_batch))
         depth = len(self.blocks)
         relation_count = len(RELATION_NAMES)
-        # Rebuild diffusion blocks as the fast variant (same param structure).
         d_model = self.blocks[0].node_to_stalk.in_features
         stalk_dim = self.blocks[0].node_to_stalk.out_features
         dropout = self.blocks[0].node_mlp[3].p if len(self.blocks[0].node_mlp) > 3 else 0.1
         self.blocks = nn.ModuleList(
-            [
-                FastSheafDiffusionBlock(d_model, relation_count, stalk_dim, dropout, chunk_size=chunk_size)
-                for _ in range(depth)
-            ]
+            [FastSheafDiffusionBlock(d_model, relation_count, stalk_dim, dropout) for _ in range(depth)]
         )
         self._compiled_forward = None
         if compile_model:
@@ -163,8 +157,96 @@ class OrientedTacticalSheafFastNet(OrientedTacticalSheafNet):
                 print(f"[oriented_tactical_sheaf_fast] torch.compile unavailable, running eager: {exc}")
                 self._compiled_forward = None
 
+    def _forward_impl(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
+        x = require_board_tensor(x, self.spec)
+        board = self.adapter(x)
+        incidence = self.incidence(board.piece_state, board.occupancy)
+        if self.scramble_relations:
+            sheaf_masks = incidence.relation_masks
+            batch, relations, squares, _ = sheaf_masks.shape
+            perm = torch.argsort(torch.rand(batch, relations, squares, device=sheaf_masks.device), dim=-1)
+            perm_expanded = perm.unsqueeze(-2).expand(-1, -1, squares, -1)
+            sheaf_masks = torch.gather(sheaf_masks, dim=-1, index=perm_expanded)
+        else:
+            sheaf_masks = incidence.relation_masks
+
+        h = self.encoder(board.square_raw, board.piece_state)
+        block_energies: list[torch.Tensor] = []
+        block_gates: list[torch.Tensor] = []
+        for block in self.blocks:
+            h, energy, gates = block(h, sheaf_masks)
+            block_energies.append(energy)
+            block_gates.append(gates.unsqueeze(0).expand(x.shape[0], -1))
+
+        energy_stack = torch.stack(block_energies, dim=1)
+        gate_stack = torch.stack(block_gates, dim=1)
+        energy_mean = energy_stack.mean(dim=1)
+        energy_max = energy_stack.amax(dim=1)
+        gate_mean = gate_stack.mean(dim=1)
+        triad_stats = (
+            self.triad_pool(h, incidence)
+            if self.triad_pool is not None
+            else h.new_zeros(h.shape[0], 0)
+        )
+        readout = torch.cat(
+            [
+                h.mean(dim=1),
+                h.amax(dim=1),
+                _weighted_mean(h, incidence.our_piece),
+                _weighted_mean(h, incidence.them_piece),
+                energy_mean,
+                energy_max,
+                incidence.relation_density,
+                gate_mean,
+                triad_stats,
+                self._board_stats(board, incidence),
+            ],
+            dim=1,
+        )
+        logits = _format_logits(self.head(readout), self.num_classes)
+        if not self.return_diagnostics:
+            return {"logits": logits}
+
+        sheaf_tension = energy_stack.mean(dim=(1, 2))
+        us_pressure = incidence.relation_masks[:, 0].sum(dim=(1, 2))
+        them_pressure = incidence.relation_masks[:, 1].sum(dim=(1, 2))
+        us_defense = incidence.relation_masks[:, 2].sum(dim=(1, 2))
+        them_defense = incidence.relation_masks[:, 3].sum(dim=(1, 2))
+        rank_counts = torch.matmul(board.occupancy, self.incidence.rank_one_hot)
+        file_counts = torch.matmul(board.occupancy, self.incidence.file_one_hot)
+        piece_entropy = -(board.piece_state * board.piece_state.clamp_min(1e-8).log()).sum(dim=-1).mean(dim=1)
+        return {
+            "logits": logits,
+            "mechanism_energy": torch.log1p(sheaf_tension),
+            "proposal_profile_strength": gate_mean.mean(dim=1),
+            "proposal_keyword_count": logits.new_full((x.shape[0],), 4.0),
+            "sheaf_tension": sheaf_tension,
+            "transport_imbalance": (us_pressure - them_pressure).abs() / (us_pressure + them_pressure).clamp_min(1.0),
+            "symmetry_residual": (incidence.our_attack.mean(dim=(1, 2)) - incidence.them_attack.mean(dim=(1, 2))).abs(),
+            "topology_pressure": incidence.relation_density.mean(dim=1),
+            "ray_language_energy": energy_mean[:, 6:9].mean(dim=1),
+            "information_surprisal": piece_entropy,
+            "sparse_certificate_energy": energy_stack.amax(dim=(1, 2)),
+            "rank_file_imbalance": (rank_counts.std(dim=1) - file_counts.std(dim=1)).abs(),
+            "king_ring_pressure": incidence.relation_density[:, 4] + incidence.relation_density[:, 5],
+            "reply_pressure": 0.5 * (us_pressure + them_pressure) / 64.0,
+            "defense_gap": ((us_pressure + them_pressure) - (us_defense + them_defense)) / 64.0,
+            "triad_defect_energy": triad_stats[:, 0] if triad_stats.numel() else logits.new_zeros(x.shape[0]),
+            "pin_pressure": incidence.relation_density[:, 11],
+        }
+
     def _raw_forward(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
-        return OrientedTacticalSheafNet.forward(self, x)
+        autocast_dtype = self.inference_autocast_dtype
+        if (
+            autocast_dtype is not None
+            and not self.training
+            and not torch.is_grad_enabled()
+            and x.is_cuda
+            and int(x.shape[0]) >= self.inference_autocast_min_batch
+        ):
+            with torch.amp.autocast("cuda", dtype=autocast_dtype):
+                return self._forward_impl(x)
+        return self._forward_impl(x)
 
     def forward(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
         if self._compiled_forward is not None:
@@ -187,7 +269,9 @@ def build_oriented_tactical_sheaf_fast_from_config(
         piece_adapter=str(config.get("piece_adapter", "exact")),
         use_triads=bool(config.get("use_triads", True)),
         scramble_relations=bool(config.get("scramble_relations", False)),
-        chunk_size=int(config.get("sheaf_chunk_size", 3)),
         compile_model=bool(config.get("compile_model", True)),
         compile_mode=str(config.get("compile_mode", "reduce-overhead")),
+        return_diagnostics=bool(config.get("return_diagnostics", True)),
+        inference_autocast_dtype=config.get("inference_autocast_dtype"),
+        inference_autocast_min_batch=int(config.get("inference_autocast_min_batch", 1)),
     )

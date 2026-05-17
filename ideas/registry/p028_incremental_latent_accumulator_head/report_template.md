@@ -30,12 +30,30 @@
 - Correlation: `primitive_gate` vs `ila_king_norm`
 - Correlation: `primitive_delta` vs final correctness
 
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted idea must
+report aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, and performance broken
+down by `crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`. Include per-slice false
+positives for fine label `1`, per-slice false negatives for fine label
+`2`, confidence/calibration by slice, and the highest-confidence wrong
+examples with FEN, difficulty, phase, and motifs.
+
 ## Slice Findings
 
 - Target slice: king-safety / king-zone / endgame positions
   - Required: p028 unablated >= i193 + 0.02 PR AUC
   - Required: A1 (`zero_king_accumulator`) loses >= 70% of that lift
 - Watch slice: `crtk_eval_bucket = equal` — must not regress
+- Required `crtk_difficulty` breakdown: lift must concentrate on
+  medium/hard buckets (where king-context evaluation matters most)
+  without regressing the easy bucket.
+- Required `crtk_phase` breakdown: lift must hold on middlegame and
+  endgame buckets (king-safety and endgame king activity), with no
+  opening-bucket regression.
+- Near-puzzle FP rate at matched recall
 
 ## Ablation Comparison Table
 

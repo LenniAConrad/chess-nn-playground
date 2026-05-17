@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_tail_copula_concordance_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=tail_copula_concordance`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/tail_copula_concordance.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/tail_copula_concordance.py`
+- Idea-local wrapper: `ideas/registry/a009_bt4_tail_copula_concordance_mixer/model.py`
 - Source primitive idea: `p004_tail_copula_concordance`
 
 ## What this is

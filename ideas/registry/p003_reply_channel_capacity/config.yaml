@@ -13,7 +13,7 @@ data:
   encoding: simple_18
   cache_features: false
 model:
-  name: reply_channel_capacity_network
+  name: reply_channel_capacity
   input_channels: 18
   num_classes: 1
   trunk_channels: 64
@@ -32,7 +32,7 @@ model:
   gate_init: -2.0
   ablation: none
   mechanism_family: king_path
-  packet_profile: reply_channel_capacity_network
+  packet_profile: reply_channel_capacity
 training:
   epochs: 20
   batch_size: 256

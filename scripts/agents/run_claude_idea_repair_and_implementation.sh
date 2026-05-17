@@ -733,7 +733,18 @@ PY
 }
 
 safe_name() {
-  printf '%s' "$1" | tr -c 'A-Za-z0-9_.-' '_'
+  local safe digest prefix
+  safe="$(printf '%s' "$1" | tr -c 'A-Za-z0-9_.-' '_')"
+  if ((${#safe} > 120)); then
+    if have sha256sum; then
+      digest="$(printf '%s' "$safe" | sha256sum | awk '{print $1}')"
+    else
+      digest="$(printf '%s' "$safe" | cksum | awk '{print $1}')"
+    fi
+    prefix="${safe:0:100}"
+    safe="${prefix}_${digest:0:16}"
+  fi
+  printf '%s' "$safe"
 }
 
 write_item_prompt() {

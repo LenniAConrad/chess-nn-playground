@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=legal_move_graph_delta`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/legal_move_graph_delta.py`
+- Idea-local wrapper: `ideas/registry/a014_bt4_legal_move_graph_delta_mixer/model.py`
+- Training config: `ideas/registry/a014_bt4_legal_move_graph_delta_mixer/config.yaml`
 - Source primitive idea: `p009_legal_move_graph_delta`
 
 ## What this is

@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_dynamic_adjacency_gating_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=dynamic_adjacency_gating`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/dynamic_adjacency_gating.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/dynamic_adjacency_gating.py`
+- Idea-local wrapper: `ideas/registry/a037_bt4_dynamic_adjacency_gating_mixer/model.py`
 - Source primitive idea: `p032_dynamic_adjacency_gating`
 
 ## What this is

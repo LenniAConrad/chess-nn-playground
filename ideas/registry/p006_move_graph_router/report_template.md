@@ -11,6 +11,18 @@
 - Validation slice report: `slice_report_val.md`
 - Test slice report: `slice_report_test.md`
 
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted idea must
+require aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, performance by
+`crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`, per-slice false
+positives for fine label `1` and false negatives for fine label `2`,
+confidence/calibration by slice, the highest-confidence wrong examples
+(FEN, `crtk_difficulty`, `crtk_phase`, motifs), and a short
+keep/drop conclusion.
+
 ## Aggregate Metrics
 
 - Accuracy:

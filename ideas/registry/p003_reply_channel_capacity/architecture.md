@@ -86,14 +86,22 @@ are *not* consumed.
 
 ## Implementation Binding
 
-- Registered model name: `reply_channel_capacity_network`.
+- Registered model name: `reply_channel_capacity` (idea slug). The
+  legacy registry alias `reply_channel_capacity_network` resolves to
+  the same builder for backwards-compatible tests.
 - Source implementation:
-  `src/chess_nn_playground/models/primitives/reply_channel_capacity_network.py`.
+  `src/chess_nn_playground/models/primitives/reply_channel_capacity_network.py`
+  (the module retains its `_network` filename; the class is
+  `ReplyChannelCapacityNetwork`).
 - Shared candidate/reply utilities:
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
+- Trunk source:
+  `src/chess_nn_playground/models/trunk/exchange_then_king_dual_stream.py`
+  (the bespoke i193 trunk is wrapped, not reimplemented).
 - Idea-local wrapper:
   `ideas/registry/p003_reply_channel_capacity/model.py`.
 - Training config:
   `ideas/registry/p003_reply_channel_capacity/config.yaml`.
 - Builder entry in `src/chess_nn_playground/models/registry.py`:
-  `MODEL_BUILDERS["reply_channel_capacity_network"] = build_reply_channel_capacity_network_from_config`.
+  `MODEL_BUILDERS["reply_channel_capacity"] = build_reply_channel_capacity_network_from_config`
+  (with the `reply_channel_capacity_network` alias retained).

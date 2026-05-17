@@ -1,6 +1,6 @@
 idea_id: p002
 name: Regret Saddlepoint Primitive
-slug: regret_saddlepoint_network
+slug: regret_saddlepoint
 status: implemented
 created_at: '2026-05-13T00:00:00+00:00'
 author: Codex (RSP promotion from research packet)

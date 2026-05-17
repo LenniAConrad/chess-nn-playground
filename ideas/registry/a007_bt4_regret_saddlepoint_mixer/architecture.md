@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=regret_saddlepoint`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/regret_saddlepoint.py`
+- Idea-local wrapper: `ideas/registry/a007_bt4_regret_saddlepoint_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=regret_saddlepoint`)
 - Source primitive idea: `p002_regret_saddlepoint`
 
 ## What this is

@@ -6,7 +6,9 @@
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
 - Idea-local wrapper:
   `ideas/registry/p001_pareto_antichain_frontier/model.py`.
-- Registry key: `pareto_antichain_frontier_network`.
+- Registry key: `pareto_antichain_frontier` (matches the idea slug).
+  The legacy alias `pareto_antichain_frontier_network` is retained in
+  the registry manifest so older tests resolve to the same builder.
 - Source primitive:
   `ideas/research/primitives/codex_01_pareto_antichain_frontier.md`.
 

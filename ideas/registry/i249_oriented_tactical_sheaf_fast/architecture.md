@@ -1,8 +1,10 @@
 # Architecture
 
-`Oriented Tactical Sheaf Laplacian (Fast)` is a pure execution optimization of
-i018 `oriented_tactical_sheaf_laplacian`. **Same math, same parameters, same
-numerics** — only the GPU execution pattern changes.
+`Oriented Tactical Sheaf Laplacian (Fast)` is a pure execution rewrite of i018
+`oriented_tactical_sheaf_laplacian`. It keeps the same board adapter,
+tactical-incidence builder, square encoder, sheaf parameters, triad pool,
+readout head, and diagnostics. The intended model family and prediction
+function are unchanged; only the sheaf diffusion execution plan changes.
 
 ## Implementation Binding
 
@@ -10,55 +12,100 @@ numerics** — only the GPU execution pattern changes.
 - Source implementation: `src/chess_nn_playground/models/trunk/oriented_tactical_sheaf_fast.py`
 - Idea-local wrapper: `ideas/registry/i249_oriented_tactical_sheaf_fast/model.py`
 
-## What changed vs i018
+## Core Rewrite
 
-i018 is FLOP-light but wall-clock-slow: its `SheafDiffusionBlock` runs a
-12-iteration Python loop over typed relations (~72 small kernel launches per
-block, x depth) and rematerializes large `(B, 64, 64, stalk)` intermediates
-every iteration. On GPUs this is launch-overhead- and bandwidth-bound.
+i018's `SheafDiffusionBlock` loops over 12 relation types. For every relation
+it materializes an edge residual tensor of shape `(B, 64, 64, stalk_dim)`,
+weights it, projects it back through the source/target restriction maps, and
+reduces over endpoints. On GPUs this is dominated by memory traffic and launch
+overhead, not by useful arithmetic.
 
-This variant changes two things and nothing else:
+i249 expands the same sums algebraically. For each relation with edge weights
+`W_ij`, projected source stalks `src_i`, target stalks `dst_j`, and sign
+`sigma`, the original edge residual is:
 
-1. **`FastSheafDiffusionBlock`** — replaces the per-relation Python loop with:
-   - one batched einsum projecting *all* relation source/target stalks at once
-     (`einsum('bns,rst->brnt', z, rho_src)`), instead of 12 separate `z @ rho[r]`;
-   - a chunked batched coboundary: relations are processed in groups of
-     `sheaf_chunk_size` (default 3) so the peak `(B, chunk, 64, 64, stalk)`
-     intermediate stays within an 8 GB GPU.
-   The parameter set is byte-for-byte the same as i018's block (`rho_src`,
-   `rho_dst`, `relation_gate_logits`, `eta_logit`, `node_to_stalk`,
-   `stalk_to_node`, `node_mlp`, `norm`), and the arithmetic is the same — only
-   reordered. A model trained with either block is the same architecture.
+```text
+r_ij = dst_j - sigma * src_i
+```
 
-2. **Optional `torch.compile`** — i018 has fully static shapes (board
-   `(B, 18, 8, 8)`, relations `(B, 12, 64, 64)`), the ideal case for kernel
-   fusion + CUDA graphs. `compile_model: true` wraps a bound method (not the
-   module) so `state_dict` keys stay clean.
+The update only needs two reductions:
 
-`BoardStateAdapter`, `TacticalIncidenceBuilder`, `SquareTokenEncoder`,
-`TriadDefectPool`, and the readout head are imported unchanged from the i018
-source module, so this variant cannot silently drift from i018.
+```text
+sum_j W_ij r_ij = (W @ dst)_i - sigma * out_degree_i * src_i
+sum_i W_ij r_ij = in_degree_j * dst_j - sigma * (W.T @ src)_j
+```
 
-## Numerical equivalence (verified)
+So the block computes `W @ dst`, `W.T @ src`, in-degrees, and out-degrees
+directly, then applies the same `rho_src.T` and `rho_dst.T` restriction-map
+backsweeps. It also computes the relation energy from the expanded quadratic
+form:
 
-With i018 weights loaded into the fast net:
+```text
+sum_ij W_ij ||dst_j - sigma * src_i||^2
+```
 
-- eval-mode forward `logits` match to **~6e-8** max abs diff;
-- `sheaf_tension` / `pin_pressure` diagnostics match to **0** / `~1e-7`;
-- loss matches to **0.0**, and per-parameter gradients (`rho_src`, `rho_dst`,
-  `relation_gate_logits`, linear weights, head weights) match to **~1e-10**.
+This removes the dense edge residual intermediate while preserving the same
+parameters and the same mathematical update.
 
-So the expected test PR-AUC is identical to i018; the only intended difference
-is GPU wall-clock.
+## Acceleration Layers
 
-## Benchmark plan
+1. **Algebraic `FastSheafDiffusionBlock`** replaces the residual-materializing
+   block. Its parameter names and shapes match i018 exactly, so i018 and i249
+   checkpoints load into each other with `strict=True`.
+2. **Optional `torch.compile(mode="reduce-overhead")`** wraps the bound forward
+   method. This keeps `state_dict` keys clean and lets PyTorch fuse the static
+   `(B, 18, 8, 8)` board path.
+3. **Optional eval/inference autocast** via
+   `model.inference_autocast_dtype: float16` runs no-grad CUDA inference in
+   FP16. This is disabled during training/gradient checks and is the fastest
+   serving path measured so far.
+4. **Optional logits-only output** via `model.return_diagnostics: false` skips
+   diagnostic columns for serving. The default remains `true` so paper-grade
+   reporting keeps the i018 diagnostic contract.
 
-3 seeds (42, 43, 44) x 3 scales (base, scale_up:1.5, scale_xl:2), identical
-training hyperparameters to the i018 paper-grade runs. Reports measured
-`samples_per_second` and `fit_elapsed_seconds` next to test PR-AUC, compared
-against the i018 baseline already in `results/paper_grade_top3/`.
+## Numerical Equivalence
+
+With i018 weights loaded into i249:
+
+- eval-mode `logits` matched to about `3e-8` to `1e-7` max absolute error;
+- `sheaf_tension`, `mechanism_energy`, `ray_language_energy`, and `pin_pressure`
+  matched within normal floating-point reduction noise;
+- BCE loss matched exactly in the checked batch;
+- the largest checked parameter-gradient difference was about `4.5e-8`.
+
+The rewrite therefore should not move accuracy beyond normal floating-point and
+training-order noise. If a future edit increases shared-weight logit drift above
+`1e-5` or gradient drift above `1e-7`, i249 should be treated as a changed model
+rather than a speed rewrite.
+
+## Measured Inference
+
+On the local RTX 4070 Laptop GPU, base scale `(channels=64, depth=2,
+stalk_dim=8)`, synthetic `(B, 18, 8, 8)` inputs:
+
+| model | mode | batch 1 | batch 32 | batch 256 |
+|---|---|---:|---:|---:|
+| i018 | eager | ~6.2 ms | ~6.4 ms | ~71.7 ms |
+| i249 algebraic | eager | ~2.9 ms | ~3.4 ms | ~13.5 ms |
+| i249 algebraic | compiled + TF32/high | ~0.4-0.5 ms | ~0.8 ms | ~5.9 ms |
+| i249 algebraic | compiled + eval FP16 autocast | ~0.46 ms | ~0.69 ms | ~4.23 ms |
+
+The compiled path has a one-time per-shape compilation cost. For fixed inference
+batch shapes or trainer-scale batches, that cost is amortized.
+FP16 autocast moved logits by about `2e-4` max on random batches in the local
+check; keep `inference_autocast_dtype: none` when exact i018-equivalent logits
+are required.
+
+## Config Variants
+
+- `config.yaml`: exact-logit algebraic i249. This is the audit baseline for
+  i018-equivalence checks.
+- `config_eval_fp16.yaml`: lower-precision eval/serving i249. Same model and
+  weights, but no-grad CUDA inference uses FP16 autocast for maximum throughput.
 
 ## Contract
 
-Identical to i018: input `(B, C, 8, 8)` board tensor only; output `dict` with
-`logits` of shape `(B,)` plus the i018 diagnostic tensors.
+Input is the same current-board tensor as i018. Default output is a
+`dict[str, Tensor]` with `logits` plus the inherited i018 scalar diagnostics.
+Set `return_diagnostics: false` only for serving paths that consume logits and
+do not need diagnostic prediction columns.

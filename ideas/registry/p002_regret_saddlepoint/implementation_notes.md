@@ -6,7 +6,9 @@
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
 - Idea-local wrapper:
   `ideas/registry/p002_regret_saddlepoint/model.py`.
-- Registry key: `regret_saddlepoint_network`.
+- Registry key: `regret_saddlepoint` (the legacy alias
+  `regret_saddlepoint_network` resolves to the same builder so existing
+  smoke tests stay green).
 - Source primitive:
   `ideas/research/primitives/codex_02_regret_saddlepoint.md`.
 

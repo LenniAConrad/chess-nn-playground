@@ -32,6 +32,17 @@
 - `cost_orbit_ties` distribution (true ties have value >= 2)
 - `cost_residual_norm` distribution
 
+## Required Benchmark Reporting
+
+Follow `ideas/docs/BENCHMARK_REPORTING.md`. Every promoted idea must
+report aggregate metrics plus the fine-label diagnostic matrix,
+`slice_report_val.md`, `slice_report_test.md`, and performance broken
+down by `crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`. Include per-slice false
+positives for fine label `1`, per-slice false negatives for fine label
+`2`, confidence/calibration by slice, and the highest-confidence wrong
+examples with FEN, difficulty, phase, and motifs.
+
 ## Slice Findings
 
 - Declared target slice: positions with `cost_orbit_gap` above median
@@ -39,6 +50,10 @@
   - Required: p036 unablated >= i193 + 0.03 PR AUC on slice
   - Required: A1 (`shuffle_canonical`) loses >= 70% of that lift
 - Watch slice: starting position symmetry / file-mirror duplicates
+- Required `crtk_difficulty` breakdown: lift should concentrate on
+  medium/hard buckets without regressing the easy bucket.
+- Required `crtk_phase` breakdown: lift should hold on middlegame and
+  endgame buckets, with no opening-bucket regression.
 - Near-puzzle FP rate at matched recall
 
 ## Ablation Comparison Table

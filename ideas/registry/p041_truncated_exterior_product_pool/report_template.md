@@ -38,6 +38,21 @@
 - Watch slice: positions with few active pieces (grade-3 magnitude
   must remain finite)
 - Near-puzzle FP rate at matched recall
+- Per-slice breakdowns required (must not regress vs i193):
+  - `crtk_difficulty` buckets (easy / medium / hard) — wedge
+    cancellation is expected to lift the medium / hard buckets where
+    multi-piece interactions dominate, without regressing the easy
+    bucket
+  - `crtk_phase` buckets (opening / middlegame / endgame) — lift
+    should concentrate on middlegame positions where higher-grade
+    monomials still survive truncation, with no opening-bucket
+    regression
+  - `crtk_eval_bucket`, `crtk_tactic_motifs`, `crtk_tag_families`
+- Per-slice false-positive rate for fine label `1` and false-negative
+  rate for fine label `2`, jointly stratified by `crtk_difficulty` x
+  `crtk_phase`.
+- Highest-confidence wrong examples must report FEN,
+  `crtk_difficulty`, `crtk_phase`, and motifs.
 
 ## Ablation Comparison Table
 

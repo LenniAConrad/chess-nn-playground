@@ -39,6 +39,15 @@
   - Required: A2 (`diagonal_only`) loses >= 40% of that lift
 - Watch slice: positions with many same-type pieces (correlated tokens)
 - Near-puzzle FP rate at matched recall
+- Per-slice breakdowns required (must not regress vs i193):
+  - `crtk_difficulty` buckets (easy / medium / hard)
+  - `crtk_phase` buckets (opening / middlegame / endgame)
+  - `crtk_eval_bucket`, `crtk_tactic_motifs`, `crtk_tag_families`
+- Per-slice false-positive rate for fine label `1` and false-negative
+  rate for fine label `2`, jointly stratified by `crtk_difficulty` x
+  `crtk_phase`.
+- Highest-confidence wrong examples must report FEN,
+  `crtk_difficulty`, `crtk_phase`, and motifs.
 
 ## Ablation Comparison Table
 

@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_move_kernel_operator_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=move_kernel_operator`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/move_kernel_operator.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/move_kernel_operator.py`
+- Idea-local wrapper: `ideas/registry/a038_bt4_move_kernel_operator_mixer/model.py`
 - Source primitive idea: `p033_move_kernel_operator`
 
 ## What this is

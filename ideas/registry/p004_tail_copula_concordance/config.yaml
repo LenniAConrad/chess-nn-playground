@@ -13,7 +13,7 @@ data:
   encoding: simple_18
   cache_features: false
 model:
-  name: tail_copula_concordance_network
+  name: tail_copula_concordance
   input_channels: 18
   num_classes: 1
   trunk_channels: 64
@@ -31,7 +31,7 @@ model:
   gate_init: -2.0
   ablation: none
   mechanism_family: king_path
-  packet_profile: tail_copula_concordance_network
+  packet_profile: tail_copula_concordance
 training:
   epochs: 20
   batch_size: 256

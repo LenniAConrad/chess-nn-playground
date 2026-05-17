@@ -13,7 +13,7 @@ data:
   encoding: simple_18
   cache_features: false
 model:
-  name: regret_saddlepoint_network
+  name: regret_saddlepoint
   input_channels: 18
   num_classes: 1
   trunk_channels: 64
@@ -34,7 +34,7 @@ model:
   gate_init: -2.0
   ablation: none
   mechanism_family: king_path
-  packet_profile: regret_saddlepoint_network
+  packet_profile: regret_saddlepoint
 training:
   epochs: 20
   batch_size: 256

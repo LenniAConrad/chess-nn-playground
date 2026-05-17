@@ -37,6 +37,21 @@
   - Required: p042 unablated >= i193 + 0.02 PR AUC on target slice
   - Required: A1 (`first_order_only`) loses >= 50% of that lift
   - Required: A2 (`uniform_mask`) loses >= 30% of that lift
+- Per-slice breakdowns required (must not regress vs i193):
+  - `crtk_difficulty` buckets (easy / medium / hard) — multi-piece
+    polynomial coalitions are expected to lift the medium / hard
+    buckets where overloaded defenders dominate, without regressing
+    the easy bucket.
+  - `crtk_phase` buckets (opening / middlegame / endgame) — lift
+    should concentrate on middlegame positions where coalition-rich
+    structures survive truncation at `K = 3`, with no opening-bucket
+    regression.
+  - `crtk_eval_bucket`, `crtk_tactic_motifs`, `crtk_tag_families`.
+- Per-slice false-positive rate for fine label `1` and false-negative
+  rate for fine label `2`, jointly stratified by `crtk_difficulty` x
+  `crtk_phase`.
+- Highest-confidence wrong examples must report FEN,
+  `crtk_difficulty`, `crtk_phase`, and motifs.
 
 ## Ablation Comparison Table
 

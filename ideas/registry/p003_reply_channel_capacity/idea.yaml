@@ -1,6 +1,6 @@
 idea_id: p003
 name: Reply Channel Capacity Primitive
-slug: reply_channel_capacity_network
+slug: reply_channel_capacity
 status: implemented
 created_at: '2026-05-13T00:00:00+00:00'
 author: Codex (RCC promotion from research packet)

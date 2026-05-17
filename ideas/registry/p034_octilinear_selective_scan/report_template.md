@@ -37,6 +37,22 @@
   - Required: p034 unablated >= i193 + 0.02 PR AUC on target slice
   - Required: A1 (`single_direction`) loses >= 50% of that lift
   - Required: A2 (`fixed_transition`) loses >= 30% of that lift
+- Watch slice: `crtk_eval_bucket = equal` — must not regress
+- Difficulty breakdown: report PR AUC and gate mean per
+  `crtk_difficulty` bucket (easy / medium / hard). Long-range
+  ray-scan lift should concentrate on medium/hard buckets where
+  state propagation along a ray captures more than 1-hop adjacency;
+  easy slices must not regress.
+- Phase breakdown: report PR AUC, gate mean, and per-direction
+  ``oss_energy_<dir>`` distributions per `crtk_phase` bucket
+  (opening / middlegame / endgame). The diagonal (NE / NW / SE /
+  SW) and file (N / S) directions should dominate in middlegame
+  and endgame long-range coordination; opening must not regress.
+- Per-slice false positives for fine label `1` and false negatives
+  for fine label `2`, sliced by `crtk_difficulty` and `crtk_phase`.
+- Highest-confidence wrong examples reported with FEN,
+  `crtk_difficulty`, `crtk_phase`, and `crtk_tactic_motifs`.
+- Near-puzzle FP rate at matched recall.
 
 ## Ablation Comparison Table
 
@@ -57,6 +73,8 @@
 - [ ] A1 (`single_direction`) loses >= 50% of the lift
 - [ ] A2 (`fixed_transition`) loses >= 30% of the lift
 - [ ] `crtk_eval_bucket = equal` slice did not regress
+- [ ] No regression on the easy `crtk_difficulty` bucket
+- [ ] No regression on the opening `crtk_phase` bucket
 - [ ] Throughput drop versus i193 < 50% (otherwise plan kernel upgrade)
 
 If any box fails: drop p034 (or upgrade to a parallel-scan kernel).

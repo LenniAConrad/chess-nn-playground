@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_event_delta_bilinear_accumulator_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=event_delta_bilinear_accumulator`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/event_delta_bilinear_accumulator.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/event_delta_bilinear_accumulator.py`
+- Idea-local wrapper: `ideas/registry/a027_bt4_event_delta_bilinear_accumulator_mixer/model.py`
 - Source primitive idea: `p022_event_delta_bilinear_accumulator`
 
 ## What this is

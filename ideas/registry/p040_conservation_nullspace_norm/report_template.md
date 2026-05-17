@@ -39,6 +39,19 @@
 - Watch slice: positions with low explained fraction (the projection
   is empty so the operator should have low impact)
 - Near-puzzle FP rate at matched recall
+- Per-slice breakdowns required (must not regress vs i193):
+  - `crtk_difficulty` buckets (easy / medium / hard) — lift should
+    concentrate on the medium / hard buckets without regressing the
+    easy bucket
+  - `crtk_phase` buckets (opening / middlegame / endgame) — lift
+    should hold on middlegame / endgame positions where bookkeeping
+    charges dominate, with no opening-bucket regression
+  - `crtk_eval_bucket`, `crtk_tactic_motifs`, `crtk_tag_families`
+- Per-slice false-positive rate for fine label `1` and false-negative
+  rate for fine label `2`, jointly stratified by `crtk_difficulty` x
+  `crtk_phase`.
+- Highest-confidence wrong examples must report FEN,
+  `crtk_difficulty`, `crtk_phase`, and motifs.
 
 ## Ablation Comparison Table
 

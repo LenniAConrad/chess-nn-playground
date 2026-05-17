@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_tempo_defender_cross_derivative_network_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=tempo_defender_cross_derivative_network`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/tempo_defender_cross_derivative_network.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/tempo_defender_cross_derivative_network.py`
+- Idea-local wrapper: `ideas/registry/a001_bt4_tempo_defender_cross_derivative_network_mixer/model.py`
 - Source primitive idea: `i244_tempo_defender_cross_derivative_network`
 
 ## What this is

@@ -13,7 +13,7 @@ data:
   encoding: simple_18
   cache_features: false
 model:
-  name: witness_counterwitness_quantifier_network
+  name: witness_counterwitness_quantifier
   input_channels: 18
   num_classes: 1
   trunk_channels: 64
@@ -33,7 +33,7 @@ model:
   gate_init: -2.0
   ablation: none
   mechanism_family: king_path
-  packet_profile: witness_counterwitness_quantifier_network
+  packet_profile: witness_counterwitness_quantifier
 training:
   epochs: 20
   batch_size: 256

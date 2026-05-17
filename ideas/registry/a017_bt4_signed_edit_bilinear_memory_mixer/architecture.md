@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=signed_edit_bilinear_memory`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/signed_edit_bilinear_memory.py`
+- Idea-local wrapper: `ideas/registry/a017_bt4_signed_edit_bilinear_memory_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=signed_edit_bilinear_memory`)
 - Source primitive idea: `p012_signed_edit_bilinear_memory`
 
 ## What this is

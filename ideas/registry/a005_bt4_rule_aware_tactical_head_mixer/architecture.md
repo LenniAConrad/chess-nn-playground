@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=rule_aware_tactical_head`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/rule_aware_tactical_head.py`
+- Idea-local wrapper: `ideas/registry/a005_bt4_rule_aware_tactical_head_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=rule_aware_tactical_head`)
 - Source primitive idea: `i248_rule_aware_tactical_head`
 
 ## What this is

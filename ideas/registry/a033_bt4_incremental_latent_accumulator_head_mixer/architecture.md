@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_incremental_latent_accumulator_head_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=incremental_latent_accumulator_head`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/incremental_latent_accumulator_head.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/incremental_latent_accumulator_head.py`
+- Idea-local wrapper: `ideas/registry/a033_bt4_incremental_latent_accumulator_head_mixer/model.py`
 - Source primitive idea: `p028_incremental_latent_accumulator_head`
 
 ## What this is

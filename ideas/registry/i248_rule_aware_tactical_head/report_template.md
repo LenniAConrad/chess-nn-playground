@@ -39,6 +39,12 @@
   - Required: A1 (`shuffle_tsdp`) loses >= 70% of that lift
 - Watch slice: `crtk_eval_bucket = equal` — must not regress
 - Watch slice: stalemate-related (`stalemate_threat` indicator firing)
+- Difficulty breakdown: report PR AUC and gate-firing rate per
+  `crtk_difficulty` bucket (easy / medium / hard). Lift should
+  concentrate on hard tactical positions, not displace easy slices.
+- Phase breakdown: report PR AUC and gate mean per `crtk_phase`
+  bucket (opening / middlegame / endgame). Stalemate-related lift
+  must show up in endgame; opening must not regress.
 - Near-puzzle FP rate at matched recall
 
 ## Ablation Comparison Table

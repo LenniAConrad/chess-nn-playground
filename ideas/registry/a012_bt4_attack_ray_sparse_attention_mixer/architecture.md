@@ -8,8 +8,10 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_attack_ray_sparse_attention_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=attack_ray_sparse_attention`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/attack_ray_sparse_attention.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/attack_ray_sparse_attention.py`
+- Idea-local wrapper: `ideas/registry/a012_bt4_attack_ray_sparse_attention_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=attack_ray_sparse_attention`)
 - Source primitive idea: `p007_attack_ray_sparse_attention`
 
 ## What this is

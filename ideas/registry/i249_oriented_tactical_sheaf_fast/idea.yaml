@@ -6,21 +6,23 @@ created_at: '2026-05-14T08:00:00+00:00'
 author: Claude
 short_thesis: >-
   Speed-optimized i018. Same cellular sheaf Laplacian math, same parameters,
-  same numerics, but a GPU-friendlier execution pattern (vectorized chunked
-  relation diffusion plus optional torch.compile) to close i018's wall-clock
+  same logits up to floating-point reduction noise, but a GPU-friendlier
+  execution pattern (algebraic dense-edge-free relation diffusion plus optional
+  torch.compile) to close i018's wall-clock
   gap without touching accuracy.
 novelty_claim: >-
   Not a new model family. A drop-in execution-optimized variant of i018
   oriented_tactical_sheaf_laplacian. The original runs a 12-iteration Python
   loop over typed relations (about 72 small kernel launches per block) and
   rematerializes large (B, 64, 64, stalk) intermediates; this variant
-  vectorizes the relation projections, batches the coboundary in memory-capped
-  chunks, and optionally wraps the static-shape forward in torch.compile.
+  expands the sheaf sums into W@dst, W.T@src, degree, and quadratic-energy
+  terms so the edge residual tensor is never materialized, then optionally
+  wraps the static-shape forward in torch.compile.
 expected_advantage: >-
   Same test PR-AUC as i018 because the forward and gradient are numerically
-  identical (logits match to about 1e-8, loss and gradients to about 1e-10),
-  at lower GPU wall-clock. Targets i018's known weakness, namely FLOP-light but
-  launch-overhead-bound execution.
+  equivalent up to reduction order (logits match around 1e-7 and checked
+  gradients around 4.5e-8), at lower GPU wall-clock. Targets i018's known
+  weakness, namely FLOP-light but memory-traffic-heavy execution.
 target_task: >-
   puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine
   label 2 maps to puzzle. Identical contract to i018.
@@ -31,12 +33,13 @@ output_heads: >-
   One puzzle logit plus the same sheaf-tension, per-relation energy, transport,
   triad-defect, pin, king-ring, and board diagnostics as i018.
 compute_notes: >-
-  FastSheafDiffusionBlock replaces the per-relation Python loop with a single
-  einsum projection over all relations plus a chunked batched coboundary. The
-  chunk size caps the (B, chunk, 64, 64, stalk) intermediate for 8 GB GPUs.
-  Optional torch.compile with mode reduce-overhead exploits i018's fully static
-  shapes for kernel fusion and CUDA graphs. All other modules are imported
-  unchanged from the i018 source module so the variant cannot drift.
+  FastSheafDiffusionBlock replaces the residual-materializing per-relation
+  loop with an algebraic dense-edge-free update based on batched W@dst and
+  W.T@src products. Optional torch.compile with mode reduce-overhead exploits
+  i018's fully static shapes for kernel fusion and CUDA graphs. Optional
+  no-grad CUDA FP16 autocast is available for the fastest serving/eval path.
+  All other modules are inherited from the i018 source module so the variant
+  cannot drift.
 implementation_status: implemented
 trainer_entrypoint: ideas/registry/i249_oriented_tactical_sheaf_fast/train.py
 config_path: ideas/registry/i249_oriented_tactical_sheaf_fast/config.yaml

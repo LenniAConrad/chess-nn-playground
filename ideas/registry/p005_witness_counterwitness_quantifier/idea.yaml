@@ -1,6 +1,6 @@
 idea_id: p005
 name: Witness-Counterwitness Quantifier Primitive
-slug: witness_counterwitness_quantifier_network
+slug: witness_counterwitness_quantifier
 status: implemented
 created_at: '2026-05-13T00:00:00+00:00'
 author: Codex (WCQ promotion from research packet)

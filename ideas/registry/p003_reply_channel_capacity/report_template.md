@@ -38,6 +38,22 @@
 - Watch slice: `crtk_eval_bucket = equal`
 - Watch slice: promotion / underpromotion near-FP
 
+Per `ideas/docs/BENCHMARK_REPORTING.md`, also report slice tables
+sliced by `crtk_difficulty`, `crtk_phase`, `crtk_eval_bucket`,
+`crtk_tactic_motifs`, and `crtk_tag_families`. The slice tables live
+in `slice_report_val.md` and `slice_report_test.md` and must include:
+
+- per-slice FP rate at the matched recall threshold for fine label `1`
+- per-slice FN rate for fine label `2`
+- per-slice mean `primitive_gate`, `rcc_capacity_nats`, and
+  `rcc_capacity_gap`
+- per-`crtk_difficulty` and per-`crtk_phase` confidence/calibration
+
+The keep/drop decision below is read together with the
+`crtk_difficulty` and `crtk_phase` breakdowns: a primitive that only
+lifts the easy bucket and regresses on hard / very-hard or in the
+endgame `crtk_phase` is dropped.
+
 ## Ablation Comparison Table
 
 | Ablation | near-FP @ recall 0.80 | aggregate PR AUC | mean capacity | mean capacity gap |

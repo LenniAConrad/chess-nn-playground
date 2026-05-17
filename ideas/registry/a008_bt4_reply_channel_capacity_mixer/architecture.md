@@ -10,6 +10,8 @@ per-block spatial-mixing operator.
   with `mixer=reply_channel_capacity`)
 - Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
 - Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/reply_channel_capacity.py`
+- Idea-local wrapper: `ideas/registry/a008_bt4_reply_channel_capacity_mixer/model.py`
+  (calls `build_bt4_primitive_mixer_from_config` with `mixer=reply_channel_capacity`)
 - Source primitive idea: `p003_reply_channel_capacity`
 
 ## What this is

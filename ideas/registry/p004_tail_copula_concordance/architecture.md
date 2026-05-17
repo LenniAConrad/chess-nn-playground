@@ -78,14 +78,21 @@ board.
 
 ## Implementation Binding
 
-- Registered model name: `tail_copula_concordance_network`.
+- Registered model name: `tail_copula_concordance` (idea slug). The
+  legacy registry alias `tail_copula_concordance_network` resolves to
+  the same builder for backwards-compatible tests.
 - Source implementation:
-  `src/chess_nn_playground/models/primitives/tail_copula_concordance_network.py`.
+  `src/chess_nn_playground/models/primitives/tail_copula_concordance_network.py`
+  (the module retains its `_network` filename; the class is
+  `TailCopulaConcordanceNetwork`).
 - Shared candidate/reply utilities:
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
+- Trunk source:
+  `src/chess_nn_playground/models/trunk/exchange_then_king_dual_stream.py`
+  (the bespoke i193 trunk is wrapped, not reimplemented).
 - Idea-local wrapper:
   `ideas/registry/p004_tail_copula_concordance/model.py`.
 - Training config:
   `ideas/registry/p004_tail_copula_concordance/config.yaml`.
-- Builder entry in `src/chess_nn_playground/models/registry.py`:
-  `MODEL_BUILDERS["tail_copula_concordance_network"] = build_tail_copula_concordance_network_from_config`.
+- Builder entry in `src/chess_nn_playground/models/_registry_manifest.py`:
+  `'tail_copula_concordance': ('chess_nn_playground.models.primitives.tail_copula_concordance_network', 'build_tail_copula_concordance_network_from_config')`.

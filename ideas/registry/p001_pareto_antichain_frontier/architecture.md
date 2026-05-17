@@ -99,9 +99,13 @@ cheaper than the trunk forward.
 
 ## Implementation Binding
 
-- Registered model name: `pareto_antichain_frontier_network`.
+- Registered model name: `pareto_antichain_frontier` (idea slug). The
+  legacy registry alias `pareto_antichain_frontier_network` resolves to
+  the same builder for backwards-compatible tests.
 - Source implementation:
-  `src/chess_nn_playground/models/primitives/pareto_antichain_frontier_network.py`.
+  `src/chess_nn_playground/models/primitives/pareto_antichain_frontier_network.py`
+  (the module retains its `_network` filename; the class is
+  `ParetoAntichainFrontierNetwork`).
 - Shared candidate/reply utilities:
   `src/chess_nn_playground/models/primitives/codex_reply_primitives.py`.
 - Trunk source:
@@ -111,5 +115,5 @@ cheaper than the trunk forward.
   `ideas/registry/p001_pareto_antichain_frontier/model.py`.
 - Training config:
   `ideas/registry/p001_pareto_antichain_frontier/config.yaml`.
-- Builder entry in `src/chess_nn_playground/models/registry.py`:
-  `MODEL_BUILDERS["pareto_antichain_frontier_network"] = build_pareto_antichain_frontier_network_from_config`.
+- Builder entry in `src/chess_nn_playground/models/_registry_manifest.py`:
+  `'pareto_antichain_frontier': ('chess_nn_playground.models.primitives.pareto_antichain_frontier_network', 'build_pareto_antichain_frontier_network_from_config')`.

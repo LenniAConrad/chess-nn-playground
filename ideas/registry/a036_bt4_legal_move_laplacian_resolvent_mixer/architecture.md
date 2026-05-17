@@ -8,8 +8,9 @@ per-block spatial-mixing operator.
 
 - Registered model name: `bt4_legal_move_laplacian_resolvent_mixer` (alias of `bt4_primitive_mixer`
   with `mixer=legal_move_laplacian_resolvent`)
-- Tower: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
-- Mixer: `src/chess_nn_playground/models/architecture/bt4_mixers/legal_move_laplacian_resolvent.py`
+- Tower / source implementation file: `src/chess_nn_playground/models/architecture/bt4_primitive_mixer.py`
+- Mixer source: `src/chess_nn_playground/models/architecture/bt4_mixers/legal_move_laplacian_resolvent.py`
+- Idea-local wrapper: `ideas/registry/a036_bt4_legal_move_laplacian_resolvent_mixer/model.py`
 - Source primitive idea: `p031_legal_move_laplacian_resolvent`
 
 ## What this is

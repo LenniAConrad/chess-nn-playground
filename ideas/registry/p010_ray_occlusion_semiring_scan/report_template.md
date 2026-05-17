@@ -6,7 +6,10 @@
 - Config: `ideas/registry/p010_ray_occlusion_semiring_scan/config.yaml`
 - Seeds:
 - GPU:
+- Training budget:
 - Reporting standard: `ideas/docs/BENCHMARK_REPORTING.md`
+- Validation slice report: `slice_report_val.md`
+- Test slice report: `slice_report_test.md`
 
 ## Aggregate Metrics
 
@@ -20,11 +23,21 @@
   higher for sparse end-games).
 - `ros_step_decay_mean` per direction — collapse to {0, 1} indicates
   the decay parameter has degenerated.
+- `primitive_gate` mean / max / fraction > 0.5 on:
+  - Positions with at least one slider
+  - Positions without sliders
+- `primitive_delta` distribution on the same two buckets
 
 ## Slice Findings
 
-- Target slice: `crtk_tactic_motifs in {pin, skewer, x_ray, discovered_attack}`.
-- Watch slice: aggregate FP rate at matched recall.
+- Declared target slice: `crtk_tactic_motifs in {pin, skewer, x_ray, discovered_attack}`.
+  - Required: p010 unablated >= i193 + 0.04 PR AUC on slice
+  - Required: `uniform_transmittance` ablation loses >= 70% of that lift
+- Performance broken down by `crtk_difficulty`, `crtk_phase`,
+  `crtk_eval_bucket`, `crtk_tactic_motifs`, and `crtk_tag_families`
+  per `ideas/docs/BENCHMARK_REPORTING.md`.
+- Watch slice: aggregate FP rate at matched recall; `crtk_eval_bucket = equal`
+  must not regress.
 
 ## Ablation Comparison Table
 
