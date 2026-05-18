@@ -77,7 +77,7 @@ class RuleConditionedSparseAttentionMixer(nn.Module):
         d = self.dst_score(tokens)
         scores = torch.einsum("bik,bjk->bij", s, d)  # (B, 64, 64)
         q = 1.0 - min(max(self._density, 1.0 / _SQUARES), 1.0)
-        thresh = torch.quantile(scores, q, dim=-1, keepdim=True)
+        thresh = torch.quantile(scores.float(), q, dim=-1, keepdim=True)
         return (scores >= thresh).to(dtype=tokens.dtype)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

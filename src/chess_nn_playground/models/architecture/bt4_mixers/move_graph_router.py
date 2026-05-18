@@ -74,7 +74,7 @@ class MoveGraphRouterMixer(nn.Module):
         scores = torch.einsum("bik,bjk->bij", s, d)  # (B, 64, 64)
         # Per-source quantile threshold so each square keeps ~density edges.
         q = 1.0 - min(max(self._density, 1.0 / _SQUARES), 1.0)
-        thresh = torch.quantile(scores, q, dim=-1, keepdim=True)
+        thresh = torch.quantile(scores.float(), q, dim=-1, keepdim=True)
         mask = (scores >= thresh).to(dtype=tokens.dtype)
         return mask
 
