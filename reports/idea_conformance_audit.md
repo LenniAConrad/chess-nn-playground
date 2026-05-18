@@ -1,7 +1,7 @@
 # Idea Implementation Conformance Audit
 
 - Ideas audited: `354`
-- Packet-probe ideas: `6`
+- Packet-probe ideas: `0`
 - Rows with issues before fix: `0`
 - Rows changed: `0`
 - Registry rows synchronized: `0`
@@ -113,7 +113,7 @@
 | `i063` | `polar_procrustes_alignment_bottleneck` | `False` | `linear_algebra` | - | - | - |
 | `i064` | `multi_scale_dilated_board_mixer_cnn` | `False` | `generic` | - | - | - |
 | `i065` | `piece_token_cnn_hybrid` | `False` | `graph` | - | - | - |
-| `i066` | `bispectral_phase_coupling_board_network` | `True` | `linear_algebra` | `linear_algebra`, `tempo`, `phase_calibration` | - | - |
+| `i066` | `bispectral_phase_coupling_board_network` | `False` | `linear_algebra` | - | - | - |
 | `i067` | `finite_field_character_sum_board_network` | `False` | `linear_algebra` | - | - | - |
 | `i068` | `schur_ray_line_algebra_network` | `False` | `grammar` | - | - | - |
 | `i069` | `bitboard_shift_algebra_network` | `False` | `linear_algebra` | - | - | - |
@@ -165,7 +165,7 @@
 | `i115` | `neural_board_cellular_automaton` | `False` | `grammar` | - | - | - |
 | `i116` | `symmetric_difference_twin_encoder` | `False` | `symmetry` | - | - | - |
 | `i117` | `prototype_patch_dictionary_network` | `False` | `sparse` | - | - | - |
-| `i118` | `channel_dropout_consensus_network` | `True` | `robustness` | `robustness` | - | - |
+| `i118` | `channel_dropout_consensus_network` | `False` | `robustness` | - | - | - |
 | `i119` | `tensor_ring_square_interaction_network` | `False` | `linear_algebra` | - | - | - |
 | `i120` | `sinkhorn_role_assignment_network` | `False` | `transport` | - | - | - |
 | `i121` | `morphological_threat_field_network` | `False` | `linear_algebra` | - | - | - |
@@ -184,19 +184,19 @@
 | `i134` | `legal_constraint_projection_residual_network` | `False` | `convex` | - | - | - |
 | `i135` | `zobrist_kernel_feature_network` | `False` | `information` | - | - | - |
 | `i136` | `low_rank_signed_cut_query_network` | `False` | `linear_algebra` | - | - | - |
-| `i137` | `commutative_view_consistency_network` | `True` | `symmetry` | `symmetry` | - | - |
+| `i137` | `commutative_view_consistency_network` | `False` | `symmetry` | - | - | - |
 | `i138` | `support_function_envelope_network` | `False` | `convex` | - | - | - |
 | `i139` | `soft_majorization_line_sorter` | `False` | `grammar` | - | - | - |
 | `i140` | `low_displacement_rank_board_operator` | `False` | `linear_algebra` | - | - | - |
-| `i141` | `submodular_coverage_bottleneck` | `True` | `convex` | `convex` | - | - |
+| `i141` | `submodular_coverage_bottleneck` | `False` | `convex` | - | - | - |
 | `i142` | `pivot_trace_elimination_network` | `False` | `linear_algebra` | - | - | - |
 | `i143` | `convnext_boardnet` | `False` | `generic` | - | - | - |
-| `i144` | `board_fpn_cnn` | `True` | `generic` | `spatial_cnn` | - | - |
+| `i144` | `board_fpn_cnn` | `False` | `spatial_cnn` | - | - | - |
 | `i145` | `piece_plane_gated_cnn` | `False` | `generic` | - | - | - |
 | `i146` | `patch_mixer_boardnet` | `False` | `generic` | - | - | - |
 | `i147` | `specialist_head_cnn` | `False` | `generic` | - | - | - |
 | `i148` | `shallow_wide_residual_boardnet` | `False` | `generic` | - | - | - |
-| `i149` | `axial_rank_file_convnet` | `True` | `linear_algebra` | `linear_algebra`, `spatial_cnn` | - | - |
+| `i149` | `axial_rank_file_convnet` | `False` | `spatial_cnn` | - | - | - |
 | `i150` | `early_exit_cascade_boardnet` | `False` | `tempo` | - | - | - |
 | `i151` | `auxiliary_reconstruction_boardnet` | `False` | `generic` | - | - | - |
 | `i152` | `iterative_logit_refinement_cnn` | `False` | `tempo` | - | - | - |
@@ -288,9 +288,9 @@
 | `i238` | `stable_rank_multiscale_network` | `False` | `linear_algebra` | - | - | - |
 | `i239` | `permanent_ryser_network` | `False` | `linear_algebra` | - | - | - |
 | `i240` | `cayley_hamilton_coeffs_network` | `False` | `linear_algebra` | - | - | - |
-| `i241` | `multistream_attention_chess_eval` | `False` | `-` | - | - | - |
+| `i241` | `multistream_attention_chess_eval` | `False` | `king_path` | - | - | - |
 | `i242` | `chess_decomposed_attention` | `False` | `king_path` | - | - | - |
-| `i243` | `halfka_dual_stream_lc0` | `False` | `-` | - | - | - |
+| `i243` | `halfka_dual_stream_lc0` | `False` | `king_path` | - | - | - |
 | `i244` | `tempo_defender_cross_derivative_network` | `False` | `tempo` | - | - | - |
 | `i245` | `pair_resonance_hessian_network` | `False` | `counterfactual` | - | - | - |
 | `i246` | `promotion_aware_head` | `False` | `counterfactual` | - | - | - |

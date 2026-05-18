@@ -1,37 +1,40 @@
 idea_id: i149
 name: Axial Rank-File ConvNet
 slug: axial_rank_file_convnet
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: Use ordinary convolutions, but factor long-range board mixing into alternating
   `8`-length rank and file convolutions. This gives every square access to same-rank
   and same-file context cheaply while preserving an ordinary CNN training path.
 novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
+  bespoke axial 1D rank and file convolutions (kernel covering the full board axis)
+  plus a 3x3 local residual mixer, distinct from generic CNN baselines, multi-resolution
+  pyramids, or attention models.
 expected_advantage: Test the packet's proposed board-structure signal under the same
   puzzle_binary benchmark contract as the other ideas.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus axial diagnostics (per-axis energy, axial balance,
+  rank-file imbalance, mechanism energy) saved to prediction artifacts.
+compute_notes: Local 3x3 conv stem, a stack of axial blocks (each running a rank-wise
+  `(1, 8)` 1D conv, a file-wise `(8, 1)` 1D conv, and a 3x3 local residual mixer with
+  BatchNorm+GELU+Dropout), and a LayerNorm + GELU MLP head reading concatenated rank,
+  file, and global mean+max pools.
+implementation_status: implemented
 trainer_entrypoint: ideas/registry/i149_axial_rank_file_convnet/train.py
 config_path: ideas/registry/i149_axial_rank_file_convnet/config.yaml
 model_path: ideas/registry/i149_axial_rank_file_convnet/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke axial rank/file convolutional network registered as `axial_rank_file_convnet`
+  in `src/chess_nn_playground/models/trunk/axial_rank_file_convnet.py`. Supports ablation
+  modes `none`, `local_only`, `rank_only`, `file_only`, `no_residual`, and `single_block`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2210_friday_shanghai_architecture_batch_9.md
 source_packet_candidate: Axial Rank-File ConvNet
 source_packet_rank: 1
 source_packet_status: batch packet
-mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+mechanism_family: spatial_cnn
+implementation_kind: bespoke_model

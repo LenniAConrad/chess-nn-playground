@@ -7,29 +7,18 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `352`
+- Ideas audited: `354`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
-- Registry rows changed by this run: `0`
+- Registry rows changed by this run: `4`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 346 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
-| `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
+| `bespoke_model` | 354 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `shared_probe_variant` | 0 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
-
-## Current Shared-Probe Variants
-
-These folders were previously easy to read as distinct implemented architectures. Their model implementation is the shared `ResearchPacketProbe` scaffold, not the bespoke architecture described by their markdown proposal.
-
-- `ideas/registry/i066_bispectral_phase_coupling_board_network`
-- `ideas/registry/i118_channel_dropout_consensus_network`
-- `ideas/registry/i137_commutative_view_consistency_network`
-- `ideas/registry/i141_submodular_coverage_bottleneck`
-- `ideas/registry/i144_board_fpn_cnn`
-- `ideas/registry/i149_axial_rank_file_convnet`
 
 ## Idea-By-Idea Audit
 
@@ -140,7 +129,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i063` | `ideas/registry/i063_polar_procrustes_alignment_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `polar_procrustes_alignment_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i064` | `ideas/registry/i064_multi_scale_dilated_board_mixer_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `multi_scale_dilated_board_mixer_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i065` | `ideas/registry/i065_piece_token_cnn_hybrid` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_token_cnn_hybrid` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i066` | `ideas/registry/i066_bispectral_phase_coupling_board_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `bispectral_phase_coupling_board_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i066` | `ideas/registry/i066_bispectral_phase_coupling_board_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bispectral_phase_coupling_board_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i067` | `ideas/registry/i067_finite_field_character_sum_board_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `finite_field_character_sum_board_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i068` | `ideas/registry/i068_schur_ray_line_algebra_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `schur_ray_line_algebra_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i069` | `ideas/registry/i069_bitboard_shift_algebra_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bitboard_shift_algebra_network` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -192,7 +181,7 @@ These folders were previously easy to read as distinct implemented architectures
 | `i115` | `ideas/registry/i115_neural_board_cellular_automaton` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `neural_board_cellular_automaton` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i116` | `ideas/registry/i116_symmetric_difference_twin_encoder` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `symmetric_difference_twin_encoder` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i117` | `ideas/registry/i117_prototype_patch_dictionary_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `prototype_patch_dictionary_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i118` | `ideas/registry/i118_channel_dropout_consensus_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `channel_dropout_consensus_network` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i118` | `ideas/registry/i118_channel_dropout_consensus_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `channel_dropout_consensus_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i119` | `ideas/registry/i119_tensor_ring_square_interaction_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tensor_ring_square_interaction_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i120` | `ideas/registry/i120_sinkhorn_role_assignment_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `sinkhorn_role_assignment_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i121` | `ideas/registry/i121_morphological_threat_field_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `morphological_threat_field_network` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -211,19 +200,19 @@ These folders were previously easy to read as distinct implemented architectures
 | `i134` | `ideas/registry/i134_legal_constraint_projection_residual_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_constraint_projection_residual_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i135` | `ideas/registry/i135_zobrist_kernel_feature_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `zobrist_kernel_feature_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i136` | `ideas/registry/i136_low_rank_signed_cut_query_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `low_rank_signed_cut_query_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i137` | `ideas/registry/i137_commutative_view_consistency_network` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `commutative_view_consistency_network` | `ResearchPacketProbe` | config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i137` | `ideas/registry/i137_commutative_view_consistency_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `commutative_view_consistency_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i138` | `ideas/registry/i138_support_function_envelope_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `support_function_envelope_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i139` | `ideas/registry/i139_soft_majorization_line_sorter` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `soft_majorization_line_sorter` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i140` | `ideas/registry/i140_low_displacement_rank_board_operator` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `low_displacement_rank_board_operator` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i141` | `ideas/registry/i141_submodular_coverage_bottleneck` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `submodular_coverage_bottleneck` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i141` | `ideas/registry/i141_submodular_coverage_bottleneck` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `submodular_coverage_bottleneck` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i142` | `ideas/registry/i142_pivot_trace_elimination_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pivot_trace_elimination_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i143` | `ideas/registry/i143_convnext_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `convnext_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i144` | `ideas/registry/i144_board_fpn_cnn` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `board_fpn_cnn` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i144` | `ideas/registry/i144_board_fpn_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `board_fpn_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i145` | `ideas/registry/i145_piece_plane_gated_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `piece_plane_gated_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i146` | `ideas/registry/i146_patch_mixer_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `patch_mixer_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i147` | `ideas/registry/i147_specialist_head_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `specialist_head_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i148` | `ideas/registry/i148_shallow_wide_residual_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `shallow_wide_residual_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `i149` | `ideas/registry/i149_axial_rank_file_convnet` | `scaffolded` | `probe_scaffold_only` | `shared_probe_variant` | `shared_probe_variant` | `axial_rank_file_convnet` | `ResearchPacketProbe` | model.py imports ResearchPacketProbe/build_research_packet_probe_from_config; model.py calls build_research_packet_probe_from_config; config model.name is registered in RESEARCH_PACKET_MODEL_NAMES | - |
+| `i149` | `ideas/registry/i149_axial_rank_file_convnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `axial_rank_file_convnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i150` | `ideas/registry/i150_early_exit_cascade_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `early_exit_cascade_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i151` | `ideas/registry/i151_auxiliary_reconstruction_boardnet` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `auxiliary_reconstruction_boardnet` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i152` | `ideas/registry/i152_iterative_logit_refinement_cnn` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `iterative_logit_refinement_cnn` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -315,7 +304,9 @@ These folders were previously easy to read as distinct implemented architectures
 | `i238` | `ideas/registry/i238_stable_rank_multiscale_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `stable_rank_multiscale_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i239` | `ideas/registry/i239_permanent_ryser_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `permanent_ryser_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i240` | `ideas/registry/i240_cayley_hamilton_coeffs_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `cayley_hamilton_coeffs_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i241` | `ideas/registry/i241_multistream_attention_chess_eval` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `multistream_attention_chess_eval` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i242` | `ideas/registry/i242_chess_decomposed_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `chess_decomposed_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i243` | `ideas/registry/i243_halfka_dual_stream_lc0` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `halfka_dual_stream_lc0` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i244` | `ideas/registry/i244_tempo_defender_cross_derivative_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tempo_defender_cross_derivative_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i245` | `ideas/registry/i245_pair_resonance_hessian_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pair_resonance_hessian_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i246` | `ideas/registry/i246_promotion_aware_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_aware_head` | `-` | model.py delegates to a non-shared architecture builder | - |

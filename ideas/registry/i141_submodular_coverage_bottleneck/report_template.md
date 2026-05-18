@@ -19,12 +19,17 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Coverage Diagnostics
 
-- Mechanism family: `generic`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Mechanism family: `convex`
+- Ablation: `none`
+- Coverage score `F(a)` (mean / by label):
+- Coverage vector `c` saturation by label:
+- Top marginal gains (validation examples):
+- Active concept count (mean / by label):
+- Saturation gap (coverage − additive pool):
+- Max marginal gain:
+- Concept entropy:
 - Near-puzzle false positives:
 
 ## Slice Findings
@@ -39,4 +44,4 @@ Summarize performance by:
 
 ## Decision
 
-State whether `Submodular Coverage Bottleneck` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior.
+State whether `Submodular Coverage Bottleneck` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior, plus the coverage diagnostics above.

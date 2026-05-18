@@ -18,11 +18,14 @@ model:
   num_classes: 1
   channels: 64
   hidden_dim: 96
+  latent_dim: 32
+  map_rank: 8
   depth: 2
   dropout: 0.1
   use_batchnorm: true
+  ablation: none
+  random_map_seed: 1337
   mechanism_family: symmetry
-  packet_profile: commutative_view_consistency_network
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +49,4 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke commutative view-consistency network. CRTK metadata is reporting-only.

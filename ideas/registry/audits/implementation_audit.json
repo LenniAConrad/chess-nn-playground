@@ -3521,35 +3521,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i066_bispectral_phase_coupling_board_network",
       "idea_id": "i066",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "bispectral_phase_coupling_board_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "bispectral_phase_coupling_board_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.trunk.bispectral_phase_coupling.build_bispectral_phase_coupling_board_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.bispectral_phase_coupling.build_bispectral_phase_coupling_board_network_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.bispectral_phase_coupling.BispectralPhaseCouplingBoardNetwork",
+          "chess_nn_playground.models.trunk.bispectral_phase_coupling.build_bispectral_phase_coupling_board_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -5305,35 +5304,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i118_channel_dropout_consensus_network",
       "idea_id": "i118",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "channel_dropout_consensus_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "channel_dropout_consensus_network",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.trunk.channel_dropout_consensus.build_channel_dropout_consensus_network_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.channel_dropout_consensus.build_channel_dropout_consensus_network_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.channel_dropout_consensus.ChannelDropoutConsensusNetwork",
+          "chess_nn_playground.models.trunk.channel_dropout_consensus.build_channel_dropout_consensus_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -5953,26 +5951,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i137_commutative_view_consistency_network",
       "idea_id": "i137",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "commutative_view_consistency_network",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "commutative_view_consistency_network",
       "wiring": {
-        "builder_calls": [],
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.commutative_view_consistency.build_commutative_view_consistency_network_from_config"
+        ],
         "calls": [
-          "NotImplementedError"
+          "chess_nn_playground.models.trunk.commutative_view_consistency.build_commutative_view_consistency_network_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.pop",
+          "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
+          "chess_nn_playground.models.trunk.commutative_view_consistency.CommutativeViewConsistencyNetwork",
+          "chess_nn_playground.models.trunk.commutative_view_consistency.build_commutative_view_consistency_network_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6082,35 +6088,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i141_submodular_coverage_bottleneck",
       "idea_id": "i141",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "submodular_coverage_bottleneck",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "submodular_coverage_bottleneck",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.trunk.submodular_coverage_bottleneck.build_submodular_coverage_bottleneck_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.submodular_coverage_bottleneck.build_submodular_coverage_bottleneck_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.submodular_coverage_bottleneck.SubmodularCoverageBottleneckNetwork",
+          "chess_nn_playground.models.trunk.submodular_coverage_bottleneck.build_submodular_coverage_bottleneck_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6186,35 +6191,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i144_board_fpn_cnn",
       "idea_id": "i144",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "board_fpn_cnn",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "board_fpn_cnn",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.trunk.board_fpn_cnn.build_board_fpn_cnn_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.board_fpn_cnn.build_board_fpn_cnn_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.board_fpn_cnn.BoardFPNCNN",
+          "chess_nn_playground.models.trunk.board_fpn_cnn.build_board_fpn_cnn_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -6358,35 +6362,34 @@
       }
     },
     {
-      "detected_kind": "shared_probe_variant",
+      "detected_kind": "bespoke_model",
       "evidence": [
-        "model.py imports ResearchPacketProbe/build_research_packet_probe_from_config",
-        "model.py calls build_research_packet_probe_from_config",
-        "config model.name is registered in RESEARCH_PACKET_MODEL_NAMES"
+        "model.py delegates to a non-shared architecture builder"
       ],
       "folder": "ideas/registry/i149_axial_rank_file_convnet",
       "idea_id": "i149",
-      "idea_status": "scaffolded",
-      "implementation_status": "probe_scaffold_only",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
       "issues": [],
-      "metadata_kind": "shared_probe_variant",
+      "metadata_kind": "bespoke_model",
       "model_name": "axial_rank_file_convnet",
-      "scaffold": "ResearchPacketProbe",
+      "scaffold": null,
       "slug": "axial_rank_file_convnet",
       "wiring": {
         "builder_calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config"
+          "chess_nn_playground.models.trunk.axial_rank_file_convnet.build_axial_rank_file_convnet_from_config"
         ],
         "calls": [
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.axial_rank_file_convnet.build_axial_rank_file_convnet_from_config",
           "config.get",
           "dict",
+          "model_cfg.pop",
           "model_cfg.setdefault"
         ],
         "imports": [
           "__future__.annotations",
-          "chess_nn_playground.models.research_packet_probe.ResearchPacketProbe",
-          "chess_nn_playground.models.research_packet_probe.build_research_packet_probe_from_config",
+          "chess_nn_playground.models.trunk.axial_rank_file_convnet.AxialRankFileConvNet",
+          "chess_nn_playground.models.trunk.axial_rank_file_convnet.build_axial_rank_file_convnet_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -9501,6 +9504,41 @@
       "evidence": [
         "model.py delegates to a non-shared architecture builder"
       ],
+      "folder": "ideas/registry/i241_multistream_attention_chess_eval",
+      "idea_id": "i241",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "multistream_attention_chess_eval",
+      "scaffold": null,
+      "slug": "multistream_attention_chess_eval",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.multistream_attention_chess_eval.build_multistream_attention_chess_eval_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.multistream_attention_chess_eval.build_multistream_attention_chess_eval_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.pop",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.multistream_attention_chess_eval.MultistreamAttentionChessEval",
+          "chess_nn_playground.models.trunk.multistream_attention_chess_eval.build_multistream_attention_chess_eval_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
       "folder": "ideas/registry/i242_chess_decomposed_attention",
       "idea_id": "i242",
       "idea_status": "implemented",
@@ -9524,6 +9562,41 @@
           "__future__.annotations",
           "chess_nn_playground.models.trunk.chess_decomposed_attention.ChessDecomposedAttentionNetwork",
           "chess_nn_playground.models.trunk.chess_decomposed_attention.build_chess_decomposed_attention_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i243_halfka_dual_stream_lc0",
+      "idea_id": "i243",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "halfka_dual_stream_lc0",
+      "scaffold": null,
+      "slug": "halfka_dual_stream_lc0",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.halfka_dual_stream_lc0.build_halfka_dual_stream_lc0_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.halfka_dual_stream_lc0.build_halfka_dual_stream_lc0_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.pop",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.halfka_dual_stream_lc0.HalfKADualStreamLC0",
+          "chess_nn_playground.models.trunk.halfka_dual_stream_lc0.build_halfka_dual_stream_lc0_from_config",
           "typing.Any"
         ],
         "local_nn_modules": [],
@@ -11961,24 +12034,15 @@
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 346,
-      "shared_probe_variant": 6
+      "bespoke_model": 354
     },
     "by_metadata_kind": {
-      "bespoke_model": 346,
-      "shared_probe_variant": 6
+      "bespoke_model": 354
     },
     "metadata_mismatch_count": 0,
     "other_shared_scaffold_folders": [],
-    "shared_probe_variant_folders": [
-      "ideas/registry/i066_bispectral_phase_coupling_board_network",
-      "ideas/registry/i118_channel_dropout_consensus_network",
-      "ideas/registry/i137_commutative_view_consistency_network",
-      "ideas/registry/i141_submodular_coverage_bottleneck",
-      "ideas/registry/i144_board_fpn_cnn",
-      "ideas/registry/i149_axial_rank_file_convnet"
-    ],
-    "total": 352,
+    "shared_probe_variant_folders": [],
+    "total": 354,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

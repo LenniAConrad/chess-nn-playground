@@ -1,7 +1,7 @@
 idea_id: i243
 name: HalfKA Dual-Stream LC0 Evaluator
 slug: halfka_dual_stream_lc0
-status: proposed
+status: implemented
 created_at: '2026-05-11T17:50:00+00:00'
 author: Claude (post-scout / post-i242 synthesis)
 short_thesis: |
@@ -32,61 +32,57 @@ expected_advantage: |
         decomposition that drives i193's scout-win margin.
     (c) LC0's value + policy heads make the network usable in an MCTS
         search loop, unlike pure puzzle-classifier outputs.
-  Quantitatively: at engine-grade training scale ($\gtrsim 10^{7}$
-  positions with engine eval labels), the expected ELO over a plain
-  Stockfish-NNUE-shaped or plain-i193-conv baseline is +30--80, with the
-  additional benefit of O(1) incremental update at inference (which neither
-  i193 nor LC0 BT4 has).
+  Quantitatively at engine-grade training scale ($\gtrsim 10^{7}$ positions
+  with engine eval labels) the expected ELO over a plain Stockfish-NNUE-shaped
+  or plain-i193-conv baseline is +30--80. At the puzzle_binary scout scale
+  documented here the model is trained as a sanity-check; engine-grade
+  training is out of scope for this implementation.
 target_task: |
-  Engine-strength chess evaluation: WDL value head + 1858-dim policy head.
-  The puzzle_binary head exists only as a sanity-check task; the real
-  training objective is distillation from Stockfish or self-play.
+  Primary trainer task: puzzle_binary classification (fine labels 0 and 1
+  -> non-puzzle, fine label 2 -> puzzle). The model also exposes WDL value
+  and compact 32-dim policy heads as diagnostic outputs for downstream
+  engine-grade training scripts that are not part of this implementation.
 input_representation: |
-  HalfKA features over the simple_18 or richer source --- each feature is
-  indexed by (king_square, piece_color, piece_type, piece_square), giving
-  roughly 40000--49000 binary features per side. The accumulator is the
-  sum of embeddings of active features (one per side, then concatenated).
-  Updates are incremental: a single piece move changes about 2 features.
+  Current-board simple_18 tensor only. HalfKA features are derived
+  deterministically from the simple_18 tensor by extracting argmax king
+  squares and piece-square occupancy. No engine metadata is consumed.
 output_heads: |
-  - WDL value head: 3-way softmax over win/draw/loss.
-  - Policy head: 1858 logits over LC0's move-token space, masked at
-    inference time to legal moves.
-  - Aux head (training-time only, optional): per-stream exchange-outcome
-    and king-attack classifiers carrying small-weight aux losses.
+  - Primary puzzle logit (BCE-with-logits).
+  - WDL value logits (3-way softmax) exposed as `value_wdl_logits`.
+  - Compact 32-dim policy logits exposed as `policy_logits`.
+  - Per-stream main logits (`exchange_logit`, `king_logit`) and phase-router
+    gate (`alpha_king`) for interpretability.
+  - Accumulator norms (`white_accumulator_norm`, `black_accumulator_norm`)
+    for engine-side incremental-update monitoring.
 compute_notes: |
   Two stages:
-    (1) HalfKA front-end --- one large embedding table (white side) +
-        another (black side, role-swapped). At embed_dim 256 the table is
-        about 12M params per side. The accumulator output is a flat
-        2*256-dim vector per position.
-    (2) Backbone --- the accumulator is reshaped to a per-square
-        representation by summing into 64 buckets indexed by piece_square,
-        producing a [B, 64, d_acc] token grid. i193's dual-stream conv
-        encoders run on this grid as if it were a simple_18 input replaced
-        by a learned 64-channel one. LC0 heads sit on top of the fused
-        pool. Total params: 25--40M at the scale matching BT4-medium.
-  Inference: in an engine setting, the HalfKA accumulator is updated
-  incrementally O(1) per piece move. Only the backbone runs at full cost
-  per evaluation. This is the key engineering property that makes the
-  architecture practical for an alpha-beta or shallow-MCTS engine.
-implementation_status: proposed
-implementation_kind: unknown
-trainer_entrypoint: null
-config_path: null
-model_path: null
+    (1) HalfKA front-end --- learnable embedding tables
+        `(64, 64, 6, embed_dim)` per side indexed by
+        `(king_square, piece_square, piece_type)`. The per-side
+        accumulator is the sum of embeddings of active features; both
+        accumulators are split per-square to form a `(B, 2*embed_dim, 8, 8)`
+        token grid.
+    (2) i193 dual-stream backbone --- the per-square token grid is
+        concatenated with i193's deterministic exchange and king feature
+        planes and run through two parallel conv stream encoders. A phase
+        router emits a sigmoid gate over the streams; per-stream heads and
+        a residual head produce the puzzle logit. LC0-style WDL and policy
+        heads sit on the fused pool.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i243_halfka_dual_stream_lc0/train.py
+config_path: ideas/registry/i243_halfka_dual_stream_lc0/config.yaml
+model_path: ideas/registry/i243_halfka_dual_stream_lc0/model.py
 latest_result_path: null
 notes: |
   Derived from post-scout, post-i242 architectural analysis (2026-05-11).
   Compared to i241 (multi-stream attention) this proposal trades the
   global-attention stream for HalfKA learnable king-conditioning. The
-  i242 scout result (full multi-stream attention loses to conv-only
-  i193 at small scale) suggests that at our training scale, learnable
-  king-conditioning is a better use of the parameter budget than global
-  square-token attention. Whether that finding extrapolates to engine
-  training scale is the central hypothesis i243 is designed to test.
+  compact CPU-testable implementation uses `embed_dim=16` and a 32-dim
+  policy head; the engine-grade scaled variant would use `embed_dim=256`
+  and the LC0 1858-move space and lives as design notes only.
 parent_results:
   - results/architecture_scout_2026-05-09/idea_i193_exchange_then_king_dual_stream_seed42
   - results/architecture_scout_2026-05-11_i242/idea_i242_chess_decomposed_attention_seed42
 parent_audit: docs/research_audit_2026-05-09.md
 mechanism_family: king_path
-packet_profile: halfka_dual_stream_lc0

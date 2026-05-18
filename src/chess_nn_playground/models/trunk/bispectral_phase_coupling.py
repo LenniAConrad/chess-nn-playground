@@ -74,18 +74,27 @@ def _structured_frequency_pairs(count: int) -> list[tuple[tuple[int, int], tuple
 
 
 def _random_fixed_frequency_pairs(count: int) -> list[tuple[tuple[int, int], tuple[int, int]]]:
-    pairs: list[tuple[tuple[int, int], tuple[int, int]]] = []
-    seen: set[tuple[int, int, int, int]] = set()
-    index = 0
-    while len(pairs) < count:
-        k = ((3 * index + 1) % 8, (5 * index + 2) % 8)
-        l = ((7 * index + 3) % 8, (index * index + 1) % 8)
-        key = (*k, *l)
-        if k != (0, 0) and l != (0, 0) and key not in seen:
-            seen.add(key)
-            pairs.append((k, l))
-        index += 1
-    return pairs
+    if count < 0:
+        raise ValueError("count must be non-negative")
+    coords = [(rank, file) for rank in range(8) for file in range(8) if (rank, file) != (0, 0)]
+    candidates = [(first, second) for first in coords for second in coords if first != second]
+    if count > len(candidates):
+        raise ValueError(f"Requested {count} random frequency pairs but only {len(candidates)} are available")
+    candidates.sort(
+        key=lambda pair: (
+            (
+                pair[0][0] * 17
+                + pair[0][1] * 31
+                + pair[1][0] * 43
+                + pair[1][1] * 59
+                + pair[0][0] * pair[1][1] * 7
+                + pair[0][1] * pair[1][0] * 11
+            )
+            % 4099,
+            pair,
+        )
+    )
+    return candidates[:count]
 
 
 def _material_summary(x: torch.Tensor) -> torch.Tensor:
@@ -326,6 +335,16 @@ class BispectralPhaseHead(nn.Module):
 class BispectralPhaseCouplingBoardNetwork(nn.Module):
     """Current-board FFT bispectrum classifier for puzzle_binary."""
 
+    ABLATIONS = (
+        "none",
+        "magnitude_only",
+        "power_only",
+        "phase_batch_shuffle",
+        "random_frequency_pairs",
+        "channel_pair_shuffle",
+        "no_coordinate_planes",
+    )
+
     def __init__(
         self,
         input_channels: int = 18,
@@ -347,9 +366,17 @@ class BispectralPhaseCouplingBoardNetwork(nn.Module):
         super().__init__()
         if encoding != SIMPLE_18 or input_channels != 18:
             raise ValueError("BispectralPhaseCouplingBoardNetwork currently implements the simple_18 board contract only")
+        if ablation not in self.ABLATIONS:
+            raise ValueError(f"Unknown bispectral ablation: {ablation!r}; expected one of {self.ABLATIONS}")
         if ablation == "no_coordinate_planes":
             use_coordinate_planes = False
         self.num_classes = int(num_classes)
+        self.mixed_channels = int(mixed_channels)
+        self.bispectrum_terms = int(bispectrum_terms)
+        self.use_coordinate_planes = bool(use_coordinate_planes)
+        self.include_power_spectrum = bool(include_power_spectrum)
+        self.include_cross_channel_phase = bool(include_cross_channel_phase)
+        self.include_material_summary = bool(include_material_summary)
         self.ablation = ablation
         self.mixer = SpectralChannelMixer(
             input_channels=input_channels,
@@ -375,15 +402,44 @@ class BispectralPhaseCouplingBoardNetwork(nn.Module):
             dropout=dropout,
         )
 
+    @property
+    def feature_dim(self) -> int:
+        return self.coupling.feature_dim
+
+    def _ablation_code(self) -> float:
+        return float(self.ABLATIONS.index(self.ablation))
+
+    def _keyword_count(self) -> float:
+        count = 1  # bispectrum phase coupling
+        if self.include_power_spectrum:
+            count += 1
+        if self.include_cross_channel_phase:
+            count += 1
+        if self.include_material_summary:
+            count += 1
+        if self.use_coordinate_planes:
+            count += 1
+        return float(count)
+
     def forward(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
         x = require_board_tensor(x, BoardTensorSpec(input_channels=18))
         material = _material_summary(x)
         mixed = self.mixer(x)
         fft_coeffs = self.fft(mixed)
         spectral = self.coupling(fft_coeffs, material_summary=material)
-        logits = self.head(spectral.features)
+        logits_raw = self.head(spectral.features)
+        logits = _format_logits(logits_raw, self.num_classes)
+        prob = torch.sigmoid(logits) if self.num_classes == 1 else torch.softmax(logits_raw, dim=-1)
+        batch = logits.shape[0]
+        mechanism_energy = (
+            spectral.bispectral_phase_norm.square() + spectral.bispectral_magnitude_mean.square()
+        )
+        proposal_profile_strength = torch.maximum(
+            spectral.bispectral_phase_norm, spectral.bispectral_magnitude_mean
+        )
         return {
-            "logits": _format_logits(logits, self.num_classes),
+            "logits": logits,
+            "prob": prob,
             "bispectral_phase_norm": spectral.bispectral_phase_norm,
             "bispectral_magnitude_mean": spectral.bispectral_magnitude_mean,
             "power_spectrum_energy": spectral.power_spectrum_energy,
@@ -391,6 +447,11 @@ class BispectralPhaseCouplingBoardNetwork(nn.Module):
             "spectral_feature_norm": spectral.features.square().mean(dim=1).sqrt(),
             "mixed_field_energy": mixed.float().square().mean(dim=(1, 2, 3)),
             "material_balance": material[:, -1],
+            "mechanism_energy": mechanism_energy,
+            "proposal_profile_strength": proposal_profile_strength,
+            "proposal_keyword_count": logits.new_full((batch,), self._keyword_count()),
+            "bispectral_ablation": logits.new_full((batch,), self._ablation_code()),
+            "bispectral_term_count": logits.new_full((batch,), float(self.bispectrum_terms)),
         }
 
 

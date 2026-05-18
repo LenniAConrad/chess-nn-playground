@@ -21,11 +21,21 @@
 
 ## Packet Diagnostics
 
-- Mechanism family: `generic`
+- Mechanism family: `spatial_cnn`
 - Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Mechanism energy (`mechanism_energy`):
+- FPN level energies (`fpn_y8_energy`, `fpn_y4_energy`, `fpn_x2_energy`):
+- Top-down update energies (`topdown_4_energy`, `topdown_8_energy`):
+- Board FPN ablation code (`board_fpn_ablation`):
 - Near-puzzle false positives:
+
+## Ablation Deltas
+
+- `none` vs `single_resolution_matched`:
+- `none` vs `bottom_up_only`:
+- `none` vs `no_2x2_level`:
+- `none` vs `late_pool_only`:
+- `none` vs `no_coordinate_planes`:
 
 ## Slice Findings
 
@@ -39,4 +49,4 @@ Summarize performance by:
 
 ## Decision
 
-State whether `Board FPN CNN` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior.
+State whether `Board FPN CNN` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior, including whether the `single_resolution_matched` central falsifier was beaten.

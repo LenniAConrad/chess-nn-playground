@@ -19,12 +19,16 @@
 - PR AUC:
 - Calibration:
 
-## Packet Diagnostics
+## Consensus Diagnostics
 
 - Mechanism family: `robustness`
-- Packet auxiliary logit:
-- Mechanism energy:
-- Sheaf tension / transport imbalance / symmetry residual / topology pressure as applicable:
+- Ablation code (`channel_dropout_ablation`):
+- View count (`channel_dropout_view_count`):
+- Consensus energy (`consensus_energy`):
+- Disagreement energy (`disagreement_energy`):
+- Max pairwise energy (`max_pairwise_energy`):
+- Full-view energy (`full_view_energy`):
+- Mechanism energy (`mechanism_energy`):
 - Near-puzzle false positives:
 
 ## Slice Findings
@@ -37,6 +41,14 @@ Summarize performance by:
 - `crtk_tactic_motifs`
 - `crtk_tag_families`
 
+## Ablation Comparison
+
+For each of `none`, `full_view_only`, `mean_only`, `random_channel_masks`, `train_dropout_only` (one row per ablation):
+
+- AUROC / balanced accuracy / F1 / calibration vs. `none`.
+- Delta on near-puzzle false-positive rate vs. `none`.
+- Delta on `consensus_energy` and `disagreement_energy` vs. `none`.
+
 ## Decision
 
-State whether `Channel Dropout Consensus Network` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior.
+State whether `Channel Dropout Consensus Network` is kept, refined, scaled, or rejected. The decision must cite both aggregate metrics and slice behavior, and must reference the central ablation deltas (`full_view_only` and `train_dropout_only` are the load-bearing comparisons; `random_channel_masks` is the falsification check).

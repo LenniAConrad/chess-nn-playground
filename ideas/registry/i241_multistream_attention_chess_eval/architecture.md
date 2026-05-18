@@ -1,217 +1,131 @@
-# i241 — Multi-Stream Chess-Decomposed Transformer Evaluator
+# i241 - Multi-Stream Chess-Decomposed Transformer Evaluator
 
-## Motivation
+Three parallel transformer towers compose i193's exchange + king dual-stream
+decomposition with a third **positional / structural** stream that carries a
+learnable relative rank/file attention bias. A learned phase router fuses the
+three stream pools into the puzzle logit.
 
-The architecture-scout sweep (see `docs/research_audit_2026-05-09.md`) trained
-234 bespoke architectures at small scale on `puzzle_binary`. The largest
-within-encoding architectural margin came from
-**`i193_exchange_then_king_dual_stream`** — a small conv-based architecture
-that splits its trunk into a tactical-exchange stream and a king-safety stream,
-fuses them with a learned phase router, and reads a single puzzle logit out of
-the fused embedding. At 157k parameters with `simple_18` input it scored
-**0.8755 test PR AUC** — clear of i048 (0.8613, rank 2) and i011_vetoselect
-(0.8584, rank 5) at far smaller parameter counts.
+## Implementation Binding
 
-This is the strongest evidence in the whole sweep that **a chess-specific
-inductive bias actually pulls weight** at small scale. Most "novel" priors in
-the scout pool fail to beat a tuned plain CNN; this one wins by a margin
-larger than the seed-noise band.
+- Registered model name: `multistream_attention_chess_eval`
+- Source implementation file: `src/chess_nn_playground/models/trunk/multistream_attention_chess_eval.py`
+- Idea-local wrapper: `ideas/registry/i241_multistream_attention_chess_eval/model.py`
+- Training config: `ideas/registry/i241_multistream_attention_chess_eval/config.yaml`
 
-Two things are true about the i193 result:
+The trainer is the standard puzzle_binary CRTK guarded trainer. The compact
+CPU-testable variant defaults to ``embed_dim=64`` and 2 blocks per stream
+(~270k parameters). The scaled engine variant in the design notes adds
+value+policy heads on top of the same trunk; those heads are intentionally
+not built by the puzzle_binary code path.
 
-1. The dual-stream decomposition is doing real work — it is the only
-   architectural property in the entire scout pool that produces a
-   reproducible (within the noise of a single seed) advantage.
-2. The architecture is convolution-based, simple_18-encoded, and trained on
-   173k puzzle samples. It is not by itself a candidate to beat LC0 BT4
-   (which is a transformer trained on billions of self-play positions).
+## Three streams
 
-The proposal is to **lift i193's structural prior into a BT4-class
-architecture**: keep the multi-stream decomposition, replace each stream's
-convolutional encoder with a small transformer, add a third
-positional/structural stream, and swap the puzzle-binary head for engine
-value+policy heads.
-
-## Architectural sketch
+Input: ``[B, 18, 8, 8]`` simple_18 board.
 
 ```
-Input planes (lc0_bt4_112 + optional history)
-        │
-        ├──► Stream E (Exchange)
-        │      • piece embeddings + attacker/defender attention bias
-        │      • transformer blocks (N_E layers, d_E dim, h_E heads)
-        │      • emits stream_E_embedding ∈ R^(64 × d_E)
-        │
-        ├──► Stream K (King)
-        │      • piece embeddings + king-zone/check-ray attention bias
-        │      • transformer blocks (N_K layers, d_K dim, h_K heads)
-        │      • emits stream_K_embedding ∈ R^(64 × d_K)
-        │
-        └──► Stream P (Positional / Structural)
-               • piece embeddings + standard positional encoding
-               • transformer blocks (N_P layers, d_P dim, h_P heads)
-               • emits stream_P_embedding ∈ R^(64 × d_P)
+Input
+   |
+   v
+DualStreamFeatureBuilder (reused from i193, deterministic, no learning):
+   - exchange planes (own/enemy piece, value, attack counts, attacker pressure)
+   - king planes     (own/enemy king zone, check, escape, line-to-zone)
+   - precomputed attack tables (used for attention bias below)
 
-Fusion
-        │
-        ▼
-   Phase-router MLP
-        │  reads pooled (E, K, P) embeddings → soft mixture α ∈ Δ²
-        │  ( α_E + α_K + α_P = 1 )
-        ▼
-   fused_embedding = α_E · E + α_K · K + α_P · P
-        +   residual_head( concat(E, K, P) )
+   +----------------------------+ +-----------------------+ +---------------------------+
+   | Exchange tower (N blocks)  | | King tower (N blocks) | | Positional tower (N blks) |
+   | Input: simple_18+exchange  | | Input: simple_18+king | | Input: simple_18          |
+   | Bias:  attacker/defender   | | Bias:  king-zone pairs| | Bias:  relative rank/file |
+   +-------------+--------------+ +-----------+-----------+ +-------------+-------------+
+                 | mean pool                  | mean pool               | mean pool
+                 v                            v                         v
+            ex_pool [B,d]                kg_pool [B,d]             po_pool [B,d]
 
-Heads
-        │
-        ├──► value:  (W, D, L) categorical  OR  centipawn regression
-        ├──► policy: 1858-dim move logits, masked to legal moves
-        └──► (training-time only) aux heads:
-                • exchange-outcome classifier from E
-                • king-attack-or-defend classifier from K
-                • positional-eval regressor from P
+   Phase router (MLP):  softmax over (alpha_ex, alpha_kg, alpha_po)
+
+   Final puzzle logit =   alpha_ex * exchange_head(ex_pool)
+                        + alpha_kg *     king_head(kg_pool)
+                        + alpha_po * positional_head(po_pool)
+                        + residual_head(concat(ex_pool, kg_pool, po_pool))
+
+   Per-stream auxiliary diagnostic logits live alongside the main heads
+   for sanity-check / scaled-engine aux supervision.
 ```
 
-### Stream specialization via attention bias
+## Stream specialisation
 
-The key architectural lever is **attention bias matrices** that hand each
-stream a chess-aware prior on which square pairs are relevant for its task:
+- **Exchange tower** sees the simple_18 board concatenated with 8 deterministic
+  exchange planes (own/enemy piece, material value, attacker/defender pressure).
+  Attention is biased by a per-batch ``[B, 64, 64]`` matrix that is large for
+  square pairs connected by attacker-defender relationships (computed from the
+  feature builder's attack tables).
+- **King tower** sees the simple_18 board concatenated with 8 deterministic
+  king planes (own/enemy king zone, check-ray, escape squares, line-to-zone
+  pressure). Attention is biased toward pairs of squares where either belongs
+  to a king's 8-ring zone.
+- **Positional tower** sees the raw simple_18 board. Its attention carries a
+  learnable **relative rank/file** positional bias indexed by per-head
+  ``(num_heads, 15, 15)`` tables; this gives the structural / pawn-skeleton /
+  prophylactic signal a place to live without any piece-specific tactical
+  prior. The relative-position bias is what distinguishes this stream from
+  i242's vanilla "global" stream.
 
-- **Stream E** attention bias: a precomputed `(64,64)` matrix that has high
-  entries for square pairs connected by attacker-defender relationships
-  (capture moves, defended squares, x-rays). The attention layer then learns
-  *which* of these tactical relations matter for the current position; it
-  does not have to discover the geometry from scratch.
-- **Stream K** attention bias: similar but biased to king-zone squares (the
-  3×3 ring around each king), check-ray squares (queen, rook, bishop, knight
-  rays into the king zone), and pawn-shield squares.
-- **Stream P** attention bias: standard learned positional encoding
-  (relative file/rank attention bias). No tactical prior.
+## Phase router and fusion
 
-This is the *attention analogue* of i193's "deterministic feature builder
-that produces the per-stream input bias planes from precomputed geometric
-attack and between-square tables" — but instead of biasing the input, it
-biases attention.
+The phase router is an MLP from ``concat(ex_pool, kg_pool, po_pool)`` to a
+3-vector of logits, softmaxed to a mixture ``alpha = softmax(MLP(joint))`` over
+the three streams. The puzzle logit is
+``alpha_ex * ex_logit + alpha_kg * kg_logit + alpha_po * po_logit + residual_head(joint)``.
 
-### Phase router
+A separate auxiliary head per stream produces a stream-specific diagnostic
+logit (``exchange_aux_logit``, ``king_aux_logit``, ``positional_aux_logit``).
+The ``aux_loss_weight`` config knob is exposed as a diagnostic broadcast scalar
+so downstream scaled trainers can multiply per-stream aux losses by it; the
+puzzle_binary trainer ignores the field.
 
-The phase router produces a soft mixture over the three streams that depends
-on the position. Reasonable behavior:
+## Ablation modes
 
-- In sharp tactical positions: α_E dominates.
-- In king-attack positions: α_K dominates.
-- In quiet positional positions: α_P dominates.
+``MultistreamAttentionChessEval.ABLATIONS`` enumerates the testable variants:
 
-This is *learned*, not hand-coded. The router is a small MLP reading the
-pooled stream embeddings; it emits softmax weights.
+- ``none`` (default): three streams, chess-aware bias on exchange/king, learned
+  phase router, aux heads on.
+- ``no_chess_bias``: drop the exchange/king/positional attention biases.
+  Central control: does the chess-aware bias matter at all?
+- ``no_phase_router``: replace the learned softmax mixture with a uniform
+  1/3/1/3/1/3 mixture. Tests whether the router learns useful position-type
+  weights.
+- ``remove_positional_stream``: zero the positional tower output. Tests whether
+  the structural stream actually contributes signal.
+- ``remove_king_stream``: zero the king tower output.
+- ``remove_exchange_stream``: zero the exchange tower output.
+- ``no_aux_heads``: zero the auxiliary diagnostic logits. Tests whether the
+  aux heads carry signal beyond the main heads.
 
-### Heads
+## Diagnostics
 
-- **Value**: WDL categorical head (3 logits, softmax). This is the LC0
-  convention; supports MCTS evaluation directly.
-- **Policy**: 1858-dim move logits, masked at inference to legal moves and
-  softmaxed.
-- **Aux**: per-stream classifiers/regressors active during training only,
-  with loss weights ≤ 0.05 each. The aux losses give each stream a
-  chess-aware gradient signal so the streams don't collapse into the same
-  representation.
+``forward(x)`` returns:
 
-## Sizing target
+- ``logits``: ``(B,)``, BCE-compatible for the one-logit puzzle_binary head.
+- ``prob``: ``sigmoid(logits)``.
+- Per-stream main logits: ``exchange_logit``, ``king_logit``, ``positional_logit``.
+- Mixture weights: ``alpha_exchange``, ``alpha_king``, ``alpha_positional``.
+- ``residual_logit``, ``route_entropy``, ``stream_disagreement``.
+- Per-stream pool norms: ``exchange_pool_norm``, ``king_pool_norm``, ``positional_pool_norm``.
+- Per-stream auxiliary logits: ``exchange_aux_logit``, ``king_aux_logit``, ``positional_aux_logit``.
+- ``aux_loss_weight``: broadcast scalar of the configured aux loss weight.
+- ``mechanism_energy``, ``proposal_profile_strength``, ``proposal_keyword_count``.
+- ``multistream_ablation``: integer code identifying the active ablation mode.
+- ``multistream_stream_count``: scalar reporting the active stream count (3).
 
-| Component | base | scale_up | scale_xl (BT4-medium) |
-|---|---|---|---|
-| d per stream | 64 | 96 | 128 |
-| heads per stream | 4 | 6 | 8 |
-| blocks per stream | 4 | 6 | 8 |
-| total params | ~3M | ~12M | ~50M |
-| MFLOPs/position | ~50 | ~200 | ~800 |
+## Contract
 
-For comparison, LC0 BT4-medium is ~50M parameters. The compute is comparable
-to BT4 because the three streams can be ~`sqrt(3)≈1.7×` narrower than a
-single-stream BT4 at matched total FLOPs.
-
-## What this architecture has that BT4 does not
-
-1. **Structural prior on chess concepts.** BT4 must learn the exchange /
-   king-safety / positional decomposition implicitly. This architecture has
-   it from initialization.
-2. **Task-specific attention bias.** Each stream's attention is biased to
-   the square pairs relevant to its task (attacker-defender for exchange,
-   king-zone for king, none for positional).
-3. **Stream-level supervision.** Training can supervise each stream
-   independently with chess-aware aux losses. BT4 has no clean structural
-   place to put aux supervision.
-4. **Interpretable per-stream contributions.** At inference, the phase
-   router's α weights and per-stream value contributions are individually
-   inspectable. BT4 is monolithic.
-
-## What this architecture lacks vs BT4
-
-1. **Engineering hardening.** BT4 has had years of tuning at scale. This
-   architecture has been *implied* by one scout result at 157k params.
-2. **Cross-stream attention.** The streams interact only at the fusion
-   head. Some tactics (e.g. king attacks built on tactical exchanges)
-   involve genuine cross-stream interactions. Mitigation: residual head
-   reads the concatenated stream embeddings, recovering most of this signal.
-
-## Training plan (skeletal)
-
-The architecture is only useful for engine play if trained on engine-scale
-data. Three options ranked by realism:
-
-1. **Stockfish-eval distillation** (cheapest realistic path): train on
-   `(position, stockfish_eval, stockfish_best_move)` triples from a corpus
-   of master games. Target ELO: ~3000-3200. Compute: ~weeks of GPU.
-2. **Distillation from LC0 BT4 itself**: train the architecture to match
-   BT4's value+policy outputs. Target ELO: approaches BT4. Compute: ~weeks.
-   The interesting question is whether the structural prior lets the smaller
-   architecture *exceed* its teacher on some metrics.
-3. **Full self-play** (LC0-style): start with random weights, generate
-   self-play games with MCTS, train on those, iterate. Target ELO:
-   open-ended. Compute: months.
-
-Heads-only puzzle_binary training (as a sanity check before engine training):
-a few hours; should reproduce i193's PR AUC margin or better.
-
-## Hypotheses to test
-
-- **H1**: at matched training compute and parameter budget, this
-  architecture beats a single-stream BT4-shaped trunk by ≥10 ELO.
-  (Mechanism: structural prior compounds with scale.)
-- **H2**: training-time aux supervision on the per-stream heads gives
-  measurable ELO gain over training without aux.
-  (Mechanism: prevents stream collapse / encourages specialization.)
-- **H3**: the phase router's α weights show interpretable position-type
-  dependence (sharp positions: α_E high; king-attack positions: α_K high;
-  quiet positions: α_P high).
-  (Mechanism: confirms the decomposition is actually being used.)
-
-## Ablations (planned, see `ablations.md`)
-
-- A1: remove Stream P (drop the positional stream)
-- A2: remove Stream K (drop the king stream)
-- A3: remove attention bias matrices (vanilla attention in each stream)
-- A4: remove per-stream aux losses
-- A5: single-stream baseline with same total params (no decomposition)
-- A6: hard-routed streams (use a heuristic position-type detector instead
-  of the learned phase router)
-
-A1 and A2 isolate which stream is contributing what. A5 is the critical
-control: does the multi-stream structure beat a same-size single-stream
-transformer?
-
-## Open questions
-
-1. **Cross-stream attention?** Would adding a small cross-stream attention
-   block (each stream attends to the other two) help, or destroy the
-   specialization? Empirical question.
-2. **Stream sharing?** Could the three streams share the embedding layer
-   (just specialize the attention bias and the per-stream blocks)? This
-   would halve parameter counts at the input.
-3. **Number of streams?** Three is a guess. Could there be a "pawn
-   structure" stream? An "endgame technique" stream? Test at small scale
-   before committing.
-4. **Engine-evaluation labels.** The closest available training signal is
-   Stockfish eval distillation. Is there a more chess-natural training
-   target — e.g. *outcome of the position assuming both sides play
-   stream-aware sub-policies*?
+- Input: ``(B, 18, 8, 8)`` board tensor only.
+- Output: dict with ``logits`` of shape ``(B,)`` for the one-logit puzzle_binary
+  BCE-with-logits trainer, plus the diagnostics listed above.
+- Target mapping: fine labels ``0`` and ``1`` map to binary target ``0``; fine
+  label ``2`` maps to binary target ``1``.
+- The trunk operates on tokens of shape ``(B, 64, embed_dim)``; the phase
+  router mixes the three pooled stream embeddings; the puzzle decision flows
+  through the mixture-of-streams logit plus a residual head reading the joint
+  pool.
+- Engine value+policy heads are out of scope for this puzzle_binary
+  implementation and live as design notes only.

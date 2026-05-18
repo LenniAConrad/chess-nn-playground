@@ -1,36 +1,49 @@
 idea_id: i137
 name: Commutative View-Consistency Network
 slug: commutative_view_consistency_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
-short_thesis: 'A chess position can be represented through several safe current-board
-  views:'
+short_thesis: Project the simple_18 board into five board-only views (square, piece,
+  line, region, count), learn low-rank linear maps between them, and classify from
+  the cross-view consistency defects.
 novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`;
-  bespoke board-only multi-view architecture with learned low-rank latent maps and
-  cross-view consistency defects between square, piece, line, region, and count views.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke board-only multi-view architecture with five view encoders, eight learned
+  low-rank maps between view latents, six direct cross-view defects, three two-step
+  cycle defects, and a head that reads five-statistic summaries (MSE, mean-abs, signed-mean,
+  max-abs, cosine consistency) for every defect. Materially distinct from kinematic-commutator
+  nets (which operate on deterministic motion operators), generic multi-branch CNNs
+  (whose head is not dominated by defect statistics), and the shared `ResearchPacketProbe`
+  scaffold (which has no view encoders or defect features).
+expected_advantage: Test whether learned cross-view consistency residuals add information
+  beyond per-view summaries on the puzzle_binary benchmark, with falsification handles
+  for material shortcut (`count_to_all_only`), single-view sufficiency (`single_square_view`),
+  defect decorativeness (`views_only_no_defects`), and learned-map necessity (`random_view_maps`).
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus view-latent norms and cross-view defect diagnostics
+output_heads: One puzzle logit plus view-latent norms, per-defect MSE/L1/cosine, aggregate
+  consistency energy, and bookkeeping diagnostics (`commutative_view_ablation`, `commutative_view_count`)
   saved to prediction artifacts.
-compute_notes: Compact convolutional square trunk, occupied-piece DeepSets, line/region/count
-  view encoders, and low-rank map-consistency residuals.
-implementation_status: probe_scaffold_only
+compute_notes: Compact convolutional square trunk + DeepSets piece encoder + three
+  MLP encoders (line/region/count) at latent width D = 32; eight rank-8 maps between
+  view latents; nine defect feature vectors (six direct + three two-step cycles) each
+  reduced to five scalar statistics; LayerNorm + GELU MLP head over concatenated view
+  latents and defect statistics.
+implementation_status: implemented
 trainer_entrypoint: ideas/registry/i137_commutative_view_consistency_network/train.py
 config_path: ideas/registry/i137_commutative_view_consistency_network/config.yaml
 model_path: ideas/registry/i137_commutative_view_consistency_network/model.py
 latest_result_path: null
-notes: Research-packet promotion. Scaffold-only ResearchPacketProbe wrapper; not a
-  completed bespoke implementation of the markdown architecture. Do not benchmark
-  or describe this folder as an implemented architecture until bespoke model code
-  replaces the shared probe.
+notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.
+  Bespoke commutative view-consistency network registered as `commutative_view_consistency_network`
+  in `src/chess_nn_playground/models/trunk/commutative_view_consistency.py`. Supports
+  ablation modes `none`, `views_only_no_defects`, `single_square_view`, `random_view_maps`,
+  `count_to_all_only`, and `shuffled_piece_view`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
 source_packet_candidate: Commutative View-Consistency Network
 source_packet_rank: 1
 source_packet_status: batch packet
 mechanism_family: symmetry
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

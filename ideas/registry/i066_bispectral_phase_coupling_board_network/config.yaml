@@ -16,13 +16,19 @@ model:
   name: bispectral_phase_coupling_board_network
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  mixed_channels: 16
+  bispectrum_terms: 48
+  head_hidden: 96
   dropout: 0.1
-  use_batchnorm: true
+  use_coordinate_planes: true
+  include_power_spectrum: true
+  include_cross_channel_phase: true
+  include_material_summary: true
+  power_terms: 16
+  cross_channel_pairs: 8
+  cross_frequency_terms: 12
+  ablation: none
   mechanism_family: linear_algebra
-  packet_profile: bispectral_phase_coupling_board_network
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +52,4 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke FFT bispectral phase-coupling network. CRTK metadata is reporting-only.

@@ -1,37 +1,46 @@
 idea_id: i118
 name: Channel Dropout Consensus Network
 slug: channel_dropout_consensus_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
 short_thesis: The classifier should not depend too heavily on one piece channel or
-  artifact. Train several shared encoders on deterministic channel-dropped views and
-  classify from consensus and disagreement.
+  artifact. Train a single shared encoder on deterministic channel-dropped views and
+  classify from consensus and disagreement features over those views.
 novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`;
-  uses a robustness mechanism profile over board-only features rather than generic
-  CNN-only pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke shared-encoder ensemble over six deterministic piece-channel-dropped board
+  views (full, pawns/minors/majors/white/black dropped) whose latents are fused via
+  mean, per-feature variance, max pairwise absolute disagreement, and the full-view
+  anchor. Distinct from generic CNN towers, ordinary channel dropout, and twin/safe-transform
+  encoders.
+expected_advantage: Test whether explicit consensus and per-feature disagreement across
+  semantic channel-drop views improve robustness against piece-channel artifacts on
+  the shared puzzle_binary benchmark contract, relative to a full-view-only baseline
+  and to ordinary channel-dropout regularization.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus consensus/disagreement diagnostics (consensus energy,
+  disagreement energy, max-pairwise energy, full-view energy, ablation code, view count)
+  saved to prediction artifacts.
+compute_notes: Single shared CNN trunk applied to six deterministic channel-dropped
+  views stacked along the batch axis, mean spatial pooling, mean/variance/max-pairwise
+  consensus aggregation, and a LayerNorm + GELU MLP head. Drop-channel masks and the
+  full-view index are non-learnable buffers; only the encoder and head are trainable.
+implementation_status: implemented
 trainer_entrypoint: ideas/registry/i118_channel_dropout_consensus_network/train.py
 config_path: ideas/registry/i118_channel_dropout_consensus_network/config.yaml
 model_path: ideas/registry/i118_channel_dropout_consensus_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke channel-dropout consensus network registered as `channel_dropout_consensus_network`
+  in `src/chess_nn_playground/models/trunk/channel_dropout_consensus.py`. Supports
+  ablation modes `none`, `full_view_only`, `mean_only`, `random_channel_masks`, and
+  `train_dropout_only`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2121_friday_shanghai_architecture_batch_4.md
 source_packet_candidate: Channel Dropout Consensus Network
 source_packet_rank: 6
 source_packet_status: batch packet
 mechanism_family: robustness
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

@@ -1156,17 +1156,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "tempo",
-      "phase_calibration"
-    ],
-    "expected_family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "linear_algebra",
     "idea_id": "i066",
     "issues": [],
     "model_name": "bispectral_phase_coupling_board_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "bispectral_phase_coupling_board_network"
   },
   {
@@ -1732,15 +1728,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "robustness"
-    ],
-    "expected_family": "robustness",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "robustness",
     "idea_id": "i118",
     "issues": [],
     "model_name": "channel_dropout_consensus_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "channel_dropout_consensus_network"
   },
   {
@@ -1943,15 +1937,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "symmetry"
-    ],
-    "expected_family": "symmetry",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "symmetry",
     "idea_id": "i137",
     "issues": [],
     "model_name": "commutative_view_consistency_network",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "commutative_view_consistency_network"
   },
   {
@@ -1989,15 +1981,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "convex"
-    ],
-    "expected_family": "convex",
+    "active_profiles": [],
+    "expected_family": null,
     "family": "convex",
     "idea_id": "i141",
     "issues": [],
     "model_name": "submodular_coverage_bottleneck",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "submodular_coverage_bottleneck"
   },
   {
@@ -2024,15 +2014,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "spatial_cnn"
-    ],
-    "expected_family": "generic",
-    "family": "generic",
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "spatial_cnn",
     "idea_id": "i144",
     "issues": [],
     "model_name": "board_fpn_cnn",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "board_fpn_cnn"
   },
   {
@@ -2081,16 +2069,13 @@
   },
   {
     "actions": [],
-    "active_profiles": [
-      "linear_algebra",
-      "spatial_cnn"
-    ],
-    "expected_family": "linear_algebra",
-    "family": "linear_algebra",
+    "active_profiles": [],
+    "expected_family": null,
+    "family": "spatial_cnn",
     "idea_id": "i149",
     "issues": [],
     "model_name": "axial_rank_file_convnet",
-    "packet_probe": true,
+    "packet_probe": false,
     "slug": "axial_rank_file_convnet"
   },
   {
@@ -3098,10 +3083,10 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "king_path",
     "idea_id": "i241",
     "issues": [],
-    "model_name": "",
+    "model_name": "multistream_attention_chess_eval",
     "packet_probe": false,
     "slug": "multistream_attention_chess_eval"
   },
@@ -3120,10 +3105,10 @@
     "actions": [],
     "active_profiles": [],
     "expected_family": null,
-    "family": null,
+    "family": "king_path",
     "idea_id": "i243",
     "issues": [],
-    "model_name": "",
+    "model_name": "halfka_dual_stream_lc0",
     "packet_probe": false,
     "slug": "halfka_dual_stream_lc0"
   },

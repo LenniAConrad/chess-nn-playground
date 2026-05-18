@@ -129,14 +129,15 @@ class BoardFPNCNNConfig:
 class BoardFPNCNN(nn.Module):
     """Three-level feature-pyramid CNN over 8x8 chess board tensors."""
 
-    VALID_ABLATIONS = {
+    ABLATIONS = (
         "none",
         "single_resolution_matched",
         "bottom_up_only",
         "no_2x2_level",
         "late_pool_only",
         "no_coordinate_planes",
-    }
+    )
+    VALID_ABLATIONS = set(ABLATIONS)
 
     def __init__(
         self,
@@ -214,16 +215,37 @@ class BoardFPNCNN(nn.Module):
             head_x2 = torch.zeros_like(head_x2)
         elif self.ablation == "no_2x2_level":
             head_x2 = torch.zeros_like(head_x2)
-        logits = self.head(y8, y4, head_x2)
+        logits_raw = self.head(y8, y4, head_x2)
+        logits = _format_logits(logits_raw, self.num_classes)
+        batch = board.shape[0]
+        fpn_y8_energy = y8.square().mean(dim=(1, 2, 3))
+        fpn_y4_energy = y4.square().mean(dim=(1, 2, 3))
+        fpn_x2_energy = head_x2.square().mean(dim=(1, 2, 3))
+        topdown_4_energy = self._topdown4_energy(x2)
+        topdown_8_energy = self._topdown8_energy(y4)
+        mechanism_energy = fpn_y8_energy + fpn_y4_energy + fpn_x2_energy
+        proposal_profile_strength = torch.stack(
+            [fpn_y8_energy, fpn_y4_energy, fpn_x2_energy], dim=-1
+        ).amax(dim=-1)
+        if self.num_classes == 1:
+            prob = torch.sigmoid(logits)
+        else:
+            prob = torch.softmax(logits, dim=-1)
         return {
-            "logits": _format_logits(logits, self.num_classes),
-            "fpn_y8_energy": y8.square().mean(dim=(1, 2, 3)),
-            "fpn_y4_energy": y4.square().mean(dim=(1, 2, 3)),
-            "fpn_x2_energy": head_x2.square().mean(dim=(1, 2, 3)),
-            "topdown_4_energy": self._topdown4_energy(x2),
-            "topdown_8_energy": self._topdown8_energy(y4),
+            "logits": logits,
+            "prob": prob,
+            "fpn_y8_energy": fpn_y8_energy,
+            "fpn_y4_energy": fpn_y4_energy,
+            "fpn_x2_energy": fpn_x2_energy,
+            "topdown_4_energy": topdown_4_energy,
+            "topdown_8_energy": topdown_8_energy,
             "piece_density": board[:, : min(12, board.shape[1])].clamp(0.0, 1.0).sum(dim=1).clamp(0.0, 1.0).mean(dim=(1, 2)),
             "coordinate_energy": self._coordinate_energy(board),
+            "mechanism_energy": mechanism_energy,
+            "proposal_profile_strength": proposal_profile_strength,
+            "proposal_keyword_count": logits.new_full((batch,), 3.0),
+            "board_fpn_ablation": logits.new_full((batch,), float(self.ABLATIONS.index(self.ablation))),
+            "board_fpn_level_count": logits.new_full((batch,), 3.0),
         }
 
     def _fuse4(self, x4: torch.Tensor, x2: torch.Tensor) -> torch.Tensor:

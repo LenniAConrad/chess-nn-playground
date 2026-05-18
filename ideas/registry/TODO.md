@@ -14,9 +14,9 @@ Current execution state:
 
 - Registered idea folders: `354`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `339`
-- Bespoke model implementations: `346`
-- Shared ResearchPacketProbe variants: `6`
+- Fully implemented architectures still needing a linked benchmark run: `347`
+- Bespoke model implementations: `354`
+- Shared ResearchPacketProbe variants: `0`
 
 Recommended immediate sequence:
 
@@ -29,17 +29,17 @@ Benchmark queue by ID:
 - Batch 2: `a019`, `a020`, `a021`, `a022`, `a023`, `a024`, `a025`, `a026`, `a027`, `a028`, `a029`, `a030`, `a031`, `a032`, `a033`, `a034`, `a035`, `a036`, `a037`, `a038`, `a039`, `a040`, `i014`, `i015`
 - Batch 3: `i016`, `i017`, `i018`, `i019`, `i020`, `i021`, `i022`, `i023`, `i024`, `i025`, `i026`, `i027`, `i028`, `i029`, `i030`, `i031`, `i032`, `i033`, `i034`, `i035`, `i036`, `i037`, `i038`, `i039`
 - Batch 4: `i040`, `i041`, `i042`, `i043`, `i044`, `i045`, `i046`, `i047`, `i048`, `i049`, `i050`, `i051`, `i052`, `i053`, `i054`, `i055`, `i056`, `i057`, `i058`, `i059`, `i060`, `i061`, `i062`, `i063`
-- Batch 5: `i064`, `i065`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`, `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`, `i088`
-- Batch 6: `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`, `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`, `i112`
-- Batch 7: `i113`, `i114`, `i115`, `i116`, `i117`, `i119`, `i120`, `i121`, `i122`, `i123`, `i124`, `i125`, `i126`, `i127`, `i128`, `i129`, `i130`, `i131`, `i132`, `i133`, `i134`, `i135`, `i136`, `i138`
-- Batch 8: `i139`, `i140`, `i142`, `i143`, `i145`, `i146`, `i147`, `i148`, `i150`, `i151`, `i152`, `i153`, `i154`, `i155`, `i156`, `i157`, `i158`, `i159`, `i160`, `i161`, `i162`, `i163`, `i164`, `i165`
-- Batch 9: `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`
-- Batch 10: `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
-- Batch 11: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`
-- Batch 12: `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `i249`, `i250`, `i251`, `i252`, `i253`, `i254`, `i255`, `i256`, `i257`, `i258`, `i259`, `p001`, `p002`, `p003`, `p004`
-- Batch 13: `p005`, `p006`, `p007`, `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`
-- Batch 14: `p029`, `p030`, `p031`, `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`, `p047`, `p048`, `p049`, `p050`, `p051`, `p052`
-- Batch 15: `p053`, `p054`, `p055`
+- Batch 5: `i064`, `i065`, `i066`, `i067`, `i068`, `i069`, `i070`, `i071`, `i072`, `i073`, `i074`, `i075`, `i076`, `i077`, `i078`, `i079`, `i080`, `i081`, `i082`, `i083`, `i084`, `i085`, `i086`, `i087`
+- Batch 6: `i088`, `i089`, `i090`, `i091`, `i092`, `i093`, `i094`, `i095`, `i096`, `i097`, `i098`, `i099`, `i100`, `i101`, `i102`, `i103`, `i104`, `i105`, `i106`, `i107`, `i108`, `i109`, `i110`, `i111`
+- Batch 7: `i112`, `i113`, `i114`, `i115`, `i116`, `i117`, `i118`, `i119`, `i120`, `i121`, `i122`, `i123`, `i124`, `i125`, `i126`, `i127`, `i128`, `i129`, `i130`, `i131`, `i132`, `i133`, `i134`, `i135`
+- Batch 8: `i136`, `i137`, `i138`, `i139`, `i140`, `i141`, `i142`, `i143`, `i144`, `i145`, `i146`, `i147`, `i148`, `i149`, `i150`, `i151`, `i152`, `i153`, `i154`, `i155`, `i156`, `i157`, `i158`, `i159`
+- Batch 9: `i160`, `i161`, `i162`, `i163`, `i164`, `i165`, `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`, `i182`, `i183`
+- Batch 10: `i184`, `i185`, `i186`, `i187`, `i188`, `i189`, `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`
+- Batch 11: `i208`, `i209`, `i210`, `i211`, `i212`, `i213`, `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`
+- Batch 12: `i232`, `i233`, `i234`, `i235`, `i236`, `i237`, `i238`, `i239`, `i240`, `i241`, `i242`, `i243`, `i244`, `i245`, `i246`, `i247`, `i248`, `i249`, `i250`, `i251`, `i252`, `i253`, `i254`, `i255`
+- Batch 13: `i256`, `i257`, `i258`, `i259`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`, `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`
+- Batch 14: `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`, `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`, `p042`, `p043`, `p044`
+- Batch 15: `p045`, `p046`, `p047`, `p048`, `p049`, `p050`, `p051`, `p052`, `p053`, `p054`, `p055`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -169,7 +169,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i063` | [Polar-Procrustes Alignment Bottleneck](i063_polar_procrustes_alignment_bottleneck) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i064` | [Multi-Scale Dilated Board Mixer CNN](i064_multi_scale_dilated_board_mixer_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i065` | [Piece-Token CNN Hybrid](i065_piece_token_cnn_hybrid) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i066` | [Bispectral Phase-Coupling Board Network](i066_bispectral_phase_coupling_board_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i066` | [Bispectral Phase-Coupling Board Network](i066_bispectral_phase_coupling_board_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i067` | [Finite-Field Character-Sum Board Network](i067_finite_field_character_sum_board_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i068` | [Schur-Ray Line Algebra Network](i068_schur_ray_line_algebra_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i069` | [Bitboard Shift-Algebra Network](i069_bitboard_shift_algebra_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -221,7 +221,7 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i115` | [Neural Board Cellular Automaton](i115_neural_board_cellular_automaton) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i116` | [Symmetric Difference Twin Encoder](i116_symmetric_difference_twin_encoder) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i117` | [Prototype Patch Dictionary Network](i117_prototype_patch_dictionary_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i118` | [Channel Dropout Consensus Network](i118_channel_dropout_consensus_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i118` | [Channel Dropout Consensus Network](i118_channel_dropout_consensus_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i119` | [Tensor-Ring Square Interaction Network](i119_tensor_ring_square_interaction_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i120` | [Sinkhorn Role Assignment Network](i120_sinkhorn_role_assignment_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i121` | [Morphological Threat Field Network](i121_morphological_threat_field_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -240,19 +240,19 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i134` | [Legal-Constraint Projection Residual Network](i134_legal_constraint_projection_residual_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i135` | [Zobrist Kernel Feature Network](i135_zobrist_kernel_feature_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i136` | [Low-Rank Signed Cut Query Network](i136_low_rank_signed_cut_query_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i137` | [Commutative View-Consistency Network](i137_commutative_view_consistency_network) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i137` | [Commutative View-Consistency Network](i137_commutative_view_consistency_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i138` | [Support-Function Envelope Network](i138_support_function_envelope_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i139` | [Soft Majorization Line Sorter](i139_soft_majorization_line_sorter) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i140` | [Low-Displacement-Rank Board Operator](i140_low_displacement_rank_board_operator) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i141` | [Submodular Coverage Bottleneck](i141_submodular_coverage_bottleneck) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i141` | [Submodular Coverage Bottleneck](i141_submodular_coverage_bottleneck) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i142` | [Pivot Trace Elimination Network](i142_pivot_trace_elimination_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i143` | [ConvNeXt BoardNet](i143_convnext_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i144` | [Board FPN CNN](i144_board_fpn_cnn) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i144` | [Board FPN CNN](i144_board_fpn_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i145` | [Piece-Plane Gated CNN](i145_piece_plane_gated_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i146` | [Patch Mixer BoardNet](i146_patch_mixer_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i147` | [Specialist-Head CNN](i147_specialist_head_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i148` | [Shallow Wide Residual BoardNet](i148_shallow_wide_residual_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i149` | [Axial Rank-File ConvNet](i149_axial_rank_file_convnet) | no | `shared_probe_variant` | not run | Implement the markdown architecture with bespoke model code before benchmarking as an architecture. |
+| [x] | `i149` | [Axial Rank-File ConvNet](i149_axial_rank_file_convnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i150` | [Early-Exit Cascade BoardNet](i150_early_exit_cascade_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i151` | [Auxiliary Reconstruction BoardNet](i151_auxiliary_reconstruction_boardnet) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i152` | [Iterative Logit Refinement CNN](i152_iterative_logit_refinement_cnn) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -344,9 +344,9 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i238` | [Stable-Rank Multiscale Network](i238_stable_rank_multiscale_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i239` | [Permanent Ryser Coupling Network](i239_permanent_ryser_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i240` | [Cayley-Hamilton Coefficient Network](i240_cayley_hamilton_coeffs_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i241` | [Multi-Stream Chess-Decomposed Transformer Evaluator](i241_multistream_attention_chess_eval) | no | `unknown` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i241` | [Multi-Stream Chess-Decomposed Transformer Evaluator](i241_multistream_attention_chess_eval) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i242` | [Chess-Decomposed Attention Network](i242_chess_decomposed_attention) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
-| [ ] | `i243` | [HalfKA Dual-Stream LC0 Evaluator](i243_halfka_dual_stream_lc0) | no | `unknown` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i243` | [HalfKA Dual-Stream LC0 Evaluator](i243_halfka_dual_stream_lc0) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i244` | [Tempo-Defender Cross-Derivative Network](i244_tempo_defender_cross_derivative_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i245` | [Pair-Resonance Hessian Network](i245_pair_resonance_hessian_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i246` | [Promotion-Aware Head](i246_promotion_aware_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |

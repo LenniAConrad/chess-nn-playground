@@ -1,33 +1,40 @@
 idea_id: i066
 name: Bispectral Phase-Coupling Board Network
 slug: bispectral_phase_coupling_board_network
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:43:31+00:00'
 author: Codex
-short_thesis: '- Idea name: Bispectral Phase-Coupling Board Network - One-sentence
-  thesis: Puzzle-like positions may have distinctive spatial phase-coupling patterns
-  between piece pl...'
+short_thesis: Puzzle-like positions may have distinctive Fourier bispectral phase-coupling
+  signatures across learned current-board piece fields that are invisible to magnitude-only
+  spectra and not forced by ordinary CNN local filters.
 novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke 1x1 channel mixer plus deterministic 2D FFT plus selected bispectral phase-coupling
+  features over an 8x8 frequency grid, distinct from CNN towers, wavelet scattering,
+  and matrix-decomposition packets.
+expected_advantage: Test whether higher-order Fourier phase coupling captures puzzle-relevant
+  spatial arrangements that magnitude-only and CNN baselines miss, under the shared
+  puzzle_binary benchmark contract.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
-  artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+output_heads: One puzzle logit plus bispectral diagnostics (phase norm, magnitude
+  mean, power spectrum energy, cross-channel phase norm, ablation code, term count)
+  saved to prediction artifacts.
+compute_notes: 1x1 channel mixer (with optional coordinate planes), deterministic
+  2D FFT over 8x8 mixed planes, selected bispectrum / power / cross-channel features,
+  plus a LayerNorm + GELU MLP head. Filter pair selection and FFT are non-learnable;
+  only the mixer and head are trainable.
+implementation_status: implemented
 trainer_entrypoint: ideas/registry/i066_bispectral_phase_coupling_board_network/train.py
 config_path: ideas/registry/i066_bispectral_phase_coupling_board_network/config.yaml
 model_path: ideas/registry/i066_bispectral_phase_coupling_board_network/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke FFT bispectral phase-coupling network registered as `bispectral_phase_coupling_board_network`
+  in `src/chess_nn_playground/models/trunk/bispectral_phase_coupling.py`. Supports
+  ablation modes `none`, `magnitude_only`, `power_only`, `phase_batch_shuffle`,
+  `random_frequency_pairs`, `channel_pair_shuffle`, and `no_coordinate_planes`.
+source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2110_friday_shanghai_bispectral_phase.md
 mechanism_family: linear_algebra
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

@@ -2206,6 +2206,27 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/registry/i066_bispectral_phase_coupling_board_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i066_bispectral_phase_coupling_board_network",
+      "idea_id": "i066",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "bispectral_phase_coupling_board_network",
+      "slug": "bispectral_phase_coupling_board_network",
+      "source_files": [
+        "ideas/registry/i066_bispectral_phase_coupling_board_network/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/bispectral_phase_coupling.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/registry/i067_finite_field_character_sum_board_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3277,6 +3298,27 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/registry/i118_channel_dropout_consensus_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i118_channel_dropout_consensus_network",
+      "idea_id": "i118",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "channel_dropout_consensus_network",
+      "slug": "channel_dropout_consensus_network",
+      "source_files": [
+        "ideas/registry/i118_channel_dropout_consensus_network/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/channel_dropout_consensus.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/registry/i119_tensor_ring_square_interaction_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3655,6 +3697,27 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/registry/i137_commutative_view_consistency_network/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i137_commutative_view_consistency_network",
+      "idea_id": "i137",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "commutative_view_consistency_network",
+      "slug": "commutative_view_consistency_network",
+      "source_files": [
+        "ideas/registry/i137_commutative_view_consistency_network/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/commutative_view_consistency.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/registry/i138_support_function_envelope_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3718,6 +3781,27 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/registry/i141_submodular_coverage_bottleneck/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i141_submodular_coverage_bottleneck",
+      "idea_id": "i141",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "submodular_coverage_bottleneck",
+      "slug": "submodular_coverage_bottleneck",
+      "source_files": [
+        "ideas/registry/i141_submodular_coverage_bottleneck/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/submodular_coverage_bottleneck.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/registry/i142_pivot_trace_elimination_network/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -3755,6 +3839,27 @@
         "ideas/registry/i143_convnext_boardnet/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
         "src/chess_nn_playground/models/trunk/convnext_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i144_board_fpn_cnn/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i144_board_fpn_cnn",
+      "idea_id": "i144",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "board_fpn_cnn",
+      "slug": "board_fpn_cnn",
+      "source_files": [
+        "ideas/registry/i144_board_fpn_cnn/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/board_fpn_cnn.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -3839,6 +3944,27 @@
         "ideas/registry/i148_shallow_wide_residual_boardnet/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
         "src/chess_nn_playground/models/trunk/shallow_wide_residual_boardnet.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i149_axial_rank_file_convnet/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i149_axial_rank_file_convnet",
+      "idea_id": "i149",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "axial_rank_file_convnet",
+      "slug": "axial_rank_file_convnet",
+      "source_files": [
+        "ideas/registry/i149_axial_rank_file_convnet/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/axial_rank_file_convnet.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -5755,6 +5881,27 @@
       "status": "implemented"
     },
     {
+      "architecture_doc": "ideas/registry/i241_multistream_attention_chess_eval/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i241_multistream_attention_chess_eval",
+      "idea_id": "i241",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "multistream_attention_chess_eval",
+      "slug": "multistream_attention_chess_eval",
+      "source_files": [
+        "ideas/registry/i241_multistream_attention_chess_eval/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/multistream_attention_chess_eval.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
       "architecture_doc": "ideas/registry/i242_chess_decomposed_attention/architecture.md",
       "architecture_has_binding_section": true,
       "architecture_mentions_model_name": true,
@@ -5771,6 +5918,27 @@
         "ideas/registry/i242_chess_decomposed_attention/model.py",
         "src/chess_nn_playground/models/trunk/__init__.py",
         "src/chess_nn_playground/models/trunk/chess_decomposed_attention.py"
+      ],
+      "source_markers": [],
+      "status": "implemented"
+    },
+    {
+      "architecture_doc": "ideas/registry/i243_halfka_dual_stream_lc0/architecture.md",
+      "architecture_has_binding_section": true,
+      "architecture_mentions_model_name": true,
+      "architecture_mentions_source": true,
+      "architecture_mentions_wrapper": true,
+      "folder": "ideas/registry/i243_halfka_dual_stream_lc0",
+      "idea_id": "i243",
+      "implementation_kind": "bespoke_model",
+      "implementation_status": "implemented",
+      "issues": [],
+      "model_name": "halfka_dual_stream_lc0",
+      "slug": "halfka_dual_stream_lc0",
+      "source_files": [
+        "ideas/registry/i243_halfka_dual_stream_lc0/model.py",
+        "src/chess_nn_playground/models/trunk/__init__.py",
+        "src/chess_nn_playground/models/trunk/halfka_dual_stream_lc0.py"
       ],
       "source_markers": [],
       "status": "implemented"
@@ -7374,6 +7542,7 @@
       "ideas/registry/i063_polar_procrustes_alignment_bottleneck",
       "ideas/registry/i064_multi_scale_dilated_board_mixer_cnn",
       "ideas/registry/i065_piece_token_cnn_hybrid",
+      "ideas/registry/i066_bispectral_phase_coupling_board_network",
       "ideas/registry/i067_finite_field_character_sum_board_network",
       "ideas/registry/i068_schur_ray_line_algebra_network",
       "ideas/registry/i069_bitboard_shift_algebra_network",
@@ -7425,6 +7594,7 @@
       "ideas/registry/i115_neural_board_cellular_automaton",
       "ideas/registry/i116_symmetric_difference_twin_encoder",
       "ideas/registry/i117_prototype_patch_dictionary_network",
+      "ideas/registry/i118_channel_dropout_consensus_network",
       "ideas/registry/i119_tensor_ring_square_interaction_network",
       "ideas/registry/i120_sinkhorn_role_assignment_network",
       "ideas/registry/i121_morphological_threat_field_network",
@@ -7443,15 +7613,19 @@
       "ideas/registry/i134_legal_constraint_projection_residual_network",
       "ideas/registry/i135_zobrist_kernel_feature_network",
       "ideas/registry/i136_low_rank_signed_cut_query_network",
+      "ideas/registry/i137_commutative_view_consistency_network",
       "ideas/registry/i138_support_function_envelope_network",
       "ideas/registry/i139_soft_majorization_line_sorter",
       "ideas/registry/i140_low_displacement_rank_board_operator",
+      "ideas/registry/i141_submodular_coverage_bottleneck",
       "ideas/registry/i142_pivot_trace_elimination_network",
       "ideas/registry/i143_convnext_boardnet",
+      "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i145_piece_plane_gated_cnn",
       "ideas/registry/i146_patch_mixer_boardnet",
       "ideas/registry/i147_specialist_head_cnn",
       "ideas/registry/i148_shallow_wide_residual_boardnet",
+      "ideas/registry/i149_axial_rank_file_convnet",
       "ideas/registry/i150_early_exit_cascade_boardnet",
       "ideas/registry/i151_auxiliary_reconstruction_boardnet",
       "ideas/registry/i152_iterative_logit_refinement_cnn",
@@ -7543,7 +7717,9 @@
       "ideas/registry/i238_stable_rank_multiscale_network",
       "ideas/registry/i239_permanent_ryser_network",
       "ideas/registry/i240_cayley_hamilton_coeffs_network",
+      "ideas/registry/i241_multistream_attention_chess_eval",
       "ideas/registry/i242_chess_decomposed_attention",
+      "ideas/registry/i243_halfka_dual_stream_lc0",
       "ideas/registry/i244_tempo_defender_cross_derivative_network",
       "ideas/registry/i245_pair_resonance_hessian_network",
       "ideas/registry/i246_promotion_aware_head",
@@ -7616,7 +7792,7 @@
       "ideas/registry/p054_efficient_ray_occlusion_scan",
       "ideas/registry/p055_near_puzzle_hard_negative"
     ],
-    "implemented_architecture_count": 346,
+    "implemented_architecture_count": 354,
     "issue_folders": [],
     "validation_issue_count": 0
   }

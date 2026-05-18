@@ -1,38 +1,47 @@
 idea_id: i141
 name: Submodular Coverage Bottleneck
 slug: submodular_coverage_bottleneck
-status: scaffolded
+status: implemented
 created_at: '2026-04-30T15:50:01+00:00'
 author: Codex
-short_thesis: 'Puzzle evidence may behave like coverage: once a tactical theme is
-  strongly present, another redundant cue adds less value, but a distinct cue adds
-  more. A differentiable submodular coverage layer can force the model to aggregate
-  learned concepts with dimin...'
+short_thesis: Puzzle evidence may behave like coverage. Once a tactical theme is strongly
+  present a redundant cue adds less value, but a distinct cue adds more. A differentiable
+  submodular coverage layer over learned concept activations forces the classifier
+  to aggregate evidence with diminishing returns rather than additive pooling.
 novelty_claim: Promoted from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`;
-  uses a generic mechanism profile over board-only features rather than generic CNN-only
-  pooling.
-expected_advantage: Test the packet's proposed board-structure signal under the same
-  puzzle_binary benchmark contract as the other ideas.
+  bespoke product-saturation coverage layer `c_k = 1 - prod_i (1 - a_i W_{i,k})` over
+  patch / line / king-ring / material concept activations with nonnegative coverage
+  weights, closed-form marginal-gain head features, and concept entropy. Distinct from
+  attention, prototype-dictionary, mixture-of-experts, and evidential heads.
+expected_advantage: Test whether a differentiable submodular coverage bottleneck and
+  marginal-gain features improve puzzle_binary classification over additive pooling
+  and over unconstrained weighted sums, on the shared CRTK contract.
 target_task: 'puzzle_binary classification: fine labels 0 and 1 map to non-puzzle,
   fine label 2 maps to puzzle.'
 input_representation: Current-board simple_18 tensor only; CRTK/source metadata is
   reporting-only and never used as model input.
-output_heads: One puzzle logit plus packet-profile diagnostics saved to prediction
+output_heads: One puzzle logit plus coverage diagnostics (coverage score, per-attribute
+  coverage vector, top marginal gains, concept entropy, active concept count, coverage
+  energy, additive-pool energy, saturation gap, max marginal gain) saved to prediction
   artifacts.
-compute_notes: Compact convolutional trunk plus deterministic board-mechanism diagnostics
-  selected by packet family.
-implementation_status: probe_scaffold_only
+compute_notes: Four concept sources (patch CNN, line MLP, king-ring MLP, material MLP)
+  produce M sigmoid activations. A nonnegative coverage matrix W in R^{M x K}_{>=0}
+  (softplus-constrained) defines covered attributes c_k = 1 - prod_i (1 - a_i W_{i,k}),
+  a coverage score F(a) = sum_k beta_k c_k, and closed-form marginal gains. The head
+  is a LayerNorm + GELU MLP over [F(a), c, top-T marginal gains, concept entropy].
+implementation_status: implemented
 trainer_entrypoint: ideas/registry/i141_submodular_coverage_bottleneck/train.py
 config_path: ideas/registry/i141_submodular_coverage_bottleneck/config.yaml
 model_path: ideas/registry/i141_submodular_coverage_bottleneck/model.py
 latest_result_path: null
 notes: Research-packet promotion from `ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md`.
-  Scaffold-only ResearchPacketProbe wrapper; not a completed bespoke implementation
-  of the markdown architecture. Do not benchmark or describe this folder as an implemented
-  architecture until bespoke model code replaces the shared probe.
+  Bespoke submodular coverage bottleneck registered as `submodular_coverage_bottleneck`
+  in `src/chess_nn_playground/models/trunk/submodular_coverage_bottleneck.py`. Supports
+  ablation modes `none`, `additive_pool`, `no_marginal_gains`, `unconstrained_W`, `random_concepts`,
+  and `material_concepts_only`.
 source_packet_path: ideas/research/packets/classic/chess_nn_research_2026-04-24_2204_friday_shanghai_architecture_batch_8.md
 source_packet_candidate: Submodular Coverage Bottleneck
 source_packet_rank: 5
 source_packet_status: batch packet
 mechanism_family: convex
-implementation_kind: shared_probe_variant
+implementation_kind: bespoke_model

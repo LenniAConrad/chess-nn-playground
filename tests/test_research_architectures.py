@@ -543,8 +543,9 @@ def test_promoted_research_packets_have_named_profiled_builders():
 
     # Most promoted packet ideas now have bespoke implementations; only a
     # smaller residue still uses the shared probe registry. Keep the diversity
-    # guard proportional to that remaining pool.
-    expected_min_branches = min(10, max(1, len(RESEARCH_PACKET_MODEL_NAMES) // 3))
+    # guard proportional to that remaining pool. When the shared-probe pool
+    # has been fully drained the diversity guard is vacuous.
+    expected_min_branches = min(10, len(RESEARCH_PACKET_MODEL_NAMES) // 3)
     assert len(branches) >= expected_min_branches
     assert len(signatures) == len(RESEARCH_PACKET_MODEL_NAMES)
 

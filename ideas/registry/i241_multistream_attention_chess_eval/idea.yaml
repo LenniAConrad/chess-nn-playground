@@ -1,7 +1,7 @@
 idea_id: i241
 name: Multi-Stream Chess-Decomposed Transformer Evaluator
 slug: multistream_attention_chess_eval
-status: proposed
+status: implemented
 created_at: '2026-05-10T23:30:00+00:00'
 author: Claude (post-scout analysis)
 short_thesis: |
@@ -17,72 +17,70 @@ novelty_claim: |
   exchange/king-safety/positional decomposition implicitly. This architecture
   hands the decomposition to the network as a hard structural prior: three
   parallel transformer towers specialized to (a) tactical exchanges,
-  (b) king-zone threats, (c) positional/structural features, fused at the
-  head. The dual-stream form is demonstrated working at small scale by i193;
-  this proposal generalizes it to attention-based streams and adds the
-  structural third stream.
+  (b) king-zone threats, (c) positional/structural features with learned
+  relative rank/file attention bias, fused at the head. The dual-stream form
+  is demonstrated working at small scale by i193; this proposal generalizes
+  it to attention-based streams and adds the structural third stream.
 expected_advantage: |
   At matched training scale, the structural prior should give:
   - Faster convergence (the model does not need to discover the
-    chess-natural decomposition from data — it has it from initialization)
+    chess-natural decomposition from data --- it has it from initialization)
   - Better long-range modeling per stream (each stream is an attention
-    transformer over its task's relevant tokens/squares, so it gets BT4's
-    long-range expressiveness)
+    transformer over its task's relevant tokens/squares)
   - Improved interpretability (per-stream logits expose what each chess
     concept is contributing to the final eval)
   - Composability with auxiliary supervision: each stream can be supervised
     by stream-specific aux losses (exchange outcome prediction, king-safety
     classification, positional eval) that BT4 has no clean place to put.
 target_task: |
-  Position evaluation for chess play (value + policy heads), not
-  puzzle_binary classification. The trunk would also serve a puzzle_binary
-  head for sanity checks against the scout pool, but the primary objective
-  is engine-strength position evaluation.
+  puzzle_binary classification (fine labels 0 and 1 -> non-puzzle, fine
+  label 2 -> puzzle) for the registered trainer. The markdown architecture
+  also documents engine value+policy heads for the scaled variant; those
+  heads are not built by the puzzle_binary trainer and live as scaled-engine
+  design notes only.
 input_representation: |
-  lc0_bt4_112 input planes (matches BT4 and the strongest scout-pool
-  encodings). Optional history if available; the architecture is agnostic.
+  Current-board simple_18 tensor only. CRTK / verification / source / engine
+  metadata is reporting-only and not consumed.
 output_heads: |
-  - value: (win, draw, loss) categorical, or centipawn regression.
-  - policy: per-move logits over the LC0 1858-move action space, masked to
-    legal moves at inference.
-  - per-stream auxiliary heads (training-time only): exchange-outcome,
-    king-attack-or-defend, positional-evaluation. Loss weights small (~0.05
-    each); they exist to give each stream a chess-aware gradient signal.
+  - Primary puzzle logit (BCE-with-logits).
+  - Per-stream auxiliary diagnostic logits (exchange_aux_logit, king_aux_logit,
+    positional_aux_logit) carrying small-weight aux supervision in the scaled
+    variant.
+  - Per-stream main logits (exchange_logit, king_logit, positional_logit)
+    plus phase-router mixture weights (alpha_exchange, alpha_king,
+    alpha_positional) for interpretability.
 compute_notes: |
-  - Stream 1 (Exchange): transformer over the 64 squares with attention bias
-    derived from attacker/defender precomputed tables (so the attention
-    module has a free chess-aware inductive prior on which square pairs
-    interact tactically).
-  - Stream 2 (King): transformer over the 64 squares with attention bias
-    derived from king-zone, escape-square, and check-ray masks.
-  - Stream 3 (Positional): transformer over the 64 squares with no
-    attention bias (vanilla attention) — the model captures pawn structure,
-    piece coordination, prophylactic considerations here.
-  - Stream fusion: phase-router MLP produces a soft mixture
-    (alpha_E, alpha_K, alpha_P) over the three stream embeddings, plus a
-    small residual head reading the concatenated stream embeddings to allow
-    cross-stream signal.
-  - Value/policy heads on top of the fused embedding.
-  - Total parameters target: 50M at scale_xl (matched to BT4-medium).
-  - Compute target: similar GPU FLOPs as BT4-medium per forward; three
-    parallel streams cost ~3x a single stream of equal width but each can
-    be ~sqrt(3)x narrower for matched total compute.
-implementation_status: proposed
-implementation_kind: unknown
-trainer_entrypoint: null
-config_path: null
-model_path: null
+  Three parallel pre-LN transformer towers at embed_dim=64 with 4 heads and
+  2 blocks per stream. Each tower runs over the 64 squares as tokens:
+  - Exchange tower: input planes = simple_18 + 8 attacker/defender-derived
+    chess-aware planes; attention is biased by precomputed attacker/defender
+    geometric relations.
+  - King tower: input planes = simple_18 + 8 king-conditioned planes
+    (king zone, check rays, escape squares, line-to-zone pressure);
+    attention is biased toward king-zone square pairs.
+  - Positional tower: input planes = raw simple_18; attention carries a
+    learnable relative rank/file positional bias (no piece-specific tactical
+    prior). This distinguishes it from i242's vanilla "global" stream.
+  Phase-router MLP produces a 3-way softmax mixture; per-stream main and
+  auxiliary logit heads plus a residual head over the joint pool combine
+  to form the final puzzle logit.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i241_multistream_attention_chess_eval/train.py
+config_path: ideas/registry/i241_multistream_attention_chess_eval/config.yaml
+model_path: ideas/registry/i241_multistream_attention_chess_eval/model.py
 latest_result_path: null
 notes: |
   Derived from a post-scout analysis (2026-05-10). The i193 scout result
-  (0.8755 test PR AUC at 157k params, simple_18 encoding) was the
-  largest within-encoding architectural margin in the 174-model scout pool.
-  The exchange+king prior empirically does real work even at tiny scale.
-  This idea generalizes the prior to attention-based streams and a third
-  positional stream, with engine-evaluation heads. Implementation depends on
-  an engine-data training pipeline (self-play or eval distillation), not the
-  puzzle_binary dataset that the scout used.
+  (0.8755 test PR AUC at 157k params, simple_18 encoding) was the largest
+  within-encoding architectural margin in the 174-model scout pool. The
+  exchange+king prior empirically does real work even at tiny scale. This
+  idea generalizes the prior to attention-based streams and a third
+  positional stream. Implementation is the compact CPU-testable
+  puzzle_binary sanity-check variant; engine value+policy heads remain
+  scaled-variant design notes only.
 parent_results:
   - results/architecture_scout_2026-05-09/idea_i193_exchange_then_king_dual_stream_seed42
 parent_audit: docs/research_audit_2026-05-09.md
 source_packet_path: null
+mechanism_family: king_path

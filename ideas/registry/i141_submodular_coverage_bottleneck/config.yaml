@@ -20,9 +20,14 @@ model:
   hidden_dim: 96
   depth: 2
   dropout: 0.1
+  num_line_concepts: 12
+  num_king_concepts: 8
+  num_material_concepts: 8
+  num_attributes: 16
+  top_marginal: 4
   use_batchnorm: true
+  ablation: none
   mechanism_family: convex
-  packet_profile: submodular_coverage_bottleneck
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +51,4 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke submodular coverage bottleneck. CRTK metadata is reporting-only.

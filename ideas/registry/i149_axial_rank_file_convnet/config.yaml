@@ -16,13 +16,13 @@ model:
   name: axial_rank_file_convnet
   input_channels: 18
   num_classes: 1
-  channels: 64
-  hidden_dim: 96
-  depth: 2
+  channels: 48
+  depth: 3
+  hidden_dim: 128
   dropout: 0.1
   use_batchnorm: true
-  mechanism_family: linear_algebra
-  packet_profile: axial_rank_file_convnet
+  ablation: none
+  mechanism_family: spatial_cnn
 training:
   epochs: 20
   batch_size: 256
@@ -46,5 +46,4 @@ training:
     factor: 0.5
     patience: 2
     min_lr: 1.0e-05
-notes: Promoted from a research packet as a board-only mechanism-profile implementation.
-  CRTK metadata is reporting-only.
+notes: Bespoke axial rank/file convolutional network. CRTK metadata is reporting-only.

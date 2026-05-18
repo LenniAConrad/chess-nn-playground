@@ -36,7 +36,8 @@ def test_implementation_kind_metadata_matches_model_wiring():
     assert rows
     assert not [row for row in rows if row.issues]
     assert sum(1 for row in rows if row.detected_kind == "bespoke_model") >= 23
-    assert sum(1 for row in rows if row.detected_kind == "shared_probe_variant") >= 1
+    # The historical shared-probe residue has been fully promoted to bespoke;
+    # the registry no longer carries any shared_probe_variant ideas.
     assert all(row.detected_kind in {"bespoke_model", "shared_probe_variant"} for row in rows)
     assert all(
         row.implementation_status in {"implemented", "tested"}
