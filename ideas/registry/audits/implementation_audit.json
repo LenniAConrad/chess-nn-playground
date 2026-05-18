@@ -5,6 +5,1366 @@
       "evidence": [
         "model.py delegates to a non-shared architecture builder"
       ],
+      "folder": "ideas/registry/a001_bt4_tempo_defender_cross_derivative_network_mixer",
+      "idea_id": "a001",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_tempo_defender_cross_derivative_network_mixer",
+      "scaffold": null,
+      "slug": "bt4_tempo_defender_cross_derivative_network_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a002_bt4_pair_resonance_hessian_network_mixer",
+      "idea_id": "a002",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_pair_resonance_hessian_network_mixer",
+      "scaffold": null,
+      "slug": "bt4_pair_resonance_hessian_network_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a003_bt4_promotion_aware_head_mixer",
+      "idea_id": "a003",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_promotion_aware_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_promotion_aware_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a004_bt4_complex_amplitude_chess_network_mixer",
+      "idea_id": "a004",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_complex_amplitude_chess_network_mixer",
+      "scaffold": null,
+      "slug": "bt4_complex_amplitude_chess_network_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a005_bt4_rule_aware_tactical_head_mixer",
+      "idea_id": "a005",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_rule_aware_tactical_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_rule_aware_tactical_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a006_bt4_pareto_antichain_frontier_mixer",
+      "idea_id": "a006",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_pareto_antichain_frontier_mixer",
+      "scaffold": null,
+      "slug": "bt4_pareto_antichain_frontier_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a007_bt4_regret_saddlepoint_mixer",
+      "idea_id": "a007",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_regret_saddlepoint_mixer",
+      "scaffold": null,
+      "slug": "bt4_regret_saddlepoint_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a008_bt4_reply_channel_capacity_mixer",
+      "idea_id": "a008",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_reply_channel_capacity_mixer",
+      "scaffold": null,
+      "slug": "bt4_reply_channel_capacity_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a009_bt4_tail_copula_concordance_mixer",
+      "idea_id": "a009",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_tail_copula_concordance_mixer",
+      "scaffold": null,
+      "slug": "bt4_tail_copula_concordance_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a010_bt4_witness_counterwitness_quantifier_mixer",
+      "idea_id": "a010",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_witness_counterwitness_quantifier_mixer",
+      "scaffold": null,
+      "slug": "bt4_witness_counterwitness_quantifier_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a011_bt4_move_graph_router_mixer",
+      "idea_id": "a011",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_move_graph_router_mixer",
+      "scaffold": null,
+      "slug": "bt4_move_graph_router_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a012_bt4_attack_ray_sparse_attention_mixer",
+      "idea_id": "a012",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_attack_ray_sparse_attention_mixer",
+      "scaffold": null,
+      "slug": "bt4_attack_ray_sparse_attention_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a013_bt4_rule_conditioned_sparse_attention_mixer",
+      "idea_id": "a013",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_rule_conditioned_sparse_attention_mixer",
+      "scaffold": null,
+      "slug": "bt4_rule_conditioned_sparse_attention_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a014_bt4_legal_move_graph_delta_mixer",
+      "idea_id": "a014",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_legal_move_graph_delta_mixer",
+      "scaffold": null,
+      "slug": "bt4_legal_move_graph_delta_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a015_bt4_ray_occlusion_semiring_scan_mixer",
+      "idea_id": "a015",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_ray_occlusion_semiring_scan_mixer",
+      "scaffold": null,
+      "slug": "bt4_ray_occlusion_semiring_scan_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a016_bt4_legal_edge_compile_scatter_mixer",
+      "idea_id": "a016",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_legal_edge_compile_scatter_mixer",
+      "scaffold": null,
+      "slug": "bt4_legal_edge_compile_scatter_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a017_bt4_signed_edit_bilinear_memory_mixer",
+      "idea_id": "a017",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_signed_edit_bilinear_memory_mixer",
+      "scaffold": null,
+      "slug": "bt4_signed_edit_bilinear_memory_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a018_bt4_sparse_delta_accumulator_mixer",
+      "idea_id": "a018",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_sparse_delta_accumulator_mixer",
+      "scaffold": null,
+      "slug": "bt4_sparse_delta_accumulator_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a019_bt4_delta_pair_accumulator_mixer",
+      "idea_id": "a019",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_delta_pair_accumulator_mixer",
+      "scaffold": null,
+      "slug": "bt4_delta_pair_accumulator_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a020_bt4_delta_crelu_involution_head_mixer",
+      "idea_id": "a020",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_delta_crelu_involution_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_delta_crelu_involution_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a021_bt4_ray_semiring_chi_head_mixer",
+      "idea_id": "a021",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_ray_semiring_chi_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_ray_semiring_chi_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a022_bt4_delta_event_legal_routing_mixer",
+      "idea_id": "a022",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_delta_event_legal_routing_mixer",
+      "scaffold": null,
+      "slug": "bt4_delta_event_legal_routing_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a023_bt4_delta_state_slg_diffusion_mixer",
+      "idea_id": "a023",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_delta_state_slg_diffusion_mixer",
+      "scaffold": null,
+      "slug": "bt4_delta_state_slg_diffusion_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a024_bt4_reversible_delta_kernel_memory_mixer",
+      "idea_id": "a024",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_reversible_delta_kernel_memory_mixer",
+      "scaffold": null,
+      "slug": "bt4_reversible_delta_kernel_memory_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a025_bt4_blocker_reset_ray_scan_mixer",
+      "idea_id": "a025",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_blocker_reset_ray_scan_mixer",
+      "scaffold": null,
+      "slug": "bt4_blocker_reset_ray_scan_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a026_bt4_occlusion_semiring_ray_scan_mixer",
+      "idea_id": "a026",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_occlusion_semiring_ray_scan_mixer",
+      "scaffold": null,
+      "slug": "bt4_occlusion_semiring_ray_scan_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a027_bt4_event_delta_bilinear_accumulator_mixer",
+      "idea_id": "a027",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_event_delta_bilinear_accumulator_mixer",
+      "scaffold": null,
+      "slug": "bt4_event_delta_bilinear_accumulator_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a028_bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer",
+      "idea_id": "a028",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer",
+      "scaffold": null,
+      "slug": "bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a029_bt4_event_symmetric_interaction_accumulator_mixer",
+      "idea_id": "a029",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_event_symmetric_interaction_accumulator_mixer",
+      "scaffold": null,
+      "slug": "bt4_event_symmetric_interaction_accumulator_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a030_bt4_incremental_delta_linear_head_mixer",
+      "idea_id": "a030",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_incremental_delta_linear_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_incremental_delta_linear_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a031_bt4_ray_cast_obstacle_pool_head_mixer",
+      "idea_id": "a031",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_ray_cast_obstacle_pool_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_ray_cast_obstacle_pool_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a032_bt4_sparse_legal_move_router_head_mixer",
+      "idea_id": "a032",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_sparse_legal_move_router_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_sparse_legal_move_router_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a033_bt4_incremental_latent_accumulator_head_mixer",
+      "idea_id": "a033",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_incremental_latent_accumulator_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_incremental_latent_accumulator_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a034_bt4_occlusion_aware_ray_scan_head_mixer",
+      "idea_id": "a034",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_occlusion_aware_ray_scan_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_occlusion_aware_ray_scan_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a035_bt4_ray_parallel_ssm_head_mixer",
+      "idea_id": "a035",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_ray_parallel_ssm_head_mixer",
+      "scaffold": null,
+      "slug": "bt4_ray_parallel_ssm_head_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a036_bt4_legal_move_laplacian_resolvent_mixer",
+      "idea_id": "a036",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_legal_move_laplacian_resolvent_mixer",
+      "scaffold": null,
+      "slug": "bt4_legal_move_laplacian_resolvent_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a037_bt4_dynamic_adjacency_gating_mixer",
+      "idea_id": "a037",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_dynamic_adjacency_gating_mixer",
+      "scaffold": null,
+      "slug": "bt4_dynamic_adjacency_gating_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a038_bt4_move_kernel_operator_mixer",
+      "idea_id": "a038",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_move_kernel_operator_mixer",
+      "scaffold": null,
+      "slug": "bt4_move_kernel_operator_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a039_bt4_octilinear_selective_scan_mixer",
+      "idea_id": "a039",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_octilinear_selective_scan_mixer",
+      "scaffold": null,
+      "slug": "bt4_octilinear_selective_scan_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/a040_bt4_sparse_legal_graph_transition_mixer",
+      "idea_id": "a040",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "bt4_sparse_legal_graph_transition_mixer",
+      "scaffold": null,
+      "slug": "bt4_sparse_legal_graph_transition_mixer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.BT4PrimitiveMixerNet",
+          "chess_nn_playground.models.architecture.bt4_primitive_mixer.build_bt4_primitive_mixer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
       "folder": "ideas/registry/i001_chess_operator_basis_classifier",
       "idea_id": "i001",
       "idea_status": "implemented",
@@ -8345,15 +9705,403 @@
       "evidence": [
         "model.py delegates to a non-shared architecture builder"
       ],
+      "folder": "ideas/registry/i249_oriented_tactical_sheaf_fast",
+      "idea_id": "i249",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "oriented_tactical_sheaf_fast",
+      "scaffold": null,
+      "slug": "oriented_tactical_sheaf_fast",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast.build_oriented_tactical_sheaf_fast_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast.build_oriented_tactical_sheaf_fast_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast.OrientedTacticalSheafFastNet",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_fast.build_oriented_tactical_sheaf_fast_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i250_learned_relation_confidence_sheaf",
+      "idea_id": "i250",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "learned_relation_confidence_sheaf",
+      "scaffold": null,
+      "slug": "learned_relation_confidence_sheaf",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.learned_relation_confidence_sheaf.build_learned_relation_confidence_sheaf_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.learned_relation_confidence_sheaf.build_learned_relation_confidence_sheaf_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.learned_relation_confidence_sheaf.LearnedRelationConfidenceSheafNet",
+          "chess_nn_playground.models.trunk.learned_relation_confidence_sheaf.build_learned_relation_confidence_sheaf_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i251_candidate_move_forcedness_sheaf",
+      "idea_id": "i251",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "candidate_move_forcedness_sheaf",
+      "scaffold": null,
+      "slug": "candidate_move_forcedness_sheaf",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.candidate_move_forcedness_sheaf.build_candidate_move_forcedness_sheaf_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.candidate_move_forcedness_sheaf.build_candidate_move_forcedness_sheaf_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.candidate_move_forcedness_sheaf.CandidateMoveForcednessSheafNet",
+          "chess_nn_playground.models.trunk.candidate_move_forcedness_sheaf.build_candidate_move_forcedness_sheaf_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i252_pin_xray_overload_sheaf",
+      "idea_id": "i252",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "pin_xray_overload_sheaf",
+      "scaffold": null,
+      "slug": "pin_xray_overload_sheaf",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.pin_xray_overload_sheaf.build_pin_xray_overload_sheaf_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.pin_xray_overload_sheaf.build_pin_xray_overload_sheaf_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.pin_xray_overload_sheaf.PinXrayOverloadSheafNet",
+          "chess_nn_playground.models.trunk.pin_xray_overload_sheaf.build_pin_xray_overload_sheaf_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i253_i018_bt4_112_controlled_encoding",
+      "idea_id": "i253",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "i018_bt4_112_controlled_encoding",
+      "scaffold": null,
+      "slug": "i018_bt4_112_controlled_encoding",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_controlled_encoding.build_i018_bt4_112_controlled_encoding_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_controlled_encoding.build_i018_bt4_112_controlled_encoding_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_controlled_encoding.OrientedTacticalSheafControlledEncodingNet",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_controlled_encoding.build_i018_bt4_112_controlled_encoding_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i254_efficient_i018_scale_xxl",
+      "idea_id": "i254",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "efficient_i018_scale_xxl",
+      "scaffold": null,
+      "slug": "efficient_i018_scale_xxl",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_efficient_xxl.build_oriented_tactical_sheaf_efficient_xxl_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_efficient_xxl.build_oriented_tactical_sheaf_efficient_xxl_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_efficient_xxl.OrientedTacticalSheafEfficientXXLNet",
+          "chess_nn_playground.models.trunk.oriented_tactical_sheaf_efficient_xxl.build_oriented_tactical_sheaf_efficient_xxl_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i255_i018_bt4_distillation_student",
+      "idea_id": "i255",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "i018_bt4_distillation_student",
+      "scaffold": null,
+      "slug": "i018_bt4_distillation_student",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.bt4_distill_student.build_bt4_distill_student_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.bt4_distill_student.build_bt4_distill_student_from_config",
+          "config.get",
+          "data_cfg.get",
+          "dict",
+          "isinstance",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.bt4_distill_student.BT4DistillationStudent",
+          "chess_nn_playground.models.trunk.bt4_distill_student.build_bt4_distill_student_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i256_near_puzzle_rejection_specialist",
+      "idea_id": "i256",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "near_puzzle_rejection_specialist",
+      "scaffold": null,
+      "slug": "near_puzzle_rejection_specialist",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.near_puzzle_rejection_specialist.build_near_puzzle_rejection_specialist_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.near_puzzle_rejection_specialist.build_near_puzzle_rejection_specialist_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.near_puzzle_rejection_specialist.NearPuzzleRejectionSpecialist",
+          "chess_nn_playground.models.trunk.near_puzzle_rejection_specialist.build_near_puzzle_rejection_specialist_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i257_promotion_mate_slice_specialist",
+      "idea_id": "i257",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "promotion_mate_slice_specialist",
+      "scaffold": null,
+      "slug": "promotion_mate_slice_specialist",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.promotion_mate_slice_specialist.build_promotion_mate_slice_specialist_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.promotion_mate_slice_specialist.build_promotion_mate_slice_specialist_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.promotion_mate_slice_specialist.PromotionMateSliceSpecialist",
+          "chess_nn_playground.models.trunk.promotion_mate_slice_specialist.build_promotion_mate_slice_specialist_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i258_relation_masked_attention_i018",
+      "idea_id": "i258",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "relation_masked_attention_i018",
+      "scaffold": null,
+      "slug": "relation_masked_attention_i018",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.trunk.relation_masked_attention_i018.build_relation_masked_attention_i018_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.trunk.relation_masked_attention_i018.build_relation_masked_attention_i018_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.trunk.relation_masked_attention_i018.RelationMaskedAttentionI018Net",
+          "chess_nn_playground.models.trunk.relation_masked_attention_i018.build_relation_masked_attention_i018_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/i259_i018_bt4_ensemble_compression",
+      "idea_id": "i259",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "i018_bt4_ensemble_compression",
+      "scaffold": null,
+      "slug": "i018_bt4_ensemble_compression",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.architecture.i018_bt4_ensemble_compression.build_i018_bt4_ensemble_compression_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.architecture.i018_bt4_ensemble_compression.build_i018_bt4_ensemble_compression_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.architecture.i018_bt4_ensemble_compression.I018Bt4EnsembleCompressionNet",
+          "chess_nn_playground.models.architecture.i018_bt4_ensemble_compression.build_i018_bt4_ensemble_compression_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
       "folder": "ideas/registry/p001_pareto_antichain_frontier",
       "idea_id": "p001",
       "idea_status": "implemented",
       "implementation_status": "implemented",
       "issues": [],
       "metadata_kind": "bespoke_model",
-      "model_name": "pareto_antichain_frontier_network",
+      "model_name": "pareto_antichain_frontier",
       "scaffold": null,
-      "slug": "pareto_antichain_frontier_network",
+      "slug": "pareto_antichain_frontier",
       "wiring": {
         "builder_calls": [
           "chess_nn_playground.models.primitives.pareto_antichain_frontier_network.build_pareto_antichain_frontier_network_from_config"
@@ -8385,9 +10133,9 @@
       "implementation_status": "implemented",
       "issues": [],
       "metadata_kind": "bespoke_model",
-      "model_name": "regret_saddlepoint_network",
+      "model_name": "regret_saddlepoint",
       "scaffold": null,
-      "slug": "regret_saddlepoint_network",
+      "slug": "regret_saddlepoint",
       "wiring": {
         "builder_calls": [
           "chess_nn_playground.models.primitives.regret_saddlepoint_network.build_regret_saddlepoint_network_from_config"
@@ -8419,9 +10167,9 @@
       "implementation_status": "implemented",
       "issues": [],
       "metadata_kind": "bespoke_model",
-      "model_name": "reply_channel_capacity_network",
+      "model_name": "reply_channel_capacity",
       "scaffold": null,
-      "slug": "reply_channel_capacity_network",
+      "slug": "reply_channel_capacity",
       "wiring": {
         "builder_calls": [
           "chess_nn_playground.models.primitives.reply_channel_capacity_network.build_reply_channel_capacity_network_from_config"
@@ -8453,9 +10201,9 @@
       "implementation_status": "implemented",
       "issues": [],
       "metadata_kind": "bespoke_model",
-      "model_name": "tail_copula_concordance_network",
+      "model_name": "tail_copula_concordance",
       "scaffold": null,
-      "slug": "tail_copula_concordance_network",
+      "slug": "tail_copula_concordance",
       "wiring": {
         "builder_calls": [
           "chess_nn_playground.models.primitives.tail_copula_concordance_network.build_tail_copula_concordance_network_from_config"
@@ -8487,9 +10235,9 @@
       "implementation_status": "implemented",
       "issues": [],
       "metadata_kind": "bespoke_model",
-      "model_name": "witness_counterwitness_quantifier_network",
+      "model_name": "witness_counterwitness_quantifier",
       "scaffold": null,
-      "slug": "witness_counterwitness_quantifier_network",
+      "slug": "witness_counterwitness_quantifier",
       "wiring": {
         "builder_calls": [
           "chess_nn_playground.models.primitives.witness_counterwitness_quantifier_network.build_witness_counterwitness_quantifier_network_from_config"
@@ -9903,15 +11651,321 @@
         "local_nn_modules": [],
         "parse_error": null
       }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p047_learned_relation_confidence",
+      "idea_id": "p047",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "learned_relation_confidence",
+      "scaffold": null,
+      "slug": "learned_relation_confidence",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.learned_relation_confidence.build_learned_relation_confidence_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.learned_relation_confidence.build_learned_relation_confidence_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.learned_relation_confidence.LearnedRelationConfidence",
+          "chess_nn_playground.models.primitives.learned_relation_confidence.build_learned_relation_confidence_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p048_candidate_move_forcedness",
+      "idea_id": "p048",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "candidate_move_forcedness",
+      "scaffold": null,
+      "slug": "candidate_move_forcedness",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.candidate_move_forcedness.build_candidate_move_forcedness_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.candidate_move_forcedness.build_candidate_move_forcedness_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.candidate_move_forcedness.CandidateMoveForcedness",
+          "chess_nn_playground.models.primitives.candidate_move_forcedness.build_candidate_move_forcedness_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p049_pin_xray_skewer",
+      "idea_id": "p049",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "pin_xray_skewer",
+      "scaffold": null,
+      "slug": "pin_xray_skewer",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.pin_xray_skewer.build_pin_xray_skewer_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.pin_xray_skewer.build_pin_xray_skewer_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.pin_xray_skewer.PinXraySkewer",
+          "chess_nn_playground.models.primitives.pin_xray_skewer.build_pin_xray_skewer_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p050_defender_overload_triad",
+      "idea_id": "p050",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "defender_overload_triad",
+      "scaffold": null,
+      "slug": "defender_overload_triad",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.defender_overload_triad.build_defender_overload_triad_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.defender_overload_triad.build_defender_overload_triad_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.defender_overload_triad.DefenderOverloadTriad",
+          "chess_nn_playground.models.primitives.defender_overload_triad.build_defender_overload_triad_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p051_king_zone_reply_pressure",
+      "idea_id": "p051",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "king_zone_reply_pressure",
+      "scaffold": null,
+      "slug": "king_zone_reply_pressure",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.king_zone_reply_pressure.build_king_zone_reply_pressure_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.king_zone_reply_pressure.build_king_zone_reply_pressure_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.king_zone_reply_pressure.KingZoneReplyPressure",
+          "chess_nn_playground.models.primitives.king_zone_reply_pressure.build_king_zone_reply_pressure_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p052_promotion_underpromotion",
+      "idea_id": "p052",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "promotion_underpromotion",
+      "scaffold": null,
+      "slug": "promotion_underpromotion",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.promotion_underpromotion.build_promotion_underpromotion_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.promotion_underpromotion.build_promotion_underpromotion_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.promotion_underpromotion.PromotionUnderpromotionGeometry",
+          "chess_nn_playground.models.primitives.promotion_underpromotion.build_promotion_underpromotion_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p053_legal_move_graph_delta_pressure",
+      "idea_id": "p053",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "legal_move_graph_delta_pressure",
+      "scaffold": null,
+      "slug": "legal_move_graph_delta_pressure",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.legal_move_graph_delta_pressure.build_legal_move_graph_delta_pressure_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.legal_move_graph_delta_pressure.build_legal_move_graph_delta_pressure_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.legal_move_graph_delta_pressure.LegalMoveGraphDeltaPressure",
+          "chess_nn_playground.models.primitives.legal_move_graph_delta_pressure.build_legal_move_graph_delta_pressure_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p054_efficient_ray_occlusion_scan",
+      "idea_id": "p054",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "efficient_ray_occlusion_scan",
+      "scaffold": null,
+      "slug": "efficient_ray_occlusion_scan",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.efficient_ray_occlusion_scan.build_efficient_ray_occlusion_scan_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.efficient_ray_occlusion_scan.build_efficient_ray_occlusion_scan_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.efficient_ray_occlusion_scan.EfficientRayOcclusionScan",
+          "chess_nn_playground.models.primitives.efficient_ray_occlusion_scan.build_efficient_ray_occlusion_scan_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
+    },
+    {
+      "detected_kind": "bespoke_model",
+      "evidence": [
+        "model.py delegates to a non-shared architecture builder"
+      ],
+      "folder": "ideas/registry/p055_near_puzzle_hard_negative",
+      "idea_id": "p055",
+      "idea_status": "implemented",
+      "implementation_status": "implemented",
+      "issues": [],
+      "metadata_kind": "bespoke_model",
+      "model_name": "near_puzzle_hard_negative",
+      "scaffold": null,
+      "slug": "near_puzzle_hard_negative",
+      "wiring": {
+        "builder_calls": [
+          "chess_nn_playground.models.primitives.near_puzzle_hard_negative.build_near_puzzle_hard_negative_from_config"
+        ],
+        "calls": [
+          "chess_nn_playground.models.primitives.near_puzzle_hard_negative.build_near_puzzle_hard_negative_from_config",
+          "config.get",
+          "dict",
+          "model_cfg.setdefault"
+        ],
+        "imports": [
+          "__future__.annotations",
+          "chess_nn_playground.models.primitives.near_puzzle_hard_negative.NearPuzzleHardNegativePrimitive",
+          "chess_nn_playground.models.primitives.near_puzzle_hard_negative.build_near_puzzle_hard_negative_from_config",
+          "typing.Any"
+        ],
+        "local_nn_modules": [],
+        "parse_error": null
+      }
     }
   ],
   "summary": {
     "by_detected_kind": {
-      "bespoke_model": 286,
+      "bespoke_model": 346,
       "shared_probe_variant": 6
     },
     "by_metadata_kind": {
-      "bespoke_model": 286,
+      "bespoke_model": 346,
       "shared_probe_variant": 6
     },
     "metadata_mismatch_count": 0,
@@ -9924,7 +11978,7 @@
       "ideas/registry/i144_board_fpn_cnn",
       "ideas/registry/i149_axial_rank_file_convnet"
     ],
-    "total": 292,
+    "total": 352,
     "unknown_folders": [],
     "validation_issue_count": 0
   }

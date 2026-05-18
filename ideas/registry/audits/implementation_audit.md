@@ -7,7 +7,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 ## Summary
 
-- Ideas audited: `292`
+- Ideas audited: `352`
 - Metadata mismatches: `0`
 - Validation issues: `0`
 - Idea metadata rows changed by this run: `0`
@@ -15,7 +15,7 @@ Every shared-probe architecture document must carry a scaffold-only notice so th
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 286 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
+| `bespoke_model` | 346 | Backed by a materially distinct model implementation rather than the proposal-probe scaffold. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe` / `build_research_packet_probe_from_config`. |
 | `other_shared_scaffold` | 0 | Thin wrapper around a different shared baseline/scaffold builder. |
 | `unknown` | 0 | Could not classify from wiring; should be rare and investigated. |
@@ -35,6 +35,46 @@ These folders were previously easy to read as distinct implemented architectures
 
 | ID | Folder | Status | Implementation status | Detected kind | Metadata kind | Model name | Scaffold | Evidence | Issues |
 |---|---|---|---|---|---|---|---|---|---|
+| `a001` | `ideas/registry/a001_bt4_tempo_defender_cross_derivative_network_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_tempo_defender_cross_derivative_network_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a002` | `ideas/registry/a002_bt4_pair_resonance_hessian_network_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_pair_resonance_hessian_network_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a003` | `ideas/registry/a003_bt4_promotion_aware_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_promotion_aware_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a004` | `ideas/registry/a004_bt4_complex_amplitude_chess_network_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_complex_amplitude_chess_network_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a005` | `ideas/registry/a005_bt4_rule_aware_tactical_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_rule_aware_tactical_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a006` | `ideas/registry/a006_bt4_pareto_antichain_frontier_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_pareto_antichain_frontier_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a007` | `ideas/registry/a007_bt4_regret_saddlepoint_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_regret_saddlepoint_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a008` | `ideas/registry/a008_bt4_reply_channel_capacity_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_reply_channel_capacity_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a009` | `ideas/registry/a009_bt4_tail_copula_concordance_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_tail_copula_concordance_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a010` | `ideas/registry/a010_bt4_witness_counterwitness_quantifier_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_witness_counterwitness_quantifier_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a011` | `ideas/registry/a011_bt4_move_graph_router_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_move_graph_router_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a012` | `ideas/registry/a012_bt4_attack_ray_sparse_attention_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_attack_ray_sparse_attention_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a013` | `ideas/registry/a013_bt4_rule_conditioned_sparse_attention_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_rule_conditioned_sparse_attention_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a014` | `ideas/registry/a014_bt4_legal_move_graph_delta_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_legal_move_graph_delta_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a015` | `ideas/registry/a015_bt4_ray_occlusion_semiring_scan_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_ray_occlusion_semiring_scan_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a016` | `ideas/registry/a016_bt4_legal_edge_compile_scatter_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_legal_edge_compile_scatter_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a017` | `ideas/registry/a017_bt4_signed_edit_bilinear_memory_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_signed_edit_bilinear_memory_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a018` | `ideas/registry/a018_bt4_sparse_delta_accumulator_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_sparse_delta_accumulator_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a019` | `ideas/registry/a019_bt4_delta_pair_accumulator_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_delta_pair_accumulator_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a020` | `ideas/registry/a020_bt4_delta_crelu_involution_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_delta_crelu_involution_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a021` | `ideas/registry/a021_bt4_ray_semiring_chi_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_ray_semiring_chi_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a022` | `ideas/registry/a022_bt4_delta_event_legal_routing_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_delta_event_legal_routing_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a023` | `ideas/registry/a023_bt4_delta_state_slg_diffusion_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_delta_state_slg_diffusion_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a024` | `ideas/registry/a024_bt4_reversible_delta_kernel_memory_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_reversible_delta_kernel_memory_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a025` | `ideas/registry/a025_bt4_blocker_reset_ray_scan_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_blocker_reset_ray_scan_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a026` | `ideas/registry/a026_bt4_occlusion_semiring_ray_scan_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_occlusion_semiring_ray_scan_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a027` | `ideas/registry/a027_bt4_event_delta_bilinear_accumulator_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_event_delta_bilinear_accumulator_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a028` | `ideas/registry/a028_bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a029` | `ideas/registry/a029_bt4_event_symmetric_interaction_accumulator_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_event_symmetric_interaction_accumulator_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a030` | `ideas/registry/a030_bt4_incremental_delta_linear_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_incremental_delta_linear_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a031` | `ideas/registry/a031_bt4_ray_cast_obstacle_pool_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_ray_cast_obstacle_pool_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a032` | `ideas/registry/a032_bt4_sparse_legal_move_router_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_sparse_legal_move_router_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a033` | `ideas/registry/a033_bt4_incremental_latent_accumulator_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_incremental_latent_accumulator_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a034` | `ideas/registry/a034_bt4_occlusion_aware_ray_scan_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_occlusion_aware_ray_scan_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a035` | `ideas/registry/a035_bt4_ray_parallel_ssm_head_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_ray_parallel_ssm_head_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a036` | `ideas/registry/a036_bt4_legal_move_laplacian_resolvent_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_legal_move_laplacian_resolvent_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a037` | `ideas/registry/a037_bt4_dynamic_adjacency_gating_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_dynamic_adjacency_gating_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a038` | `ideas/registry/a038_bt4_move_kernel_operator_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_move_kernel_operator_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a039` | `ideas/registry/a039_bt4_octilinear_selective_scan_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_octilinear_selective_scan_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `a040` | `ideas/registry/a040_bt4_sparse_legal_graph_transition_mixer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `bt4_sparse_legal_graph_transition_mixer` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i001` | `ideas/registry/i001_chess_operator_basis_classifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `chess_operator_basis_classifier` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i002` | `ideas/registry/i002_response_minimax_classifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `response_minimax_classifier` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i003` | `ideas/registry/i003_factor_agreement_classifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `factor_agreement_classifier` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -281,11 +321,22 @@ These folders were previously easy to read as distinct implemented architectures
 | `i246` | `ideas/registry/i246_promotion_aware_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_aware_head` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i247` | `ideas/registry/i247_complex_amplitude_chess_network` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `complex_amplitude_chess_network` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `i248` | `ideas/registry/i248_rule_aware_tactical_head` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_aware_tactical_head` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `p001` | `ideas/registry/p001_pareto_antichain_frontier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pareto_antichain_frontier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `p002` | `ideas/registry/p002_regret_saddlepoint` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `regret_saddlepoint_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `p003` | `ideas/registry/p003_reply_channel_capacity` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_channel_capacity_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `p004` | `ideas/registry/p004_tail_copula_concordance` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tail_copula_concordance_network` | `-` | model.py delegates to a non-shared architecture builder | - |
-| `p005` | `ideas/registry/p005_witness_counterwitness_quantifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `witness_counterwitness_quantifier_network` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i249` | `ideas/registry/i249_oriented_tactical_sheaf_fast` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `oriented_tactical_sheaf_fast` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i250` | `ideas/registry/i250_learned_relation_confidence_sheaf` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `learned_relation_confidence_sheaf` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i251` | `ideas/registry/i251_candidate_move_forcedness_sheaf` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `candidate_move_forcedness_sheaf` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i252` | `ideas/registry/i252_pin_xray_overload_sheaf` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pin_xray_overload_sheaf` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i253` | `ideas/registry/i253_i018_bt4_112_controlled_encoding` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `i018_bt4_112_controlled_encoding` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i254` | `ideas/registry/i254_efficient_i018_scale_xxl` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `efficient_i018_scale_xxl` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i255` | `ideas/registry/i255_i018_bt4_distillation_student` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `i018_bt4_distillation_student` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i256` | `ideas/registry/i256_near_puzzle_rejection_specialist` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `near_puzzle_rejection_specialist` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i257` | `ideas/registry/i257_promotion_mate_slice_specialist` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_mate_slice_specialist` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i258` | `ideas/registry/i258_relation_masked_attention_i018` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `relation_masked_attention_i018` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `i259` | `ideas/registry/i259_i018_bt4_ensemble_compression` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `i018_bt4_ensemble_compression` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p001` | `ideas/registry/p001_pareto_antichain_frontier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pareto_antichain_frontier` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p002` | `ideas/registry/p002_regret_saddlepoint` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `regret_saddlepoint` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p003` | `ideas/registry/p003_reply_channel_capacity` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `reply_channel_capacity` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p004` | `ideas/registry/p004_tail_copula_concordance` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `tail_copula_concordance` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p005` | `ideas/registry/p005_witness_counterwitness_quantifier` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `witness_counterwitness_quantifier` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p006` | `ideas/registry/p006_move_graph_router` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `move_graph_router` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p007` | `ideas/registry/p007_attack_ray_sparse_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `attack_ray_sparse_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p008` | `ideas/registry/p008_rule_conditioned_sparse_attention` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `rule_conditioned_sparse_attention` | `-` | model.py delegates to a non-shared architecture builder | - |
@@ -327,9 +378,18 @@ These folders were previously easy to read as distinct implemented architectures
 | `p044` | `ideas/registry/p044_weighted_hodge_projector` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `weighted_hodge_projector` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p045` | `ideas/registry/p045_kirchhoff_mobility_solve` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `kirchhoff_mobility_solve` | `-` | model.py delegates to a non-shared architecture builder | - |
 | `p046` | `ideas/registry/p046_subset_logpartition` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `subset_logpartition` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p047` | `ideas/registry/p047_learned_relation_confidence` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `learned_relation_confidence` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p048` | `ideas/registry/p048_candidate_move_forcedness` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `candidate_move_forcedness` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p049` | `ideas/registry/p049_pin_xray_skewer` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `pin_xray_skewer` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p050` | `ideas/registry/p050_defender_overload_triad` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `defender_overload_triad` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p051` | `ideas/registry/p051_king_zone_reply_pressure` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `king_zone_reply_pressure` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p052` | `ideas/registry/p052_promotion_underpromotion` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `promotion_underpromotion` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p053` | `ideas/registry/p053_legal_move_graph_delta_pressure` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `legal_move_graph_delta_pressure` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p054` | `ideas/registry/p054_efficient_ray_occlusion_scan` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `efficient_ray_occlusion_scan` | `-` | model.py delegates to a non-shared architecture builder | - |
+| `p055` | `ideas/registry/p055_near_puzzle_hard_negative` | `implemented` | `implemented` | `bespoke_model` | `bespoke_model` | `near_puzzle_hard_negative` | `-` | model.py delegates to a non-shared architecture builder | - |
 
 Validation command:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python scripts/ideas/audit_implementation_kinds.py --check
+chess-nn-audit-ideas --check
 ```

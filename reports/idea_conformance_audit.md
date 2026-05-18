@@ -1,6 +1,6 @@
 # Idea Implementation Conformance Audit
 
-- Ideas audited: `248`
+- Ideas audited: `354`
 - Packet-probe ideas: `6`
 - Rows with issues before fix: `0`
 - Rows changed: `0`
@@ -8,6 +8,46 @@
 
 | ID | Slug | Packet Probe | Family | Active Profiles | Issues | Actions |
 |---|---|---:|---|---|---|---|
+| `a001` | `bt4_tempo_defender_cross_derivative_network_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a002` | `bt4_pair_resonance_hessian_network_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a003` | `bt4_promotion_aware_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a004` | `bt4_complex_amplitude_chess_network_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a005` | `bt4_rule_aware_tactical_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a006` | `bt4_pareto_antichain_frontier_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a007` | `bt4_regret_saddlepoint_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a008` | `bt4_reply_channel_capacity_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a009` | `bt4_tail_copula_concordance_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a010` | `bt4_witness_counterwitness_quantifier_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a011` | `bt4_move_graph_router_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a012` | `bt4_attack_ray_sparse_attention_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a013` | `bt4_rule_conditioned_sparse_attention_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a014` | `bt4_legal_move_graph_delta_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a015` | `bt4_ray_occlusion_semiring_scan_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a016` | `bt4_legal_edge_compile_scatter_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a017` | `bt4_signed_edit_bilinear_memory_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a018` | `bt4_sparse_delta_accumulator_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a019` | `bt4_delta_pair_accumulator_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a020` | `bt4_delta_crelu_involution_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a021` | `bt4_ray_semiring_chi_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a022` | `bt4_delta_event_legal_routing_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a023` | `bt4_delta_state_slg_diffusion_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a024` | `bt4_reversible_delta_kernel_memory_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a025` | `bt4_blocker_reset_ray_scan_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a026` | `bt4_occlusion_semiring_ray_scan_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a027` | `bt4_event_delta_bilinear_accumulator_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a028` | `bt4_occlusion_semiring_delta_bilinear_hyperedge_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a029` | `bt4_event_symmetric_interaction_accumulator_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a030` | `bt4_incremental_delta_linear_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a031` | `bt4_ray_cast_obstacle_pool_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a032` | `bt4_sparse_legal_move_router_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a033` | `bt4_incremental_latent_accumulator_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a034` | `bt4_occlusion_aware_ray_scan_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a035` | `bt4_ray_parallel_ssm_head_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a036` | `bt4_legal_move_laplacian_resolvent_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a037` | `bt4_dynamic_adjacency_gating_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a038` | `bt4_move_kernel_operator_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a039` | `bt4_octilinear_selective_scan_mixer` | `False` | `bt4_mixer` | - | - | - |
+| `a040` | `bt4_sparse_legal_graph_transition_mixer` | `False` | `bt4_mixer` | - | - | - |
 | `i001` | `chess_operator_basis_classifier` | `False` | `-` | - | - | - |
 | `i002` | `response_minimax_classifier` | `False` | `-` | - | - | - |
 | `i003` | `factor_agreement_classifier` | `False` | `-` | - | - | - |
@@ -256,3 +296,69 @@
 | `i246` | `promotion_aware_head` | `False` | `counterfactual` | - | - | - |
 | `i247` | `complex_amplitude_chess_network` | `False` | `counterfactual` | - | - | - |
 | `i248` | `rule_aware_tactical_head` | `False` | `king_path` | - | - | - |
+| `i249` | `oriented_tactical_sheaf_fast` | `False` | `sheaf` | - | - | - |
+| `i250` | `learned_relation_confidence_sheaf` | `False` | `sheaf` | - | - | - |
+| `i251` | `candidate_move_forcedness_sheaf` | `False` | `sheaf` | - | - | - |
+| `i252` | `pin_xray_overload_sheaf` | `False` | `sheaf` | - | - | - |
+| `i253` | `i018_bt4_112_controlled_encoding` | `False` | `sheaf` | - | - | - |
+| `i254` | `efficient_i018_scale_xxl` | `False` | `sheaf` | - | - | - |
+| `i255` | `i018_bt4_distillation_student` | `False` | `distillation` | - | - | - |
+| `i256` | `near_puzzle_rejection_specialist` | `False` | `king_path` | - | - | - |
+| `i257` | `promotion_mate_slice_specialist` | `False` | `promotion_mate` | - | - | - |
+| `i258` | `relation_masked_attention_i018` | `False` | `sheaf` | - | - | - |
+| `i259` | `i018_bt4_ensemble_compression` | `False` | `ensemble_compression` | - | - | - |
+| `p001` | `pareto_antichain_frontier` | `False` | `king_path` | - | - | - |
+| `p002` | `regret_saddlepoint` | `False` | `king_path` | - | - | - |
+| `p003` | `reply_channel_capacity` | `False` | `king_path` | - | - | - |
+| `p004` | `tail_copula_concordance` | `False` | `king_path` | - | - | - |
+| `p005` | `witness_counterwitness_quantifier` | `False` | `king_path` | - | - | - |
+| `p006` | `move_graph_router` | `False` | `legal_routing` | - | - | - |
+| `p007` | `attack_ray_sparse_attention` | `False` | `ray_attention` | - | - | - |
+| `p008` | `rule_conditioned_sparse_attention` | `False` | `legal_routing` | - | - | - |
+| `p009` | `legal_move_graph_delta` | `False` | `legal_routing` | - | - | - |
+| `p010` | `ray_occlusion_semiring_scan` | `False` | `ray_attention` | - | - | - |
+| `p011` | `legal_edge_compile_scatter` | `False` | `legal_routing` | - | - | - |
+| `p012` | `signed_edit_bilinear_memory` | `False` | `move_delta` | - | - | - |
+| `p013` | `sparse_delta_accumulator` | `False` | `move_delta` | - | - | - |
+| `p014` | `delta_pair_accumulator` | `False` | `move_delta` | - | - | - |
+| `p015` | `delta_crelu_involution_head` | `False` | `move_delta` | - | - | - |
+| `p016` | `ray_semiring_chi_head` | `False` | `move_delta` | - | - | - |
+| `p017` | `delta_event_legal_routing` | `False` | `move_delta` | - | - | - |
+| `p018` | `delta_state_slg_diffusion` | `False` | `move_delta` | - | - | - |
+| `p019` | `reversible_delta_kernel_memory` | `False` | `response_constraint` | - | - | - |
+| `p020` | `blocker_reset_ray_scan` | `False` | `king_path` | - | - | - |
+| `p021` | `occlusion_semiring_ray_scan` | `False` | `king_path` | - | - | - |
+| `p022` | `event_delta_bilinear_accumulator` | `False` | `response_constraint` | - | - | - |
+| `p023` | `occlusion_semiring_delta_bilinear_hyperedge` | `False` | `king_path` | - | - | - |
+| `p024` | `event_symmetric_interaction_accumulator` | `False` | `response_constraint` | - | - | - |
+| `p025` | `incremental_delta_linear_head` | `False` | `king_path` | - | - | - |
+| `p026` | `ray_cast_obstacle_pool_head` | `False` | `king_path` | - | - | - |
+| `p027` | `sparse_legal_move_router_head` | `False` | `king_path` | - | - | - |
+| `p028` | `incremental_latent_accumulator_head` | `False` | `king_path` | - | - | - |
+| `p029` | `occlusion_aware_ray_scan_head` | `False` | `king_path` | - | - | - |
+| `p030` | `ray_parallel_ssm_head` | `False` | `king_path` | - | - | - |
+| `p031` | `legal_move_laplacian_resolvent` | `False` | `legal_graph` | - | - | - |
+| `p032` | `dynamic_adjacency_gating` | `False` | `legal_graph` | - | - | - |
+| `p033` | `move_kernel_operator` | `False` | `legal_graph` | - | - | - |
+| `p034` | `octilinear_selective_scan` | `False` | `ray_scan` | - | - | - |
+| `p035` | `sparse_legal_graph_transition` | `False` | `legal_graph` | - | - | - |
+| `p036` | `canonical_orbit_st_operator` | `False` | `response_constraint` | - | - | - |
+| `p037` | `gibbs_cut_log_partition` | `False` | `response_constraint` | - | - | - |
+| `p038` | `woodbury_set_resolver` | `False` | `response_constraint` | - | - | - |
+| `p039` | `occupancy_eikonal_transform` | `False` | `response_constraint` | - | - | - |
+| `p040` | `conservation_nullspace_norm` | `False` | `response_constraint` | - | - | - |
+| `p041` | `truncated_exterior_product_pool` | `False` | `response_constraint` | - | - | - |
+| `p042` | `truncated_multiset_polynomial_pool` | `False` | `ledger_polynomial` | - | - | - |
+| `p043` | `grassmann_rook_pool` | `False` | `rook_matching` | - | - | - |
+| `p044` | `weighted_hodge_projector` | `False` | `hodge_projection` | - | - | - |
+| `p045` | `kirchhoff_mobility_solve` | `False` | `resolvent_pool` | - | - | - |
+| `p046` | `subset_logpartition` | `False` | `log_semiring_ledger` | - | - | - |
+| `p047` | `learned_relation_confidence` | `False` | `sheaf` | - | - | - |
+| `p048` | `candidate_move_forcedness` | `False` | `move_graph` | - | - | - |
+| `p049` | `pin_xray_skewer` | `False` | `king_path` | - | - | - |
+| `p050` | `defender_overload_triad` | `False` | `defender_load` | - | - | - |
+| `p051` | `king_zone_reply_pressure` | `False` | `king_safety` | - | - | - |
+| `p052` | `promotion_underpromotion` | `False` | `counterfactual` | - | - | - |
+| `p053` | `legal_move_graph_delta_pressure` | `False` | `legal_routing` | - | - | - |
+| `p054` | `efficient_ray_occlusion_scan` | `False` | `ray_scan_geometry` | - | - | - |
+| `p055` | `near_puzzle_hard_negative` | `False` | `rejection_veto` | - | - | - |
