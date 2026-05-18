@@ -1,0 +1,100 @@
+idea_id: p052
+name: Promotion and Underpromotion Geometry Primitive
+slug: promotion_underpromotion
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion-geometry primitive)
+short_thesis: |
+  Promotion and Underpromotion Geometry Primitive (PUGP). Build a fixed
+  board-only feature vector summarising side-to-move-canonicalised
+  promotion geometry: per-row own/opp pawn-distance summaries, per-file
+  candidate masks for quiet and capture promotions on canonical row 0,
+  and per-arrival-square per-promotion-type (Q, R, B, N) features --
+  gives-check, enemy-king-zone overlap, sliding-and-knight attacker /
+  defender counts on the arrival square (safety score), and the
+  knight-fork hint over enemy high-value targets. Underpromotion is
+  encoded as the explicit delta-to-queen difference per non-queen type
+  plus a dedicated knight-fork channel. The pooled vector feeds an
+  additive gated logit-delta head on top of the i193
+  ExchangeThenKingDualStreamNetwork trunk.
+novelty_claim: |
+  PUGP is *not* PFCT (i246 / promotion_aware_head). PFCT enumerates
+  the four promotion-piece substitutions and re-runs the trunk K * 4
+  times to extract a counterfactual fanout feature -- it is a piece-
+  type counterfactual operator. PUGP is the **complementary** geometry
+  primitive: it does not re-run the trunk on substituted boards at all;
+  instead it computes a rule-derived per-candidate token using ray
+  geometry (Q, R, B), the knight template and the king zone, side-to-
+  move canonicalisation, and the explicit quiet+capture promotion
+  geometry that PFCT's i246 implementation does not enumerate (i246
+  rewrites the promoted piece on the same file regardless of whether
+  the substitution corresponds to a legal move). PUGP also exposes
+  explicit underpromotion-as-delta-to-queen features, including a
+  knight-fork hint that the queen-only collapse cannot recover.
+expected_advantage: |
+  The source primitive predicts a meaningful step on the merged
+  `crtk_tactic_motifs = promotion / underpromotion` slice: aggregate
+  test PR AUC roughly flat to +0.003 against i193 with no global near-
+  puzzle FP regression, **and** promotion-slice PR AUC moving from
+  ~0.652 toward 0.69-0.71 (stretch 0.72+). Near-puzzle FP-at-recall-
+  0.80 on the slice is targeted to move from ~0.103 into 0.090-0.098.
+  Aggregate cost is targeted near i193 wall-clock because PUGP does
+  not re-run the trunk per promotion-piece substitution: feature
+  extraction is bounded tensor work (one ray gather, one cumulative
+  blocker scan, eight precomputed knight / king templates, a fixed
+  per-file pool).
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Side-to-move canonicalisation
+  (vertical flip + own/opp piece-plane swap + castling-plane swap)
+  is computed analytically on the simple_18 tensor itself; no
+  python-chess call is required inside forward. CRTK metadata,
+  source labels, verification flags, engine evaluations and
+  principal variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_delta_raw``, ``primitive_gate``,
+  ``primitive_gate_applied``, ``primitive_gate_logit``,
+  ``primitive_gate_entropy``, ``primitive_contribution``,
+  ``pugp_push_count``, ``pugp_capL_count``, ``pugp_capR_count``,
+  ``pugp_total_count``, ``pugp_n_own_r1``, ``pugp_n_opp_r1``,
+  ``pugp_knight_fork_max``, ``pugp_queen_check_count`` and
+  ``pugp_queen_zone_max``. The trunk's i193 diagnostics are
+  forwarded under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The
+  PUGP head adds: one board-canonicalisation step (flip + index
+  permute), one (B, 64) occupancy ray-scan via the shared
+  ``ray_geometry`` lookup tables, eight precomputed knight / king /
+  king-zone templates, three per-file candidate masks, one (B, 4, 8)
+  promoted-attack feature tensor, three per-arrival-square candidate
+  token blocks (push, capture-left, capture-right) of shape
+  ``(B, 8, 16)``, and a small LayerNorm + delta MLP + gate MLP.
+  Head adds ~30k parameters at defaults (``head_hidden_dim=64``).
+  Expected wall-clock overhead at B=256 is small (low single-digit
+  percent over i193) because no per-candidate trunk re-run is
+  performed.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p052_promotion_underpromotion/train.py
+config_path: ideas/registry/p052_promotion_underpromotion/config.yaml
+model_path: ideas/registry/p052_promotion_underpromotion/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_47_promotion_underpromotion_primitive.md
+  (the "PUGP" primitive recommended there as a board-only,
+  side-to-move-canonicalised, rule-exact promotion-geometry primitive
+  complementary to i246 PFCT). The source markdown also recommends
+  rule-exact precompute into Parquet columns as the production-time
+  feature path; that precompute script is left as a follow-up. The
+  current model computes the rule-derived feature vector inline on
+  the simple_18 tensor inside forward without any python-chess call,
+  which keeps the primitive board-only and matches the same `simple_18`
+  input the i193 trunk receives.
+source_primitive_path: ideas/research/primitives/external_47_promotion_underpromotion_primitive.md
+source_primitive_candidate: Promotion and Underpromotion Geometry Primitive (PUGP)
+source_packet_path: ideas/research/primitives/external_47_promotion_underpromotion_primitive.md
+source_packet_candidate: Promotion and Underpromotion Geometry Primitive (PUGP)
+mechanism_family: counterfactual

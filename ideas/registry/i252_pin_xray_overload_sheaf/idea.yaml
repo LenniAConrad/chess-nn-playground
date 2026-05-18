@@ -1,0 +1,72 @@
+idea_id: i252
+name: Pin / X-Ray / Overload Sheaf
+slug: pin_xray_overload_sheaf
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude
+short_thesis: >-
+  Keep i018's side-to-move-oriented sheaf spine and i249's vectorized
+  diffusion execution path, but replace i018's 12-plane tactical relation
+  graph with a 22-plane graph that adds ten compact dependency planes
+  (x-ray, skewer, discovered-attack candidate, attacks-against-piece-with-
+  pinned-defender, attacks-on-overloaded-defender, each in us/them mirrors).
+  All higher-order motifs are collapsed into pairwise planes or per-square
+  soft masses before diffusion, so the sheaf operator class is unchanged.
+novelty_claim: >-
+  Promoted from
+  `ideas/research/packets/classic/i252_pin_xray_overload_sheaf.md`. The
+  packet's central change is targeted graph enrichment for i018's weakest
+  motif slices (`pin`, `skewer`, `overload`, `discovered_attack`). This
+  implementation adds a deterministic `TacticalIncidenceBuilderV2` that
+  precomputes a bounded single-screen template bank (2576 templates on the
+  8x8 board), reuses i018's pin bank, derives side-specific absolute pins,
+  and turns higher-order motifs into bounded pairwise planes or per-square
+  soft exposure masses before any diffusion runs. Diagnostics are refactored
+  to use name-based relation indexing so the readout cannot silently
+  miscount families when relations are added.
+expected_advantage: >-
+  Same `puzzle_binary` contract and same parent training recipe as i018. The
+  benefit on overall PR-AUC is expected to be modest because i018 is already
+  competitive, but matched-recall near-puzzle false positives at recall 0.80
+  / 0.85 and the four target motif slices (`pin`, `skewer`, `overload`,
+  `discovered_attack`) should move. Parameter growth at base scale is
+  dominated by the larger relation count: about +5k diffusion parameters
+  for 22 vs 12 relations plus a small readout widening (10 * 4 = 40 extra
+  readout dims).
+target_task: >-
+  puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle. Identical contract to i018.
+input_representation: >-
+  Current-board simple_18 tensor only. CRTK and source metadata are
+  reporting-only and never enter the model. Identical to i018.
+output_heads: >-
+  One puzzle logit plus the i018 diagnostic bundle and five new pressure
+  diagnostics (`xray_pressure`, `skewer_pressure`, `discovered_pressure`,
+  `pinned_defender_pressure`, `overload_pressure`).
+compute_notes: >-
+  `TacticalIncidenceBuilderV2` extends i018's incidence builder by
+  precomputing one extra template bank (2576 ordered `(source, screen, rear,
+  line, clear_without_screen)` triples). Per batch the new relations cost a
+  single template-bank matvec for clearance plus four scatter_add passes for
+  the new pairwise planes. The two soft-mass passes (pinned-defender,
+  overload) reuse the existing attack and defense tensors and add one topk
+  over defenders along the target axis. The sheaf diffusion block is the
+  i249 algebraic block parameterised by relation_count=22 and the
+  RELATION_SIGNS_V2 vector. Total parameter growth at base scale is
+  about +6k.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i252_pin_xray_overload_sheaf/train.py
+config_path: ideas/registry/i252_pin_xray_overload_sheaf/config.yaml
+model_path: ideas/registry/i252_pin_xray_overload_sheaf/model.py
+latest_result_path: null
+notes: >-
+  Implemented as the registered `pin_xray_overload_sheaf` model in
+  `src/chess_nn_playground/models/trunk/pin_xray_overload_sheaf.py`. The
+  module ships `TacticalIncidenceBuilderV2` (extends i018's incidence
+  builder), `FastSheafDiffusionBlockV2` (i249 block parameterised by signs
+  and relation count), and `PinXrayOverloadSheafNet`. Falsifier flags
+  `scramble_relations`, `scramble_new_only`, and `family_collapse` are
+  wired in the config so the relation-family ablations from the packet can
+  be run without code edits. Side-specific absolute pins are verified
+  against the packet's pin-bank derivation on synthetic boards.
+implementation_kind: bespoke_model

@@ -1,0 +1,87 @@
+idea_id: p047
+name: Learned Relation Confidence Primitive
+slug: learned_relation_confidence
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research primitive batch)
+short_thesis: |
+  Learned Relation Confidence (LRC). Keep the i018 12-relation tactical
+  incidence topology fixed and learn a per-edge confidence weight that
+  only attenuates already-valid edges:
+
+      weighted_mask[r, i, j] = mask[r, i, j] * sigmoid(score[r, i, j])
+
+  where ``mask`` comes from the deterministic
+  ``TacticalIncidenceBuilder``. The score combines a low-rank bilinear
+  on square tokens, a factorised edge MLP over piece descriptors, and a
+  per-relation gate. Per-(batch, relation) summary tensors (mean
+  confidence on active edges, total mass, soft kept fraction, entropy)
+  feed an additive gated delta over the i193 trunk:
+
+      final_logit = base_logit + gate * primitive_delta_raw
+
+  Topology preservation is structural: if ``mask[r, i, j] = 0`` then
+  ``weighted_mask[r, i, j] = 0`` exactly. CRTK metadata, source labels,
+  verification flags, engine evaluations, and principal variations are
+  not consumed.
+novelty_claim: |
+  The relation confidence layer is a *confidence-only* lift over the
+  exact i018 relation topology. It is not a learned graph, not generic
+  all-pairs attention, and not a sheaf-mask replacement. The primary
+  falsifier (``binary_only``) reduces to the i018 baseline mask, so any
+  lift must come from per-edge confidence weighting on the same active
+  support.
+expected_advantage: |
+  The source primitive targets a + 0.005 PR-AUC lift on the matched
+  i018 / i249 paper-grade comparator. Expected target slice: tactical
+  positions where the *strength* of a known attack/defense / pin / king-
+  zone relation matters more than its mere presence. The scrambled-mask
+  falsifier should kill at least 30% of any lift.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Deterministic relation masks are
+  computed in-trunk by the i018 ``TacticalIncidenceBuilder`` (12 typed
+  tactical relations). Per-square tokens come from a small 1x1 conv
+  tower. The edge MLP consumes a per-square piece descriptor (empty +
+  12 piece-presence planes). CRTK metadata, source labels, verification
+  flags, engine evaluations, and principal variations are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``lrc_global_mean_confidence``, ``lrc_mask_density``, plus per-
+  relation ``lrc_mean_conf_<rel>``, ``lrc_mass_<rel>``,
+  ``lrc_kept_<rel>``, and ``lrc_entropy_<rel>`` for the 12 typed i018
+  relations. The trunk diagnostics are forwarded with a ``trunk_``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The LRC
+  head adds the 1x1 token tower, q/k projections to ``low_rank_dim``
+  (default 8), a factorised edge MLP (per-source / per-target piece
+  descriptor -> per-relation scalar), the per-relation gate and bias,
+  a summary LayerNorm, a two-layer delta MLP, and a two-layer gate
+  MLP. The bilinear scorer materialises a ``(B, R, 64, 64)`` tensor
+  per relation; defaults keep this under the ``B=256, R=12`` scout-
+  scale budget. Head adds ~80k parameters at defaults.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p047_learned_relation_confidence/train.py
+config_path: ideas/registry/p047_learned_relation_confidence/config.yaml
+model_path: ideas/registry/p047_learned_relation_confidence/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_42_learned_relation_confidence_primitive.md.
+  Reuses the i018 ``TacticalIncidenceBuilder`` for the 12 typed
+  tactical relations and the i193
+  ``ExchangeThenKingDualStreamNetwork`` trunk for the baseline logit.
+  The relation builder and board adapter are frozen so the primitive
+  only learns the confidence layer on top of the deterministic
+  topology. The source markdown is kept in place at
+  ``ideas/research/primitives/external_42_learned_relation_confidence_primitive.md``
+  (do not move or rename).
+source_primitive_path: ideas/research/primitives/external_42_learned_relation_confidence_primitive.md
+source_primitive_candidate: Learned Relation Confidence Primitive
+source_packet_path: ideas/research/primitives/external_42_learned_relation_confidence_primitive.md
+source_packet_candidate: Learned Relation Confidence Primitive
+mechanism_family: sheaf

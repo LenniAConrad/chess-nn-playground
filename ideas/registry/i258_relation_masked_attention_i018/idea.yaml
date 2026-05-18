@@ -1,0 +1,79 @@
+idea_id: i258
+name: Relation-Masked Attention Graft over i018
+slug: relation_masked_attention_i018
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (research promotion)
+short_thesis: >-
+  Keep the i018 oriented tactical sheaf trunk intact and add one small
+  post-sheaf sparse attention residual block whose neighborhoods are
+  derived from i018's typed relation masks. The graft selects top-K
+  neighbors per square from the union of the 12 typed relations with a
+  king-zone boost, biases logits with a low-rank relation-conditioned
+  term, and applies the update through a gated residual whose output
+  projection is zero-initialised so the parent trunk is recovered when
+  the graft is silent.
+novelty_claim: >-
+  First registered architecture in this repo that grafts a single small
+  relation-masked sparse-attention block onto the i018 sheaf trunk
+  between the last diffusion block and the readout, with the four
+  research-packet neighborhood modes (relation-masked / global /
+  king-zone-only / candidate-move) exposed as a one-flag config switch.
+  The graft reuses i018's existing relation masks (including the
+  `scramble_relations` falsifier path) so the random-mask ablation is
+  free, and the gated, zero-init residual keeps the parameter budget
+  within roughly 6k parameters above the matched-budget i018 base.
+expected_advantage: >-
+  Match or modestly beat the i018 parent on aggregate test PR-AUC at a
+  matched parameter budget while keeping near-puzzle FP at recall 0.80 /
+  0.85 within parent seed noise. The mechanism-direction claim is that
+  the relation-masked variant beats both the global-attention and
+  random-mask controls by clear margins (relation - global >= 0.003,
+  relation - random >= 0.010) under the same recipe.
+target_task: >-
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle).
+input_representation: >-
+  Current-board simple_18 tensor only. Relation masks, neighborhood
+  selection, and the candidate-move falsifier path all run through i018's
+  existing TacticalIncidenceBuilder. CRTK metadata, source labels,
+  verification flags, PVs, and engine evaluations are reporting-only and
+  never used as model input.
+output_heads: >-
+  One puzzle logit produced by the existing i018 readout head fed with
+  attention-refined square states. Per-sample diagnostics extend the
+  i018 set with attention_entropy, attention_king_share,
+  attention_gate_mean, attention_delta_norm, attention_neighbor_count,
+  and attention_relation_bias_norm.
+compute_notes: >-
+  Trunk: BoardStateAdapter -> TacticalIncidenceBuilder ->
+  SquareTokenEncoder -> SheafDiffusionBlock x depth (all reused from
+  i018, default channels=64, depth=2, stalk_dim=8). Graft: one
+  RelationMaskedAttentionGraft with attn_dim=24, num_heads=2,
+  relation_rank=4, top_k=8, king_boost=0.5, gate_init_bias=-2.0,
+  zero_init_out=true. Readout head_hidden_dim is reduced from 96 to 76
+  to keep the parameter budget within roughly +40 parameters of base
+  i018. Default neighborhood is `relation` (relation-masked top-K with
+  king-zone emphasis). The `global`, `king_zone`, and `candidate`
+  modes are exposed as falsifier ablations; `scramble_relations: true`
+  reuses i018's degree-preserving random-rewiring path so the
+  random-mask control runs through the same code path.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i258_relation_masked_attention_i018/train.py
+config_path: ideas/registry/i258_relation_masked_attention_i018/config.yaml
+model_path: ideas/registry/i258_relation_masked_attention_i018/model.py
+latest_result_path: null
+notes: >-
+  Promoted from
+  ideas/research/packets/classic/i258_relation_masked_attention_i018.md.
+  Bespoke implementation lives at
+  src/chess_nn_playground/models/trunk/relation_masked_attention_i018.py
+  and is registered as `relation_masked_attention_i018`. The graft is
+  designed as a small additive side branch on the i018 trunk rather
+  than a full attention tower; the four neighborhood modes from the
+  packet's ablation grid are exposed as a single config flag. CRTK
+  metadata is reporting-only and never feeds the forward pass.
+source_research_path: ideas/research/packets/classic/i258_relation_masked_attention_i018.md
+mechanism_family: sheaf
+packet_profile: relation_masked_attention_i018

@@ -1,0 +1,102 @@
+idea_id: p051
+name: King-Zone Reply Pressure Primitive
+slug: king_zone_reply_pressure
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion queue)
+short_thesis: |
+  Board-local, side-to-move-asymmetric king-pressure primitive (KZRP).
+  Per side σ ∈ {us, them} compute weighted attacker / defender masks
+  on the defender's king ring and three forward-rank squares, the
+  pin-discounted "free" defender mass, three escape-class counts
+  (live, sealed, blocked), the king-square attack mass (a checker
+  proxy), and a log-bounded reply-capacity proxy. The 8-feature side
+  vector is concatenated to a 32-dim operator
+  ``[S_us, S_them, S_us - S_them, |S_us - S_them|]``, appended to the
+  i193 trunk joint pool, gated by a sigmoid head (initial bias -2.0 so
+  the i193 baseline is recovered at training start) and added as a
+  logit delta. Pin detection reuses the cumsum-based detector shared
+  with p049 / p050. Forward path is pure tensor algebra; no Python
+  loops at training time except the ``O(8)`` per-direction gather in
+  the pin detector.
+novelty_claim: |
+  Distinct from existing king-zone surrogates in the repo. i018's
+  ``king_ring_pressure`` and ``reply_pressure`` are reporting-only
+  diagnostics on the sheaf trunk, not gated additive heads with their
+  own pin-discounted defender mass and front-rank zone term. i192
+  ``latent_reply_entropy`` and p003 ``reply_channel_capacity`` are
+  generic reply-structure models without specialised king-zone
+  geometry, escape classification, or the side-to-move asymmetry
+  term. p050 ``defender_overload_triad`` measures defender-identity
+  reuse on enemy-occupied targets, *not* king-zone weighted attack
+  / defender / escape structure. KZRP packages five interpretable
+  king-safety terms (weighted zone pressure, fake-defense loss,
+  escape decomposition, current check severity, log reply-capacity
+  proxy) and exposes the explicit side-to-move asymmetry
+  ``S_us - S_them`` as a feature.
+expected_advantage: |
+  Targeted lift on slices that hinge on immediate king collapses and
+  near-king tactical pressure: ``mate_in_1``, near-puzzle matched-
+  recall false-positive rate, and the ``equal`` eval bucket. The
+  source spec's proposal-level targets are ``+0.020`` PR-AUC on
+  ``mate_in_1`` over i018 and ``-0.010`` near-puzzle FP rate at
+  recall 0.8 over i018. Applied here over the i193 baseline rather
+  than i018 (i193 already beats i018 on those slices), the realistic
+  acceptance bar is ``+0.005`` to ``+0.010`` PR-AUC on ``mate_in_1``
+  / near-puzzle rejection with at most ``-0.005`` overall PR-AUC
+  regression. These are proposed criteria, not observed results.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board ``simple_18`` ``(B, 18, 8, 8)`` tensor. The primitive
+  uses absolute (white-first, black-second) piece planes for the
+  attack / defense / pin construction and re-orients per side
+  internally so the operator is colour-agnostic from the model's
+  view. The side-to-move scalar plane 12 is the only non-piece
+  plane consulted. Castling / en-passant planes 13..17 are not
+  used by the operator. CRTK metadata, source labels, verification
+  flags, engine scores, and principal variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``kzrp_operator_mean / max / l2``, ``kzrp_asym_score``, and the
+  per-side ``kzrp_{us,them}_{zone_pressure, fake_defense_loss,
+  live_escapes, sealed_escapes, blocked_escapes, king_attack_mass,
+  front_attack_mass, reply_proxy, ring_free_defense,
+  net_pressure_mean, net_pressure_max}`` fields. The trunk's
+  i193 diagnostics are forwarded under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ``ExchangeThenKingDualStreamNetwork`` (unchanged). The
+  KZRP head builds its own ``geom_attacks (6, 2, 64, 64)``,
+  ``between (64, 64, 64)``, ``ring_mask (64, 64)``,
+  ``front_mask_w (64, 64)`` and ``front_mask_b (64, 64)`` rule-
+  derived buffers (zero parameters) and reuses the shared
+  ``ray_geometry`` index/mask tables for the cumsum pin detector.
+  The core zone-pressure / fake-defense / escape / reply computation
+  is closed-form tensor algebra. Adds ~30 learnable parameters at
+  defaults plus the standard ~4k delta / gate head parameters.
+  Per-step cost is dominated by an ``(B, 64, 64)`` attacker-source
+  einsum gated by an ``(B, 64, 64)`` between mask -- same shape as
+  p050.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p051_king_zone_reply_pressure/train.py
+config_path: ideas/registry/p051_king_zone_reply_pressure/config.yaml
+model_path: ideas/registry/p051_king_zone_reply_pressure/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_46_king_zone_reply_pressure_primitive.md.
+  The research markdown uses the internal name ``p045``; the registry
+  slot was reassigned to ``p051`` because ``p045`` was already taken
+  by ``kirchhoff_mobility_solve``. Phase-1 of the spec ("standalone
+  KZRP head, additive on a strong baseline") is what is implemented
+  here, but the i193 trunk plays the role of the strong baseline
+  rather than i018. Phase-2 (raw KZRP vector terms appended to i018
+  ``TacticalReadout``) and phase-3 (BT4 plane augmentation /
+  mixer-native variant) are deferred.
+source_primitive_path: ideas/research/primitives/external_46_king_zone_reply_pressure_primitive.md
+source_primitive_candidate: King-Zone Reply Pressure Primitive
+source_packet_path: ideas/research/primitives/external_46_king_zone_reply_pressure_primitive.md
+source_packet_candidate: King-Zone Reply Pressure Primitive
+mechanism_family: king_safety

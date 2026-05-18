@@ -1,0 +1,107 @@
+idea_id: i255
+name: i018 BT4 Distillation Student
+slug: i018_bt4_distillation_student
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion)
+short_thesis: |
+  Plain BT4-style residual conv tower that stays dense-convolutional
+  at inference time but is trained with richer-than-logits supervision
+  from i018: calibrated teacher logits, six scalar tactical
+  diagnostics, the typed 12-d relation-density vector, and eight
+  compact 8x8 relation-summary planes. Mover-oriented canonicalization
+  is bolted in front of the BT4 stem to inherit i018's cheap symmetry.
+  The student preserves BT4's CPU-friendly deployment shape and tests
+  whether explanation-style supervision can recover most of i018's
+  decision quality at roughly BT4 latency.
+novelty_claim: |
+  Bespoke i255 conv student that is NOT a fast i018 rewrite. Trunk is
+  a plain BT4 residual conv tower (3x3 conv stem + N residual 3x3 conv
+  blocks + Squeeze-Excite + global value head). Two cheap training-time
+  auxiliary heads (scalar diagnostic head over the pooled summary
+  vector, 8-channel 1x1 plane head over the final 8x8 feature map) and
+  one optional readout projector turn the BT4 backbone into a target
+  for i018 distillation. The student does NOT compute typed chess
+  relations at inference time; the diagnostic and plane heads predict
+  the teacher's chess geometry without reproducing it. CRTK metadata
+  is reporting-only and never enters the student's input.
+expected_advantage: |
+  Recover most of i018's puzzle-binary decision quality at BT4-class
+  CPU latency. The research markdown's promotion gate is:
+
+    * `base` student: PR-AUC >= 0.875, near-puzzle FP @ recall 0.80
+      <= 0.16, puzzle recall >= 0.80, batch-1 CPU latency <= 1.2 ms.
+    * `scale_up` student: PR-AUC >= 0.880, near-puzzle FP @ recall
+      0.80 <= 0.155, puzzle recall >= 0.80, batch-1 CPU latency
+      <= 1.6 ms.
+
+  Decision discipline: ship only if the student narrows the i018
+  teacher gap without collapsing on the equal / hard / very_hard /
+  mate_in_1 / promotion / underpromotion slices that the repo already
+  flags as i018 stress points.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle). Same input contract as i018 and BT4.
+input_representation: |
+  Board-only tensor. Default simple_18 (18, 8, 8). lc0_bt4_112
+  (112, 8, 8) is supported as a compatibility variant via
+  data.encoding=lc0_bt4_112, model.input_channels=112. CRTK metadata,
+  source labels, verification flags, engine evaluations, Stockfish
+  scores, and principal variations are not consumed by the student at
+  any point.
+output_heads: |
+  Always present:
+    * `logits` (puzzle binary logit; this is the only head needed at
+      inference time).
+    * `pooled_features` (the BT4 value-neck pre-head feature vector;
+      exposed so the distillation loss can match teacher features
+      without bolting a separate hook into the model).
+
+  Always present unless explicitly disabled in config:
+    * `diagnostic_logits` (18-d: six scalar i018 diagnostics +
+      12-d typed relation density).
+    * `summary_plane_logits` ((B, 8, 8, 8) compressed projection of
+      teacher relation masks).
+
+  Optional:
+    * `readout_features` (compact pooled feature vector matched to the
+      teacher readout via a hint loss when readout_dim > 0).
+compute_notes: |
+  Backbone: i018's BoardStateAdapter canonicalization wrapped as a
+  fixed `MoverCanonicalize` preprocessing layer (no learned params for
+  the simple_18 / lc0_static_112 paths; pass-through for lc0_bt4_112).
+  Stem: one 3x3 conv input_channels -> channels. Trunk: num_blocks
+  residual 3x3 conv + SE blocks. Value neck: 1x1 conv to
+  value_channels, flatten, Linear to value_hidden. Heads: one Linear
+  to logits, one MLP to 18-d diagnostics, one 1x1 conv to 8 summary
+  planes, optional Linear to readout_dim. Default base scale
+  (channels=64, num_blocks=4, simple_18, value_channels=16,
+  value_hidden=128) lands at 453,159 parameters; scale_up
+  (channels=96, num_blocks=6) lands at ~1.18M.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i255_i018_bt4_distillation_student/train.py
+config_path: ideas/registry/i255_i018_bt4_distillation_student/config.yaml
+model_path: ideas/registry/i255_i018_bt4_distillation_student/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/packets/classic/i255_i018_bt4_distillation_student.md.
+  Bespoke i255 BT4 conv student with mover canonicalization and three
+  training-time distillation heads (scalar diagnostic, summary plane,
+  optional readout projector). At inference only `logits` is needed;
+  the auxiliary heads are tiny additions to the BT4 backbone. CRTK
+  metadata is reporting-only and never used as model input. Default
+  `config.yaml` is the recommended `base` student row from the
+  research markdown (simple_18, channels=64, num_blocks=4); switch
+  `model.channels=96, model.num_blocks=6` for the `scale_up` row, and
+  flip `data.encoding=lc0_bt4_112, model.input_channels=112` for the
+  benchmark-comparability variant. The distillation loss and teacher
+  target cache are NOT bundled in this packet; the model is trainable
+  on plain BCE today and the distillation hooks (diagnostic /
+  summary plane / readout heads) emit predictions that the trainer
+  picks up automatically once teacher targets are wired into the
+  loss path.
+source_packet_path: ideas/research/packets/classic/i255_i018_bt4_distillation_student.md
+source_packet_candidate: Fast Distilled Conv Student for Puzzle Classification
+mechanism_family: distillation
+packet_profile: i018_bt4_distillation_student

@@ -1,0 +1,66 @@
+idea_id: i251
+name: Candidate Move Forcedness Sheaf
+slug: candidate_move_forcedness_sheaf
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude
+short_thesis: >-
+  Wrap i018's static oriented tactical sheaf with a small, deterministic
+  candidate-move bottleneck that explicitly asks whether one move's local
+  structural evidence sharply dominates the alternatives. The trunk emits the
+  i018 base logit and per-square states; a bounded set of pseudo-legal moves
+  is enumerated, scored by source/target sheaf states plus chess flags, and
+  pooled with a top-k softmax. A gated additive delta head augments the base
+  logit so the move branch can only help, not hurt, the i018 baseline.
+novelty_claim: >-
+  Promoted from
+  `ideas/research/packets/classic/i251_candidate_move_forcedness_sheaf.md`.
+  Adds a deterministic, board-only `CandidateMoveBuilder`, a small
+  `MoveLocalSheafSummary` reading i018's per-relation in/out degrees at the
+  squares touched by each move, a shared `CandidateMoveEncoder` with a top-k
+  softmax pool, and a single gated additive delta head. The delta + gate
+  output layers are zero-initialized so the model is numerically equivalent
+  to i018 at init.
+expected_advantage: >-
+  Same `puzzle_binary` contract and same parent topology as i018, but with an
+  explicit move bottleneck that targets i018's weakest slices (matched-recall
+  near-puzzle false positives at recall 0.80 / 0.85, `mate_in_1`,
+  promotion / underpromotion). Adds ~25k parameters at base scale over
+  i018's ~91k; runtime overhead is O(B*K) for K <= 96.
+target_task: >-
+  puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle. Identical contract to i018.
+input_representation: >-
+  Current-board simple_18 tensor only. CRTK and source metadata are
+  reporting-only and never used as model input. Identical to i018.
+output_heads: >-
+  One puzzle logit (`base + gate * delta`) plus the i018 diagnostic bundle
+  and 12 new candidate-move diagnostics (`candidate_base_logits`,
+  `candidate_delta_logits`, `candidate_gate`, `candidate_entropy`,
+  `candidate_top1_mass`, `candidate_gap`, `candidate_check_mass`,
+  `candidate_promotion_mass`, `candidate_underpromotion_mass`,
+  `candidate_pin_mass`, `candidate_capture_mass`, `candidate_king_zone_mass`,
+  `candidate_overflow_count`, `candidate_count`).
+compute_notes: >-
+  Subclasses i018's `OrientedTacticalSheafNet`. The new
+  `CandidateMoveBuilder` reuses i018's canonical mover-oriented piece state
+  plus the precomputed knight / king / rook / bishop geometry and `between`
+  buffers; sliding visibility falls out of the same blocker product i018
+  uses. The move pool is bounded by `max_candidates` (default 96) and
+  pooled by `top_k` (default 8) so per-batch cost is O(B*K) and the trunk
+  cost is unchanged. The gated delta head and gate head are
+  zero-initialized so the network's forward at init is numerically i018.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i251_candidate_move_forcedness_sheaf/train.py
+config_path: ideas/registry/i251_candidate_move_forcedness_sheaf/config.yaml
+model_path: ideas/registry/i251_candidate_move_forcedness_sheaf/model.py
+latest_result_path: null
+notes: >-
+  Implemented as the registered `candidate_move_forcedness_sheaf` model in
+  `src/chess_nn_playground/models/trunk/candidate_move_forcedness_sheaf.py`,
+  which subclasses i018's `OrientedTacticalSheafNet` and adds a deterministic
+  candidate-move bottleneck plus a gated additive delta head. Zero-init
+  delta+gate exactly reproduces i018 logits on shared weights
+  (max abs diff `0.0` on a 4-sample CPU batch); training is needed before
+  the move branch deviates from the i018 baseline.
+implementation_kind: bespoke_model

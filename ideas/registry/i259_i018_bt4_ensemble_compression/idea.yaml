@@ -1,0 +1,70 @@
+idea_id: i259
+name: i018 + BT4 Ensemble Compression
+slug: i018_bt4_ensemble_compression
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude
+short_thesis: >-
+  Promotes ideas/research/packets/classic/i259_i018_bt4_ensemble_compression.md.
+  Deployment artifact is a BT4-shaped conv student over simple_18; the
+  research-time forward optionally co-evaluates frozen i018 + frozen BT4
+  teachers so that ensemble logits, disagreement, and entropy can be cached
+  for distillation. Student-only inference matches BT4 latency.
+novelty_claim: >-
+  First registered idea in this repo that wires the i018 teacher and a
+  BT4 conv teacher into a single distillable network with a single shipping
+  student. Teachers are frozen and the student loss runs through the
+  shared puzzle_binary BCE-with-logits trainer; KD/diagnostic-hint losses
+  are computed offline from the surfaced teacher logits and diagnostic_hint_*
+  scalars, matching the packet's Phase A through D plan.
+expected_advantage: >-
+  Recovers most of the matched-recall near-puzzle FP gains of the
+  ensemble while staying within roughly BT4 batch-1 CPU latency.
+  Promotion rule: distilled student must improve matched-recall
+  near-puzzle FP at recall 0.80 / 0.85 without regressing aggregate
+  PR-AUC or calibration after post-hoc temperature scaling.
+target_task: >-
+  puzzle_binary classification. Fine label 2 maps to puzzle; fine labels
+  0 and 1 map to non-puzzle (label 1 = near-puzzle, the deployment pain
+  point this idea targets).
+input_representation: >-
+  simple_18 current-board tensor only. CRTK metadata, source labels,
+  verification flags, engine evaluations, Stockfish scores, and any
+  reporting-only audit columns are never consumed by the model.
+output_heads: >-
+  One puzzle logit (logits / student_logit). Diagnostics surfaced for
+  audits and offline distillation cache generation: student_probability,
+  diagnostic_hint_<sheaf_tension|triad_defect_energy|king_ring_pressure|
+  reply_pressure|defense_gap|pin_pressure>, and (when teacher_mode != off)
+  teacher_i018_logit, teacher_bt4_logit, teacher_ensemble_logit,
+  teacher_disagreement, teacher_entropy, teacher_alpha,
+  teacher_i018_<diagnostic_keys>.
+compute_notes: >-
+  Student is a BT4-shaped residual conv tower (stem + N residual SE blocks
+  + value head) plus a small set of auxiliary scalar hint heads pooled
+  from the trunk output. With teacher_mode=off the model is approximately
+  BT4-class latency. With teacher_mode=research or frozen the forward also
+  runs a frozen i018 sheaf trunk and a frozen BT4 trunk under torch.no_grad
+  so teacher caches can be generated end-to-end without contaminating the
+  student's gradient.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i259_i018_bt4_ensemble_compression/train.py
+config_path: ideas/registry/i259_i018_bt4_ensemble_compression/config.yaml
+model_path: ideas/registry/i259_i018_bt4_ensemble_compression/model.py
+latest_result_path: null
+notes: >-
+  Bespoke ensemble-compression network registered as
+  i018_bt4_ensemble_compression. Source implementation lives in
+  src/chess_nn_playground/models/architecture/i018_bt4_ensemble_compression.py;
+  the idea-local model.py is a thin wrapper around the registered builder.
+  Source research packet remains at
+  ideas/research/packets/classic/i259_i018_bt4_ensemble_compression.md
+  and is referenced by the idea-local math_thesis.md / architecture.md.
+  Teacher checkpoints are loaded at distillation time; the registered
+  builder defaults to teacher_mode=off so the shared trainer and the
+  pytest smoke tests get a clean student-only network.
+source_packet_path: ideas/research/packets/classic/i259_i018_bt4_ensemble_compression.md
+source_packet_candidate: i018 + BT4 Ensemble Compression
+mechanism_family: ensemble_compression
+packet_profile: i018_bt4_ensemble_compression

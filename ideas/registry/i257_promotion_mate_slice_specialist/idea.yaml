@@ -1,0 +1,83 @@
+idea_id: i257
+name: Promotion Mate Slice Specialist
+slug: promotion_mate_slice_specialist
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (research promotion)
+short_thesis: >-
+  Improve the three persistently weak benchmark slices (promotion,
+  underpromotion, mate_in_1) by keeping a board-only parent trunk intact and
+  adding four bounded gated logit deltas: a promotion fanout over
+  {Q, R, B, N}, an underpromotion divergence head that scores non-queen vs
+  queen margins, a king-zone forcing-witness head, and a tiny promotion-mate
+  joint overlap branch. The final logit is base + sum_k gate_k * delta_k with
+  Delta-bounded deltas and structural masks that zero each branch when its
+  prerequisites do not hold.
+novelty_claim: >-
+  First registered architecture in this repo that exposes a compact
+  promotion-fanout-lite over the four legal promotion piece identities, a
+  separate underpromotion-margin head built on the same per-candidate
+  descriptors, and a board-derived king-zone forcing-witness head, all gated
+  by a sparse mixer with structural masks and bounded tanh deltas. No CRTK
+  metadata, source labels, PVs, or engine evaluations are consumed; the
+  promotion candidate set is derived deterministically from simple_18 (own
+  pawns on the 6th/7th rank for the side to move) and the mate witness
+  scalars come from the deterministic DualStreamFeatureBuilder reused from
+  i193.
+expected_advantage: >-
+  Lifts on the promotion, underpromotion, and mate_in_1 slices over the i193
+  parent on the canonical tagged split without giving back overall PR-AUC or
+  near-puzzle false-positive rate at matched recall 0.80 / 0.85. Promotion
+  criterion is matched-recall slice lift with branch-local falsifiers
+  (copy_baseline_fanout, uniform_type_attention, zero_under_margin,
+  no_mate_witness, no_joint_branch) each losing most of the gain for the
+  branch they remove.
+target_task: >-
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: >-
+  Current-board simple_18 tensor only. Promotion candidates and mate witness
+  scalars are derived deterministically (tensor-only, no python-chess
+  fallback) from simple_18 via the DualStreamFeatureBuilder reused from i193
+  plus a small per-row pawn gather. CRTK metadata, source labels,
+  verification flags, PVs, and engine evaluations are reporting-only and
+  never used as model input.
+output_heads: >-
+  One puzzle logit (final = base_logit + sum_k gate_k * delta_k for k in
+  {promotion, underpromotion, mate, joint}). Per-sample diagnostics include
+  base_logit, promotion/under/mate/joint delta and gate, promotion candidate
+  count, promotion_best_type, promotion_type_entropy, underpromotion_margin,
+  mate_witness_count, escape_square_count, checking_move_count,
+  king_pressure, mating_special_count, and a trunk mechanism_energy scalar.
+compute_notes: >-
+  Trunk: small conv encoder (default channels=32, depth=2) over the simple_18
+  board concatenated with the deterministic exchange and king feature stacks
+  from i193. Heads: candidate gather over at most 4 near-promotion pawns,
+  per-(candidate, type) MLP with type embeddings and per-type attack-delta
+  masks; underpromotion-margin scoring on the same per-type scores; pooled
+  mate witness MLP over enemy-king and enemy-zone trunk pools plus 6
+  deterministic king-scalar features; tiny joint MLP combining the three
+  summaries. Bounded tanh deltas (delta_bound=1.5, joint_delta_bound=0.75)
+  with sigmoid gates and structural masks; the gate is zeroed when its
+  prerequisites do not hold. Default scale targets the research packet's
+  first-deployment C1 envelope.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i257_promotion_mate_slice_specialist/train.py
+config_path: ideas/registry/i257_promotion_mate_slice_specialist/config.yaml
+model_path: ideas/registry/i257_promotion_mate_slice_specialist/model.py
+latest_result_path: null
+notes: >-
+  Promoted from ideas/research/packets/classic/i257_promotion_mate_slice_specialist.md.
+  Bespoke implementation lives at
+  src/chess_nn_playground/models/trunk/promotion_mate_slice_specialist.py and
+  is registered as `promotion_mate_slice_specialist`. CRTK metadata is
+  reporting-only and never feeds the forward pass. The candidate set,
+  promotion fanout, underpromotion margin, mate witness scalars, and joint
+  overlap branch are all derived from the simple_18 board through the
+  deterministic DualStreamFeatureBuilder from i193 — no python-chess fallback
+  and no engine search. The research packet's recommended
+  OrientedTacticalSheafFast (i249) trunk variant is deferred and tracked in
+  implementation_notes.md as a planned follow-up.
+source_research_path: ideas/research/packets/classic/i257_promotion_mate_slice_specialist.md
+mechanism_family: promotion_mate

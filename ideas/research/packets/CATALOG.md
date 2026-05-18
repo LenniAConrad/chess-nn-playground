@@ -28,13 +28,13 @@ This generated catalog is the fast index for `ideas/research/packets/classic/`. 
 | [i250 Learned Relation Confidence Sheaf](classic/i250_learned_relation_confidence_sheaf.md) | `backlog packet` | `sheaf` | - |
 | [Candidate Move Forcedness Sheaf](classic/i251_candidate_move_forcedness_sheaf.md) | `backlog packet` | `sheaf` | - |
 | [i252_pin_xray_overload_sheaf.md](classic/i252_pin_xray_overload_sheaf.md) | `backlog packet` | `sheaf` | - |
-| [i253_i018_bt4_112_controlled_encoding.md](classic/i253_i018_bt4_112_controlled_encoding.md) | `backlog packet` | - | - |
-| [i254_efficient_i018_scale_xxl.md](classic/i254_efficient_i018_scale_xxl.md) | `backlog packet` | - | - |
-| [Fast Distilled Conv Student for Puzzle Classification](classic/i255_i018_bt4_distillation_student.md) | `backlog packet` | - | - |
+| [i018 BT4-112 Controlled Encoding](classic/i253_i018_bt4_112_controlled_encoding.md) | `backlog packet` | - | - |
+| [Efficient i018 Scale-XXL](classic/i254_efficient_i018_scale_xxl.md) | `backlog packet` | - | - |
+| [I018 Bt4 Distillation Student](classic/i255_i018_bt4_distillation_student.md) | `backlog packet` | - | - |
 | [i256 Near Puzzle Rejection Specialist](classic/i256_near_puzzle_rejection_specialist.md) | `backlog packet` | `puzzle-binary` | The architecture should be optimized for **rejecting verified near-puzzles at fixed verified-puzzle recall**, not for maximizing overall PR-AUC in isolation. In this r... |
 | [i257 Promotion Mate Slice Specialist](classic/i257_promotion_mate_slice_specialist.md) | `backlog packet` | `sheaf` | The highest-value design for this repo is **not** a new monolithic trunk. It is an **i018-family sheaf trunk with small, falsifiable specialist side heads** for three... |
 | [i258_relation_masked_attention_i018.md](classic/i258_relation_masked_attention_i018.md) | `backlog packet` | - | The right next attention experiment is **not** another generic square-token transformer. It is a **small, relation-masked attention graft inside i018**, using i018’s e... |
-| [i259_i018_bt4_ensemble_compression.md](classic/i259_i018_bt4_ensemble_compression.md) | `backlog packet` | - | - |
+| [i018 + BT4 Ensemble Compression](classic/i259_i018_bt4_ensemble_compression.md) | `backlog packet` | - | - |
 
 ### 2026-05-05
 

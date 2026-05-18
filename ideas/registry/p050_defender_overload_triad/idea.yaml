@@ -1,0 +1,96 @@
+idea_id: p050
+name: Defender Overload Triad Primitive
+slug: defender_overload_triad
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion queue)
+short_thesis: |
+  Square-centric defender-overload primitive (DOT). Per side
+  σ ∈ {us, them} compute attacker / defender masks
+  ``Aσ, Dσ ∈ {0,1}^(B×N×N)`` from the rule-derived attack tables,
+  restrict to enemy-occupied targets, weight each target by a small
+  criticality MLP cσ(t) over (a, d, p, a_val, d_val, m_att, m_def,
+  v_tar), and exploit the identity
+  ``L_d^2 - Σ_t O_dt^2 = Σ_{t≠u} O_dt O_du`` to read off the
+  *defender-identity reuse* mass without ever materialising the
+  attacker × target × defender triple. Pins are first-class via a
+  cumsum-based pin detector on the i193 ray geometry. The 20-dim
+  operator vector ``[S_us, S_them, S_us-S_them, |S_us-S_them|]`` is
+  fused with the i193 trunk joint pool, gated with a sigmoid head
+  (initial bias -2.0 so the i193 baseline is recovered at training
+  start), and added as a logit delta. Runs in ``O(BN^2)`` per side.
+novelty_claim: |
+  Distinct from the legacy ``TriadDefectPool`` (which forms a single
+  attacker × defender × target pool of 4 outputs, weighted by
+  ``attack * defense * target_piece`` without ever measuring same-
+  defender reuse across targets) and from existing overload-adjacent
+  models (p016 ray semiring χ-head, i105 counterfactual defender
+  dropout, p045 Kirchhoff mobility) which either scramble defender
+  identity or test it at move-execution time. The novelty is exactly
+  the algebraic identity exploited here: the cross-target sum
+  ``Σ_{t≠u} O_dt O_du`` measures simultaneous obligation reuse in
+  ``O(BN^2)`` without enumerating triples.
+expected_advantage: |
+  Targeted lift on slices that hinge on overloaded defenders, pinned
+  defenders, and unstable attacker / target / defender triples:
+  ``overload``, ``pin``, ``deflection``, and king-net positions where
+  multiple critical squares compete for the same defender. Following
+  the source spec's hybrid-graft baseline, the realistic acceptance
+  bar is ``+0.004`` to ``+0.008`` PR-AUC as a complement to the i193
+  trunk; replacement-only performance is expected flatter. These are
+  proposed criteria, not observed results.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board ``simple_18`` tensor. The primitive re-orients piece
+  planes per side-to-move inside the forward (so a white-to-move
+  overload position and the same colour-flipped black-to-move position
+  produce identical channel mass). Plane 12 (side-to-move) is the only
+  non-piece plane consumed. Castling / en-passant planes 13..17 are
+  not used by the operator. CRTK metadata, source labels, verification
+  flags, engine scores, and principal variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``overload_operator_mean``, ``overload_operator_max``,
+  ``overload_operator_l2``, ``overload_{us,them}_{mean,peak}``,
+  ``overload_pinned_share_{us,them}``,
+  ``overload_defender_burden_{us,them}``, and
+  ``overload_criticality_{us,them}``. The trunk's i193 diagnostics
+  are forwarded under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The DOT
+  head builds its own ``geom_attacks (6, 2, 64, 64)`` and
+  ``between (64, 64, 64)`` rule-derived buffers (zero parameters) and
+  reuses the shared ``ray_geometry`` ``(8, 64, 7)`` index/mask tables
+  for the cumsum pin detector. The core overload computation is
+  closed-form tensor algebra -- no Python loops at training time.
+  Adds ~3k learnable parameters at defaults (target-gate MLP,
+  piece-value field, pin discount / amplification, delta head, gate
+  head). No ``(B, N, N, N)`` triple tensors are materialised.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p050_defender_overload_triad/train.py
+config_path: ideas/registry/p050_defender_overload_triad/config.yaml
+model_path: ideas/registry/p050_defender_overload_triad/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_45_defender_overload_triad_primitive.md.
+  The research markdown uses the internal name ``p044``; the registry
+  slot was reassigned to ``p050`` because ``p044`` was already taken
+  by ``weighted_hodge_projector``. A later promotion queue requested
+  the slot ``p054`` for the same source markdown; that slot is
+  intentionally not used because ``p050`` is already the canonical
+  promotion of this primitive (model + config + idea-local wrapper +
+  registry manifest entry + focused tests). Treat ``p054`` as a
+  withdrawn alias of ``p050`` for this source markdown. Phase-1 of the
+  spec ("standalone overload head, additive on a strong baseline") is
+  what is implemented here, but the i193 trunk plays the role of the
+  strong baseline rather than i018. Phase-3 native i018 relation
+  integration is deferred.
+source_primitive_path: ideas/research/primitives/external_45_defender_overload_triad_primitive.md
+source_primitive_candidate: Defender Overload Triad Primitive
+source_packet_path: ideas/research/primitives/external_45_defender_overload_triad_primitive.md
+source_packet_candidate: Defender Overload Triad Primitive
+mechanism_family: defender_load

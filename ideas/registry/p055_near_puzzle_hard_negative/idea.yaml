@@ -1,0 +1,82 @@
+idea_id: p055
+name: Near-Puzzle Hard-Negative Veto Primitive
+slug: near_puzzle_hard_negative
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research-8 primitive batch)
+short_thesis: |
+  Near-Puzzle Hard-Negative Veto. Operationalize "verified force minus
+  safe-reply mass" as a compact board-only diagnostic vector
+
+      z(x) = [FG*, FG(m*), Disc(m*), Conc, Gap12, Avail, RCI,
+              dBal, KEP, DOA, Counter]
+
+  computed from learned candidate/reply token pools over the i193
+  ExchangeThenKingDualStreamNetwork trunk's spatial features. The veto
+  head emits a softplus pressure ``veto(x)`` and contributes a
+  *negative* additive logit delta gated by a learned sigmoid, so high
+  veto pressure lowers the puzzle logit on near-puzzle-like positions.
+novelty_claim: |
+  Unlike generic tactical primitives, this head is explicitly
+  rejection-oriented: surface and verified candidate scores are
+  computed in parallel and their gap (``Disc``) is one of the
+  load-bearing z entries; reply mass uses a soft-existential
+  ``logsumexp`` and a soft safe-count; the reply-channel information
+  proxy (``RCI``) measures candidate/reply MI. The head is registered
+  as ``near_puzzle_hard_negative`` and instantiated as a small additive
+  side branch initialized near-closed.
+expected_advantage: |
+  The source primitive predicts a 3-5% relative reduction in class-1
+  near-puzzle FP rate at recall 0.80 and 0.85 with no more than a
+  small PR-AUC regression and no equal / hard / promotion slice
+  collapse. Target slice: "tempting forcing move with a refuting safe
+  reply" near-puzzles.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. Candidate and defender-reply tokens
+  are compiled in-network as BoardTokenAttention query pools over the
+  i193 spatial features. CRTK metadata, source labels, verification
+  flags, engine evaluations, and principal variations are *not*
+  consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``nphn_veto_pressure``, ``nphn_forcedness_gap``,
+  ``nphn_forcedness_at_mstar``, ``nphn_legality_discount``,
+  ``nphn_candidate_concentration``, ``nphn_candidate_gap``,
+  ``nphn_reply_availability``, ``nphn_reply_channel_information``,
+  ``nphn_attack_defense_balance``, ``nphn_king_escape_pressure``,
+  ``nphn_defender_overload_asymmetry``, ``nphn_counterpressure``. The
+  trunk's i193 diagnostics are forwarded under the ``trunk_<name>``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The head
+  adds two BoardTokenAttention pools (candidates / replies), a small
+  bilinear neutralization head, and two MLPs (veto and gate). The 11-d
+  diagnostic vector reduces by axis-aligned operations, so the per-
+  step overhead is small compared to the trunk. Head adds ~30k-60k
+  parameters at defaults (num_candidates=24, num_replies=24,
+  token_dim=32, head_hidden_dim=64).
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p055_near_puzzle_hard_negative/train.py
+config_path: ideas/registry/p055_near_puzzle_hard_negative/config.yaml
+model_path: ideas/registry/p055_near_puzzle_hard_negative/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_50_near_puzzle_hard_negative_primitive.md.
+  The forward path realizes a *board-only* proxy of the math thesis:
+  candidate/reply enumeration is replaced by learned query-token
+  attention so the head is differentiable, GPU-friendly, and consumes
+  no metadata. python-chess move generation is deferred to a possible
+  future "verified candidate compiler" upgrade once the diagnostic
+  direction is validated. Mining of near-puzzle hard negatives at the
+  sampler level is intentionally out of scope for this scaffold;
+  it would land in the trainer, not the primitive itself.
+source_primitive_path: ideas/research/primitives/external_50_near_puzzle_hard_negative_primitive.md
+source_primitive_candidate: Near-Puzzle Hard-Negative Veto
+source_packet_path: ideas/research/primitives/external_50_near_puzzle_hard_negative_primitive.md
+source_packet_candidate: Near-Puzzle Hard-Negative Veto
+mechanism_family: rejection_veto

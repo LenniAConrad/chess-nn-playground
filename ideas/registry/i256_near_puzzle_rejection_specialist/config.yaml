@@ -1,0 +1,60 @@
+idea_id: i256
+run:
+  name: i256_near_puzzle_rejection_specialist_simple18
+  output_dir: results
+seed: 42
+deterministic: true
+mode: puzzle_binary
+device: nvidia
+data:
+  train_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_train.parquet
+  val_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_val.parquet
+  test_path: data/splits/crtk_sample_3class_unique_crtk_tags/split_test.parquet
+  encoding: simple_18
+  cache_features: false
+model:
+  name: near_puzzle_rejection_specialist
+  input_channels: 18
+  num_classes: 1
+  channels: 32
+  hidden_dim: 64
+  depth: 2
+  per_square_hidden: 48
+  head_hidden_dim: 48
+  dropout: 0.1
+  use_batchnorm: true
+  ablation: none
+  mechanism_family: king_path
+  packet_profile: near_puzzle_rejection_specialist
+training:
+  epochs: 20
+  batch_size: 256
+  num_workers: auto
+  persistent_workers: true
+  prefetch_factor: 2
+  learning_rate: 0.0007
+  weight_decay: 0.0001
+  class_weighting: balanced
+  loss: bce_with_logits
+  early_stopping_patience: 5
+  mixed_precision: true
+  allow_tf32: true
+  matmul_precision: high
+  reliability_tier: paper_grade
+  min_epochs: 10
+  min_active_epochs: 10
+  gradient_clip_norm: 1.0
+  lr_scheduler:
+    name: reduce_on_plateau
+    factor: 0.5
+    patience: 2
+    min_lr: 1.0e-05
+notes: |
+  i256 Near Puzzle Rejection Specialist — board-only forcedness-gap rejector
+  on a compact conv trunk. Final logit is raw_claim - softplus(veto). CRTK
+  metadata, source labels, PVs, and engine evaluations are reporting-only
+  and never used as model input. The auxiliary L_gap_rank / L_veto losses
+  from the research packet are deferred to a future trainer extension; the
+  current run uses the shared BCE-with-logits objective on the puzzle logit
+  so the implementation plugs into the standard trainer without breaking
+  unrelated runs.

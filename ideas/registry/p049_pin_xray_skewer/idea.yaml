@@ -1,0 +1,82 @@
+idea_id: p049
+name: Pin / X-ray / Skewer Primitive
+slug: pin_xray_skewer
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion queue)
+short_thesis: |
+  Tensorised ordered-blocker primitive (PXS). Along each of the 8
+  queen-style ray directions, identify the first and second occupied
+  squares from every source square via ``cumsum`` over the existing
+  ``ray_geometry`` table. From those, read off six typed event masses
+  per source square: one-blocker x-ray pressure, absolute pin, relative
+  pin, discovered-attack candidate, skewer (front-target value greater
+  than back-target value), and a pinned-defender proxy that weights the
+  pin event by the value of the pinned piece itself. Direction-sum to
+  per-square channels, pool to a 12-dim summary, fuse with the i193
+  trunk joint pool feature, and project to a scalar additive gated
+  logit delta. The primitive runs entirely in fused tensor ops -- no
+  Python loops over rays, sources, or step lengths at train time.
+novelty_claim: |
+  Distinct from p020 (single-channel blocker-reset SSM with a Python
+  step loop), p021 (ray semiring scan), p022/p023 (event-delta
+  bilinear accumulators), and p034 (octilinear selective scan). The
+  novelty is typed event masses keyed on the *ordered* first/second
+  occupant identity and piece-type value -- not a generic ray
+  activation. The recipe is exactly the source spec's "ordered blocker
+  facts as a fused tensor primitive". It is *not* a BT4 mixer and it
+  does not rebuild i018's full incidence tensor.
+expected_advantage: |
+  Targeted lift on slices that depend on long-range slider geometry
+  with one-blocker latent threats: ``pin``, ``skewer``,
+  ``discovered_attack``, and (via the pinned-defender channel)
+  ``overload``. The spec's proposed acceptance bar is +0.01 PR-AUC on
+  at least one of {pin, skewer, discovered_attack} with no aggregate
+  regression worse than -0.005 PR-AUC. These are proposed criteria,
+  not observed results.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board ``simple_18`` tensor. Side-to-move-canonical
+  piece-plane reorientation is done inside the primitive: channels
+  0-5 = our pieces, 6-11 = opponent's. Occupancy is the clamped sum
+  of the 12 piece-presence planes. CRTK metadata, source labels,
+  verification flags, engine scores, and principal variations are
+  *not* consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_gate``, ``primitive_contribution``,
+  ``pxs_event_total_mean``, and per-event mean/max scalars
+  ``pxs_xray1_*``, ``pxs_abs_pin_*``, ``pxs_rel_pin_*``,
+  ``pxs_discovered_*``, ``pxs_skewer_*``, ``pxs_pinned_defender_*``.
+  The trunk's i193 diagnostics are forwarded under the ``trunk_<name>``
+  prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The PXS
+  head reuses the shared ``ray_geometry`` ``(8, 64, 7)`` index/mask
+  buffers and adds: per-direction slider activation, a ``cumsum`` to
+  derive first/second occupant masks, a per-piece-type target-value
+  field (6-dim ``softmax``-bounded learnable), six learnable per-event
+  sigmoid scales, a two-layer delta MLP, and a two-layer gate MLP. No
+  per-ray Python loops at training time. Head adds ~12k parameters at
+  defaults; the geometry tensors carry zero parameters.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p049_pin_xray_skewer/train.py
+config_path: ideas/registry/p049_pin_xray_skewer/config.yaml
+model_path: ideas/registry/p049_pin_xray_skewer/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_44_pin_xray_skewer_primitive.md.
+  The research markdown uses the internal name ``p043``; the registry
+  slot was reassigned to ``p049`` because ``p043`` was already taken
+  by ``grassmann_rook_pool``. Phase-1 of the spec ("standalone head +
+  i018 hybrid") is what is implemented here, but the i193 trunk plays
+  the role of the strong baseline. Phase-3 native i018 relation
+  integration is deferred.
+source_primitive_path: ideas/research/primitives/external_44_pin_xray_skewer_primitive.md
+source_primitive_candidate: Pin / X-ray / Skewer Primitive
+source_packet_path: ideas/research/primitives/external_44_pin_xray_skewer_primitive.md
+source_packet_candidate: Pin / X-ray / Skewer Primitive
+mechanism_family: king_path

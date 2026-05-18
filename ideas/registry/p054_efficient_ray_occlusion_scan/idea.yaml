@@ -1,0 +1,95 @@
+idea_id: p054
+name: Efficient Ray Occlusion Scan
+slug: efficient_ray_occlusion_scan
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research-7 primitive batch)
+short_thesis: |
+  Compact tensorized ray-occlusion scan that operates over the legal
+  queen-direction ray representation (``RayGeometry``: 8 dirs * 64
+  squares * 7 steps = 3584 padded slots / 1456 valid cells) rather than
+  the dense ``(B, 64, 64, 64)`` source-target-between cube. The forward
+  path is a single ``gather + cumsum + equality + masked reduction`` -
+  no Python loop over directions or steps. The compact tensor preserves
+  first-blocker and second-blocker identity / value, so x-rays, pin
+  candidates, and discovered-attack candidates fall out as cheap
+  reductions on the same scan output.
+novelty_claim: |
+  None of the existing repo primitives expose first and second blocker
+  identity as a single fused scan output:
+
+  - p007 ``attack_ray_sparse_attention`` keeps only first blockers plus
+    a self-edge.
+  - p020 ``blocker_reset_ray_scan`` advances a recurrence with a hard
+    blocker reset but in a Python step loop, and it does not retain
+    second-blocker identity.
+  - p021 ``occlusion_semiring_ray_scan`` uses a transmittance product
+    (``cumsum`` in log domain) but collapses the ray to a weighted sum
+    instead of preserving first / second blocker channels.
+  - p026 ``ray_cast_obstacle_pool_head`` again loops over directions
+    and steps.
+  - i018 ``TacticalIncidenceBuilder`` computes visible rook / bishop
+    rays by contracting a dense ``(64, 64, 64)`` ``between`` tensor.
+
+  The novelty is the *fused* compact scan that retains first-blocker
+  and second-blocker channels in one pass and supports x-ray / pin /
+  discovered-attack reductions on top of the same tensor.
+expected_advantage: |
+  The source primitive predicts a steady-state speed win over the i018
+  dense visibility builder (asymptotic argument: 1456 valid ray cells
+  versus 262144 source-target-between positions). The primitive also
+  preserves second-blocker identity, which p021 and p026 collapse - so
+  the falsifier ``first_only`` should lose tactical-slice lift on
+  positions whose label depends on what sits behind a single blocker
+  (x-ray attacks on the king, discovered-attack frames, soft pins).
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board ``simple_18`` tensor ``(B, 18, 8, 8)``. The 12 piece-
+  presence planes are split into 6 us / 6 them one-hots, an occupancy
+  scalar is derived as their clamped sum, and a fixed piece-value table
+  (P=1, N=B=3, R=5, Q=9, K=200) folds the one-hots into per-side value
+  scalars. CRTK metadata, source labels, verification flags, engine
+  evaluations, and principal variations are *not* consumed.
+output_heads: |
+  One puzzle logit. Per-sample diagnostics include ``base_logit``,
+  ``primitive_delta`` / ``primitive_delta_raw``, ``primitive_gate`` /
+  ``primitive_gate_applied`` / ``primitive_gate_logit`` /
+  ``primitive_gate_entropy``, ``primitive_contribution``,
+  ``eros_occupancy_density``, ``eros_mobility_mean``,
+  ``eros_xray_pressure_mean``, ``eros_visible_density``,
+  ``eros_first_blocker_rate``, ``eros_second_blocker_rate``, plus the
+  i193 trunk diagnostics (``trunk_*``).
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The
+  primitive head adds: a single ``gather + cumsum`` pass over the 16-
+  channel ray feature tensor; a direction-class projection
+  (rook / bishop / queen) that sums per-direction summaries; mean +
+  max pooling over the 64 squares; an MLP delta head; and an MLP gate
+  head with the same shape as p020 / p021 / p046 (LayerNorm + Linear +
+  GELU + Linear). The scan body has no learnable parameters; only the
+  delta and gate heads do.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p054_efficient_ray_occlusion_scan/train.py
+config_path: ideas/registry/p054_efficient_ray_occlusion_scan/config.yaml
+model_path: ideas/registry/p054_efficient_ray_occlusion_scan/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_49_efficient_ray_occlusion_scan_primitive.md
+  (single-proposal markdown). The research markdown originally used
+  the placeholder slug ``p048_efficient_ray_occlusion_scan_primitive``;
+  the queue assigns ``p054`` (next free primitive slot after p046) and
+  the slug ``efficient_ray_occlusion_scan`` (without the ``_primitive``
+  suffix used in source filenames). The dense-edge scatter mode
+  described in the research markdown (``rook_visible`` / ``bishop_visible``
+  / ``rook_xray`` / ``bishop_xray`` per ``(B, 64, 64)``) is deferred
+  behind a future i018 graph-builder integration; the implemented
+  primitive operates in the compact direction-major layout that drives
+  the additive logit delta head.
+source_primitive_path: ideas/research/primitives/external_49_efficient_ray_occlusion_scan_primitive.md
+source_primitive_candidate: Efficient Ray Occlusion Scan
+source_packet_path: ideas/research/primitives/external_49_efficient_ray_occlusion_scan_primitive.md
+source_packet_candidate: Efficient Ray Occlusion Scan
+mechanism_family: ray_scan_geometry

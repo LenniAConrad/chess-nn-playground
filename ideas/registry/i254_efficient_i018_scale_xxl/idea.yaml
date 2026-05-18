@@ -1,0 +1,84 @@
+idea_id: i254
+name: Efficient i018 Scale-XXL
+slug: efficient_i018_scale_xxl
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion)
+short_thesis: |
+  Honest scale-XXL successor to i018 oriented_tactical_sheaf_laplacian.
+  Preserve the 12-relation tactical incidence thesis, preserve the current
+  numerical execution path, and direct the extra scale budget into capacity
+  that does not multiply irregular relation work: wider square-token
+  channels and a much larger readout head. An optional grouped low-rank
+  restriction parameterization is provided behind a config flag for a
+  later stalk-scaling experiment, but the default first XXL run uses the
+  i018 full restriction maps so width-only scaling can be evaluated with
+  no parameterization confound.
+novelty_claim: |
+  i254 is a capacity-scaled sibling of i018, not a new family. It
+  subclasses OrientedTacticalSheafNet, inherits BoardStateAdapter,
+  TacticalIncidenceBuilder, SquareTokenEncoder, TriadDefectPool, the
+  full readout shape, the falsifier scramble knob, and the diagnostic
+  contract. The only architectural change is a new
+  EfficientSheafDiffusionBlock that supports two restriction modes:
+  `full` (default; identical state_dict shape and forward semantics to
+  i018's block) and `grouped_lowrank` (per-relation diagonal coefficients
+  on group-shared `s x k` bases, with the 12 relations partitioned into
+  4 semantic groups: attack / defense / ray / pin). Compile-only and
+  fused-incidence flags are present in the config for completeness but
+  default off; the research markdown's first XXL benchmark is a
+  capacity-only run, not an execution rewrite.
+expected_advantage: |
+  Test whether i018 still has profitable headroom when extra parameters
+  go into width (`channels`) and the readout head (`hidden_dim`) instead
+  of stalk size or sheaf depth. Decision rule from the research markdown:
+  the 3-seed i254 capacity run must beat current i018 scale_xl's
+  0.8901 mean PR-AUC by at least +0.003 to confirm scale headroom.
+  Otherwise the family has plateaued and width/head scaling is not the
+  remaining lever.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle). Same contract as i018.
+input_representation: |
+  Board-only tensor. Default simple_18 (18, 8, 8). CRTK metadata,
+  source labels, verification flags, engine evaluations, Stockfish
+  scores, principal variations are not consumed by the model at any
+  point.
+output_heads: |
+  One puzzle logit plus the inherited i018 diagnostics: mechanism_energy,
+  sheaf_tension, transport_imbalance, symmetry_residual, topology_pressure,
+  ray_language_energy, information_surprisal, sparse_certificate_energy,
+  rank_file_imbalance, king_ring_pressure, reply_pressure, defense_gap,
+  triad_defect_energy, pin_pressure. The output dict shape and key set
+  are identical to i018.
+compute_notes: |
+  Trunk: i018 BoardStateAdapter (exact), TacticalIncidenceBuilder
+  (12 exact relations), SquareTokenEncoder widened to channels=160 by
+  default, four EfficientSheafDiffusionBlock layers at stalk_dim=8 with
+  full restriction maps, TriadDefectPool, readout head with
+  hidden_dim=320. The default first XXL run lands at exactly 785,217
+  parameters (matching the research markdown's static estimate),
+  roughly 1.66x i018 scale_xl, while only increasing rough forward
+  arithmetic by about 1.26x because it does NOT add sheaf depth or
+  larger stalks. The grouped low-rank restriction variant (G=4 groups,
+  rank k=4) is a config flag for a later stalk-scaling experiment;
+  compile-only and fused-incidence flags are present but default off
+  per the research markdown's "capacity branch before execution branch"
+  rule, which is the explicit lesson from the i249 postmortem.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i254_efficient_i018_scale_xxl/train.py
+config_path: ideas/registry/i254_efficient_i018_scale_xxl/config.yaml
+model_path: ideas/registry/i254_efficient_i018_scale_xxl/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/packets/classic/i254_efficient_i018_scale_xxl.md.
+  Bespoke i254 capacity-scaled variant of i018. CRTK metadata is
+  reporting-only and never used as model input. Default config.yaml is
+  the recommended first XXL run: width=160, hidden_dim=320, depth=4,
+  stalk_dim=8, restriction_mode=full, compile_model=false,
+  fuse_incidence=false.
+source_packet_path: ideas/research/packets/classic/i254_efficient_i018_scale_xxl.md
+source_packet_candidate: Efficient i018 Scale-XXL
+mechanism_family: sheaf
+packet_profile: efficient_i018_scale_xxl

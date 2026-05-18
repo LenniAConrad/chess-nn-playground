@@ -1,0 +1,82 @@
+idea_id: i253
+name: i018 BT4-112 Controlled Encoding
+slug: i018_bt4_112_controlled_encoding
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research promotion)
+short_thesis: |
+  Test whether the current repo's BT4-style 112-channel encoding adds usable
+  board-state signal to the i018 sheaf trunk after the exact 12 mover-oriented
+  tactical relation masks are kept fixed. The thesis is that any honest BT4
+  benefit must show up as a small additive lift over the matched simple_18
+  pathway when the relation scaffold is load-bearing, not as a replacement for
+  exact chess geometry. Three controlled relation modes (exact / confidence /
+  hybrid) and four falsifiers isolate the encoding contribution.
+novelty_claim: |
+  Bespoke i253 variant of the i018 oriented_tactical_sheaf_laplacian trunk
+  that standardises the raw input pathway at 112 channels for both
+  simple_18 (zero-padded) and lc0_bt4_112 (native), keeps the exact i018
+  tactical incidence builder, and exposes three controlled relation modes:
+  W_r = M_r (exact), W_r = M_r * sigmoid(C_r) (confidence), and
+  W_r = clamp(M_r * sigmoid(C_r) + lambda * T_r * sigmoid(A_r), 0, 1)
+  (hybrid with bounded augmentation on a fixed slider/knight/pawn template
+  superset). i018 and i249 do not expose these controlled relation modes,
+  and existing BT4-named entries are mixers (a001-a040) or shared-probe
+  baselines rather than controlled BT4-vs-simple18 encoding studies on a
+  sheaf trunk.
+expected_advantage: |
+  Reduce near-puzzle false positives at matched recall (or improve mean
+  PR-AUC by at least +0.003) on the canonical CRTK split when BT4 is given
+  the chance to help under preserved exact relation geometry. The hybrid
+  augmentation row is the optional ceiling. Negative-result interpretation
+  is explicit: if no BT4 row beats its matched simple18 row, the
+  conclusion is about the current single-FEN BT4 exporter, not about
+  abstract BT4. The relation scramble and augmentation-only falsifiers
+  must keep i018's load-bearing-geometry result.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle,
+  fine label 2 maps to puzzle). Same input contract as i018.
+input_representation: |
+  Board-only tensor. simple_18 (18, 8, 8) or lc0_bt4_112 (112, 8, 8). The
+  i018 mover-relative piece state path is exact for both encodings; the
+  raw pathway is zero-padded to 112 channels for simple_18 so the
+  architecture and parameter count are matched across encodings. CRTK
+  metadata, source labels, verification flags, and engine evaluations are
+  not used as model inputs at any point.
+output_heads: |
+  One puzzle logit plus inherited i018 diagnostics
+  (mechanism_energy, sheaf_tension, transport_imbalance, symmetry_residual,
+  topology_pressure, ray_language_energy, information_surprisal,
+  sparse_certificate_energy, rank_file_imbalance, king_ring_pressure,
+  reply_pressure, defense_gap, triad_defect_energy, pin_pressure) plus
+  controlled-encoding-specific diagnostics in confidence/hybrid modes
+  (controlled_confidence_mean, controlled_augmentation_mean).
+compute_notes: |
+  Trunk: i018 BoardStateAdapter (exact), TacticalIncidenceBuilder (12
+  exact relations), SquareTokenEncoder (raw 112 + piece state + coords),
+  two SheafDiffusionBlocks (stalk_dim=8, channels=64, hidden_dim=96),
+  TriadDefectPool, readout head. New: BoardStateAdapterControlled (pad
+  simple_18 to 112), TacticalIncidenceAugmentationBuilder (exact masks
+  plus relation-specific geometric template superset), RelationConfidenceHead
+  (low-rank per-relation source/target codes plus optional augmentation
+  head). Parameter counts at base scale match the research markdown:
+  exact 94,371; confidence 99,487; hybrid 102,763.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i253_i018_bt4_112_controlled_encoding/train.py
+config_path: ideas/registry/i253_i018_bt4_112_controlled_encoding/config.yaml
+model_path: ideas/registry/i253_i018_bt4_112_controlled_encoding/model.py
+latest_result_path: null
+notes: |
+  Promoted from ideas/research/packets/classic/i253_i018_bt4_112_controlled_encoding.md.
+  Bespoke i253 controlled-encoding variant of i018. CRTK metadata is
+  reporting-only and never used as model input. Default config.yaml is the
+  exact-relations-only simple18_padded112 control row; switch
+  data.encoding to lc0_bt4_112 and model.relation_mode to
+  confidence / hybrid to walk the 36-run base matrix described in the
+  research markdown. Falsifier knobs (scramble_exact_relations,
+  augmentation_only) are exposed at config level so each cell is one
+  config edit.
+source_packet_path: ideas/research/packets/classic/i253_i018_bt4_112_controlled_encoding.md
+source_packet_candidate: i018 BT4-112 Controlled Encoding
+mechanism_family: sheaf

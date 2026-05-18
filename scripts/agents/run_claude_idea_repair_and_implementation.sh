@@ -391,6 +391,84 @@ SCAFFOLD_STATUSES = {
     "scaffolded",
     "unknown",
 }
+LATEST_RESEARCH_REGISTRY_TARGETS = {
+    "ideas/research/packets/classic/i250_learned_relation_confidence_sheaf.md": (
+        "i250",
+        "learned_relation_confidence_sheaf",
+    ),
+    "ideas/research/packets/classic/i251_candidate_move_forcedness_sheaf.md": (
+        "i251",
+        "candidate_move_forcedness_sheaf",
+    ),
+    "ideas/research/packets/classic/i252_pin_xray_overload_sheaf.md": (
+        "i252",
+        "pin_xray_overload_sheaf",
+    ),
+    "ideas/research/packets/classic/i253_i018_bt4_112_controlled_encoding.md": (
+        "i253",
+        "i018_bt4_112_controlled_encoding",
+    ),
+    "ideas/research/packets/classic/i254_efficient_i018_scale_xxl.md": (
+        "i254",
+        "efficient_i018_scale_xxl",
+    ),
+    "ideas/research/packets/classic/i255_i018_bt4_distillation_student.md": (
+        "i255",
+        "i018_bt4_distillation_student",
+    ),
+    "ideas/research/packets/classic/i256_near_puzzle_rejection_specialist.md": (
+        "i256",
+        "near_puzzle_rejection_specialist",
+    ),
+    "ideas/research/packets/classic/i257_promotion_mate_slice_specialist.md": (
+        "i257",
+        "promotion_mate_slice_specialist",
+    ),
+    "ideas/research/packets/classic/i258_relation_masked_attention_i018.md": (
+        "i258",
+        "relation_masked_attention_i018",
+    ),
+    "ideas/research/packets/classic/i259_i018_bt4_ensemble_compression.md": (
+        "i259",
+        "i018_bt4_ensemble_compression",
+    ),
+    "ideas/research/primitives/external_42_learned_relation_confidence_primitive.md": (
+        "p047",
+        "learned_relation_confidence",
+    ),
+    "ideas/research/primitives/external_43_candidate_move_forcedness_primitive.md": (
+        "p048",
+        "candidate_move_forcedness",
+    ),
+    "ideas/research/primitives/external_44_pin_xray_skewer_primitive.md": (
+        "p049",
+        "pin_xray_skewer",
+    ),
+    "ideas/research/primitives/external_45_defender_overload_triad_primitive.md": (
+        "p050",
+        "defender_overload_triad",
+    ),
+    "ideas/research/primitives/external_46_king_zone_reply_pressure_primitive.md": (
+        "p051",
+        "king_zone_reply_pressure",
+    ),
+    "ideas/research/primitives/external_47_promotion_underpromotion_primitive.md": (
+        "p052",
+        "promotion_underpromotion",
+    ),
+    "ideas/research/primitives/external_48_legal_move_graph_delta_primitive.md": (
+        "p053",
+        "legal_move_graph_delta_pressure",
+    ),
+    "ideas/research/primitives/external_49_efficient_ray_occlusion_scan_primitive.md": (
+        "p054",
+        "efficient_ray_occlusion_scan",
+    ),
+    "ideas/research/primitives/external_50_near_puzzle_hard_negative_primitive.md": (
+        "p055",
+        "near_puzzle_hard_negative",
+    ),
+}
 
 
 def env_int(name: str, default: int) -> int:
@@ -420,6 +498,19 @@ def current_max_id(prefix: str) -> int:
 
 
 def research_registry_target(path: Path) -> dict[str, Any]:
+    fixed_target = LATEST_RESEARCH_REGISTRY_TARGETS.get(path.as_posix())
+    if fixed_target:
+        idea_id, slug = fixed_target
+        return {
+            "suggested_idea_id": idea_id,
+            "suggested_slug": slug,
+            "registry_folder": f"ideas/registry/{idea_id}_{slug}",
+            "registry_naming_rule": (
+                f"promote `{path.as_posix()}` into exactly `ideas/registry/{idea_id}_{slug}/`; "
+                f"use idea_id `{idea_id}` and slug `{slug}`"
+            ),
+        }
+
     stem = path.stem
     if stem.startswith("i") and len(stem) > 4 and stem[1:4].isdigit() and stem[4] == "_":
         idea_id = stem[:4]

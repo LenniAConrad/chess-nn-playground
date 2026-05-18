@@ -1,0 +1,85 @@
+idea_id: p048
+name: Candidate Move Forcedness Primitive
+slug: candidate_move_forcedness
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research primitive batch)
+short_thesis: |
+  Candidate Move Forcedness (CMF). For every pseudo-legal candidate
+  move on the side-to-move board, build a deterministic forcedness
+  descriptor (mover/victim value, capture/check/promotion seeds,
+  source/target mobility, move-class flags, SEE-lite gain) plus a
+  light per-edge scorer over the rule-derived (B, 64, 64) legal-move
+  graph, then top-k pool the scores into a board-level feature vector
+  that augments the i193 trunk via an additive gated logit delta:
+
+      final_logit = base_logit + gate * primitive_delta_raw
+
+  The legal-move graph and forcedness descriptors are stop-gradient
+  rule-derived tensors. CRTK metadata, source labels, verification
+  flags, engine evaluations, and principal variations are not consumed.
+novelty_claim: |
+  CMF is a *move-level* primitive on top of an existing board-only
+  trunk: it estimates whether a position contains one or a few
+  unusually coercive candidate moves and exposes that as a small pool
+  feature rather than a search-derived policy. The forcedness pool
+  composes a learned per-edge score with top-1 / top-k / category
+  maxima, so falsifiers can isolate (1) the score MLP from the
+  deterministic features, (2) top-k pooling from mean pooling, and
+  (3) the move-surface from a fully-connected control.
+expected_advantage: |
+  The source primitive targets the i018 / i249 paper-grade comparator
+  on puzzle_binary. Expected lifting slices: forcing-line tactics
+  (mate_in_1, hanging, fork, overload), promotion, near-puzzle
+  rejection through lower tactical false-positive rates. The
+  `mean_pool` and `deterministic_score` falsifiers should kill a
+  large fraction of any lift.
+target_task: |
+  puzzle_binary classification on the chess-nn-playground splits.
+input_representation: |
+  Current-board simple_18 tensor. The pseudo-legal move graph is
+  computed in-trunk from the rule-derived
+  `compute_legal_move_graph` helper (move-type / ray-direction codes
+  reused). Per-square tokens come from a 1x1 conv tower. CRTK
+  metadata, source labels, verification flags, engine evaluations,
+  and principal variations are not consumed.
+output_heads: |
+  One puzzle logit. Diagnostics include `base_logit`,
+  `primitive_delta`, `primitive_gate`, `primitive_contribution`,
+  `cmf_top1_score`, `cmf_gap12`, `cmf_topk_mass`, `cmf_entropy`,
+  `cmf_move_count`, plus per-category peak descriptors
+  `cmf_check_peak`, `cmf_capture_peak`, `cmf_promotion_peak`,
+  `cmf_see_peak`. The trunk diagnostics are forwarded with a
+  `trunk_` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The CMF
+  head adds the 1x1 token tower, embeddings for move-type and
+  ray-direction codes, a per-edge MLP, a top-k pool, a two-layer delta
+  MLP, and a two-layer gate MLP. The score MLP materialises a
+  (B, 64, 64) score map; defaults keep this under the i193 scout-scale
+  budget at B=256. Head adds ~60k parameters at defaults.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p048_candidate_move_forcedness/train.py
+config_path: ideas/registry/p048_candidate_move_forcedness/config.yaml
+model_path: ideas/registry/p048_candidate_move_forcedness/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ideas/research/primitives/external_43_candidate_move_forcedness_primitive.md.
+  Reuses the existing `compute_legal_move_graph` helper from
+  `src/chess_nn_playground/models/primitives/legal_move_graph.py` for
+  the (B, 64, 64) pseudo-legal adjacency with move-type and
+  ray-direction codes, and the i193
+  `ExchangeThenKingDualStreamNetwork` trunk for the baseline logit.
+  The legal-move graph and the deterministic forcedness descriptors
+  are stop-gradient. The source markdown is kept in place at
+  `ideas/research/primitives/external_43_candidate_move_forcedness_primitive.md`
+  (do not move or rename). Expensive post-move board simulation (the
+  source primitive's full `apply_moves_batched`) is intentionally
+  deferred behind the dense pilot.
+source_primitive_path: ideas/research/primitives/external_43_candidate_move_forcedness_primitive.md
+source_primitive_candidate: Candidate Move Forcedness Primitive
+source_packet_path: ideas/research/primitives/external_43_candidate_move_forcedness_primitive.md
+source_packet_candidate: Candidate Move Forcedness Primitive
+mechanism_family: move_graph

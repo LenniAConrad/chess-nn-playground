@@ -20,15 +20,15 @@ Architectural honesty note: `implementation_status: implemented` / `tested` is r
 
 ## Current Counts
 
-- Registered idea folders: `335`
+- Registered idea folders: `354`
 - Research packet files cataloged: `140`
-- Registered implementation states: `{'implemented': 320, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
-- Registered implementation kinds: `{'bespoke_model': 327, 'shared_probe_variant': 6, 'unknown': 2}`
+- Registered implementation states: `{'implemented': 339, 'probe_scaffold_only': 6, 'proposed': 2, 'tested': 7}`
+- Registered implementation kinds: `{'bespoke_model': 346, 'shared_probe_variant': 6, 'unknown': 2}`
 - Research packet statuses: `{'backlog packet': 10, 'batch packet': 19, 'duplicate import': 5, 'handoff packet': 70, 'link stub': 3, 'prompt snapshot': 1, 'research packet': 30, 'synthesis packet': 2}`
 
 | Implementation kind | Count | Meaning |
 |---|---:|---|
-| `bespoke_model` | 327 | Materially distinct model implementation. |
+| `bespoke_model` | 346 | Materially distinct model implementation. |
 | `shared_probe_variant` | 6 | Thin wrapper around `ResearchPacketProbe`; not a separate bespoke architecture. |
 | `other_shared_scaffold` | 0 | Thin wrapper around another shared scaffold/baseline builder. |
 | `unknown` | 2 | Not classifiable from current wiring; should remain rare. |
@@ -329,6 +329,16 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `i249` | [Oriented Tactical Sheaf Laplacian (Fast)](i249_oriented_tactical_sheaf_fast) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i250` | [Learned Relation Confidence Sheaf](i250_learned_relation_confidence_sheaf) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i251` | [Candidate Move Forcedness Sheaf](i251_candidate_move_forcedness_sheaf) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i252` | [Pin / X-Ray / Overload Sheaf](i252_pin_xray_overload_sheaf) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i253` | [i018 BT4-112 Controlled Encoding](i253_i018_bt4_112_controlled_encoding) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i254` | [Efficient i018 Scale-XXL](i254_efficient_i018_scale_xxl) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i255` | [i018 BT4 Distillation Student](i255_i018_bt4_distillation_student) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i256` | [Near Puzzle Rejection Specialist](i256_near_puzzle_rejection_specialist) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i257` | [Promotion Mate Slice Specialist](i257_promotion_mate_slice_specialist) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i258` | [Relation-Masked Attention Graft over i018](i258_relation_masked_attention_i018) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
+| `i259` | [i018 + BT4 Ensemble Compression](i259_i018_bt4_ensemble_compression) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification. Fine label 2 maps to puzzle; fine labels 0 and 1 map to n... |
 | `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
 | `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine label 2 maps... |
@@ -375,6 +385,15 @@ Implemented-architecture conformance audit: [architecture_conformance_audit.md](
 | `p044` | [Weighted Hodge Projector](p044_weighted_hodge_projector) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 | `p045` | [Kirchhoff Mobility Solve](p045_kirchhoff_mobility_solve) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 | `p046` | [Bounded Subset Log-Partition Transform](p046_subset_logpartition) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p047` | [Learned Relation Confidence Primitive](p047_learned_relation_confidence) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p048` | [Candidate Move Forcedness Primitive](p048_candidate_move_forcedness) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p049` | [Pin / X-ray / Skewer Primitive](p049_pin_xray_skewer) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p050` | [Defender Overload Triad Primitive](p050_defender_overload_triad) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p051` | [King-Zone Reply Pressure Primitive](p051_king_zone_reply_pressure) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p052` | [Promotion and Underpromotion Geometry Primitive](p052_promotion_underpromotion) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p053` | [Legal-Move-Graph Pressure-Delta Primitive](p053_legal_move_graph_delta_pressure) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification (fine labels 0 and 1 map to non- puzzle, fine label 2 maps... |
+| `p054` | [Efficient Ray Occlusion Scan](p054_efficient_ray_occlusion_scan) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
+| `p055` | [Near-Puzzle Hard-Negative Veto Primitive](p055_near_puzzle_hard_negative) | `implemented` | `implemented` | `bespoke_model` | puzzle_binary classification on the chess-nn-playground splits. |
 
 ## Research Packet Map
 

@@ -1,0 +1,61 @@
+idea_id: i250
+name: Learned Relation Confidence Sheaf
+slug: learned_relation_confidence_sheaf
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude
+short_thesis: >-
+  Keep i018's exact side-to-move-oriented chess relation topology, but replace
+  its relation-wide weighting with normalized edge-wise confidence learned from
+  board-only chess features. The model gains the missing degree of freedom
+  (intra-relation edge weighting) without changing i018's incidence builder,
+  diffusion math, or readout.
+novelty_claim: >-
+  Promoted from
+  `ideas/research/packets/classic/i250_learned_relation_confidence_sheaf.md`.
+  Adds a single grouped confidence head that scores ONLY the active i018 edges,
+  with relation-wise mean normalization so the head starts as identity and the
+  network is numerically equivalent to i018 at zero-init. No new topology, no
+  new relations, no new auxiliary loss.
+expected_advantage: >-
+  Same `puzzle_binary` contract and same parent topology as i018, but with
+  per-edge confidence inside each of the 12 typed relations. Hypothesis: the
+  added intra-relation degree of freedom should improve mean PR-AUC or
+  matched-recall near-puzzle false positives without inflating parameter count
+  by much (about +7k parameters at base scale over i018's ~91k).
+target_task: >-
+  puzzle_binary classification: fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle. Identical contract to i018.
+input_representation: >-
+  Current-board simple_18 tensor only. CRTK and source metadata are
+  reporting-only and never used as model input. Identical to i018.
+output_heads: >-
+  One puzzle logit plus the same sheaf-tension, per-relation energy, transport,
+  triad-defect, pin, king-ring, and board diagnostics as i018, plus new
+  confidence diagnostics (`confidence_mean`, `confidence_max`, `confidence_std`,
+  `pin_edge_confidence`, `king_zone_confidence`).
+compute_notes: >-
+  Inserts one new stage between i018's `TacticalIncidenceBuilder` and its
+  `SheafDiffusionBlock`s. `RelationEdgeFeatureBuilder` produces deterministic
+  per-edge chess features (source/target piece value, distance, in/out degree,
+  king-zone flag, pin flag, x-ray flag) on already-active edges only.
+  `GroupedRelationConfidence` scores these edges through five small grouped
+  MLPs (direct combat / king-zone / rays / leapers-pawns / pin), with a
+  per-relation bias, relation-wise mean normalization, and a floor in (0, 0.05]
+  so edges never die. The confidence multiplies into the existing relation
+  masks before the i018 sheaf blocks run. Zero output-layer initialization
+  starts the model as i018.
+implementation_status: implemented
+trainer_entrypoint: ideas/registry/i250_learned_relation_confidence_sheaf/train.py
+config_path: ideas/registry/i250_learned_relation_confidence_sheaf/config.yaml
+model_path: ideas/registry/i250_learned_relation_confidence_sheaf/model.py
+latest_result_path: null
+notes: >-
+  Implemented as the registered `learned_relation_confidence_sheaf` model in
+  `src/chess_nn_playground/models/trunk/learned_relation_confidence_sheaf.py`,
+  which subclasses i018's `OrientedTacticalSheafNet` and only adds the new
+  confidence head plus a confidence-weighted forward path. The
+  `flat_confidence: true` ablation exactly reproduces i018 logits with shared
+  weights; the default normalized head reproduces i018 within FP32 reduction
+  noise at zero-init.
+implementation_kind: bespoke_model

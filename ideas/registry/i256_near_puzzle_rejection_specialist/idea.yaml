@@ -1,0 +1,71 @@
+idea_id: i256
+name: Near Puzzle Rejection Specialist
+slug: near_puzzle_rejection_specialist
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (research promotion)
+short_thesis: >-
+  Reject verified near-puzzles at fixed verified-puzzle recall instead of
+  maximising PR-AUC in isolation. Final logit is raw_claim - softplus(veto),
+  with the veto built from a per-square forcedness-gap field (claim minus
+  reply-escape), a defender-overload margin, a king-escape pressure signal,
+  and a candidate-concentration head over the gap distribution.
+novelty_claim: >-
+  First registered architecture in this repo that exposes raw_claim and a
+  chess-explained veto as separate logits and combines them as
+  raw - softplus(veto). The four sub-heads (forcedness gap, defender overload,
+  king-escape pressure, candidate concentration) are all defined over the
+  side-to-move attacker candidate mask derived deterministically from the
+  simple_18 board. No CRTK metadata, source labels, PVs, or engine evaluations
+  are consumed.
+expected_advantage: >-
+  Lower near-puzzle false-positive rate at recall 0.80 and 0.85 than the i193
+  fast conv student parent on the same canonical tagged split, especially on
+  the equal-eval, hard, very-hard, promotion, underpromotion, and mate-in-1
+  slices, with overall PR-AUC within parent seed noise. Promotion criterion is
+  matched-recall near-FP reduction with the chess-semantic ablations
+  (no_reply_envelope, no_overload_head, no_king_escape_head,
+  no_concentration_head) each losing most of the gain.
+target_task: >-
+  puzzle_binary classification (fine labels 0 and 1 map to non-puzzle, fine
+  label 2 maps to puzzle).
+input_representation: >-
+  Current-board simple_18 tensor only. All chess feature builders (attacker /
+  defender / king-zone / ray / candidate mask) are derived from the simple_18
+  tensor at forward time via the deterministic DualStreamFeatureBuilder from
+  i193. CRTK metadata, source labels, verification flags, PVs, and engine
+  evaluations are reporting-only and never used as model input.
+output_heads: >-
+  One puzzle logit (final = raw_claim - softplus(veto_logit)). Per-sample
+  diagnostics include raw_claim_logit, reply_veto_logit, max_forcedness_gap,
+  top2_forcedness_gap, forcedness_gap_entropy, effective_candidate_count,
+  selected_candidate_count, defender_overload, king_escape_pressure,
+  claim_mass, reply_escape_mass, own_piece_count, and a trunk
+  mechanism_energy scalar.
+compute_notes: >-
+  Trunk: small conv encoder (default channels=32, depth=2) over the simple_18
+  board concatenated with the deterministic exchange and king feature stacks
+  from i193. Heads: per-square claim/reply MLPs run over flattened 64-square
+  trunk activations; overload head is a per-square MLP pooled with masked
+  softmax over own-piece squares; king-escape head pools enemy-king-zone
+  trunk activations; concentration head consumes scalar gap statistics; veto
+  head consumes the chess-explained scalar bundle and emits softplus-positive
+  veto strength. Default scale stays under the research packet's compute
+  envelope for the C1 student-full first-deployment target.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/i256_near_puzzle_rejection_specialist/train.py
+config_path: ideas/registry/i256_near_puzzle_rejection_specialist/config.yaml
+model_path: ideas/registry/i256_near_puzzle_rejection_specialist/model.py
+latest_result_path: null
+notes: >-
+  Promoted from ideas/research/packets/classic/i256_near_puzzle_rejection_specialist.md.
+  Bespoke implementation lives at
+  src/chess_nn_playground/models/trunk/near_puzzle_rejection_specialist.py and
+  is registered as `near_puzzle_rejection_specialist`. CRTK metadata is
+  reporting-only and never feeds the forward pass. The candidate set, reply
+  envelope, overload, and king-escape signals are all derived from the
+  simple_18 board through the deterministic DualStreamFeatureBuilder from
+  i193 — no python-chess fallback and no engine search.
+source_research_path: ideas/research/packets/classic/i256_near_puzzle_rejection_specialist.md
+mechanism_family: king_path

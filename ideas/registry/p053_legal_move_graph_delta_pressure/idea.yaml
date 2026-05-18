@@ -1,0 +1,113 @@
+idea_id: p053
+name: Legal-Move-Graph Pressure-Delta Primitive
+slug: legal_move_graph_delta_pressure
+status: implemented
+created_at: '2026-05-18T00:00:00+00:00'
+author: Claude (latest-research pressure-delta primitive)
+short_thesis: |
+  p053 (LMGDP) is the **board-aware pressure-delta** primitive
+  proposed in
+  ``ideas/research/primitives/external_48_legal_move_graph_delta_primitive.md``.
+  It reuses the same per-piece-type typed legal-move adjacency p009
+  (LMGConv) compiles -- so both primitives share a single
+  rule-exact topology source -- but adds a small bank of explicit
+  per-edge **pressure-delta** scalar features that p009's
+  SAGE-style per-type linear aggregation cannot express
+  (``is_capture``, ``into_king_zone``, ``gives_check_proxy``,
+  ``enemy_value_at_target``, ``pre_opp_attackers_at_target``,
+  ``pre_own_defenders_at_target``,
+  ``mover_post_attack_value_from_t``,
+  ``mover_post_defender_value_from_t``). Per-edge maps are masked
+  by the typed adjacency, aggregated per arrival square and per
+  piece type, and projected through a small MLP to a gated
+  additive logit-delta on top of the i193
+  ExchangeThenKingDualStreamNetwork trunk.
+novelty_claim: |
+  LMGDP is *not* LMGConv (p009). LMGConv routes per-square learned
+  token embeddings through per-piece-type adjacency with
+  GraphSAGE-style degree normalisation; it has no per-edge
+  features. LMGDP keeps the same topology but routes
+  **rule-derived pressure-delta features** along each candidate
+  move: captured-piece material value, post-move attack value the
+  mover would press against enemy material from the arrival
+  square, post-move defender value, gives-check proxy, and
+  arrival-square pre-move attacker / defender counts. These are
+  the per-edge tactical signals the original source markdown
+  flagged as load-bearing for puzzle_binary and that LMGConv
+  cannot recover from token features alone.
+expected_advantage: |
+  Targeted lift on positions where the candidate move set contains
+  a strong forcing edge (capture-with-check, capture-into-king-
+  zone, knight-fork-style high-value attack from the arrival
+  square). Aggregate test PR AUC roughly flat to +0.003 against
+  i193 with no global near-puzzle FP regression; the
+  ``crtk_tactic_motifs`` slices with explicit capture or check
+  motifs should move farther. Wall-clock overhead targeted at low
+  single-digit percent over i193 because no per-candidate trunk
+  re-run is performed: every per-edge feature is a tensorised
+  scalar map over ``(B, 6, 64, 64)``.
+target_task: |
+  puzzle_binary classification (fine labels 0 and 1 map to non-
+  puzzle, fine label 2 maps to puzzle).
+input_representation: |
+  Current-board ``simple_18`` tensor as the model input. The
+  typed legal-move adjacency and pressure-delta scalars are
+  computed analytically from the piece planes plus the precomputed
+  geometric tables (``rule_geometry``) and the king-zone template.
+  CRTK metadata, source labels, verification flags, engine
+  evaluations, and principal variations are *not* used as model
+  inputs at any point.
+output_heads: |
+  One puzzle logit. Diagnostics include ``base_logit``,
+  ``primitive_delta``, ``primitive_delta_raw``, ``primitive_gate``,
+  ``primitive_gate_applied``, ``primitive_gate_logit``,
+  ``primitive_gate_entropy``, ``primitive_contribution``,
+  ``lmgdp_total_edge_count``, six per-type edge counts
+  (``lmgdp_edge_count_{P,N,B,R,Q,K}``), six per-type post-attack
+  value means (``lmgdp_post_attack_value_mean_{...}``), and six
+  per-type capture-value means
+  (``lmgdp_capture_value_mean_{...}``). The trunk's i193
+  diagnostics are forwarded under the ``trunk_<name>`` prefix.
+compute_notes: |
+  Trunk: i193 ExchangeThenKingDualStreamNetwork (unchanged). The
+  LMGDP head adds: one typed-legal-edge compile (shared with
+  p009, ``(B, 6, 64, 64)`` float mask), one
+  ``(B, 6, 64, 64, F)`` per-edge feature stack of small constant
+  width ``F = 8``, one per-target sum reduction and one per-type
+  global summary, six per-type per-target ``Linear(F+1, D)``
+  projections (or one shared linear under the
+  ``shared_target_pool`` ablation), a per-square LayerNorm, a
+  mean+amax pool, and small delta / gate MLPs. The compute is
+  bounded by the ``(B, 6, 64, 64, F)`` per-edge tensor at default
+  ``F = 8`` (~786k elements per sample) and the per-type sum
+  reductions which collapse the two square axes early. No
+  python-chess call enters the forward path.
+implementation_status: implemented
+implementation_kind: bespoke_model
+trainer_entrypoint: ideas/registry/p053_legal_move_graph_delta_pressure/train.py
+config_path: ideas/registry/p053_legal_move_graph_delta_pressure/config.yaml
+model_path: ideas/registry/p053_legal_move_graph_delta_pressure/model.py
+latest_result_path: null
+notes: |
+  Promoted from
+  ``ideas/research/primitives/external_48_legal_move_graph_delta_primitive.md``
+  (the source markdown proposes a board-aware candidate-move
+  graph head with pressure-delta features as the load-bearing
+  signal). The source's preferred slug ``legal_move_graph_delta``
+  is already taken by the existing p009 LMGConv implementation
+  (``ideas/registry/p009_legal_move_graph_delta``), and renaming
+  p009 would break that primitive's existing tests, INDEX entry,
+  and report links. To keep both implementations coexisting and
+  avoid touching legacy files the new primitive uses the
+  disambiguated slug ``legal_move_graph_delta_pressure`` and the
+  matching folder ``p053_legal_move_graph_delta_pressure``; the
+  ``_pressure`` suffix reflects the load-bearing **pressure-
+  delta** edge features that distinguish this primitive from
+  p009's pure LMGConv routing. The source primitive markdown is
+  unchanged and is referenced from the architecture and math
+  thesis docs.
+source_primitive_path: ideas/research/primitives/external_48_legal_move_graph_delta_primitive.md
+source_primitive_candidate: Legal-Move-Graph Pressure-Delta Primitive (LMGDP)
+source_packet_path: ideas/research/primitives/external_48_legal_move_graph_delta_primitive.md
+source_packet_candidate: Legal-Move-Graph Pressure-Delta Primitive (LMGDP)
+mechanism_family: legal_routing

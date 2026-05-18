@@ -12,10 +12,10 @@ Benchmark the fully implemented bespoke architectures first. Shared-probe folder
 
 Current execution state:
 
-- Registered idea folders: `335`
+- Registered idea folders: `354`
 - Ideas with linked results: `7`
-- Fully implemented architectures still needing a linked benchmark run: `320`
-- Bespoke model implementations: `327`
+- Fully implemented architectures still needing a linked benchmark run: `339`
+- Bespoke model implementations: `346`
 - Shared ResearchPacketProbe variants: `6`
 
 Recommended immediate sequence:
@@ -36,9 +36,10 @@ Benchmark queue by ID:
 - Batch 9: `i166`, `i167`, `i168`, `i169`, `i170`, `i171`, `i172`, `i173`, `i174`, `i175`, `i176`, `i177`, `i178`, `i179`, `i180`, `i181`, `i182`, `i183`, `i184`, `i185`, `i186`, `i187`, `i188`, `i189`
 - Batch 10: `i190`, `i191`, `i192`, `i193`, `i194`, `i195`, `i196`, `i197`, `i198`, `i199`, `i200`, `i201`, `i202`, `i203`, `i204`, `i205`, `i206`, `i207`, `i208`, `i209`, `i210`, `i211`, `i212`, `i213`
 - Batch 11: `i214`, `i215`, `i216`, `i217`, `i218`, `i219`, `i220`, `i221`, `i222`, `i223`, `i224`, `i225`, `i226`, `i227`, `i228`, `i229`, `i230`, `i231`, `i232`, `i233`, `i234`, `i235`, `i236`, `i237`
-- Batch 12: `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `i249`, `p001`, `p002`, `p003`, `p004`, `p005`, `p006`, `p007`, `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`
-- Batch 13: `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`, `p029`, `p030`, `p031`, `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`
-- Batch 14: `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`
+- Batch 12: `i238`, `i239`, `i240`, `i242`, `i244`, `i245`, `i246`, `i247`, `i248`, `i249`, `i250`, `i251`, `i252`, `i253`, `i254`, `i255`, `i256`, `i257`, `i258`, `i259`, `p001`, `p002`, `p003`, `p004`
+- Batch 13: `p005`, `p006`, `p007`, `p008`, `p009`, `p010`, `p011`, `p012`, `p013`, `p014`, `p015`, `p016`, `p017`, `p018`, `p019`, `p020`, `p021`, `p022`, `p023`, `p024`, `p025`, `p026`, `p027`, `p028`
+- Batch 14: `p029`, `p030`, `p031`, `p032`, `p033`, `p034`, `p035`, `p036`, `p037`, `p038`, `p039`, `p040`, `p041`, `p042`, `p043`, `p044`, `p045`, `p046`, `p047`, `p048`, `p049`, `p050`, `p051`, `p052`
+- Batch 15: `p053`, `p054`, `p055`
 
 3. For each completed run, add `idea.yaml.latest_result_path`, write a run note under `runs/`, and generate `slice_report_val.md` plus `slice_report_test.md`.
 4. Run a matched promotion suite for LC0 BT4, NNUE, `i013`, `i005`, and `i009` under the same convergence budget and seeds `42`, `43`, `44`; use mean/std plus slice reports before calling any result the new best.
@@ -352,6 +353,16 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `i247` | [Complex-Amplitude Chess Network](i247_complex_amplitude_chess_network) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i248` | [Rule-Aware Tactical Head](i248_rule_aware_tactical_head) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `i249` | [Oriented Tactical Sheaf Laplacian (Fast)](i249_oriented_tactical_sheaf_fast) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i250` | [Learned Relation Confidence Sheaf](i250_learned_relation_confidence_sheaf) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i251` | [Candidate Move Forcedness Sheaf](i251_candidate_move_forcedness_sheaf) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i252` | [Pin / X-Ray / Overload Sheaf](i252_pin_xray_overload_sheaf) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i253` | [i018 BT4-112 Controlled Encoding](i253_i018_bt4_112_controlled_encoding) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i254` | [Efficient i018 Scale-XXL](i254_efficient_i018_scale_xxl) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i255` | [i018 BT4 Distillation Student](i255_i018_bt4_distillation_student) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i256` | [Near Puzzle Rejection Specialist](i256_near_puzzle_rejection_specialist) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i257` | [Promotion Mate Slice Specialist](i257_promotion_mate_slice_specialist) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i258` | [Relation-Masked Attention Graft over i018](i258_relation_masked_attention_i018) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `i259` | [i018 + BT4 Ensemble Compression](i259_i018_bt4_ensemble_compression) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p001` | [Pareto Antichain Frontier Primitive](p001_pareto_antichain_frontier) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p002` | [Regret Saddlepoint Primitive](p002_regret_saddlepoint) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p003` | [Reply Channel Capacity Primitive](p003_reply_channel_capacity) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
@@ -398,6 +409,15 @@ Implementation kind is the architectural honesty label: `shared_probe_variant` m
 | [x] | `p044` | [Weighted Hodge Projector](p044_weighted_hodge_projector) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p045` | [Kirchhoff Mobility Solve](p045_kirchhoff_mobility_solve) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 | [x] | `p046` | [Bounded Subset Log-Partition Transform](p046_subset_logpartition) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p047` | [Learned Relation Confidence Primitive](p047_learned_relation_confidence) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p048` | [Candidate Move Forcedness Primitive](p048_candidate_move_forcedness) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p049` | [Pin / X-ray / Skewer Primitive](p049_pin_xray_skewer) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p050` | [Defender Overload Triad Primitive](p050_defender_overload_triad) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p051` | [King-Zone Reply Pressure Primitive](p051_king_zone_reply_pressure) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p052` | [Promotion and Underpromotion Geometry Primitive](p052_promotion_underpromotion) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p053` | [Legal-Move-Graph Pressure-Delta Primitive](p053_legal_move_graph_delta_pressure) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p054` | [Efficient Ray Occlusion Scan](p054_efficient_ray_occlusion_scan) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
+| [x] | `p055` | [Near-Puzzle Hard-Negative Veto Primitive](p055_near_puzzle_hard_negative) | yes | `bespoke_model` | not run | Run paper-grade benchmark, generate slice reports, add a run note, and link the result. |
 
 ## Research Packet Backlog
 
@@ -408,15 +428,10 @@ Raw packets below are kept for provenance, synthesis context, or duplicate preve
 | Done | Packet | Implemented? | Performance | Next action |
 |---|---|---|---|---|
 | [ ] | [i250 Learned Relation Confidence Sheaf](../research/packets/classic/i250_learned_relation_confidence_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
-| [ ] | [Candidate Move Forcedness Sheaf](../research/packets/classic/i251_candidate_move_forcedness_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 | [ ] | [i252_pin_xray_overload_sheaf.md](../research/packets/classic/i252_pin_xray_overload_sheaf.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
-| [ ] | [i253_i018_bt4_112_controlled_encoding.md](../research/packets/classic/i253_i018_bt4_112_controlled_encoding.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
-| [ ] | [i254_efficient_i018_scale_xxl.md](../research/packets/classic/i254_efficient_i018_scale_xxl.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
-| [ ] | [Fast Distilled Conv Student for Puzzle Classification](../research/packets/classic/i255_i018_bt4_distillation_student.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 | [ ] | [i256 Near Puzzle Rejection Specialist](../research/packets/classic/i256_near_puzzle_rejection_specialist.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 | [ ] | [i257 Promotion Mate Slice Specialist](../research/packets/classic/i257_promotion_mate_slice_specialist.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 | [ ] | [i258_relation_masked_attention_i018.md](../research/packets/classic/i258_relation_masked_attention_i018.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
-| [ ] | [i259_i018_bt4_ensemble_compression.md](../research/packets/classic/i259_i018_bt4_ensemble_compression.md) | no | not run | Keep cataloged; review if it matches a future coding objective. |
 
 ### Synthesis/Reference Packets
 
@@ -557,6 +572,11 @@ Raw packets below are kept for provenance, synthesis context, or duplicate preve
 | [ ] | [deep-research-report(4)](<../research/packets/classic/deep-research-report(4).md>) | no | not run | No implementation action; keep only for provenance/duplicate prevention. |
 | [ ] | [deep-research-report(5)](<../research/packets/classic/deep-research-report(5).md>) | no | not run | No implementation action; keep only for provenance/duplicate prevention. |
 | [ ] | [deep-research-report(6)](<../research/packets/classic/deep-research-report(6).md>) | no | not run | No implementation action; keep only for provenance/duplicate prevention. |
+| [ ] | [Candidate Move Forcedness Sheaf](../research/packets/classic/i251_candidate_move_forcedness_sheaf.md) | no | not run | Already promoted as registered idea `candidate_move_forcedness_sheaf`; keep packet for provenance. |
+| [ ] | [i018 BT4-112 Controlled Encoding](../research/packets/classic/i253_i018_bt4_112_controlled_encoding.md) | no | not run | Already promoted as a registered idea; keep packet for provenance. |
+| [ ] | [Efficient i018 Scale-XXL](../research/packets/classic/i254_efficient_i018_scale_xxl.md) | no | not run | Already promoted as a registered idea; keep packet for provenance. |
+| [ ] | [I018 Bt4 Distillation Student](../research/packets/classic/i255_i018_bt4_distillation_student.md) | no | not run | Already promoted as a registered idea; keep packet for provenance. |
+| [ ] | [i018 + BT4 Ensemble Compression](../research/packets/classic/i259_i018_bt4_ensemble_compression.md) | no | not run | Already promoted as a registered idea; keep packet for provenance. |
 
 ## Completion Rules
 
