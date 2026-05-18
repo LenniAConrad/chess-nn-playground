@@ -18,6 +18,8 @@ CLAUDE_DRY_RUN="${CLAUDE_DRY_RUN:-0}"
 CLAUDE_NO_ATTACH="${CLAUDE_NO_ATTACH:-0}"
 CLAUDE_REPAIR_ONLY="${CLAUDE_REPAIR_ONLY:-0}"
 CLAUDE_IMPLEMENT_ONLY="${CLAUDE_IMPLEMENT_ONLY:-0}"
+CLAUDE_RESEARCH_ONLY="${CLAUDE_RESEARCH_ONLY:-0}"
+CLAUDE_LATEST_RESEARCH_ONLY="${CLAUDE_LATEST_RESEARCH_ONLY:-0}"
 CLAUDE_STOP_AFTER_REPAIR="${CLAUDE_STOP_AFTER_REPAIR:-0}"
 CLAUDE_STOP_ON_ERROR="${CLAUDE_STOP_ON_ERROR:-0}"
 CLAUDE_CONTINUE_AFTER_REPAIR_FAILURES="${CLAUDE_CONTINUE_AFTER_REPAIR_FAILURES:-0}"
@@ -83,6 +85,10 @@ Useful environment:
   CLAUDE_NEW_IDEA_LIMIT=20     Limit research/proposal implementation queue.
   CLAUDE_REPAIR_LIMIT=10       Limit repair queue items.
   CLAUDE_START_AT=5            Resume at queue item 5.
+  CLAUDE_RESEARCH_ONLY=1       Queue only research markdown implementation work.
+  CLAUDE_LATEST_RESEARCH_ONLY=1
+                              Queue only the latest imported architecture/primitives
+                              research files, currently i250-i259 and external_42-external_50.
   CLAUDE_DRY_RUN=1             Do not invoke Claude.
   CLAUDE_ALLOW_TRAINING=1      Permit Claude to run expensive training.
   CLAUDE_CONTINUE_AFTER_REPAIR_FAILURES=1
@@ -202,7 +208,7 @@ start_tmux_if_needed() {
     CLAUDE_BIN CLAUDE_MODEL CLAUDE_EFFORT CLAUDE_PERMISSION_MODE CLAUDE_ALLOW_BYPASS_PERMISSIONS \
     CLAUDE_SESSION_NAME CLAUDE_NONINTERACTIVE CLAUDE_OUTPUT_FORMAT CLAUDE_MAX_TURNS CLAUDE_ALLOW_TRAINING \
     CLAUDE_DRY_RUN CLAUDE_NO_ATTACH CLAUDE_REPAIR_ONLY CLAUDE_IMPLEMENT_ONLY CLAUDE_STOP_AFTER_REPAIR \
-    CLAUDE_STOP_ON_ERROR CLAUDE_CONTINUE_AFTER_REPAIR_FAILURES CLAUDE_MANAGER_FINAL_VERIFY CLAUDE_REPAIR_LIMIT CLAUDE_NEW_IDEA_LIMIT \
+    CLAUDE_RESEARCH_ONLY CLAUDE_LATEST_RESEARCH_ONLY CLAUDE_STOP_ON_ERROR CLAUDE_CONTINUE_AFTER_REPAIR_FAILURES CLAUDE_MANAGER_FINAL_VERIFY CLAUDE_REPAIR_LIMIT CLAUDE_NEW_IDEA_LIMIT \
     CLAUDE_TOTAL_LIMIT CLAUDE_START_AT CLAUDE_IDEA_REPORT_DIR CLAUDE_ALLOW_API_KEY CLAUDE_SKIP_AUTH_CHECK
   do
     env_value="${!env_name-}"
@@ -338,6 +344,8 @@ discover_queue() {
   QUEUE_MD="$QUEUE_MD" \
   CLAUDE_REPAIR_ONLY="$CLAUDE_REPAIR_ONLY" \
   CLAUDE_IMPLEMENT_ONLY="$CLAUDE_IMPLEMENT_ONLY" \
+  CLAUDE_RESEARCH_ONLY="$CLAUDE_RESEARCH_ONLY" \
+  CLAUDE_LATEST_RESEARCH_ONLY="$CLAUDE_LATEST_RESEARCH_ONLY" \
   CLAUDE_STOP_AFTER_REPAIR="$CLAUDE_STOP_AFTER_REPAIR" \
   CLAUDE_REPAIR_LIMIT="$CLAUDE_REPAIR_LIMIT" \
   CLAUDE_NEW_IDEA_LIMIT="$CLAUDE_NEW_IDEA_LIMIT" \
@@ -397,6 +405,58 @@ def load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
     return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+
+
+def current_max_id(prefix: str) -> int:
+    max_seen = 0
+    for folder in discover_idea_folders(Path("ideas/registry")):
+        name = folder.name
+        if len(name) < 4 or not name.startswith(prefix):
+            continue
+        number = name[1:4]
+        if number.isdigit():
+            max_seen = max(max_seen, int(number))
+    return max_seen
+
+
+def research_registry_target(path: Path) -> dict[str, Any]:
+    stem = path.stem
+    if stem.startswith("i") and len(stem) > 4 and stem[1:4].isdigit() and stem[4] == "_":
+        idea_id = stem[:4]
+        slug = stem[5:]
+        return {
+            "suggested_idea_id": idea_id,
+            "suggested_slug": slug,
+            "registry_folder": f"ideas/registry/{idea_id}_{slug}",
+            "registry_naming_rule": (
+                f"promote `{path.as_posix()}` into exactly `ideas/registry/{idea_id}_{slug}/`; "
+                f"use idea_id `{idea_id}` and slug `{slug}`"
+            ),
+        }
+    if stem.startswith("external_"):
+        parts = stem.split("_", 2)
+        external_number = int(parts[1]) if len(parts) >= 2 and parts[1].isdigit() else 0
+        slug = parts[2] if len(parts) >= 3 else stem
+        for suffix in ("_primitive", "_primitives"):
+            if slug.endswith(suffix):
+                slug = slug[: -len(suffix)]
+        next_p = current_max_id("p") + max(1, external_number - 41)
+        idea_id = f"p{next_p:03d}"
+        return {
+            "suggested_idea_id": idea_id,
+            "suggested_slug": slug,
+            "registry_folder": f"ideas/registry/{idea_id}_{slug}",
+            "registry_naming_rule": (
+                f"promote `{path.as_posix()}` into exactly `ideas/registry/{idea_id}_{slug}/`; "
+                f"use idea_id `{idea_id}` and slug `{slug}`"
+            ),
+        }
+    return {
+        "registry_naming_rule": (
+            "derive a lower_snake_case slug from the research filename and create the next available "
+            "`ideas/registry/i###_<slug>/` or `ideas/registry/p###_<slug>/` folder as appropriate"
+        )
+    }
 
 
 def folder_meta(folder: Path) -> dict[str, str]:
@@ -640,6 +700,39 @@ def discover_implementations() -> None:
 
     for path in sorted(research_files, key=research_priority):
         kind = "research_primitive" if "primitives" in path.parts else "research_packet"
+        latest_research = (
+            path.name.startswith(("i250_", "i251_", "i252_", "i253_", "i254_", "i255_", "i256_", "i257_", "i258_", "i259_"))
+            or path.name.startswith((
+                "external_42_",
+                "external_43_",
+                "external_44_",
+                "external_45_",
+                "external_46_",
+                "external_47_",
+                "external_48_",
+                "external_49_",
+                "external_50_",
+            ))
+        )
+        extra = research_registry_target(path)
+        extra.update(
+            {
+                "latest_research": latest_research,
+                "required_idea_files": [
+                    "idea.yaml",
+                    "config.yaml",
+                    "model.py",
+                    "train.py",
+                    "architecture.md",
+                    "math_thesis.md",
+                    "implementation_notes.md",
+                    "trainer_notes.md",
+                    "ablations.md",
+                    "report_template.md",
+                    "runs/.gitkeep",
+                ],
+            }
+        )
         add_task(
             phase="implement",
             kind=kind,
@@ -648,6 +741,7 @@ def discover_implementations() -> None:
             issues=["research markdown has not been promoted to a fully validated implementation"],
             file=path.as_posix(),
             priority=research_priority(path)[0],
+            extra=extra,
         )
 
 
@@ -656,6 +750,8 @@ discover_implementations()
 
 repair_only = os.environ.get("CLAUDE_REPAIR_ONLY") == "1" or os.environ.get("CLAUDE_STOP_AFTER_REPAIR") == "1"
 implement_only = os.environ.get("CLAUDE_IMPLEMENT_ONLY") == "1"
+research_only = os.environ.get("CLAUDE_RESEARCH_ONLY") == "1"
+latest_research_only = os.environ.get("CLAUDE_LATEST_RESEARCH_ONLY") == "1"
 repair_limit = env_int("CLAUDE_REPAIR_LIMIT", 0)
 new_idea_limit = env_int("CLAUDE_NEW_IDEA_LIMIT", 80)
 total_limit = env_int("CLAUDE_TOTAL_LIMIT", 0)
@@ -667,6 +763,14 @@ implements.sort(key=lambda task: (int(task["priority"]), str(task["target"])))
 
 if repair_limit > 0:
     repairs = repairs[:repair_limit]
+if research_only or latest_research_only:
+    implements = [
+        task
+        for task in implements
+        if any(kind in {"research_packet", "research_primitive"} for kind in task["kinds"])
+    ]
+if latest_research_only:
+    implements = [task for task in implements if task.get("latest_research")]
 if new_idea_limit >= 0:
     implements = implements[:new_idea_limit]
 
@@ -776,6 +880,9 @@ task_json = json.dumps(item, indent=2, sort_keys=True)
 phase = item.get("phase", "")
 target = item.get("target", "")
 kinds = ", ".join(item.get("kinds", []))
+registry_folder = item.get("registry_folder", "")
+registry_naming_rule = item.get("registry_naming_rule", "")
+required_idea_files = item.get("required_idea_files", [])
 
 if phase == "repair":
     phase_instructions = f"""
@@ -792,6 +899,21 @@ Repair rules:
 - If an idea is only a shared scaffold, either implement the bespoke architecture or honestly mark it scaffold-only with the existing implementation_kind/status conventions.
 """
 else:
+    naming_lines = ""
+    if registry_folder:
+        required_files = "\n".join(f"  - `{name}`" for name in required_idea_files)
+        naming_lines = f"""
+Registry naming is mandatory for this research promotion:
+
+- {registry_naming_rule}
+- Put idea-local files in `{registry_folder}/`, not beside the source research markdown.
+- Use only the standard idea-local filenames:
+{required_files}
+- Keep the source research markdown in place and reference it from the new idea docs; do not rename or move it.
+- If the task is a primitive, use a `p###_<lower_snake_slug>` registry folder. If it is an architecture/network, use an `i###_<lower_snake_slug>` registry folder.
+- The `idea.yaml` `idea_id` and `slug` must exactly match the folder name prefix and suffix.
+- The model registry name, config `model.name`, idea-local `model.py`, and any new source module must all use the same lower_snake_case slug unless the repo already has a more specific local convention.
+"""
     phase_instructions = f"""
 This is implementation item {index} of {total}. Implement the new architecture, primitive, proposal, or research
 markdown item after the repair queue has been handled.
@@ -805,6 +927,7 @@ Implementation rules:
 - Add or update idea.yaml, config.yaml, model.py, train.py, architecture.md, math_thesis.md, implementation_notes.md, trainer_notes.md, ablations.md, and report_template.md as appropriate.
 - Add focused tests for new model builders, registry entries, and trainability guards.
 - Keep unimplemented concepts marked as proposed or scaffold-only. Do not claim benchmark readiness without a trainable config and validation.
+{naming_lines}
 """
 
 prompt = f"""You are Claude Code running inside the chess-nn-playground repository.
