@@ -6,6 +6,7 @@ import copy
 import json
 import math
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -34,6 +35,15 @@ DEFAULT_SUITES = [
 
 DEFAULT_SCALE_VARIANTS_TEXT = "base:1.0,scale_up:1.5,scale_xl:2.0"
 DEFAULT_BATCH_SIZE_CAPS_TEXT = "base:256,scale_up:192,scale_xl:128"
+EPOCH_PROGRESS_RE = re.compile(
+    r"epoch\s+(?P<epoch>\d+)\s+train:.*?\[(?P<elapsed>\d+:\d{2}(?::\d{2})?)<"
+)
+TERMINAL_SKIP_STATUSES = {
+    "manual_skipped",
+    "abrupted_manual_skip",
+    "abrupted_epoch_timeout",
+    "abrupted_epoch_timeout_resume_available",
+}
 
 WIDTH_SCALE_KEYS = {
     "accumulator_size",
@@ -115,6 +125,45 @@ def _format_elapsed(seconds: float | int | None) -> str:
     if minutes:
         return f"{minutes}m{secs:02d}s"
     return f"{secs}s"
+
+
+def _parse_progress_elapsed(value: str) -> float | None:
+    parts = value.split(":")
+    try:
+        numbers = [int(part) for part in parts]
+    except ValueError:
+        return None
+    if len(numbers) == 2:
+        minutes, seconds = numbers
+        return float(minutes * 60 + seconds)
+    if len(numbers) == 3:
+        hours, minutes, seconds = numbers
+        return float(hours * 3600 + minutes * 60 + seconds)
+    return None
+
+
+def _latest_epoch_progress(log_path: Path) -> dict[str, Any] | None:
+    if not log_path.exists():
+        return None
+    try:
+        with log_path.open("rb") as handle:
+            handle.seek(0, os.SEEK_END)
+            size = handle.tell()
+            handle.seek(max(0, size - 256 * 1024))
+            text = handle.read().decode("utf-8", errors="replace")
+    except OSError:
+        return None
+    latest: dict[str, Any] | None = None
+    for match in EPOCH_PROGRESS_RE.finditer(text):
+        elapsed_seconds = _parse_progress_elapsed(match.group("elapsed"))
+        if elapsed_seconds is None:
+            continue
+        latest = {
+            "epoch": int(match.group("epoch")),
+            "epoch_elapsed_seconds": elapsed_seconds,
+            "line": match.group(0),
+        }
+    return latest
 
 
 def _task_elapsed_seconds(row: dict[str, Any]) -> float | None:
@@ -723,6 +772,10 @@ def refresh_task_statuses(tasks: list[dict[str, Any]], state_path: Path, state: 
         row = task["state"]
         run_dir = Path(row["run_dir"])
         status = str(row.get("status") or "pending")
+        if status in TERMINAL_SKIP_STATUSES:
+            row.pop("artifact_validation", None)
+            _write_generated_config(task, resume=False)
+            continue
         checkpoint = _resume_checkpoint(run_dir)
         has_metrics = (run_dir / "metrics_final.json").exists()
         should_validate = has_metrics or status in statuses_with_existing_attempts
@@ -806,6 +859,54 @@ def _timeout_task(task: dict[str, Any], process: subprocess.Popen[str], log_hand
     row["returncode"] = None
     row["elapsed_seconds"] = time.monotonic() - started
     row.setdefault("messages", []).append(f"Timed out after {row.get('timeout_minutes')} minutes")
+
+
+def _abrupt_epoch_timeout_task(
+    task: dict[str, Any],
+    process: subprocess.Popen[str],
+    log_handle: Any,
+    started: float,
+    *,
+    epoch_progress: dict[str, Any],
+    max_epoch_minutes: float,
+) -> None:
+    row = task["state"]
+    epoch = epoch_progress.get("epoch")
+    epoch_elapsed = float(epoch_progress.get("epoch_elapsed_seconds") or 0.0)
+    message = (
+        f"abrupting: epoch {epoch} exceeded {max_epoch_minutes:g} minute limit "
+        f"({ _format_elapsed(epoch_elapsed) }); moving to next architecture"
+    )
+    try:
+        log_handle.write(f"\n{message}\n")
+        if epoch_progress.get("line"):
+            log_handle.write(f"abrupting_progress_line={epoch_progress['line']}\n")
+        log_handle.flush()
+    except Exception:
+        pass
+    process.terminate()
+    try:
+        process.wait(timeout=30)
+    except subprocess.TimeoutExpired:
+        process.kill()
+        process.wait(timeout=30)
+    try:
+        log_handle.write(f"abrupted_at={utc_timestamp()}\n")
+        log_handle.flush()
+    except Exception:
+        pass
+    log_handle.close()
+    row["status"] = (
+        "abrupted_epoch_timeout_resume_available"
+        if _resume_checkpoint(Path(row["run_dir"]))
+        else "abrupted_epoch_timeout"
+    )
+    row["returncode"] = process.returncode
+    row["elapsed_seconds"] = time.monotonic() - started
+    row["abrupt_epoch"] = epoch
+    row["abrupt_epoch_elapsed_seconds"] = epoch_elapsed
+    row["max_epoch_minutes"] = float(max_epoch_minutes)
+    row.setdefault("messages", []).append(message)
 
 
 def run_pending_tasks(
@@ -902,6 +1003,7 @@ def run_pending_tasks(
         row["status"] = "running"
         row["started_at"] = utc_timestamp()
         row["timeout_minutes"] = args.timeout_minutes
+        row["max_epoch_minutes"] = args.max_epoch_minutes
         row["messages"] = list(row.get("messages", []))
         row["progress_index"] = progress_index
         row["progress_total"] = len(pending)
@@ -940,6 +1042,8 @@ def run_pending_tasks(
         log.write(f"state_path={state_path.as_posix()}\n")
         log.write(f"event_log={Path(args.event_log).as_posix()}\n")
         log.write(f"timeline={Path(args.timeline).as_posix()}\n")
+        if args.max_epoch_minutes is not None:
+            log.write(f"max_epoch_minutes={args.max_epoch_minutes:g}\n")
         if row.get("cuda_visible_devices") is not None:
             log.write(f"CUDA_VISIBLE_DEVICES={row['cuda_visible_devices']}\n")
         log.write(f"resume={str(resume).lower()}\n")
@@ -977,6 +1081,34 @@ def run_pending_tasks(
         for item in list(active):
             process = item["process"]
             deadline = item["deadline"]
+            if args.max_epoch_minutes is not None and process.poll() is None:
+                row = item["task"]["state"]
+                progress = _latest_epoch_progress(Path(row.get("log_path", "")))
+                if progress is not None and float(progress["epoch_elapsed_seconds"]) >= float(args.max_epoch_minutes) * 60.0:
+                    _abrupt_epoch_timeout_task(
+                        item["task"],
+                        process,
+                        item["log"],
+                        item["started"],
+                        epoch_progress=progress,
+                        max_epoch_minutes=float(args.max_epoch_minutes),
+                    )
+                    row = item["task"]["state"]
+                    eta = eta_snapshot(pending, max_jobs)
+                    append_event(args, state, "task_abrupted_epoch_timeout", **_task_event_fields(row), **eta)
+                    print(
+                        f"[abrupting {row.get('progress_index')}/{row.get('progress_total')}] {row['task_id']} | "
+                        f"status={row.get('status')} | epoch={row.get('abrupt_epoch')} | "
+                        f"epoch_elapsed={_format_elapsed(row.get('abrupt_epoch_elapsed_seconds'))} | "
+                        f"limit={float(args.max_epoch_minutes):g}m | "
+                        f"eta={eta['eta']} | avg={eta['average_task_elapsed']} | "
+                        f"log={row.get('log_path')} | run={row.get('run_dir')}",
+                        flush=True,
+                    )
+                    active.remove(item)
+                    failed = True
+                    _atomic_write_json(state, state_path)
+                    continue
             if deadline is not None and time.monotonic() >= deadline and process.poll() is None:
                 _timeout_task(item["task"], process, item["log"], item["started"])
                 row = item["task"]["state"]
@@ -1059,12 +1191,12 @@ def _task_scale_counts(tasks: list[dict[str, Any]]) -> Counter[str]:
 
 
 def _attention_tasks(tasks: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    ok_statuses = {"completed", "dry_run_pending"}
+    ok_statuses = {"completed", "dry_run_pending"} | TERMINAL_SKIP_STATUSES
     return [task for task in tasks if str(task["state"].get("status") or "") not in ok_statuses]
 
 
 def _next_tasks(tasks: list[dict[str, Any]], limit: int = 20) -> list[dict[str, Any]]:
-    skipped = {"completed"}
+    skipped = {"completed"} | TERMINAL_SKIP_STATUSES
     return [task for task in tasks if str(task["state"].get("status") or "") not in skipped][:limit]
 
 
@@ -1106,6 +1238,8 @@ def _resume_command(args: argparse.Namespace) -> str:
         command.extend(["--gpu-ids", str(args.gpu_ids)])
     if args.timeout_minutes is not None:
         command.extend(["--timeout-minutes", str(args.timeout_minutes)])
+    if args.max_epoch_minutes is not None:
+        command.extend(["--max-epoch-minutes", str(args.max_epoch_minutes)])
     if args.limit is not None:
         command.extend(["--limit", str(args.limit)])
     if not args.include_benchmarks:
@@ -1158,6 +1292,7 @@ def write_status_report(tasks: list[dict[str, Any]], args: argparse.Namespace, s
         f"- Epoch budget: `{defaults.get('epochs')}`",
         f"- Minimum epochs: `{defaults.get('min_epochs')}`",
         f"- Early-stopping patience: `{defaults.get('patience')}`",
+        f"- Max epoch minutes: `{defaults.get('max_epoch_minutes')}`",
         "",
         "## Counts",
         "",
@@ -1387,6 +1522,12 @@ def main() -> None:
     parser.add_argument("--jobs", type=int, default=None)
     parser.add_argument("--gpu-ids", default=None)
     parser.add_argument("--timeout-minutes", type=float, default=None)
+    parser.add_argument(
+        "--max-epoch-minutes",
+        type=float,
+        default=None,
+        help="Abrupt the current task and continue if one training epoch exceeds this many minutes.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--limit", type=int, default=None, help="Plan only the first N source configs before seed expansion.")
     parser.add_argument("--no-benchmarks", dest="include_benchmarks", action="store_false")
@@ -1419,6 +1560,7 @@ def main() -> None:
         "epochs": args.epochs,
         "min_epochs": args.min_epochs,
         "patience": args.patience,
+        "max_epoch_minutes": args.max_epoch_minutes,
     }
     tasks = build_tasks(args, state)
     refresh_task_statuses(tasks, args.state_path, state)

@@ -40,6 +40,13 @@ bad_statuses = {
     "interrupted_no_checkpoint",
     "interrupted_resume_available",
 }
+covered_statuses = {
+    "completed",
+    "manual_skipped",
+    "abrupted_manual_skip",
+    "abrupted_epoch_timeout",
+    "abrupted_epoch_timeout_resume_available",
+}
 
 
 def repo_relative(path_text: str | None) -> Path | None:
@@ -69,7 +76,7 @@ def registry_config_for(path_text: str | None) -> Path | None:
 
 
 broken: set[Path] = set()
-completed: set[Path] = set()
+covered: set[Path] = set()
 bad_records = 0
 missing_bad_configs: list[str] = []
 
@@ -81,14 +88,16 @@ for state_path in sorted(Path("reports").glob("*/state.json")):
     for task_id, task in state.get("tasks", {}).items():
         status = str(task.get("status") or "")
         cfg = registry_config_for(task.get("source_config"))
-        if status == "completed" and cfg is not None:
-            completed.add(cfg)
+        if status in covered_statuses and cfg is not None:
+            covered.add(cfg)
         if status in bad_statuses:
             bad_records += 1
             if cfg is None:
                 missing_bad_configs.append(f"{state_path}:{task_id}:{task.get('source_config')}")
             else:
                 broken.add(cfg)
+
+broken.difference_update(covered)
 
 untested: set[Path] = set()
 for config_path in sorted(Path("ideas/registry").glob("*/config.yaml")):
@@ -102,7 +111,7 @@ for config_path in sorted(Path("ideas/registry").glob("*/config.yaml")):
     # not already present as a completed training task in existing runner state.
     if idea.get("implementation_status") != "implemented":
         continue
-    if config_path in completed or config_path in broken:
+    if config_path in covered or config_path in broken:
         continue
     untested.add(config_path)
 
@@ -119,7 +128,7 @@ manifest_log_path.write_text(
         [
             f"bad_task_records={bad_records}",
             f"former_broken_unique_configs={len(broken)}",
-            f"completed_unique_configs={len(completed)}",
+            f"covered_unique_configs={len(covered)}",
             f"untested_unique_configs={len(untested)}",
             f"missing_bad_configs={len(missing_bad_configs)}",
             *[f"missing_bad_config={item}" for item in missing_bad_configs[:100]],
@@ -179,6 +188,7 @@ run_phase() {
     --patience "$patience" \
     --shorten-training \
     --monitor pr_auc \
+    --max-epoch-minutes 60 \
     --jobs 1 \
     --gpu-ids 0
   local rc=$?
