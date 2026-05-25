@@ -139,6 +139,25 @@ Trunk-plus-primitive grafts are a *worse* lever than just growing the trunk.
   matched scale_up.
 - **i018 + p034** (octilinear SSM scan) = +0.006, same wash.
 - **i018 + p013** (sparse delta accumulator) = **−0.006 regression**.
+- **i255 oriented_sheaf_dual_stream_fusion** = i018 sheaf trunk + i193
+  dual-stream trunk in parallel, fused via learned gate on logits plus a
+  12-diagnostic residual MLP. The most ambitious fusion attempt in the repo
+  (two strongest architectures, complementary inductive biases, complementary
+  slice strengths). Paper-grade, 3 seeds × 3 scales. Verdict: **barely
+  competitive at base, doesn't scale, and is fragile at scale_xl.**
+
+  | Scale (params) | fusion mean | nearest reference | Δ |
+  |---|---:|---:|---:|
+  | base (249K, 3 seeds)   | 0.8823 | i018 scale_up (234K) 0.8799 | **+0.0024** |
+  | scale_up (670K, 3 seeds) | 0.8790 | i018 scale_xl (474K) 0.8901 | **−0.0111** |
+  | scale_xl (1.47M, 1 seed + 1 fail + 1 in flight) | 0.8848 (seed43) | i018 scale_xl (474K) 0.8901 | **−0.0053** |
+
+  Pure i018 climbs 0.8752 → 0.8799 → 0.8901 across scales; fusion goes
+  0.8823 → 0.8790 → ~0.885 — **flat or declining**. Pure i018 captures
+  whatever signal the fusion was supposed to add, and does it with fewer
+  parameters. The fusion also failed entirely on scale_xl seed42 (acc
+  collapsed to majority class, PR-AUC null) — a fragility signature absent
+  from pure i018 at the same scale.
 
 ### When hybrids might actually help
 
@@ -149,7 +168,17 @@ The only case where adding a primitive head plausibly helps:
   capacity for orthogonal signal).
 - Comparison is param-matched, not just "beats base trunk".
 
-We have not produced a single hybrid that wins this strict test yet.
+We have not produced a single hybrid that wins this strict test yet, including
+the strongest possible candidate — i018 fused with i193 (the two highest-PR-AUC
+architectures in the repo). **Provisional generalization: feature/logit fusion
+of two already-strong chess-aware architectures does not stack their wins.**
+The most likely reason is that the two trunks' predictions are highly
+correlated — they look different mathematically but encode largely the same
+chess prior, so fusing them adds parameters without orthogonal signal. The
+cheaper test of that hypothesis (late-ensemble of existing paper-grade
+checkpoints' `predictions_test.parquet` files, no new training) was never run
+and would settle whether the failure is "correlated predictions" or "fusion
+mechanism is bad."
 
 ---
 
@@ -726,10 +755,18 @@ In rough order of "would change our beliefs most if measured":
    comparable to i018.
 4. **Does i018 keep scaling beyond scale_xl?** scale_up→scale_xl gained
    +0.010. No data on scale_xxl or larger.
-5. **What's the ensemble of i018 + bt4_classifier?** Two very different
-   inductive biases (chess-structural + dense conv), each ~equally
-   parameter-efficient at different metrics. Ensemble might combine
-   accuracy + speed.
+5. **What's the late-ensemble (probability average) of any two strong
+   architectures?** The i255 trained-end-to-end fusion of i018 + i193 did
+   not stack their wins (see Hybrids done so far). The cheaper question
+   that has *not* been answered: do their actual `predictions_test.parquet`
+   probabilities, averaged, beat either alone? Concretely: i018 +
+   bt4_classifier is the most interesting pair because their inductive
+   biases are most different (chess-structural vs dense conv) and their
+   strengths are most different (accuracy vs speed). If that ensemble
+   lifts, the i255 result was about the fusion mechanism, not about
+   correlated predictions. If it doesn't lift, all chess-aware models on
+   this task make highly correlated mistakes and no fusion will save
+   them. ~30 minutes of post-hoc compute, no new training.
 6. **Does distilling i018 → bt4_classifier work?** Could give us
    "i018 accuracy at bt4_classifier CPU latency."
 7. **Effect of training on the full available data.** The canonical converted
@@ -796,9 +833,17 @@ In rough order of "would change our beliefs most if measured":
    exchange/king decomposition mattered more than global attention, so the next
    attention attempt should either be much better trained or much more
    chess-constrained.
-6. **Try ensembles** of i018 + bt4_classifier. Different biases, possibly
-   additive.
-7. **Try distillation** from i018 → bt4_classifier shape.
+6. **Try LATE-ensembles** (post-hoc probability averaging) before any new
+   end-to-end fusion attempts. The i255 trained fusion of i018 + i193
+   failed to scale, so the next fusion attempt should first confirm that
+   the *cheaper* form (averaging existing `predictions_test.parquet`
+   files) actually adds signal. If late ensemble does not lift, no
+   trained fusion will either. Highest-priority pair: i018 + bt4_classifier
+   (most-different biases, most-different strengths). ~30 min compute.
+7. **Try distillation** from i018 → bt4_classifier shape. After i255's
+   failure this is the most promising remaining "combine two
+   architectures" play — teacher-student lets one architecture inherit
+   another's signal without paying the parallel-trunk cost.
 
 ### For primitives
 
