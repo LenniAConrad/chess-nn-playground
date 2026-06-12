@@ -78,7 +78,9 @@ def _square_coordinates() -> torch.Tensor:
     centered_rank = (rank - 3.5) / 3.5
     centered_file = (file - 3.5) / 3.5
     edge_distance = torch.minimum(torch.minimum(rank, 7.0 - rank), torch.minimum(file, 7.0 - file)) / 3.5
-    promotion_distance = (7.0 - rank) / 7.0
+    # Mover promotes at internal rank 0 (row 0 = far side of the board), so the
+    # remaining distance to promotion is the internal rank itself.
+    promotion_distance = rank / 7.0
     return torch.stack([rank01, file01, centered_rank, centered_file, edge_distance, promotion_distance], dim=1)
 
 
@@ -95,6 +97,13 @@ def _make_geometry_masks() -> dict[str, torch.Tensor]:
     knight = (((abs_dr == 1) & (abs_df == 2)) | ((abs_dr == 2) & (abs_df == 1))).float()
     king = ((abs_dr <= 1) & (abs_df <= 1) & not_self).float()
     king_zone = ((abs_dr <= 2) & (abs_df <= 2) & not_self).float()
+    # Frame: the encoders (board_features.py) write plane row = 7 - (square // 8),
+    # so internal rank (= sq // 8 of the flattened tensor) runs 0 = board rank 8
+    # down to 7 = board rank 1. After side-to-move canonicalization the mover's
+    # home is internal rank 7, so mover ("our") pawns attack FORWARD toward
+    # LOWER internal rank and "their" pawns toward higher. Verified end-to-end
+    # against python-chess; see URGENT.md — an earlier "fix" flipped these signs
+    # by assuming internal rank 0 = our home, which inverted the channel.
     our_pawn = ((rank.view(1, 64) == rank.view(64, 1) - 1) & (abs_df == 1)).float()
     their_pawn = ((rank.view(1, 64) == rank.view(64, 1) + 1) & (abs_df == 1)).float()
 
@@ -185,25 +194,33 @@ class BoardStateAdapter(nn.Module):
 
     def _absolute_to_mover_pieces(self, x: torch.Tensor, white_to_move: torch.Tensor) -> torch.Tensor:
         pieces = x[:, :12].clamp(0.0, 1.0)
-        rotated = torch.rot90(pieces, k=2, dims=(-2, -1))
-        black_canonical = torch.cat([rotated[:, 6:12], rotated[:, :6]], dim=1)
+        # Rank-only vertical flip (files preserved), matching the repo-wide
+        # canonicalization (Simple18SideCanonicalizer, lc0_bt4 encoder). A 180
+        # degree rotation would also mirror files, silently swapping king/queen
+        # side geometry for black-to-move positions.
+        flipped = torch.flip(pieces, dims=(-2,))
+        black_canonical = torch.cat([flipped[:, 6:12], flipped[:, :6]], dim=1)
         selector = white_to_move.view(-1, 1, 1, 1)
         return selector * pieces + (1.0 - selector) * black_canonical
 
     def _canonical_raw_absolute(self, x: torch.Tensor, white_to_move: torch.Tensor) -> torch.Tensor:
-        rotated = torch.rot90(x, k=2, dims=(-2, -1))
-        black_canonical = rotated.clone()
-        black_canonical[:, :6] = rotated[:, 6:12]
-        black_canonical[:, 6:12] = rotated[:, :6]
+        flipped = torch.flip(x, dims=(-2,))
+        black_canonical = flipped.clone()
+        black_canonical[:, :6] = flipped[:, 6:12]
+        black_canonical[:, 6:12] = flipped[:, :6]
         if self.input_channels == 18:
             black_canonical[:, 12] = 1.0
-            black_canonical[:, 13] = rotated[:, 15]
-            black_canonical[:, 14] = rotated[:, 16]
-            black_canonical[:, 15] = rotated[:, 13]
-            black_canonical[:, 16] = rotated[:, 14]
+            black_canonical[:, 13] = flipped[:, 15]
+            black_canonical[:, 14] = flipped[:, 16]
+            black_canonical[:, 15] = flipped[:, 13]
+            black_canonical[:, 16] = flipped[:, 14]
         elif self.input_channels == 112 and self.encoding == "lc0_static_112":
             black_canonical[:, 104] = 1.0
             black_canonical[:, 105] = 0.0
+            black_canonical[:, 106] = flipped[:, 108]
+            black_canonical[:, 107] = flipped[:, 109]
+            black_canonical[:, 108] = flipped[:, 106]
+            black_canonical[:, 109] = flipped[:, 107]
         selector = white_to_move.view(-1, 1, 1, 1)
         return selector * x + (1.0 - selector) * black_canonical
 
