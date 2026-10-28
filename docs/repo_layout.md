@@ -8,7 +8,6 @@ This repo is structured as an experiment harness. Keep source code, configs, gen
 - `.github/CODEOWNERS`: default review ownership for repository changes.
 - `.github/ISSUE_TEMPLATE/` and `.github/pull_request_template.md`: GitHub issue and pull request templates.
 - `LICENSE`: current repository rights notice.
-- `CONTRIBUTING.md`: contribution workflow, validation expectations, and licensing note.
 - `src/chess_nn_playground/`: importable package for data loading, board encodings, model registries, training, evaluation, and reporting.
 - `src/chess_nn_playground/models/_registry_manifest.py`: lazy model-name manifest mapping keys to builder module paths.
 - `src/chess_nn_playground/training/runtime_*.py`: focused trainer runtime modules for config/path policy, data loaders, model construction, loss construction, output helpers, and artifact summaries.

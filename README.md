@@ -87,7 +87,6 @@ pytest tests/test_training_smoke.py
 - [ideas/registry/TODO.md](ideas/registry/TODO.md): generated implementation and benchmark backlog.
 - [configs/README.md](configs/README.md): config folders and suite entrypoints.
 - [scripts/README.md](scripts/README.md): command entrypoints and utility folders.
-- [CONTRIBUTING.md](CONTRIBUTING.md): contribution workflow, validation expectations, and licensing note.
 - [LICENSE](LICENSE): current repository rights notice.
 
 ## Repository Layout
@@ -112,7 +111,7 @@ The package import name remains `chess_nn_playground`; only the filesystem locat
 
 ## Governance
 
-This repository is currently all rights reserved; see [LICENSE](LICENSE). Contribution rules, validation expectations, and third-party material guidance live in [CONTRIBUTING.md](CONTRIBUTING.md). GitHub issue templates, the pull request template, CODEOWNERS, and CI workflow live under [.github/](.github/).
+This repository is currently all rights reserved; see [LICENSE](LICENSE). GitHub issue templates, the pull request template, CODEOWNERS, and CI workflow live under [.github/](.github/).
 
 ## Data
 
